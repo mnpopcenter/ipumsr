@@ -1,0 +1,82 @@
+---
+title: "Using ipumsimport"
+author: "Minnesota Population Center"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{ipumsimport}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+This package is designed to make importing IPUMS data into R as easy as it is 
+for other statistical software. 
+
+
+## Basic Use ##
+`ipumsimport` uses the fixed-width files for the data, and a `.yml` file for
+the layout, variable labels, and value labels. You can specify whether you want
+to load only certain variables with the `vars` argument or a certain number 
+of observations with the `n_max` argument. 
+
+This package includes the 1984 BRFSS data (as it existed in 4/7/2017) to use as 
+an example.
+
+```{r}
+suppressPackageStartupMessages({
+  library(ipumsimport)
+  library(dplyr) # For data anlysis
+  library(haven) # For working with labelled data
+})
+# Unzip the example data
+temp_dir <- tempdir()
+unzip(system.file("brfss1984a.zip", package = "ipumsimport"), exdir = temp_dir)
+
+# Load a few variables
+brfss1984a <- read_ipums_output(
+  paste0(temp_dir, "/brfss1984a_brfss.yml"), 
+  paste0(temp_dir, "/brfss1984a_brfss.dat"),
+  c(SEX, AGE, SMOKEV)
+)
+
+brfss1984a
+```
+
+## Value Labels ##
+Because base R treats labelled values differently than Stata, SAS, and SPSS, 
+analysts must import the labelled values with some care. ipumsimport loads the
+labels and values using the haven package's labelled class. This is the
+closest representation of the way that IPUMS uses value labels in R, but it is
+not fully supported by packages in R. For example, many data manipulation
+functions will strip the labels from the variable. Therefore, the haven package
+recommends that analysts treat labelled variables as intermediate objects and
+convert them to other data structures early on in analysis. The function
+`haven::as_factor` is useful for this situation.
+
+The default is for haven to convert the data to a factor with the label as the
+factor level. This is different from the usual way IPUMS value labels are 
+treated because it does not preserve the underlying numbering system. R's
+factors can only be a set of integers starting at 1 and so IPUMS conventions
+like setting NIU to value 99 will not be translated to the factor.
+```{r}
+brfss1984a %>%
+  mutate_if(is.labelled, as_factor)
+```
+
+`as_factor`'s "both" option loads both the value and label as a factor. 
+For levels that have a label, it is structured like: "[VALUE] LABEL". If
+there is no label, it is just "VALUE".
+
+```{r}
+brfss1984a %>%
+  mutate_if(is.labelled, as_factor, levels = "both")
+```
+
+
+`as_factor`'s "labels" option loads only the labels (and NA if no label exists):
+
+```{r}
+brfss1984a %>%
+  mutate_if(is.labelled, as_factor, levels = "label")
+```
+

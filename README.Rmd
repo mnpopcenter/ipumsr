@@ -1,0 +1,44 @@
+---
+output: github_document
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, echo = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "README-"
+)
+```
+The ipumsimport package helps import IPUMS data into R using the fixed width files and
+the YML variable structure. Currently it only supports single rec type surveys, but it has
+worked with BRFSS, NSDUH and YRBSS data.
+
+It can be installed by:
+```{r, eval=FALSE}
+# install.packages("devtools")
+devtools::install_local("Z:/personal/gfellis/ipumsimport")
+```
+
+There is an example BRFSS file in the package documentation. You can load it by:
+```{r}
+library(ipumsimport)
+# Unzip the example data
+temp_dir <- tempdir()
+unzip(system.file("brfss1984a.zip", package = "ipumsimport"), exdir = temp_dir)
+
+brfss1984a <- read_ipums_output(
+  paste0(temp_dir, "/brfss1984a_brfss.yml"), 
+  paste0(temp_dir, "/brfss1984a_brfss.dat"),
+  c(SEX, AGE, SMOKEV)
+)
+
+brfss1984a
+```
+
+More details are in the ipumsimport vignette.
+```{r, eval=FALSE}
+vignette("ipumsimport")
+```
+
