@@ -3,7 +3,7 @@ Title: Read IPUMS output files into R
 Version: 0.0.1
 Authors@R: person("Minnesota Population Center", email = "gfellis@umn.edu", role = c("aut", "cre"))
 Description: Import IPUMS data using fixed width files and YAML.
-Depends: R (>= 3.3.0)
+Depends: R (>= 3.2.0)
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
