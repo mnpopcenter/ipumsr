@@ -4,11 +4,18 @@
 \alias{ip_read_data}
 \title{Read data from an IPUMS extract}
 \usage{
-ip_read_data(ddi, data_file = NULL, verbose = TRUE)
+ip_read_data(ddi, vars = NULL, n_max = Inf, data_file = NULL,
+  verbose = TRUE)
 }
 \arguments{
 \item{ddi}{Either a filepath to a DDI xml file downloaded from
 the website, or a ip_ddi object parsed by \code{\link{ip_read_ddi}}}
+
+\item{vars}{A vector of variable names using \code{\link[dplyr]{select}}-style
+convetions. For hierarchical data, the rectype id variable will be added even
+if it is not specified.}
+
+\item{n_max}{The maximum number of records to load.}
 
 \item{data_file}{Specify a directory to look for the data file.
 If left empty, it will look in the same directory as the DDI file.}

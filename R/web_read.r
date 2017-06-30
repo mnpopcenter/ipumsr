@@ -117,6 +117,10 @@ ip_read_ddi <- function(ddi_file) {
 #'
 #' @param ddi Either a filepath to a DDI xml file downloaded from
 #'   the website, or a ip_ddi object parsed by \code{\link{ip_read_ddi}}
+#' @param vars A vector of variable names using \code{\link[dplyr]{select}}-style
+#'   convetions. For hierarchical data, the rectype id variable will be added even
+#'   if it is not specified.
+#' @param n_max The maximum number of records to load.
 #' @param data_file Specify a directory to look for the data file.
 #'   If left empty, it will look in the same directory as the DDI file.
 #' @param verbose Logical, indicating whether to print progress information
@@ -127,7 +131,7 @@ ip_read_ddi <- function(ddi_file) {
 #' }
 #' @seealso ip_read_ddi
 #' @export
-ip_read_data <- function(ddi, data_file = NULL, verbose = TRUE) {
+ip_read_data <- function(ddi, vars = NULL, n_max = Inf, data_file = NULL, verbose = TRUE) {
   if (is.character(ddi)) ddi <- ip_read_ddi(ddi)
   if (is.null(data_file)) data_file <- file.path(ddi$file_path, ddi$file_name)
   if (verbose) {
@@ -137,25 +141,40 @@ ip_read_data <- function(ddi, data_file = NULL, verbose = TRUE) {
     cat("\n\n")
   }
 
+  vars <- enquo(vars)
+
   if (ddi$file_type == "hierarchical") {
-    ip_read_hier(ddi, data_file, verbose)
+    ip_read_hier(ddi, vars, n_max, data_file, verbose)
   } else if (ddi$file_type == "rectangular") {
-    ip_read_rect(ddi, data_file, verbose)
+    ip_read_rect(ddi, vars, n_max, data_file, verbose)
   } else {
     stop(paste0("Don't know how to read ", ddi$file_type, " type file."), call. = FALSE)
   }
 
 }
 
-ip_read_hier <- function(ddi, data_file, verbose) {
+ip_read_hier <- function(ddi, vars, n_max, data_file, verbose) {
   all_vars <- ddi$var_info
+
   rec_vinfo <- dplyr::filter(all_vars, .data$var_name == ddi$rectype_idvar)
+  if (!quo_is_null(vars)) {
+    vars <- dplyr::select_vars(all_vars$var_name, !!!vars)
+    if (!rec_vinfo$var_name %in% vars) {
+      if (verbose) message(paste0("Adding rectype id var '", rec_vinfo$var_name, "' to data."))
+      vars <- c(rec_vinfo$var_name, vars)
+
+    }
+    all_vars <- dplyr::filter(all_vars, .data$var_name %in% vars)
+  }
+
+
+
   if (nrow(rec_vinfo) > 1) stop("Cannot support multiple rectype id variables.", call. = FALSE)
   nonrec_vinfo <- dplyr::filter(all_vars, .data$var_name != ddi$rectype_idvar)
   nonrec_vinfo <- tidyr::unnest_(nonrec_vinfo, "rectypes", .drop = FALSE)
 
   if (verbose) cat("Reading data...\n")
-  lines <- readr::read_lines(data_file, progress = FALSE)
+  lines <- readr::read_lines(data_file, progress = FALSE, n_max = n_max)
 
   if (verbose) cat("Parsing data...\n")
   nlines <- length(lines)
@@ -198,8 +217,13 @@ ip_read_hier <- function(ddi, data_file, verbose) {
   out
 }
 
-ip_read_rect <- function(ddi, data_file, verbose) {
+ip_read_rect <- function(ddi, vars, n_max, data_file, verbose) {
   all_vars <- ddi$var_info
+
+  if (!quo_is_null(vars)) {
+    vars <- dplyr::select_vars(all_vars$var_name, !!!vars)
+    all_vars <- dplyr::filter(all_vars, .data$var_name %in% vars)
+  }
 
   col_types <- dplyr::case_when(
     all_vars$var_type == "numeric" ~ "d",
@@ -213,7 +237,7 @@ ip_read_rect <- function(ddi, data_file, verbose) {
     col_names = all_vars$var_name
   )
 
-  out <- readr::read_fwf(data_file, col_positions, col_types)
+  out <- readr::read_fwf(data_file, col_positions, col_types, n_max = n_max)
 
   purrr::pwalk(
     all_vars,
