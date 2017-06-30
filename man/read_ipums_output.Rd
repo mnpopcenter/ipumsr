@@ -24,9 +24,10 @@ variables, can go pretty fast (even on your local computer).
 }
 \examples{
 \dontrun{
-data <- read_ipums_output("ses2013c_sestat.yml",
-                          "ses2013c_highered.dat"
-                          c(RECTYPE, PERSONID, ND2MED, ND2NED),
-                          )
+data <- read_ipums_output(
+  "ses2013c_sestat.yml",
+  "ses2013c_highered.dat"
+  c(RECTYPE, PERSONID, ND2MED, ND2NED),
+)
 }
 }
