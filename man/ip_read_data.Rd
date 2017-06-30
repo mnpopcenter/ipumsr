@@ -8,17 +8,13 @@ ip_read_data(ddi, data_file = NULL, verbose = TRUE)
 }
 \arguments{
 \item{ddi}{Either a filepath to a DDI xml file downloaded from
-the website, or a ip_ddi object parsed by \code{\link{ip_parse_ddi}}}
+the website, or a ip_ddi object parsed by \code{\link{ip_read_ddi}}}
 
 \item{data_file}{Specify a directory to look for the data file.
 If left empty, it will look in the same directory as the DDI file.}
 
 \item{verbose}{Logical, indicating whether to print progress information
-  to console.
-#' @examples
-\dontrun{
-data <- ip_read_data("cps_00001.xml")
-}}
+to console.}
 }
 \description{
 Reads a dataset downloaded from the IPUMS extract system.
@@ -28,6 +24,11 @@ For IPUMS projects with microdata, it relies on a downloaded
 DDI codebook and a fixed-width file. Loads the data with
 value labels (using \code{\link[haven]{labelled}} format)
 and variable labels.
+}
+\examples{
+\dontrun{
+data <- ip_read_data("cps_00001.xml")
+}
 }
 \seealso{
 ip_read_ddi

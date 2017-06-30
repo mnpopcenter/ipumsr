@@ -6,14 +6,15 @@
 \usage{
 ip_read_ddi(ddi_file)
 }
+\arguments{
+\item{ddi_file}{Filepath to DDI xml file}
+}
 \description{
 Reads the metadata about an IPUMS extract from a DDI file into R.
 Includes information about variable and value labels, terms of
 usage for the data and positions for the fixed-width file.
 }
-\details{
-@param ddi_file Filepath to DDI xml file
-#' @examples
+\examples{
 \dontrun{
 metadata <- ip_read_ddi("cps_00001.xml")
 }

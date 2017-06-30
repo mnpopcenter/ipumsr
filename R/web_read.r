@@ -4,8 +4,8 @@
 #' Includes information about variable and value labels, terms of
 #' usage for the data and positions for the fixed-width file.
 #'
-#'  @param ddi_file Filepath to DDI xml file
-#' #' @examples
+#' @param ddi_file Filepath to DDI xml file
+#' @examples
 #' \dontrun{
 #' metadata <- ip_read_ddi("cps_00001.xml")
 #' }
@@ -116,12 +116,12 @@ ip_read_ddi <- function(ddi_file) {
 #' and variable labels.
 #'
 #' @param ddi Either a filepath to a DDI xml file downloaded from
-#'   the website, or a ip_ddi object parsed by \code{\link{ip_parse_ddi}}
+#'   the website, or a ip_ddi object parsed by \code{\link{ip_read_ddi}}
 #' @param data_file Specify a directory to look for the data file.
 #'   If left empty, it will look in the same directory as the DDI file.
 #' @param verbose Logical, indicating whether to print progress information
 #'   to console.
-#' #' @examples
+#' @examples
 #' \dontrun{
 #' data <- ip_read_data("cps_00001.xml")
 #' }
@@ -149,10 +149,10 @@ ip_read_data <- function(ddi, data_file = NULL, verbose = TRUE) {
 
 ip_read_hier <- function(ddi, data_file, verbose) {
   all_vars <- ddi$var_info
-  rec_vinfo <- dplyr::filter(all_vars, var_name == ddi$rectype_idvar)
+  rec_vinfo <- dplyr::filter(all_vars, .data$var_name == ddi$rectype_idvar)
   if (nrow(rec_vinfo) > 1) stop("Cannot support multiple rectype id variables.", call. = FALSE)
-  nonrec_vinfo <- dplyr::filter(all_vars, var_name != ddi$rectype_idvar)
-  nonrec_vinfo <- tidyr::unnest(nonrec_vinfo, rectypes, .drop = FALSE)
+  nonrec_vinfo <- dplyr::filter(all_vars, .data$var_name != ddi$rectype_idvar)
+  nonrec_vinfo <- tidyr::unnest_(nonrec_vinfo, "rectypes", .drop = FALSE)
 
   if (verbose) cat("Reading data...\n")
   lines <- readr::read_lines(data_file, progress = FALSE)
