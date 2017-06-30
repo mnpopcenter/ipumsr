@@ -11,34 +11,28 @@ knitr::opts_chunk$set(
   fig.path = "README-"
 )
 ```
-The ipumsimport package helps import IPUMS data into R using the fixed width files and
-the YML variable structure. Currently it only supports single rec type surveys, but it has
-worked with BRFSS, NSDUH and YRBSS data.
 
-It can be installed by:
+# ipumsimport #
+The ipumsimport package helps import IPUMS extracts from the [website](https://www.ipums.org) 
+into R. Currently it only works with microdata projects and has been tested with both
+rectangular and hierarchical data for CPS and IPUMS-I.
+
+It can be installed by running the following commands:
 ```{r, eval=FALSE}
-# install.packages("devtools")
-devtools::install_local("Z:/personal/gfellis/ipumsimport")
+if (!require(devtools)) install.packages("devtools")
+
+if (Sys.info()$sysname == "Windows") {
+  devtools::install_local("Z:/personal/gfellis/ipumsimport")
+} else {
+  devtools::install_local("/pkg/ipums/personal/gfellis/ipumsimport")
+}
 ```
 
-There is an example BRFSS file in the package documentation. You can load it by:
-```{r}
+To use, create an extract on the website and put the unzipped .dat file and the DDI .xml
+file into the same directory. Then you can use the following commands to load a dataset.
+```{r, eval = FALSE}
 library(ipumsimport)
-# Unzip the example data
-temp_dir <- tempdir()
-unzip(system.file("brfss1984a.zip", package = "ipumsimport"), exdir = temp_dir)
-
-brfss1984a <- read_ipums_output(
-  paste0(temp_dir, "/brfss1984a_brfss.yml"), 
-  paste0(temp_dir, "/brfss1984a_brfss.dat"),
-  c(SEX, AGE, SMOKEV)
-)
-
-brfss1984a
-```
-
-More details are in the ipumsimport vignette.
-```{r, eval=FALSE}
-vignette("ipumsimport")
+ddi_file <- "C:/users/gfellis/desktop/cps_00001.xml" # path to a extract DDI.
+cps_data <- ip_read_data(ddi_file)
 ```
 

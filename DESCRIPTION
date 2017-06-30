@@ -1,8 +1,8 @@
 Package: ipumsimport
-Title: Read IPUMS output files into R
-Version: 0.0.1
+Title: Read IPUMS extract files into R
+Version: 0.0.1.9000
 Authors@R: person("Minnesota Population Center", email = "gfellis@umn.edu", role = c("aut", "cre"))
-Description: Import IPUMS data using fixed width files and YAML.
+Description: Import IPUMS data from website extracts.
 Depends: R (>= 3.3.0)
 License: MIT + file LICENSE
 Encoding: UTF-8
@@ -10,12 +10,12 @@ LazyData: true
 Imports:
     dplyr,
     haven,
-    lazyeval,
     purrr,
     readr,
+    rlang,
     stringr,
     tidyr,
-    yaml
+    xml2,
 RoxygenNote: 6.0.1
 Suggests: knitr,
     rmarkdown
