@@ -85,15 +85,16 @@ ip_read_nhgis <- function(
   var_info <- readr::read_csv(
     read_data,
     n_max = 1,
-    col_types = readr::cols(.default = readr::col_character())
+    col_types = readr::cols(.default = "c")
   )
   if (data_is_zip) read_data <- unz(data_file, csv_name) # Reopen connection
   data <- readr::read_csv(
     read_data,
     skip = 2,
     col_names = names(var_info),
-    col_types = readr::cols(.default = readr::col_guess())
+    col_types = readr::cols(.default = "c")
   )
+  data <- readr::type_convert(col_types, col_types = readr::cols())
 
   # Read shape files (if they exist) ----
   if (!is.null(shape_file)) {
