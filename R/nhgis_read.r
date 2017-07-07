@@ -22,7 +22,7 @@
 #' \dontrun{
 #' data <- ip_read_nhgis("nhgis0001_csv.zip", "nhgis0001_shp.zip")
 #' }
-#' @seealso ip_read_ddi
+#' @seealso ip_read_data ip_read_terra_raster ip_read_terra_area
 #' @export
 ip_read_nhgis <- function(
   data_file,

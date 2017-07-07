@@ -58,37 +58,52 @@ ip_read_ddi <- function(ddi_file) {
 
   var_info_xml <- xml2::xml_find_all(ddi_xml, "/d1:codeBook/d1:dataDscr/d1:var")
 
-  loc <- xml2::xml_find_first(var_info_xml, "d1:location")
-  start <- as.numeric(xml2::xml_attr(loc, "StartPos"))
-  end <- as.numeric(xml2::xml_attr(loc, "EndPos"))
-
-  var_info <- dplyr::data_frame(
-    var_name = xml2::xml_attr(var_info_xml, "name"),
-    start = start,
-    end = end,
-    var_label =  xml2::xml_text(xml2::xml_find_first(var_info_xml, "d1:labl")),
-    var_label_long = xml2::xml_text(xml2::xml_find_first(var_info_xml, "d1:txt")),
-    imp_decim = as.numeric(xml2::xml_attr(var_info_xml, "dcml")),
-    var_type = xml2::xml_attr(xml2::xml_find_first(var_info_xml, "d1:varFormat"), "type"),
-    val_label = purrr::map(var_info_xml, function(vvv, vtype) {
-      lbls <- xml2::xml_find_all(vvv, "d1:catgry")
-      if (length(lbls) == 0) return(dplyr::data_frame(val = numeric(0), lbl = character(0)))
-
-      lbls <- dplyr::data_frame(
-        val = xml2::xml_text(xml2::xml_find_all(lbls, "d1:catValu")),
-        lbl = xml2::xml_text(xml2::xml_find_all(lbls, "d1:labl"))
-      )
-
-      vtype <- xml2::xml_attr(xml2::xml_find_first(vvv, "d1:varFormat"), "type")
-      if (vtype == "numeric") lbls$val <- as.numeric(lbls$val)
-      lbls
-    })
-  )
-
-  if  (file_type == "hierarchical") {
-    var_info$rectypes <- stringr::str_split(xml2::xml_attr(var_info_xml, "rectype"), " ")
+  if (length(var_info_xml) == 0) {
+    # Empty dataframe if there's no variable info
+    var_info <- tibble::data_frame(
+      var_name = character(0),
+      start = numeric(0),
+      end = numeric(0),
+      var_label = character(0),
+      var_label_long = character(0),
+      imp_decim = numeric(0),
+      var_type = character(0),
+      val_label = list(),
+      rectypes = logical(0)
+    )
   } else {
-    var_info$rectypes <- NA
+    loc <- xml2::xml_find_first(var_info_xml, "d1:location")
+    start <- as.numeric(xml2::xml_attr(loc, "StartPos"))
+    end <- as.numeric(xml2::xml_attr(loc, "EndPos"))
+
+    var_info <- dplyr::data_frame(
+      var_name = xml2::xml_attr(var_info_xml, "name"),
+      start = start,
+      end = end,
+      var_label =  xml2::xml_text(xml2::xml_find_first(var_info_xml, "d1:labl")),
+      var_label_long = xml2::xml_text(xml2::xml_find_first(var_info_xml, "d1:txt")),
+      imp_decim = as.numeric(xml2::xml_attr(var_info_xml, "dcml")),
+      var_type = xml2::xml_attr(xml2::xml_find_first(var_info_xml, "d1:varFormat"), "type"),
+      val_label = purrr::map(var_info_xml, function(vvv, vtype) {
+        lbls <- xml2::xml_find_all(vvv, "d1:catgry")
+        if (length(lbls) == 0) return(dplyr::data_frame(val = numeric(0), lbl = character(0)))
+
+        lbls <- dplyr::data_frame(
+          val = xml2::xml_text(xml2::xml_find_all(lbls, "d1:catValu")),
+          lbl = xml2::xml_text(xml2::xml_find_all(lbls, "d1:labl"))
+        )
+
+        vtype <- xml2::xml_attr(xml2::xml_find_first(vvv, "d1:varFormat"), "type")
+        if (vtype == "numeric") lbls$val <- as.numeric(lbls$val)
+        lbls
+      })
+    )
+
+    if  (file_type == "hierarchical") {
+      var_info$rectypes <- stringr::str_split(xml2::xml_attr(var_info_xml, "rectype"), " ")
+    } else {
+      var_info$rectypes <- NA
+    }
   }
 
   out <- list(
@@ -129,7 +144,7 @@ ip_read_ddi <- function(ddi_file) {
 #' \dontrun{
 #' data <- ip_read_data("cps_00001.xml")
 #' }
-#' @seealso ip_read_ddi
+#' @seealso ip_read_nhgis ip_read_terra_raster ip_read_terra_area
 #' @export
 ip_read_data <- function(ddi, vars = NULL, n_max = Inf, data_file = NULL, verbose = TRUE) {
   if (is.character(ddi)) ddi <- ip_read_ddi(ddi)
