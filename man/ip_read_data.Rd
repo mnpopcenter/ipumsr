@@ -38,5 +38,5 @@ data <- ip_read_data("cps_00001.xml")
 }
 }
 \seealso{
-ip_read_ddi
+ip_read_nhgis ip_read_terra_raster ip_read_terra_area
 }

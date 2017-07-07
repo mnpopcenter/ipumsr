@@ -35,9 +35,9 @@ the extract table file structure "Comma delimited with header" and the
 }
 \examples{
 \dontrun{
-data <- ip_read_nhgis("nhgis0001_csv.zip", nhgis0001_shp.zip)
+data <- ip_read_nhgis("nhgis0001_csv.zip", "nhgis0001_shp.zip")
 }
 }
 \seealso{
-ip_read_ddi
+ip_read_data ip_read_terra_raster ip_read_terra_area
 }
