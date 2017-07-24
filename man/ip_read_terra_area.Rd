@@ -28,14 +28,15 @@ indicating which shape layer to load.}
 to console.}
 }
 \value{
-A \code{\link[raster]{raster}} object
+If a shape file, is found a \code{\link[sf]{sf}} object with the data and geography
+  information, otherwise just a data.frame.
 }
 \description{
 Reads a area-level dataset downloaded from the IPUMS Terra extract system.
 }
 \examples{
 \dontrun{
-data <- ip_read_terra_area("2552_bundle.zip", "LCDECIDOPZM2013.tiff")
+data <- ip_read_terra_area("2553_bundle.zip")
 }
 }
 \seealso{

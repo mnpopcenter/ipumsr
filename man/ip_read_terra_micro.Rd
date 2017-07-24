@@ -29,7 +29,8 @@ to console.}
 }
 \value{
 If a shape file is found, a list containing a data.frame with the microdata,
-  and a sf with the geography. Otherwise, just a data.frame with the microdata.
+  and a \code{\link[sf]{sf}} with the geography. Otherwise, just a data.frame with
+  the microdata.
 }
 \description{
 Reads a microdata dataset downloaded from the IPUMS Terra extract system.

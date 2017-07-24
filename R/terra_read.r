@@ -60,7 +60,8 @@ ip_read_terra_raster <- function(
 #' Reads a area-level dataset downloaded from the IPUMS Terra extract system.
 #'
 #' @return
-#'   A \code{\link[raster]{raster}} object
+#'   If a shape file, is found a \code{\link[sf]{sf}} object with the data and geography
+#'   information, otherwise just a data.frame.
 #' @param data_file Path to the data file, which can either be the .zip file directly
 #'   downloaded from the IPUMS Terra website, or to the csv unzipped from the download.
 #' @param ddi_file (Optional) If the download is unzipped, path to the .xml file which
@@ -213,7 +214,8 @@ ip_read_terra_area <- function(
 #'
 #' @return
 #'   If a shape file is found, a list containing a data.frame with the microdata,
-#'   and a sf with the geography. Otherwise, just a data.frame with the microdata.
+#'   and a \code{\link[sf]{sf}} with the geography. Otherwise, just a data.frame with
+#'   the microdata.
 #' @param data_file Path to the data file, which can either be the .zip file directly
 #'   downloaded from the IPUMS Terra website, or to the csv unzipped from the download.
 #' @param ddi_file (Optional) If the download is unzipped, path to the .xml file which
