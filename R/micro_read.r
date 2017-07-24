@@ -146,9 +146,12 @@ ip_read_ddi <- function(ddi_file) {
 #' }
 #' @seealso ip_read_nhgis ip_read_terra_raster ip_read_terra_area
 #' @export
-ip_read_data <- function(ddi, vars = NULL, n_max = Inf, data_file = NULL, verbose = TRUE) {
+ip_read_data <- function(ddi, vars = NULL, n_max = -1, data_file = NULL, verbose = TRUE) {
   if (is.character(ddi)) ddi <- ip_read_ddi(ddi)
   if (is.null(data_file)) data_file <- file.path(ddi$file_path, ddi$file_name)
+  if (!file.exists(data_file) & file.exists(paste0(data_file, ".gz"))) {
+    data_file <- paste0(data_file, ".gz")
+  }
   if (verbose) {
     cat(ddi$conditions)
     cat("\n\n")
