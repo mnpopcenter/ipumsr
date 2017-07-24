@@ -94,7 +94,7 @@ ip_read_nhgis <- function(
     col_names = names(var_info),
     col_types = readr::cols(.default = "c")
   )
-  data <- readr::type_convert(col_types, col_types = readr::cols())
+  data <- readr::type_convert(data, col_types = readr::cols())
 
   # Read shape files (if they exist) ----
   if (!is.null(shape_file)) {
@@ -125,7 +125,7 @@ ip_read_nhgis <- function(
         } else if (length(shape_zips) > 1) {
           stop(paste0(
             "Multiple shape files found, please use the `shape_layer` argument to ",
-            " specify which layer you want to load.\n", paste(shp_zips, collapse = ", ")
+            " specify which layer you want to load.\n", paste(shape_zips, collapse = ", ")
           ), .call = FALSE)
         }
 

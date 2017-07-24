@@ -171,24 +171,24 @@ ip_read_terra_area <- function(
       shape_is_zip <- stringr::str_sub(shape_file, -4) == ".zip"
       if (shape_is_zip) {
         shape_file_names <- utils::unzip(data_file, list = TRUE)$Name
-        shp_name <- stringr::str_subset(shape_file_names, "\\.shp$")
-        if (!is.null(shape_layer)) shp_name <- stringr::str_subset(shp_name, data_layer)
+        shape_name <- stringr::str_subset(shape_file_names, "\\.shp$")
+        if (!is.null(shape_layer)) shape_name <- stringr::str_subset(shape_name, data_layer)
 
-        if (length(shp_name) > 1) {
+        if (length(shape_name) > 1) {
           stop(paste0(
             "Multiple shape files found, please use the `shape_layer` argument to ",
             " specify which layer you want to load.\n", paste(shape_name, collapse = ", ")
           ), .call = FALSE)
         }
         shape_shp_files <- paste0(
-          stringr::str_sub(shp_name, 1, -4),
+          stringr::str_sub(shape_name, 1, -4),
           c("dbf", "prj", "sbn", "sbx", "shp", "shp.xml", "shx")
         )
         shape_temp <- tempfile()
         dir.create(shape_temp)
         utils::unzip(shape_file, shape_shp_files, exdir = shape_temp)
 
-        read_shape_file <- file.path(shape_temp, shape_shps)
+        read_shape_file <- file.path(shape_temp, shape_shp_files)
       } else {
         read_shape_file <- shape_file
       }
@@ -367,24 +367,24 @@ ip_read_terra_micro <- function(
       shape_is_zip <- stringr::str_sub(shape_file, -4) == ".zip"
       if (shape_is_zip) {
         shape_file_names <- utils::unzip(data_file, list = TRUE)$Name
-        shp_name <- stringr::str_subset(shape_file_names, "\\.shp$")
-        if (!is.null(shape_layer)) shp_name <- stringr::str_subset(shp_name, data_layer)
+        shape_name <- stringr::str_subset(shape_file_names, "\\.shp$")
+        if (!is.null(shape_layer)) shape_name <- stringr::str_subset(shape_name, data_layer)
 
-        if (length(shp_name) > 1) {
+        if (length(shape_name) > 1) {
           stop(paste0(
             "Multiple shape files found, please use the `shape_layer` argument to ",
             " specify which layer you want to load.\n", paste(shape_name, collapse = ", ")
           ), .call = FALSE)
         }
         shape_shp_files <- paste0(
-          stringr::str_sub(shp_name, 1, -4),
+          stringr::str_sub(shape_name, 1, -4),
           c("dbf", "prj", "sbn", "sbx", "shp", "shp.xml", "shx")
         )
         shape_temp <- tempfile()
         dir.create(shape_temp)
         utils::unzip(shape_file, shape_shp_files, exdir = shape_temp)
 
-        read_shape_file <- file.path(shape_temp, shape_shps)
+        read_shape_file <- file.path(shape_temp, shape_shp_files)
       } else {
         read_shape_file <- shape_file
       }
