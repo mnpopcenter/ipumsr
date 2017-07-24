@@ -28,11 +28,76 @@ if (Sys.info()$sysname == "Windows") {
 }
 ```
 
-To use, create an extract on the website and put the unzipped .dat file and the DDI .xml
-file into the same directory. Then you can use the following commands to load a dataset.
-```{r, eval = FALSE}
+## Examples ##
+```{r}
 library(ipumsimport)
-ddi_file <- "C:/users/gfellis/desktop/cps_00001.xml" # path to a extract DDI.
-cps_data <- ip_read_data(ddi_file)
+library(mpctools)
+library(haven)
+library(ggplot2)
+library(dplyr)
 ```
+
+### CPS - Hierarchical Data ###
+Relies on user downloading the .xml DDI file and the .dat/.dat.gz file (doesn't need to be unzipped).
+```{r}
+data <- ip_read_data(mpc_root("personal/gfellis/ipumsimport_examples/cps_hier/cps_00004.xml"))
+
+cat(attr(data$TCIG100, "label_long"))
+table(as_factor(data$TCIG100, levels = "both"))
+```
+
+
+### CPS - Rectangular Data ###
+Relies on user downloading the .xml DDI file and the .dat/.dat.gz file (doesn't need to be unzipped).
+```{r}
+data <- ip_read_data(mpc_root("personal/gfellis/ipumsimport_examples/cps_rect/cps_00003.xml"), verbose = FALSE)
+
+cat(attr(data$TCIG100, "label_long"))
+table(as_factor(data$TCIG100, levels = "both"))
+```
+
+### NHGIS ###
+Relies on user downloading the csv file (with header row) and shape files.
+```{r}
+data <- ip_read_nhgis(
+  mpc_root("personal/gfellis/ipumsimport_examples/nhgis/nhgis0005_csv.zip"),
+  mpc_root("personal/gfellis/ipumsimport_examples/nhgis/nhgis0005_shape.zip"),
+  "state",
+  "state",
+  verbose = FALSE
+)
+
+data <- data %>%
+  mutate(pct_slave = (ABO003 + ABO005) / (ABO001 + ABO002 + ABO003 + ABO004 + ABO005 + ABO006))
+
+ggplot(data = data) + 
+  geom_sf(aes(fill = pct_slave))
+```
+
+### Terrapop - Raster Data ###
+Relies on zip file from extract
+```{r}
+data <- ip_read_terra_raster(
+  mpc_root("personal/gfellis/ipumsimport_examples/terra_raster/2552_bundle.zip"),
+  "CROPLAND2000ZM2013"
+)
+
+raster::plot(data)
+```
+
+### Terrapop - Area level data ###
+Relies on zip file from extract (with boundary files for maps)
+```{r}
+data <- ip_read_terra_area(
+  mpc_root("personal/gfellis/ipumsimport_examples/terra_area/2553_bundle.zip")
+)
+
+ggplot(data) +
+  geom_sf(aes(fill = EDUCTERTIARY_GEO1_BR_BR2010A))
+```
+
+### Terrapop - Microlevel data ###
+Relies on zip file from extract (with boundary files for maps)
+This file is huge, so won't run on a local machine, but I need IT's help getting some
+dependcies set-up to run this on the mpcstats servers.
 
