@@ -140,7 +140,7 @@ ip_read_nhgis <- function(
 
         if (length(shape_shps) == 1) {
           shape_shp_files <- paste0(
-            stringr::str_sub(shape_shps, -4),
+            stringr::str_sub(shape_shps, 1, -4),
             c("dbf", "prj", "sbn", "sbx", "shp", "shp.xml", "shx")
           )
           shape_temp <- tempfile()

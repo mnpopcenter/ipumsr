@@ -180,7 +180,7 @@ ip_read_terra_area <- function(
           ), .call = FALSE)
         }
         shape_shp_files <- paste0(
-          stringr::str_sub(shp_name, -4),
+          stringr::str_sub(shp_name, 1, -4),
           c("dbf", "prj", "sbn", "sbx", "shp", "shp.xml", "shx")
         )
         shape_temp <- tempfile()
