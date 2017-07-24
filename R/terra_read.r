@@ -40,7 +40,7 @@ ip_read_terra_raster <- function(
     raster_temp <- tempfile()
     utils::unzip(data_file, tiff_name, exdir = raster_temp)
 
-    out <- raster::raster(raster_temp)
+    out <- raster::raster(file.path(raster_temp, tiff_name))
   } else {
     out <- raster::raster(data_file)
   }
