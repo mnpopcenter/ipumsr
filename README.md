@@ -61,7 +61,7 @@ data <- read_ipums_micro(mpc_root("personal/gfellis/ipumsimport_examples/cps_hie
 #> Reading data...
 #> Parsing data...
 
-cat(attr(data$TCIG100, "label_long"))
+cat(ip_var_label_long(data, TCIG100))
 #> TCIG100 identifies individuals who had ever smoked 100 cigarettes in their lifetime.
 #> 
 #> This variable is part of the Tobacco Use Supplement [URL omitted from DDI.].
@@ -80,7 +80,7 @@ Relies on user downloading the .xml DDI file and the .dat/.dat.gz file (doesn't 
 ``` r
 data <- read_ipums_micro(mpc_root("personal/gfellis/ipumsimport_examples/cps_rect/cps_00003.xml"), verbose = FALSE)
 
-cat(attr(data$TCIG100, "label_long"))
+cat(ip_var_label_long(data, TCIG100))
 #> TCIG100 identifies individuals who had ever smoked 100 cigarettes in their lifetime.
 #> 
 #> This variable is part of the Tobacco Use Supplement [URL omitted from DDI.].
