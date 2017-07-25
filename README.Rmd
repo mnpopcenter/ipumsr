@@ -39,7 +39,7 @@ library(dplyr)
 ### CPS - Hierarchical Data ###
 Relies on user downloading the .xml DDI file and the .dat/.dat.gz file (doesn't need to be unzipped).
 ```{r}
-data <- read_data(mpc_root("personal/gfellis/ipumsimport_examples/cps_hier/cps_00004.xml"))
+data <- read_ipums_micro(mpc_root("personal/gfellis/ipumsimport_examples/cps_hier/cps_00004.xml"))
 
 cat(attr(data$TCIG100, "label_long"))
 table(as_factor(data$TCIG100, levels = "both"))
@@ -49,7 +49,7 @@ table(as_factor(data$TCIG100, levels = "both"))
 ### CPS - Rectangular Data ###
 Relies on user downloading the .xml DDI file and the .dat/.dat.gz file (doesn't need to be unzipped).
 ```{r}
-data <- read_data(mpc_root("personal/gfellis/ipumsimport_examples/cps_rect/cps_00003.xml"), verbose = FALSE)
+data <- read_ipums_micro(mpc_root("personal/gfellis/ipumsimport_examples/cps_rect/cps_00003.xml"), verbose = FALSE)
 
 cat(attr(data$TCIG100, "label_long"))
 table(as_factor(data$TCIG100, levels = "both"))

@@ -28,8 +28,8 @@ data <- read_terra_raster("2552_bundle.zip", "LCDECIDOPZM2013.tiff")
 }
 }
 \seealso{
-Other ipums_read: \code{\link{read_data}},
-  \code{\link{read_ddi}}, \code{\link{read_nhgis}},
+Other ipums_read: \code{\link{read_ddi}},
+  \code{\link{read_ipums_micro}}, \code{\link{read_nhgis}},
   \code{\link{read_terra_area}},
   \code{\link{read_terra_micro}}
 }

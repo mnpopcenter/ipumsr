@@ -41,7 +41,7 @@ library(dplyr)
 Relies on user downloading the .xml DDI file and the .dat/.dat.gz file (doesn't need to be unzipped).
 
 ``` r
-data <- read_data(mpc_root("personal/gfellis/ipumsimport_examples/cps_hier/cps_00004.xml"))
+data <- read_ipums_micro(mpc_root("personal/gfellis/ipumsimport_examples/cps_hier/cps_00004.xml"))
 #> Users of IPUMS-CPS data must agree to abide by the conditions of use. A user's license is valid for one year and may be renewed.  Users must agree to the following conditions:
 #> 
 #> (1) No fees may be charged for use or distribution of the data.  All persons are granted a limited license to use these data, but you may not charge a fee for the data if you distribute it to others.
@@ -78,7 +78,7 @@ table(as_factor(data$TCIG100, levels = "both"))
 Relies on user downloading the .xml DDI file and the .dat/.dat.gz file (doesn't need to be unzipped).
 
 ``` r
-data <- read_data(mpc_root("personal/gfellis/ipumsimport_examples/cps_rect/cps_00003.xml"), verbose = FALSE)
+data <- read_ipums_micro(mpc_root("personal/gfellis/ipumsimport_examples/cps_rect/cps_00003.xml"), verbose = FALSE)
 
 cat(attr(data$TCIG100, "label_long"))
 #> TCIG100 identifies individuals who had ever smoked 100 cigarettes in their lifetime.

@@ -62,13 +62,13 @@ read_ddi <- function(ddi_file) {
     # Empty dataframe if there's no variable info
     var_info <- tibble::data_frame(
       var_name = character(0),
-      start = numeric(0),
-      end = numeric(0),
       var_label = character(0),
       var_label_long = character(0),
+      val_label = list(),
+      start = numeric(0),
+      end = numeric(0),
       imp_decim = numeric(0),
       var_type = character(0),
-      val_label = list(),
       rectypes = logical(0)
     )
   } else {
@@ -78,12 +78,8 @@ read_ddi <- function(ddi_file) {
 
     var_info <- dplyr::data_frame(
       var_name = xml2::xml_attr(var_info_xml, "name"),
-      start = start,
-      end = end,
       var_label =  xml2::xml_text(xml2::xml_find_first(var_info_xml, "d1:labl")),
       var_label_long = xml2::xml_text(xml2::xml_find_first(var_info_xml, "d1:txt")),
-      imp_decim = as.numeric(xml2::xml_attr(var_info_xml, "dcml")),
-      var_type = xml2::xml_attr(xml2::xml_find_first(var_info_xml, "d1:varFormat"), "type"),
       val_label = purrr::map(var_info_xml, function(vvv, vtype) {
         lbls <- xml2::xml_find_all(vvv, "d1:catgry")
         if (length(lbls) == 0) return(dplyr::data_frame(val = numeric(0), lbl = character(0)))
@@ -96,7 +92,11 @@ read_ddi <- function(ddi_file) {
         vtype <- xml2::xml_attr(xml2::xml_find_first(vvv, "d1:varFormat"), "type")
         if (vtype == "numeric") lbls$val <- as.numeric(lbls$val)
         lbls
-      })
+      }),
+      start = start,
+      end = end,
+      imp_decim = as.numeric(xml2::xml_attr(var_info_xml, "dcml")),
+      var_type = xml2::xml_attr(xml2::xml_find_first(var_info_xml, "d1:varFormat"), "type")
     )
 
     if  (file_type == "hierarchical") {
@@ -146,7 +146,7 @@ read_ddi <- function(ddi_file) {
 #' }
 #' @family ipums_read
 #' @export
-read_data <- function(ddi, vars = NULL, n_max = -1, data_file = NULL, verbose = TRUE) {
+read_ipums_micro <- function(ddi, vars = NULL, n_max = -1, data_file = NULL, verbose = TRUE) {
   if (is.character(ddi)) ddi <- read_ddi(ddi)
   if (is.null(data_file)) data_file <- file.path(ddi$file_path, ddi$file_name)
   if (!file.exists(data_file) & file.exists(paste0(data_file, ".gz"))) {
