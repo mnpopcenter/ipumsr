@@ -7,11 +7,11 @@
 #' @param ddi_file Filepath to DDI xml file
 #' @examples
 #' \dontrun{
-#' metadata <- ip_read_ddi("cps_00001.xml")
+#' metadata <- read_ddi("cps_00001.xml")
 #' }
-#' @seealso ip_read_data
+#' @family ipums_read
 #' @export
-ip_read_ddi <- function(ddi_file) {
+read_ddi <- function(ddi_file) {
   ddi_xml <- xml2::read_xml(ddi_file)
 
   # Print citation/conditions
@@ -117,7 +117,7 @@ ip_read_ddi <- function(ddi_file) {
     citation = citation
   )
 
-  class(out) <- "ip_ddi"
+  class(out) <- "ipums_ddi"
   out
 }
 
@@ -131,7 +131,7 @@ ip_read_ddi <- function(ddi_file) {
 #' and variable labels.
 #'
 #' @param ddi Either a filepath to a DDI xml file downloaded from
-#'   the website, or a ip_ddi object parsed by \code{\link{ip_read_ddi}}
+#'   the website, or a \code{ipums_ddi} object parsed by \code{\link{read_ddi}}
 #' @param vars A vector of variable names using \code{\link[dplyr]{select}}-style
 #'   convetions. For hierarchical data, the rectype id variable will be added even
 #'   if it is not specified.
@@ -142,12 +142,12 @@ ip_read_ddi <- function(ddi_file) {
 #'   to console.
 #' @examples
 #' \dontrun{
-#' data <- ip_read_data("cps_00001.xml")
+#' data <- read_micro("cps_00001.xml")
 #' }
-#' @seealso ip_read_nhgis ip_read_terra_raster ip_read_terra_area
+#' @family ipums_read
 #' @export
-ip_read_data <- function(ddi, vars = NULL, n_max = -1, data_file = NULL, verbose = TRUE) {
-  if (is.character(ddi)) ddi <- ip_read_ddi(ddi)
+read_data <- function(ddi, vars = NULL, n_max = -1, data_file = NULL, verbose = TRUE) {
+  if (is.character(ddi)) ddi <- read_ddi(ddi)
   if (is.null(data_file)) data_file <- file.path(ddi$file_path, ddi$file_name)
   if (!file.exists(data_file) & file.exists(paste0(data_file, ".gz"))) {
     data_file <- paste0(data_file, ".gz")
@@ -162,16 +162,16 @@ ip_read_data <- function(ddi, vars = NULL, n_max = -1, data_file = NULL, verbose
   vars <- enquo(vars)
 
   if (ddi$file_type == "hierarchical") {
-    ip_read_hier(ddi, vars, n_max, data_file, verbose)
+    read_ipums_hier(ddi, vars, n_max, data_file, verbose)
   } else if (ddi$file_type == "rectangular") {
-    ip_read_rect(ddi, vars, n_max, data_file, verbose)
+    read_ipums_rect(ddi, vars, n_max, data_file, verbose)
   } else {
     stop(paste0("Don't know how to read ", ddi$file_type, " type file."), call. = FALSE)
   }
 
 }
 
-ip_read_hier <- function(ddi, vars, n_max, data_file, verbose) {
+read_ipums_hier <- function(ddi, vars, n_max, data_file, verbose) {
   all_vars <- ddi$var_info
 
   rec_vinfo <- dplyr::filter(all_vars, .data$var_name == ddi$rectype_idvar)
@@ -235,7 +235,7 @@ ip_read_hier <- function(ddi, vars, n_max, data_file, verbose) {
   out
 }
 
-ip_read_rect <- function(ddi, vars, n_max, data_file, verbose) {
+read_ipums_rect <- function(ddi, vars, n_max, data_file, verbose) {
   all_vars <- ddi$var_info
 
   if (!quo_is_null(vars)) {

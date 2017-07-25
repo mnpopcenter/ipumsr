@@ -13,9 +13,8 @@ knitr::opts_chunk$set(
 ```
 
 # ipumsimport #
-The ipumsimport package helps import IPUMS extracts from the [website](https://www.ipums.org) 
-into R. Currently it only works with microdata projects and has been tested with both
-rectangular and hierarchical data for CPS and IPUMS-I.
+The ipumsimport package helps import IPUMS extracts from the [IPUMS website](https://www.ipums.org) 
+into R.
 
 It can be installed by running the following commands:
 ```{r, eval=FALSE}
@@ -40,7 +39,7 @@ library(dplyr)
 ### CPS - Hierarchical Data ###
 Relies on user downloading the .xml DDI file and the .dat/.dat.gz file (doesn't need to be unzipped).
 ```{r}
-data <- ip_read_data(mpc_root("personal/gfellis/ipumsimport_examples/cps_hier/cps_00004.xml"))
+data <- read_data(mpc_root("personal/gfellis/ipumsimport_examples/cps_hier/cps_00004.xml"))
 
 cat(attr(data$TCIG100, "label_long"))
 table(as_factor(data$TCIG100, levels = "both"))
@@ -50,7 +49,7 @@ table(as_factor(data$TCIG100, levels = "both"))
 ### CPS - Rectangular Data ###
 Relies on user downloading the .xml DDI file and the .dat/.dat.gz file (doesn't need to be unzipped).
 ```{r}
-data <- ip_read_data(mpc_root("personal/gfellis/ipumsimport_examples/cps_rect/cps_00003.xml"), verbose = FALSE)
+data <- read_data(mpc_root("personal/gfellis/ipumsimport_examples/cps_rect/cps_00003.xml"), verbose = FALSE)
 
 cat(attr(data$TCIG100, "label_long"))
 table(as_factor(data$TCIG100, levels = "both"))
@@ -59,7 +58,7 @@ table(as_factor(data$TCIG100, levels = "both"))
 ### NHGIS ###
 Relies on user downloading the csv file (with header row) and shape files.
 ```{r}
-data <- ip_read_nhgis(
+data <- read_nhgis(
   mpc_root("personal/gfellis/ipumsimport_examples/nhgis/nhgis0005_csv.zip"),
   mpc_root("personal/gfellis/ipumsimport_examples/nhgis/nhgis0005_shape.zip"),
   "state",
@@ -77,9 +76,10 @@ ggplot(data = data) +
 ### Terrapop - Raster Data ###
 Relies on zip file from extract
 ```{r}
-data <- ip_read_terra_raster(
+data <- read_terra_raster(
   mpc_root("personal/gfellis/ipumsimport_examples/terra_raster/2552_bundle.zip"),
-  "CROPLAND2000ZM2013"
+  "CROPLAND2000ZM2013",
+  verbose = FALSE
 )
 
 raster::plot(data)
@@ -88,8 +88,9 @@ raster::plot(data)
 ### Terrapop - Area level data ###
 Relies on zip file from extract (with boundary files for maps)
 ```{r}
-data <- ip_read_terra_area(
-  mpc_root("personal/gfellis/ipumsimport_examples/terra_area/2553_bundle.zip")
+data <- read_terra_area(
+  mpc_root("personal/gfellis/ipumsimport_examples/terra_area/2553_bundle.zip"),
+  verbose = FALSE
 )
 
 ggplot(data) +

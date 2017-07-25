@@ -12,11 +12,11 @@
 #'   to console.
 #' @examples
 #' \dontrun{
-#' data <- ip_read_terra_raster("2552_bundle.zip", "LCDECIDOPZM2013.tiff")
+#' data <- read_terra_raster("2552_bundle.zip", "LCDECIDOPZM2013.tiff")
 #' }
-#' @seealso ip_read_terra_area ip_read_data ip_read_nhgis
+#' @family ipums_read
 #' @export
-ip_read_terra_raster <- function(
+read_terra_raster <- function(
   data_file,
   data_layer = NULL,
   verbose = TRUE
@@ -77,11 +77,11 @@ ip_read_terra_raster <- function(
 #'   to console.
 #' @examples
 #' \dontrun{
-#' data <- ip_read_terra_area("2553_bundle.zip")
+#' data <- read_terra_area("2553_bundle.zip")
 #' }
-#' @seealso ip_read_terra_raster ip_read_data ip_read_nhgis
+#' @family ipums_read
 #' @export
-ip_read_terra_area <- function(
+read_terra_area <- function(
   data_file,
   ddi_file = NULL,
   shape_file = NULL,
@@ -106,7 +106,7 @@ ip_read_terra_area <- function(
   }
 
   if (!is.null(ddi_file)) {
-    ddi <- ip_read_ddi(ddi_file)
+    ddi <- read_ddi(ddi_file)
   } else {
     ddi <- NULL
   }
@@ -231,11 +231,11 @@ ip_read_terra_area <- function(
 #'   to console.
 #' @examples
 #' \dontrun{
-#' data <- ip_read_terra_micro("2553_bundle.zip")
+#' data <- read_terra_micro("2553_bundle.zip")
 #' }
-#' @seealso ip_read_terra_raster ip_read_data ip_read_nhgis
+#' @family ipums_read
 #' @export
-ip_read_terra_micro <- function(
+read_terra_micro <- function(
   data_file,
   ddi_file = NULL,
   shape_file = NULL,
@@ -260,7 +260,7 @@ ip_read_terra_micro <- function(
   }
 
   if (!is.null(ddi_file)) {
-    ddi <- ip_read_ddi(ddi_file)
+    ddi <- read_ddi(ddi_file)
   } else {
     ddi <- NULL
   }

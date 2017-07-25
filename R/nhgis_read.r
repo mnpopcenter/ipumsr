@@ -20,11 +20,11 @@
 #'   to console.
 #' @examples
 #' \dontrun{
-#' data <- ip_read_nhgis("nhgis0001_csv.zip", "nhgis0001_shp.zip")
+#' data <- read_nhgis("nhgis0001_csv.zip", "nhgis0001_shp.zip")
 #' }
-#' @seealso ip_read_data ip_read_terra_raster ip_read_terra_area
+#' @family ipums_read
 #' @export
-ip_read_nhgis <- function(
+read_nhgis <- function(
   data_file,
   shape_file = NULL,
   data_layer = NULL,
