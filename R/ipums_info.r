@@ -4,6 +4,12 @@
 #' the metadata fron the loaded datasets, but it is more reliable to load the DDI
 #' into a separate object and use it instead.
 #'
+#' @param object A DDI object (loaded with \code{\link{read_ddi}}), a data.frame
+#'   with ipums metadata attached, or a single column from an ipums data.frame.
+#' @param vars dplyr \code{\link[dplyr]{select}}-stlye notation for the variables to
+#'   give information about
+#' @param var select-style notation for a single variable
+#'
 #' \code{ip_var_info()} loads all available variable information for one or more
 #' variables into a data.frame. If \code{object} is a vector, it will include
 #' the variable label, long variable label and value labels. If \code{object} is
