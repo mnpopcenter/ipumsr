@@ -106,7 +106,7 @@ data <- read_nhgis(
 )
 
 data <- data %>%
-  mutate(pct_slave = (ABO003 + ABO005) / (ABO001 + ABO002 + ABO003 + ABO004 + ABO005 + ABO006))
+  mutate(pct_slave = (ABO003 + ABO004) / (ABO001 + ABO002 + ABO003 + ABO004 + ABO005 + ABO006))
 
 ggplot(data = data) + 
   geom_sf(aes(fill = pct_slave))
