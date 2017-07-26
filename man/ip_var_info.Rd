@@ -15,12 +15,15 @@ ip_var_label(object, var = NULL)
 
 ip_val_labels(object, var = NULL)
 }
-\description{
-Get IPUMS metadata information about data loaded into R. Will try to read the
-metadata fron the loaded datasets, but it is more reliable to load the DDI
-into a separate object and use it instead.
-}
-\details{
+\arguments{
+\item{object}{A DDI object (loaded with \code{\link{read_ddi}}), a data.frame
+with ipums metadata attached, or a single column from an ipums data.frame.}
+
+\item{vars}{dplyr \code{\link[dplyr]{select}}-stlye notation for the variables to
+give information about}
+
+\item{var}{select-style notation for a single variable
+
 \code{ip_var_info()} loads all available variable information for one or more
 variables into a data.frame. If \code{object} is a vector, it will include
 the variable label, long variable label and value labels. If \code{object} is
@@ -38,5 +41,10 @@ decimals and variable type.
 Note that many R functions drop attributes that provide this information.
 In order to make sure that they are available, it is best to keep a copy of the
 separate from the data your are manipulating using \code{\link{read_ddi}}. Then
-you can refer to the IPUMS documentation in this object.
+you can refer to the IPUMS documentation in this object.}
+}
+\description{
+Get IPUMS metadata information about variables loaded into R. Will try to read
+the metadata fron the loaded datasets, but it is more reliable to load the DDI
+into a separate object and use it instead.
 }
