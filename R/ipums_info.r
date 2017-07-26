@@ -45,8 +45,8 @@ ip_var_info.default <- function(object, vars = NULL) {
   }
 
   dplyr::data_frame(
-    label = obj_info$label,
-    label_long = obj_info$label_long,
+    label = if (is.null(obj_info$label)) NA_character_ else obj_info$label,
+    label_long = if (is.null(obj_info$label_long)) NA_character_ else obj_info$label_long,
     val_labels = value_labels
   )
 }
