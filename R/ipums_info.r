@@ -61,10 +61,7 @@ ip_var_info.default <- function(object, vars = NULL) {
 ip_var_info.ipums_ddi <- function(object, vars = NULL) {
   vars <- enquo(vars)
   out <- object$var_info
-  if (!quo_is_null(vars)) {
-    vars <- dplyr::select_vars(out$var_name, !!!vars)
-    out <- dplyr::filter(out, .data$var_name %in% vars)
-  }
+  out <- select_var_rows(out, vars)
   out
 }
 
@@ -74,11 +71,7 @@ ip_var_info.data.frame <- function(object, vars = NULL) {
   out <- purrr::map(object, ~ip_var_info.default(.))
   names(out) <- names(object)
   out <- dplyr::bind_rows(out, .id = "var_name")
-
-  if (!quo_is_null(vars)) {
-    vars <- dplyr::select_vars(out$var_name, !!!vars)
-    out <- dplyr::filter(out, .data$var_name %in% vars)
-  }
+  out <- select_var_rows(out, vars)
   out
 }
 

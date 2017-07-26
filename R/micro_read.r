@@ -175,19 +175,14 @@ read_ipums_hier <- function(ddi, vars, n_max, data_file, verbose) {
   all_vars <- ddi$var_info
 
   rec_vinfo <- dplyr::filter(all_vars, .data$var_name == ddi$rectype_idvar)
-  if (!quo_is_null(vars)) {
-    vars <- dplyr::select_vars(all_vars$var_name, !!!vars)
-    if (!rec_vinfo$var_name %in% vars) {
-      if (verbose) message(paste0("Adding rectype id var '", rec_vinfo$var_name, "' to data."))
-      vars <- c(rec_vinfo$var_name, vars)
+  if (nrow(rec_vinfo) > 1) stop("Cannot support multiple rectype id variables.", call. = FALSE)
 
-    }
-    all_vars <- dplyr::filter(all_vars, .data$var_name %in% vars)
+  all_vars <- select_var_rows(var_info, vars)
+  if (!rec_vinfo$var_name %in% all_vars$var_name) {
+    if (verbose) message(paste0("Adding rectype id var '", rec_vinfo$var_name, "' to data."))
+    all_vars <- dplyr::bind_rows(rec_vinfo, all_vars)
   }
 
-
-
-  if (nrow(rec_vinfo) > 1) stop("Cannot support multiple rectype id variables.", call. = FALSE)
   nonrec_vinfo <- dplyr::filter(all_vars, .data$var_name != ddi$rectype_idvar)
   nonrec_vinfo <- tidyr::unnest_(nonrec_vinfo, "rectypes", .drop = FALSE)
 
@@ -236,12 +231,7 @@ read_ipums_hier <- function(ddi, vars, n_max, data_file, verbose) {
 }
 
 read_ipums_rect <- function(ddi, vars, n_max, data_file, verbose) {
-  all_vars <- ddi$var_info
-
-  if (!quo_is_null(vars)) {
-    vars <- dplyr::select_vars(all_vars$var_name, !!!vars)
-    all_vars <- dplyr::filter(all_vars, .data$var_name %in% vars)
-  }
+  all_vars <- select_var_rows(ddi_$var_info, vars)
 
   col_types <- dplyr::case_when(
     all_vars$var_type == "numeric" ~ "d",
