@@ -109,16 +109,8 @@ read_terra_area <- function(
 
   # Try to read DDI for license info ----
   if (data_is_zip & is.null(ddi_file)) {
-
-    ddi_file_in_zip <- find_files_in_zip(data_file, "xml")
-    if (length(ddi_file_in_zip > 0)) {
-      ddi_file_in_zip <- ddi_file_in_zip
-      ddi_file <- file.path(tempdir(), ddi_file_in_zip)
-      utils::unzip(data_file, ddi_file_in_zip, exdir = tempdir())
-    }
-  }
-
-  if (!is.null(ddi_file)) {
+    ddi <- read_ddi(data_file)
+  } else if (!is.null(ddi_file)) {
     ddi <- read_ddi(ddi_file)
   } else {
     ddi <- terra_empty_ddi
@@ -141,7 +133,7 @@ read_terra_area <- function(
   data <- readr::read_csv(read_data, col_types = readr::cols(.default = "c"))
   data <- readr::type_convert(data, col_types = readr::cols())
 
-  # Try to read shape file ----
+  # Read shape file ----
   # Don't bother looking for shape file if not specified or if
   # explicitly told not to
   if (rlang::is_false(shape_file) | (!data_is_zip & is.null(shape_file))) {
@@ -205,47 +197,23 @@ read_terra_micro <- function(
 
   # Try to read DDI for license info ----
   if (data_is_zip & is.null(ddi_file)) {
-    ddi_file_in_zip <- stringr::str_subset(data_file_names, "\\.xml$")
-    if (length(ddi_file_in_zip > 0)) {
-      ddi_file_in_zip <- ddi_file_in_zip[1]
-      ddi_file <- file.path(tempdir(), ddi_file_in_zip)
-      utils::unzip(data_file, ddi_file_in_zip, exdir = tempdir())
-    }
-  }
-
-  if (!is.null(ddi_file)) {
+    ddi <- read_ddi(data_file)
+  } else if (!is.null(ddi_file)) {
     ddi <- read_ddi(ddi_file)
   } else {
-    ddi <- NULL
+    ddi <- terra_empty_ddi
   }
 
   # Print the license info
   if (verbose) {
-    if (!is.null(ddi)) {
-      cat(ddi$conditions)
-      cat("\n\n")
-      cat(ddi$citation)
-      cat("\n\n")
-    } else {
-      cat(paste0(
-        "Use of IPUMS Terra data is subject to conditions, including that ",
-        "publications and research which employ IPUMS Terra data should cite it",
-        "appropiately. Please see www.terrapop.org for more information."
-      ))
-    }
+    cat(ddi$conditions)
+    cat("\n\n")
+    if (!is.null(ddi$citation)) cat(paste0(ddi$citation, "\n\n"))
   }
 
   # Read data file ----
   if (data_is_zip) {
-    csv_name <- stringr::str_subset(data_file_names, "\\.csv(\\.gz)?$")
-    if (!is.null(data_layer)) csv_name <- stringr::str_subset(csv_name, data_layer)
-
-    if (length(csv_name) > 1) {
-      stop(paste0(
-        "Multiple data files found, please use the `data_layer` argument to ",
-        " specify which layer you want to load.\n", paste(csv_name, collapse = ", ")
-      ), .call = FALSE)
-    }
+    csv_name <- find_files_in_zip(data_file, "(csv|gz)", data_layer)
     read_data <- unz(data_file, csv_name)
     if (stringr::str_sub(csv_name, -3) == ".gz") {
       read_data <- gzcon(read_data)
@@ -279,7 +247,7 @@ read_terra_micro <- function(
   }
 
   # Add var labels and value labels from DDI, if available
-  if (!is.null(ddi)) {
+  if (!is.null(ddi$var_info)) {
     all_vars <- ddi$var_info
     purrr::walk2(all_vars$var_name, all_vars$val_label, function(var, lbls) {
       if (nrow(lbls) == 0) return(var)
@@ -288,11 +256,11 @@ read_terra_micro <- function(
     purrr::walk2(
       all_vars$var_name, all_vars$var_label, function(.x, .y) {
         data[[.x]] <<- rlang::set_attrs(data[[.x]], label = .y)
-    })
+      })
     purrr::walk2(
       all_vars$var_name, all_vars$var_label_long, function(.x, .y) {
         data[[.x]] <<- rlang::set_attrs(data[[.x]], label_long = .y)
-    })
+      })
   }
 
   # Try to read shape file ----
@@ -301,50 +269,9 @@ read_terra_micro <- function(
   if (rlang::is_false(shape_file) | (!data_is_zip & is.null(shape_file))) {
     out <- data
   } else {
-    if (data_is_zip) {
-      # Look for zipped shape file within full data zip
-      zip_name <- stringr::str_subset(data_file_names, "\\.zip$")
-      if (!is.null(shape_layer)) zip_name <- stringr::str_subset(zip_name, data_layer)
+    if (data_is_zip & is.null(shape_file)) shape_file <- data_file
 
-      if (length(zip_name) > 1) {
-        stop(paste0(
-          "Multiple shape files found, please use the `shape_layer` argument to ",
-          " specify which layer you want to load.\n", paste(zip_name, collapse = ", ")
-        ), .call = FALSE)
-      }
-      shape_temp <- tempfile()
-      dir.create(shape_temp)
-      utils::unzip(data_file, zip_name, exdir = shape_temp)
-      utils::unzip(file.path(shape_temp, zip_name), exdir = shape_temp)
-      read_shape_file <- dir(shape_temp, pattern = ".shp$", full.names = TRUE)
-    } else {
-      shape_is_zip <- stringr::str_sub(shape_file, -4) == ".zip"
-      if (shape_is_zip) {
-        shape_file_names <- utils::unzip(data_file, list = TRUE)$Name
-        shape_name <- stringr::str_subset(shape_file_names, "\\.shp$")
-        if (!is.null(shape_layer)) shape_name <- stringr::str_subset(shape_name, data_layer)
-
-        if (length(shape_name) > 1) {
-          stop(paste0(
-            "Multiple shape files found, please use the `shape_layer` argument to ",
-            " specify which layer you want to load.\n", paste(shape_name, collapse = ", ")
-          ), .call = FALSE)
-        }
-        shape_shp_files <- paste0(
-          stringr::str_sub(shape_name, 1, -4),
-          c("dbf", "prj", "sbn", "sbx", "shp", "shp.xml", "shx")
-        )
-        shape_temp <- tempfile()
-        dir.create(shape_temp)
-        utils::unzip(shape_file, shape_shp_files, exdir = shape_temp)
-
-        read_shape_file <- file.path(shape_temp, shape_shp_files)
-      } else {
-        read_shape_file <- shape_file
-      }
-    }
-
-    shape_data <- sf::read_sf(read_shape_file, options = "ENCODING=UTF-8")
+    shape_data <- read_ipums_sf(shape_file, shape_layer)
 
     # TODO: We could join if we nested the data.frames for each geography
     geo_var <- unname(dplyr::select_vars(names(data), starts_with("GEO")))[1]
@@ -356,7 +283,6 @@ read_terra_micro <- function(
     )
     out
   }
-
   out
 }
 
