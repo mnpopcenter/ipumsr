@@ -43,6 +43,7 @@ data <- read_terra_micro("2553_bundle.zip")
 \seealso{
 Other ipums_read: \code{\link{read_ddi}},
   \code{\link{read_ipums_micro}},
+  \code{\link{read_ipums_sf}},
   \code{\link{read_nhgis_codebook}},
   \code{\link{read_nhgis}}, \code{\link{read_terra_area}},
   \code{\link{read_terra_raster}}
