@@ -29,9 +29,8 @@ Either a \code{tbl_df} with only the tabular data, or if a \code{shape_file} is
   specified, a \code{\link[sf]{sf}} object with the tabular data and polygons.
 }
 \description{
-Reads a dataset downloaded from the NHGIS extract system. Depends on
-the extract table file structure "Comma delimited with header" and the
-"Include additional descriptive header row" options selected.
+Reads a dataset downloaded from the NHGIS extract system. Relies on csv files
+(with or without the extra header row).
 }
 \examples{
 \dontrun{
@@ -41,6 +40,7 @@ data <- read_nhgis("nhgis0001_csv.zip", "nhgis0001_shp.zip")
 \seealso{
 Other ipums_read: \code{\link{read_ddi}},
   \code{\link{read_ipums_micro}},
+  \code{\link{read_nhgis_codebook}},
   \code{\link{read_terra_area}},
   \code{\link{read_terra_micro}},
   \code{\link{read_terra_raster}}

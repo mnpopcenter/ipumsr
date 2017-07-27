@@ -1,8 +1,7 @@
 #' Read data from an NHGIS extract
 #'
-#' Reads a dataset downloaded from the NHGIS extract system. Depends on
-#' the extract table file structure "Comma delimited with header" and the
-#' "Include additional descriptive header row" options selected.
+#' Reads a dataset downloaded from the NHGIS extract system. Relies on csv files
+#' (with or without the extra header row).
 #'
 #' @return
 #'   Either a \code{tbl_df} with only the tabular data, or if a \code{shape_file} is
@@ -34,66 +33,48 @@ read_nhgis <- function(
   # Read data files ----
   data_is_zip <- stringr::str_sub(data_file, -4) == ".zip"
   if (data_is_zip) {
-    data_file_names <- utils::unzip(data_file, list = TRUE)$Name
-    # Find data
-    csv_name <- stringr::str_subset(data_file_names, "\\.csv$")
-
-    if (!is.null(data_layer)) csv_name <- stringr::str_subset(csv_name, data_layer)
-
-    if (length(csv_name) > 1) {
-      stop(paste0(
-        "Multiple data files found, please use the `data_layer` argument to ",
-        " specify which layer you want to load.\n", paste(csv_name, collapse = ", ")
-        ), .call = FALSE)
-    }
-
-    # Find codebook
-    cb_name <- stringr::str_subset(data_file_names, "codebook\\.txt$")
-    if (!is.null(data_layer)) cb_name <- stringr::str_subset(cb_name, data_layer)
-    cb_exists <- length(cb_name) == 1
+    csv_name <- find_files_in_zip(data_file, "csv", data_layer)
+    cb_ddi_info <- try(read_nhgis_codebook(data_file, data_layer), silent = TRUE)
   } else {
     cb_name <- stringr::str_replace(data_file, "\\.txt$", "_codebook\\.txt")
-    cb_exists <- file.exists(cb_name)
+    cb_ddi_info <- try(read_nhgis_codebook(cb_name), silent = TRUE)
+  }
+  #
+  if (class(cb_ddi_info) == "try-error") {
+    cb_ddi_info <- list(
+      file_name = NULL,
+      file_path = NULL,
+      file_type = "rectangular",
+      rec_types = NULL,
+      rectype_idvar = NULL,
+      var_info = NULL,
+      conditions = paste0(
+        "Use of NHGIS data is subject to conditions, including that ",
+        "publications and research which employ NHGIS data should cite it",
+        "appropiately. Please see www.nhgis.org for more information."
+      ),
+      license = NULL
+    )
   }
 
-  # Print license info (if available)
-  if (cb_exists) {
-    if (data_is_zip) cb_name <- unz(data_file, cb_name)
-    cb <- readr::read_lines(cb_name)
-
-    license_start <- which(cb == "Citation and Use of NHGIS Data") - 1
-    if (verbose) cat(paste(cb[seq(license_start, length(cb))], collapse = "\n"))
-  } else {
-    if (verbose) cat(paste0(
-      "Use of NHGIS data is subject to conditions, including that ",
-      "publications and research which employ NHGIS data should cite it",
-      "appropiately. Please see www.nhgis.org for more information."
-    ))
-  }
+  if (verbose) cat(cb_ddi_info$conditions)
 
   # Read data
   if (verbose) cat("\n\nReading data file...\n")
   if (data_is_zip) {
-    # Could use open="rb", but then readr leaves connection open pointed to end.
-    # Documentation implies seeking in Windows is untrustworthy, so I want to
-    # reopen it each time anyways.
-    read_data <- unz(data_file, csv_name)
+    data <- readr::read_csv(unz(data_file, csv_name), col_types = readr::cols(.default = "c"))
   } else {
-    read_data <- data_file
+    data <- readr::read_csv(data_file, col_types = readr::cols(.default = "c"))
   }
 
-  var_info <- readr::read_csv(
-    read_data,
-    n_max = 1,
-    col_types = readr::cols(.default = "c")
-  )
-  if (data_is_zip) read_data <- unz(data_file, csv_name) # Reopen connection
-  data <- readr::read_csv(
-    read_data,
-    skip = 2,
-    col_names = names(var_info),
-    col_types = readr::cols(.default = "c")
-  )
+  # If extract is NHGIS's "enhanced" csvs with an extra header row,
+  # then remove the first row.
+  # (determine by checking if the first row is entirely character
+  # values that can't be converted to numeric)
+  first_row <- readr::type_convert(data[1, ], col_types = readr::cols())
+  first_row_char <- purrr::map_lgl(first_row, rlang::is_character)
+  if (all(first_row_char)) data <- data[-1, ]
+
   data <- readr::type_convert(data, col_types = readr::cols())
 
   # Read shape files (if they exist) ----
@@ -185,9 +166,100 @@ read_nhgis <- function(
   }
 
   # Add variable labels
-  purrr::walk2(names(var_info), unname(unlist(var_info)), function(vname, vlabel, ...) {
-    attr(data[[vname]], "label") <<- vlabel
+  purrr::pwalk(cb_ddi_info$var_info, function(var_name, var_label, var_label_long,...) {
+    attr(data[[var_name]], "label") <<- var_label
+    attr(data[[var_name]], "label_long") <<- var_label_long
   })
 
   data
+}
+
+#' Read metadata from a text codebook in a NHGIS extract
+#'
+#' Reads a codebook downloaded from the NHGIS extract system and formats it
+#' analagously to metadata read from a DDI.
+#'
+#' @return
+#'   A \code{ip_ddi} object with information on the variables included in the
+#'   csv file of a NHGIS extract.
+#' @param cb_file Filepath to the codebook (either the .zip file directly downloaded
+#'   from the webiste, or the path to the unzipped .txt file).
+#' @param data_layer A regular expression uniquely identifying the data layer to
+#'   load. Required for reading from .zip files for extracts with multiple files.
+#' @examples
+#' \dontrun{
+#' data <- read_nhgis_codebook("nhgis0001_csv.zip")
+#' }
+#' @family ipums_read
+#' @export
+read_nhgis_codebook <- function(cb_file, data_layer = NULL) {
+  if (stringr::str_sub(cb_file, -4) == ".zip") {
+
+    cb_name <- find_files_in_zip(cb_file, "txt", data_layer)
+    if (length(cb_name) == 1) cb <- readr::read_lines(unz(cb_file, cb_name)) else NULL
+  } else {
+    cb_name <- cb_file
+    if (file.exists(cb_name)) cb <- readr::read_lines(cb_name) else NULL
+  }
+
+  if (is.null(cb)) {
+    stop("Could not find NHGIS codebook.")
+  }
+
+  # Get table names (var_label_long) and variable labels (var_label)
+  # from data dictionary section using messy string parsing code
+  dd_start <- which(
+    dplyr::lag(stringr::str_detect(cb, "^[-]+$"), 2) &
+      dplyr::lag(cb == "Data Dictionary", 1) &
+      stringr::str_detect(cb, "^[-]+$")
+  )
+  dd_end <- which(
+    dplyr::lead(stringr::str_detect(cb, "^[-]+$"), 1) &
+      dplyr::lead(cb == "Citation and Use of NHGIS Data", 2) &
+      dplyr::lead(stringr::str_detect(cb, "^[-]+$"), 3)
+  )
+  dd <- cb[seq(dd_start, dd_end)]
+
+  context_rows <- seq(
+    which(dd == "Context Fields ") + 1,
+    which(stringr::str_detect(dd, "^Table 1:")) - 1
+  )
+  context_vars <- dd[context_rows]
+  context_vars <- stringr::str_match(context_vars, "([:alnum:]+):[:blank:]+(.+)$")
+  context_vars <- tibble::data_frame(
+    var_name = context_vars[, 2],
+    var_label = context_vars[, 3],
+    var_label_long = ""
+  )
+  context_vars <- context_vars[!is.na(context_vars$var_name), ]
+
+  table_name_rows <- which(stringr::str_detect(dd, "^Table [0-9]+:"))
+  table_sections <- purrr::map2(table_name_rows, c(table_name_rows[-1], length(dd)), ~seq(.x, .y - 1))
+
+  table_vars <- purrr::map_df(table_sections, function(rows) {
+    table_name <- stringr::str_match(dd[rows[1]], "^Table [0-9]+:[:blank:]+(.+)$")[, 2]
+    nhgis_table_code <- stringr::str_match(dd[rows[4]], "^NHGIS code:[:blank:]+(.+)$")[, 2]
+    vars <- stringr::str_match(dd[rows[-1:-4]], "([:alnum:]+):[:blank:]+(.+)$")
+    vars <- vars[!is.na(vars[, 2]), ]
+    dplyr::data_frame(
+      var_name = vars[, 2],
+      var_label = vars[, 3],
+      var_label_long = paste0(table_name, " (", nhgis_table_code, ")")
+    )
+  })
+
+  # License and conditions is after data dictionary section
+  conditions_text <- paste(cb[seq(dd_end + 4, length(cb))], collapse = "\n")
+
+
+  out <- list(
+    file_name = cb_name,
+    file_path = "",
+    file_type = "rectangular",
+    rec_types = NULL,
+    rectype_idvar = NULL,
+    var_info = dplyr::bind_rows(context_vars, table_vars),
+    conditions = conditions_text,
+    license = NULL
+  )
 }
