@@ -4,12 +4,13 @@
 \alias{read_ipums_sf}
 \title{Read boundary files from an IPUMS extract}
 \usage{
-read_ipums_sf(shape_file, shape_layer, bind_multiple = TRUE)
+read_ipums_sf(shape_file, shape_layer = NULL, bind_multiple = TRUE)
 }
 \arguments{
-\item{shape_file}{Filepath to a .shp file or .zip file from an IPUMS extract}
+\item{shape_file}{Filepath to one or more .shp files or a .zip file from an IPUMS extract}
 
-\item{shape_layer}{A regular expression selecting the layers you wish to load}
+\item{shape_layer}{A regular expression selecting the layers you wish to load (`NULL` the default
+loads all)}
 
 \item{bind_multiple}{If \code{TRUE}, will combine multiple shape files found into
 a single object.}

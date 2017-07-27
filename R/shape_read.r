@@ -2,8 +2,9 @@
 #'
 #' Reads the boundary files form an IPUMS extract into R.
 #'
-#' @param shape_file Filepath to a .shp file or .zip file from an IPUMS extract
-#' @param shape_layer A regular expression selecting the layers you wish to load
+#' @param shape_file Filepath to one or more .shp files or a .zip file from an IPUMS extract
+#' @param shape_layer A regular expression selecting the layers you wish to load (`NULL` the default
+#'   loads all)
 #' @param bind_multiple If \code{TRUE}, will combine multiple shape files found into
 #'   a single object.
 #' @examples
@@ -12,7 +13,7 @@
 #' }
 #' @family ipums_read
 #' @export
-read_ipums_sf <- function(shape_file, shape_layer, bind_multiple = TRUE) {
+read_ipums_sf <- function(shape_file, shape_layer = NULL, bind_multiple = TRUE) {
   load_sf_namespace()
 
   # Case 1: Shape file specified is a .zip file
@@ -35,7 +36,7 @@ read_ipums_sf <- function(shape_file, shape_layer, bind_multiple = TRUE) {
         shape_temp <- tempfile()
         dir.create(shape_temp)
         utils::unzip(shape_file, x, exdir = shape_temp)
-        utils::unzip(file.path(shape_temp, shape_zips), exdir = shape_temp)
+        utils::unzip(file.path(shape_temp, x), exdir = shape_temp)
 
         file.path(shape_temp, dir(shape_temp, "\\.shp$"))
       })
@@ -86,7 +87,46 @@ read_ipums_sf <- function(shape_file, shape_layer, bind_multiple = TRUE) {
     stop("Expected `shape_file` to be a .zip or .shp file.")
   }
 
-  out <- purrr::map(shape_files, sf::read_sf)
-  out <- sf::rbind(out)
+  out <- purrr::map(read_shape_files, sf::read_sf)
+  out <- careful_sf_rbind(out)
+
   out
+}
+
+# Takes a list of sf's, fills in empty columns for you and binds them together.
+# Throws error if types don't match
+careful_sf_rbind <- function(sf_list) {
+  if (length(sf_list) == 1) {
+    return(sf_list[[1]])
+  } else {
+    # Get var info for all columns
+    all_var_info <- purrr::map_df(sf_list, .id = "id", function(x) {
+      tibble::data_frame(name = names(x), type = purrr::map(x, ~class(.)))
+    })
+
+    var_type_check <- dplyr::group_by(all_var_info, .data$name)
+    var_type_check <- dplyr::summarize(var_type_check, check = length(unique(type)))
+    if (any(var_type_check$check != 1)) {
+      stop("Cannot combine shape files because variable types don't match.")
+    }
+
+    all_var_info$id <- NULL
+    all_var_info <- dplyr::distinct(all_var_info)
+
+    out <- purrr::map(sf_list, function(x) {
+      missing_vars <- dplyr::setdiff(all_var_info$name, names(x))
+      if (length(missing_vars) == 0) return(x)
+
+      for (vn in missing_vars) {
+        vtype <- all_var_info$type[all_var_info$name == vn][[1]]
+        if (identical(vtype, "character")) x[[vn]] <- NA_character_
+        else if (identical(vtype, "numeric")) x[[vn]] <- NA_real_
+        else if (identical(vtype, c("sfc_MULTIPOLYGON", "sfc"))) x[[vn]] <- vector("list", nrow(x))
+        else stop("Unexpected variable type in shape file.")
+      }
+      x
+    })
+    out <- do.call(rbind, out)
+  }
+  sf::st_as_sf(tibble::as.tibble(out))
 }
