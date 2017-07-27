@@ -5,6 +5,8 @@
 #' usage for the data and positions for the fixed-width file.
 #'
 #' @param ddi_file Filepath to DDI xml file
+#' @param data_layer If dadi_file is an extract with multiple DDIs, a regular expression indicating
+#'   which .xml data layer to load.
 #' @examples
 #' \dontrun{
 #' metadata <- read_ddi("cps_00001.xml")
@@ -12,7 +14,13 @@
 #' @family ipums_read
 #' @export
 read_ddi <- function(ddi_file) {
-  ddi_xml <- xml2::read_xml(ddi_file)
+  if (stringr::str_sub(ddi_file, -4) == ".zip") {
+    ddi_in_zip <- find_files_in_zip(ddi_file, "xml", data_layer)
+    ddi_file_load <- unz(ddi_file, ddi_in_zip)
+  } else {
+    ddi_file_load <- ddi_file
+  }
+  ddi_xml <- xml2::read_xml(ddi_file_load, data_layer = NULL)
 
   # Print citation/conditions
   cite_info <-  xml2::xml_find_all(
