@@ -2,29 +2,35 @@
 % Please edit documentation in R/terra_read.r
 \name{read_terra_raster}
 \alias{read_terra_raster}
+\alias{read_terra_rasters}
 \title{Read data from an IPUMS Terra raster extract}
 \usage{
 read_terra_raster(data_file, data_layer = NULL, verbose = TRUE)
+
+read_terra_rasters(data_file, data_layer = NULL, verbose = TRUE)
 }
 \arguments{
 \item{data_file}{Filepath to the data (either the .zip file directly downloaded
-from the webiste, or the path to the unzipped .tiff file).}
+from the webiste, or the path to the unzipped .tiff file(s)).}
 
-\item{data_layer}{A regular expression uniquely identifying the data layer to
-load. Required for reading from .zip files for extracts with multiple files.}
+\item{data_layer}{A regular expression identifying the data layers to
+load.}
 
 \item{verbose}{Logical, indicating whether to print progress information
 to console.}
 }
 \value{
-A \code{\link[raster]{raster}} object
+For \code{read_terra_raster} A \code{\link[raster]{raster}} object, for
+  \code{read_terra_rasters} A list of raster objects.
 }
 \description{
-Reads a raster dataset downloaded from the IPUMS Terra extract system.
+Read a single raster datasets downloaded from the IPUMS Terra extract system using
+\code{read_terra_raster}, or read multiple into a list using \code{read_terra_rasters}.
 }
 \examples{
 \dontrun{
 data <- read_terra_raster("2552_bundle.zip", "LCDECIDOPZM2013.tiff")
+data <- read_terra_rasters("2552_bundle.zip", "ZM")
 }
 }
 \seealso{

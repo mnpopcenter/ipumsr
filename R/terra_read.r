@@ -1,18 +1,21 @@
 #' Read data from an IPUMS Terra raster extract
 #'
-#' Reads a raster dataset downloaded from the IPUMS Terra extract system.
+#' Read a single raster datasets downloaded from the IPUMS Terra extract system using
+#' \code{read_terra_raster}, or read multiple into a list using \code{read_terra_rasters}.
 #'
 #' @return
-#'   A \code{\link[raster]{raster}} object
+#'   For \code{read_terra_raster} A \code{\link[raster]{raster}} object, for
+#'   \code{read_terra_rasters} A list of raster objects.
 #' @param data_file Filepath to the data (either the .zip file directly downloaded
-#'   from the webiste, or the path to the unzipped .tiff file).
-#' @param data_layer A regular expression uniquely identifying the data layer to
-#'   load. Required for reading from .zip files for extracts with multiple files.
+#'   from the webiste, or the path to the unzipped .tiff file(s)).
+#' @param data_layer A regular expression identifying the data layers to
+#'   load.
 #' @param verbose Logical, indicating whether to print progress information
 #'   to console.
 #' @examples
 #' \dontrun{
 #' data <- read_terra_raster("2552_bundle.zip", "LCDECIDOPZM2013.tiff")
+#' data <- read_terra_rasters("2552_bundle.zip", "ZM")
 #' }
 #' @family ipums_read
 #' @export
@@ -21,39 +24,54 @@ read_terra_raster <- function(
   data_layer = NULL,
   verbose = TRUE
 ) {
+  read_terra_raster_internal(data_file, data_layer, verbose, FALSE)
+}
+
+#' @export
+#' @rdname read_terra_raster
+read_terra_rasters <- function(
+  data_file,
+  data_layer = NULL,
+  verbose = TRUE
+) {
+  read_terra_raster_internal(data_file, data_layer, verbose, TRUE)
+}
+
+# NB: I have these 2 functions because I want people to be able to load rasters
+# without having to know about lists, but I also don't want to have the type returned
+# by a function change based on the inputs. Therefore, the singular version loads directly
+# as raster, and the multi one always returns a list.
+read_terra_raster_internal <- function(data_file, data_layer, verbose, multiple_ok) {
   # Read data files ----
-  data_is_zip <- stringr::str_sub(data_file, -4) == ".zip"
-  if (data_is_zip) {
-    data_file_names <- utils::unzip(data_file, list = TRUE)$Name
-    # Find data
-    tiff_name <- stringr::str_subset(data_file_names, "\\.tiff$")
+    data_is_zip <- stringr::str_sub(data_file, -4) == ".zip"
+    if (data_is_zip) {
+      tiff_names <- find_files_in_zip(data_file, "tiff", data_layer, multiple_ok)
 
-    if (!is.null(data_layer)) tiff_name <- stringr::str_subset(tiff_name, data_layer)
+      raster_temp <- tempfile()
+      utils::unzip(data_file, tiff_names, exdir = raster_temp)
 
-    if (length(tiff_name) > 1) {
-      stop(paste0(
-        "Multiple data files found, please use the `data_layer` argument to ",
-        " specify which layer you want to load.\n", paste(tiff_name, collapse = ", ")
-      ), .call = FALSE)
+      if (!multiple_ok) {
+        out <- raster::raster(file.path(raster_temp, tiff_names))
+      } else {
+        out <- purrr::map(tiff_names, ~raster::raster(file.path(raster_temp, .)))
+      }
+    } else {
+      if (!multiple_ok) {
+        out <- raster::raster(data_file)
+      } else {
+        out <- purrr::map(data_file, raster::raster)
+      }
     }
 
-    raster_temp <- tempfile()
-    utils::unzip(data_file, tiff_name, exdir = raster_temp)
+    # Print license info (not provided in extract for raster-level terra)
+    if (verbose) cat(paste0(
+      "Use of IPUMS Terra data is subject to conditions, including that ",
+      "publications and research which employ IPUMS Terra data should cite it",
+      "appropiately. Please see www.terrapop.org for more information."
+    ))
 
-    out <- raster::raster(file.path(raster_temp, tiff_name))
-  } else {
-    out <- raster::raster(data_file)
+    out
   }
-
-  # Print license info (not provided in extract for area-level terra)
-  if (verbose) cat(paste0(
-    "Use of IPUMS Terra data is subject to conditions, including that ",
-    "publications and research which employ IPUMS Terra data should cite it",
-    "appropiately. Please see www.terrapop.org for more information."
-  ))
-
-  out
-}
 
 #' Read data from an IPUMS Terra area extract
 #'
