@@ -4,10 +4,13 @@
 \alias{read_ddi}
 \title{Read metadata about an IPUMS extract}
 \usage{
-read_ddi(ddi_file)
+read_ddi(ddi_file, data_layer = NULL)
 }
 \arguments{
 \item{ddi_file}{Filepath to DDI xml file}
+
+\item{data_layer}{If dadi_file is an extract with multiple DDIs, a regular expression indicating
+which .xml data layer to load.}
 }
 \description{
 Reads the metadata about an IPUMS extract from a DDI file into R.

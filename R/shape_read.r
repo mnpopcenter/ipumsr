@@ -105,7 +105,7 @@ careful_sf_rbind <- function(sf_list) {
     })
 
     var_type_check <- dplyr::group_by(all_var_info, .data$name)
-    var_type_check <- dplyr::summarize(var_type_check, check = length(unique(type)))
+    var_type_check <- dplyr::summarize(var_type_check, check = length(unique(.data$type)))
     if (any(var_type_check$check != 1)) {
       stop("Cannot combine shape files because variable types don't match.")
     }

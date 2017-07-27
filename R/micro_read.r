@@ -13,7 +13,7 @@
 #' }
 #' @family ipums_read
 #' @export
-read_ddi <- function(ddi_file) {
+read_ddi <- function(ddi_file, data_layer = NULL) {
   if (stringr::str_sub(ddi_file, -4) == ".zip") {
     ddi_in_zip <- find_files_in_zip(ddi_file, "xml", data_layer)
     ddi_file_load <- unz(ddi_file, ddi_in_zip)
