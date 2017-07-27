@@ -64,9 +64,10 @@ read_terra_raster_internal <- function(data_file, data_layer, verbose, multiple_
     }
 
     # Print license info (not provided in extract for raster-level terra)
-    cat(terra_empty_ddi$conditions)
-    cat("\n\n")
-
+    if (verbose) {
+      cat(terra_empty_ddi$conditions)
+      cat("\n\n")
+    }
     out
   }
 
