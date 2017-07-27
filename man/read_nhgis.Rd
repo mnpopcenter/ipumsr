@@ -5,7 +5,7 @@
 \title{Read data from an NHGIS extract}
 \usage{
 read_nhgis(data_file, shape_file = NULL, data_layer = NULL,
-  shape_layer = NULL, verbose = TRUE)
+  shape_layer = data_layer, verbose = TRUE)
 }
 \arguments{
 \item{data_file}{Filepath to the data (either the .zip file directly downloaded
@@ -18,8 +18,9 @@ files).}
 \item{data_layer}{A regular expression uniquely identifying the data layer to
 load. Required for reading from .zip files for extracts with multiple files.}
 
-\item{shape_layer}{A regular expression uniquely identifying the shape layer to
-load. Required for reading from .zip files for extracts with multiple files.}
+\item{shape_layer}{(Defaults to using the same value as data_layer) A regular
+expression uniquely identifying the shape layer to load. Required for
+reading from .zip files for extracts with multiple files.}
 
 \item{verbose}{Logical, indicating whether to print progress information
 to console.}

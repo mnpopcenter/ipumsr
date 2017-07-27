@@ -13,8 +13,9 @@
 #'   files).
 #' @param data_layer A regular expression uniquely identifying the data layer to
 #'   load. Required for reading from .zip files for extracts with multiple files.
-#' @param shape_layer A regular expression uniquely identifying the shape layer to
-#'   load. Required for reading from .zip files for extracts with multiple files.
+#' @param shape_layer (Defaults to using the same value as data_layer) A regular
+#'   expression uniquely identifying the shape layer to load. Required for
+#'   reading from .zip files for extracts with multiple files.
 #' @param verbose Logical, indicating whether to print progress information
 #'   to console.
 #' @examples
@@ -27,7 +28,7 @@ read_nhgis <- function(
   data_file,
   shape_file = NULL,
   data_layer = NULL,
-  shape_layer = NULL,
+  shape_layer = data_layer,
   verbose = TRUE
 ) {
   # Read data files ----
@@ -39,23 +40,8 @@ read_nhgis <- function(
     cb_name <- stringr::str_replace(data_file, "\\.txt$", "_codebook\\.txt")
     cb_ddi_info <- try(read_nhgis_codebook(cb_name), silent = TRUE)
   }
-  #
-  if (class(cb_ddi_info) == "try-error") {
-    cb_ddi_info <- list(
-      file_name = NULL,
-      file_path = NULL,
-      file_type = "rectangular",
-      rec_types = NULL,
-      rectype_idvar = NULL,
-      var_info = NULL,
-      conditions = paste0(
-        "Use of NHGIS data is subject to conditions, including that ",
-        "publications and research which employ NHGIS data should cite it",
-        "appropiately. Please see www.nhgis.org for more information."
-      ),
-      license = NULL
-    )
-  }
+
+  if (class(cb_ddi_info) == "try-error") cb_ddi_info <- nhgis_empty_ddi
 
   if (verbose) cat(cb_ddi_info$conditions)
 
@@ -81,79 +67,7 @@ read_nhgis <- function(
   if (!is.null(shape_file)) {
     if (verbose) cat("Reading geography...\n")
 
-    shape_found <- FALSE
-    # Case 1: Shape file specified is a .zip file
-    shape_is_zip <- stringr::str_sub(shape_file, -4) == ".zip"
-    if (shape_is_zip) {
-      shape_file_names <- utils::unzip(shape_file, list = TRUE)$Name
-
-
-      # Case 1a: First zip file has zip files of shape files within it
-      zip_in_zip <- stringr::str_sub(shape_file_names, -4) == ".zip"
-      if (any(zip_in_zip)) {
-        shape_zips <- shape_file_names[zip_in_zip]
-        if (!is.null(shape_layer)) {
-          shape_zips <- stringr::str_subset(shape_zips, shape_layer)
-        }
-        if (length(shape_zips) == 1) {
-          shape_temp <- tempfile()
-          dir.create(shape_temp)
-          utils::unzip(shape_file, shape_zips, exdir = shape_temp)
-          utils::unzip(file.path(shape_temp, shape_zips), exdir = shape_temp)
-
-          read_shape_file <- file.path(shape_temp, dir(shape_temp, "\\.shp$"))
-          shape_found <- TRUE
-        } else if (length(shape_zips) > 1) {
-          stop(paste0(
-            "Multiple shape files found, please use the `shape_layer` argument to ",
-            " specify which layer you want to load.\n", paste(shape_zips, collapse = ", ")
-          ), .call = FALSE)
-        }
-
-      }
-      # Case 1b: First zip file has .shp files within it
-      shp_in_zip <- stringr::str_sub(shape_file_names, -4) == ".shp"
-      if (any(shp_in_zip)) {
-        shape_shps <- shape_file_names[shp_in_zip]
-        if (!is.null(shape_layer)) {
-          shape_shps <- stringr::str_subset(shape_shps, shape_layer)
-        }
-
-        if (length(shape_shps) == 1) {
-          shape_shp_files <- paste0(
-            stringr::str_sub(shape_shps, 1, -4),
-            c("dbf", "prj", "sbn", "sbx", "shp", "shp.xml", "shx")
-          )
-          shape_temp <- tempfile()
-          dir.create(shape_temp)
-          utils::unzip(shape_file, shape_shp_files, exdir = shape_temp)
-
-          read_shape_file <- file.path(shape_temp, shape_shps)
-          shape_found <- TRUE
-        } else if (length(shape_shps) > 1) {
-          stop(paste0(
-            "Multiple shape files found, please use the `shape_layer` argument to ",
-            " specify which layer you want to load.\n", paste(shape_shps, collapse = ", ")
-          ), .call = FALSE)
-        }
-      }
-      if (!shape_found) {
-        stop("Zip file not formatted as expected. Please unzip and try again.")
-      }
-    }
-
-    # Case 2: Shape file specified is a .shp file
-    shape_is_shp <- !shape_found & stringr::str_sub(shape_file, -4) == ".shp"
-    if (shape_is_shp) {
-      shape_found <- TRUE
-      read_shape_file <- shape_file
-    }
-
-    if (!shape_is_zip & !shape_is_shp) {
-      stop("Expected shape file to be a .zip or .shp file.")
-    }
-
-    sf_data <- sf::read_sf(read_shape_file)
+    sf_data <- read_ipums_sf(shape_file, shape_layer)
 
     # Only join on vars that are in both and are called "GISJOIN*"
     join_vars <- intersect(names(data), names(sf_data))
@@ -263,3 +177,20 @@ read_nhgis_codebook <- function(cb_file, data_layer = NULL) {
     license = NULL
   )
 }
+
+
+# Fills in a default condition if we can't find codebook for nhgis
+nhgis_empty_ddi <- list(
+  file_name = NULL,
+  file_path = NULL,
+  file_type = "rectangular",
+  rec_types = NULL,
+  rectype_idvar = NULL,
+  var_info = NULL,
+  conditions = paste0(
+    "Use of NHGIS data is subject to conditions, including that ",
+    "publications and research which employ NHGIS data should cite it",
+    "appropiately. Please see www.nhgis.org for more information."
+  ),
+  license = NULL
+)
