@@ -87,7 +87,7 @@ read_ipums_sf <- function(shape_file, shape_layer = NULL, bind_multiple = TRUE) 
     stop("Expected `shape_file` to be a .zip or .shp file.")
   }
 
-  out <- purrr::map(read_shape_files, sf::read_sf)
+  out <- purrr::map(read_shape_files, ~sf::read_sf(., options = "ENCODING=UTF-8"))
   out <- careful_sf_rbind(out)
 
   out
