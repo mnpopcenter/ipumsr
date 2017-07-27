@@ -29,7 +29,7 @@ find_files_in_zip <- function(file, name_ext = NULL, name_regex = NULL, multiple
 
 
 load_sf_namespace <- function() {
-  if (!requireNamespace("sf")) {
+  if (!requireNamespace("sf", quietly = TRUE)) {
     stop(paste0(
       "Package 'sf' must be installed to read boundary files as spacial objects.",
       " Please run command `install.packages('sf')` to continue."
