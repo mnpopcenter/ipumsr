@@ -71,7 +71,7 @@ read_nhgis <- function(
 
     # Only join on vars that are in both and are called "GISJOIN*"
     join_vars <- intersect(names(data), names(sf_data))
-    join_vars <- stringr::str_subset(join_vars, "GISJOIN*")
+    join_vars <- stringr::str_subset(join_vars, "GISJOIN.*")
 
     # Drop the overlapping columns from the shape file
     data <- dplyr::full_join(sf_data, data, by = join_vars, suffix = c("_shape", ""))
