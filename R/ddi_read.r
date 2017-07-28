@@ -201,7 +201,7 @@ read_ipums_codebook <- function(cb_file, data_layer = NULL) {
       stop("Multiple codebooks found, please specify which to use with the `data_layer` argument")
     }
     var_info <- dd[data_file_sections[[this_file]]]
-    var_info <- stringr::str_match(var_info, "([:alnum:]+):[:blank:]+(.+)$")
+    var_info <- stringr::str_match(var_info, "([[:alnum:]|[:punct:]]+):[:blank:]+(.+)$")
     var_info <- tibble::data_frame(
       var_name = var_info[, 2],
       var_label = var_info[, 3],
@@ -214,7 +214,7 @@ read_ipums_codebook <- function(cb_file, data_layer = NULL) {
       which(stringr::str_detect(dd, "^Table 1:")) - 1
     )
     context_vars <- dd[context_rows]
-    context_vars <- stringr::str_match(context_vars, "([:alnum:]+):[:blank:]+(.+)$")
+    context_vars <- stringr::str_match(context_vars, "([[:alnum:]|[:punct:]]+):[:blank:]+(.+)$")
     context_vars <- tibble::data_frame(
       var_name = context_vars[, 2],
       var_label = context_vars[, 3],
@@ -228,7 +228,7 @@ read_ipums_codebook <- function(cb_file, data_layer = NULL) {
     table_vars <- purrr::map_df(table_sections, function(rows) {
       table_name <- stringr::str_match(dd[rows[1]], "^Table [0-9]+:[:blank:]+(.+)$")[, 2]
       nhgis_table_code <- stringr::str_match(dd[rows[4]], "^NHGIS code:[:blank:]+(.+)$")[, 2]
-      vars <- stringr::str_match(dd[rows[-1:-4]], "([:alnum:]+):[:blank:]+(.+)$")
+      vars <- stringr::str_match(dd[rows[-1:-4]], "([[:alnum:]|[:punct:]]+):[:blank:]+(.+)$")
       vars <- vars[!is.na(vars[, 2]), ]
       dplyr::data_frame(
         var_name = vars[, 2],

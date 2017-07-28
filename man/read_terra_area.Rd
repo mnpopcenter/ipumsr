@@ -4,15 +4,13 @@
 \alias{read_terra_area}
 \title{Read data from an IPUMS Terra area extract}
 \usage{
-read_terra_area(data_file, ddi_file = NULL, shape_file = NULL,
-  data_layer = NULL, shape_layer = data_layer, verbose = TRUE)
+read_terra_area(data_file, shape_file = NULL, data_layer = NULL,
+  shape_layer = data_layer, ddi_file = NULL, cb_file = NULL,
+  verbose = TRUE)
 }
 \arguments{
 \item{data_file}{Path to the data file, which can either be the .zip file directly
 downloaded from the IPUMS Terra website, or to the csv unzipped from the download.}
-
-\item{ddi_file}{(Optional) If the download is unzipped, path to the .xml file which
-provides usage and ciation information for extract.}
 
 \item{shape_file}{(Optional) If the download is unzipped, path to the .zip or .shp file
 representing the the shape file. If only the data table is needed, can be set to FALSE
@@ -23,6 +21,12 @@ which .csv data layer to load.}
 
 \item{shape_layer}{If data_file is an extract with multiple shape files, a regular expression
 indicating which shape layer to load. (Defaults to using the same as the data_layer)}
+
+\item{ddi_file}{(Optional) If the download is unzipped, path to the .xml file which
+provides usage and ciation information for extract.}
+
+\item{cb_file}{(Optional) If the download is unzipped, path to the .txt file which
+provides usage and ciation information for extract.}
 
 \item{verbose}{Logical, indicating whether to print progress information
 to console.}

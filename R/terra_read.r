@@ -82,8 +82,6 @@ read_terra_raster_internal <- function(data_file, data_layer, verbose, multiple_
 #'   information, otherwise just a data.frame.
 #' @param data_file Path to the data file, which can either be the .zip file directly
 #'   downloaded from the IPUMS Terra website, or to the csv unzipped from the download.
-#' @param ddi_file (Optional) If the download is unzipped, path to the .xml file which
-#'   provides usage and ciation information for extract.
 #' @param shape_file (Optional) If the download is unzipped, path to the .zip or .shp file
 #'   representing the the shape file. If only the data table is needed, can be set to FALSE
 #'   to indicate not to load the shape file.
@@ -91,6 +89,10 @@ read_terra_raster_internal <- function(data_file, data_layer, verbose, multiple_
 #'   which .csv data layer to load.
 #' @param shape_layer If data_file is an extract with multiple shape files, a regular expression
 #'   indicating which shape layer to load. (Defaults to using the same as the data_layer)
+#' @param ddi_file (Optional) If the download is unzipped, path to the .xml file which
+#'   provides usage and ciation information for extract.
+#' @param cb_file (Optional) If the download is unzipped, path to the .txt file which
+#'   provides usage and ciation information for extract.
 #' @param verbose Logical, indicating whether to print progress information
 #'   to console.
 #' @examples
@@ -101,10 +103,11 @@ read_terra_raster_internal <- function(data_file, data_layer, verbose, multiple_
 #' @export
 read_terra_area <- function(
   data_file,
-  ddi_file = NULL,
   shape_file = NULL,
   data_layer = NULL,
   shape_layer = data_layer,
+  ddi_file = NULL,
+  cb_file = NULL,
   verbose = TRUE
 ) {
   data_is_zip <- stringr::str_sub(data_file, -4) == ".zip"
@@ -114,7 +117,22 @@ read_terra_area <- function(
     ddi <- read_ddi(data_file) # Don't pass in `data_layer` bc only 1 ddi/area extract
   } else if (!is.null(ddi_file)) {
     ddi <- read_ddi(ddi_file)
-  } else {
+  }
+
+  # Try to read codebook for var info ----
+  if (data_is_zip & is.null(cb_file)) {
+    cb <- read_ipums_codebook(data_file, data_layer)
+  } else if (!is.null(cb_file)) {
+    cb <- read_ddi(ddi_file)
+  }
+
+  # If both were loaded, then the ddi has better citation info, but the
+  # codebook has better variable information
+  if (!is.null(ddi) & !is.null(cb)) {
+    ddi$var_info <- cb$var_info
+  } else if (is.null(ddi) & !is.null(cb)) {
+    ddi <- cb
+  } else if (is.null(ddi)) {
     ddi <- terra_empty_ddi
   }
 
@@ -135,6 +153,12 @@ read_terra_area <- function(
   data <- readr::read_csv(read_data, col_types = readr::cols(.default = "c"))
   data <- readr::type_convert(data, col_types = readr::cols())
 
+  # Add var labels and value labels from DDI, if available
+  if (!is.null(ddi$var_info)) {
+    data <- set_ipums_var_attributes(data, ddi$var_info, set_imp_decim = FALSE)
+  }
+
+
   # Read shape file ----
   # Don't bother looking for shape file if not specified or if
   # explicitly told not to
@@ -149,6 +173,16 @@ read_terra_area <- function(
     geo_vars <- unname(dplyr::select_vars(names(data), starts_with("GEO")))
     label_name <- unname(dplyr::select_vars(geo_vars, ends_with("LABEL")))
     id_name <- dplyr::setdiff(geo_vars, label_name)[1]
+
+    # Set attributes to be identical to avoid a warning
+    shape_data$LABEL <- rlang::set_attrs(
+      shape_data$LABEL,
+      rlang::splice(attributes(data[[label_name]]))
+    )
+    shape_data$GEOID <- rlang::set_attrs(
+      shape_data$GEOID,
+      rlang::splice(attributes(data[[id_name]]))
+    )
 
     out <- dplyr::full_join(shape_data, data, by = c(LABEL = label_name, GEOID = id_name))
     out <- sf::st_as_sf(tibble::as_tibble(out))
@@ -252,7 +286,7 @@ read_terra_micro <- function(
   # Add var labels and value labels from DDI, if available
   if (!is.null(ddi$var_info)) {
     all_vars <- ddi$var_info
-    data <- set_ipums_var_attributes(ddi$var_info, set_imp_decim = FALSE)
+    data <- set_ipums_var_attributes(data, ddi$var_info, set_imp_decim = FALSE)
   }
 
   # Try to read shape file ----
