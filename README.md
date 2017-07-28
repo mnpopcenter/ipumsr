@@ -94,7 +94,7 @@ table(as_factor(data$TCIG100, levels = "both"))
 
 ### NHGIS
 
-Relies on user downloading the csv file (with header row) and shape files.
+Relies on user downloading the csv file (with or without header row) and shape files (doesn't need to be unzipped).
 
 ``` r
 data <- read_nhgis(
@@ -130,9 +130,22 @@ raster::plot(data)
 
 ![](README-unnamed-chunk-7-1.png)
 
+``` r
+
+# Or can read multiple rasters into a list
+data <- read_terra_raster_list(
+  mpc_root("personal/gfellis/ipumsimport_examples/terra_raster/2552_bundle.zip"),
+  verbose = FALSE
+)
+
+names(data) %>% head()
+#> [1] "PASTURE2000ZM2013"  "PASTURE2000CH2013"  "CROPLAND2000ZM2013"
+#> [4] "CROPLAND2000CH2013" "LCDECIDOPZM2013"    "LCDECIDOPCH2013"
+```
+
 ### Terrapop - Area level data
 
-Relies on zip file from extract (with boundary files for maps)
+Relies on usual extract (with boundary files for maps) either zipped or unzipped
 
 ``` r
 data <- read_terra_area(
@@ -140,12 +153,51 @@ data <- read_terra_area(
   verbose = FALSE
 )
 
+var_label <- ip_var_label(data, EDUCTERTIARY_GEO1_BR_BR2010A)
+var_label
+#> [1] "Percent of persons age 25+ who completed tertiary education (Percentage)"
+
 ggplot(data) +
-  geom_sf(aes(fill = EDUCTERTIARY_GEO1_BR_BR2010A))
+  geom_sf(aes(fill = EDUCTERTIARY_GEO1_BR_BR2010A)) + 
+  scale_fill_continuous("") + 
+  ggtitle("Brazil 2010", subtitle = var_label)
 ```
 
 ![](README-unnamed-chunk-8-1.png)
 
+``` r
+data <- read_terra_area(
+  mpc_root("personal/gfellis/ipumsimport_examples/terra_area/2644_bundle.zip"),
+  data_layer = "DZ",
+  verbose = FALSE
+)
+
+data
+#> Simple feature collection with 48 features and 5 fields
+#> geometry type:  MULTIPOLYGON
+#> dimension:      XY
+#> bbox:           xmin: -8.673868 ymin: 18.96003 xmax: 11.98891 ymax: 37.09514
+#> epsg (SRID):    4326
+#> proj4string:    +proj=longlat +datum=WGS84 +no_defs
+#> # A tibble: 48 x 6
+#>             LABEL GEOID TOTPOP_DZ_FLAD_DZ08_TP
+#>             <chr> <dbl>                  <dbl>
+#>  1 Oum el Bouaghi   374                 621611
+#>  2          Jijel   363                 636950
+#>  3         Illizi   362                  52332
+#>  4       Relizane   375                 726180
+#>  5 Sidi Bel Abbès   378                 604745
+#>  6          Sétif   377                1489985
+#>  7          Saïda   376                 330642
+#>  8         Guelma   361                 482427
+#>  9         Annaba   345                 609499
+#> 10          Alger   344                2988146
+#> # ... with 38 more rows, and 3 more variables:
+#> #   FIGHAR_total_area_areal_DZ_FLAD_GLICROPS <dbl>,
+#> #   FIGHAR_percent_area_areal_DZ_FLAD_GLICROPS <dbl>, geometry <S3:
+#> #   sfc_MULTIPOLYGON>
+```
+
 ### Terrapop - Microlevel data
 
-Relies on zip file from extract (with boundary files for maps) This file is huge, so won't run on a local machine, but I need IT's help getting some dependcies set-up to run this on the mpcstats servers.
+Relies on usual extract file (with boundary files for maps) either zipped or unzipped This file is huge, so won't run on a local machine, but I need IT's help getting some dependcies set-up to run this on the mpcstats servers.

@@ -56,7 +56,7 @@ table(as_factor(data$TCIG100, levels = "both"))
 ```
 
 ### NHGIS ###
-Relies on user downloading the csv file (with header row) and shape files.
+Relies on user downloading the csv file (with or without header row) and shape files (doesn't need to be unzipped).
 ```{r}
 data <- read_nhgis(
   mpc_root("personal/gfellis/ipumsimport_examples/nhgis/nhgis0005_csv.zip"),
@@ -83,22 +83,50 @@ data <- read_terra_raster(
 )
 
 raster::plot(data)
+
+# Or can read multiple rasters into a list
+data <- read_terra_raster_list(
+  mpc_root("personal/gfellis/ipumsimport_examples/terra_raster/2552_bundle.zip"),
+  verbose = FALSE
+)
+
+names(data) %>% head()
+
 ```
 
 ### Terrapop - Area level data ###
-Relies on zip file from extract (with boundary files for maps)
+Relies on usual extract (with boundary files for maps) either zipped or unzipped
 ```{r}
 data <- read_terra_area(
   mpc_root("personal/gfellis/ipumsimport_examples/terra_area/2553_bundle.zip"),
   verbose = FALSE
 )
 
+var_label <- ip_var_label(data, EDUCTERTIARY_GEO1_BR_BR2010A)
+var_label
+
 ggplot(data) +
-  geom_sf(aes(fill = EDUCTERTIARY_GEO1_BR_BR2010A))
+  geom_sf(aes(fill = EDUCTERTIARY_GEO1_BR_BR2010A)) + 
+  scale_fill_continuous("") + 
+  ggtitle("Brazil 2010", subtitle = var_label)
+```
+
+Can specify which data to use if there are multiple countries in your extract
+```{r}
+ip_list_files(mpc_root("personal/gfellis/ipumsimport_examples/terra_area/2644_bundle.zip"))
+
+data <- read_terra_area(
+  mpc_root("personal/gfellis/ipumsimport_examples/terra_area/2644_bundle.zip"),
+  data_layer = "DZ",
+  verbose = FALSE
+)
+
+data
+
 ```
 
 ### Terrapop - Microlevel data ###
-Relies on zip file from extract (with boundary files for maps)
+Relies on usual extract file (with boundary files for maps) either zipped or unzipped
 This file is huge, so won't run on a local machine, but I need IT's help getting some
 dependcies set-up to run this on the mpcstats servers.
 
