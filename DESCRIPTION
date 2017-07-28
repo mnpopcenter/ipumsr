@@ -14,12 +14,13 @@ Imports:
     raster,
     readr,
     rlang,
-    sf,
     stringr,
     tibble,
     tidyr,
-    xml2,
+    xml2
 RoxygenNote: 6.0.1
-Suggests: knitr,
-    rmarkdown
+Suggests: 
+    knitr,
+    rmarkdown,
+    sf
 VignetteBuilder: knitr
