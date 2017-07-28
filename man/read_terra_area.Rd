@@ -5,7 +5,7 @@
 \title{Read data from an IPUMS Terra area extract}
 \usage{
 read_terra_area(data_file, ddi_file = NULL, shape_file = NULL,
-  data_layer = NULL, shape_layer = NULL, verbose = TRUE)
+  data_layer = NULL, shape_layer = data_layer, verbose = TRUE)
 }
 \arguments{
 \item{data_file}{Path to the data file, which can either be the .zip file directly
@@ -22,7 +22,7 @@ to indicate not to load the shape file.}
 which .csv data layer to load.}
 
 \item{shape_layer}{If data_file is an extract with multiple shape files, a regular expression
-indicating which shape layer to load.}
+indicating which shape layer to load. (Defaults to using the same as the data_layer)}
 
 \item{verbose}{Logical, indicating whether to print progress information
 to console.}

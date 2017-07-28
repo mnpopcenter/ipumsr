@@ -28,6 +28,31 @@ find_files_in_zip <- function(file, name_ext = NULL, name_regex = NULL, multiple
 }
 
 
+set_ipums_var_attributes <- function(data, var_info, set_imp_decim = TRUE) {
+  # from csv decims are explicit but DDI might say otherwise, so
+  # wipe out that column if it exists
+  if (!set_imp_decim) var_info$imp_decim <- NULL
+
+  purrr::pwalk(var_info, function(var_name, ...) {
+    x <- list(...)
+    if (!is.null(x$val_label) && nrow(x$val_label) > 0) {
+      lbls <- purrr::set_names(x$val_label$val, x$val_label$lbl)
+      data[[var_name]] <<- haven::labelled(data[[var_name]], lbls)
+    }
+    if (!is.null(x$var_label)) {
+      data[[var_name]] <<- rlang::set_attrs(data[[var_name]], label = x$var_label)
+    }
+    if (!is.null(x$var_label_long)) {
+      data[[var_name]] <<- rlang::set_attrs(data[[var_name]], label_long = x$var_label_long)
+    }
+    if (!is.null(x$imp_decim) && is.numeric(data[[var_name]])) {
+      data[[var_name]] <<- data[[var_name]] / (10 ^ x$imp_decim)
+    }
+  })
+  data
+}
+
+
 load_sf_namespace <- function() {
   if (!requireNamespace("sf", quietly = TRUE)) {
     stop(paste0(

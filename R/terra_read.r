@@ -88,7 +88,7 @@ read_terra_raster_internal <- function(data_file, data_layer, verbose, multiple_
 #' @param data_layer If data_file is an extract with multiple csvs, a regular expression indicating
 #'   which .csv data layer to load.
 #' @param shape_layer If data_file is an extract with multiple shape files, a regular expression
-#'   indicating which shape layer to load.
+#'   indicating which shape layer to load. (Defaults to using the same as the data_layer)
 #' @param verbose Logical, indicating whether to print progress information
 #'   to console.
 #' @examples
@@ -102,14 +102,14 @@ read_terra_area <- function(
   ddi_file = NULL,
   shape_file = NULL,
   data_layer = NULL,
-  shape_layer = NULL,
+  shape_layer = data_layer,
   verbose = TRUE
 ) {
   data_is_zip <- stringr::str_sub(data_file, -4) == ".zip"
 
   # Try to read DDI for license info ----
   if (data_is_zip & is.null(ddi_file)) {
-    ddi <- read_ddi(data_file)
+    ddi <- read_ddi(data_file) # Don't pass in `data_layer` bc only 1 ddi/area extract
   } else if (!is.null(ddi_file)) {
     ddi <- read_ddi(ddi_file)
   } else {
@@ -250,18 +250,7 @@ read_terra_micro <- function(
   # Add var labels and value labels from DDI, if available
   if (!is.null(ddi$var_info)) {
     all_vars <- ddi$var_info
-    purrr::walk2(all_vars$var_name, all_vars$val_label, function(var, lbls) {
-      if (nrow(lbls) == 0) return(var)
-      data[[var]] <<- haven::labelled(data[[var]], purrr::set_names(lbls$val, lbls$lbl))
-    })
-    purrr::walk2(
-      all_vars$var_name, all_vars$var_label, function(.x, .y) {
-        data[[.x]] <<- rlang::set_attrs(data[[.x]], label = .y)
-      })
-    purrr::walk2(
-      all_vars$var_name, all_vars$var_label_long, function(.x, .y) {
-        data[[.x]] <<- rlang::set_attrs(data[[.x]], label_long = .y)
-      })
+    data <- set_ipums_var_attributes(ddi$var_info, set_imp_decim = FALSE)
   }
 
   # Try to read shape file ----

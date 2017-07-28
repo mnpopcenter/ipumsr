@@ -208,12 +208,6 @@ read_ipums_hier <- function(ddi, vars, n_max, data_file, verbose) {
       "character" = rep(NA_character_, nlines)
       )
   })
-  out <- purrr::map2(out, all_vars$val_label, function(var, lbls) {
-      if (nrow(lbls) == 0) return(var)
-      haven::labelled(var, purrr::set_names(lbls$val, lbls$lbl))
-    })
-  out <- purrr::map2(out, all_vars$var_label, ~rlang::set_attrs(.x, label = .y))
-  out <- purrr::map2(out, all_vars$var_label_long, ~rlang::set_attrs(.x, label_long = .y))
   out <- purrr::set_names(out, all_vars$var_name)
   out <- tibble::as.tibble(out)
 
@@ -230,11 +224,11 @@ read_ipums_hier <- function(ddi, vars, n_max, data_file, verbose) {
     var_data <- stringr::str_sub(lines[rec_index[[rectypes]]], start, end)
     if (var_type == "numeric") {
       var_data <- as.numeric(var_data)
-      var_data <- var_data / (10 ^ imp_decim)
     }
     out[rec_index[[rectypes]], var_name] <<- var_data
   })
 
+  out <- set_ipums_var_attributes(out, all_vars)
   out
 }
 
@@ -254,24 +248,7 @@ read_ipums_rect <- function(ddi, vars, n_max, data_file, verbose) {
   )
 
   out <- readr::read_fwf(data_file, col_positions, col_types, n_max = n_max)
-
-  purrr::pwalk(
-    all_vars,
-    function(var_name, imp_decim, var_label, var_label_long, val_label, ...) {
-      if (imp_decim > 0) out[[var_name]] <<- out[[var_name]] / (10 ^ imp_decim)
-      if (nrow(val_label) > 0) {
-        out[[var_name]] <<- haven::labelled(
-          out[[var_name]],
-          purrr::set_names(val_label$val, val_label$lbl)
-        )
-      }
-      out[[var_name]] <<- rlang::set_attrs(
-        out[[var_name]],
-        label = var_label,
-        label_long = var_label_long
-      )
-    }
-  )
+  out <- set_ipums_var_attributes(out, all_vars)
 
   out
 }

@@ -79,11 +79,7 @@ read_nhgis <- function(
     data <- sf::st_as_sf(tibble::as_tibble(data))
   }
 
-  # Add variable labels
-  purrr::pwalk(cb_ddi_info$var_info, function(var_name, var_label, var_label_long,...) {
-    attr(data[[var_name]], "label") <<- var_label
-    attr(data[[var_name]], "label_long") <<- var_label_long
-  })
+  data <- set_ipums_var_attributes(data, cb_ddi_info$var_info, FALSE)
 
   data
 }
