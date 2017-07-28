@@ -1,11 +1,11 @@
 #' Read data from an IPUMS Terra raster extract
 #'
 #' Read a single raster datasets downloaded from the IPUMS Terra extract system using
-#' \code{read_terra_raster}, or read multiple into a list using \code{read_terra_rasters}.
+#' \code{read_terra_raster}, or read multiple into a list using \code{read_terra_raster_list}.
 #'
 #' @return
 #'   For \code{read_terra_raster} A \code{\link[raster]{raster}} object, for
-#'   \code{read_terra_rasters} A list of raster objects.
+#'   \code{read_terra_raster_list} A list of raster objects.
 #' @param data_file Filepath to the data (either the .zip file directly downloaded
 #'   from the webiste, or the path to the unzipped .tiff file(s)).
 #' @param data_layer A regular expression identifying the data layers to
@@ -15,7 +15,7 @@
 #' @examples
 #' \dontrun{
 #' data <- read_terra_raster("2552_bundle.zip", "LCDECIDOPZM2013.tiff")
-#' data <- read_terra_rasters("2552_bundle.zip", "ZM")
+#' data <- read_terra_raster_list("2552_bundle.zip", "ZM")
 #' }
 #' @family ipums_read
 #' @export
@@ -29,7 +29,7 @@ read_terra_raster <- function(
 
 #' @export
 #' @rdname read_terra_raster
-read_terra_rasters <- function(
+read_terra_raster_list <- function(
   data_file,
   data_layer = NULL,
   verbose = TRUE
@@ -139,6 +139,7 @@ read_terra_area <- function(
   if (rlang::is_false(shape_file) | (!data_is_zip & is.null(shape_file))) {
     out <- data
   } else {
+    if (!requireNamespace("sf", quietly = TRUE)) sf_error()
     if (is.null(shape_file)) shape_file <- data_file
     shape_data <- read_ipums_sf(shape_file, shape_layer)
 

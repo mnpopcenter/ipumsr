@@ -2,12 +2,12 @@
 % Please edit documentation in R/terra_read.r
 \name{read_terra_raster}
 \alias{read_terra_raster}
-\alias{read_terra_rasters}
+\alias{read_terra_raster_list}
 \title{Read data from an IPUMS Terra raster extract}
 \usage{
 read_terra_raster(data_file, data_layer = NULL, verbose = TRUE)
 
-read_terra_rasters(data_file, data_layer = NULL, verbose = TRUE)
+read_terra_raster_list(data_file, data_layer = NULL, verbose = TRUE)
 }
 \arguments{
 \item{data_file}{Filepath to the data (either the .zip file directly downloaded
@@ -21,16 +21,16 @@ to console.}
 }
 \value{
 For \code{read_terra_raster} A \code{\link[raster]{raster}} object, for
-  \code{read_terra_rasters} A list of raster objects.
+  \code{read_terra_raster_list} A list of raster objects.
 }
 \description{
 Read a single raster datasets downloaded from the IPUMS Terra extract system using
-\code{read_terra_raster}, or read multiple into a list using \code{read_terra_rasters}.
+\code{read_terra_raster}, or read multiple into a list using \code{read_terra_raster_list}.
 }
 \examples{
 \dontrun{
 data <- read_terra_raster("2552_bundle.zip", "LCDECIDOPZM2013.tiff")
-data <- read_terra_rasters("2552_bundle.zip", "ZM")
+data <- read_terra_raster_list("2552_bundle.zip", "ZM")
 }
 }
 \seealso{
