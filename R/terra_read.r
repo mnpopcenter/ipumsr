@@ -54,12 +54,14 @@ read_terra_raster_internal <- function(data_file, data_layer, verbose, multiple_
         out <- raster::raster(file.path(raster_temp, tiff_names))
       } else {
         out <- purrr::map(tiff_names, ~raster::raster(file.path(raster_temp, .)))
+        out <- purrr::set_names(out, stringr::str_sub(tiff_names, 1, -6))
       }
     } else {
       if (!multiple_ok) {
         out <- raster::raster(data_file)
       } else {
         out <- purrr::map(data_file, raster::raster)
+        out <- purrr::set_names(out, stringr::str_sub(data_file, 1, -6))
       }
     }
 
