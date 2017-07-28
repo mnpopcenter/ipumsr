@@ -45,7 +45,7 @@ read_terra_raster_internal <- function(data_file, data_layer, verbose, multiple_
   # Read data files ----
     data_is_zip <- stringr::str_sub(data_file, -4) == ".zip"
     if (data_is_zip) {
-      tiff_names <- find_files_in_zip(data_file, "tiff", data_layer, multiple_ok)
+      tiff_names <- find_files_in_zip(data_file, "tiff", data_layer, multiple_ok = multiple_ok)
 
       raster_temp <- tempfile()
       utils::unzip(data_file, tiff_names, exdir = raster_temp)

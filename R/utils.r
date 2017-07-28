@@ -9,11 +9,15 @@ select_var_rows <- function(df, vars, filter_var = "var_name") {
 }
 
 
-find_files_in_zip <- function(file, name_ext = NULL, name_regex = NULL, multiple_ok = FALSE) {
+find_files_in_zip <- function(
+  file,
+  name_ext = NULL,
+  name_regex = NULL,
+  multiple_ok = FALSE
+) {
   file_names <- utils::unzip(file, list = TRUE)$Name
 
   if (!is.null(name_ext)) file_names <- stringr::str_subset(file_names, paste0("\\.", name_ext, "$"))
-
   if (!is.null(name_regex)) file_names <- stringr::str_subset(file_names, name_regex)
 
   if (!multiple_ok && length(file_names) > 1) {
@@ -31,6 +35,7 @@ find_files_in_zip <- function(file, name_ext = NULL, name_regex = NULL, multiple
 set_ipums_var_attributes <- function(data, var_info, set_imp_decim = TRUE) {
   # from csv decims are explicit but DDI might say otherwise, so
   # wipe out that column if it exists
+  if (is.null(var_info)) return(data)
   if (!set_imp_decim) var_info$imp_decim <- NULL
 
   purrr::pwalk(var_info, function(var_name, ...) {

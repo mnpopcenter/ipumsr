@@ -11,7 +11,7 @@
 #' \dontrun{
 #' metadata <- read_ddi("cps_00001.xml")
 #' }
-#' @family ipums_read
+#' @family ipums_metadata
 #' @export
 read_ddi <- function(ddi_file, data_layer = NULL) {
   if (stringr::str_sub(ddi_file, -4) == ".zip") {
@@ -130,10 +130,11 @@ read_ddi <- function(ddi_file, data_layer = NULL) {
 }
 
 
-#' Read metadata from a text codebook in a NHGIS extract
+#' Read metadata from a text codebook in a NHGIS or Terra area-level extract
 #'
-#' Reads a codebook downloaded from the NHGIS extract system and formats it
-#' analagously to metadata read from a DDI.
+#' Read text formatted codebooks provided by some IPUMS extract systems such as
+#' NHGIS and Terra Area-level extracts in a format analagous to the DDI's
+#' available for other projects.
 #'
 #' @return
 #'   A \code{ip_ddi} object with information on the variables included in the
@@ -144,14 +145,26 @@ read_ddi <- function(ddi_file, data_layer = NULL) {
 #'   load. Required for reading from .zip files for extracts with multiple files.
 #' @examples
 #' \dontrun{
-#' data <- read_nhgis_codebook("nhgis0001_csv.zip")
+#' data <- read_ipums_codebook("nhgis0001_csv.zip")
 #' }
-#' @family ipums_read
+#' @family ipums_metadata
 #' @export
-read_nhgis_codebook <- function(cb_file, data_layer = NULL) {
+read_ipums_codebook <- function(cb_file, data_layer = NULL) {
   if (stringr::str_sub(cb_file, -4) == ".zip") {
 
-    cb_name <- find_files_in_zip(cb_file, "txt", data_layer)
+    cb_name <- find_files_in_zip(cb_file, "txt", multiple_ok = TRUE)
+    # There are 2 formats for extracts, so we have to do some work here.
+    # IPUMS Terra always(?) has 2 text files, one is a codebook for all files
+    # in the extract and another with a name that ends in "info.txt" and
+    # isn't useful
+    if (length(cb_name) > 1) {
+      # First try to get rid of the "info" txt
+      cb_name <- cb_name[!stringr::str_detect(cb_name, "info\\.txt$")]
+
+      # If we still have multiple, then we should try to use the data_layer filter
+      # because we're probably in a NHGIS extract
+      if (length(cb_name) > 1) cb_name <- find_files_in_zip(cb_file, "txt", data_layer)
+    }
     if (length(cb_name) == 1) cb <- readr::read_lines(unz(cb_file, cb_name)) else NULL
   } else {
     cb_name <- cb_file
@@ -159,53 +172,76 @@ read_nhgis_codebook <- function(cb_file, data_layer = NULL) {
   }
 
   if (is.null(cb)) {
-    stop("Could not find NHGIS codebook.")
+    stop("Could not find text codebook.")
   }
+  # Section markers are a line full of dashes (setting to 5+ to eliminate false positives)
+  section_markers <- which(stringr::str_detect(cb, "^[-]{5,}+$"))
+
+  # Second line tells if it is NHGIS or IPUMS Terra codebook
+  if (stringr::str_detect(cb[2], "IPUMS Terra")) type <- "Terra"
+  else if (stringr::str_detect(cb[2], "NHGIS")) type <- "NHGIS"
+  else stop("Unknown codebook format.")
 
   # Get table names (var_label_long) and variable labels (var_label)
   # from data dictionary section using messy string parsing code
-  dd_start <- which(
-    dplyr::lag(stringr::str_detect(cb, "^[-]+$"), 2) &
-      dplyr::lag(cb == "Data Dictionary", 1) &
-      stringr::str_detect(cb, "^[-]+$")
-  )
-  dd_end <- which(
-    dplyr::lead(stringr::str_detect(cb, "^[-]+$"), 1) &
-      dplyr::lead(cb == "Citation and Use of NHGIS Data", 2) &
-      dplyr::lead(stringr::str_detect(cb, "^[-]+$"), 3)
-  )
-  dd <- cb[seq(dd_start, dd_end)]
+  dd <- find_cb_section(cb, "^Data Dictionary$", section_markers)
 
-  context_rows <- seq(
-    which(dd == "Context Fields ") + 1,
-    which(stringr::str_detect(dd, "^Table 1:")) - 1
-  )
-  context_vars <- dd[context_rows]
-  context_vars <- stringr::str_match(context_vars, "([:alnum:]+):[:blank:]+(.+)$")
-  context_vars <- tibble::data_frame(
-    var_name = context_vars[, 2],
-    var_label = context_vars[, 3],
-    var_label_long = ""
-  )
-  context_vars <- context_vars[!is.na(context_vars$var_name), ]
+  if (type == "Terra") {
+    data_file_rows <- which(stringr::str_detect(dd, "^Data File:"))
+    data_file_sections <- purrr::map2(data_file_rows, c(data_file_rows[-1], length(dd)), ~seq(.x + 1, .y - 1))
+    data_file_names <- stringr::str_match(dd[data_file_rows], "Data File: (.+)")[, 2]
 
-  table_name_rows <- which(stringr::str_detect(dd, "^Table [0-9]+:"))
-  table_sections <- purrr::map2(table_name_rows, c(table_name_rows[-1], length(dd)), ~seq(.x, .y - 1))
-
-  table_vars <- purrr::map_df(table_sections, function(rows) {
-    table_name <- stringr::str_match(dd[rows[1]], "^Table [0-9]+:[:blank:]+(.+)$")[, 2]
-    nhgis_table_code <- stringr::str_match(dd[rows[4]], "^NHGIS code:[:blank:]+(.+)$")[, 2]
-    vars <- stringr::str_match(dd[rows[-1:-4]], "([:alnum:]+):[:blank:]+(.+)$")
-    vars <- vars[!is.na(vars[, 2]), ]
-    dplyr::data_frame(
-      var_name = vars[, 2],
-      var_label = vars[, 3],
-      var_label_long = paste0(table_name, " (", nhgis_table_code, ")")
+    # Only get var info from file you're downloading (specfied in data_layer)
+    if (is.null(data_layer)) {
+      this_file <- seq_along(data_file_names)
+    } else {
+      this_file <- which(stringr::str_detect(data_file_names, data_layer))
+    }
+    if (length(this_file) > 1) {
+      stop("Multiple codebooks found, please specify which to use with the `data_layer` argument")
+    }
+    var_info <- dd[data_file_sections[[this_file]]]
+    var_info <- stringr::str_match(var_info, "([:alnum:]+):[:blank:]+(.+)$")
+    var_info <- tibble::data_frame(
+      var_name = var_info[, 2],
+      var_label = var_info[, 3],
+      var_label_long = ""
     )
-  })
+    var_info <- var_info[!is.na(var_info$var_name), ]
+  } else if (type == "NHGIS") {
+    context_rows <- seq(
+      which(dd == "Context Fields ") + 1,
+      which(stringr::str_detect(dd, "^Table 1:")) - 1
+    )
+    context_vars <- dd[context_rows]
+    context_vars <- stringr::str_match(context_vars, "([:alnum:]+):[:blank:]+(.+)$")
+    context_vars <- tibble::data_frame(
+      var_name = context_vars[, 2],
+      var_label = context_vars[, 3],
+      var_label_long = ""
+    )
+    context_vars <- context_vars[!is.na(context_vars$var_name), ]
 
-  # License and conditions is after data dictionary section
-  conditions_text <- paste(cb[seq(dd_end + 4, length(cb))], collapse = "\n")
+    table_name_rows <- which(stringr::str_detect(dd, "^Table [0-9]+:"))
+    table_sections <- purrr::map2(table_name_rows, c(table_name_rows[-1], length(dd)), ~seq(.x, .y - 1))
+
+    table_vars <- purrr::map_df(table_sections, function(rows) {
+      table_name <- stringr::str_match(dd[rows[1]], "^Table [0-9]+:[:blank:]+(.+)$")[, 2]
+      nhgis_table_code <- stringr::str_match(dd[rows[4]], "^NHGIS code:[:blank:]+(.+)$")[, 2]
+      vars <- stringr::str_match(dd[rows[-1:-4]], "([:alnum:]+):[:blank:]+(.+)$")
+      vars <- vars[!is.na(vars[, 2]), ]
+      dplyr::data_frame(
+        var_name = vars[, 2],
+        var_label = vars[, 3],
+        var_label_long = paste0(table_name, " (", nhgis_table_code, ")")
+      )
+    })
+    var_info <- dplyr::bind_rows(context_vars, table_vars)
+  }
+
+  # Get License and Condition section
+  conditions_text <- find_cb_section(cb, "^Citation and Use of .+ Data", section_markers)
+  conditions_text <- paste(conditions_text, collapse = "\n")
 
 
   out <- list(
@@ -214,8 +250,19 @@ read_nhgis_codebook <- function(cb_file, data_layer = NULL) {
     file_type = "rectangular",
     rec_types = NULL,
     rectype_idvar = NULL,
-    var_info = dplyr::bind_rows(context_vars, table_vars),
+    var_info = var_info,
     conditions = conditions_text,
     license = NULL
   )
+  class(out) <- "ipums_ddi"
+  out
+}
+
+
+find_cb_section <- function(cb_text, section, section_markers) {
+  start <- which(stringr::str_detect(cb_text, section))
+  start <- start[start - 1 %in% section_markers & start + 1 %in% section_markers] + 2
+
+  end <- min(c(length(cb_text), section_markers[section_markers > start])) - 1
+  cb_text[seq(start, end)]
 }

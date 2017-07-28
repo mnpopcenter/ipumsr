@@ -33,7 +33,7 @@ ip_list_files <- function(file, types = NULL, data_layer = NULL,
 ip_list_data_files <- function(file, data_layer = NULL) {
   if (!file_is_zip(file)) stop("File must be a .zip file")
   tibble::data_frame(
-    file = find_files_in_zip(file, "(dat|csv)(\\.gz)?", data_layer, TRUE)
+    file = find_files_in_zip(file, "(dat|csv)(\\.gz)?", data_layer, multiple_ok = TRUE)
   )
 }
 
@@ -42,7 +42,7 @@ ip_list_data_files <- function(file, data_layer = NULL) {
 ip_list_shape_files <- function(file, shape_layer = NULL) {
   if (!file_is_zip(file)) stop("File must be a .zip file")
   tibble::data_frame(
-    file = find_files_in_zip(file, "(zip|shp)", shape_layer, TRUE)
+    file = find_files_in_zip(file, "(zip|shp)", shape_layer, multiple_ok = TRUE)
   )
 }
 
@@ -51,7 +51,7 @@ ip_list_shape_files <- function(file, shape_layer = NULL) {
 ip_list_raster_files <- function(file, raster_layer = NULL) {
   if (!file_is_zip(file)) stop("File must be a .zip file")
   tibble::data_frame(
-    file = find_files_in_zip(file, "tiff", raster_layer, TRUE)
+    file = find_files_in_zip(file, "tiff", raster_layer, multiple_ok = TRUE)
   )
 }
 

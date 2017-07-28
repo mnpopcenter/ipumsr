@@ -38,9 +38,7 @@ data <- read_micro("cps_00001.xml")
 }
 }
 \seealso{
-Other ipums_read: \code{\link{read_ddi}},
-  \code{\link{read_ipums_sf}},
-  \code{\link{read_nhgis_codebook}},
+Other ipums_read: \code{\link{read_ipums_sf}},
   \code{\link{read_nhgis}}, \code{\link{read_terra_area}},
   \code{\link{read_terra_micro}},
   \code{\link{read_terra_raster}}
