@@ -73,9 +73,13 @@ read_nhgis <- function(
     join_vars <- intersect(names(data), names(sf_data))
     join_vars <- stringr::str_subset(join_vars, "GISJOIN.*")
 
-    # Drop the overlapping columns from the shape file
-    data <- dplyr::full_join(sf_data, data, by = join_vars, suffix = c("_shape", ""))
-    data <- dplyr::select(data, -dplyr::ends_with("_shape"))
+    # Drop overlapping vars besides join var from shape file
+    drop_vars <- dplyr::intersect(names(data), names(sf_data))
+    drop_vars <- dplyr::setdiff(drop_vars, join_vars)
+    sf_data <- dplyr::select(sf_data, -one_of(drop_vars))
+
+    # Coerce to data.frame to avoid sf#414 (fixed in development version of sf)
+    data <- dplyr::full_join(as.data.frame(sf_data), as.data.frame(data), by = join_vars)
     data <- sf::st_as_sf(tibble::as_tibble(data))
   }
 
