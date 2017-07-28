@@ -61,3 +61,7 @@ load_sf_namespace <- function() {
     ))
   }
 }
+
+file_is_zip <- function(file) {
+  stringr::str_sub(file, -4) == ".zip"
+}
