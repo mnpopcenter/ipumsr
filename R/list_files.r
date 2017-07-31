@@ -5,13 +5,19 @@
 #' @param file An IPUMS extract zip file
 #' @param types One or more of "data", "shape", or "raster" indicating
 #'   what type of files to look for.
-#' @param data_layer A regex filter for data files to look for
-#' @param shape_layer A regex filter for shape files to look for
-#' @param raster_layer A regex filter for raster files to look for
+#' @param data_layer dplyr \code{\link[dplyr]{select}}-stlye notation for the data
+#'   files to look for
+#' @param shape_layer dplyr \code{\link[dplyr]{select}}-stlye notation for the
+#'   shape files to look for
+#' @param raster_layer dplyr \code{\link[dplyr]{select}}-stlye notation for the
+#'   raster files to look for
 #' @export
 ipums_list_files <- function(file, types = NULL, data_layer = NULL,
                           shape_layer = NULL, raster_layer = NULL) {
   if (!file_is_zip(file)) stop("File must be a .zip file")
+  data_layer <- enquo(data_layer)
+  shape_layer <- enquo(shape_layer)
+  raster_layer <- enquo(raster_layer)
 
   if (is.null(types) | "data" %in% types) {
     data_files <- ipums_list_data(file, data_layer)

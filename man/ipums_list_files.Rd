@@ -22,11 +22,14 @@ ipums_list_raster(file, raster_layer = NULL)
 \item{types}{One or more of "data", "shape", or "raster" indicating
 what type of files to look for.}
 
-\item{data_layer}{A regex filter for data files to look for}
+\item{data_layer}{dplyr \code{\link[dplyr]{select}}-stlye notation for the data
+files to look for}
 
-\item{shape_layer}{A regex filter for shape files to look for}
+\item{shape_layer}{dplyr \code{\link[dplyr]{select}}-stlye notation for the
+shape files to look for}
 
-\item{raster_layer}{A regex filter for raster files to look for}
+\item{raster_layer}{dplyr \code{\link[dplyr]{select}}-stlye notation for the
+raster files to look for}
 }
 \description{
 Find which files can be loaded from an IPUMS extract zip file.

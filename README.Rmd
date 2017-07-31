@@ -61,8 +61,7 @@ Relies on user downloading the csv file (with or without header row) and shape f
 data <- read_nhgis(
   mpc_root("personal/gfellis/ipumsimport_examples/nhgis/nhgis0005_csv.zip"),
   mpc_root("personal/gfellis/ipumsimport_examples/nhgis/nhgis0005_shape.zip"),
-  "state",
-  "state",
+  matches("state"),
   verbose = FALSE
 )
 
@@ -112,7 +111,7 @@ Relies on zip file from extract (left as-is or unzipped)
 ```{r}
 data <- read_terra_raster(
   mpc_root("personal/gfellis/ipumsimport_examples/terra_raster/2552_bundle.zip"),
-  "CROPLAND2000ZM2013",
+  "CROPLAND2000ZM2013.tiff",
   verbose = FALSE
 )
 
@@ -152,7 +151,7 @@ ipums_list_files(mpc_root("personal/gfellis/ipumsimport_examples/terra_area/2644
 
 data <- read_terra_area(
   mpc_root("personal/gfellis/ipumsimport_examples/terra_area/2644_bundle.zip"),
-  data_layer = "DZ",
+  data_layer = matches("DZ"),
   verbose = FALSE
 )
 

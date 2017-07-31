@@ -9,8 +9,9 @@ read_ddi(ddi_file, data_layer = NULL)
 \arguments{
 \item{ddi_file}{Filepath to DDI xml file}
 
-\item{data_layer}{If dadi_file is an extract with multiple DDIs, a regular expression indicating
-which .xml data layer to load.}
+\item{data_layer}{If ddi_file is an extract with multiple DDIs, dplyr
+\code{\link[dplyr]{select}}-stlye notation indicating which .xml data
+layer to load.}
 }
 \description{
 Reads the metadata about an IPUMS extract from a DDI file into R.

@@ -18,11 +18,11 @@ provides usage and ciation information for extract.}
 representing the the shape file. If only the data table is needed, can be set to FALSE
 to indicate not to load the shape file.}
 
-\item{data_layer}{If data_file is an extract with multiple csvs, a regular expression indicating
-which .csv data layer to load.}
+\item{data_layer}{If data_file is an extract with multiple csvs, dplyr
+\code{\link[dplyr]{select}}-stlye notation.}
 
-\item{shape_layer}{If data_file is an extract with multiple shape files, a regular expression
-indicating which shape layer to load.}
+\item{shape_layer}{If data_file is an extract with multiple shape files, dplyr
+\code{\link[dplyr]{select}}-stlye notation}
 
 \item{verbose}{Logical, indicating whether to print progress information
 to console.}

@@ -11,13 +11,14 @@
 #' @param shape_file (Optional) filepath to the shape files (either the .zip
 #'   file directly downloaded from the webiste, or the path to the unzipped
 #'   files).
-#' @param data_layer A regular expression uniquely identifying the data layer to
-#'   load. Required for reading from .zip files for extracts with multiple files.
-#' @param shape_layer (Defaults to using the same value as data_layer) A regular
-#'   expression uniquely identifying the shape layer to load. Required for
-#'   reading from .zip files for extracts with multiple files.
-#' @param verbose Logical, indicating whether to print progress information
-#'   to console.
+#' @param data_layerdplyr \code{\link[dplyr]{select}}-stlye notation identifying
+#'   the data layer to load. Required for reading from .zip files for extracts
+#'   with multiple files.
+#' @param shape_layer (Defaults to using the same value as data_layer) dplyr
+#'   \code{\link[dplyr]{select}}-stlye notation identifying the shape layer to
+#'   load. Can load multiple shape files, which will be combined.
+#' @param verbose Logical, indicating whether to print progress information to
+#'   console.
 #' @examples
 #' \dontrun{
 #' data <- read_nhgis("nhgis0001_csv.zip", "nhgis0001_shp.zip")
@@ -31,11 +32,14 @@ read_nhgis <- function(
   shape_layer = data_layer,
   verbose = TRUE
 ) {
+  data_layer <- enquo(data_layer)
+  shape_layer <- enquo(shape_layer)
+  if (quo_text(shape_layer) == "data_layer") shape_layer <- data_layer
   # Read data files ----
   data_is_zip <- stringr::str_sub(data_file, -4) == ".zip"
   if (data_is_zip) {
     csv_name <- find_files_in_zip(data_file, "csv", data_layer)
-    cb_ddi_info <- try(read_ipums_codebook(data_file, data_layer), silent = TRUE)
+    cb_ddi_info <- try(read_ipums_codebook(data_file, !!data_layer), silent = TRUE)
   } else {
     cb_name <- stringr::str_replace(data_file, "\\.txt$", "_codebook\\.txt")
     cb_ddi_info <- try(read_ipums_codebook(cb_name), silent = TRUE)
@@ -67,7 +71,7 @@ read_nhgis <- function(
   if (!is.null(shape_file)) {
     if (verbose) cat("Reading geography...\n")
 
-    sf_data <- read_ipums_sf(shape_file, shape_layer)
+    sf_data <- read_ipums_sf(shape_file, !!shape_layer)
 
     # Only join on vars that are in both and are called "GISJOIN*"
     join_vars <- intersect(names(data), names(sf_data))

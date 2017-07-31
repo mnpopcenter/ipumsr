@@ -24,6 +24,7 @@ read_terra_raster <- function(
   data_layer = NULL,
   verbose = TRUE
 ) {
+  data_layer <- enquo(data_layer)
   read_terra_raster_internal(data_file, data_layer, verbose, FALSE)
 }
 
@@ -34,6 +35,7 @@ read_terra_raster_list <- function(
   data_layer = NULL,
   verbose = TRUE
 ) {
+  data_layer <- enquo(data_layer)
   read_terra_raster_internal(data_file, data_layer, verbose, TRUE)
 }
 
@@ -85,10 +87,11 @@ read_terra_raster_internal <- function(data_file, data_layer, verbose, multiple_
 #' @param shape_file (Optional) If the download is unzipped, path to the .zip or .shp file
 #'   representing the the shape file. If only the data table is needed, can be set to FALSE
 #'   to indicate not to load the shape file.
-#' @param data_layer If data_file is an extract with multiple csvs, a regular expression indicating
-#'   which .csv data layer to load.
-#' @param shape_layer If data_file is an extract with multiple shape files, a regular expression
-#'   indicating which shape layer to load. (Defaults to using the same as the data_layer)
+#' @param data_layer If data_file is an extract with multiple csvs, dplyr
+#'   \code{\link[dplyr]{select}}-stlye notation indicating which file to load.
+#' @param shape_layer If data_file is an extract with multiple shape files,
+#'   dplyr \code{\link[dplyr]{select}}-stlye notation shape layer to load.
+#'   (Defaults to using the same as the data_layer)
 #' @param ddi_file (Optional) If the download is unzipped, path to the .xml file which
 #'   provides usage and ciation information for extract.
 #' @param cb_file (Optional) If the download is unzipped, path to the .txt file which
@@ -110,6 +113,10 @@ read_terra_area <- function(
   cb_file = NULL,
   verbose = TRUE
 ) {
+  data_layer <- enquo(data_layer)
+  shape_layer <- enquo(shape_layer)
+  if (quo_text(shape_layer) == "data_layer") shape_layer <- data_layer
+
   data_is_zip <- stringr::str_sub(data_file, -4) == ".zip"
 
   # Try to read DDI for license info ----
@@ -121,7 +128,7 @@ read_terra_area <- function(
 
   # Try to read codebook for var info ----
   if (data_is_zip & is.null(cb_file)) {
-    cb <- read_ipums_codebook(data_file, data_layer)
+    cb <- read_ipums_codebook(data_file, !!data_layer)
   } else if (!is.null(cb_file)) {
     cb <- read_ddi(ddi_file)
   }
@@ -167,7 +174,7 @@ read_terra_area <- function(
   } else {
     if (!requireNamespace("sf", quietly = TRUE)) sf_error()
     if (is.null(shape_file)) shape_file <- data_file
-    shape_data <- read_ipums_sf(shape_file, shape_layer)
+    shape_data <- read_ipums_sf(shape_file, !!shape_layer)
 
     # TODO: This join seems like it is fragile. Is there a better way?
     geo_vars <- unname(dplyr::select_vars(names(data), starts_with("GEO")))
@@ -206,10 +213,10 @@ read_terra_area <- function(
 #' @param shape_file (Optional) If the download is unzipped, path to the .zip or .shp file
 #'   representing the the shape file. If only the data table is needed, can be set to FALSE
 #'   to indicate not to load the shape file.
-#' @param data_layer If data_file is an extract with multiple csvs, a regular expression indicating
-#'   which .csv data layer to load.
-#' @param shape_layer If data_file is an extract with multiple shape files, a regular expression
-#'   indicating which shape layer to load.
+#' @param data_layer If data_file is an extract with multiple csvs, dplyr
+#'   \code{\link[dplyr]{select}}-stlye notation.
+#' @param shape_layer If data_file is an extract with multiple shape files, dplyr
+#'   \code{\link[dplyr]{select}}-stlye notation
 #' @param verbose Logical, indicating whether to print progress information
 #'   to console.
 #' @examples
@@ -226,11 +233,10 @@ read_terra_micro <- function(
   shape_layer = NULL,
   verbose = TRUE
 ) {
-  # Extract file names if passed a zip file
+  data_layer <- enquo(data_layer)
+  shape_layer <- enquo(shape_layer)
+
   data_is_zip <- stringr::str_sub(data_file, -4) == ".zip"
-  if (data_is_zip) {
-    data_file_names <- utils::unzip(data_file, list = TRUE)$Name
-  }
 
   # Try to read DDI for license info ----
   if (data_is_zip & is.null(ddi_file)) {
@@ -297,7 +303,7 @@ read_terra_micro <- function(
   } else {
     if (data_is_zip & is.null(shape_file)) shape_file <- data_file
 
-    shape_data <- read_ipums_sf(shape_file, shape_layer)
+    shape_data <- read_ipums_sf(shape_file, !!shape_layer)
 
     # TODO: We could join if we nested the data.frames for each geography
     geo_var <- unname(dplyr::select_vars(names(data), starts_with("GEO")))[1]

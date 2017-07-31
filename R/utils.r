@@ -12,13 +12,13 @@ select_var_rows <- function(df, vars, filter_var = "var_name") {
 find_files_in_zip <- function(
   file,
   name_ext = NULL,
-  name_regex = NULL,
+  name_select = quo(NULL),
   multiple_ok = FALSE
 ) {
   file_names <- utils::unzip(file, list = TRUE)$Name
 
   if (!is.null(name_ext)) file_names <- stringr::str_subset(file_names, paste0("\\.", name_ext, "$"))
-  if (!is.null(name_regex)) file_names <- stringr::str_subset(file_names, name_regex)
+  if (!quo_is_null(name_select)) file_names <- dplyr::select_vars(file_names, !!name_select)
 
   if (!multiple_ok && length(file_names) > 1) {
     arg_name <- deparse(substitute(name_regex))

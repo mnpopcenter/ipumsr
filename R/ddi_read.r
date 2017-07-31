@@ -5,8 +5,9 @@
 #' usage for the data and positions for the fixed-width file.
 #'
 #' @param ddi_file Filepath to DDI xml file
-#' @param data_layer If dadi_file is an extract with multiple DDIs, a regular expression indicating
-#'   which .xml data layer to load.
+#' @param data_layer If ddi_file is an extract with multiple DDIs, dplyr
+#'   \code{\link[dplyr]{select}}-stlye notation indicating which .xml data
+#'   layer to load.
 #' @examples
 #' \dontrun{
 #' metadata <- read_ddi("cps_00001.xml")
@@ -14,6 +15,7 @@
 #' @family ipums_metadata
 #' @export
 read_ddi <- function(ddi_file, data_layer = NULL) {
+  data_layer <- enquo(data_layer)
   if (stringr::str_sub(ddi_file, -4) == ".zip") {
     ddi_in_zip <- find_files_in_zip(ddi_file, "xml", data_layer)
     ddi_file_load <- unz(ddi_file, ddi_in_zip)
@@ -141,8 +143,9 @@ read_ddi <- function(ddi_file, data_layer = NULL) {
 #'   csv file of a NHGIS extract.
 #' @param cb_file Filepath to the codebook (either the .zip file directly downloaded
 #'   from the webiste, or the path to the unzipped .txt file).
-#' @param data_layer A regular expression uniquely identifying the data layer to
-#'   load. Required for reading from .zip files for extracts with multiple files.
+#' @param data_layer dplyr \code{\link[dplyr]{select}}-stlye notation for uniquely
+#'   identifying the data layer to load. Required for reading from .zip files
+#'    for extracts with multiple files.
 #' @examples
 #' \dontrun{
 #' data <- read_ipums_codebook("nhgis0001_csv.zip")
@@ -150,8 +153,8 @@ read_ddi <- function(ddi_file, data_layer = NULL) {
 #' @family ipums_metadata
 #' @export
 read_ipums_codebook <- function(cb_file, data_layer = NULL) {
+  data_layer <- enquo(data_layer)
   if (stringr::str_sub(cb_file, -4) == ".zip") {
-
     cb_name <- find_files_in_zip(cb_file, "txt", multiple_ok = TRUE)
     # There are 2 formats for extracts, so we have to do some work here.
     # IPUMS Terra always(?) has 2 text files, one is a codebook for all files
@@ -165,10 +168,18 @@ read_ipums_codebook <- function(cb_file, data_layer = NULL) {
       # because we're probably in a NHGIS extract
       if (length(cb_name) > 1) cb_name <- find_files_in_zip(cb_file, "txt", data_layer)
     }
-    if (length(cb_name) == 1) cb <- readr::read_lines(unz(cb_file, cb_name)) else NULL
+    if (length(cb_name) == 1) {
+      cb <- readr::read_lines(unz(cb_file, cb_name))
+    } else {
+      cb <- NULL
+    }
   } else {
     cb_name <- cb_file
-    if (file.exists(cb_name)) cb <- readr::read_lines(cb_name) else NULL
+    if (file.exists(cb_name)) {
+      cb <- readr::read_lines(cb_name)
+    }  else {
+      cb <- NULL
+    }
   }
 
   if (is.null(cb)) {
@@ -192,10 +203,10 @@ read_ipums_codebook <- function(cb_file, data_layer = NULL) {
     data_file_names <- stringr::str_match(dd[data_file_rows], "Data File: (.+)")[, 2]
 
     # Only get var info from file you're downloading (specfied in data_layer)
-    if (is.null(data_layer)) {
+    if (quo_is_null(data_layer)) {
       this_file <- seq_along(data_file_names)
     } else {
-      this_file <- which(stringr::str_detect(data_file_names, data_layer))
+      this_file <- which(data_file_names == dplyr::select_vars(data_file_names, !!data_layer))
     }
     if (length(this_file) > 1) {
       stop("Multiple codebooks found, please specify which to use with the `data_layer` argument")
