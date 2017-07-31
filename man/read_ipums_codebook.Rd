@@ -14,7 +14,7 @@ from the webiste, or the path to the unzipped .txt file).}
 load. Required for reading from .zip files for extracts with multiple files.}
 }
 \value{
-A \code{ip_ddi} object with information on the variables included in the
+A \code{ipums_ddi} object with information on the variables included in the
   csv file of a NHGIS extract.
 }
 \description{

@@ -61,7 +61,7 @@ data <- read_ipums_micro(mpc_root("personal/gfellis/ipumsimport_examples/cps_hie
 #> Reading data...
 #> Parsing data...
 
-cat(ip_var_label_long(data, TCIG100))
+cat(ipums_var_desc(data, TCIG100))
 #> TCIG100 identifies individuals who had ever smoked 100 cigarettes in their lifetime.
 #> 
 #> This variable is part of the Tobacco Use Supplement [URL omitted from DDI.].
@@ -80,7 +80,7 @@ Relies on user downloading the .xml DDI file and the .dat/.dat.gz file (doesn't 
 ``` r
 data <- read_ipums_micro(mpc_root("personal/gfellis/ipumsimport_examples/cps_rect/cps_00003.xml"), verbose = FALSE)
 
-cat(ip_var_label_long(data, TCIG100))
+cat(ipums_var_desc(data, TCIG100))
 #> TCIG100 identifies individuals who had ever smoked 100 cigarettes in their lifetime.
 #> 
 #> This variable is part of the Tobacco Use Supplement [URL omitted from DDI.].
@@ -130,6 +130,7 @@ table(data$STATE)
 
 # Note that there are 3 geographies in the csv but not the shape files
 # and 52,275 in the shape file, but not the csv
+# Should we throw a warning because of this? 
 data %>%
   filter(is.na(FIPSSTCO)) %>%
   select(GISJOIN, STATE, COUNTY)
@@ -142,7 +143,7 @@ data %>%
 
 data %>%
   filter(is.na(STATE)) %>%
-  select(GISJOIN, FIPSSTCO, TRACT, BLOCK)
+  select(GISJOIN, FIPSSTCO, TRACT, BLOCK) 
 #> # A tibble: 52,275 x 4
 #>             GISJOIN FIPSSTCO  TRACT BLOCK
 #>               <chr>    <chr>  <chr> <chr>
@@ -161,7 +162,7 @@ data %>%
 
 ### Terrapop - Raster Data
 
-Relies on zip file from extract
+Relies on zip file from extract (left as-is or unzipped)
 
 ``` r
 data <- read_terra_raster(
@@ -198,7 +199,7 @@ data <- read_terra_area(
   verbose = FALSE
 )
 
-var_label <- ip_var_label(data, EDUCTERTIARY_GEO1_BR_BR2010A)
+var_label <- ipums_var_label(data, EDUCTERTIARY_GEO1_BR_BR2010A)
 var_label
 #> [1] "Percent of persons age 25+ who completed tertiary education (Percentage)"
 
@@ -213,7 +214,7 @@ ggplot(data) +
 Can specify which data to use if there are multiple countries in your extract
 
 ``` r
-ip_list_files(mpc_root("personal/gfellis/ipumsimport_examples/terra_area/2644_bundle.zip"))
+ipums_list_files(mpc_root("personal/gfellis/ipumsimport_examples/terra_area/2644_bundle.zip"))
 #> # A tibble: 4 x 2
 #>    type                                 file
 #>   <chr>                                <chr>
@@ -256,4 +257,6 @@ data
 
 ### Terrapop - Microlevel data
 
-Relies on usual extract file (with boundary files for maps) either zipped or unzipped This file is huge, so won't run on a local machine, but I need IT's help getting some dependcies set-up to run this on the mpcstats servers.
+Relies on usual extract file (with boundary files for maps) either zipped or unzipped
+
+This file is huge, so won't run on a local machine, but I need IT's help getting some dependencies set-up to run this on the mpcstats servers.

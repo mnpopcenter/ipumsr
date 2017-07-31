@@ -71,7 +71,7 @@ read_ddi <- function(ddi_file, data_layer = NULL) {
     var_info <- tibble::data_frame(
       var_name = character(0),
       var_label = character(0),
-      var_label_long = character(0),
+      var_desc = character(0),
       val_label = list(),
       start = numeric(0),
       end = numeric(0),
@@ -87,7 +87,7 @@ read_ddi <- function(ddi_file, data_layer = NULL) {
     var_info <- dplyr::data_frame(
       var_name = xml2::xml_attr(var_info_xml, "name"),
       var_label =  xml2::xml_text(xml2::xml_find_first(var_info_xml, "d1:labl")),
-      var_label_long = xml2::xml_text(xml2::xml_find_first(var_info_xml, "d1:txt")),
+      var_desc = xml2::xml_text(xml2::xml_find_first(var_info_xml, "d1:txt")),
       val_label = purrr::map(var_info_xml, function(vvv, vtype) {
         lbls <- xml2::xml_find_all(vvv, "d1:catgry")
         if (length(lbls) == 0) return(dplyr::data_frame(val = numeric(0), lbl = character(0)))
@@ -137,7 +137,7 @@ read_ddi <- function(ddi_file, data_layer = NULL) {
 #' available for other projects.
 #'
 #' @return
-#'   A \code{ip_ddi} object with information on the variables included in the
+#'   A \code{ipums_ddi} object with information on the variables included in the
 #'   csv file of a NHGIS extract.
 #' @param cb_file Filepath to the codebook (either the .zip file directly downloaded
 #'   from the webiste, or the path to the unzipped .txt file).
@@ -182,7 +182,7 @@ read_ipums_codebook <- function(cb_file, data_layer = NULL) {
   else if (stringr::str_detect(cb[2], "NHGIS")) type <- "NHGIS"
   else stop("Unknown codebook format.")
 
-  # Get table names (var_label_long) and variable labels (var_label)
+  # Get table names (var_desc) and variable labels (var_label)
   # from data dictionary section using messy string parsing code
   dd <- find_cb_section(cb, "^Data Dictionary$", section_markers)
 
@@ -205,7 +205,7 @@ read_ipums_codebook <- function(cb_file, data_layer = NULL) {
     var_info <- tibble::data_frame(
       var_name = var_info[, 2],
       var_label = var_info[, 3],
-      var_label_long = ""
+      var_desc = ""
     )
     var_info <- var_info[!is.na(var_info$var_name), ]
   } else if (type == "NHGIS") {
@@ -218,7 +218,7 @@ read_ipums_codebook <- function(cb_file, data_layer = NULL) {
     context_vars <- tibble::data_frame(
       var_name = context_vars[, 2],
       var_label = context_vars[, 3],
-      var_label_long = ""
+      var_desc = ""
     )
     context_vars <- context_vars[!is.na(context_vars$var_name), ]
 
@@ -233,7 +233,7 @@ read_ipums_codebook <- function(cb_file, data_layer = NULL) {
       dplyr::data_frame(
         var_name = vars[, 2],
         var_label = vars[, 3],
-        var_label_long = paste0(table_name, " (", nhgis_table_code, ")")
+        var_desc = paste0(table_name, " (", nhgis_table_code, ")")
       )
     })
     var_info <- dplyr::bind_rows(context_vars, table_vars)

@@ -10,19 +10,19 @@
 #'   give information about
 #' @param var select-style notation for a single variable
 #'
-#' \code{ip_var_info()} loads all available variable information for one or more
+#' \code{ipums_var_info()} loads all available variable information for one or more
 #' variables into a data.frame. If \code{object} is a vector, it will include
-#' the variable label, long variable label and value labels. If \code{object} is
+#' the variable label, variable description and value labels. If \code{object} is
 #' a data.frame, it will include it for all variables (or only those specified
 #' by vars). If it is a DDI, it will also include information used to read the
 #' data from disk, including start/end position in the fixed-width file, implied
 #' decimals and variable type.
 #'
-#'\code{ip_var_label_long()} loads the variable description for a single variable.
+#'\code{ipums_var_desc()} loads the variable description for a single variable.
 #'
-#'\code{ip_var_label()} loads the short variable label for a single variable.
+#'\code{ipums_var_label()} loads the short variable label for a single variable.
 #'
-#'\code{ip_value_labels()} loads the value labels for a single variable.
+#'\code{ipums_value_labels()} loads the value labels for a single variable.
 #'
 #' Note that many R functions drop attributes that provide this information.
 #' In order to make sure that they are available, it is best to keep a copy of the
@@ -30,12 +30,12 @@
 #' you can refer to the IPUMS documentation in this object.
 #'
 #' @export
-ip_var_info <- function(object, vars = NULL) {
-  UseMethod("ip_var_info")
+ipums_var_info <- function(object, vars = NULL) {
+  UseMethod("ipums_var_info")
 }
 
 #' @export
-ip_var_info.default <- function(object, vars = NULL) {
+ipums_var_info.default <- function(object, vars = NULL) {
   obj_info <- attributes(object)
 
   if (length(obj_info$labels) > 0) {
@@ -51,14 +51,14 @@ ip_var_info.default <- function(object, vars = NULL) {
   }
 
   dplyr::data_frame(
-    label = if (is.null(obj_info$label)) NA_character_ else obj_info$label,
-    label_long = if (is.null(obj_info$label_long)) NA_character_ else obj_info$label_long,
+    var_label = if (is.null(obj_info$var_label)) NA_character_ else obj_info$var_label,
+    var_desc = if (is.null(obj_info$var_desc)) NA_character_ else obj_info$var_desc,
     val_labels = value_labels
   )
 }
 
 #' @export
-ip_var_info.ipums_ddi <- function(object, vars = NULL) {
+ipums_var_info.ipums_ddi <- function(object, vars = NULL) {
   vars <- enquo(vars)
   out <- object$var_info
   out <- select_var_rows(out, vars)
@@ -66,9 +66,9 @@ ip_var_info.ipums_ddi <- function(object, vars = NULL) {
 }
 
 #' @export
-ip_var_info.data.frame <- function(object, vars = NULL) {
+ipums_var_info.data.frame <- function(object, vars = NULL) {
   vars <- enquo(vars)
-  out <- purrr::map(object, ~ip_var_info.default(.))
+  out <- purrr::map(object, ~ipums_var_info.default(.))
   names(out) <- names(object)
   out <- dplyr::bind_rows(out, .id = "var_name")
   out <- select_var_rows(out, vars)
@@ -77,42 +77,42 @@ ip_var_info.data.frame <- function(object, vars = NULL) {
 
 
 #' @export
-#' @rdname ip_var_info
-ip_var_label_long <- function(object, var = NULL) {
-  UseMethod("ip_var_label_long")
+#' @rdname ipums_var_info
+ipums_var_desc <- function(object, var = NULL) {
+  UseMethod("ipums_var_label_desc")
 }
 
 #' @export
-ip_var_label_long.default <- function(object, var = NULL) {
-  out <- ip_var_info(object, !!enquo(var))
+ipums_var_label_desc.default <- function(object, var = NULL) {
+  out <- ipums_var_info(object, !!enquo(var))
 
-  if (nrow(out) > 1) warning("Found multiple variables. Giving long variable label from first.")
-  out$label_long[1]
+  if (nrow(out) > 1) warning("Found multiple variables. Giving variable description from first.")
+  out$var_desc[1]
 }
 
 #' @export
-#' @rdname ip_var_info
-ip_var_label <- function(object, var = NULL) {
-  UseMethod("ip_var_label")
+#' @rdname ipums_var_info
+ipums_var_label <- function(object, var = NULL) {
+  UseMethod("ipums_var_label")
 }
 
 #' @export
-ip_var_label.default <- function(object, var = NULL) {
-  out <- ip_var_info(object, !!enquo(var))
+ipums_var_label.default <- function(object, var = NULL) {
+  out <- ipums_var_info(object, !!enquo(var))
 
   if (nrow(out) > 1) warning("Found multiple variables. Giving variable label from first.")
-  out$label[1]
+  out$var_label[1]
 }
 
 #' @export
-#' @rdname ip_var_info
-ip_val_labels <- function(object, var = NULL) {
-  UseMethod("ip_val_labels")
+#' @rdname ipums_var_info
+ipums_val_labels <- function(object, var = NULL) {
+  UseMethod("ipums_val_labels")
 }
 
 #' @export
-ip_val_labels.default <- function(object, var = NULL) {
-  out <- ip_var_info(object, !!enquo(var))
+ipums_val_labels.default <- function(object, var = NULL) {
+  out <- ipums_var_info(object, !!enquo(var))
 
   if (nrow(out) > 1) warning("Found multiple variables. Giving value labels from first.")
   out$val_labels[[1]]
