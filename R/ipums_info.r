@@ -83,7 +83,7 @@ ipums_var_desc <- function(object, var = NULL) {
 }
 
 #' @export
-ipums_var_label_desc.default <- function(object, var = NULL) {
+ipums_var_desc.default <- function(object, var = NULL) {
   out <- ipums_var_info(object, !!enquo(var))
 
   if (nrow(out) > 1) warning("Found multiple variables. Giving variable description from first.")

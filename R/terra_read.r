@@ -172,7 +172,6 @@ read_terra_area <- function(
   if (rlang::is_false(shape_file) | (!data_is_zip & is.null(shape_file))) {
     out <- data
   } else {
-    if (!requireNamespace("sf", quietly = TRUE)) sf_error()
     if (is.null(shape_file)) shape_file <- data_file
     shape_data <- read_ipums_sf(shape_file, !!shape_layer)
 

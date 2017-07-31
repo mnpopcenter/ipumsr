@@ -15,16 +15,16 @@ from the webiste, or the path to the unzipped .csv file).}
 file directly downloaded from the webiste, or the path to the unzipped
 files).}
 
+\item{data_layer}{dplyr \code{\link[dplyr]{select}}-stlye notation identifying
+the data layer to load. Required for reading from .zip files for extracts
+with multiple files.}
+
 \item{shape_layer}{(Defaults to using the same value as data_layer) dplyr
 \code{\link[dplyr]{select}}-stlye notation identifying the shape layer to
 load. Can load multiple shape files, which will be combined.}
 
 \item{verbose}{Logical, indicating whether to print progress information to
 console.}
-
-\item{data_layerdplyr}{\code{\link[dplyr]{select}}-stlye notation identifying
-the data layer to load. Required for reading from .zip files for extracts
-with multiple files.}
 }
 \value{
 Either a \code{tbl_df} with only the tabular data, or if a \code{shape_file} is

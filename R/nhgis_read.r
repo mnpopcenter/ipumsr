@@ -11,7 +11,7 @@
 #' @param shape_file (Optional) filepath to the shape files (either the .zip
 #'   file directly downloaded from the webiste, or the path to the unzipped
 #'   files).
-#' @param data_layerdplyr \code{\link[dplyr]{select}}-stlye notation identifying
+#' @param data_layer dplyr \code{\link[dplyr]{select}}-stlye notation identifying
 #'   the data layer to load. Required for reading from .zip files for extracts
 #'   with multiple files.
 #' @param shape_layer (Defaults to using the same value as data_layer) dplyr
