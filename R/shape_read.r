@@ -33,14 +33,15 @@ read_ipums_sf <- function(shape_file, shape_layer = NULL, bind_multiple = TRUE) 
     }
 
     if (length(shape_zips) >= 1) {
-      read_shape_files <- purrr::map_chr(shape_zips, function(x) {
-        shape_temp <- tempfile()
-        dir.create(shape_temp)
+      shape_temp <- tempfile()
+      dir.create(shape_temp)
+      on.exit(unlink(shape_temp, recursive = TRUE))
+
+       purrr::walk(shape_zips, function(x) {
         utils::unzip(shape_file, x, exdir = shape_temp)
         utils::unzip(file.path(shape_temp, x), exdir = shape_temp)
-
-        file.path(shape_temp, dir(shape_temp, "\\.shp$"))
       })
+       read_shape_files <- dir(shape_temp, "\\.shp$", full.names = TRUE)
     }
 
     # Case 1b: First zip file has .shp files within it
@@ -56,16 +57,19 @@ read_ipums_sf <- function(shape_file, shape_layer = NULL, bind_multiple = TRUE) 
       }
 
       if (length(shape_shps) >= 1) {
+        shape_temp <- tempfile()
+        dir.create(shape_temp)
+        on.exit(unlink(shape_temp, recursive = TRUE))
+
         read_shape_files <- purrr::map_chr(shape_shps, function(x) {
           shape_shp_files <- paste0(
             stringr::str_sub(x, 1, -4),
-            c("dbf", "prj", "sbn", "sbx", "shp", "shx")
+            c("shp", "dbf", "prj", "sbn", "sbx", "shx")
           )
-          shape_temp <- tempfile()
-          dir.create(shape_temp)
+
           utils::unzip(shape_file, shape_shp_files, exdir = shape_temp)
 
-          file.path(shape_temp, dir(shape_temp, "\\.shp$"))
+          file.path(shape_temp, shape_shp_files[1])
         })
       }
 

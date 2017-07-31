@@ -50,6 +50,8 @@ read_terra_raster_internal <- function(data_file, data_layer, verbose, multiple_
       tiff_names <- find_files_in_zip(data_file, "tiff", data_layer, multiple_ok = multiple_ok)
 
       raster_temp <- tempfile()
+      dir.create(raster_temp)
+      # Don't delete raster temp files, because R reads from disk
       utils::unzip(data_file, tiff_names, exdir = raster_temp)
 
       if (!multiple_ok) {
