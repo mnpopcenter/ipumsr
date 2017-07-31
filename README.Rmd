@@ -95,6 +95,18 @@ data %>%
   select(GISJOIN, FIPSSTCO, TRACT, BLOCK) 
 ```
 
+### NHGIS - Change over time ### 
+Currently tested with the file type "years by column"
+```{r}
+data <- read_nhgis(
+  mpc_root("personal/gfellis/ipumsimport_examples/nhgis/nhgis0007_csv.zip"),
+  mpc_root("personal/gfellis/ipumsimport_examples/nhgis/nhgis0007_shape.zip"),
+  verbose = FALSE
+)
+
+data
+```
+
 ### Terrapop - Raster Data ###
 Relies on zip file from extract (left as-is or unzipped)
 ```{r}

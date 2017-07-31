@@ -160,6 +160,46 @@ data %>%
 #> # ... with 52,265 more rows
 ```
 
+### NHGIS - Change over time
+
+Currently tested with the file type "years by column"
+
+``` r
+data <- read_nhgis(
+  mpc_root("personal/gfellis/ipumsimport_examples/nhgis/nhgis0007_csv.zip"),
+  mpc_root("personal/gfellis/ipumsimport_examples/nhgis/nhgis0007_shape.zip"),
+  verbose = FALSE
+)
+
+data
+#> Simple feature collection with 3273 features and 27 fields
+#> geometry type:  MULTIPOLYGON
+#> dimension:      XY
+#> bbox:           xmin: -7115208 ymin: -1685018 xmax: 3321632 ymax: 4591848
+#> epsg (SRID):    NA
+#> proj4string:    +proj=aea +lat_1=29.5 +lat_2=45.5 +lat_0=37.5 +lon_0=-96 +x_0=0 +y_0=0 +datum=NAD83 +units=m +no_defs
+#> # A tibble: 3,273 x 28
+#>    STATEFP10 COUNTYFP10 COUNTYNS10 GEOID10          NAME10
+#>        <chr>      <chr>      <chr>   <chr>           <chr>
+#>  1        02        013   01419964   02013  Aleutians East
+#>  2        02        016   01419965   02016  Aleutians West
+#>  3        28        107   00695776   28107          Panola
+#>  4        28        101   00695773   28101          Newton
+#>  5        28        027   00695738   28027         Coahoma
+#>  6        22        065   00558088   22065         Madison
+#>  7        51        540   01789068   51540 Charlottesville
+#>  8        51        510   01498415   51510      Alexandria
+#>  9        51        530   01498417   51530     Buena Vista
+#> 10        51        600   01789070   51600         Fairfax
+#> # ... with 3,263 more rows, and 23 more variables: NAMELSAD10 <chr>,
+#> #   LSAD10 <chr>, CLASSFP10 <chr>, MTFCC10 <chr>, CSAFP10 <chr>,
+#> #   CBSAFP10 <chr>, METDIVFP10 <chr>, FUNCSTAT10 <chr>, ALAND10 <dbl>,
+#> #   AWATER10 <dbl>, INTPTLAT10 <chr>, INTPTLON10 <chr>, GISJOIN <chr>,
+#> #   Shape_area <dbl>, Shape_len <dbl>, STATE <chr>, STATEFP <chr>,
+#> #   STATENH <chr>, AR9AA1980 <dbl>, AR9AA1990 <dbl>, AR9AA2000 <dbl>,
+#> #   AR9AA2010 <dbl>, geometry <S3: sfc_MULTIPOLYGON>
+```
+
 ### Terrapop - Raster Data
 
 Relies on zip file from extract (left as-is or unzipped)
@@ -174,7 +214,7 @@ data <- read_terra_raster(
 raster::plot(data)
 ```
 
-![](README-unnamed-chunk-8-1.png)
+![](README-unnamed-chunk-9-1.png)
 
 ``` r
 
@@ -187,6 +227,8 @@ data <- read_terra_raster_list(
 names(data) %>% head()
 #> [1] "PASTURE2000ZM2013"  "PASTURE2000CH2013"  "CROPLAND2000ZM2013"
 #> [4] "CROPLAND2000CH2013" "LCDECIDOPZM2013"    "LCDECIDOPCH2013"
+
+# No variable information provided by extract system though
 ```
 
 ### Terrapop - Area level data
@@ -209,7 +251,7 @@ ggplot(data) +
   ggtitle("Brazil 2010", subtitle = var_label)
 ```
 
-![](README-unnamed-chunk-9-1.png)
+![](README-unnamed-chunk-10-1.png)
 
 Can specify which data to use if there are multiple countries in your extract
 
