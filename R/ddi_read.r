@@ -222,7 +222,7 @@ read_ipums_codebook <- function(cb_file, data_layer = NULL) {
   } else if (type == "NHGIS") {
     context_rows <- seq(
       which(dd == "Context Fields ") + 1,
-      which(stringr::str_detect(dd, "^Table 1:")) - 1
+      which(stringr::str_detect(dd, "^[:blank:]*Table 1:")) - 1
     )
     context_vars <- dd[context_rows]
     context_vars <- stringr::str_match(context_vars, "([[:alnum:]|[:punct:]]+):[:blank:]+(.+)$")
@@ -233,12 +233,12 @@ read_ipums_codebook <- function(cb_file, data_layer = NULL) {
     )
     context_vars <- context_vars[!is.na(context_vars$var_name), ]
 
-    table_name_rows <- which(stringr::str_detect(dd, "^Table [0-9]+:"))
+    table_name_rows <- which(stringr::str_detect(dd, "^[:blank:]*Table [0-9]+:"))
     table_sections <- purrr::map2(table_name_rows, c(table_name_rows[-1], length(dd)), ~seq(.x, .y - 1))
 
     table_vars <- purrr::map_df(table_sections, function(rows) {
-      table_name <- stringr::str_match(dd[rows[1]], "^Table [0-9]+:[:blank:]+(.+)$")[, 2]
-      nhgis_table_code <- stringr::str_match(dd[rows[4]], "^NHGIS code:[:blank:]+(.+)$")[, 2]
+      table_name <- stringr::str_match(dd[rows[1]], "^[:blank:]*Table [0-9]+:[:blank:]+(.+)$")[, 2]
+      nhgis_table_code <- stringr::str_match(dd[rows[4]], "^[:blank:]*NHGIS code:[:blank:]+(.+)$")[, 2]
       vars <- stringr::str_match(dd[rows[-1:-4]], "([[:alnum:]|[:punct:]]+):[:blank:]+(.+)$")
       vars <- vars[!is.na(vars[, 2]), ]
       dplyr::data_frame(
