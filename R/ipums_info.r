@@ -79,7 +79,7 @@ ipums_var_info.data.frame <- function(object, vars = NULL) {
 #' @export
 #' @rdname ipums_var_info
 ipums_var_desc <- function(object, var = NULL) {
-  UseMethod("ipums_var_label_desc")
+  UseMethod("ipums_var_desc")
 }
 
 #' @export
