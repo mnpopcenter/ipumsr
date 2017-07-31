@@ -222,7 +222,7 @@ read_ipums_codebook <- function(cb_file, data_layer = NULL) {
   } else if (type == "NHGIS") {
     context_rows <- seq(
       which(dd == "Context Fields ") + 1,
-      which(stringr::str_detect(dd, "^[:blank:]*Table 1:")) - 1
+      which(stringr::str_detect(dd, "^[:blank:]$")) - 1
     )
     context_vars <- dd[context_rows]
     context_vars <- stringr::str_match(context_vars, "([[:alnum:]|[:punct:]]+):[:blank:]+(.+)$")
