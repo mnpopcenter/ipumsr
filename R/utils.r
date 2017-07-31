@@ -40,18 +40,21 @@ set_ipums_var_attributes <- function(data, var_info, set_imp_decim = TRUE) {
 
   purrr::pwalk(var_info, function(var_name, ...) {
     x <- list(...)
-    if (!is.null(x$val_label) && nrow(x$val_label) > 0) {
-      lbls <- purrr::set_names(x$val_label$val, x$val_label$lbl)
-      data[[var_name]] <<- haven::labelled(data[[var_name]], lbls)
-    }
-    if (!is.null(x$var_label)) {
-      data[[var_name]] <<- rlang::set_attrs(data[[var_name]], var_label = x$var_label)
-    }
-    if (!is.null(x$var_desc)) {
-      data[[var_name]] <<- rlang::set_attrs(data[[var_name]], var_desc = x$var_desc)
-    }
-    if (!is.null(x$imp_decim) && is.numeric(data[[var_name]])) {
-      data[[var_name]] <<- data[[var_name]] / (10 ^ x$imp_decim)
+    # Don't fail if we have a variable that doesn't match for some reason
+    if (var_name %in% names(data)) {
+      if (!is.null(x$val_label) && nrow(x$val_label) > 0) {
+        lbls <- purrr::set_names(x$val_label$val, x$val_label$lbl)
+        data[[var_name]] <<- haven::labelled(data[[var_name]], lbls)
+      }
+      if (!is.null(x$var_label)) {
+        data[[var_name]] <<- rlang::set_attrs(data[[var_name]], var_label = x$var_label)
+      }
+      if (!is.null(x$var_desc)) {
+        data[[var_name]] <<- rlang::set_attrs(data[[var_name]], var_desc = x$var_desc)
+      }
+      if (!is.null(x$imp_decim) && is.numeric(data[[var_name]])) {
+        data[[var_name]] <<- data[[var_name]] / (10 ^ x$imp_decim)
+      }
     }
   })
   data
