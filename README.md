@@ -114,6 +114,51 @@ ggplot(data = data) +
 
 ![](README-unnamed-chunk-6-1.png)
 
+Block level census data (Data from Alaska and Arizona)
+
+``` r
+data <- read_nhgis(
+  mpc_root("personal/gfellis/ipumsimport_examples/nhgis/nhgis0006_csv.zip"),
+  mpc_root("personal/gfellis/ipumsimport_examples/nhgis/nhgis0006_shape.zip"),
+  verbose = FALSE
+)
+
+table(data$STATE)
+#> 
+#>  Alaska Arizona 
+#>    9795   59674
+
+# Note that there are 3 geographies in the csv but not the shape files
+# and 52,275 in the shape file, but not the csv
+data %>%
+  filter(is.na(FIPSSTCO)) %>%
+  select(GISJOIN, STATE, COUNTY)
+#> # A tibble: 3 x 3
+#>              GISJOIN  STATE              COUNTY
+#>                <chr>  <chr>               <chr>
+#> 1 G0202610986399314Z Alaska      Valdez-Cordova
+#> 2    G02028009777149 Alaska Wrangell-Petersburg
+#> 3    G02028009777165 Alaska Wrangell-Petersburg
+
+data %>%
+  filter(is.na(STATE)) %>%
+  select(GISJOIN, FIPSSTCO, TRACT, BLOCK)
+#> # A tibble: 52,275 x 4
+#>             GISJOIN FIPSSTCO  TRACT BLOCK
+#>               <chr>    <chr>  <chr> <chr>
+#>  1 G02001309900101B    02013 990000  101B
+#>  2 G02001309900101D    02013 990000  101D
+#>  3 G02001309900103B    02013 990000  103B
+#>  4 G02001309900103C    02013 990000  103C
+#>  5 G02001309900106B    02013 990000  106B
+#>  6  G02001309900107    02013 990000   107
+#>  7  G02001309900111    02013 990000   111
+#>  8  G02001309900112    02013 990000   112
+#>  9 G02001309900113A    02013 990000  113A
+#> 10 G02001309900113C    02013 990000  113C
+#> # ... with 52,265 more rows
+```
+
 ### Terrapop - Raster Data
 
 Relies on zip file from extract
@@ -128,7 +173,7 @@ data <- read_terra_raster(
 raster::plot(data)
 ```
 
-![](README-unnamed-chunk-7-1.png)
+![](README-unnamed-chunk-8-1.png)
 
 ``` r
 
@@ -163,9 +208,20 @@ ggplot(data) +
   ggtitle("Brazil 2010", subtitle = var_label)
 ```
 
-![](README-unnamed-chunk-8-1.png)
+![](README-unnamed-chunk-9-1.png)
+
+Can specify which data to use if there are multiple countries in your extract
 
 ``` r
+ip_list_files(mpc_root("personal/gfellis/ipumsimport_examples/terra_area/2644_bundle.zip"))
+#> # A tibble: 4 x 2
+#>    type                                 file
+#>   <chr>                                <chr>
+#> 1  data       data_2644_AGG_LR_FLAD_2008.csv
+#> 2  data       data_2644_AGG_DZ_FLAD_2008.csv
+#> 3 shape boundaries_2644_AGG_LR_FLAD_2008.zip
+#> 4 shape boundaries_2644_AGG_DZ_FLAD_2008.zip
+
 data <- read_terra_area(
   mpc_root("personal/gfellis/ipumsimport_examples/terra_area/2644_bundle.zip"),
   data_layer = "DZ",
