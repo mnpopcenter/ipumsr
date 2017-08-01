@@ -92,6 +92,21 @@ read_nhgis <- function(
     # Coerce to data.frame to avoid sf#414 (fixed in development version of sf)
     data <- dplyr::full_join(as.data.frame(sf_data), as.data.frame(data), by = join_vars)
     data <- sf::st_as_sf(tibble::as_tibble(data))
+
+    # Check if any data rows are missing (merge failures where not in shape file)
+    if (verbose) {
+      missing_in_shape <- purrr::map_lgl(data$geometry, is.null)
+      if (any(missing_in_shape)) {
+        gis_join_failures <- data$GISJOIN[missing_in_shape]
+        message(paste0(
+          "There are ", sum(missing_in_shape), " rows of data that ",
+          "have data but no geography. This can happen because:\n  Shape files ",
+          "do not include some census geographies such as 'Crews of Vessels' ",
+          "tracts that do not have a defined area\n  Shape files have been simplified ",
+          "which sometimes drops entire geographies (especially small ones)."
+        ))
+      }
+    }
   }
 
   data <- set_ipums_var_attributes(data, cb_ddi_info$var_info, FALSE)

@@ -82,22 +82,10 @@ Block level census data (Data from Alaska and Arizona)
 ```{r}
 data <- read_nhgis(
   mpc_root("personal/gfellis/ipumsimport_examples/nhgis/nhgis0006_csv.zip"),
-  mpc_root("personal/gfellis/ipumsimport_examples/nhgis/nhgis0006_shape.zip"),
-  verbose = FALSE
+  mpc_root("personal/gfellis/ipumsimport_examples/nhgis/nhgis0006_shape.zip")
 )
 
 table(data$STATE)
-
-# Note that there are 3 geographies in the csv but not the shape files
-# and 52,275 in the shape file, but not the csv
-# Should we throw a warning because of this? 
-data %>%
-  filter(is.na(FIPSSTCO)) %>%
-  select(GISJOIN, STATE, COUNTY)
-
-data %>%
-  filter(is.na(STATE)) %>%
-  select(GISJOIN, FIPSSTCO, TRACT, BLOCK) 
 ```
 
 ### NHGIS - Change over time ### 
