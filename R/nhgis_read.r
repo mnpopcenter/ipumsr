@@ -95,7 +95,7 @@ read_nhgis <- function(
   }
 
   data <- set_ipums_var_attributes(data, cb_ddi_info$var_info, FALSE)
-  out <- set_ipums_df_attributes(out, cb_ddi_info)
+  data <- set_ipums_df_attributes(data, cb_ddi_info)
   data
 }
 
