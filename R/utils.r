@@ -53,7 +53,7 @@ set_ipums_var_attributes <- function(data, var_info, set_imp_decim = TRUE) {
         data[[var_name]] <<- haven::labelled(data[[var_name]], lbls)
       }
       if (!is.null(x$var_label)) {
-        data[[var_name]] <<- rlang::set_attrs(data[[var_name]], var_label = x$var_label)
+        data[[var_name]] <<- rlang::set_attrs(data[[var_name]], label = x$var_label)
       }
       if (!is.null(x$var_desc)) {
         data[[var_name]] <<- rlang::set_attrs(data[[var_name]], var_desc = x$var_desc)
