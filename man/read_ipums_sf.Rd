@@ -9,8 +9,10 @@ read_ipums_sf(shape_file, shape_layer = NULL, bind_multiple = TRUE)
 \arguments{
 \item{shape_file}{Filepath to one or more .shp files or a .zip file from an IPUMS extract}
 
-\item{shape_layer}{dplyr \code{\link[dplyr]{select}}-stlye notation for selecting the
-layers you wish to load (`NULL` the default loads all)}
+\item{shape_layer}{For .zip extracts with multiple datasets, the name of the
+ shape files to load. Accepts a character vector specifying the file name, or
+\code{\link{dplyr_select_style}} conventions. Can load multiple shape files,
+  which will be combined.}
 
 \item{bind_multiple}{If \code{TRUE}, will combine multiple shape files found into
 a single object.}

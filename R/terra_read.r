@@ -14,8 +14,9 @@
 #'   \code{read_terra_raster_list} A list of raster objects.
 #' @param data_file Filepath to the data (either the .zip file directly downloaded
 #'   from the webiste, or the path to the unzipped .tiff file(s)).
-#' @param data_layer A regular expression identifying the data layers to
-#'   load.
+#' @param data_layer For .zip extracts with multiple raster datasets, the name of the
+#'   data to load. Accepts a character vector specifying the file name, or
+#'  \code{\link{dplyr_select_style}} conventions.
 #' @param verbose Logical, indicating whether to print progress information
 #'   to console.
 #' @examples
@@ -93,11 +94,13 @@ read_terra_raster_internal <- function(data_file, data_layer, verbose, multiple_
 #' @param shape_file (Optional) If the download is unzipped, path to the .zip or .shp file
 #'   representing the the shape file. If only the data table is needed, can be set to FALSE
 #'   to indicate not to load the shape file.
-#' @param data_layer If data_file is an extract with multiple csvs, dplyr
-#'   \code{\link[dplyr]{select}}-stlye notation indicating which file to load.
-#' @param shape_layer If data_file is an extract with multiple shape files,
-#'   dplyr \code{\link[dplyr]{select}}-stlye notation shape layer to load.
-#'   (Defaults to using the same as the data_layer)
+#' @param data_layer For .zip extracts with multiple datasets, the name of the
+#'   data to load. Accepts a character vector specifying the file name, or
+#'  \code{\link{dplyr_select_style}} conventions. Data layer must uniquely identify
+#'  a dataset.
+#' @param shape_layer (Defaults to using the same value as data_layer) Specification
+#'   of which shape files to load using the same semantics as \code{data_layer}. Can
+#'   load multiple shape files, which will be combined.
 #' @param ddi_file (Optional) If the download is unzipped, path to the .xml file which
 #'   provides usage and ciation information for extract.
 #' @param cb_file (Optional) If the download is unzipped, path to the .txt file which
@@ -214,10 +217,13 @@ read_terra_area <- function(
 #' @param shape_file (Optional) If the download is unzipped, path to the .zip or .shp file
 #'   representing the the shape file. If only the data table is needed, can be set to FALSE
 #'   to indicate not to load the shape file.
-#' @param data_layer If data_file is an extract with multiple csvs, dplyr
-#'   \code{\link[dplyr]{select}}-stlye notation.
-#' @param shape_layer If data_file is an extract with multiple shape files, dplyr
-#'   \code{\link[dplyr]{select}}-stlye notation
+#' @param data_layer For .zip extracts with multiple datasets, the name of the
+#'   data to load. Accepts a character vector specifying the file name, or
+#'  \code{\link{dplyr_select_style}} conventions. Data layer must uniquely identify
+#'  a dataset.
+#' @param shape_layer (Defaults to using the same value as data_layer) Specification
+#'   of which shape files to load using the same semantics as \code{data_layer}. Can
+#'   load multiple shape files, which will be combined.
 #' @param verbose Logical, indicating whether to print progress information
 #'   to console.
 #' @examples

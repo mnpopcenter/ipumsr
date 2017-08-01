@@ -18,11 +18,14 @@ provides usage and ciation information for extract.}
 representing the the shape file. If only the data table is needed, can be set to FALSE
 to indicate not to load the shape file.}
 
-\item{data_layer}{If data_file is an extract with multiple csvs, dplyr
-\code{\link[dplyr]{select}}-stlye notation.}
+\item{data_layer}{For .zip extracts with multiple datasets, the name of the
+ data to load. Accepts a character vector specifying the file name, or
+\code{\link{dplyr_select_style}} conventions. Data layer must uniquely identify
+a dataset.}
 
-\item{shape_layer}{If data_file is an extract with multiple shape files, dplyr
-\code{\link[dplyr]{select}}-stlye notation}
+\item{shape_layer}{(Defaults to using the same value as data_layer) Specification
+of which shape files to load using the same semantics as \code{data_layer}. Can
+load multiple shape files, which will be combined.}
 
 \item{verbose}{Logical, indicating whether to print progress information
 to console.}

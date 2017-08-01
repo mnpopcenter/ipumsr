@@ -15,9 +15,9 @@
 #'
 #' @param ddi Either a filepath to a DDI xml file downloaded from
 #'   the website, or a \code{ipums_ddi} object parsed by \code{\link{read_ddi}}
-#' @param vars A vector of variable names using \code{\link[dplyr]{select}}-style
-#'   convetions. For hierarchical data, the rectype id variable will be added even
-#'   if it is not specified.
+#' @param vars Names of variables to load. Accepts a character vector of names, or
+#'  \code{\link{dplyr_select_style}} conventions. For hierarchical data, the
+#'  rectype id variable will be added even if it is not specified.
 #' @param n_max The maximum number of records to load.
 #' @param data_structure For hierarchical data extract, one of "long", "list",
 #'   or "nested" to indicate how to structure the data once loaded. "long" data

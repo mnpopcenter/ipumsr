@@ -5,7 +5,7 @@
 \alias{ipums_var_desc}
 \alias{ipums_var_label}
 \alias{ipums_val_labels}
-\title{Display IPUMS variable information}
+\title{Get IPUMS variable information}
 \usage{
 ipums_var_info(object, vars = NULL)
 

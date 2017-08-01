@@ -16,12 +16,14 @@ downloaded from the IPUMS Terra website, or to the csv unzipped from the downloa
 representing the the shape file. If only the data table is needed, can be set to FALSE
 to indicate not to load the shape file.}
 
-\item{data_layer}{If data_file is an extract with multiple csvs, dplyr
-\code{\link[dplyr]{select}}-stlye notation indicating which file to load.}
+\item{data_layer}{For .zip extracts with multiple datasets, the name of the
+ data to load. Accepts a character vector specifying the file name, or
+\code{\link{dplyr_select_style}} conventions. Data layer must uniquely identify
+a dataset.}
 
-\item{shape_layer}{If data_file is an extract with multiple shape files,
-dplyr \code{\link[dplyr]{select}}-stlye notation shape layer to load.
-(Defaults to using the same as the data_layer)}
+\item{shape_layer}{(Defaults to using the same value as data_layer) Specification
+of which shape files to load using the same semantics as \code{data_layer}. Can
+load multiple shape files, which will be combined.}
 
 \item{ddi_file}{(Optional) If the download is unzipped, path to the .xml file which
 provides usage and ciation information for extract.}

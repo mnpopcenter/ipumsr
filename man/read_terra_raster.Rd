@@ -13,8 +13,9 @@ read_terra_raster_list(data_file, data_layer = NULL, verbose = TRUE)
 \item{data_file}{Filepath to the data (either the .zip file directly downloaded
 from the webiste, or the path to the unzipped .tiff file(s)).}
 
-\item{data_layer}{A regular expression identifying the data layers to
-load.}
+\item{data_layer}{For .zip extracts with multiple raster datasets, the name of the
+ data to load. Accepts a character vector specifying the file name, or
+\code{\link{dplyr_select_style}} conventions.}
 
 \item{verbose}{Logical, indicating whether to print progress information
 to console.}

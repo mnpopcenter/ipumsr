@@ -11,9 +11,9 @@ read_ipums_micro(ddi, vars = NULL, n_max = -1, data_structure = c("long",
 \item{ddi}{Either a filepath to a DDI xml file downloaded from
 the website, or a \code{ipums_ddi} object parsed by \code{\link{read_ddi}}}
 
-\item{vars}{A vector of variable names using \code{\link[dplyr]{select}}-style
-convetions. For hierarchical data, the rectype id variable will be added even
-if it is not specified.}
+\item{vars}{Names of variables to load. Accepts a character vector of names, or
+\code{\link{dplyr_select_style}} conventions. For hierarchical data, the
+rectype id variable will be added even if it is not specified.}
 
 \item{n_max}{The maximum number of records to load.}
 

@@ -17,12 +17,13 @@
 #' @param shape_file (Optional) filepath to the shape files (either the .zip
 #'   file directly downloaded from the webiste, or the path to the unzipped
 #'   files).
-#' @param data_layer dplyr \code{\link[dplyr]{select}}-stlye notation identifying
-#'   the data layer to load. Required for reading from .zip files for extracts
-#'   with multiple files.
-#' @param shape_layer (Defaults to using the same value as data_layer) dplyr
-#'   \code{\link[dplyr]{select}}-stlye notation identifying the shape layer to
-#'   load. Can load multiple shape files, which will be combined.
+#' @param data_layer For .zip extracts with multiple datasets, the name of the
+#'   data to load. Accepts a character vector specifying the file name, or
+#'  \code{\link{dplyr_select_style}} conventions. Data layer must uniquely identify
+#'  a dataset.
+#' @param shape_layer (Defaults to using the same value as data_layer) Specification
+#'   of which shape files to load using the same semantics as \code{data_layer}. Can
+#'   load multiple shape files, which will be combined.
 #' @param verbose Logical, indicating whether to print progress information to
 #'   console.
 #' @examples
