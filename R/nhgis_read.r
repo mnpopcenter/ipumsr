@@ -109,8 +109,9 @@ nhgis_empty_ddi <- list(
   var_info = NULL,
   conditions = paste0(
     "Use of NHGIS data is subject to conditions, including that ",
-    "publications and research which employ NHGIS data should cite it",
+    "publications and research which employ NHGIS data should cite it ",
     "appropiately. Please see www.nhgis.org for more information."
   ),
   license = NULL
 )
+class(nhgis_empty_ddi) <- "ipums_ddi"

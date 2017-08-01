@@ -337,3 +337,4 @@ terra_empty_ddi <- list(
   ),
   license = NULL
 )
+class(terra_empty_ddi) <- "ipums_ddi"
