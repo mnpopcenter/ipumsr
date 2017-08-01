@@ -49,24 +49,21 @@ read_ipums_micro <- function(
   if (!file.exists(data_file) & file.exists(paste0(data_file, ".gz"))) {
     data_file <- paste0(data_file, ".gz")
   }
-  if (verbose) {
-    cat(ddi$conditions)
-    cat("\n\n")
-    cat(ddi$citation)
-    cat("\n\n")
-  }
+  if (verbose) cat(ipums_conditions(ddi))
 
   vars <- enquo(vars)
   data_structure <- match.arg(data_structure)
 
   if (ddi$file_type == "hierarchical") {
-    read_ipums_hier(ddi, vars, n_max, data_structure, data_file, verbose)
+    out <- read_ipums_hier(ddi, vars, n_max, data_structure, data_file, verbose)
   } else if (ddi$file_type == "rectangular") {
-    read_ipums_rect(ddi, vars, n_max, data_file, verbose)
+    out <- read_ipums_rect(ddi, vars, n_max, data_file, verbose)
   } else {
     stop(paste0("Don't know how to read ", ddi$file_type, " type file."), call. = FALSE)
   }
 
+  out <- set_ipums_df_attributes(out, ddi)
+  out
 }
 
 read_ipums_hier <- function(ddi, vars, n_max, data_structure, data_file, verbose) {

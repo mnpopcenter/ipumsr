@@ -75,11 +75,9 @@ read_terra_raster_internal <- function(data_file, data_layer, verbose, multiple_
       }
     }
 
-    # Print license info (not provided in extract for raster-level terra)
-    if (verbose) {
-      cat(terra_empty_ddi$conditions)
-      cat("\n\n")
-    }
+    if (verbose) cat(ipums_conditions(terra_empty_ddi))
+    out <- set_ipums_df_attributes(out, terra_empty_ddi)
+
     out
   }
 
@@ -151,12 +149,7 @@ read_terra_area <- function(
     ddi <- terra_empty_ddi
   }
 
-  # Print the license info
-  if (verbose) {
-    cat(ddi$conditions)
-    cat("\n\n")
-    if (!is.null(ddi$citation)) cat(paste0(ddi$citation, "\n\n"))
-  }
+  if (verbose) cat(ipums_conditions(ddi))
 
   # Read data file ----
   if (data_is_zip) {
@@ -202,6 +195,7 @@ read_terra_area <- function(
     out <- sf::st_as_sf(tibble::as_tibble(out))
   }
 
+  out <- set_ipums_df_attributes(out, ddi)
   out
 }
 
@@ -254,12 +248,7 @@ read_terra_micro <- function(
     ddi <- terra_empty_ddi
   }
 
-  # Print the license info
-  if (verbose) {
-    cat(ddi$conditions)
-    cat("\n\n")
-    if (!is.null(ddi$citation)) cat(paste0(ddi$citation, "\n\n"))
-  }
+  if (verbose) cat(ipums_conditions(ddi))
 
   # Read data file ----
   if (data_is_zip) {
@@ -322,6 +311,7 @@ read_terra_micro <- function(
     )
     out
   }
+  out <- set_ipums_df_attributes(out, ddi)
   out
 }
 

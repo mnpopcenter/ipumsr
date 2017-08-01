@@ -53,7 +53,7 @@ read_nhgis <- function(
 
   if (class(cb_ddi_info) == "try-error") cb_ddi_info <- nhgis_empty_ddi
 
-  if (verbose) cat(cb_ddi_info$conditions)
+  if (verbose) cat(ipums_conditions(cb_ddi_info))
 
   # Read data
   if (verbose) cat("\n\nReading data file...\n")
@@ -94,7 +94,7 @@ read_nhgis <- function(
   }
 
   data <- set_ipums_var_attributes(data, cb_ddi_info$var_info, FALSE)
-
+  out <- set_ipums_df_attributes(out, cb_ddi_info)
   data
 }
 

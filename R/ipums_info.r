@@ -4,7 +4,7 @@
 #   https://github.com/mnpopcenter/ipumsimport
 
 
-#' Display IPUMS variable information
+#' Get IPUMS variable information
 #'
 #' Get IPUMS metadata information about variables loaded into R. Will try to read
 #' the metadata fron the loaded datasets, but it is more reliable to load the DDI
@@ -124,3 +124,33 @@ ipums_val_labels.default <- function(object, var = NULL) {
   out$val_labels[[1]]
 }
 
+
+#' Get IPUMS citation and conditions
+#'
+#' Gets information about citation and conditions from objects with
+#' IPUMS metadata, like a DDI or a loaded extract. Because of how some
+#' R functions drop attributes, it is best to load a DDI object separately
+#' from the data and get the conditions and citation from this object.
+#'
+#' @param object A DDI object (loaded with \code{\link{read_ddi}}), or a data.frame
+#'   with ipums metadata attached.
+#'
+#' @export
+ipums_conditions <- function(object) {
+  UseMethod("ipums_conditions")
+}
+
+#' @export
+ipums_conditions.ipums_ddi <- function(object) {
+  out <- ddi$conditions
+  if (!is.null(ddi$citation)) out <- paste0("\n\n", ddi$citation, "\n\n")
+  out
+}
+
+#' @export
+ipums_conditions.default <- function(object) {
+  atts <- attributes(object)
+  out <- atts$conditions
+  if (!is.null(atts$citation)) out <- paste0("\n\n", atts$citation, "\n\n")
+  out
+}

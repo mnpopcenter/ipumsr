@@ -37,7 +37,6 @@ find_files_in_zip <- function(
   file_names
 }
 
-
 set_ipums_var_attributes <- function(data, var_info, set_imp_decim = TRUE) {
   # from csv decims are explicit but DDI might say otherwise, so
   # wipe out that column if it exists
@@ -66,6 +65,16 @@ set_ipums_var_attributes <- function(data, var_info, set_imp_decim = TRUE) {
   data
 }
 
+set_ipums_df_attributes <- function(data, extract_info) {
+  if (!is.null(extract_info$conditions)) {
+    data <- rlang::set_attrs(data, conditions = extract_info$conditions)
+  }
+
+  if (!is.null(extract_info$citation)) {
+    data <- rlang::set_attrs(data, conditions = extract_info$citation)
+  }
+  data
+}
 
 load_sf_namespace <- function() {
   if (!requireNamespace("sf", quietly = TRUE)) {
