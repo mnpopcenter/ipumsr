@@ -23,7 +23,7 @@ Examples
 ``` r
 library(ipumsimport)
 library(haven)
-library(ggplot2)
+library(ggplot2) # ggplot2 version > 2.2.1 (development version as of 8/1/2017)
 library(dplyr)
 #> 
 #> Attaching package: 'dplyr'
