@@ -22,7 +22,6 @@ Examples
 
 ``` r
 library(ipumsimport)
-library(mpctools)
 library(haven)
 library(ggplot2)
 library(dplyr)
@@ -34,6 +33,12 @@ library(dplyr)
 #> The following objects are masked from 'package:base':
 #> 
 #>     intersect, setdiff, setequal, union
+
+# Can't share extracts in repo, so examples will only work on MPC computers
+mpc_root <- function(...) {
+  root <- if (Sys.info()[["sysname"]] == "Windows") "//files.pop.umn.edu/ipums/" else "/pkg/ipums/"
+  paste0(root, ...)
+}
 ```
 
 ### CPS - Hierarchical Data
