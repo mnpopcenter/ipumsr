@@ -20,7 +20,11 @@ Imports:
     xml2
 RoxygenNote: 6.0.1
 Suggests: 
+    DT,
+    htmltools,
     knitr,
     rmarkdown,
-    sf
+    rstudioapi,
+    sf,
+    shiny
 VignetteBuilder: knitr
