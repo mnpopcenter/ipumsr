@@ -46,8 +46,15 @@ read_ipums_micro <- function(
 ) {
   if (is.character(ddi)) ddi <- read_ddi(ddi)
   if (is.null(data_file)) data_file <- file.path(ddi$file_path, ddi$file_name)
-  if (!file.exists(data_file) & file.exists(paste0(data_file, ".gz"))) {
-    data_file <- paste0(data_file, ".gz")
+  # Look for zipped versions of the file or csv versions of the file if it doesn't exist
+  if (!file.exists(data_file)) {
+    if (file.exists(paste0(data_file, ".gz"))) {
+      data_file <- paste0(data_file, ".gz")
+    } else if (file.exists(stringr::str_replace(data_file, "\\.dat", "\\.csv"))) {
+      data_file <- stringr::str_replace(data_file, "\\.dat", "\\.csv")
+    } else if (file.exists(stringr::str_replace(data_file, "\\.dat", "\\.csv.gz"))) {
+      data_file <- stringr::str_replace(data_file, "\\.dat", "\\.csv.gz")
+    }
   }
   if (verbose) cat(ipums_conditions(ddi))
 
@@ -67,6 +74,10 @@ read_ipums_micro <- function(
 }
 
 read_ipums_hier <- function(ddi, vars, n_max, data_structure, data_file, verbose) {
+  if (stringr::str_sub(data_file, -4, -1) == ".csv" |
+      stringr::str_sub(data_file, -7, -1) == ".csv.gz") {
+    stop("Hierarchical data cannot be read as csv.")
+  }
   all_vars <- ddi$var_info
 
   rec_vinfo <- dplyr::filter(all_vars, .data$var_name == ddi$rectype_idvar)
@@ -176,11 +187,13 @@ read_ipums_hier <- function(ddi, vars, n_max, data_structure, data_file, verbose
 read_ipums_rect <- function(ddi, vars, n_max, data_file, verbose) {
   all_vars <- select_var_rows(ddi$var_info, vars)
 
-  col_types <- dplyr::case_when(
-    all_vars$var_type == "numeric" ~ "d",
-    all_vars$var_type == "character" ~ "c"
-  )
-  col_types <- paste(col_types, collapse = "")
+  col_types <- purrr::map(all_vars$var_type, function(x) {
+    if (x == "numeric") out <- readr::col_double()
+    else if(x == "character") out <- readr::col_character()
+    out
+  })
+  names(col_types) <- all_vars$var_name
+  col_types <- do.call(readr::cols, col_types)
 
   col_positions <- readr::fwf_positions(
     start = all_vars$start,
@@ -188,7 +201,18 @@ read_ipums_rect <- function(ddi, vars, n_max, data_file, verbose) {
     col_names = all_vars$var_name
   )
 
-  out <- readr::read_fwf(data_file, col_positions, col_types, n_max = n_max)
+  is_fwf <- stringr::str_sub(data_file, -4, -1) == ".dat" |
+    stringr::str_sub(data_file, -7, -1) == ".dat.gz"
+  is_csv <- stringr::str_sub(data_file, -4, -1) == ".csv" |
+    stringr::str_sub(data_file, -7, -1) == ".csv.gz"
+
+  if (is_fwf) {
+    out <- readr::read_fwf(data_file, col_positions, col_types, n_max = n_max)
+  } else if (is_csv) {
+    out <- readr::read_csv(data_file, col_types = col_types, n_max = n_max)
+  } else {
+    stop("Unrecognized file type.")
+  }
   out <- set_ipums_var_attributes(out, all_vars)
 
   out
