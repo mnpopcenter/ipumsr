@@ -30,7 +30,7 @@ ipums_view <- function(var_info, out_file = NULL) {
   ), out_file)
 
 
-  if (requireNamespace("rstudioapi")) {
+  if (requireNamespace("rstudioapi", quietly = TRUE)) {
     rstudioapi::viewer(out_file)
   } else {
     cat(paste0("See HTML file at: ", out_file))
