@@ -142,8 +142,8 @@ ipums_conditions <- function(object) {
 
 #' @export
 ipums_conditions.ipums_ddi <- function(object) {
-  out <- object$conditions
-  if (!is.null(object$citation)) out <- paste0("\n\n", object$citation, "\n\n")
+  out <- paste0(object$conditions, "\n\n")
+  if (!is.null(object$citation)) out <- paste0(out, object$citation, "\n\n")
   out
 }
 
