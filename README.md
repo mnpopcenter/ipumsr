@@ -123,45 +123,22 @@ Block level census data (Data from Alaska and Arizona)
 ``` r
 data <- read_nhgis(
   mpc_root("personal/gfellis/ipumsimport_examples/nhgis/nhgis0006_csv.zip"),
-  mpc_root("personal/gfellis/ipumsimport_examples/nhgis/nhgis0006_shape.zip"),
-  verbose = FALSE
+  mpc_root("personal/gfellis/ipumsimport_examples/nhgis/nhgis0006_shape.zip")
 )
+#> Use of NHGIS data is subject to conditions, including that publications and research which employ NHGIS data should cite it appropiately. Please see www.nhgis.org for more information.
+#> 
+#> 
+#> 
+#> Reading data file...
+#> Reading geography...
+#> There are 3 rows of data that have data but no geography. This can happen because:
+#>   Shape files do not include some census geographies such as 'Crews of Vessels' tracts that do not have a defined area
+#>   Shape files have been simplified which sometimes drops entire geographies (especially small ones).
 
 table(data$STATE)
 #> 
 #>  Alaska Arizona 
 #>    9795   59674
-
-# Note that there are 3 geographies in the csv but not the shape files
-# and 52,275 in the shape file, but not the csv
-# Should we throw a warning because of this? 
-data %>%
-  filter(is.na(FIPSSTCO)) %>%
-  select(GISJOIN, STATE, COUNTY)
-#> # A tibble: 3 x 3
-#>              GISJOIN  STATE              COUNTY
-#>                <chr>  <chr>               <chr>
-#> 1 G0202610986399314Z Alaska      Valdez-Cordova
-#> 2    G02028009777149 Alaska Wrangell-Petersburg
-#> 3    G02028009777165 Alaska Wrangell-Petersburg
-
-data %>%
-  filter(is.na(STATE)) %>%
-  select(GISJOIN, FIPSSTCO, TRACT, BLOCK) 
-#> # A tibble: 52,275 x 4
-#>             GISJOIN FIPSSTCO  TRACT BLOCK
-#>               <chr>    <chr>  <chr> <chr>
-#>  1 G02001309900101B    02013 990000  101B
-#>  2 G02001309900101D    02013 990000  101D
-#>  3 G02001309900103B    02013 990000  103B
-#>  4 G02001309900103C    02013 990000  103C
-#>  5 G02001309900106B    02013 990000  106B
-#>  6  G02001309900107    02013 990000   107
-#>  7  G02001309900111    02013 990000   111
-#>  8  G02001309900112    02013 990000   112
-#>  9 G02001309900113A    02013 990000  113A
-#> 10 G02001309900113C    02013 990000  113C
-#> # ... with 52,265 more rows
 ```
 
 ### NHGIS - Change over time
@@ -184,7 +161,7 @@ data
 #> proj4string:    +proj=aea +lat_1=29.5 +lat_2=45.5 +lat_0=37.5 +lon_0=-96 +x_0=0 +y_0=0 +datum=NAD83 +units=m +no_defs
 #> # A tibble: 3,273 x 28
 #>    STATEFP10 COUNTYFP10 COUNTYNS10 GEOID10          NAME10
-#>        <chr>      <chr>      <chr>   <chr>           <chr>
+#>  *     <chr>      <chr>      <chr>   <chr>           <chr>
 #>  1        02        013   01419964   02013  Aleutians East
 #>  2        02        016   01419965   02016  Aleutians West
 #>  3        28        107   00695776   28107          Panola
@@ -284,7 +261,7 @@ data
 #> proj4string:    +proj=longlat +datum=WGS84 +no_defs
 #> # A tibble: 48 x 6
 #>             LABEL GEOID TOTPOP_DZ_FLAD_DZ08_TP
-#>             <chr> <dbl>                  <dbl>
+#>  *          <chr> <dbl>                  <dbl>
 #>  1 Oum el Bouaghi   374                 621611
 #>  2          Jijel   363                 636950
 #>  3         Illizi   362                  52332
