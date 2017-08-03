@@ -283,12 +283,12 @@ read_terra_micro <- function(
     var_types <- readr::cols(.defualt = readr::col_character())
     var_types$cols <- var_type_spec
 
-    data <- readr::read_csv(read_data, col_types = var_types, na = "null")
+    data <- readr::read_csv(read_data, col_types = var_types, na = "null", locale = ipums_locale)
 
-    data <- readr::type_convert(data, readr::cols())
+    data <- readr::type_convert(data, readr::cols(), locale = ipums_locale)
   } else {
-    data <- readr::read_csv(read_data, col_types = readr::cols(.default = "c"))
-    data <- readr::type_convert(data, col_types = readr::cols())
+    data <- readr::read_csv(read_data, col_types = readr::cols(.default = "c"), locale = ipums_locale)
+    data <- readr::type_convert(data, col_types = readr::cols(), locale = ipums_locale)
   }
 
   # Add var labels and value labels from DDI, if available

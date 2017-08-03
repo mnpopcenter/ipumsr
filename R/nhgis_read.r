@@ -59,20 +59,27 @@ read_nhgis <- function(
   # Read data
   if (verbose) cat("\n\nReading data file...\n")
   if (data_is_zip) {
-    data <- readr::read_csv(unz(data_file, csv_name), col_types = readr::cols(.default = "c"))
+    data <- readr::read_csv(
+      unz(data_file, csv_name),
+      col_types = readr::cols(.default = "c"),
+      locale = ipums_locale)
   } else {
-    data <- readr::read_csv(data_file, col_types = readr::cols(.default = "c"))
+    data <- readr::read_csv(
+      data_file,
+      col_types = readr::cols(.default = "c"),
+      locale = ipums_locale
+    )
   }
 
   # If extract is NHGIS's "enhanced" csvs with an extra header row,
   # then remove the first row.
   # (determine by checking if the first row is entirely character
   # values that can't be converted to numeric)
-  first_row <- readr::type_convert(data[1, ], col_types = readr::cols())
+  first_row <- readr::type_convert(data[1, ], col_types = readr::cols(), locale = ipums_locale)
   first_row_char <- purrr::map_lgl(first_row, rlang::is_character)
   if (all(first_row_char)) data <- data[-1, ]
 
-  data <- readr::type_convert(data, col_types = readr::cols())
+  data <- readr::type_convert(data, col_types = readr::cols(), locale = ipums_locale)
 
   # Read shape files (if they exist) ----
   if (!is.null(shape_file)) {

@@ -4,6 +4,16 @@
 #   https://github.com/mnpopcenter/ipumsimport
 
 
+# Explicitly set a default ipums locale in case international
+# users have changed defaults of readr.
+# The most important part of this is the latin1 encoding
+# which IPUMS extracts are (or at least appear to be).
+ipums_locale <- readr::locale(
+  decimal_mark = ".",
+  grouping_mark = ",",
+  encoding = "latin1"
+)
+
 # Helper function for using dplyr's select functions to select
 # rows based on values in a column of a data.frame.
 select_var_rows <- function(df, vars, filter_var = "var_name") {
@@ -88,3 +98,4 @@ load_sf_namespace <- function() {
 file_is_zip <- function(file) {
   stringr::str_sub(file, -4) == ".zip"
 }
+
