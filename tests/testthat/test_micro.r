@@ -59,7 +59,7 @@ test_that(
   })
 
 test_that(
-  "Can read Hierarchical into long format", {
+  "Can read Hierarchical into list format", {
     cps <- read_ipums_micro(
       ipumsimport_example("cps_00010.xml"),
       data_structure = "list",
