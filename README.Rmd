@@ -45,20 +45,24 @@ mpc_root <- function(...) {
 ### CPS - Hierarchical Data ###
 Relies on user downloading the .xml DDI file and the .dat/.dat.gz file (doesn't need to be unzipped).
 ```{r}
-data <- read_ipums_micro(mpc_root("personal/gfellis/ipumsimport_examples/cps_hier/cps_00004.xml"))
+# Use example file included with package:
+cps_hier_file <- ipumsimport_example("cps_00010.xml")
+data <- read_ipums_micro(cps_hier_file)
 
-cat(ipums_var_desc(data, TCIG100))
-table(as_factor(data$TCIG100, levels = "both"))
+cat(ipums_var_desc(data, MONTH))
+table(as_factor(data$MONTH, levels = "both"))
 ```
 
 
 ### CPS - Rectangular Data ###
 Relies on user downloading the .xml DDI file and the .dat/.dat.gz file (doesn't need to be unzipped).
 ```{r}
-data <- read_ipums_micro(mpc_root("personal/gfellis/ipumsimport_examples/cps_rect/cps_00003.xml"), verbose = FALSE)
+# Use example file included with package
+cps_rect_file <- ipumsimport_example("cps_00006.xml")
+data <- read_ipums_micro(cps_rect_file, verbose = FALSE)
 
-cat(ipums_var_desc(data, TCIG100))
-table(as_factor(data$TCIG100, levels = "both"))
+cat(ipums_var_desc(data, MONTH))
+table(as_factor(data$MONTH, levels = "both"))
 ```
 
 ### NHGIS ###

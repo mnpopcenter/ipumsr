@@ -46,7 +46,9 @@ mpc_root <- function(...) {
 Relies on user downloading the .xml DDI file and the .dat/.dat.gz file (doesn't need to be unzipped).
 
 ``` r
-data <- read_ipums_micro(mpc_root("personal/gfellis/ipumsimport_examples/cps_hier/cps_00004.xml"))
+# Use example file included with package:
+cps_hier_file <- ipumsimport_example("cps_00010.xml")
+data <- read_ipums_micro(cps_hier_file)
 #> Users of IPUMS-CPS data must agree to abide by the conditions of use. A user's license is valid for one year and may be renewed.  Users must agree to the following conditions:
 #> 
 #> (1) No fees may be charged for use or distribution of the data.  All persons are granted a limited license to use these data, but you may not charge a fee for the data if you distribute it to others.
@@ -66,16 +68,16 @@ data <- read_ipums_micro(mpc_root("personal/gfellis/ipumsimport_examples/cps_hie
 #> Reading data...
 #> Parsing data...
 
-cat(ipums_var_desc(data, TCIG100))
-#> TCIG100 identifies individuals who had ever smoked 100 cigarettes in their lifetime.
+cat(ipums_var_desc(data, MONTH))
+#> MONTH indicates the calendar month of the CPS interview.
+table(as_factor(data$MONTH, levels = "both"))
 #> 
-#> This variable is part of the Tobacco Use Supplement [URL omitted from DDI.].
-table(as_factor(data$TCIG100, levels = "both"))
-#> 
-#>           [1] No          [2] Yes     [96] Refused  [97] Don't know 
-#>            53070            25674               87              288 
-#> [98] No Response         [99] NIU 
-#>                3            54471
+#>   [1] January  [2] February     [3] March     [4] April       [5] May 
+#>             0             0          3385             0             0 
+#>      [6] June      [7] July    [8] August [9] September  [10] October 
+#>             0             0             0             0             0 
+#> [11] November [12] December 
+#>             0             0
 ```
 
 ### CPS - Rectangular Data
@@ -83,18 +85,20 @@ table(as_factor(data$TCIG100, levels = "both"))
 Relies on user downloading the .xml DDI file and the .dat/.dat.gz file (doesn't need to be unzipped).
 
 ``` r
-data <- read_ipums_micro(mpc_root("personal/gfellis/ipumsimport_examples/cps_rect/cps_00003.xml"), verbose = FALSE)
+# Use example file included with package
+cps_rect_file <- ipumsimport_example("cps_00006.xml")
+data <- read_ipums_micro(cps_rect_file, verbose = FALSE)
 
-cat(ipums_var_desc(data, TCIG100))
-#> TCIG100 identifies individuals who had ever smoked 100 cigarettes in their lifetime.
+cat(ipums_var_desc(data, MONTH))
+#> MONTH indicates the calendar month of the CPS interview.
+table(as_factor(data$MONTH, levels = "both"))
 #> 
-#> This variable is part of the Tobacco Use Supplement [URL omitted from DDI.].
-table(as_factor(data$TCIG100, levels = "both"))
-#> 
-#>           [1] No          [2] Yes     [96] Refused  [97] Don't know 
-#>            53070            25674               87              288 
-#> [98] No Response         [99] NIU 
-#>                3            54471
+#>   [1] January  [2] February     [3] March     [4] April       [5] May 
+#>             0             0          7668             0             0 
+#>      [6] June      [7] July    [8] August [9] September  [10] October 
+#>             0             0             0             0             0 
+#> [11] November [12] December 
+#>             0             0
 ```
 
 ### NHGIS
