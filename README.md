@@ -89,16 +89,8 @@ Relies on user downloading the .xml DDI file and the .dat/.dat.gz file (doesn't 
 cps_rect_file <- ipumsimport_example("cps_00006.xml")
 data <- read_ipums_micro(cps_rect_file, verbose = FALSE)
 
-cat(ipums_var_desc(data, MONTH))
-#> MONTH indicates the calendar month of the CPS interview.
-table(as_factor(data$MONTH, levels = "both"))
-#> 
-#>   [1] January  [2] February     [3] March     [4] April       [5] May 
-#>             0             0          7668             0             0 
-#>      [6] June      [7] July    [8] August [9] September  [10] October 
-#>             0             0             0             0             0 
-#> [11] November [12] December 
-#>             0             0
+# Can get convenient display of variable information
+ipums_view(ipums_var_info(data))
 ```
 
 ### NHGIS

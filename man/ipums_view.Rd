@@ -4,13 +4,13 @@
 \alias{ipums_view}
 \title{View a static webpage with variable information from a IPUMS extract}
 \usage{
-ipums_view(var_info, out_file = NULL)
+ipums_view(x, out_file = NULL)
 }
 \arguments{
-\item{var_info}{Variable information from a IPUMS extract (from \code{\link{ipums_var_info}})}
-
 \item{out_file}{Optionally specify a location to save HTML file. NULL the default
 makes a temporary file.}
+
+\item{var_info}{Variable information from a IPUMS extract (from \code{\link{ipums_var_info}})}
 }
 \description{
 Requires that htmltools, shiny and DT are installed.

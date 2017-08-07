@@ -56,13 +56,14 @@ table(as_factor(data$MONTH, levels = "both"))
 
 ### CPS - Rectangular Data ###
 Relies on user downloading the .xml DDI file and the .dat/.dat.gz file (doesn't need to be unzipped).
-```{r}
+```{r, eval = FALSE}
 # Use example file included with package
 cps_rect_file <- ipumsimport_example("cps_00006.xml")
 data <- read_ipums_micro(cps_rect_file, verbose = FALSE)
 
-cat(ipums_var_desc(data, MONTH))
-table(as_factor(data$MONTH, levels = "both"))
+# While working interactively, can get convenient display of variable information
+# in RStudio's viewer
+ipums_view(data)
 ```
 
 ### NHGIS ###

@@ -11,7 +11,16 @@
 #'@param out_file Optionally specify a location to save HTML file. NULL the default
 #'  makes a temporary file.
 #'@export
-ipums_view <- function(var_info, out_file = NULL) {
+ipums_view <- function(x, out_file = NULL) {
+  UseMethod("ipums_view")
+}
+
+#' @export
+ipums_view.default <- function(x, out_file = NULL) {
+  ipums_view_base(ipums_var_info(x), out_file)
+}
+
+ipums_view_base <- function(var_info, out_file = NULL) {
   if (
     !requireNamespace("htmltools", quietly = TRUE) ||
     !requireNamespace("shiny", quietly = TRUE) ||
