@@ -20,7 +20,7 @@ It can be installed by running the following commands:
 ```{r, eval=FALSE}
 if (!require(devtools)) install.packages("devtools")
 
-if (Sys.info()$sysname == "Windows") {
+if (Sys.info()["sysname"] == "Windows") {
   devtools::install_local("Z:/personal/gfellis/ipumsimport")
 } else {
   devtools::install_local("/pkg/ipums/personal/gfellis/ipumsimport")
@@ -28,25 +28,31 @@ if (Sys.info()$sysname == "Windows") {
 ```
 
 ## Examples ##
-```{r}
-library(ipumsimport)
-library(haven)
-library(ggplot2) # ggplot2 version > 2.2.1 (development version as of 8/1/2017)
-library(dplyr)
-
-# Can't share extracts in repo, so examples will only work on MPC computers
-mpc_root <- function(...) {
-  root <- if (Sys.info()[["sysname"]] == "Windows") "//files.pop.umn.edu/ipums/" else "/pkg/ipums/"
-  paste0(root, ...)
+Example extracts are included in the 'ripumstest' package, which can be installed 
+using the following comands:
+```{r, eval=FALSE}
+if (Sys.info()["sysname"] == "Windows") {
+  devtools::install_local("Z:/personal/gfellis/ripumstest")
+} else {
+  devtools::install_local("/pkg/ipums/personal/gfellis/ripumstest")
 }
+```
 
+```{r}
+suppressPackageStartupMessages({
+  library(ipumsimport)
+  library(haven)
+  library(ggplot2) # ggplot2 version > 2.2.1 (development version as of 8/1/2017)
+  library(dplyr)
+  library(sf)
+})
 ```
 
 ### CPS - Hierarchical Data ###
 Relies on user downloading the .xml DDI file and the .dat/.dat.gz file (doesn't need to be unzipped).
 ```{r}
 # Use example file included with package:
-cps_hier_file <- ipumsimport_example("cps_00010.xml")
+cps_hier_file <- ripums_example("cps_00010.xml")
 data <- read_ipums_micro(cps_hier_file)
 
 cat(ipums_var_desc(data, MONTH))
@@ -58,7 +64,7 @@ table(as_factor(data$MONTH, levels = "both"))
 Relies on user downloading the .xml DDI file and the .dat/.dat.gz file (doesn't need to be unzipped).
 ```{r, eval = FALSE}
 # Use example file included with package
-cps_rect_file <- ipumsimport_example("cps_00006.xml")
+cps_rect_file <- ripums_example("cps_00006.xml")
 data <- read_ipums_micro(cps_rect_file, verbose = FALSE)
 
 # While working interactively, can get convenient display of variable information
@@ -70,97 +76,47 @@ ipums_view(data)
 Relies on user downloading the csv file (with or without header row) and shape files (doesn't need to be unzipped).
 ```{r}
 data <- read_nhgis(
-  mpc_root("personal/gfellis/ipumsimport_examples/nhgis/nhgis0005_csv.zip"),
-  mpc_root("personal/gfellis/ipumsimport_examples/nhgis/nhgis0005_shape.zip"),
-  matches("state"),
+  ripums_example("nhgis0008_csv.zip"),
+  ripums_example("nhgis0008_shape.zip"),
   verbose = FALSE
 )
+
+ipums_var_info(data, starts_with("D6Z"))
 
 data <- data %>%
-  mutate(pct_slave = (ABO003 + ABO004) / (ABO001 + ABO002 + ABO003 + ABO004 + ABO005 + ABO006))
+  mutate(
+    pct_before_1950 = (D6Z007 + D6Z008) / 
+           (D6Z001 + D6Z002 + D6Z003 + D6Z004 + D6Z005 + D6Z006 + D6Z007 + D6Z008)
+  )
 
 ggplot(data = data) + 
-  geom_sf(aes(fill = pct_slave))
+  geom_sf(aes(fill = pct_before_1950)) + 
+  ggtitle(
+    "Percent of homes built before 1950", 
+    subtitle = "By Primary Metropolitan Statistical Area in 1990 Census"
+  )
 ```
 
-Block level census data (Data from Alaska and Arizona)
-```{r}
-data <- read_nhgis(
-  mpc_root("personal/gfellis/ipumsimport_examples/nhgis/nhgis0006_csv.zip"),
-  mpc_root("personal/gfellis/ipumsimport_examples/nhgis/nhgis0006_shape.zip")
-)
-
-table(data$STATE)
-```
-
-### NHGIS - Change over time ### 
-Currently tested with the file type "years by column"
-```{r}
-data <- read_nhgis(
-  mpc_root("personal/gfellis/ipumsimport_examples/nhgis/nhgis0007_csv.zip"),
-  mpc_root("personal/gfellis/ipumsimport_examples/nhgis/nhgis0007_shape.zip"),
-  verbose = FALSE
-)
-
-data
-```
-
-### Terrapop - Raster Data ###
-Relies on zip file from extract (left as-is or unzipped)
-```{r}
+### Terrapop ###
+Also have functions for loading terrapop data, but examples are too large to include in the package.
+```{r, eval=FALSE}
+# Raster data
 data <- read_terra_raster(
-  mpc_root("personal/gfellis/ipumsimport_examples/terra_raster/2552_bundle.zip"),
+  "2552_bundle.zip",
   "CROPLAND2000ZM2013.tiff",
   verbose = FALSE
 )
 
-raster::plot(data)
-
-# Or can read multiple rasters into a list
-data <- read_terra_raster_list(
-  mpc_root("personal/gfellis/ipumsimport_examples/terra_raster/2552_bundle.zip"),
-  verbose = FALSE
-)
-
-names(data) %>% head()
-
-# No variable information provided by extract system though
-```
-
-### Terrapop - Area level data ###
-Relies on usual extract (with boundary files for maps) either zipped or unzipped
-```{r}
+# Area data
 data <- read_terra_area(
-  mpc_root("personal/gfellis/ipumsimport_examples/terra_area/2553_bundle.zip"),
+  "2553_bundle.zip",
   verbose = FALSE
 )
 
-var_label <- ipums_var_label(data, EDUCTERTIARY_GEO1_BR_BR2010A)
-var_label
-
-ggplot(data) +
-  geom_sf(aes(fill = EDUCTERTIARY_GEO1_BR_BR2010A)) + 
-  scale_fill_continuous("") + 
-  ggtitle("Brazil 2010", subtitle = var_label)
-```
-
-Can specify which data to use if there are multiple countries in your extract
-```{r}
-ipums_list_files(mpc_root("personal/gfellis/ipumsimport_examples/terra_area/2644_bundle.zip"))
-
-data <- read_terra_area(
-  mpc_root("personal/gfellis/ipumsimport_examples/terra_area/2644_bundle.zip"),
-  data_layer = matches("DZ"),
+# Microdata
+data <- read_terra_micro(
+  "2554_bundle.zip",
   verbose = FALSE
 )
 
-data
-
 ```
-
-### Terrapop - Microlevel data ###
-Relies on usual extract file (with boundary files for maps) either zipped or unzipped
-
-This file is huge, so won't run on a local machine, but I need IT's help getting some
-dependencies set-up to run this on the mpcstats servers.
-
