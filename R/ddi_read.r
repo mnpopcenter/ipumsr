@@ -226,10 +226,11 @@ read_ipums_codebook <- function(cb_file, data_layer = NULL) {
     )
     var_info <- var_info[!is.na(var_info$var_name), ]
   } else if (type == "NHGIS") {
-    context_rows <- seq(
-      which(dd == "Context Fields ") + 1,
-      which(stringr::str_detect(dd, "^[:blank:]$")) - 1
-    )
+    context_start <- which(dd == "Context Fields ") + 1
+    context_end <- which(stringr::str_detect(dd, "^[:blank:]$")) - 1
+    context_end <- min(context_end[context_end > context_start])
+    context_rows <- seq(context_start, context_end)
+
     context_vars <- dd[context_rows]
     context_vars <- stringr::str_match(context_vars, "([[:alnum:]|[:punct:]]+):[:blank:]+(.+)$")
     context_vars <- tibble::data_frame(
