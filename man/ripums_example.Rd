@@ -20,5 +20,5 @@ The 'ripumstest' package can be installed using the command:
 }
 \examples{
 ripums_example()
-ripums_example("cps00006.xml")
+ripums_example("cps_00006.xml")
 }

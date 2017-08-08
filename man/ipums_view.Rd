@@ -7,10 +7,10 @@
 ipums_view(x, out_file = NULL)
 }
 \arguments{
+\item{x}{A DDI or other object with ipums attributes (such as data loaded from an extract)}
+
 \item{out_file}{Optionally specify a location to save HTML file. NULL the default
 makes a temporary file.}
-
-\item{var_info}{Variable information from a IPUMS extract (from \code{\link{ipums_var_info}})}
 }
 \description{
 Requires that htmltools, shiny and DT are installed.

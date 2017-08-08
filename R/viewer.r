@@ -7,7 +7,7 @@
 #'
 #' Requires that htmltools, shiny and DT are installed.
 #'
-#'@param var_info Variable information from a IPUMS extract (from \code{\link{ipums_var_info}})
+#'@param x A DDI or other object with ipums attributes (such as data loaded from an extract)
 #'@param out_file Optionally specify a location to save HTML file. NULL the default
 #'  makes a temporary file.
 #'@export

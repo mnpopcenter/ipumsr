@@ -16,7 +16,7 @@
 #' @export
 #' @examples
 #' ripums_example()
-#' ripums_example("cps00006.xml")
+#' ripums_example("cps_00006.xml")
 ripums_example <- function(path = NULL) {
   if (!requireNamespace("ripumstest", quietly = TRUE)) {
     stop(paste0(
