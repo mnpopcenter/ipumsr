@@ -24,6 +24,7 @@ Suggests:
     htmltools,
     knitr,
     rmarkdown,
+    ripumstest,
     rstudioapi,
     sf,
     shiny,
