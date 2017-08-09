@@ -1,4 +1,4 @@
-Package: ipumsimport
+Package: ripums
 Title: Read IPUMS extract files into R
 Version: 0.0.1.9000
 Authors@R: person("Minnesota Population Center", email = "gfellis@umn.edu", role = c("aut", "cre"))

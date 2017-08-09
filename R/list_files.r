@@ -1,7 +1,7 @@
-# This file is part of the Minnesota Population Center's ipumsimport.
+# This file is part of the Minnesota Population Center's ripums.
 # For copyright and licensing information, see the NOTICE and LICENSE files
 # in this project's top-level directory, and also on-line at:
-#   https://github.com/mnpopcenter/ipumsimport
+#   https://github.com/mnpopcenter/ripums
 
 
 #' List files available for analysis in an IPUMS extract zip file

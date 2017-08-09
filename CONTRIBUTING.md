@@ -2,7 +2,7 @@
 
 Thank you for considering improving this project! By participating, you
 agree to abide by the [code of conduct].
-[code of conduct]: https://github.com/mnpopcenter/ipumsimport/blob/master/CONDUCT.md
+[code of conduct]: https://github.com/mnpopcenter/ripums/blob/master/CONDUCT.md
 
 We also ask that all contributors add their name and affiliation to the NOTICE.txt file,
 and summarize their changes in the NEWS.md file (after the first version is released). 
@@ -21,7 +21,7 @@ using Rstudio:
 1) Fork this repo (top right corner button on the github website)
 
 2) Clone the repo from Rstudio's toolbar: 
-`File > New Project > From Verson Control > https://github.com/*YOUR_USER_NAME*/ipumsimport/`
+`File > New Project > From Verson Control > https://github.com/*YOUR_USER_NAME*/ripums/`
 
 3) Make changes to your local copy (don't forget to add your name to NOTICE.txt and 
 summarize your change in the NEWS.md file). 
@@ -29,4 +29,4 @@ summarize your change in the NEWS.md file).
 4) Commit your changes and push them to the github webiste using Rstudio's Git pane 
 (push using the green up arrow). 
 
-5) [Submit a pull request](https://github.com/mnpopcenter/ipumsimport/compare/)
+5) [Submit a pull request](https://github.com/mnpopcenter/ripums/compare/)

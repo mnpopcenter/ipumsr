@@ -1,4 +1,4 @@
 library(testthat)
-library(ipumsimport)
+library(ripums)
 
-test_check("ipumsimport")
+test_check("ripums")

@@ -4,7 +4,7 @@
 \alias{dplyr_select_style}
 \title{Select-style helpers from dplyr}
 \description{
-Several arguments in \code{ipumsimport} alow syntax for selecting variables
+Several arguments in \code{ripums} alow syntax for selecting variables
 based on dplyr's \code{\link[dplyr]{select}} function. See details for more information.
 }
 \details{

@@ -1,7 +1,7 @@
-# This file is part of the Minnesota Population Center's ipumsimport.
+# This file is part of the Minnesota Population Center's ripums.
 # For copyright and licensing information, see the NOTICE and LICENSE files
 # in this project's top-level directory, and also on-line at:
-#   https://github.com/mnpopcenter/ipumsimport
+#   https://github.com/mnpopcenter/ripums
 
 
 # Import all of rlang
@@ -12,7 +12,7 @@ NULL
 
 #' Select-style helpers from dplyr
 #'
-#' Several arguments in \code{ipumsimport} alow syntax for selecting variables
+#' Several arguments in \code{ripums} alow syntax for selecting variables
 #' based on dplyr's \code{\link[dplyr]{select}} function. See details for more information.
 #'
 #' There are 3 broad categories of methods for specifying arguments for these select-style

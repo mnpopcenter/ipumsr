@@ -1,9 +1,9 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
-ipumsimport
-===========
+ripums
+======
 
-The ipumsimport package helps import IPUMS extracts from the [IPUMS website](https://www.ipums.org) into R.
+The ripums package helps import IPUMS extracts from the [IPUMS website](https://www.ipums.org) into R.
 
 It can be installed by running the following commands:
 
@@ -11,9 +11,9 @@ It can be installed by running the following commands:
 if (!require(devtools)) install.packages("devtools")
 
 if (Sys.info()["sysname"] == "Windows") {
-  devtools::install_local("Z:/personal/gfellis/ipumsimport")
+  devtools::install_local("Z:/personal/gfellis/ripums")
 } else {
-  devtools::install_local("/pkg/ipums/personal/gfellis/ipumsimport")
+  devtools::install_local("/pkg/ipums/personal/gfellis/ripums")
 }
 ```
 
@@ -32,7 +32,7 @@ if (Sys.info()["sysname"] == "Windows") {
 
 ``` r
 suppressPackageStartupMessages({
-  library(ipumsimport)
+  library(ripums)
   library(haven)
   library(ggplot2) # ggplot2 version > 2.2.1 (development version as of 8/1/2017)
   library(dplyr)
