@@ -33,10 +33,17 @@ ipums_view_base <- function(var_info, out_file = NULL) {
   }
   if (is.null(out_file)) out_file <- paste0(tempfile(), ".html")
 
-  htmltools::save_html(shiny::basicPage(
+
+
+  html_page <- shiny::basicPage(
     htmltools::tags$h1("IPUMS Data Dictionary Viewer"),
     purrr::pmap(var_info, display_ipums_var_row)
-  ), out_file)
+  )
+
+  html_page <- add_jquery_dependency(html_page)
+
+
+  htmltools::save_html(html_page, out_file)
 
 
   if (requireNamespace("rstudioapi", quietly = TRUE)) {
@@ -48,6 +55,9 @@ ipums_view_base <- function(var_info, out_file = NULL) {
 
 
 display_ipums_var_row <- function(var_name, var_label, var_desc, val_labels, ...) {
+  if (is.na(var_label)) var_label <- "-"
+
+  if (is.na(var_desc)) var_desc <- "No variable description available..."
   vd_html <- split_double_linebreaks_to_ptags(var_desc)
 
   if (nrow(val_labels) > 0) {
@@ -107,4 +117,21 @@ expandable_div <- function(title, subtitle, content) {
 split_double_linebreaks_to_ptags <- function(x) {
   out <- stringr::str_split(x, "\n\n")[[1]]
   purrr::map(out, htmltools::tags$p)
+}
+
+
+add_jquery_dependency <- function(page) {
+  # Get jquery file from DT package's installed files (in case
+  # no DT's are included in output)
+  jquery_dir <- c(
+    href = "shared/jquery",
+    file = system.file("htmlwidgets/lib/jquery/", package = "DT")
+  )
+  page <- htmltools::attachDependencies(
+    page,
+    htmltools::htmlDependency("jquery", "1.12.4", jquery_dir, script = "jquery.min.js"),
+    append = TRUE
+  )
+  htmltools::htmlDependencies(page) <- rev(htmltools::htmlDependencies(page))
+  page
 }
