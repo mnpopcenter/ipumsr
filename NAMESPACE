@@ -3,6 +3,7 @@
 S3method(ipums_conditions,default)
 S3method(ipums_conditions,ipums_ddi)
 S3method(ipums_file_info,default)
+S3method(ipums_file_info,ipums_ddi)
 S3method(ipums_val_labels,default)
 S3method(ipums_var_desc,default)
 S3method(ipums_var_info,data.frame)

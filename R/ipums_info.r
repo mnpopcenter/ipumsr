@@ -183,7 +183,7 @@ ipums_file_info.default <- function(object) {
 }
 
 #' @export
-ipums_var_info.ipums_ddi <- function(object) {
+ipums_file_info.ipums_ddi <- function(object) {
   out <- object[c("ipums_project", "extract_date", "extract_notes", "conditions", "citation")]
   out
 }

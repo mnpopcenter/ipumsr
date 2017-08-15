@@ -26,6 +26,7 @@ test_that(
 
 test_that(
   "Can read NHGIS extract (with shape as sf)", {
+    skip_if_not_installed("sf")
     nhgis <- read_nhgis(
       ripums_example("nhgis0008_csv.zip"),
       ripums_example("nhgis0008_shape.zip"),
@@ -43,6 +44,7 @@ test_that(
 
 test_that(
   "Can read NHGIS extract (with shape as sf - 1 layer unzipped)", {
+    skip_if_not_installed("sf")
     temp_dir <- tempfile()
     dir.create(temp_dir)
     utils::unzip(ripums_example("nhgis0008_csv.zip"), exdir = temp_dir)
