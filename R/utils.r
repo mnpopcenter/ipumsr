@@ -93,7 +93,7 @@ set_ipums_df_attributes <- function(data, extract_info) {
   }
 
   if (!is.null(extract_info$citation)) {
-    data <- rlang::set_attrs(data, conditions = extract_info$citation)
+    data <- rlang::set_attrs(data, citation = extract_info$citation)
   }
   data
 }

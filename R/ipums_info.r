@@ -154,3 +154,37 @@ ipums_conditions.default <- function(object) {
   if (!is.null(atts$citation)) out <- paste0("\n\n", atts$citation, "\n\n")
   out
 }
+
+
+#' Get IPUMS file information
+#'
+#' Get IPUMS metadata information about the data file loaded into R. Will try to read
+#' the metadata fron the loaded datasets, but it is more reliable to load the DDI
+#' into a separate object and use it instead.
+#'
+#' @param object A DDI object (loaded with \code{\link{read_ddi}}), or a data.frame
+#'   with ipums metadata attached.
+#'
+#' @export
+ipums_file_info <- function(object) {
+  UseMethod("ipums_file_info")
+}
+
+#' @export
+ipums_file_info.default <- function(object) {
+  obj_info <- attributes(object)
+  attributes_exist <- intersect(
+    c("ipums_project", "extract_date", "extract_notes", "conditions", "citation"),
+    names(obj_info)
+  )
+
+  out <- obj_info[attributes_exist]
+  out
+}
+
+#' @export
+ipums_var_info.ipums_ddi <- function(object) {
+  out <- object[c("ipums_project", "extract_date", "extract_notes", "conditions", "citation")]
+  out
+}
+

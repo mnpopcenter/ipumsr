@@ -12,15 +12,6 @@
 #'  makes a temporary file.
 #'@export
 ipums_view <- function(x, out_file = NULL) {
-  UseMethod("ipums_view")
-}
-
-#' @export
-ipums_view.default <- function(x, out_file = NULL) {
-  ipums_view_base(ipums_var_info(x), out_file)
-}
-
-ipums_view_base <- function(var_info, out_file = NULL) {
   if (
     !requireNamespace("htmltools", quietly = TRUE) ||
     !requireNamespace("shiny", quietly = TRUE) ||
@@ -33,10 +24,12 @@ ipums_view_base <- function(var_info, out_file = NULL) {
   }
   if (is.null(out_file)) out_file <- paste0(tempfile(), ".html")
 
-
+  file_info <- ipums_file_info(x)
+  var_info <- ipums_var_info(x)
 
   html_page <- shiny::basicPage(
     htmltools::tags$h1("IPUMS Data Dictionary Viewer"),
+    file_info_html(file_info),
     purrr::pmap(var_info, display_ipums_var_row)
   )
 
@@ -53,6 +46,34 @@ ipums_view_base <- function(var_info, out_file = NULL) {
   }
 }
 
+
+file_info_html <- function(file_info) {
+  htmltools::tags$div(
+    htmltools::tags$h3("Extract Information"),
+    htmltools::tags$p(htmltools::tags$b("Project: "), file_info$ipums_project),
+    htmltools::tags$p(htmltools::tags$b("Date Created: "), file_info$extract_date),
+    htmltools::tags$p(
+      htmltools::tags$b("Extract Notes: "),
+      convert_single_linebreak_to_brtags(file_info$extract_notes)
+    ),
+    htmltools::tags$p(
+      htmltools::tags$b("Conditions / Citation"),
+      htmltools::tags$a(
+        "(Click to expand)",
+        `data-toggle` = "collapse",
+        `href` = "#collapseConditions",
+        `aria-expanded` = "false"
+      ),
+      htmltools::tags$div(
+        split_double_linebreaks_to_ptags(file_info$conditions),
+        split_double_linebreaks_to_ptags(file_info$citation),
+        id = "collapseConditions",
+        class = "collapse"
+      )
+    ),
+    htmltools::tags$h3("Variable Information (click name to expand)")
+  )
+}
 
 display_ipums_var_row <- function(var_name, var_label, var_desc, val_labels, ...) {
   if (is.na(var_label)) var_label <- "-"
@@ -115,10 +136,22 @@ expandable_div <- function(title, subtitle, content) {
 }
 
 split_double_linebreaks_to_ptags <- function(x) {
+  if (is.null(x)) return("")
   out <- stringr::str_split(x, "\n\n")[[1]]
   purrr::map(out, htmltools::tags$p)
 }
 
+convert_single_linebreak_to_brtags <- function(x) {
+  split <- stringr::str_split(x, "\n")[[1]]
+  if (length(split) == 1) return(x)
+  out <- vector(mode = "list", length = (length(split) - 1) * 2 - 1)
+
+  for (iii in seq_along(split)){
+    out[[(iii - 1) * 2 + 1]] <- split[iii]
+    if (iii != length(split)) out[[(iii - 1) * 2 + 2]] <- htmltools::tags$br()
+  }
+  out
+}
 
 add_jquery_dependency <- function(page) {
   # Get jquery file from DT package's installed files (in case
