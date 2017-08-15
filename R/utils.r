@@ -76,6 +76,18 @@ set_ipums_var_attributes <- function(data, var_info, set_imp_decim = TRUE) {
 }
 
 set_ipums_df_attributes <- function(data, extract_info) {
+  if (!is.null(extract_info$ipums_project)) {
+    data <- rlang::set_attrs(data, ipums_project = extract_info$ipums_project)
+  }
+
+  if (!is.null(extract_info$extract_date)) {
+    data <- rlang::set_attrs(data, extract_date = extract_info$extract_date)
+  }
+
+  if (!is.null(extract_info$extract_notes)) {
+    data <- rlang::set_attrs(data, extract_notes = extract_info$extract_notes)
+  }
+
   if (!is.null(extract_info$conditions)) {
     data <- rlang::set_attrs(data, conditions = extract_info$conditions)
   }

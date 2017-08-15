@@ -122,18 +122,11 @@ read_nhgis <- function(
 }
 
 # Fills in a default condition if we can't find codebook for nhgis
-nhgis_empty_ddi <- list(
-  file_name = NULL,
-  file_path = NULL,
+nhgis_empty_ddi <- make_ddi(
   file_type = "rectangular",
-  rec_types = NULL,
-  rectype_idvar = NULL,
-  var_info = NULL,
   conditions = paste0(
     "Use of NHGIS data is subject to conditions, including that ",
     "publications and research which employ NHGIS data should cite it ",
     "appropiately. Please see www.nhgis.org for more information."
-  ),
-  license = NULL
+  )
 )
-class(nhgis_empty_ddi) <- "ipums_ddi"

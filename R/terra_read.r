@@ -323,18 +323,11 @@ read_terra_micro <- function(
 
 
 # Fills in a default condition if we can't find ddi for terra
-terra_empty_ddi <- list(
-  file_name = NULL,
-  file_path = NULL,
+terra_empty_ddi <- make_ddi(
   file_type = "rectangular",
-  rec_types = NULL,
-  rectype_idvar = NULL,
-  var_info = NULL,
   conditions = paste0(
     "Use of IPUMS Terra data is subject to conditions, including that ",
     "publications and research which employ IPUMS Terra data should cite it ",
     "appropiately. Please see www.terrapop.org for more information."
-  ),
-  license = NULL
+  )
 )
-class(terra_empty_ddi) <- "ipums_ddi"

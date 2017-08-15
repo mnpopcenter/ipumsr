@@ -30,7 +30,7 @@ read_ddi <- function(ddi_file, data_layer = NULL) {
   }
   ddi_xml <- xml2::read_xml(ddi_file_load, data_layer = NULL)
 
-  # Print citation/conditions
+  # Citation / Conditions
   cite_info <-  xml2::xml_find_all(
     ddi_xml,
     "/d1:codeBook/d1:stdyDscr/d1:dataAccs/d1:useStmt"
@@ -42,6 +42,27 @@ read_ddi <- function(ddi_file, data_layer = NULL) {
   citation <- xml2::xml_find_all(cite_info, "d1:citReq")
   citation <- xml2::xml_text(citation)
 
+  # ipums_project: Store as 'Project Name (Project DOI)'
+  ipums_project <- xml2::xml_find_all(
+    ddi_xml,
+    "/d1:codeBook/d1:stdyDscr/d1:citation/d1:serStmt"
+  )
+  ipums_project <- xml2::xml_text(xml2::xml_children(ipums_project))
+  ipums_project <- paste0(ipums_project[1], " (", ipums_project[2], ")")
+
+  # Users's extract notes
+  extract_notes <- xml2::xml_find_all(
+    ddi_xml,
+    "/d1:codeBook/d1:stdyDscr/d1:notes"
+  )
+  extract_notes <- xml2::xml_text(extract_notes)
+
+  # Extract creation time
+  extract_date <- xml2::xml_attr(
+    xml2::xml_find_all(ddi_xml, "/d1:codeBook/d1:stdyDscr/d1:citation/d1:prodStmt/d1:prodDate"),
+    "date"
+  )
+  extract_date <- as.Date(extract_date)
 
   # Files
   files <- xml2::xml_find_all(ddi_xml, "/d1:codeBook/d1:fileDscr")
@@ -122,10 +143,13 @@ read_ddi <- function(ddi_file, data_layer = NULL) {
     }
   }
 
-  out <- list(
+  out <- make_ddi(
     file_name = file_name,
     file_path = dirname(ddi_file),
     file_type = file_type,
+    ipums_project = ipums_project,
+    extract_date = extract_date,
+    extract_notes = extract_notes,
     rectypes = rectypes,
     rectype_idvar = rectype_idvar,
     var_info = var_info,
@@ -133,7 +157,6 @@ read_ddi <- function(ddi_file, data_layer = NULL) {
     citation = citation
   )
 
-  class(out) <- "ipums_ddi"
   out
 }
 
@@ -195,7 +218,7 @@ read_ipums_codebook <- function(cb_file, data_layer = NULL) {
   section_markers <- which(stringr::str_detect(cb, "^[-]{5,}+$"))
 
   # Second line tells if it is NHGIS or IPUMS Terra codebook
-  if (stringr::str_detect(cb[2], "IPUMS Terra")) type <- "Terra"
+  if (stringr::str_detect(cb[2], "IPUMS Terra")) type <- "IPUMS Terra"
   else if (stringr::str_detect(cb[2], "NHGIS")) type <- "NHGIS"
   else stop("Unknown codebook format.")
 
@@ -203,7 +226,7 @@ read_ipums_codebook <- function(cb_file, data_layer = NULL) {
   # from data dictionary section using messy string parsing code
   dd <- find_cb_section(cb, "^Data Dictionary$", section_markers)
 
-  if (type == "Terra") {
+  if (type == "IPUMS Terra") {
     data_file_rows <- which(stringr::str_detect(dd, "^Data File:"))
     data_file_sections <- purrr::map2(data_file_rows, c(data_file_rows[-1], length(dd)), ~seq(.x + 1, .y - 1))
     data_file_names <- stringr::str_match(dd[data_file_rows], "Data File: (.+)")[, 2]
@@ -262,17 +285,14 @@ read_ipums_codebook <- function(cb_file, data_layer = NULL) {
   conditions_text <- paste(conditions_text, collapse = "\n")
 
 
-  out <- list(
+  out <- make_ddi(
     file_name = cb_name,
-    file_path = "",
     file_type = "rectangular",
-    rec_types = NULL,
-    rectype_idvar = NULL,
+    ipums_project = type,
     var_info = var_info,
-    conditions = conditions_text,
-    license = NULL
+    conditions = conditions_text
   )
-  class(out) <- "ipums_ddi"
+
   out
 }
 
@@ -283,4 +303,36 @@ find_cb_section <- function(cb_text, section, section_markers) {
 
   end <- min(c(length(cb_text), section_markers[section_markers > start])) - 1
   cb_text[seq(start, end)]
+}
+
+
+make_ddi <- function(
+  file_name = NULL,
+  file_path = NULL,
+  file_type = NULL,
+  ipums_project = NULL,
+  extract_date = NULL,
+  extract_notes = NULL,
+  rectypes = NULL,
+  rectype_idvar = NULL,
+  var_info = NULL,
+  conditions = NULL,
+  citation = NULL
+) {
+  out <- list(
+    file_name = file_name,
+    file_path = file_path,
+    file_type = file_type,
+    ipums_project = ipums_project,
+    extract_date = extract_date,
+    extract_notes = extract_notes,
+    rectypes = rectypes,
+    rectype_idvar = rectype_idvar,
+    var_info = var_info,
+    conditions = conditions,
+    citation = citation
+  )
+
+  class(out) <- "ipums_ddi"
+  out
 }
