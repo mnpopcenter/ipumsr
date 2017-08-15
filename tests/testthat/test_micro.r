@@ -15,6 +15,7 @@ STATEFIP_val_labels <- c(Alabama = 1, Alaska = 2)
 
 test_that(
   "Can read Rectangular .dat.gz", {
+    skip_if_not_installed("ripumstest")
     cps <- read_ipums_micro(
       ripums_example("cps_00006.xml"),
       data_file = ripums_example("cps_00006.dat.gz"),
@@ -30,6 +31,7 @@ test_that(
 
 test_that(
   "Can read Rectangular .csv.gz", {
+    skip_if_not_installed("ripumstest")
     cps <- read_ipums_micro(
       ripums_example("cps_00006.xml"),
       data_file = ripums_example("cps_00006.csv.gz"),
@@ -45,6 +47,7 @@ test_that(
 
 test_that(
   "Can read Hierarchical into long format", {
+    skip_if_not_installed("ripumstest")
     cps <- read_ipums_micro(
       ripums_example("cps_00010.xml"),
       data_structure = "long",
@@ -60,6 +63,7 @@ test_that(
 
 test_that(
   "Can read Hierarchical into list format", {
+    skip_if_not_installed("ripumstest")
     cps <- read_ipums_micro(
       ripums_example("cps_00010.xml"),
       data_structure = "list",
@@ -79,6 +83,7 @@ test_that(
 
 test_that(
   "Can read Hierarchical into nested format", {
+    skip_if_not_installed("ripumstest")
     cps <- read_ipums_micro(
       ripums_example("cps_00010.xml"),
       data_structure = "nested",
@@ -95,6 +100,7 @@ test_that(
 
 test_that(
   "Arguments n_max and vars work", {
+    skip_if_not_installed("ripumstest")
     cps <- read_ipums_micro(
       ripums_example("cps_00010.xml"),
       n_max = 100,

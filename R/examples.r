@@ -21,7 +21,7 @@ ripums_example <- function(path = NULL) {
   if (!requireNamespace("ripumstest", quietly = TRUE)) {
     stop(paste0(
       "IPUMS example extracts are found in the 'ripumstest' package, which ",
-      "can be installed using the comand: devtools::install_github('mnpopcenter/ripumstest')."
+      "can be installed using the command: devtools::install_github('mnpopcenter/ripumstest')."
     ))
   }
 

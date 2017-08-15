@@ -10,6 +10,7 @@ pmsa_first2_sort <- c("Akron, OH PMSA", "Anaheim--Santa Ana, CA PMSA")
 
 test_that(
   "Can read NHGIS extract (data only)", {
+    skip_if_not_installed("ripumstest")
     nhgis <- read_nhgis(
       ripums_example("nhgis0008_csv.zip"),
       verbose = FALSE
@@ -26,6 +27,7 @@ test_that(
 
 test_that(
   "Can read NHGIS extract (with shape as sf)", {
+    skip_if_not_installed("ripumstest")
     skip_if_not_installed("sf")
     nhgis <- read_nhgis(
       ripums_example("nhgis0008_csv.zip"),
@@ -44,6 +46,7 @@ test_that(
 
 test_that(
   "Can read NHGIS extract (with shape as sf - 1 layer unzipped)", {
+    skip_if_not_installed("ripumstest")
     skip_if_not_installed("sf")
     temp_dir <- tempfile()
     dir.create(temp_dir)
@@ -67,6 +70,8 @@ test_that(
 
 test_that(
   "Can read NHGIS extract (with shape as sf - 2 layers unzipped)", {
+    skip_if_not_installed("ripumstest")
+    skip_if_not_installed("sf")
     temp_dir <- tempfile()
     dir.create(temp_dir)
     utils::unzip(ripums_example("nhgis0008_csv.zip"), exdir = temp_dir)
