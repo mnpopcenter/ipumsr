@@ -48,7 +48,7 @@ read_nhgis <- function(
     csv_name <- find_files_in_zip(data_file, "csv", data_layer)
     cb_ddi_info <- try(read_ipums_codebook(data_file, !!data_layer), silent = TRUE)
   } else {
-    cb_name <- stringr::str_replace(data_file, "\\.txt$", "_codebook.txt")
+    cb_name <- stringr::str_replace(data_file, "\\.csv$", "_codebook.txt")
     cb_ddi_info <- try(read_ipums_codebook(cb_name), silent = TRUE)
   }
 
