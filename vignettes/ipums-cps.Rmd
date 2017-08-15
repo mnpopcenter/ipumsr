@@ -1,0 +1,209 @@
+---
+title: "`ripums` Example - CPS"
+author: "Minnesota Population Center"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{ipums-cps}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+This vignette is adapted from the CPS Data Training Exercise available here:
+[https://pop.umn.edu/sites/pop.umn.edu/files/final_review_-_cps_spss_exercise_1_0.pdf]()
+
+### Research Questions ##
+What is the frequency of food stamp recipiency in the US? Are health and work
+statuses related?
+
+### Objectives
+- Create and download an IPUMS data extract
+- Decompress data file and read data into R
+- Analyze the data using sample code
+- Validate data analysis work using answer key
+
+### IPUMS Variables
+- PERNUM: Person number in sample unit
+- FOODSTMP: Food stamp receipt
+- AGE: Age
+- EMPSTAT: Employment status
+- HRSWORK: Hours worked last week
+- HEALTH: Health status
+
+## Download Extract from IPUMS Website
+1) **Register with IPUMS** - Go to http://cps.ipums.org, click on CPS Registration and apply for access. On login screen, enter email address and password and submit it!
+
+2) **Make an Extract**
+  - Go to http://cps.ipums.org, click on CPS Registration and Apply for access
+  - On login screen, enter email address and password and submit
+  - Go back to homepage and go to Select Data
+  - Click the Select Samples box, check the box for the 2011 ASEC sample, click the Submit sample selections box
+  - Using the drop down menu or search feature, select the following variables:
+    - PERNUM: Person number in sample unit
+    - FOODSTMP: Food stamp receipt
+    - AGE: Age
+    - EMPSTAT: Employment status
+    - AHRSWORK: Hours worked last week
+    - HEALTH: Health status
+
+3) **Request the Data**
+  - Click the green VIEW CART button under your data cart
+  - Review variable selection. Click the green Create Data Extract button
+  - Review the ‘Extract Request Summary’ screen, describe your extract and click Submit Extract
+  - You will get an email when the data is available to download
+  - To get to the page to download the data, follow the link in the email, or follow the Download and Revise Extracts link on the homepage
+
+4) **Download the Data**
+  - Go to http://cps.ipums.org and click on Download or Revise Extracts
+  - Right-click on the data link next to extract you created
+  - Choose "Save Target As..." (or "Save Link As...")
+  - Save into "Documents" (that should pop up as the default location)
+  - Do the same thing for the DDI link next to the extract
+
+## Getting the data into R ##
+To facilitate running this vignette in R, the example code here uses
+the pre-made extract included in the `ripumstest` package. If you 
+would like to use the extract that you have created, change the filepaths 
+noted below.
+
+```{r}
+library(ripums)
+library(dplyr, warn.conflicts = FALSE)
+library(haven)
+
+cps_ddi_file <- ripums_example("cps_00011.xml")
+# OR uncomment this line below (by removing '#' at the beginning)
+# and change the file path to where you have saved the xml file
+# cps_ddi_file <- "C:/Users/My Name/My Documents/cps_00001.xml"
+
+cps_data_file <- ripums_example("cps_00011.dat.gz")
+# OR uncomment this line below (by removing '#' at the beginning)
+# and change the file path to where you have saved the xml file
+# cps_ddi_file <- "C:/Users/My Name/My Documents/cps_00001.xml"
+
+cps_data <- read_ipums_micro(cps_ddi_file, data_file = cps_data_file)
+```
+
+## Exercises ##
+
+### Analyze the Sample – Part I Frequencies of FOODSTMP
+A) On the website, find the codes page for the FOODSTMP variable
+and write down the code value, and what category each code
+represents. 
+```{r}
+# Can find on the website or from the data
+print_labels(cps_data$FOODSTMP)
+```
+B) What is the universe for FOODSTMP in 2011 (under the
+Universe tab on the website)? 
+```{r}
+# (Only available on website)
+# All interviewed households and group quarters. 
+#
+# Note the NIU on the codes page, this is a household variable and the
+# NIU cases are the vacant households.
+```
+
+C) How many people received food stamps in 2011? 
+
+D) What proportion of the population received food stamps in
+2011? 
+
+```{r}
+# We will be working with the FOODSTMP variable a lot, so 
+# let's turn it into a factor
+cps_data <- cps_data %>%
+  mutate(FOODSTMP_factor = as_factor(FOODSTMP))
+
+cps_data %>% 
+  group_by(FOODSTMP_factor) %>%
+  summarize(n_foodstamp = sum(WTSUPP)) %>%
+  mutate(pct_foodstmp = n_foodstamp / sum(n_foodstamp))
+
+```
+
+
+### Using household weights (HWTSUPP)
+Suppose you were interested not in the number of people living in
+homes that received food stamps, but in the number of households
+that were food stamp participants. To get this statistic you would
+need to use the household weight.
+
+In order to use household weight, you should be careful to select
+only one person from each household to represent that household's
+characteristics. You will need to apply the household weight
+(HWTSUPP). 
+
+A) How many households received food stamps in 2011?
+
+B) What proportion of households received food stamps in 2011?
+
+```{r}
+cps_data %>% 
+  group_by(SERIAL) %>%
+  filter(row_number() == 1) %>%
+  group_by(FOODSTMP_factor) %>%
+  summarize(n_foodstamp = sum(WTSUPP)) %>%
+  mutate(pct_foodstmp = n_foodstamp / sum(n_foodstamp))
+
+```
+
+### Analyze the Sample – Part II Relationships in the Data ###
+A) What is the universe for EMPSTAT in 2011?
+```{r}
+# Age 15+
+```
+
+B) What are the possible responses and codes for the selfreported
+HEALTH variable? 
+```{r}
+print_labels(cps_data$HEALTH)
+```
+
+C) What percent of people with ‘poor’ self-reported health are at
+work? 
+```{r}
+cps_data %>%
+  filter(HEALTH == 5) %>%
+  summarize(emp_pct = weighted.mean(EMPSTAT == 10, WTSUPP))
+```
+
+D) What percent of people with ‘very good’ self-reported health
+are at work? 
+```{r}
+cps_data %>%
+  filter(HEALTH == 2) %>%
+  summarize(emp_n = weighted.mean(EMPSTAT == 10, WTSUPP))
+```
+
+E) In the EMPSTAT universe, what percent of people:
+
+i. self-report ‘poor’ health and are at work? 
+
+ii. self-report ‘very good’ health and are at work? 
+
+```{r}
+cps_data %>%
+  filter(AGE >= 15) %>%
+  mutate(HEALTH_factor = as_factor(HEALTH)) %>% 
+  group_by(HEALTH_factor) %>%
+  summarize(emp_n = weighted.mean(EMPSTAT == 10, WTSUPP))
+```
+
+### Analyze the Sample – Part III Relationships in the Data
+A) What is the universe for AHRSWORK? 
+```{r}
+# Civilians age 15+, at work last week
+```
+
+B) What are the average hours of work for each self-reported health
+category? 
+```{r}
+cps_data %>% 
+  filter(AGE >= 15 & AHRSWORKT < 999) %>%
+  mutate(HEALTH_factor = as_factor(HEALTH)) %>% 
+  group_by(HEALTH_factor) %>%
+  summarize(mean_hours_worked = weighted.mean(AHRSWORKT, WTSUPP))
+  
+```
+

@@ -1,0 +1,97 @@
+---
+title: "Introduction to `ripums` - IPUMS Data in R"
+author: "Minnesota Population Center"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{ripums}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+The `ripums` package allows you to read in data from your extract into R along with 
+the associated metadata like variable labels, value labels and more. IPUMS data
+is a great source of international census and survey data.
+
+> IPUMS provides census and survey data from around the world integrated across 
+> time and space. IPUMS integration and documentation makes it easy to study change, 
+> conduct comparative research, merge information across data types, and analyze 
+> individuals within family and community context. Data and services available free 
+> of charge. 
+
+Learn more here: [https://www.ipums.org/whatIsIPUMS.shtml]().
+
+# Basics
+This vignette gives the basic outline of the `ripums` package. There are also
+vignettes that run through basic examples of using CPS data and NHGIS data. 
+To get to them run the following commands:
+```{r, eval = FALSE}
+vignette("ipums-cps", package = "ripums")
+vignette("ipums-nhgis", package = "ripums")
+```
+
+## Getting Data from the IPUMS website
+IPUMS data is downloaded from our website at [https://www.ipums.org](). 
+The website provides an interactive extract system that allows you to select
+only the sample and variables that are relevent to your research question.
+
+Once you have created your extract, you should choose to download data as 
+either fixed-width-files or comma separated ones. 
+
+### Microdata Projects (all projects except NHGIS or TerraPop)
+You will need to download the data file (.dat or .csv) and the DDI, by
+right-clicking on the file and selecting "Save As...". Note tat there is no
+R-specific syntax file, as there is for the other statistical packages like SAS,
+Stata and SPSS.
+
+![Annotated screenshot for downloading microdata](microdata_annotated_screenshot.png)
+
+### NHGIS & Terrapop
+Download the table data as a csv, and, if you want the associated mapping data,
+the GIS data. NHGIS provides the option to download csvs with an extra header
+row, it does not matter which option you select.
+
+### Example datasets
+The `ripumstest` package contains several example extracts, which are used 
+in these vignettes. To install, run the following code:
+```{r, eval = FALSE}
+if (!require(devtools)) install.packages("devtools")
+devtools::install_github("mnpopcenter/ripumstest")
+```
+
+## Import Functions
+Once your extract is downloaded, the `ripums` package functions `read_*()`
+help you load the data into R. 
+
+- `read_ipums_micro()`: Reads data from microdata projects (USA, CPS, International, DHS, Time Use, Health Surveys and Higher Ed)
+- `read_nhgis()`: Reads data and optionally shape files from the NHGIS project.
+- `read_terra_raster()`: Reads raster files from TerraPop
+- `read_terra_area()`: Reads raster files from TerraPop
+- `read_terra_micro()`: Reads microdata files from TerraPop
+- `read_ddi()`: Reads DDI files with metadata that are included alongside some extracts (mainly microdata)
+- `read_ipums_codebook()`: Reads the text codebook included alongside some extracts (mainly NHGIS and some TerraPop extracts)
+
+## Metadata Functions
+Once the data is into R, you can learn information about the extract using the metadata function.
+- `ipums_view()`: Makes a webpage that displays in the Rstudio Viewer which provides information about the extract as a whole (like your extract notes or the citation information) and the specific variables included (like the variable label, description and value labels).
+- `ipums_file_info()`: Returns the file-level metadata contained in `ipums_view()` but as a R data structure.
+- `ipums_var_info()`: Returns the variable-level metadata contained in `ipums_view()` but as a R data structure.
+
+## Special Note About Value Labels
+The way that IPUMS treats value labels does not align with the main way that R is able
+to store values associated with labels (`factor`). R's `factor` variables can only store
+values as an integer sequence (1, 2, 3, ...), but IPUMS conventions are to store 
+missing / not in universe codes as large numbers, to distinguish them from the normal values.
+
+Therefore, the `ripums` package uses the `labelled` class from the `haven` package to store
+labelled values. See the "semantics" vignette from the haven package for more information.
+```{r, eval = FALSE}
+vignette("semantics", package = "haven")
+```
+
+## Basic Data Manipulation in R
+
+
+
+# NHGIS example
+
