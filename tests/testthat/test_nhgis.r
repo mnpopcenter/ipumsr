@@ -3,7 +3,8 @@ context("NHGIS")
 # Manually set these constants...
 rows <- 71
 vars_data <- 17
-vars_data_shape <- 24
+vars_data_shape_sf <- 24
+vars_data_shape_sp <- 23
 d6z001_label <- "1989 to March 1990"
 d6z001_var_desc <- "Year Structure Built (D6Z)"
 pmsa_first2_sort <- c("Akron, OH PMSA", "Anaheim--Santa Ana, CA PMSA")
@@ -36,7 +37,7 @@ test_that(
     )
 
     expect_equal(nrow(nhgis), rows)
-    expect_equal(ncol(nhgis), vars_data_shape)
+    expect_equal(ncol(nhgis), vars_data_shape_sf)
     expect_equal(attr(nhgis[["D6Z001"]], "label"), d6z001_label)
     expect_equal(attr(nhgis[["D6Z001"]], "var_desc"), d6z001_var_desc)
     expect_equal(sort(nhgis$PMSA)[1:2], pmsa_first2_sort)
@@ -60,7 +61,7 @@ test_that(
     )
 
     expect_equal(nrow(nhgis), rows)
-    expect_equal(ncol(nhgis), vars_data_shape)
+    expect_equal(ncol(nhgis), vars_data_shape_sf)
     expect_equal(attr(nhgis[["D6Z001"]], "label"), d6z001_label)
     expect_equal(attr(nhgis[["D6Z001"]], "var_desc"), d6z001_var_desc)
     expect_equal(sort(nhgis$PMSA)[1:2], pmsa_first2_sort)
@@ -88,9 +89,57 @@ test_that(
     )
 
     expect_equal(nrow(nhgis), rows)
-    expect_equal(ncol(nhgis), vars_data_shape)
+    expect_equal(ncol(nhgis), vars_data_shape_sf)
     expect_equal(attr(nhgis[["D6Z001"]], "label"), d6z001_label)
     expect_equal(attr(nhgis[["D6Z001"]], "var_desc"), d6z001_var_desc)
     expect_equal(sort(nhgis$PMSA)[1:2], pmsa_first2_sort)
     expect_equal(class(nhgis), c("sf", "tbl_df", "tbl", "data.frame"))
+  })
+
+
+test_that(
+  "Can read NHGIS extract (with shape as sp)", {
+    skip_if_not_installed("ripumstest")
+    skip_if_not_installed("rgdal")
+    skip_if_not_installed("sp")
+    nhgis <- read_nhgis_sp(
+      ripums_example("nhgis0008_csv.zip"),
+      ripums_example("nhgis0008_shape.zip"),
+      verbose = FALSE
+    )
+
+    expect_equal(nrow(nhgis@data), rows)
+    expect_equal(ncol(nhgis@data), vars_data_shape_sp)
+    # Attributes get killed by sp::merge... I'm okay with supporting sf better than sp
+    #expect_equal(attr(nhgis[["D6Z001"]], "label"), d6z001_label)
+    #expect_equal(attr(nhgis[["D6Z001"]], "var_desc"), d6z001_var_desc)
+    expect_equal(sort(nhgis$PMSA)[1:2], pmsa_first2_sort)
+    expect_equal(class(nhgis), rlang::set_attrs("SpatialPolygonsDataFrame", package = "sp"))
+  })
+
+test_that(
+  "NHGIS - sf and sp polygon-data relationships didn't get scrambled in import", {
+    skip_if_not_installed("ripumstest")
+    skip_if_not_installed("sf")
+    skip_if_not_installed("rgdal")
+    skip_if_not_installed("sp")
+
+    nhgis_sf <- read_nhgis_sf(
+      ripums_example("nhgis0008_csv.zip"),
+      ripums_example("nhgis0008_shape.zip"),
+      verbose = FALSE
+    )
+
+    nhgis_sp <- read_nhgis_sp(
+      ripums_example("nhgis0008_csv.zip"),
+      ripums_example("nhgis0008_shape.zip"),
+      verbose = FALSE
+    )
+
+    check_geo <- nhgis_sf$GISJOIN[1]
+    expect_equal(
+      dplyr::filter(nhgis_sf, GISJOIN == check_geo)$geometry[[1]][[1]][[1]],
+      subset(nhgis_sp, GISJOIN == check_geo)@polygons[[1]]@Polygons[[1]]@coords
+    )
+
   })
