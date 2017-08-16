@@ -83,9 +83,9 @@ ipums_view(data)
 ### NHGIS ###
 Relies on user downloading the csv file (with or without header row) and shape files (doesn't need to be unzipped).
 ```{r}
-data <- read_nhgis(
+data <- read_nhgis_sf(
   ripums_example("nhgis0008_csv.zip"),
-  ripums_example("nhgis0008_shape.zip"),
+  shape_file = ripums_example("nhgis0008_shape.zip"),
   verbose = FALSE
 )
 

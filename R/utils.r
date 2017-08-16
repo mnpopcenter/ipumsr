@@ -107,6 +107,15 @@ load_sf_namespace <- function() {
   }
 }
 
+load_rgdal_namespace <- function() {
+  if (!requireNamespace("rgdal", quietly = TRUE)) {
+    stop(paste0(
+      "Package 'rgdal' must be installed to read boundary files as spacial objects.",
+      " Please run command `install.packages('rgdal')` to continue."
+    ))
+  }
+}
+
 file_is_zip <- function(file) {
   stringr::str_sub(file, -4) == ".zip"
 }

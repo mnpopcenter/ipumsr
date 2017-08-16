@@ -9,12 +9,13 @@
 #' Reads a dataset downloaded from the NHGIS extract system. Relies on csv files
 #' (with or without the extra header row).
 #'
-#' @return
-#'   Either a \code{tbl_df} with only the tabular data, or if a \code{shape_file} is
-#'   specified, a \code{\link[sf]{sf}} object with the tabular data and polygons.
-#' @param data_file Filepath to the data (either the .zip file directly downloaded
-#'   from the webiste, or the path to the unzipped .csv file).
-#' @param shape_file (Optional) filepath to the shape files (either the .zip
+#' @return \code{read_nhgis} returns a \code{tbl_df} with only the tabular data,
+#' \code{read_nhgis_sf} returns a \code{sf} object with data and the shapes, and
+#' \code{read_nhgis_sp} returns a \code{SpatialPolygonsDataFrame} with data and
+#' shapes.
+#' @param data_file Filepath to the data (either the .zip file directly
+#'   downloaded from the webiste, or the path to the unzipped .csv file).
+#' @param shape_file Filepath to the shape files (either the .zip
 #'   file directly downloaded from the webiste, or the path to the unzipped
 #'   files).
 #' @param data_layer For .zip extracts with multiple datasets, the name of the
@@ -34,14 +35,11 @@
 #' @export
 read_nhgis <- function(
   data_file,
-  shape_file = NULL,
   data_layer = NULL,
-  shape_layer = data_layer,
   verbose = TRUE
 ) {
   data_layer <- enquo(data_layer)
-  shape_layer <- enquo(shape_layer)
-  if (quo_text(shape_layer) == "data_layer") shape_layer <- data_layer
+
   # Read data files ----
   data_is_zip <- stringr::str_sub(data_file, -4) == ".zip"
   if (data_is_zip) {
@@ -81,45 +79,114 @@ read_nhgis <- function(
 
   data <- readr::type_convert(data, col_types = readr::cols(), locale = ipums_locale)
 
-  # Read shape files (if they exist) ----
-  if (!is.null(shape_file)) {
-    if (verbose) cat("Reading geography...\n")
-
-    sf_data <- read_ipums_sf(shape_file, !!shape_layer)
-
-    # Only join on vars that are in both and are called "GISJOIN*"
-    join_vars <- intersect(names(data), names(sf_data))
-    join_vars <- stringr::str_subset(join_vars, "GISJOIN.*")
-
-    # Drop overlapping vars besides join var from shape file
-    drop_vars <- dplyr::intersect(names(data), names(sf_data))
-    drop_vars <- dplyr::setdiff(drop_vars, join_vars)
-    sf_data <- dplyr::select(sf_data, -one_of(drop_vars))
-
-    # Coerce to data.frame to avoid sf#414 (fixed in development version of sf)
-    data <- dplyr::full_join(as.data.frame(sf_data), as.data.frame(data), by = join_vars)
-    data <- sf::st_as_sf(tibble::as_tibble(data))
-
-    # Check if any data rows are missing (merge failures where not in shape file)
-    if (verbose) {
-      missing_in_shape <- purrr::map_lgl(data$geometry, is.null)
-      if (any(missing_in_shape)) {
-        gis_join_failures <- data$GISJOIN[missing_in_shape]
-        message(paste0(
-          "There are ", sum(missing_in_shape), " rows of data that ",
-          "have data but no geography. This can happen because:\n  Shape files ",
-          "do not include some census geographies such as 'Crews of Vessels' ",
-          "tracts that do not have a defined area\n  Shape files have been simplified ",
-          "which sometimes drops entire geographies (especially small ones)."
-        ))
-      }
-    }
-  }
-
   data <- set_ipums_var_attributes(data, cb_ddi_info$var_info, FALSE)
   data <- set_ipums_df_attributes(data, cb_ddi_info)
   data
 }
+
+#' @rdname read_nhgis
+#' @export
+read_nhgis_sf <- function(
+  data_file,
+  shape_file,
+  data_layer = NULL,
+  shape_layer = data_layer,
+  verbose = TRUE
+) {
+  data <- read_nhgis(data_file, !!enquo(data_layer), verbose)
+
+  shape_layer <- enquo(shape_layer)
+  if (quo_text(shape_layer) == "data_layer") shape_layer <- data_layer
+  if (verbose) cat("Reading geography...\n")
+
+  sf_data <- read_ipums_sf(shape_file, !!shape_layer)
+
+  # Only join on vars that are in both and are called "GISJOIN*"
+  join_vars <- intersect(names(data), names(sf_data))
+  join_vars <- stringr::str_subset(join_vars, "GISJOIN.*")
+
+  # Drop overlapping vars besides join var from shape file
+  drop_vars <- dplyr::intersect(names(data), names(sf_data))
+  drop_vars <- dplyr::setdiff(drop_vars, join_vars)
+  sf_data <- dplyr::select(sf_data, -one_of(drop_vars))
+
+  # Avoid a warning by adding attributes from the join_vars in data to
+  # join_vars in sf_data
+  purrr::walk(join_vars, function(vvv) {
+    attributes(sf_data[[vvv]]) <<- attributes(data[[vvv]])
+  })
+
+  # Coerce to data.frame to avoid sf#414 (fixed in development version of sf)
+  data <- dplyr::full_join(as.data.frame(sf_data), as.data.frame(data), by = join_vars)
+  data <- sf::st_as_sf(tibble::as_tibble(data))
+
+  # Check if any data rows are missing (merge failures where not in shape file)
+  if (verbose) {
+    missing_in_shape <- purrr::map_lgl(data$geometry, is.null)
+    if (any(missing_in_shape)) {
+      gis_join_failures <- data$GISJOIN[missing_in_shape]
+      message(paste0(
+        "There are ", sum(missing_in_shape), " rows of data that ",
+        "have data but no geography. This can happen because:\n  Shape files ",
+        "do not include some census geographies such as 'Crews of Vessels' ",
+        "tracts that do not have a defined area\n  Shape files have been simplified ",
+        "which sometimes drops entire geographies (especially small ones)."
+      ))
+    }
+  }
+  data
+}
+
+#' @rdname read_nhgis
+#' @export
+read_nhgis_sp <- function(
+  data_file,
+  shape_file,
+  data_layer = NULL,
+  shape_layer = data_layer,
+  verbose = TRUE
+) {
+  data <- read_nhgis(data_file, !!enquo(data_layer), verbose)
+
+  shape_layer <- enquo(shape_layer)
+  if (quo_text(shape_layer) == "data_layer") shape_layer <- data_layer
+  if (verbose) cat("Reading geography...\n")
+
+  sf_data <- read_ipums_sp(shape_file, !!shape_layer)
+
+  # Only join on vars that are in both and are called "GISJOIN*"
+  join_vars <- intersect(names(data), names(sf_data@data))
+  join_vars <- stringr::str_subset(join_vars, "GISJOIN.*")
+
+  # Drop overlapping vars besides join var from shape file
+  drop_vars <- dplyr::intersect(names(data), names(sf_data))
+  drop_vars <- dplyr::setdiff(drop_vars, join_vars)
+  sf_data@data <- dplyr::select(sf_data@data, -one_of(drop_vars))
+
+  out <- sp::merge(sf_data, data, by = join_vars, all.x = TRUE)
+
+  # Check if any data rows are missing (merge failures where not in shape file)
+  if (verbose) {
+    missing_in_shape <- dplyr::anti_join(
+      dplyr::select(data, one_of(join_vars)),
+      dplyr::select(out@data, one_of(join_vars)),
+      by = join_vars
+    )
+    if (nrow(missing_in_shape) > 0) {
+      gis_join_failures <- purrr::pmap_chr(missing_in_shape, function(...) paste(..., sep = "-"))
+      message(paste0(
+        "There are ", nrow(missing_in_shape), " rows of data that ",
+        "have data but no geography. This can happen because:\n  Shape files ",
+        "do not include some census geographies such as 'Crews of Vessels' ",
+        "tracts that do not have a defined area\n  Shape files have been simplified ",
+        "which sometimes drops entire geographies (especially small ones)."
+      ))
+    }
+  }
+  out
+}
+
+
 
 # Fills in a default condition if we can't find codebook for nhgis
 nhgis_empty_ddi <- make_ddi(

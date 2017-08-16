@@ -29,7 +29,7 @@ test_that(
   "Can read NHGIS extract (with shape as sf)", {
     skip_if_not_installed("ripumstest")
     skip_if_not_installed("sf")
-    nhgis <- read_nhgis(
+    nhgis <- read_nhgis_sf(
       ripums_example("nhgis0008_csv.zip"),
       ripums_example("nhgis0008_shape.zip"),
       verbose = FALSE
@@ -53,7 +53,7 @@ test_that(
     utils::unzip(ripums_example("nhgis0008_csv.zip"), exdir = temp_dir)
     utils::unzip(ripums_example("nhgis0008_shape.zip"), exdir = temp_dir)
 
-    nhgis <- read_nhgis(
+    nhgis <- read_nhgis_sf(
       file.path(temp_dir, "nhgis0008_csv/nhgis0008_ds135_1990_pmsa.csv"),
       file.path(temp_dir, "nhgis0008_shape/nhgis0008_shapefile_tl2000_us_pmsa_1990.zip"),
       verbose = FALSE
@@ -81,7 +81,7 @@ test_that(
       exdir = temp_dir
     )
 
-    nhgis <- read_nhgis(
+    nhgis <- read_nhgis_sf(
       file.path(temp_dir, "nhgis0008_csv/nhgis0008_ds135_1990_pmsa.csv"),
       file.path(temp_dir, "US_pmsa_1990.shp"),
       verbose = FALSE

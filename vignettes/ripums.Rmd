@@ -64,7 +64,7 @@ Once your extract is downloaded, the `ripums` package functions `read_*()`
 help you load the data into R. 
 
 - `read_ipums_micro()`: Reads data from microdata projects (USA, CPS, International, DHS, Time Use, Health Surveys and Higher Ed)
-- `read_nhgis()`: Reads data and optionally shape files from the NHGIS project.
+- `read_nhgis()`/`read_nhgis_sf()`/`read_nhgis_sp()`: Reads data from the NHGIS project (the latter 2 load shape files as well).
 - `read_terra_raster()`: Reads raster files from TerraPop
 - `read_terra_area()`: Reads raster files from TerraPop
 - `read_terra_micro()`: Reads microdata files from TerraPop

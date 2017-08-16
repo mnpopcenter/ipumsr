@@ -2,34 +2,43 @@
 % Please edit documentation in R/nhgis_read.r
 \name{read_nhgis}
 \alias{read_nhgis}
+\alias{read_nhgis_sf}
+\alias{read_nhgis_sp}
 \title{Read data from an NHGIS extract}
 \usage{
-read_nhgis(data_file, shape_file = NULL, data_layer = NULL,
+read_nhgis(data_file, data_layer = NULL, verbose = TRUE)
+
+read_nhgis_sf(data_file, shape_file, data_layer = NULL,
+  shape_layer = data_layer, verbose = TRUE)
+
+read_nhgis_sp(data_file, shape_file, data_layer = NULL,
   shape_layer = data_layer, verbose = TRUE)
 }
 \arguments{
-\item{data_file}{Filepath to the data (either the .zip file directly downloaded
-from the webiste, or the path to the unzipped .csv file).}
-
-\item{shape_file}{(Optional) filepath to the shape files (either the .zip
-file directly downloaded from the webiste, or the path to the unzipped
-files).}
+\item{data_file}{Filepath to the data (either the .zip file directly
+downloaded from the webiste, or the path to the unzipped .csv file).}
 
 \item{data_layer}{For .zip extracts with multiple datasets, the name of the
  data to load. Accepts a character vector specifying the file name, or
 \code{\link{dplyr_select_style}} conventions. Data layer must uniquely identify
 a dataset.}
 
+\item{verbose}{Logical, indicating whether to print progress information to
+console.}
+
+\item{shape_file}{Filepath to the shape files (either the .zip
+file directly downloaded from the webiste, or the path to the unzipped
+files).}
+
 \item{shape_layer}{(Defaults to using the same value as data_layer) Specification
 of which shape files to load using the same semantics as \code{data_layer}. Can
 load multiple shape files, which will be combined.}
-
-\item{verbose}{Logical, indicating whether to print progress information to
-console.}
 }
 \value{
-Either a \code{tbl_df} with only the tabular data, or if a \code{shape_file} is
-  specified, a \code{\link[sf]{sf}} object with the tabular data and polygons.
+\code{read_nhgis} returns a \code{tbl_df} with only the tabular data,
+\code{read_nhgis_sf} returns a \code{sf} object with data and the shapes, and
+\code{read_nhgis_sp} returns a \code{SpatialPolygonsDataFrame} with data and
+shapes.
 }
 \description{
 Reads a dataset downloaded from the NHGIS extract system. Relies on csv files
@@ -42,7 +51,7 @@ data <- read_nhgis("nhgis0001_csv.zip", "nhgis0001_shp.zip")
 }
 \seealso{
 Other ipums_read: \code{\link{read_ipums_micro}},
-  \code{\link{read_ipums_sf}},
+  \code{\link{read_ipums_sf}}, \code{\link{read_ipums_sp}},
   \code{\link{read_terra_area}},
   \code{\link{read_terra_micro}},
   \code{\link{read_terra_raster}}

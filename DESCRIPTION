@@ -23,10 +23,12 @@ Suggests:
     DT,
     htmltools,
     knitr,
+    rgdal,
     rmarkdown,
     ripumstest,
     rstudioapi,
     sf,
+    sp,
     shiny,
     testthat
 VignetteBuilder: knitr
