@@ -13,8 +13,6 @@ knitr::opts_chunk$set(
 ```
 
 # ripums #
-[![Project Status: WIP – Initial development is in progress, but there has not yet been a stable, usable release suitable for the public.](http://www.repostatus.org/badges/latest/wip.svg)](http://www.repostatus.org/#wip)
-[![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/ripums)](http://cran.r-project.org/web/packages/ripums) 
 
 The ripums package helps import IPUMS extracts from the [IPUMS website](https://www.ipums.org) 
 into R. This project is early in its development, and so we expect there may be bugs and future
