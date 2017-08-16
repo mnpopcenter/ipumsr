@@ -70,17 +70,19 @@ noted below.
 library(ripums)
 library(dplyr, warn.conflicts = FALSE)
 library(haven)
+```
 
+```{r, echo = FALSE}
 cps_ddi_file <- ripums_example("cps_00011.xml")
-# OR uncomment this line below (by removing '#' at the beginning)
-# and change the file path to where you have saved the xml file
-# cps_ddi_file <- "C:/Users/My Name/My Documents/cps_00001.xml"
-
 cps_data_file <- ripums_example("cps_00011.dat.gz")
-# OR uncomment this line below (by removing '#' at the beginning)
-# and change the file path to where you have saved the xml file
-# cps_ddi_file <- "C:/Users/My Name/My Documents/cps_00001.xml"
-
+```
+```{r, eval = FALSE}
+# Change these filepaths to the filepaths of your downloaded extract
+cps_ddi_file <- "C:/Users/My Name/My Documents/cps_00001.xml"
+cps_data_file <- "C:/Users/My Name/My Documents/cps_00001.dat"
+```
+```{r}
+cps_ddi <- read_ddi(cps_ddi_file) # Contains metadata, nice to have as separate object
 cps_data <- read_ipums_micro(cps_ddi_file, data_file = cps_data_file)
 ```
 
@@ -173,7 +175,7 @@ are at work?
 ```{r}
 cps_data %>%
   filter(HEALTH == 2) %>%
-  summarize(emp_n = weighted.mean(EMPSTAT == 10, WTSUPP))
+  summarize(emp_pct = weighted.mean(EMPSTAT == 10, WTSUPP))
 ```
 
 E) In the EMPSTAT universe, what percent of people:
@@ -183,11 +185,13 @@ i. self-report ‘poor’ health and are at work?
 ii. self-report ‘very good’ health and are at work? 
 
 ```{r}
-cps_data %>%
+pct_emp_by_health <- cps_data %>%
   filter(AGE >= 15) %>%
   mutate(HEALTH_factor = as_factor(HEALTH)) %>% 
   group_by(HEALTH_factor) %>%
-  summarize(emp_n = weighted.mean(EMPSTAT == 10, WTSUPP))
+  summarize(emp_pct = weighted.mean(EMPSTAT == 10, WTSUPP))
+
+pct_emp_by_health
 ```
 
 ### Analyze the Sample – Part III Relationships in the Data
@@ -199,11 +203,70 @@ A) What is the universe for AHRSWORK?
 B) What are the average hours of work for each self-reported health
 category? 
 ```{r}
-cps_data %>% 
+avg_hrs_by_health <- cps_data %>% 
   filter(AGE >= 15 & AHRSWORKT < 999) %>%
   mutate(HEALTH_factor = as_factor(HEALTH)) %>% 
   group_by(HEALTH_factor) %>%
   summarize(mean_hours_worked = weighted.mean(AHRSWORKT, WTSUPP))
-  
+
+avg_hrs_by_health  
 ```
 
+### Bonus ### 
+A) Use the `ripums` package metadata features and `ggplot2` to make a
+presentation-ready graph of the relationship between HEALTH and percent
+employed (from Part III above).
+
+```{r, fig.height = 4, fig.width = 7}
+library(ggplot2)
+
+x_label <- ipums_var_label(cps_data, HEALTH)
+source_info <- ipums_file_info(cps_ddi)$ipums_project
+
+ggplot(pct_emp_by_health, aes(x = HEALTH_factor, y = emp_pct)) + 
+  geom_bar(stat = "identity", fill = "#00263a") + 
+  scale_x_discrete(x_label) + 
+  scale_y_continuous("Percent employed", labels = scales::percent) + 
+  labs(
+    title = "Low Self-Reported Health Status Correlated with Unemployment", 
+    subtitle = "Among age 15+ from CPS 2011 ASEC sample",
+    caption = paste0("Source: ", source_info)
+  )
+
+```
+
+B) Are there any variables that might be confounding this relationship? How might you explore this relationship?
+```{r, fig.height = 6, fig.width = 7}
+# Age is likely correlated with self-reported health and employment, so a good 
+# analysis would control for this.
+
+# One way to do so graphically is to make faceted plots by age group
+pct_emp_by_health_age <- cps_data %>%
+  filter(AGE >= 15) %>%
+  mutate(
+    AGE_factor = cut(
+      AGE, 
+      c(15, 25, 35, 45, 55, 65, max(AGE)), 
+      c("15-24", "25-34", "35-44", "45-54", "55-64", "65+"),
+      include.lowest = TRUE
+    ),
+    HEALTH_factor = as_factor(HEALTH)
+  ) %>% 
+  group_by(HEALTH_factor, AGE_factor) %>%
+  summarize(emp_pct = weighted.mean(EMPSTAT == 10, WTSUPP))
+
+x_label <- ipums_var_label(cps_data, HEALTH)
+source_info <- ipums_file_info(cps_ddi)$ipums_project
+
+ggplot(pct_emp_by_health_age, aes(x = HEALTH_factor, y = emp_pct)) + 
+  geom_bar(stat = "identity", fill = "#00263a") + 
+  scale_x_discrete(x_label) + 
+  scale_y_continuous("Percent employed", labels = scales::percent) + 
+  facet_wrap(~AGE_factor, ncol = 2) + 
+  labs(
+    title = "Low Self-Reported Health Status Correlated with Unemployment", 
+    subtitle = "Among age 15+ from CPS 2011 ASEC sample",
+    caption = paste0("Source: ", source_info)
+  )
+
+```
