@@ -8,6 +8,12 @@ vignette: >
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
+# IPUMS - CPS Extraction and Analysis
+
+## Exercise 1
+OBJECTIVE: Gain an understanding of how the IPUMS dataset is structured and how it can be
+leveraged to explore your research interests. This exercise will use the IPUMS dataset to explore
+associations between health and work status and to create basic frequencies of food stamp usage.
 
 This vignette is adapted from the CPS Data Training Exercise available here:
 [https://pop.umn.edu/sites/pop.umn.edu/files/final_review_-_cps_spss_exercise_1_0.pdf]()
@@ -61,10 +67,8 @@ statuses related?
   - Do the same thing for the DDI link next to the extract
 
 ## Getting the data into R ##
-To facilitate running this vignette in R, the example code here uses
-the pre-made extract included in the `ripumstest` package. If you 
-would like to use the extract that you have created, change the filepaths 
-noted below.
+You will need to change the filepaths noted below to the place where you have
+saved the extracts.
 
 ```{r}
 library(ripums)
@@ -91,38 +95,15 @@ cps_data <- read_ipums_micro(cps_ddi_file, data_file = cps_data_file)
 ### Analyze the Sample – Part I Frequencies of FOODSTMP
 A) On the website, find the codes page for the FOODSTMP variable
 and write down the code value, and what category each code
-represents. 
-```{r}
-# Can find on the website or from the data
-print_labels(cps_data$FOODSTMP)
-```
-B) What is the universe for FOODSTMP in 2011 (under the
-Universe tab on the website)? 
-```{r}
-# (Only available on website)
-# All interviewed households and group quarters. 
-#
-# Note the NIU on the codes page, this is a household variable and the
-# NIU cases are the vacant households.
-```
+represents. ________________________________________
 
-C) How many people received food stamps in 2011? 
+B) What is the universe for FOODSTMP in 2011 (under the
+Universe tab on the website)? _______________________________
+
+C) How many people received food stamps in 2011? __________
 
 D) What proportion of the population received food stamps in
-2011? 
-
-```{r}
-# We will be working with the FOODSTMP variable a lot, so 
-# let's turn it into a factor
-cps_data <- cps_data %>%
-  mutate(FOODSTMP_factor = as_factor(FOODSTMP))
-
-cps_data %>% 
-  group_by(FOODSTMP_factor) %>%
-  summarize(n_foodstamp = sum(WTSUPP)) %>%
-  mutate(pct_foodstmp = n_foodstamp / sum(n_foodstamp))
-
-```
+2011? ________________________________________
 
 
 ### Using household weights (HWTSUPP)
@@ -136,11 +117,97 @@ only one person from each household to represent that household's
 characteristics. You will need to apply the household weight
 (HWTSUPP). 
 
-A) How many households received food stamps in 2011?
+A) How many households received food stamps in 2011? ________________________________________
 
-B) What proportion of households received food stamps in 2011?
+B) What proportion of households received food stamps in 2011? ________________________________________
+
+
+### Analyze the Sample – Part II Relationships in the Data ###
+A) What is the universe for EMPSTAT in 2011? ________________________________________
+
+B) What are the possible responses and codes for the selfreported
+HEALTH variable?  ________________________________________
+
+C) What percent of people with ‘poor’ self-reported health are at
+work? ________________________________________
+
+D) What percent of people with ‘very good’ self-reported health
+are at work? ________________________________________
+
+E) In the EMPSTAT universe, what percent of people:
+
+i. self-report ‘poor’ health and are at work? ___________
+
+ii. self-report ‘very good’ health and are at work? __________
+
+
+### Analyze the Sample – Part III Relationships in the Data
+A) What is the universe for AHRSWORK? ________________________________________
+
+B) What are the average hours of work for each self-reported health
+category? ________________________________________
+
+
+### Bonus ### 
+A) Use the `ripums` package metadata functions (like `ipums_var_label()` and 
+`ipums_file_info()`) and `ggplot2` to make a presentation-ready graph
+of the relationship between HEALTH and percent
+employed (from Part III above). ________________________________________
+
+
+B) Are there any variables that might be confounding this relationship? How might you explore this relationship? ________________________________________
+
+## Answers ##
+
+### Analyze the Sample – Part I Frequencies of FOODSTMP
+```{r}
+# A) On the website, find the codes page for the FOODSTMP variable
+#    and write down the code value, and what category each code
+#    represents. 
+
+# Can find on the website or from the data
+print_labels(cps_data$FOODSTMP)
+
+#    A: 0 = NIU, 1 = No, 2 = Yes
+
+
+# B) What is the universe for FOODSTMP in 2011 (under the
+#    Universe tab on the website)? 
+
+#    A: (Only available on website)
+#       All interviewed households and group quarters. 
+#       Note the NIU on the codes page, this is a household variable and the
+#       NIU cases are the vacant households.
+
+
+# C) How many people received food stamps in 2011? 
+
+# We will be working with the FOODSTMP variable a lot, so 
+# let's turn it into a factor
+cps_data <- cps_data %>%
+  mutate(FOODSTMP_factor = as_factor(FOODSTMP))
+
+cps_data %>% 
+  group_by(FOODSTMP_factor) %>%
+  summarize(n_foodstamp = sum(WTSUPP)) %>%
+  mutate(pct_foodstmp = n_foodstamp / sum(n_foodstamp))
+
+#    A: 39,187,348
+
+
+# D) What proportion of the population received food stamps in
+#    2011? 
+
+#    A: 12.8% (found in code from previous question)
+
+```
+
+
+### Using household weights (HWTSUPP)
 
 ```{r}
+# A) How many households received food stamps in 2011?
+
 cps_data %>% 
   group_by(SERIAL) %>%
   filter(row_number() == 1) %>%
@@ -148,43 +215,51 @@ cps_data %>%
   summarize(n_foodstamp = sum(WTSUPP)) %>%
   mutate(pct_foodstmp = n_foodstamp / sum(n_foodstamp))
 
+#    A: 12,855,283
+
+# B) What proportion of households received food stamps in 2011?
+
+#    A: 10.7% (found in code from previous question)
+
+
 ```
 
 ### Analyze the Sample – Part II Relationships in the Data ###
-A) What is the universe for EMPSTAT in 2011?
 ```{r}
-# Age 15+
-```
+# A) What is the universe for EMPSTAT in 2011?
 
-B) What are the possible responses and codes for the selfreported
-HEALTH variable? 
-```{r}
+#    A: Age 15+
+
+
+# B) What are the possible responses and codes for the self-reported
+#    HEALTH variable? 
+
 print_labels(cps_data$HEALTH)
-```
 
-C) What percent of people with ‘poor’ self-reported health are at
-work? 
-```{r}
+#    A: Age 15+
+
+# C) What percent of people with ‘poor’ self-reported health are at
+#    work? 
+
 cps_data %>%
   filter(HEALTH == 5) %>%
   summarize(emp_pct = weighted.mean(EMPSTAT == 10, WTSUPP))
-```
 
-D) What percent of people with ‘very good’ self-reported health
-are at work? 
-```{r}
+#    A: 11.6%
+
+# D) What percent of people with ‘very good’ self-reported health
+#    are at work? 
+
 cps_data %>%
   filter(HEALTH == 2) %>%
   summarize(emp_pct = weighted.mean(EMPSTAT == 10, WTSUPP))
-```
 
-E) In the EMPSTAT universe, what percent of people:
+#    A: 51.6%
 
-i. self-report ‘poor’ health and are at work? 
 
-ii. self-report ‘very good’ health and are at work? 
+# E) In the EMPSTAT universe, what percent of people:
+# i. self-report ‘poor’ health and are at work? 
 
-```{r}
 pct_emp_by_health <- cps_data %>%
   filter(AGE >= 15) %>%
   mutate(HEALTH_factor = as_factor(HEALTH)) %>% 
@@ -192,33 +267,48 @@ pct_emp_by_health <- cps_data %>%
   summarize(emp_pct = weighted.mean(EMPSTAT == 10, WTSUPP))
 
 pct_emp_by_health
+
+#    A: 11.8%
+
+# ii. self-report ‘very good’ health and are at work? 
+
+#    A: 64.0% (found in code from previous question)
+
 ```
 
 ### Analyze the Sample – Part III Relationships in the Data
-A) What is the universe for AHRSWORK? 
 ```{r}
-# Civilians age 15+, at work last week
-```
+# A) What is the universe for AHRSWORK? 
 
-B) What are the average hours of work for each self-reported health
-category? 
-```{r}
+#     A: Civilians age 15+, at work last week
+
+# B) What are the average hours of work for each self-reported health
+#    category? 
+
 avg_hrs_by_health <- cps_data %>% 
   filter(AGE >= 15 & AHRSWORKT < 999) %>%
   mutate(HEALTH_factor = as_factor(HEALTH)) %>% 
   group_by(HEALTH_factor) %>%
   summarize(mean_hours_worked = weighted.mean(AHRSWORKT, WTSUPP))
 
-avg_hrs_by_health  
+avg_hrs_by_health 
+
+#     A: Excellent  38.4
+#        Very good  38.7
+#        Good       37.8
+#        Fair       35.7
+#        Poor       32.4
+
 ```
 
 ### Bonus ### 
-A) Use the `ripums` package metadata functions (like `ipums_var_label()` and 
-`ipums_file_info()`) and `ggplot2` to make a presentation-ready graph
-of the relationship between HEALTH and percent
-employed (from Part III above).
-
 ```{r, fig.height = 4, fig.width = 7}
+# A) Use the `ripums` package metadata functions (like `ipums_var_label()` and 
+#    `ipums_file_info()`) and `ggplot2` to make a presentation-ready graph
+#    of the relationship between HEALTH and percent
+#    employed (from Part III above).
+
+
 library(ggplot2)
 
 x_label <- ipums_var_label(cps_data, HEALTH)
@@ -236,8 +326,9 @@ ggplot(pct_emp_by_health, aes(x = HEALTH_factor, y = emp_pct)) +
 
 ```
 
-B) Are there any variables that might be confounding this relationship? How might you explore this relationship?
 ```{r, fig.height = 6, fig.width = 7}
+# B) Are there any variables that might be confounding this relationship? How might you explore this #    relationship?
+
 # Age is likely correlated with self-reported health and employment, so a good 
 # analysis would control for this.
 
