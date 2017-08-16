@@ -87,8 +87,10 @@ read_terra_raster_internal <- function(data_file, data_layer, verbose, multiple_
 #' Reads a area-level dataset downloaded from the IPUMS Terra extract system.
 #'
 #' @return
-#'   If a shape file, is found a \code{\link[sf]{sf}} object with the data and geography
-#'   information, otherwise just a data.frame.
+#'   \code{read_terra_area} returns a \code{tbl_df} with the tabular data,
+#'   \code{read_terra_area_sf} returns a \code{sf} object with tabular data and shapes,
+#'   and \code{read_terra_area_sp} returns a \code{SpatialPolygonsDataFrame} with
+#'   data and shapes.
 #' @param data_file Path to the data file, which can either be the .zip file directly
 #'   downloaded from the IPUMS Terra website, or to the csv unzipped from the download.
 #' @param shape_file (Optional) If the download is unzipped, path to the .zip or .shp file
@@ -115,16 +117,12 @@ read_terra_raster_internal <- function(data_file, data_layer, verbose, multiple_
 #' @export
 read_terra_area <- function(
   data_file,
-  shape_file = NULL,
   data_layer = NULL,
-  shape_layer = data_layer,
   ddi_file = NULL,
   cb_file = NULL,
   verbose = TRUE
 ) {
   data_layer <- enquo(data_layer)
-  shape_layer <- enquo(shape_layer)
-  if (quo_text(shape_layer) == "data_layer") shape_layer <- data_layer
 
   data_is_zip <- stringr::str_sub(data_file, -4) == ".zip"
 
@@ -168,37 +166,89 @@ read_terra_area <- function(
   if (!is.null(ddi$var_info)) {
     data <- set_ipums_var_attributes(data, ddi$var_info, set_imp_decim = FALSE)
   }
+  data <- set_ipums_df_attributes(data, ddi)
+  data
+}
 
+#' @rdname read_terra_area
+#' @export
+read_terra_area_sf <- function(
+  data_file,
+  shape_file = NULL,
+  data_layer = NULL,
+  shape_layer = data_layer,
+  ddi_file = NULL,
+  cb_file = NULL,
+  verbose = TRUE
+) {
+  data_layer <- enquo(data_layer)
+  data <- read_terra_area(data_file, !!data_layer, ddi_file, cb_file, verbose)
 
-  # Read shape file ----
-  # Don't bother looking for shape file if not specified or if
-  # explicitly told not to
-  if (rlang::is_false(shape_file) | (!data_is_zip & is.null(shape_file))) {
-    out <- data
-  } else {
-    if (is.null(shape_file)) shape_file <- data_file
-    shape_data <- read_ipums_sf(shape_file, !!shape_layer)
+  shape_layer <- enquo(shape_layer)
+  if (quo_text(shape_layer) == "data_layer") shape_layer <- data_layer
 
-    # TODO: This join seems like it is fragile. Is there a better way?
-    geo_vars <- unname(dplyr::select_vars(names(data), starts_with("GEO")))
-    label_name <- unname(dplyr::select_vars(geo_vars, ends_with("LABEL")))
-    id_name <- dplyr::setdiff(geo_vars, label_name)[1]
+  if (is.null(shape_file)) shape_file <- data_file
+  shape_data <- read_ipums_sf(shape_file, !!shape_layer)
 
-    # Set attributes to be identical to avoid a warning
-    shape_data$LABEL <- rlang::set_attrs(
-      shape_data$LABEL,
-      rlang::splice(attributes(data[[label_name]]))
-    )
-    shape_data$GEOID <- rlang::set_attrs(
-      shape_data$GEOID,
-      rlang::splice(attributes(data[[id_name]]))
-    )
+  # TODO: This join seems like it is fragile. Is there a better way?
+  geo_vars <- unname(dplyr::select_vars(names(data), starts_with("GEO")))
+  label_name <- unname(dplyr::select_vars(geo_vars, ends_with("LABEL")))
+  id_name <- dplyr::setdiff(geo_vars, label_name)[1]
 
-    out <- dplyr::full_join(shape_data, data, by = c(LABEL = label_name, GEOID = id_name))
-    out <- sf::st_as_sf(tibble::as_tibble(out))
+  # Set attributes to be identical to avoid a warning
+  shape_data$LABEL <- rlang::set_attrs(
+    shape_data$LABEL,
+    rlang::splice(attributes(data[[label_name]]))
+  )
+  shape_data$GEOID <- rlang::set_attrs(
+    shape_data$GEOID,
+    rlang::splice(attributes(data[[id_name]]))
+  )
+
+  if (is.numeric(shape_data$GEOID) & is.integer(data[[id_name]])) {
+    att_temp <- attributes(data[[id_name]])
+    data[[id_name]] <- as.numeric(data[[id_name]])
+    attributes(data[[id_name]]) <- att_temp
   }
 
-  out <- set_ipums_df_attributes(out, ddi)
+  out <- dplyr::full_join(shape_data, data, by = c(LABEL = label_name, GEOID = id_name))
+  out <- sf::st_as_sf(tibble::as_tibble(out))
+  out
+}
+
+#' @rdname read_terra_area
+#' @export
+read_terra_area_sp <- function(
+  data_file,
+  shape_file = NULL,
+  data_layer = NULL,
+  shape_layer = data_layer,
+  ddi_file = NULL,
+  cb_file = NULL,
+  verbose = TRUE
+) {
+  data_layer <- enquo(data_layer)
+  data <- read_terra_area(data_file, !!data_layer, ddi_file, cb_file, verbose)
+
+  shape_layer <- enquo(shape_layer)
+  if (quo_text(shape_layer) == "data_layer") shape_layer <- data_layer
+
+  if (is.null(shape_file)) shape_file <- data_file
+  shape_data <- read_ipums_sp(shape_file, !!shape_layer)
+
+  # TODO: This join seems like it is fragile. Is there a better way?
+  geo_vars <- unname(dplyr::select_vars(names(data), starts_with("GEO")))
+  label_name <- unname(dplyr::select_vars(geo_vars, ends_with("LABEL")))
+  id_name <- dplyr::setdiff(geo_vars, label_name)[1]
+
+
+  out <- sp::merge(
+    shape_data,
+    data,
+    by.x = c("LABEL", "GEOID"),
+    by.y = c(label_name, id_name)
+  )
+
   out
 }
 

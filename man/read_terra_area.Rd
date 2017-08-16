@@ -2,9 +2,18 @@
 % Please edit documentation in R/terra_read.r
 \name{read_terra_area}
 \alias{read_terra_area}
+\alias{read_terra_area_sf}
+\alias{read_terra_area_sp}
 \title{Read data from an IPUMS Terra area extract}
 \usage{
-read_terra_area(data_file, shape_file = NULL, data_layer = NULL,
+read_terra_area(data_file, data_layer = NULL, ddi_file = NULL,
+  cb_file = NULL, verbose = TRUE)
+
+read_terra_area_sf(data_file, shape_file = NULL, data_layer = NULL,
+  shape_layer = data_layer, ddi_file = NULL, cb_file = NULL,
+  verbose = TRUE)
+
+read_terra_area_sp(data_file, shape_file = NULL, data_layer = NULL,
   shape_layer = data_layer, ddi_file = NULL, cb_file = NULL,
   verbose = TRUE)
 }
@@ -12,18 +21,10 @@ read_terra_area(data_file, shape_file = NULL, data_layer = NULL,
 \item{data_file}{Path to the data file, which can either be the .zip file directly
 downloaded from the IPUMS Terra website, or to the csv unzipped from the download.}
 
-\item{shape_file}{(Optional) If the download is unzipped, path to the .zip or .shp file
-representing the the shape file. If only the data table is needed, can be set to FALSE
-to indicate not to load the shape file.}
-
 \item{data_layer}{For .zip extracts with multiple datasets, the name of the
  data to load. Accepts a character vector specifying the file name, or
 \code{\link{dplyr_select_style}} conventions. Data layer must uniquely identify
 a dataset.}
-
-\item{shape_layer}{(Defaults to using the same value as data_layer) Specification
-of which shape files to load using the same semantics as \code{data_layer}. Can
-load multiple shape files, which will be combined.}
 
 \item{ddi_file}{(Optional) If the download is unzipped, path to the .xml file which
 provides usage and ciation information for extract.}
@@ -33,10 +34,20 @@ provides usage and ciation information for extract.}
 
 \item{verbose}{Logical, indicating whether to print progress information
 to console.}
+
+\item{shape_file}{(Optional) If the download is unzipped, path to the .zip or .shp file
+representing the the shape file. If only the data table is needed, can be set to FALSE
+to indicate not to load the shape file.}
+
+\item{shape_layer}{(Defaults to using the same value as data_layer) Specification
+of which shape files to load using the same semantics as \code{data_layer}. Can
+load multiple shape files, which will be combined.}
 }
 \value{
-If a shape file, is found a \code{\link[sf]{sf}} object with the data and geography
-  information, otherwise just a data.frame.
+\code{read_terra_area} returns a \code{tbl_df} with the tabular data,
+  \code{read_terra_area_sf} returns a \code{sf} object with tabular data and shapes,
+  and \code{read_terra_area_sp} returns a \code{SpatialPolygonsDataFrame} with
+  data and shapes.
 }
 \description{
 Reads a area-level dataset downloaded from the IPUMS Terra extract system.
