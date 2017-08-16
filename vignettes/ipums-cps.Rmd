@@ -213,8 +213,9 @@ avg_hrs_by_health
 ```
 
 ### Bonus ### 
-A) Use the `ripums` package metadata features and `ggplot2` to make a
-presentation-ready graph of the relationship between HEALTH and percent
+A) Use the `ripums` package metadata functions (like `ipums_var_label()` and 
+`ipums_file_info()`) and `ggplot2` to make a presentation-ready graph
+of the relationship between HEALTH and percent
 employed (from Part III above).
 
 ```{r, fig.height = 4, fig.width = 7}
