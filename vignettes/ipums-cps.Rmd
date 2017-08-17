@@ -8,6 +8,14 @@ vignette: >
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
 # IPUMS - CPS Extraction and Analysis
 
 ## Exercise 1
@@ -327,7 +335,7 @@ ggplot(pct_emp_by_health, aes(x = HEALTH_factor, y = emp_pct)) +
 ```
 
 ```{r, fig.height = 6, fig.width = 7}
-# B) Are there any variables that might be confounding this relationship? How might you explore this #    relationship?
+# B) Are there any variables that might be confounding this relationship? How might you explore this relationship?
 
 # Age is likely correlated with self-reported health and employment, so a good 
 # analysis would control for this.
