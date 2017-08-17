@@ -257,9 +257,10 @@ read_terra_area_sp <- function(
 #' Reads a microdata dataset downloaded from the IPUMS Terra extract system.
 #'
 #' @return
-#'   If a shape file is found, a list containing a data.frame with the microdata,
-#'   and a \code{\link[sf]{sf}} with the geography. Otherwise, just a data.frame with
-#'   the microdata.
+#'   \code{read_terra_micro} returns a \code{tbl_df} with the tabular data,
+#'   \code{read_terra_micro_sf} returns a \code{sf} object with tabular data and shapes,
+#'   and \code{read_terra_micro_sp} returns a \code{SpatialPolygonsDataFrame} with
+#'   data and shapes.
 #' @param data_file Path to the data file, which can either be the .zip file directly
 #'   downloaded from the IPUMS Terra website, or to the csv unzipped from the download.
 #' @param ddi_file (Optional) If the download is unzipped, path to the .xml file which
@@ -271,7 +272,7 @@ read_terra_area_sp <- function(
 #'   data to load. Accepts a character vector specifying the file name, or
 #'  \code{\link{dplyr_select_style}} conventions. Data layer must uniquely identify
 #'  a dataset.
-#' @param shape_layer (Defaults to using the same value as data_layer) Specification
+#' @param shape_layer Specification
 #'   of which shape files to load using the same semantics as \code{data_layer}. Can
 #'   load multiple shape files, which will be combined.
 #' @param verbose Logical, indicating whether to print progress information
@@ -285,13 +286,10 @@ read_terra_area_sp <- function(
 read_terra_micro <- function(
   data_file,
   ddi_file = NULL,
-  shape_file = NULL,
   data_layer = NULL,
-  shape_layer = NULL,
   verbose = TRUE
 ) {
   data_layer <- enquo(data_layer)
-  shape_layer <- enquo(shape_layer)
 
   data_is_zip <- stringr::str_sub(data_file, -4) == ".zip"
 
@@ -347,30 +345,67 @@ read_terra_micro <- function(
     data <- set_ipums_var_attributes(data, ddi$var_info, set_imp_decim = FALSE)
   }
 
-  # Try to read shape file ----
-  # Don't bother looking for shape file if not specified or if
-  # explicitly told not to
-  if (rlang::is_false(shape_file) | (!data_is_zip & is.null(shape_file))) {
-    out <- data
-  } else {
-    if (data_is_zip & is.null(shape_file)) shape_file <- data_file
 
-    shape_data <- read_ipums_sf(shape_file, !!shape_layer)
-
-    # TODO: We could join if we nested the data.frames for each geography
-    geo_var <- unname(dplyr::select_vars(names(data), starts_with("GEO")))[1]
-    shape_data[[geo_var]] <- shape_data$GEOID
-
-    out <- list(
-      data = data,
-      shape = shape_data
-    )
-    out
-  }
   out <- set_ipums_df_attributes(out, ddi)
   out
 }
 
+
+#' @export
+#' @rdname read_terra_micro
+read_terra_micro_sf <- function(
+  data_file,
+  ddi_file = NULL,
+  shape_file = NULL,
+  data_layer = NULL,
+  shape_layer = NULL,
+  verbose = TRUE
+) {
+  shape_layer <- enquo(shape_layer)
+
+  data <- read_terra_micro(data_file, ddi_file, !!enquo(data_layer), verbose)
+
+  if (data_is_zip & is.null(shape_file)) shape_file <- data_file
+
+  shape_data <- read_ipums_sf(shape_file, !!shape_layer)
+
+  geo_var <- unname(dplyr::select_vars(names(data), starts_with("GEO")))[1]
+  shape_data[[geo_var]] <- shape_data$GEOID
+
+  out <- list(
+    data = data,
+    shape = shape_data
+  )
+  out
+}
+
+#' @export
+#' @rdname read_terra_micro
+read_terra_micro_sp <- function(
+  data_file,
+  ddi_file = NULL,
+  shape_file = NULL,
+  data_layer = NULL,
+  shape_layer = NULL,
+  verbose = TRUE
+) {
+  shape_layer <- enquo(shape_layer)
+
+  data <- read_terra_micro(data_file, ddi_file, !!enquo(data_layer), verbose)
+
+  if (data_is_zip & is.null(shape_file)) shape_file <- data_file
+
+  shape_data <- read_ipums_sp(shape_file, !!shape_layer)
+
+  geo_var <- unname(dplyr::select_vars(names(data), starts_with("GEO")))[1]
+  shape_data@data[[geo_var]] <- shape_data@data$GEOID
+
+  out <- list(
+    data = data,
+    shape = shape_data
+  )
+  out
+}
 
 # Fills in a default condition if we can't find ddi for terra
 terra_empty_ddi <- make_ddi(

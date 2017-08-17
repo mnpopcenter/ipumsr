@@ -2,9 +2,17 @@
 % Please edit documentation in R/terra_read.r
 \name{read_terra_micro}
 \alias{read_terra_micro}
+\alias{read_terra_micro_sf}
+\alias{read_terra_micro_sp}
 \title{Read data from an IPUMS Terra microdata extract}
 \usage{
-read_terra_micro(data_file, ddi_file = NULL, shape_file = NULL,
+read_terra_micro(data_file, ddi_file = NULL, data_layer = NULL,
+  verbose = TRUE)
+
+read_terra_micro_sf(data_file, ddi_file = NULL, shape_file = NULL,
+  data_layer = NULL, shape_layer = NULL, verbose = TRUE)
+
+read_terra_micro_sp(data_file, ddi_file = NULL, shape_file = NULL,
   data_layer = NULL, shape_layer = NULL, verbose = TRUE)
 }
 \arguments{
@@ -14,26 +22,27 @@ downloaded from the IPUMS Terra website, or to the csv unzipped from the downloa
 \item{ddi_file}{(Optional) If the download is unzipped, path to the .xml file which
 provides usage and ciation information for extract.}
 
-\item{shape_file}{(Optional) If the download is unzipped, path to the .zip or .shp file
-representing the the shape file. If only the data table is needed, can be set to FALSE
-to indicate not to load the shape file.}
-
 \item{data_layer}{For .zip extracts with multiple datasets, the name of the
  data to load. Accepts a character vector specifying the file name, or
 \code{\link{dplyr_select_style}} conventions. Data layer must uniquely identify
 a dataset.}
 
+\item{verbose}{Logical, indicating whether to print progress information
+to console.}
+
+\item{shape_file}{(Optional) If the download is unzipped, path to the .zip or .shp file
+representing the the shape file. If only the data table is needed, can be set to FALSE
+to indicate not to load the shape file.}
+
 \item{shape_layer}{(Defaults to using the same value as data_layer) Specification
 of which shape files to load using the same semantics as \code{data_layer}. Can
 load multiple shape files, which will be combined.}
-
-\item{verbose}{Logical, indicating whether to print progress information
-to console.}
 }
 \value{
-If a shape file is found, a list containing a data.frame with the microdata,
-  and a \code{\link[sf]{sf}} with the geography. Otherwise, just a data.frame with
-  the microdata.
+\code{read_terra_micro} returns a \code{tbl_df} with the tabular data,
+  \code{read_terra_micro_sf} returns a \code{sf} object with tabular data and shapes,
+  and \code{read_terra_micro_sp} returns a \code{SpatialPolygonsDataFrame} with
+  data and shapes.
 }
 \description{
 Reads a microdata dataset downloaded from the IPUMS Terra extract system.
