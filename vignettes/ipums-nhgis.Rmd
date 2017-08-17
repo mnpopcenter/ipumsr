@@ -22,8 +22,8 @@ OBJECTIVE: Gain an understanding of how the NHGIS datasets are structured and ho
 be leveraged to explore your research interests. This exercise will use an NHGIS dataset to
 explore slavery in the United States in 1830.
 
-This vignette is adapted from the CPS Data Training Exercise available here:
-[https://pop.umn.edu/sites/pop.umn.edu/files/final_review_-_cps_spss_exercise_1_0.pdf]()
+This vignette is adapted from the NHGIS Data Training Exercise available here:
+[https://pop.umn.edu/sites/pop.umn.edu/files/nhgis_training_ex1_2017-01.pdf]()
 
 ### Research Question
 What was the state‐level distribution of slavery in 1830?
