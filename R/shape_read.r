@@ -4,10 +4,10 @@
 #   https://github.com/mnpopcenter/ripums
 
 
-#' Read boundary files from an IPUMS extract as sf (simple features) object
+#' Read boundary files from an IPUMS extract
 #'
-#' Reads the boundary files from an IPUMS extract into R as sf (simple features)
-#' object.
+#' Reads the boundary files from an IPUMS extract into R as simple features (sf) objects or
+#' SpatialPolygonsDataFrame (sp) objects.
 #'
 #' @param shape_file Filepath to one or more .shp files or a .zip file from an IPUMS extract
 #' @param shape_layer For .zip extracts with multiple datasets, the name of the
@@ -16,13 +16,15 @@
 #'    which will be combined.
 #' @param bind_multiple If \code{TRUE}, will combine multiple shape files found into
 #'   a single object.
+#' @param verbose I \code{TRUE}, will report progress information
 #' @examples
 #' \dontrun{
 #' boundaries <- read_ipums_sf("nhgis_00001.zip")
+#' boundaries <- read_ipums_sp("nhgis_00001.zip")
 #' }
 #' @family ipums_read
 #' @export
-read_ipums_sf <- function(shape_file, shape_layer = NULL, bind_multiple = TRUE) {
+read_ipums_sf <- function(shape_file, shape_layer = NULL, bind_multiple = TRUE, verbose = TRUE) {
   shape_layer <- enquo(shape_layer)
   load_sf_namespace()
 
@@ -101,7 +103,7 @@ read_ipums_sf <- function(shape_file, shape_layer = NULL, bind_multiple = TRUE) 
     stop("Expected `shape_file` to be a .zip or .shp file.")
   }
 
-  out <- purrr::map(read_shape_files, ~sf::read_sf(., options = "ENCODING=UTF-8"))
+  out <- purrr::map(read_shape_files, ~sf::read_sf(., quiet = !verbose, options = "ENCODING=UTF-8"))
   out <- careful_sf_rbind(out)
 
   out
@@ -146,24 +148,9 @@ careful_sf_rbind <- function(sf_list) {
 }
 
 
-#' Read boundary files from an IPUMS extract as Spatial Objects (from sp package)
-#'
-#' Reads the boundary files form an IPUMS extract into R as Spatial Objects (from sp package).
-#'
-#' @param shape_file Filepath to one or more .shp files or a .zip file from an IPUMS extract
-#' @param shape_layer For .zip extracts with multiple datasets, the name of the
-#'   shape files to load. Accepts a character vector specifying the file name, or
-#'  \code{\link{dplyr_select_style}} conventions. Can load multiple shape files,
-#'    which will be combined.
-#' @param bind_multiple If \code{TRUE}, will combine multiple shape files found into
-#'   a single object.
-#' @examples
-#' \dontrun{
-#' boundaries <- read_ipums_sp("nhgis_00001.zip")
-#' }
-#' @family ipums_read
+#' @rdname read_ipums_sf
 #' @export
-read_ipums_sp <- function(shape_file, shape_layer = NULL, bind_multiple = TRUE) {
+read_ipums_sp <- function(shape_file, shape_layer = NULL, bind_multiple = TRUE, verbose = TRUE) {
   shape_layer <- enquo(shape_layer)
   load_rgdal_namespace()
 
@@ -247,7 +234,7 @@ read_ipums_sp <- function(shape_file, shape_layer = NULL, bind_multiple = TRUE) 
     ~rgdal::readOGR(
       dsn = dirname(.),
       layer = stringr::str_sub(basename(.), 1, -5),
-      verbose = FALSE,
+      verbose = verbose,
       stringsAsFactors = FALSE,
       encoding = "UTF-8"
     )

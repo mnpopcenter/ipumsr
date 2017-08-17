@@ -188,7 +188,7 @@ read_terra_area_sf <- function(
   if (quo_text(shape_layer) == "data_layer") shape_layer <- data_layer
 
   if (is.null(shape_file)) shape_file <- data_file
-  shape_data <- read_ipums_sf(shape_file, !!shape_layer)
+  shape_data <- read_ipums_sf(shape_file, !!shape_layer, verbose = verbose)
 
   # TODO: This join seems like it is fragile. Is there a better way?
   geo_vars <- unname(dplyr::select_vars(names(data), starts_with("GEO")))
@@ -234,7 +234,7 @@ read_terra_area_sp <- function(
   if (quo_text(shape_layer) == "data_layer") shape_layer <- data_layer
 
   if (is.null(shape_file)) shape_file <- data_file
-  shape_data <- read_ipums_sp(shape_file, !!shape_layer)
+  shape_data <- read_ipums_sp(shape_file, !!shape_layer, verbose = verbose)
 
   # TODO: This join seems like it is fragile. Is there a better way?
   geo_vars <- unname(dplyr::select_vars(names(data), starts_with("GEO")))
@@ -367,7 +367,7 @@ read_terra_micro_sf <- function(
 
   if (data_is_zip & is.null(shape_file)) shape_file <- data_file
 
-  shape_data <- read_ipums_sf(shape_file, !!shape_layer)
+  shape_data <- read_ipums_sf(shape_file, !!shape_layer, verbose = verbose)
 
   geo_var <- unname(dplyr::select_vars(names(data), starts_with("GEO")))[1]
   shape_data[[geo_var]] <- shape_data$GEOID
@@ -395,7 +395,7 @@ read_terra_micro_sp <- function(
 
   if (data_is_zip & is.null(shape_file)) shape_file <- data_file
 
-  shape_data <- read_ipums_sp(shape_file, !!shape_layer)
+  shape_data <- read_ipums_sp(shape_file, !!shape_layer, verbose = verbose)
 
   geo_var <- unname(dplyr::select_vars(names(data), starts_with("GEO")))[1]
   shape_data@data[[geo_var]] <- shape_data@data$GEOID

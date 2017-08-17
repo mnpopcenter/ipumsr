@@ -99,7 +99,7 @@ read_nhgis_sf <- function(
   if (quo_text(shape_layer) == "data_layer") shape_layer <- data_layer
   if (verbose) cat("Reading geography...\n")
 
-  sf_data <- read_ipums_sf(shape_file, !!shape_layer)
+  sf_data <- read_ipums_sf(shape_file, !!shape_layer, verbose = verbose)
 
   # Only join on vars that are in both and are called "GISJOIN*"
   join_vars <- intersect(names(data), names(sf_data))
@@ -152,18 +152,18 @@ read_nhgis_sp <- function(
   if (quo_text(shape_layer) == "data_layer") shape_layer <- data_layer
   if (verbose) cat("Reading geography...\n")
 
-  sf_data <- read_ipums_sp(shape_file, !!shape_layer)
+  sp_data <- read_ipums_sp(shape_file, !!shape_layer, verbose = verbose)
 
   # Only join on vars that are in both and are called "GISJOIN*"
-  join_vars <- intersect(names(data), names(sf_data@data))
+  join_vars <- intersect(names(data), names(sp_data@data))
   join_vars <- stringr::str_subset(join_vars, "GISJOIN.*")
 
   # Drop overlapping vars besides join var from shape file
-  drop_vars <- dplyr::intersect(names(data), names(sf_data))
+  drop_vars <- dplyr::intersect(names(data), names(sp_data@data))
   drop_vars <- dplyr::setdiff(drop_vars, join_vars)
-  sf_data@data <- dplyr::select(sf_data@data, -one_of(drop_vars))
+  sp_data@data <- dplyr::select(sp_data@data, -one_of(drop_vars))
 
-  out <- sp::merge(sf_data, data, by = join_vars, all.x = TRUE)
+  out <- sp::merge(sp_data, data, by = join_vars, all.x = TRUE)
 
   # Check if any data rows are missing (merge failures where not in shape file)
   if (verbose) {

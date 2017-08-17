@@ -2,9 +2,14 @@
 % Please edit documentation in R/shape_read.r
 \name{read_ipums_sf}
 \alias{read_ipums_sf}
-\title{Read boundary files from an IPUMS extract as sf (simple features) object}
+\alias{read_ipums_sp}
+\title{Read boundary files from an IPUMS extract}
 \usage{
-read_ipums_sf(shape_file, shape_layer = NULL, bind_multiple = TRUE)
+read_ipums_sf(shape_file, shape_layer = NULL, bind_multiple = TRUE,
+  verbose = TRUE)
+
+read_ipums_sp(shape_file, shape_layer = NULL, bind_multiple = TRUE,
+  verbose = TRUE)
 }
 \arguments{
 \item{shape_file}{Filepath to one or more .shp files or a .zip file from an IPUMS extract}
@@ -16,20 +21,22 @@ read_ipums_sf(shape_file, shape_layer = NULL, bind_multiple = TRUE)
 
 \item{bind_multiple}{If \code{TRUE}, will combine multiple shape files found into
 a single object.}
+
+\item{verbose}{I \code{TRUE}, will report progress information}
 }
 \description{
-Reads the boundary files from an IPUMS extract into R as sf (simple features)
-object.
+Reads the boundary files from an IPUMS extract into R as simple features (sf) objects or
+SpatialPolygonsDataFrame (sp) objects.
 }
 \examples{
 \dontrun{
 boundaries <- read_ipums_sf("nhgis_00001.zip")
+boundaries <- read_ipums_sp("nhgis_00001.zip")
 }
 }
 \seealso{
 Other ipums_read: \code{\link{read_ipums_micro}},
-  \code{\link{read_ipums_sp}}, \code{\link{read_nhgis}},
-  \code{\link{read_terra_area}},
+  \code{\link{read_nhgis}}, \code{\link{read_terra_area}},
   \code{\link{read_terra_micro}},
   \code{\link{read_terra_raster}}
 }

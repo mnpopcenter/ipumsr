@@ -51,7 +51,7 @@ data <- read_nhgis("nhgis0001_csv.zip", "nhgis0001_shp.zip")
 }
 \seealso{
 Other ipums_read: \code{\link{read_ipums_micro}},
-  \code{\link{read_ipums_sf}}, \code{\link{read_ipums_sp}},
+  \code{\link{read_ipums_sf}},
   \code{\link{read_terra_area}},
   \code{\link{read_terra_micro}},
   \code{\link{read_terra_raster}}

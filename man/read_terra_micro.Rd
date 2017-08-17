@@ -34,7 +34,7 @@ to console.}
 representing the the shape file. If only the data table is needed, can be set to FALSE
 to indicate not to load the shape file.}
 
-\item{shape_layer}{(Defaults to using the same value as data_layer) Specification
+\item{shape_layer}{Specification
 of which shape files to load using the same semantics as \code{data_layer}. Can
 load multiple shape files, which will be combined.}
 }
@@ -54,7 +54,7 @@ data <- read_terra_micro("2553_bundle.zip")
 }
 \seealso{
 Other ipums_read: \code{\link{read_ipums_micro}},
-  \code{\link{read_ipums_sf}}, \code{\link{read_ipums_sp}},
-  \code{\link{read_nhgis}}, \code{\link{read_terra_area}},
+  \code{\link{read_ipums_sf}}, \code{\link{read_nhgis}},
+  \code{\link{read_terra_area}},
   \code{\link{read_terra_raster}}
 }
