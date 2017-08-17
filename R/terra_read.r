@@ -365,6 +365,7 @@ read_terra_micro_sf <- function(
 
   data <- read_terra_micro(data_file, ddi_file, !!enquo(data_layer), verbose)
 
+  data_is_zip <- stringr::str_sub(data_file, -4) == ".zip"
   if (data_is_zip & is.null(shape_file)) shape_file <- data_file
 
   shape_data <- read_ipums_sf(shape_file, !!shape_layer, verbose = verbose)
@@ -393,6 +394,7 @@ read_terra_micro_sp <- function(
 
   data <- read_terra_micro(data_file, ddi_file, !!enquo(data_layer), verbose)
 
+  data_is_zip <- stringr::str_sub(data_file, -4) == ".zip"
   if (data_is_zip & is.null(shape_file)) shape_file <- data_file
 
   shape_data <- read_ipums_sp(shape_file, !!shape_layer, verbose = verbose)
