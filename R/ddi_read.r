@@ -42,13 +42,13 @@ read_ddi <- function(ddi_file, data_layer = NULL) {
   citation <- xml2::xml_find_all(cite_info, "d1:citReq")
   citation <- xml2::xml_text(citation)
 
-  # ipums_project: Store as 'Project Name (Project DOI)'
+  # ipums_project
   ipums_project <- xml2::xml_find_all(
     ddi_xml,
-    "/d1:codeBook/d1:stdyDscr/d1:citation/d1:serStmt"
+    "/d1:codeBook/d1:stdyDscr/d1:citation/d1:serStmt/d1:serName"
   )
-  ipums_project <- xml2::xml_text(xml2::xml_children(ipums_project))
-  ipums_project <- paste0(ipums_project[1], " (", ipums_project[2], ")")
+  ipums_project <- xml2::xml_text(ipums_project)
+
 
   # Users's extract notes
   extract_notes <- xml2::xml_find_all(
