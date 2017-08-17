@@ -19,7 +19,7 @@ ipums_val_labels(object, var = NULL)
 \item{object}{A DDI object (loaded with \code{\link{read_ddi}}), a data.frame
 with ipums metadata attached, or a single column from an ipums data.frame.}
 
-\item{vars}{dplyr \code{\link[dplyr]{select}}-stlye notation for the variables to
+\item{vars}{dplyr \code{\link[dplyr]{select}}-style notation for the variables to
 give information about}
 
 \item{var}{select-style notation for a single variable
@@ -45,6 +45,6 @@ you can refer to the IPUMS documentation in this object.}
 }
 \description{
 Get IPUMS metadata information about variables loaded into R. Will try to read
-the metadata fron the loaded datasets, but it is more reliable to load the DDI
+the metadata from the loaded datasets, but it is more reliable to load the DDI
 into a separate object and use it instead.
 }

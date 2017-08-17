@@ -10,7 +10,7 @@ read_ddi(ddi_file, data_layer = NULL)
 \item{ddi_file}{Filepath to DDI xml file}
 
 \item{data_layer}{If ddi_file is an extract with multiple DDIs, dplyr
-\code{\link[dplyr]{select}}-stlye notation indicating which .xml data
+\code{\link[dplyr]{select}}-style notation indicating which .xml data
 layer to load.}
 }
 \description{

@@ -20,7 +20,7 @@ read_terra_micro_sp(data_file, ddi_file = NULL, shape_file = NULL,
 downloaded from the IPUMS Terra website, or to the csv unzipped from the download.}
 
 \item{ddi_file}{(Optional) If the download is unzipped, path to the .xml file which
-provides usage and ciation information for extract.}
+provides usage and citation information for extract.}
 
 \item{data_layer}{For .zip extracts with multiple datasets, the name of the
  data to load. Accepts a character vector specifying the file name, or

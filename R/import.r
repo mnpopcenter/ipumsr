@@ -12,7 +12,7 @@ NULL
 
 #' Select-style helpers from dplyr
 #'
-#' Several arguments in \code{ripums} alow syntax for selecting variables
+#' Several arguments in \code{ripums} allow syntax for selecting variables
 #' based on dplyr's \code{\link[dplyr]{select}} function. See details for more information.
 #'
 #' There are 3 broad categories of methods for specifying arguments for these select-style

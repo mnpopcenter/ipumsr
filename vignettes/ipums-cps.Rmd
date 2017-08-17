@@ -133,7 +133,7 @@ B) What proportion of households received food stamps in 2011? _________________
 ### Analyze the Sample – Part II Relationships in the Data ###
 A) What is the universe for EMPSTAT in 2011? ________________________________________
 
-B) What are the possible responses and codes for the selfreported
+B) What are the possible responses and codes for the self-reported
 HEALTH variable?  ________________________________________
 
 C) What percent of people with ‘poor’ self-reported health are at

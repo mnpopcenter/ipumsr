@@ -12,7 +12,7 @@
 #'
 #' @param ddi_file Filepath to DDI xml file
 #' @param data_layer If ddi_file is an extract with multiple DDIs, dplyr
-#'   \code{\link[dplyr]{select}}-stlye notation indicating which .xml data
+#'   \code{\link[dplyr]{select}}-style notation indicating which .xml data
 #'   layer to load.
 #' @examples
 #' \dontrun{
@@ -164,15 +164,15 @@ read_ddi <- function(ddi_file, data_layer = NULL) {
 #' Read metadata from a text codebook in a NHGIS or Terra area-level extract
 #'
 #' Read text formatted codebooks provided by some IPUMS extract systems such as
-#' NHGIS and Terra Area-level extracts in a format analagous to the DDI's
+#' NHGIS and Terra Area-level extracts in a format analogous to the DDI's
 #' available for other projects.
 #'
 #' @return
 #'   A \code{ipums_ddi} object with information on the variables included in the
 #'   csv file of a NHGIS extract.
 #' @param cb_file Filepath to the codebook (either the .zip file directly downloaded
-#'   from the webiste, or the path to the unzipped .txt file).
-#' @param data_layer dplyr \code{\link[dplyr]{select}}-stlye notation for uniquely
+#'   from the website, or the path to the unzipped .txt file).
+#' @param data_layer dplyr \code{\link[dplyr]{select}}-style notation for uniquely
 #'   identifying the data layer to load. Required for reading from .zip files
 #'    for extracts with multiple files.
 #' @examples

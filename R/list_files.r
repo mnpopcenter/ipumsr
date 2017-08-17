@@ -11,11 +11,11 @@
 #' @param file An IPUMS extract zip file
 #' @param types One or more of "data", "shape", or "raster" indicating
 #'   what type of files to look for.
-#' @param data_layer dplyr \code{\link[dplyr]{select}}-stlye notation for the data
+#' @param data_layer dplyr \code{\link[dplyr]{select}}-style notation for the data
 #'   files to look for
-#' @param shape_layer dplyr \code{\link[dplyr]{select}}-stlye notation for the
+#' @param shape_layer dplyr \code{\link[dplyr]{select}}-style notation for the
 #'   shape files to look for
-#' @param raster_layer dplyr \code{\link[dplyr]{select}}-stlye notation for the
+#' @param raster_layer dplyr \code{\link[dplyr]{select}}-style notation for the
 #'   raster files to look for
 #' @export
 ipums_list_files <- function(file, types = NULL, data_layer = NULL,

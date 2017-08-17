@@ -13,7 +13,7 @@
 #'   For \code{read_terra_raster} A \code{\link[raster]{raster}} object, for
 #'   \code{read_terra_raster_list} A list of raster objects.
 #' @param data_file Filepath to the data (either the .zip file directly downloaded
-#'   from the webiste, or the path to the unzipped .tiff file(s)).
+#'   from the website, or the path to the unzipped .tiff file(s)).
 #' @param data_layer For .zip extracts with multiple raster datasets, the name of the
 #'   data to load. Accepts a character vector specifying the file name, or
 #'  \code{\link{dplyr_select_style}} conventions.
@@ -104,9 +104,9 @@ read_terra_raster_internal <- function(data_file, data_layer, verbose, multiple_
 #'   of which shape files to load using the same semantics as \code{data_layer}. Can
 #'   load multiple shape files, which will be combined.
 #' @param ddi_file (Optional) If the download is unzipped, path to the .xml file which
-#'   provides usage and ciation information for extract.
+#'   provides usage and citation information for extract.
 #' @param cb_file (Optional) If the download is unzipped, path to the .txt file which
-#'   provides usage and ciation information for extract.
+#'   provides usage and citation information for extract.
 #' @param verbose Logical, indicating whether to print progress information
 #'   to console.
 #' @examples
@@ -264,7 +264,7 @@ read_terra_area_sp <- function(
 #' @param data_file Path to the data file, which can either be the .zip file directly
 #'   downloaded from the IPUMS Terra website, or to the csv unzipped from the download.
 #' @param ddi_file (Optional) If the download is unzipped, path to the .xml file which
-#'   provides usage and ciation information for extract.
+#'   provides usage and citation information for extract.
 #' @param shape_file (Optional) If the download is unzipped, path to the .zip or .shp file
 #'   representing the the shape file. If only the data table is needed, can be set to FALSE
 #'   to indicate not to load the shape file.

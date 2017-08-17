@@ -12,6 +12,6 @@ with ipums metadata attached.}
 }
 \description{
 Get IPUMS metadata information about the data file loaded into R. Will try to read
-the metadata fron the loaded datasets, but it is more reliable to load the DDI
+the metadata from the loaded datasets, but it is more reliable to load the DDI
 into a separate object and use it instead.
 }

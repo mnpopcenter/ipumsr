@@ -8,9 +8,9 @@ read_ipums_codebook(cb_file, data_layer = NULL)
 }
 \arguments{
 \item{cb_file}{Filepath to the codebook (either the .zip file directly downloaded
-from the webiste, or the path to the unzipped .txt file).}
+from the website, or the path to the unzipped .txt file).}
 
-\item{data_layer}{dplyr \code{\link[dplyr]{select}}-stlye notation for uniquely
+\item{data_layer}{dplyr \code{\link[dplyr]{select}}-style notation for uniquely
 identifying the data layer to load. Required for reading from .zip files
  for extracts with multiple files.}
 }
@@ -20,7 +20,7 @@ A \code{ipums_ddi} object with information on the variables included in the
 }
 \description{
 Read text formatted codebooks provided by some IPUMS extract systems such as
-NHGIS and Terra Area-level extracts in a format analagous to the DDI's
+NHGIS and Terra Area-level extracts in a format analogous to the DDI's
 available for other projects.
 }
 \examples{

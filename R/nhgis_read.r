@@ -14,9 +14,9 @@
 #' \code{read_nhgis_sp} returns a \code{SpatialPolygonsDataFrame} with data and
 #' shapes.
 #' @param data_file Filepath to the data (either the .zip file directly
-#'   downloaded from the webiste, or the path to the unzipped .csv file).
+#'   downloaded from the website, or the path to the unzipped .csv file).
 #' @param shape_file Filepath to the shape files (either the .zip
-#'   file directly downloaded from the webiste, or the path to the unzipped
+#'   file directly downloaded from the website, or the path to the unzipped
 #'   files).
 #' @param data_layer For .zip extracts with multiple datasets, the name of the
 #'   data to load. Accepts a character vector specifying the file name, or

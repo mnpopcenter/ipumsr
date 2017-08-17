@@ -16,7 +16,7 @@ read_nhgis_sp(data_file, shape_file, data_layer = NULL,
 }
 \arguments{
 \item{data_file}{Filepath to the data (either the .zip file directly
-downloaded from the webiste, or the path to the unzipped .csv file).}
+downloaded from the website, or the path to the unzipped .csv file).}
 
 \item{data_layer}{For .zip extracts with multiple datasets, the name of the
  data to load. Accepts a character vector specifying the file name, or
@@ -27,7 +27,7 @@ a dataset.}
 console.}
 
 \item{shape_file}{Filepath to the shape files (either the .zip
-file directly downloaded from the webiste, or the path to the unzipped
+file directly downloaded from the website, or the path to the unzipped
 files).}
 
 \item{shape_layer}{(Defaults to using the same value as data_layer) Specification

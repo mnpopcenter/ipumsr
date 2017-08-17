@@ -27,10 +27,10 @@ downloaded from the IPUMS Terra website, or to the csv unzipped from the downloa
 a dataset.}
 
 \item{ddi_file}{(Optional) If the download is unzipped, path to the .xml file which
-provides usage and ciation information for extract.}
+provides usage and citation information for extract.}
 
 \item{cb_file}{(Optional) If the download is unzipped, path to the .txt file which
-provides usage and ciation information for extract.}
+provides usage and citation information for extract.}
 
 \item{verbose}{Logical, indicating whether to print progress information
 to console.}

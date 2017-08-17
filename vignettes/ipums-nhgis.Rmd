@@ -85,12 +85,12 @@ level, and select the data layout structure...
 
 - Click the plus sign to the left of the table name to add table NT12 to your Data Cart.
 - Click on the "GIS Boundary Files" Tab
-- Click on the plus sign to hte left of the State Goegraphic Level Table
+- Click on the plus sign to the left of the State Geographic Level Table
 - Click the green Continue button in your Data Cart.
 - On the Data Options screen, select the geographic level of ‘State’.
 - Click the green Continue button in your Data Cart.
 - On the Review and Submit screen, select the "Comma delimited (best for GIS)"
-  option (it doesn't matter if you include the descriptive heaer rows or not), 
+  option (it doesn't matter if you include the descriptive header rows or not), 
   add an extract description if you wish, and click Submit.
 
 4) **Download the Data Extract**
@@ -107,7 +107,7 @@ which time you will be able to click the ‘tables’ link to download the data.
 - Choose 'Save Target As...' (or 'Save link as...').
 - Save the zip file into ‘Documents’.
 - Repeat the process for the GIS data (right-click, choose 'Save Target As...', ...)
-- The R package can read theh extracts as zip files, or if you wish to open in
+- The R package can read the extracts as zip files, or if you wish to open in
   other programs, you can unzip them, by: Right‐clicking on the 'nhgis0001_csv.zip' 
   file, and select Extract All... Then click the Extract button. (Repeat for the shape
   if you desire).
