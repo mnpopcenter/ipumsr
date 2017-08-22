@@ -57,8 +57,8 @@ set_ipums_var_attributes <- function(data, var_info, set_imp_decim = TRUE) {
     x <- list(...)
     # Don't fail if we have a variable that doesn't match for some reason
     if (var_name %in% names(data)) {
-      if (!is.null(x$val_label) && nrow(x$val_label) > 0) {
-        lbls <- purrr::set_names(x$val_label$val, x$val_label$lbl)
+      if (!is.null(x$val_labels) && nrow(x$val_labels) > 0) {
+        lbls <- purrr::set_names(x$val_labels$val, x$val_labels$lbl)
         data[[var_name]] <<- haven::labelled(data[[var_name]], lbls)
       }
       if (!is.null(x$var_label)) {

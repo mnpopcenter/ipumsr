@@ -36,7 +36,7 @@ decimals and variable type.
 
 \code{ipums_var_label()} loads the short variable label for a single variable.
 
-\code{ipums_value_labels()} loads the value labels for a single variable.
+\code{ipums_val_labels()} loads the value labels for a single variable.
 
 Note that many R functions drop attributes that provide this information.
 In order to make sure that they are available, it is best to keep a copy of the

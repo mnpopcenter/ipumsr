@@ -101,7 +101,7 @@ read_ddi <- function(ddi_file, data_layer = NULL) {
       var_name = character(0),
       var_label = character(0),
       var_desc = character(0),
-      val_label = list(),
+      val_labels = list(),
       start = numeric(0),
       end = numeric(0),
       imp_decim = numeric(0),
@@ -117,7 +117,7 @@ read_ddi <- function(ddi_file, data_layer = NULL) {
       var_name = xml2::xml_attr(var_info_xml, "name"),
       var_label =  xml2::xml_text(xml2::xml_find_first(var_info_xml, "d1:labl")),
       var_desc = xml2::xml_text(xml2::xml_find_first(var_info_xml, "d1:txt")),
-      val_label = purrr::map(var_info_xml, function(vvv, vtype) {
+      val_labels = purrr::map(var_info_xml, function(vvv, vtype) {
         lbls <- xml2::xml_find_all(vvv, "d1:catgry")
         if (length(lbls) == 0) return(dplyr::data_frame(val = numeric(0), lbl = character(0)))
 
