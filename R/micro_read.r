@@ -114,6 +114,19 @@ read_ipums_hier <- function(ddi, vars, n_max, data_structure, data_file, verbose
     out[seq_len(nlines), rec_vinfo$var_name] <-
       stringr::str_sub(lines, rec_vinfo$start, rec_vinfo$end)
 
+    # Time Use data (ATUS-X/AHTUS-X/MTUS-X) all have numeric RECTYPE
+    # in data, even though DDI refers to them by character.
+    # 1 = H / 2 = P / 3 = A / 4 = W / 5 = R
+    # Fix by making a character version of RECTYPE var
+    if (ddi$ipums_project %in% c("ATUS-X", "AHTUS-X", "MTUS-X")) {
+      # Double check that data is numeric
+      rectype_num <- readr::type_convert(out[rec_vinfo$var_name], col_types = readr::cols())[[1]]
+      if (is.numeric(rectype_num)) {
+        out$RECTYPECHR <- c("H", "P", "A", "W", "R")[rectype_num]
+        rec_vinfo$var_name <- "RECTYPECHR"
+      }
+    }
+
     # Add the rest of the variables
     all_rec_types <- unique(out[[rec_vinfo$var_name]])
     rec_index <- purrr::map(all_rec_types, ~out[[rec_vinfo$var_name]] == .)
@@ -131,6 +144,19 @@ read_ipums_hier <- function(ddi, vars, n_max, data_structure, data_file, verbose
   } else if (data_structure == "list" | data_structure == "nested") {
     # Determine rectypes
     rec_type <- stringr::str_sub(lines, rec_vinfo$start, rec_vinfo$end)
+
+    # Time Use data (ATUS-X/AHTUS-X/MTUS-X) all have numeric RECTYPE
+    # in data, even though DDI refers to them by character.
+    # 1 = H / 2 = P / 3 = A / 4 = W / 5 = R
+    # Fix by making a character version of RECTYPE var
+    if (ddi$ipums_project %in% c("ATUS-X", "AHTUS-X", "MTUS-X")) {
+      # Double check that data is numeric
+      rectype_num <- readr::parse_guess(rec_type)
+      if (is.numeric(rectype_num)) {
+        rec_type <- c("H", "P", "A", "W", "R")[rectype_num]
+      }
+    }
+
     rec_types_in_extract <- dplyr::intersect(rec_vinfo$rectypes[[1]], unique(rec_type))
 
     # Make a data.frame for each rectype
@@ -166,6 +192,10 @@ read_ipums_hier <- function(ddi, vars, n_max, data_structure, data_file, verbose
 
     if (data_structure == "nested") {
       # Work backwards in rectypes to start with the most nested
+      # NOTE: this will fail with so-called "sibling" rectypes...
+      # I know that these exist for Time Use data, but the nesting
+      # structure does not appear to be exposed in the DDI. Possibly should
+      # remove the nested data type
       rectypes_to_nest <- rev(rec_types_in_extract[-1])
 
       for (rt in rectypes_to_nest) {
