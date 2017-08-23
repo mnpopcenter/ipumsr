@@ -93,7 +93,12 @@ read_ipums_hier <- function(ddi, vars, n_max, data_structure, data_file, verbose
   nonrec_vinfo <- tidyr::unnest_(nonrec_vinfo, "rectypes", .drop = FALSE)
 
   if (verbose) cat("Reading data...\n")
-  lines <- readr::read_lines(data_file, progress = FALSE, n_max = n_max, locale = ipums_locale)
+  lines <- readr::read_lines(
+    data_file,
+    progress = FALSE,
+    n_max = n_max,
+    locale = ipums_locale(ddi$file_encoding)
+  )
 
   if (verbose) cat("Parsing data...\n")
   if (data_structure == "long") {
@@ -237,9 +242,20 @@ read_ipums_rect <- function(ddi, vars, n_max, data_file, verbose) {
     stringr::str_sub(data_file, -7, -1) == ".csv.gz"
 
   if (is_fwf) {
-    out <- readr::read_fwf(data_file, col_positions, col_types, n_max = n_max, locale = ipums_locale)
+    out <- readr::read_fwf(
+      data_file,
+      col_positions,
+      col_types,
+      n_max = n_max,
+      locale = ipums_locale(ddi$file_encoding)
+    )
   } else if (is_csv) {
-    out <- readr::read_csv(data_file, col_types = col_types, n_max = n_max, locale = ipums_locale)
+    out <- readr::read_csv(
+      data_file,
+      col_types = col_types,
+      n_max = n_max,
+      locale = ipums_locale(ddi$file_encoding)
+    )
   } else {
     stop("Unrecognized file type.")
   }

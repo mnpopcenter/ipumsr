@@ -150,6 +150,9 @@ read_terra_area <- function(
     ddi <- terra_empty_ddi
   }
 
+  # Regardless of what DDI says, it appears that files are stored as UTF-8
+  ddi$file_encoding <- "UTF-8"
+
   if (verbose) cat(ipums_conditions(ddi))
 
   # Read data file ----
@@ -159,7 +162,11 @@ read_terra_area <- function(
   } else {
     read_data <- data_file
   }
-  data <- readr::read_csv(read_data, col_types = readr::cols(.default = "c"))
+  data <- readr::read_csv(
+    read_data,
+    col_types = readr::cols(.default = "c"),
+    locale = ipums_locale(ddi$file_encoding)
+  )
   data <- readr::type_convert(data, col_types = readr::cols())
 
   # Add var labels and value labels from DDI, if available
@@ -330,14 +337,17 @@ read_terra_micro <- function(
     var_type_spec <- purrr::set_names(var_type_spec, var_type_info$var_name)
     var_types <- readr::cols(.defualt = readr::col_character())
     var_types$cols <- var_type_spec
-
-    data <- readr::read_csv(read_data, col_types = var_types, na = "null", locale = ipums_locale)
-
-    data <- readr::type_convert(data, readr::cols(), locale = ipums_locale)
-  } else {
-    data <- readr::read_csv(read_data, col_types = readr::cols(.default = "c"), locale = ipums_locale)
-    data <- readr::type_convert(data, col_types = readr::cols(), locale = ipums_locale)
   }
+
+  data <- readr::read_csv(
+    read_data,
+    col_types = var_types,
+    na = "null",
+    locale = ipums_locale(ddi$file_encoding)
+  )
+
+  data <- readr::type_convert(data, readr::cols())
+
 
   # Add var labels and value labels from DDI, if available
   if (!is.null(ddi$var_info)) {

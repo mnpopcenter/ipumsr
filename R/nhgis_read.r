@@ -52,20 +52,28 @@ read_nhgis <- function(
 
   if (class(cb_ddi_info) == "try-error") cb_ddi_info <- nhgis_empty_ddi
 
+  # Specify encoding (assuming all nhgis extracts are ISO-8859-1 eg latin1
+  # because an extract with county names has n with tildes and so is can
+  # be verified as ISO-8859-1)
+  cb_ddi_info$encoding <- "ISO-8859-1"
+
   if (verbose) cat(ipums_conditions(cb_ddi_info))
 
   # Read data
   if (verbose) cat("\n\nReading data file...\n")
+  extract_locale <- ipums_locale(cb_ddi_info$file_encoding)
+
   if (data_is_zip) {
     data <- readr::read_csv(
       unz(data_file, csv_name),
       col_types = readr::cols(.default = "c"),
-      locale = ipums_locale)
+      locale = extract_locale
+    )
   } else {
     data <- readr::read_csv(
       data_file,
       col_types = readr::cols(.default = "c"),
-      locale = ipums_locale
+      locale = extract_locale
     )
   }
 
@@ -73,11 +81,11 @@ read_nhgis <- function(
   # then remove the first row.
   # (determine by checking if the first row is entirely character
   # values that can't be converted to numeric)
-  first_row <- readr::type_convert(data[1, ], col_types = readr::cols(), locale = ipums_locale)
+  first_row <- readr::type_convert(data[1, ], col_types = readr::cols())
   first_row_char <- purrr::map_lgl(first_row, rlang::is_character)
   if (all(first_row_char)) data <- data[-1, ]
 
-  data <- readr::type_convert(data, col_types = readr::cols(), locale = ipums_locale)
+  data <- readr::type_convert(data, col_types = readr::cols())
 
   data <- set_ipums_var_attributes(data, cb_ddi_info$var_info, FALSE)
   data <- set_ipums_df_attributes(data, cb_ddi_info)

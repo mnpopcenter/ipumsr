@@ -76,6 +76,9 @@ read_ddi <- function(ddi_file, data_layer = NULL) {
 
   file_type <- xml2::xml_attr(file_structure, "type")
 
+  file_encoding <- xml2::xml_find_all(files, "d1:fileTxt/d1:fileType")
+  file_encoding <- xml2::xml_attr(file_encoding, "charset")
+
   # Get rectype info if hierarchical
   if (file_type == "hierarchical") {
     rectypes <- xml2::xml_find_all(file_structure, "d1:recGrp")
@@ -317,7 +320,8 @@ make_ddi <- function(
   rectype_idvar = NULL,
   var_info = NULL,
   conditions = NULL,
-  citation = NULL
+  citation = NULL,
+  file_encoding = NULL
 ) {
   out <- list(
     file_name = file_name,
@@ -330,7 +334,8 @@ make_ddi <- function(
     rectype_idvar = rectype_idvar,
     var_info = var_info,
     conditions = conditions,
-    citation = citation
+    citation = citation,
+    file_encoding = file_encoding
   )
 
   class(out) <- "ipums_ddi"

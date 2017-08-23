@@ -3,16 +3,17 @@
 # in this project's top-level directory, and also on-line at:
 #   https://github.com/mnpopcenter/ripums
 
-
-# Explicitly set a default ipums locale in case international
-# users have changed defaults of readr.
-# The most important part of this is the latin1 encoding
-# which IPUMS extracts are (or at least appear to be).
-ipums_locale <- readr::locale(
-  decimal_mark = ".",
-  grouping_mark = ",",
-  encoding = "latin1"
-)
+# readr does not offer users the ability to override defaults, so we
+# only need to worry about encoding, which unfortunately, we are not
+# consistent about.
+# Default to ISO-8859-1 (eg latin1), because most IPUMS data appears to
+# use this. Notably, DDI's explicitly declare it often, and NHGIS is
+# (some county names have diacritics).
+# However, UTF-8 appears in Terrapop Area extracts (and maybe microdata?)
+ipums_locale <- function(encoding = NULL) {
+  if (is.null(encoding)) encoding <- "ISO-8859-1"
+  readr::locale(encoding = encoding)
+}
 
 # Helper function for using dplyr's select functions to select
 # rows based on values in a column of a data.frame.
