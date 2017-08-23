@@ -8,6 +8,19 @@
 #'@import rlang
 NULL
 
+# Import and reexport helpful label functions from haven
+#' @importFrom haven as_factor
+#' @export
+haven::as_factor
+
+#' @importFrom haven zap_labels
+#' @export
+haven::zap_labels
+
+#' @importFrom haven is.labelled
+#' @export
+haven::is.labelled
+
 # ---- Select Helpers ----
 
 #' Select-style helpers from dplyr
@@ -50,39 +63,36 @@ NULL
 #' @name dplyr_select_style
 NULL
 
-#' @export
 #' @importFrom dplyr starts_with
-NULL
-
 #' @export
+dplyr::starts_with
+
 #' @importFrom dplyr ends_with
-NULL
-
 #' @export
+dplyr::ends_with
+
 #' @importFrom dplyr contains
-NULL
-
 #' @export
+dplyr::contains
+
 #' @importFrom dplyr matches
-NULL
-
 #' @export
+dplyr::matches
+
 #' @importFrom dplyr num_range
-NULL
-
 #' @export
+dplyr::num_range
+
 #' @importFrom dplyr starts_with
-NULL
-
 #' @export
+dplyr::starts_with
+
 #' @importFrom dplyr one_of
-NULL
-
 #' @export
+dplyr::one_of
+
 #' @importFrom dplyr everything
-NULL
-
 #' @export
-#' @importFrom dplyr current_vars
-NULL
+dplyr::everything
+
 
