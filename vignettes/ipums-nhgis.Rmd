@@ -127,10 +127,6 @@ library(haven)
 library(sf)
 ```
 
-```{r, echo = FALSE}
-nhgis_csv_file <- ripums_example("nhgis0010_csv.zip")
-nhgis_shp_file <- ripums_example("nhgis0010_shape.zip")
-```
 ```{r, eval = FALSE}
 # Change these filepaths to the filepaths of your downloaded extract
 nhgis_csv_file <- "C:/Users/My Name/My Documents/nhgis0001_csv.zip"
@@ -143,6 +139,8 @@ nhgis <- read_nhgis_sf(
   shape_file = nhgis_shp_file
 )
 ```
+
+Note that `read_nhgis_sf` relies on package `sf`. You can also read NHGIS data into the format used by package `sp` with function `read_nhgis_sp`.
 
 ## Exercises
 ### Analyze the Data
