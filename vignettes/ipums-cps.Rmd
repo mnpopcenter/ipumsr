@@ -41,7 +41,7 @@ statuses related?
 - FOODSTMP: Food stamp receipt
 - AGE: Age
 - EMPSTAT: Employment status
-- HRSWORK: Hours worked last week
+- AHRSWORKT: Hours worked last week
 - HEALTH: Health status
 
 ## Download Extract from IPUMS Website
@@ -53,16 +53,16 @@ statuses related?
   - Go back to homepage and go to Select Data
   - Click the Select Samples box, check the box for the 2011 ASEC sample, click the Submit sample selections box
   - Using the drop down menu or search feature, select the following variables:
-    - PERNUM: Person number in sample unit
-    - FOODSTMP: Food stamp receipt
-    - AGE: Age
-    - EMPSTAT: Employment status
-    - AHRSWORK: Hours worked last week
-    - HEALTH: Health status
+    - PERNUM: Person number in sample unit (under Person > Technical in the drop down)
+    - FOODSTMP: Food stamp receipt (under Household > Economic Characteristics; note that we do not want "FOODSTAMP: Family market value of food stamps")
+    - AGE: Age (under Person > Core Demographic)
+    - EMPSTAT: Employment status (under Person > Work)
+    - AHRSWORKT: Hours worked last week (under Person > Work)
+    - HEALTH: Health status (under Person > Disability)
 
 3) **Request the Data**
-  - Click the green VIEW CART button under your data cart
-  - Review variable selection. Click the green Create Data Extract button
+  - Click the orange VIEW CART button under your data cart
+  - Review variable selection. Click the orange Create Data Extract button
   - Review the ‘Extract Request Summary’ screen, describe your extract and click Submit Extract
   - You will get an email when the data is available to download
   - To get to the page to download the data, follow the link in the email, or follow the Download and Revise Extracts link on the homepage
@@ -84,10 +84,6 @@ library(dplyr, warn.conflicts = FALSE)
 library(haven)
 ```
 
-```{r, echo = FALSE}
-cps_ddi_file <- ripums_example("cps_00011.xml")
-cps_data_file <- ripums_example("cps_00011.dat.gz")
-```
 ```{r, eval = FALSE}
 # Change these filepaths to the filepaths of your downloaded extract
 cps_ddi_file <- "C:/Users/My Name/My Documents/cps_00001.xml"
@@ -97,6 +93,8 @@ cps_data_file <- "C:/Users/My Name/My Documents/cps_00001.dat"
 cps_ddi <- read_ddi(cps_ddi_file) # Contains metadata, nice to have as separate object
 cps_data <- read_ipums_micro(cps_ddi_file, data_file = cps_data_file)
 ```
+
+Note that the `data_file` argument is optional if you didn't change the data file name and have it saved in your working directory; `read_ipums_micro` can use information from the DDI file to locate the corresponding data file.
 
 ## Exercises ##
 
@@ -197,8 +195,8 @@ cps_data <- cps_data %>%
 
 cps_data %>% 
   group_by(FOODSTMP_factor) %>%
-  summarize(n_foodstamp = sum(WTSUPP)) %>%
-  mutate(pct_foodstmp = n_foodstamp / sum(n_foodstamp))
+  summarize(n_foodstmp = sum(WTSUPP)) %>%
+  mutate(pct_foodstmp = n_foodstmp / sum(n_foodstmp))
 
 #    A: 39,187,348
 
@@ -220,8 +218,8 @@ cps_data %>%
   group_by(SERIAL) %>%
   filter(row_number() == 1) %>%
   group_by(FOODSTMP_factor) %>%
-  summarize(n_foodstamp = sum(WTSUPP)) %>%
-  mutate(pct_foodstmp = n_foodstamp / sum(n_foodstamp))
+  summarize(n_foodstmp = sum(HWTSUPP)) %>%
+  mutate(pct_foodstmp = n_foodstmp / sum(n_foodstmp))
 
 #    A: 12,855,283
 
@@ -244,7 +242,7 @@ cps_data %>%
 
 print_labels(cps_data$HEALTH)
 
-#    A: Age 15+
+#    A: See output of print_labels above.
 
 # C) What percent of people with ‘poor’ self-reported health are at
 #    work? 
@@ -266,7 +264,11 @@ cps_data %>%
 
 
 # E) In the EMPSTAT universe, what percent of people:
-# i. self-report ‘poor’ health and are at work? 
+# i. self-report ‘poor’ health and are at work?
+
+print_labels(cps_data$EMPSTAT)
+
+# 10 is the code for "At work"
 
 pct_emp_by_health <- cps_data %>%
   filter(AGE >= 15) %>%
