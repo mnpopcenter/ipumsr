@@ -56,10 +56,17 @@ What was the state‐level distribution of slavery in 1830?
 - Guided instructions
     - Suppose you were interested not only in slavery, but in all that's covered by the 1830 Census.
         - To view all available 1830 data, use only the Years Filter set to '1830'.
-          1) How many tables are available from the 1830 Census? _________
-          2) Other than slave status, what are some other topics could we learn about for 1830?
-          ___________________________________________________________
 
+Q1) How many tables are available from the 1830 Census? 
+```{r}
+#     A: Fifteen (15)
+```
+Q2) Other than slave status, what are some other topics could we learn about for 1830?
+```{r}
+#     A: Population that is urban, particular ages, deaf and dumb, blind, and foreign born
+#        not naturalized.
+```
+- 
     - Locate the Desired Table
         - Let's focus in on the slavery topic. To narrow the results, apply the Topics Filter of
           'Slavery'. (You can find it at the bottom of the list of POPULATION topics.)
@@ -69,15 +76,30 @@ What was the state‐level distribution of slavery in 1830?
         - Locate this 1830 table and answer the questions that follow: "NT12. Race/Slave Status by Sex"
       
     - Learn About the Table in the Data Finder
-        3) Click the table name to see additional information. How many variables does this
-        table contain? ____________
-        4) For which geographic levels is the table available? ____________________________
-        5) Close the table pop‐up window and inspect the Select Data table... What is the
-        universe for this table? ______________________
-        6) What differentiates this table from the other available slavery tables from 1830?         __________________________________________________________________
-        7) Name a percentage or ratio this table would allow us to calculate that the other
-        tables would not, based on the counts available in each table? _____________________
-        ____________________________________________________________________________
+
+Q3) Click the table name to see additional information. How many variables does this
+        table contain? 
+```{r}
+#     A: Six (6)
+```
+Q4) For which geographic levels is the table available?
+```{r}
+#     A: Nation, State, & County
+```
+Q5) Close the table pop‐up window and inspect the Select Data table... What is the
+universe for this table?
+```{r}
+#     A: Persons
+```
+Q6) What differentiates this table from the other available slavery tables from 1830?
+```{r}
+#     A: It includes the counts of "white" persons, in addition to "colored" persons
+```
+Q7) Name a percentage or ratio this table would allow us to calculate that the other
+tables would not, based on the counts available in each table?
+```{r}
+#     A: Percentage of total population in slavery, or ratio of slave:free population
+```
 
 3) **Create a Data Extract**
 Creating a data extract requires the user to select the table(s), specify a geographic
@@ -148,87 +170,22 @@ Note that `read_nhgis_sf` relies on package `sf`. You can also read NHGIS data i
 
 ## Exercises
 ### Analyze the Data
-8) How many states/territories are included in this table? _________________________
-
-9) Why do you think other states are missing? ___________________________________
-____________________________________________________________________________
-
-10) Create a new variable called total_pop, with the total population for each state, by summing the counts in columns ABO001 to ABO006. Which state had the largest population? ________________________________________
-
-11) Create a variable called slave_pop, with the total slave population by summing the variables ABO003 and ABO004. Which state had the largest slave population?__________________
-
-12) Create a variable called pct_slave with the Slave Population divided by the Total Population. Which states had the highest and lowest Percent Slave Population?
-Highest:___________________________________
-Lowest:____________________________________
-
-13) Are there any surprises, or is it as you expected? _____________________________  
-____________________________________________________________________________
-
-### Inspect the Codebook
-Open the .txt codebook file that is in the same folder as the comma delimited file you
-have already analyzed. The codebook file is a valuable reference containing
-information about the table or tables you’ve downloaded.
-
-Some of the information provided in the codebook can be read into R, using the function
-`read_ipums_codebook()`.
-
-14) What is the proper citation to provide when using NHGIS data in publications or
-researcher reports? ___________________________________________________________
-
-15) What is the email address for NHGIS to share any research you have published?
-(You can also send questions you may have about the site. We’re happy to help!) _______________________________
-
-### Bonus - Make Maps using R
-One of the reasons we are excited about bringing IPUMS data to R is the 
-GIS capabilities available for free in R. 
-
-16) Make a map of the percent of the population that are slaves.
-
-## Answers
+Q8) How many states/territories are included in this table?
 ```{r}
-# 1) How many tables are available from the 1830 Census? 
-#     A: Fifteen (15)
-
-
-# 2) Other than slave status, what other topics of interest could we learn about for 1830?
-#     A: Population that is urban, particular ages, deaf and dumb, blind, and foreign born
-#        not naturalized.
-
-
-# 3) How many variables does this table contain? 
-#     A: Six (6)
-
-
-# 4) For which geographic levels is the table available? 
-#     A: Nation, State, & County
-
-
-# 5) What is the universe for this table? 
-#     A: Persons
-
-
-# 6) What differentiates this table from the other available slavery tables from 1830? 
-#     A: It includes the counts of "white" persons, in addition to "colored" persons
-
-
-# 7) Name a percentage or ratio this table would allow us to calculate that the other
-# tables would not, based on the counts available in each table: 
-#     A: Percentage of total population in slavery, or ratio of slave:free population
-
-
-# 8) How many states/territories are included in this table? 
 length(table(nhgis$STATE))
 #     A:  Twenty‐Eight (28)
+```
 
-
-# 9) Why do you think other states are missing? 
+Q9) Why do you think other states are missing?
+```{r}
 table(nhgis$STATE)
 #     A: In 1830, there were not any other states yet! Every decennial census is a 
 #        historical snapshot, and NHGIS provides census counts just as they were 
 #        originally reported without "filling in" any information for newer areas.
+```
 
-
-# 10) Which state had the largest population? 
+Q10) Create a new variable called total_pop, with the total population for each state, by summing the counts in columns ABO001 to ABO006. Which state had the largest population?
+```{r}
 nhgis <- nhgis %>%
   mutate(total_pop = ABO001 + ABO002 + ABO003 + ABO004 + ABO005 + ABO006)
 
@@ -237,9 +194,10 @@ nhgis %>%
   arrange(desc(total_pop)) %>%
   slice(1:5)
 #     A: New  York
+```
 
-
-# 11) Which state had the largest slave population? 
+Q11) Create a variable called slave_pop, with the total slave population by summing the variables ABO003 and ABO004. Which state had the largest slave population?
+```{r}
 nhgis <- nhgis %>%
   mutate(slave_pop = ABO003 + ABO004)
 
@@ -248,9 +206,10 @@ nhgis %>%
   arrange(desc(slave_pop)) %>%
   slice(1:5)
 #     A: Virginia 
+```
 
-
-# 12) Which states had the highest and lowest Percent Slave Population?
+Q12) Create a variable called pct_slave with the Slave Population divided by the Total Population. Which states had the highest and lowest Percent Slave Population?
+```{r}
 nhgis <- nhgis %>%
   mutate(pct_slave = slave_pop / total_pop)
 
@@ -258,9 +217,10 @@ nhgis %>%
   select(STATE, pct_slave) %>%
   filter(pct_slave %in% c(min(pct_slave, na.rm = TRUE), max(pct_slave, na.rm = TRUE)))
 #     A: South Carolina (54.27%) and Vermont (0.00%)
+```
 
-
-# 13) Are there any surprises, or is it as you expected?
+Q13) Are there any surprises, or is it as you expected? 
+```{r}
 nhgis %>%
   filter(pct_slave > 0.5) %>%
   select(STATE, slave_pop, total_pop, pct_slave)
@@ -270,24 +230,39 @@ nhgis %>%
   select(STATE, slave_pop, total_pop, pct_slave)
 #     A: Possibilities: Did you know some states had more slaves than free persons? Did
 #        you know that some “free states” were home to substantial numbers of slaves?
+```
 
+### Inspect the Codebook
+Open the .txt codebook file that is in the same folder as the comma delimited file you
+have already analyzed. The codebook file is a valuable reference containing
+information about the table or tables you’ve downloaded.
 
-# 14) What is the proper citation to provide when using NHGIS data?
+Some of the information provided in the codebook can be read into R, using the function
+`read_ipums_codebook()`.
+
+Q14) What is the proper citation to provide when using NHGIS data in publications or
+researcher reports?
+```{r}
 cat(ipums_file_info(nhgis_ddi)$conditions)
 
 #     A: Minnesota Population Center. National Historical Geographic Information
 #        System: Version 11.0 [Database]. Minneapolis: University of Minnesota. 2016.
 #        http://doi.org/10.18128/D050.V11.0.
+```
 
-
-# 15) What is the email address for NHGIS to share any research you have published?
+Q15) What is the email address for NHGIS to share any research you have published?
+(You can also send questions you may have about the site. We’re happy to help!)
+```{r}
 #     A: (You can also send questions you may have about the site. We’re happy to help!)
 #     nhgis@umn.edu
-
 ```
-```{r, fig.height = 4, fig.width = 6}
-# 16) Make a map of the percent of the population that are slaves.
 
+### Bonus - Make Maps using R
+One of the reasons we are excited about bringing IPUMS data to R is the 
+GIS capabilities available for free in R. 
+
+Q16) Make a map of the percent of the population that are slaves.
+```{r, fig.height = 4, fig.width = 6}
 # Note the function `geom_sf()` is a very new function, so you may need to update
 # ggplot2 to run.
 library(ggplot2)
@@ -301,6 +276,4 @@ if ("geom_sf" %in% getNamespaceExports("ggplot2")) {
       caption = paste0("Source: ", ipums_file_info(nhgis_ddi)$ipums_project)
     )
 }
-
 ```
-
