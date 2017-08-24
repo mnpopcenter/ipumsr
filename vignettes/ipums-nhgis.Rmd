@@ -127,6 +127,10 @@ library(haven)
 library(sf)
 ```
 
+```{r, echo = FALSE}
+nhgis_csv_file <- ripums_example("nhgis0010_csv.zip")
+nhgis_shp_file <- ripums_example("nhgis0010_shape.zip")
+```
 ```{r, eval = FALSE}
 # Change these filepaths to the filepaths of your downloaded extract
 nhgis_csv_file <- "C:/Users/My Name/My Documents/nhgis0001_csv.zip"

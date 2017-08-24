@@ -84,6 +84,10 @@ library(dplyr, warn.conflicts = FALSE)
 library(haven)
 ```
 
+```{r, echo = FALSE}
+cps_ddi_file <- ripums_example("cps_00011.xml")
+cps_data_file <- ripums_example("cps_00011.dat.gz")
+```
 ```{r, eval = FALSE}
 # Change these filepaths to the filepaths of your downloaded extract
 cps_ddi_file <- "C:/Users/My Name/My Documents/cps_00001.xml"
