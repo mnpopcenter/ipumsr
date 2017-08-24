@@ -5,7 +5,7 @@
 \title{Read data from an IPUMS extract}
 \usage{
 read_ipums_micro(ddi, vars = NULL, n_max = -1, data_structure = c("long",
-  "list", "nested"), data_file = NULL, verbose = TRUE)
+  "list"), data_file = NULL, verbose = TRUE)
 }
 \arguments{
 \item{ddi}{Either a filepath to a DDI xml file downloaded from
@@ -17,13 +17,11 @@ rectype id variable will be added even if it is not specified.}
 
 \item{n_max}{The maximum number of records to load.}
 
-\item{data_structure}{For hierarchical data extract, one of "long", "list",
-or "nested" to indicate how to structure the data once loaded. "long" data
+\item{data_structure}{For hierarchical data extract, one of "long" or "list",
+ to indicate how to structure the data once loaded. "long" data
 puts all rectypes in the same data.frame, with \code{NA} values for
 variables that do not apply to the rectype. "list" data puts a data.frame
-for each rectype into a list. "nested" creates a single data.frame with one
-row per most-general rectype, with nested data.frames
-that have information for each rectype.}
+for each rectype into a list.}
 
 \item{data_file}{Specify a directory to look for the data file.
 If left empty, it will look in the same directory as the DDI file.}

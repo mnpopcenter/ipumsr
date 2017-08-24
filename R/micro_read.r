@@ -19,13 +19,11 @@
 #'  \code{\link{dplyr_select_style}} conventions. For hierarchical data, the
 #'  rectype id variable will be added even if it is not specified.
 #' @param n_max The maximum number of records to load.
-#' @param data_structure For hierarchical data extract, one of "long", "list",
-#'   or "nested" to indicate how to structure the data once loaded. "long" data
+#' @param data_structure For hierarchical data extract, one of "long" or "list",
+#'    to indicate how to structure the data once loaded. "long" data
 #'   puts all rectypes in the same data.frame, with \code{NA} values for
 #'   variables that do not apply to the rectype. "list" data puts a data.frame
-#'   for each rectype into a list. "nested" creates a single data.frame with one
-#'   row per most-general rectype, with nested data.frames
-#'   that have information for each rectype.
+#'   for each rectype into a list.
 #' @param data_file Specify a directory to look for the data file.
 #'   If left empty, it will look in the same directory as the DDI file.
 #' @param verbose Logical, indicating whether to print progress information
@@ -40,7 +38,7 @@ read_ipums_micro <- function(
   ddi,
   vars = NULL,
   n_max = -1,
-  data_structure = c("long", "list", "nested"),
+  data_structure = c("long", "list"),
   data_file = NULL,
   verbose = TRUE
 ) {
@@ -146,7 +144,7 @@ read_ipums_hier <- function(ddi, vars, n_max, data_structure, data_file, verbose
     })
 
     out <- set_ipums_var_attributes(out, all_vars)
-  } else if (data_structure == "list" | data_structure == "nested") {
+  } else if (data_structure == "list") {
     # Determine rectypes
     rec_type <- stringr::str_sub(lines, rec_vinfo$start, rec_vinfo$end)
 
@@ -194,27 +192,6 @@ read_ipums_hier <- function(ddi, vars, n_max, data_structure, data_file, verbose
       out_rt <- set_ipums_var_attributes(out_rt, vars_in_rec)
     })
     names(out) <- rec_types_in_extract
-
-    if (data_structure == "nested") {
-      # Work backwards in rectypes to start with the most nested
-      # NOTE: this will fail with so-called "sibling" rectypes...
-      # I know that these exist for Time Use data, but the nesting
-      # structure does not appear to be exposed in the DDI. Possibly should
-      # remove the nested data type
-      rectypes_to_nest <- rev(rec_types_in_extract[-1])
-
-      for (rt in rectypes_to_nest) {
-        next_rt <- rec_types_in_extract[which(rec_types_in_extract == rt) - 1]
-
-        merge_vars <- dplyr::intersect(names(out[[rt]]), names(out[[next_rt]]))
-        nest_vars <- dplyr::setdiff(names(out[[rt]]), merge_vars)
-
-        out[[rt]] <- tidyr::nest_(out[[rt]], rt, nest_vars)
-        out[[next_rt]] <- dplyr::full_join(out[[next_rt]], out[[rt]], by = merge_vars)
-        out[[rt]] <- NULL
-      }
-      out <- out[[rec_types_in_extract[1]]]
-    }
   }
   out
 }

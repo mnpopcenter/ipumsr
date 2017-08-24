@@ -81,22 +81,6 @@ test_that(
     expect_equal(attr(cps$H[["STATEFIP"]], "labels")[1:2], STATEFIP_val_labels)
   })
 
-test_that(
-  "Can read Hierarchical into nested format", {
-    skip_if_not_installed("ripumstest")
-    cps <- read_ipums_micro(
-      ripums_example("cps_00010.xml"),
-      data_structure = "nested",
-      verbose = FALSE
-    )
-
-    expect_equal(nrow(cps), rows_h)
-    expect_equal(ncol(cps), vars_h + 1)
-    expect_equal(attr(cps[["YEAR"]], "label"), YEAR_label)
-    expect_equal(attr(cps[["YEAR"]], "var_desc"), YEAR_var_desc)
-    expect_equal(attr(cps[["STATEFIP"]], "labels")[1:2], STATEFIP_val_labels)
-    expect_equal(class(cps[["P"]]), "list")
-  })
 
 test_that(
   "Arguments n_max and vars work", {
