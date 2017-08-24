@@ -28,7 +28,7 @@ ipums_website <- function(x, var, project = NULL, launch = TRUE) {
 }
 
 #'@export
-ipums_website.ddi <- function(x, var, project = NULL, launch = TRUE) {
+ipums_website.ipums_ddi <- function(x, var, project = NULL, launch = TRUE) {
   if (is.null(project)) project <- x$ipums_project
   url <- get_ipums_url(var, project)
   if (launch) {
