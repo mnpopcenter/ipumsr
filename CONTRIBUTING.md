@@ -15,18 +15,20 @@ strictly (yet).
 The book [R Packages by Hadley Wickham][r-pkg] is a great resource for learning the
 mechanics of building an R package and contributing to R packages on github. 
 In the meantime, here's a quick beginner's guide on contributing to this project 
-using Rstudio:
+using RStudio:
 [r-pkg]: https://r-pkgs.had.co.nz
 
-1) Fork this repo (top right corner button on the github website)
+1) If don't already have RStudio and Git installed, you can download them [here](https://www.rstudio.com/products/rstudio/download/) and [here](https://git-scm.com/downloads). For a primer on Git and using it with RStudio, check out [this tutorial](http://happygitwithr.com/).
 
-2) Clone the repo from Rstudio's toolbar: 
-`File > New Project > From Verson Control > https://github.com/*YOUR_USER_NAME*/ripums/`
+2) Fork this repo (top right corner button on the github website).
 
-3) Make changes to your local copy (don't forget to add your name to NOTICE.txt and 
+3) Clone the repo from RStudio's toolbar: 
+`File > New Project > From Verson Control > https://github.com/*YOUR_USER_NAME*/ripums/`.
+
+4) Make changes to your local copy (don't forget to add your name to NOTICE.txt and 
 summarize your change in the NEWS.md file). 
 
-4) Commit your changes and push them to the github webiste using Rstudio's Git pane 
+5) Commit your changes and push them to the github webiste using RStudio's Git pane 
 (push using the green up arrow). 
 
-5) [Submit a pull request](https://github.com/mnpopcenter/ripums/compare/)
+6) [Submit a pull request](https://github.com/mnpopcenter/ripums/compare/), selecting the "compare across forks" option.
