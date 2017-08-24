@@ -81,6 +81,15 @@ ipums_var_info.data.frame <- function(object, vars = NULL) {
   out
 }
 
+#' @export
+ipums_var_info.list <- function(object, vars = NULL) {
+  # For hierarchical list datasets
+  vars <- enquo(vars)
+  out <- purrr::map_df(object, ~ipums_var_info(.))
+  out <- select_var_rows(out, vars)
+  out
+}
+
 
 #' @export
 #' @rdname ipums_var_info
