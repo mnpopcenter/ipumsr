@@ -4,8 +4,8 @@
 #   https://github.com/mnpopcenter/ripums
 
 # NOTE: These functions are not exported intentionally. They are considered
-# experimental because the TerraPop group does not consider their extract
-# engine final, so these functions may break and change.
+# experimental until we work with the TerraPop group to get a more final
+# extract engine.
 
 #' EXPERIMENTAL - Read data from an IPUMS Terra raster extract
 #'
