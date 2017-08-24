@@ -80,7 +80,6 @@ saved the extracts.
 
 ```{r}
 library(ripums)
-library(dplyr, warn.conflicts = FALSE)
 ```
 
 ```{r, echo = FALSE}
@@ -100,6 +99,14 @@ cps_data <- read_ipums_micro(cps_ddi_file, data_file = cps_data_file)
 Note that the `data_file` argument is optional if you didn't change the data file name and have it saved in your working directory; `read_ipums_micro` can use information from the DDI file to locate the corresponding data file.
 
 ## Exercises ##
+These exercises include example code written in the "tidyverse" style, meaning
+that they use the dplyr package. This package provides easy to use functions
+for data analysis, including `mutate()`, `select()`, `arrange()`, `slice()` and
+the pipe (`%>%`). There a numerous other ways you could solve these answers, including
+using the base R, the `data.table` package and others. 
+```{r}
+library(dplyr, warn.conflicts = FALSE)
+```
 
 ### Analyze the Sample – Part I Frequencies of FOODSTMP
 A) On the website, find the codes page for the FOODSTMP variable
@@ -115,7 +122,9 @@ ipums_val_labels(cps_ddi, FOODSTMP)
 
 B) What is the universe for FOODSTMP in 2011 (under the
 Universe tab on the website)? 
-```{r}
+```{r, eval = FALSE}
+ipums_website(cps_ddi, "FOODSTMP")
+
 #    A: (Only available on website)
 #       All interviewed households and group quarters. 
 #       Note the NIU on the codes page, this is a household variable and the
@@ -175,15 +184,18 @@ B) What proportion of households received food stamps in 2011?
 
 ### Analyze the Sample – Part II Relationships in the Data ###
 A) What is the universe for EMPSTAT in 2011? 
-```{r}
-ipums_val_labels(cps_ddi, HEALTH)
+```{r, eval = FALSE}
+ipums_website(cps_ddi, "EMPSTAT")
+
 #    A: Age 15+
 ```
 
 B) What are the possible responses and codes for the self-reported
 HEALTH variable?
 ```{r}
-#    A: See output of print_labels above.
+ipums_val_labels(cps_ddi, HEALTH)
+
+#    A: 1 = Excellent, 2 = Very Good, 3 = Good, 4 = Fair, 5 = Poor
 ```
 
 C) What percent of people with ‘poor’ self-reported health are at
@@ -233,7 +245,9 @@ ii. self-report ‘very good’ health and are at work?
 
 ### Analyze the Sample – Part III Relationships in the Data
 A) What is the universe for AHRSWORK?
-```{r}
+```{r, eval = FALSE}
+ipums_website(cps_ddi, "AHRSWORK")
+
 #     A: Civilians age 15+, at work last week
 ```
 
@@ -260,7 +274,7 @@ A) Use the `ripums` package metadata functions (like `ipums_var_label()` and
 `ipums_file_info()`) and `ggplot2` to make a presentation-ready graph
 of the relationship between HEALTH and percent
 employed (from Part III above). 
-```{r}
+```{r, fig.height = 4, fig.width = 7}
 library(ggplot2)
 
 x_label <- ipums_var_label(cps_data, HEALTH)
@@ -280,7 +294,7 @@ ggplot(pct_emp_by_health, aes(x = HEALTH_factor, y = emp_pct)) +
 
 
 B) Are there any variables that might be confounding this relationship? How might you explore this relationship? 
-```{r}
+```{r, fig.height = 6, fig.width = 7}
 # Age is likely correlated with self-reported health and employment, so a good 
 # analysis would control for this.
 
