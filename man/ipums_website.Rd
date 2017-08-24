@@ -4,18 +4,20 @@
 \alias{ipums_website}
 \title{Launch a browser window to the ipums website}
 \usage{
-ipums_website(x, var, project = NULL)
+ipums_website(x, var, project = NULL, launch = TRUE)
 }
 \arguments{
 \item{x}{A DDI or empty (if specifying project)}
 
 \item{var}{A single variable name in a character vector}
 
-\item{prjoect}{If not using a DDI (or object with a project attribute)
+\item{project}{If not using a DDI (or object with a project attribute)
 A name of an IPUMS project, one of:
   "IPUMS-USA", "IPUMS-CPS", "IPUMS-International", "IPUMS-DHS",
   "ATUS-X", "AHTUS-X", "MTUS-X", "NHIS", "Higher Ed", "NHGIS",
   or "IPUMS Terra"}
+
+\item{launch}{If \code{TRUE}, launch the website.}
 }
 \description{
 Takes a DDI (or other object with ipums metadata) and

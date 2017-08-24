@@ -11,28 +11,39 @@
 #'
 #'@param x A DDI or empty (if specifying project)
 #'@param var A single variable name in a character vector
-#'@param prjoect If not using a DDI (or object with a project attribute)
+#'@param project If not using a DDI (or object with a project attribute)
 #' A name of an IPUMS project, one of:
 #'   "IPUMS-USA", "IPUMS-CPS", "IPUMS-International", "IPUMS-DHS",
 #'   "ATUS-X", "AHTUS-X", "MTUS-X", "NHIS", "Higher Ed", "NHGIS",
 #'   or "IPUMS Terra"
+#' @param launch If \code{TRUE}, launch the website.
 #'@export
-ipums_website <- function(x, var, project = NULL) {
+ipums_website <- function(x, var, project = NULL, launch = TRUE) {
   UseMethod("ipums_website")
 }
 
 #'@export
-ipums_website.ddi <- function(x, var, project = NULL) {
+ipums_website.ddi <- function(x, var, project = NULL, launch = TRUE) {
   if (is.null(project)) project <- x$ipums_project
   url <- get_ipums_url(var, project)
-  shell.exec(url)
+  if (launch) {
+    shell.exec(url)
+    invisible(url)
+  } else {
+    url
+  }
 }
 
 #'@export
-ipums_website.default <- function(x, var, project = NULL) {
+ipums_website.default <- function(x, var, project = NULL, launch = TRUE) {
   if (is.null(project)) project <- attributes(x)[["ipums_project"]]
   url <- get_ipums_url(var, project)
-  shell.exec(url)
+  if (launch) {
+    shell.exec(url)
+    invisible(url)
+  } else {
+    url
+  }
 }
 
 get_ipums_url <- function(var, project) {

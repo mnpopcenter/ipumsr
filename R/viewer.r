@@ -30,7 +30,7 @@ ipums_view <- function(x, out_file = NULL) {
   html_page <- shiny::basicPage(
     htmltools::tags$h1("IPUMS Data Dictionary Viewer"),
     file_info_html(file_info),
-    purrr::pmap(var_info, display_ipums_var_row)
+    purrr::pmap(var_info, display_ipums_var_row, project = file_info$ipums_project)
   )
 
   html_page <- add_jquery_dependency(html_page)
@@ -75,7 +75,7 @@ file_info_html <- function(file_info) {
   )
 }
 
-display_ipums_var_row <- function(var_name, var_label, var_desc, val_labels, ...) {
+display_ipums_var_row <- function(var_name, var_label, var_desc, val_labels, project, ...) {
   if (is.na(var_label)) var_label <- "-"
 
   if (is.na(var_desc)) var_desc <- "No variable description available..."
@@ -87,13 +87,18 @@ display_ipums_var_row <- function(var_name, var_label, var_desc, val_labels, ...
     value_labels <- htmltools::tags$p("N/A")
   }
 
-
+  if (is.null(project)) {
+    link <- NULL
+  } else {
+    url <- ipums_website(var = var_name, project = project, launch = FALSE)
+    link <- htmltools::a(href = url, "More details")
+  }
 
   expandable_div(
     var_name,
     var_label,
     shiny::fluidRow(
-      shiny::column(6, htmltools::tags$h4("Variable Description"), vd_html),
+      shiny::column(6, htmltools::tags$h4("Variable Description"), vd_html, link),
       shiny::column(6, htmltools::tags$h4("Value Labels"), value_labels)
     )
   )
