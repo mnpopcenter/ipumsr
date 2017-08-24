@@ -55,7 +55,7 @@ read_ddi <- function(ddi_file, data_layer = NULL) {
     ddi_xml,
     "/d1:codeBook/d1:stdyDscr/d1:notes"
   )
-  extract_notes <- xml2::xml_text(extract_notes)
+  extract_notes <- paste(xml2::xml_text(extract_notes), collapse = "\n\n")
 
   # Extract creation time
   extract_date <- xml2::xml_attr(
