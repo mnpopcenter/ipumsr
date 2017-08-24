@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<meta name="author" content="Minnesota Population Center" />
+
+<meta name="date" content="2017-08-24" />
+
+<title>ripums Example - NHGIS</title>
+
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+</style>
+
+
+
+<link href="data:text/css;charset=utf-8,body%20%7B%0Abackground%2Dcolor%3A%20%23fff%3B%0Amargin%3A%201em%20auto%3B%0Amax%2Dwidth%3A%20700px%3B%0Aoverflow%3A%20visible%3B%0Apadding%2Dleft%3A%202em%3B%0Apadding%2Dright%3A%202em%3B%0Afont%2Dfamily%3A%20%22Open%20Sans%22%2C%20%22Helvetica%20Neue%22%2C%20Helvetica%2C%20Arial%2C%20sans%2Dserif%3B%0Afont%2Dsize%3A%2014px%3B%0Aline%2Dheight%3A%201%2E35%3B%0A%7D%0A%23header%20%7B%0Atext%2Dalign%3A%20center%3B%0A%7D%0A%23TOC%20%7B%0Aclear%3A%20both%3B%0Amargin%3A%200%200%2010px%2010px%3B%0Apadding%3A%204px%3B%0Awidth%3A%20400px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Aborder%2Dradius%3A%205px%3B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Afont%2Dsize%3A%2013px%3B%0Aline%2Dheight%3A%201%2E3%3B%0A%7D%0A%23TOC%20%2Etoctitle%20%7B%0Afont%2Dweight%3A%20bold%3B%0Afont%2Dsize%3A%2015px%3B%0Amargin%2Dleft%3A%205px%3B%0A%7D%0A%23TOC%20ul%20%7B%0Apadding%2Dleft%3A%2040px%3B%0Amargin%2Dleft%3A%20%2D1%2E5em%3B%0Amargin%2Dtop%3A%205px%3B%0Amargin%2Dbottom%3A%205px%3B%0A%7D%0A%23TOC%20ul%20ul%20%7B%0Amargin%2Dleft%3A%20%2D2em%3B%0A%7D%0A%23TOC%20li%20%7B%0Aline%2Dheight%3A%2016px%3B%0A%7D%0Atable%20%7B%0Amargin%3A%201em%20auto%3B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dcolor%3A%20%23DDDDDD%3B%0Aborder%2Dstyle%3A%20outset%3B%0Aborder%2Dcollapse%3A%20collapse%3B%0A%7D%0Atable%20th%20%7B%0Aborder%2Dwidth%3A%202px%3B%0Apadding%3A%205px%3B%0Aborder%2Dstyle%3A%20inset%3B%0A%7D%0Atable%20td%20%7B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dstyle%3A%20inset%3B%0Aline%2Dheight%3A%2018px%3B%0Apadding%3A%205px%205px%3B%0A%7D%0Atable%2C%20table%20th%2C%20table%20td%20%7B%0Aborder%2Dleft%2Dstyle%3A%20none%3B%0Aborder%2Dright%2Dstyle%3A%20none%3B%0A%7D%0Atable%20thead%2C%20table%20tr%2Eeven%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Ap%20%7B%0Amargin%3A%200%2E5em%200%3B%0A%7D%0Ablockquote%20%7B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Apadding%3A%200%2E25em%200%2E75em%3B%0A%7D%0Ahr%20%7B%0Aborder%2Dstyle%3A%20solid%3B%0Aborder%3A%20none%3B%0Aborder%2Dtop%3A%201px%20solid%20%23777%3B%0Amargin%3A%2028px%200%3B%0A%7D%0Adl%20%7B%0Amargin%2Dleft%3A%200%3B%0A%7D%0Adl%20dd%20%7B%0Amargin%2Dbottom%3A%2013px%3B%0Amargin%2Dleft%3A%2013px%3B%0A%7D%0Adl%20dt%20%7B%0Afont%2Dweight%3A%20bold%3B%0A%7D%0Aul%20%7B%0Amargin%2Dtop%3A%200%3B%0A%7D%0Aul%20li%20%7B%0Alist%2Dstyle%3A%20circle%20outside%3B%0A%7D%0Aul%20ul%20%7B%0Amargin%2Dbottom%3A%200%3B%0A%7D%0Apre%2C%20code%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0Aborder%2Dradius%3A%203px%3B%0Acolor%3A%20%23333%3B%0Awhite%2Dspace%3A%20pre%2Dwrap%3B%20%0A%7D%0Apre%20%7B%0Aborder%2Dradius%3A%203px%3B%0Amargin%3A%205px%200px%2010px%200px%3B%0Apadding%3A%2010px%3B%0A%7D%0Apre%3Anot%28%5Bclass%5D%29%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Acode%20%7B%0Afont%2Dfamily%3A%20Consolas%2C%20Monaco%2C%20%27Courier%20New%27%2C%20monospace%3B%0Afont%2Dsize%3A%2085%25%3B%0A%7D%0Ap%20%3E%20code%2C%20li%20%3E%20code%20%7B%0Apadding%3A%202px%200px%3B%0A%7D%0Adiv%2Efigure%20%7B%0Atext%2Dalign%3A%20center%3B%0A%7D%0Aimg%20%7B%0Abackground%2Dcolor%3A%20%23FFFFFF%3B%0Apadding%3A%202px%3B%0Aborder%3A%201px%20solid%20%23DDDDDD%3B%0Aborder%2Dradius%3A%203px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Amargin%3A%200%205px%3B%0A%7D%0Ah1%20%7B%0Amargin%2Dtop%3A%200%3B%0Afont%2Dsize%3A%2035px%3B%0Aline%2Dheight%3A%2040px%3B%0A%7D%0Ah2%20%7B%0Aborder%2Dbottom%3A%204px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Apadding%2Dbottom%3A%202px%3B%0Afont%2Dsize%3A%20145%25%3B%0A%7D%0Ah3%20%7B%0Aborder%2Dbottom%3A%202px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Afont%2Dsize%3A%20120%25%3B%0A%7D%0Ah4%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23f7f7f7%3B%0Amargin%2Dleft%3A%208px%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Ah5%2C%20h6%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23ccc%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Aa%20%7B%0Acolor%3A%20%230033dd%3B%0Atext%2Ddecoration%3A%20none%3B%0A%7D%0Aa%3Ahover%20%7B%0Acolor%3A%20%236666ff%3B%20%7D%0Aa%3Avisited%20%7B%0Acolor%3A%20%23800080%3B%20%7D%0Aa%3Avisited%3Ahover%20%7B%0Acolor%3A%20%23BB00BB%3B%20%7D%0Aa%5Bhref%5E%3D%22http%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0Aa%5Bhref%5E%3D%22https%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0A%0Acode%20%3E%20span%2Ekw%20%7B%20color%3A%20%23555%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Edt%20%7B%20color%3A%20%23902000%3B%20%7D%20%0Acode%20%3E%20span%2Edv%20%7B%20color%3A%20%2340a070%3B%20%7D%20%0Acode%20%3E%20span%2Ebn%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Efl%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Ech%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Est%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Eco%20%7B%20color%3A%20%23888888%3B%20font%2Dstyle%3A%20italic%3B%20%7D%20%0Acode%20%3E%20span%2Eot%20%7B%20color%3A%20%23007020%3B%20%7D%20%0Acode%20%3E%20span%2Eal%20%7B%20color%3A%20%23ff0000%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Efu%20%7B%20color%3A%20%23900%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%20code%20%3E%20span%2Eer%20%7B%20color%3A%20%23a61717%3B%20background%2Dcolor%3A%20%23e3d2d2%3B%20%7D%20%0A" rel="stylesheet" type="text/css" />
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore"><code>ripums</code> Example - NHGIS</h1>
+<h4 class="author"><em>Minnesota Population Center</em></h4>
+<h4 class="date"><em>2017-08-24</em></h4>
+
+
+
+<div id="ipums---nhgis-extraction-and-analysis" class="section level1">
+<h1>IPUMS - NHGIS Extraction and Analysis</h1>
+<div id="exercise-1" class="section level2">
+<h2>Exercise 1</h2>
+<p>OBJECTIVE: Gain an understanding of how the NHGIS datasets are structured and how they can be leveraged to explore your research interests. This exercise will use an NHGIS dataset to explore slavery in the United States in 1830.</p>
+<p>This vignette is adapted from the NHGIS Data Training Exercise available here: <a href>https://pop.umn.edu/sites/pop.umn.edu/files/nhgis_training_ex1_2017-01.pdf</a></p>
+<div id="research-question" class="section level3">
+<h3>Research Question</h3>
+<p>What was the state‐level distribution of slavery in 1830?</p>
+</div>
+<div id="objectives" class="section level3">
+<h3>Objectives</h3>
+<ul>
+<li>Create and download an NHGIS data extract</li>
+<li>Unzip data file and open in R</li>
+<li>Analyze the data using R</li>
+<li>Validate data analysis work using answer key</li>
+</ul>
+</div>
+</div>
+<div id="download-extract-from-ipums-website" class="section level2">
+<h2>Download Extract from IPUMS Website</h2>
+<ol style="list-style-type: decimal">
+<li><strong>Log in to NHGIS</strong></li>
+</ol>
+<ul>
+<li>Go to <a href>http://www.nhgis.org</a> and click on ‘Login’ in the top right.</li>
+<li>If you have already registered on any Minnesota Population Center website…
+<ul>
+<li>If you remember your password, log in now. Otherwise, click the “Forgot your password?” link on the right and follow the instructions.</li>
+</ul></li>
+<li>If you have not already registered…
+<ul>
+<li>Click on the “Create an account”&quot; link on the right, fill in the required information, and submit your registration.</li>
+</ul></li>
+<li>You will then enter the NHGIS Data Finder…</li>
+</ul>
+<ol start="2" style="list-style-type: decimal">
+<li><strong>Find Tables</strong></li>
+</ol>
+<ul>
+<li>Quick instructions
+<ul>
+<li>Apply any combination of the four filters below to find 1830 slavery related tables
+<ul>
+<li><strong>Geographic Levels</strong> = ‘State’</li>
+<li><strong>Years</strong> = ‘1830’</li>
+<li><strong>Topics</strong> = ‘Slavery’</li>
+<li><strong>Datasets</strong> = ‘1830_cPop’</li>
+</ul></li>
+</ul></li>
+<li>Guided instructions
+<ul>
+<li>Suppose you were interested not only in slavery, but in all that’s covered by the 1830 Census.
+<ul>
+<li>To view all available 1830 data, use only the Years Filter set to ‘1830’.</li>
+</ul></li>
+</ul></li>
+</ul>
+<p>Q1) How many tables are available from the 1830 Census?</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#     A: Fifteen (15)</span></code></pre></div>
+<p>Q2) Other than slave status, what are some other topics could we learn about for 1830?</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#     A: Population that is urban, particular ages, deaf and dumb, blind, and foreign born</span>
+<span class="co">#        not naturalized.</span></code></pre></div>
+<ul>
+<li><ul>
+<li>Locate the Desired Table
+<ul>
+<li>Let’s focus in on the slavery topic. To narrow the results, apply the Topics Filter of ‘Slavery’. (You can find it at the bottom of the list of POPULATION topics.)</li>
+<li>The Select Data grid now lists all the tables related to the topic of Slavery. If you don’t also have the Years Filter on, scroll down to find the 1830 tables, or utilize additional filters to further limit the available tables.</li>
+<li>Locate this 1830 table and answer the questions that follow: “NT12. Race/Slave Status by Sex”</li>
+</ul></li>
+<li>Learn About the Table in the Data Finder</li>
+</ul></li>
+</ul>
+<p>Q3) Click the table name to see additional information. How many variables does this table contain?</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#     A: Six (6)</span></code></pre></div>
+<p>Q4) For which geographic levels is the table available?</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#     A: Nation, State, &amp; County</span></code></pre></div>
+<p>Q5) Close the table pop‐up window and inspect the Select Data table… What is the universe for this table?</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#     A: Persons</span></code></pre></div>
+<p>Q6) What differentiates this table from the other available slavery tables from 1830?</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#     A: It includes the counts of &quot;white&quot; persons, in addition to &quot;colored&quot; persons</span></code></pre></div>
+<p>Q7) Name a percentage or ratio this table would allow us to calculate that the other tables would not, based on the counts available in each table?</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#     A: Percentage of total population in slavery, or ratio of slave:free population</span></code></pre></div>
+<ol start="3" style="list-style-type: decimal">
+<li><strong>Create a Data Extract</strong> Creating a data extract requires the user to select the table(s), specify a geographic level, and select the data layout structure…</li>
+</ol>
+<ul>
+<li>Click the plus sign to the left of the table name to add table NT12 to your Data Cart.</li>
+<li>Click on the “GIS Boundary Files” Tab</li>
+<li>Click on the plus sign to the left of the State Geographic Level Table</li>
+<li>Click the green Continue button in your Data Cart.</li>
+<li>On the Data Options screen, select the geographic level of ‘State’.</li>
+<li>Click the green Continue button in your Data Cart.</li>
+<li>On the Review and Submit screen, select the “Comma delimited (best for GIS)” option (it doesn’t matter if you include the descriptive header rows or not), add an extract description if you wish, and click Submit.</li>
+</ul>
+<ol start="4" style="list-style-type: decimal">
+<li><strong>Download the Data Extract</strong> From the Extracts History page, you will be able to download your data extract once it has finished processing, typically within a few minutes. You may leave this page and return once you have received the email alerting you to your finished extract.</li>
+</ol>
+<p>If you refresh your browser window (click on the loop icon at top, or press F5), you will see the extract status change from ‘queued’ to ‘in progress’ to ‘complete’, at which time you will be able to click the ‘tables’ link to download the data.</p>
+<ul>
+<li>Return to the Extracts History page if not currently there.</li>
+<li>Right‐click on the ‘tables’ link for the extract you created.</li>
+<li>Choose ‘Save Target As…’ (or ‘Save link as…’).</li>
+<li>Save the zip file into ‘Documents’.</li>
+<li>Repeat the process for the GIS data (right-click, choose ‘Save Target As…’, …)</li>
+<li>The R package can read the extracts as zip files, or if you wish to open in other programs, you can unzip them, by: Right‐clicking on the ‘nhgis0001_csv.zip’ file, and select Extract All… Then click the Extract button. (Repeat for the shape if you desire).</li>
+</ul>
+</div>
+<div id="getting-the-data-into-r" class="section level2">
+<h2>Getting the data into R</h2>
+<p>You will need to change the filepaths noted below to the place where you have saved the extracts.</p>
+</div>
+<div id="getting-the-data-into-r-1" class="section level2">
+<h2>Getting the data into R</h2>
+<p>You will need to change the filepaths noted below to the place where you have saved the extracts.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(ripums)
+<span class="kw">library</span>(sf)
+<span class="co">#&gt; Linking to GEOS 3.6.1, GDAL 2.2.0, proj.4 4.9.3</span></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Change these filepaths to the filepaths of your downloaded extract</span>
+nhgis_csv_file &lt;-<span class="st"> &quot;C:/Users/My Name/My Documents/nhgis0001_csv.zip&quot;</span>
+nhgis_shp_file &lt;-<span class="st"> &quot;C:/Users/My Name/My Documents/nhgis0001_shape.zip&quot;</span></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">nhgis_ddi &lt;-<span class="st"> </span><span class="kw">read_ipums_codebook</span>(nhgis_csv_file) <span class="co"># Contains metadata, nice to have as separate object</span>
+nhgis &lt;-<span class="st"> </span><span class="kw">read_nhgis_sf</span>(
+  <span class="dt">data_file =</span> nhgis_csv_file,
+  <span class="dt">shape_file =</span> nhgis_shp_file
+)
+<span class="co">#&gt;  </span>
+<span class="co">#&gt; All persons are granted a limited license to use this documentation and the</span>
+<span class="co">#&gt; accompanying data, subject to the following conditions:</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; * Publications and research reports employing NHGIS data (either tabular or GIS)</span>
+<span class="co">#&gt;   must cite it appropriately. The citation should include the following:</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;     Steven Manson, Jonathan Schroeder, David Van Riper, and Steven Ruggles. </span>
+<span class="co">#&gt;     IPUMS National Historical Geographic Information System: Version 12.0 [Database]. </span>
+<span class="co">#&gt;     Minneapolis: University of Minnesota. 2017. </span>
+<span class="co">#&gt;     http://doi.org/10.18128/D050.V12.0</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; * Publications and research reports employing school attendance areas data</span>
+<span class="co">#&gt;   (either tabular or GIS) must cite it appropriately. The citation should</span>
+<span class="co">#&gt;   include the following:</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;     The College of William and Mary and the Minnesota Population Center.</span>
+<span class="co">#&gt;     School Attendance Boundary Information System (SABINS): Version 1.0.</span>
+<span class="co">#&gt;     Minneapolis, MN: University of Minnesota 2011.</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; * For policy briefs or articles in the popular press, we recommend that you cite the use of NHGIS data as follows:</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;     IPUMS NHGIS, University of Minnesota, www.nhgis.org.</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; * If possible, citations involving school attendance areas should also include</span>
+<span class="co">#&gt;   the URL for the SABINS site:</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;     http://www.sabinsdata.org/.</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; In addition, we request that users send us a copy of any publications, research</span>
+<span class="co">#&gt; reports, or educational material making use of the data or documentation.</span>
+<span class="co">#&gt; Printed matter should be sent to:</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;     NHGIS</span>
+<span class="co">#&gt;     Minnesota Population Center</span>
+<span class="co">#&gt;     University of Minnesota</span>
+<span class="co">#&gt;     50 Willey Hall</span>
+<span class="co">#&gt;     225 19th Ave S</span>
+<span class="co">#&gt;     Minneapolis, MN 55455</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Reading data file...</span>
+<span class="co">#&gt; Reading geography...</span>
+<span class="co">#&gt; options:        ENCODING=UTF-8 </span>
+<span class="co">#&gt; Reading layer `US_state_1830' from data source `C:\Users\gfellis\AppData\Local\Temp\RtmpgND2G5\file199c43cd1c2f\US_state_1830.shp' using driver `ESRI Shapefile'</span>
+<span class="co">#&gt; Simple feature collection with 29 features and 7 fields</span>
+<span class="co">#&gt; geometry type:  MULTIPOLYGON</span>
+<span class="co">#&gt; dimension:      XY</span>
+<span class="co">#&gt; bbox:           xmin: -1389608 ymin: -1337508 xmax: 2258225 ymax: 1408188</span>
+<span class="co">#&gt; epsg (SRID):    NA</span>
+<span class="co">#&gt; proj4string:    +proj=aea +lat_1=29.5 +lat_2=45.5 +lat_0=37.5 +lon_0=-96 +x_0=0 +y_0=0 +datum=NAD83 +units=m +no_defs</span></code></pre></div>
+<p>Note that <code>read_nhgis_sf</code> relies on package <code>sf</code>. You can also read NHGIS data into the format used by package <code>sp</code> with function <code>read_nhgis_sp</code>.</p>
+</div>
+<div id="exercises" class="section level2">
+<h2>Exercises</h2>
+<p>These exercises include example code written in the “tidyverse” style, meaning that they use the dplyr package. This package provides easy to use functions for data analysis, including <code>mutate()</code>, <code>select()</code>, <code>arrange()</code>, <code>slice()</code> and the pipe (<code>%&gt;%</code>). There a numerous other ways you could solve these answers, including using the base R, the <code>data.table</code> package and others.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(dplyr, <span class="dt">warn.conflicts =</span> <span class="ot">FALSE</span>)</code></pre></div>
+<div id="analyze-the-data" class="section level3">
+<h3>Analyze the Data</h3>
+<p>Q8) How many states/territories are included in this table?</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">length</span>(<span class="kw">table</span>(nhgis$STATE))
+<span class="co">#&gt; [1] 28</span>
+
+<span class="co">#     A:  Twenty‐Eight (28)</span></code></pre></div>
+<p>Q9) Why do you think other states are missing?</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">table</span>(nhgis$STATE)
+<span class="co">#&gt; </span>
+<span class="co">#&gt;              Alabama   Arkansas Territory          Connecticut </span>
+<span class="co">#&gt;                    1                    1                    1 </span>
+<span class="co">#&gt;             Delaware District Of Columbia    Florida Territory </span>
+<span class="co">#&gt;                    1                    1                    1 </span>
+<span class="co">#&gt;              Georgia             Illinois              Indiana </span>
+<span class="co">#&gt;                    1                    1                    1 </span>
+<span class="co">#&gt;             Kentucky            Louisiana                Maine </span>
+<span class="co">#&gt;                    1                    1                    1 </span>
+<span class="co">#&gt;             Maryland        Massachusetts   Michigan Territory </span>
+<span class="co">#&gt;                    1                    1                    1 </span>
+<span class="co">#&gt;          Mississippi             Missouri        New Hampshire </span>
+<span class="co">#&gt;                    1                    1                    1 </span>
+<span class="co">#&gt;           New Jersey             New York       North Carolina </span>
+<span class="co">#&gt;                    1                    1                    1 </span>
+<span class="co">#&gt;                 Ohio         Pennsylvania         Rhode Island </span>
+<span class="co">#&gt;                    1                    1                    1 </span>
+<span class="co">#&gt;       South Carolina            Tennessee              Vermont </span>
+<span class="co">#&gt;                    1                    1                    1 </span>
+<span class="co">#&gt;             Virginia </span>
+<span class="co">#&gt;                    1</span>
+<span class="co">#     A: In 1830, there were not any other states yet! Every decennial census is a </span>
+<span class="co">#        historical snapshot, and NHGIS provides census counts just as they were </span>
+<span class="co">#        originally reported without &quot;filling in&quot; any information for newer areas.</span></code></pre></div>
+<p>Q10) Create a new variable called total_pop, with the total population for each state, by summing the counts in columns ABO001 to ABO006. Which state had the largest population?</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">nhgis &lt;-<span class="st"> </span>nhgis %&gt;%
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">total_pop =</span> ABO001 +<span class="st"> </span>ABO002 +<span class="st"> </span>ABO003 +<span class="st"> </span>ABO004 +<span class="st"> </span>ABO005 +<span class="st"> </span>ABO006)
+
+nhgis %&gt;%
+<span class="st">  </span><span class="kw">as.data.frame</span>() %&gt;%
+<span class="st">  </span><span class="kw">select</span>(STATE, total_pop) %&gt;%
+<span class="st">  </span><span class="kw">arrange</span>(<span class="kw">desc</span>(total_pop)) %&gt;%
+<span class="st">  </span><span class="kw">slice</span>(<span class="dv">1</span>:<span class="dv">5</span>)
+<span class="co">#&gt; # A tibble: 5 x 2</span>
+<span class="co">#&gt;            STATE total_pop</span>
+<span class="co">#&gt;            &lt;chr&gt;     &lt;int&gt;</span>
+<span class="co">#&gt; 1       New York   1913006</span>
+<span class="co">#&gt; 2   Pennsylvania   1348233</span>
+<span class="co">#&gt; 3       Virginia   1211405</span>
+<span class="co">#&gt; 4           Ohio    937903</span>
+<span class="co">#&gt; 5 North Carolina    737987</span>
+
+<span class="co">#     A: New  York</span></code></pre></div>
+<p>Q11) Create a variable called slave_pop, with the total slave population by summing the variables ABO003 and ABO004. Which state had the largest slave population?</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">nhgis &lt;-<span class="st"> </span>nhgis %&gt;%
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">slave_pop =</span> ABO003 +<span class="st"> </span>ABO004)
+
+nhgis %&gt;%
+<span class="st">  </span><span class="kw">as.data.frame</span>() %&gt;%
+<span class="st">  </span><span class="kw">select</span>(STATE, slave_pop) %&gt;%
+<span class="st">  </span><span class="kw">arrange</span>(<span class="kw">desc</span>(slave_pop)) %&gt;%
+<span class="st">  </span><span class="kw">slice</span>(<span class="dv">1</span>:<span class="dv">5</span>)
+<span class="co">#&gt; # A tibble: 5 x 2</span>
+<span class="co">#&gt;            STATE slave_pop</span>
+<span class="co">#&gt;            &lt;chr&gt;     &lt;int&gt;</span>
+<span class="co">#&gt; 1       Virginia    469757</span>
+<span class="co">#&gt; 2 South Carolina    315401</span>
+<span class="co">#&gt; 3 North Carolina    245601</span>
+<span class="co">#&gt; 4        Georgia    217531</span>
+<span class="co">#&gt; 5       Kentucky    165213</span>
+
+<span class="co">#     A: Virginia </span></code></pre></div>
+<p>Q12) Create a variable called pct_slave with the Slave Population divided by the Total Population. Which states had the highest and lowest Percent Slave Population?</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">nhgis &lt;-<span class="st"> </span>nhgis %&gt;%
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">pct_slave =</span> slave_pop /<span class="st"> </span>total_pop)
+
+nhgis %&gt;%
+<span class="st">  </span><span class="kw">as.data.frame</span>() %&gt;%
+<span class="st">  </span><span class="kw">select</span>(STATE, pct_slave) %&gt;%
+<span class="st">  </span><span class="kw">filter</span>(pct_slave %in%<span class="st"> </span><span class="kw">c</span>(<span class="kw">min</span>(pct_slave, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>), <span class="kw">max</span>(pct_slave, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>)))
+<span class="co">#&gt;            STATE pct_slave</span>
+<span class="co">#&gt; 1        Vermont 0.0000000</span>
+<span class="co">#&gt; 2 South Carolina 0.5426861</span>
+
+<span class="co">#     A: South Carolina (54.27%) and Vermont (0.00%)</span></code></pre></div>
+<p>Q13) Are there any surprises, or is it as you expected?</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">nhgis %&gt;%
+<span class="st">  </span><span class="kw">as.data.frame</span>() %&gt;%
+<span class="st">  </span><span class="kw">filter</span>(pct_slave &gt;<span class="st"> </span><span class="fl">0.5</span>) %&gt;%
+<span class="st">  </span><span class="kw">select</span>(STATE, slave_pop, total_pop, pct_slave)
+<span class="co">#&gt;            STATE slave_pop total_pop pct_slave</span>
+<span class="co">#&gt; 1 South Carolina    315401    581185 0.5426861</span>
+<span class="co">#&gt; 2      Louisiana    109588    215529 0.5084606</span>
+
+nhgis %&gt;%
+<span class="st">  </span><span class="kw">as.data.frame</span>() %&gt;%
+<span class="st">  </span><span class="kw">filter</span>(STATE %in%<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;New York&quot;</span>, <span class="st">&quot;New Jersey&quot;</span>)) %&gt;%
+<span class="st">  </span><span class="kw">select</span>(STATE, slave_pop, total_pop, pct_slave) 
+<span class="co">#&gt;        STATE slave_pop total_pop    pct_slave</span>
+<span class="co">#&gt; 1   New York        75   1913006 3.920531e-05</span>
+<span class="co">#&gt; 2 New Jersey      2254    320823 7.025681e-03</span>
+
+<span class="co">#     A: Possibilities: Did you know some states had more slaves than free persons? Did</span>
+<span class="co">#        you know that some “free states” were home to substantial numbers of slaves?</span></code></pre></div>
+</div>
+<div id="inspect-the-codebook" class="section level3">
+<h3>Inspect the Codebook</h3>
+<p>Open the .txt codebook file that is in the same folder as the comma delimited file you have already analyzed. The codebook file is a valuable reference containing information about the table or tables you’ve downloaded.</p>
+<p>Some of the information provided in the codebook can be read into R, using the function <code>read_ipums_codebook()</code>.</p>
+<p>Q14) What is the proper citation to provide when using NHGIS data in publications or researcher reports?</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">cat</span>(<span class="kw">ipums_file_info</span>(nhgis_ddi)$conditions)
+<span class="co">#&gt;  </span>
+<span class="co">#&gt; All persons are granted a limited license to use this documentation and the</span>
+<span class="co">#&gt; accompanying data, subject to the following conditions:</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; * Publications and research reports employing NHGIS data (either tabular or GIS)</span>
+<span class="co">#&gt;   must cite it appropriately. The citation should include the following:</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;     Steven Manson, Jonathan Schroeder, David Van Riper, and Steven Ruggles. </span>
+<span class="co">#&gt;     IPUMS National Historical Geographic Information System: Version 12.0 [Database]. </span>
+<span class="co">#&gt;     Minneapolis: University of Minnesota. 2017. </span>
+<span class="co">#&gt;     http://doi.org/10.18128/D050.V12.0</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; * Publications and research reports employing school attendance areas data</span>
+<span class="co">#&gt;   (either tabular or GIS) must cite it appropriately. The citation should</span>
+<span class="co">#&gt;   include the following:</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;     The College of William and Mary and the Minnesota Population Center.</span>
+<span class="co">#&gt;     School Attendance Boundary Information System (SABINS): Version 1.0.</span>
+<span class="co">#&gt;     Minneapolis, MN: University of Minnesota 2011.</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; * For policy briefs or articles in the popular press, we recommend that you cite the use of NHGIS data as follows:</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;     IPUMS NHGIS, University of Minnesota, www.nhgis.org.</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; * If possible, citations involving school attendance areas should also include</span>
+<span class="co">#&gt;   the URL for the SABINS site:</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;     http://www.sabinsdata.org/.</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; In addition, we request that users send us a copy of any publications, research</span>
+<span class="co">#&gt; reports, or educational material making use of the data or documentation.</span>
+<span class="co">#&gt; Printed matter should be sent to:</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;     NHGIS</span>
+<span class="co">#&gt;     Minnesota Population Center</span>
+<span class="co">#&gt;     University of Minnesota</span>
+<span class="co">#&gt;     50 Willey Hall</span>
+<span class="co">#&gt;     225 19th Ave S</span>
+<span class="co">#&gt;     Minneapolis, MN 55455</span>
+
+<span class="co">#     A: Minnesota Population Center. National Historical Geographic Information</span>
+<span class="co">#        System: Version 11.0 [Database]. Minneapolis: University of Minnesota. 2016.</span>
+<span class="co">#        http://doi.org/10.18128/D050.V11.0.</span></code></pre></div>
+<p>Q15) What is the email address for NHGIS to share any research you have published? (You can also send questions you may have about the site. We’re happy to help!)</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#     A: (You can also send questions you may have about the site. We’re happy to help!)</span>
+<span class="co">#     nhgis@umn.edu</span></code></pre></div>
+</div>
+<div id="bonus---make-maps-using-r" class="section level3">
+<h3>Bonus - Make Maps using R</h3>
+<p>One of the reasons we are excited about bringing IPUMS data to R is the GIS capabilities available for free in R.</p>
+<p>Q16) Make a map of the percent of the population that are slaves.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Note the function `geom_sf()` is a very new function, so you may need to update</span>
+<span class="co"># ggplot2 to run.</span>
+<span class="kw">library</span>(ggplot2)
+if (<span class="st">&quot;geom_sf&quot;</span> %in%<span class="st"> </span><span class="kw">getNamespaceExports</span>(<span class="st">&quot;ggplot2&quot;</span>)) {
+  <span class="kw">ggplot</span>(<span class="dt">data =</span> nhgis, <span class="kw">aes</span>(<span class="dt">fill =</span> pct_slave)) +
+<span class="st">    </span><span class="kw">geom_sf</span>() +<span class="st"> </span>
+<span class="st">    </span><span class="kw">scale_fill_continuous</span>(<span class="st">&quot;&quot;</span>, <span class="dt">labels =</span> scales::percent) +<span class="st"> </span>
+<span class="st">    </span><span class="kw">labs</span>(
+      <span class="dt">title =</span> <span class="st">&quot;Percent of Population that was Enslaved by State&quot;</span>,
+      <span class="dt">subtitle =</span> <span class="st">&quot;1830 Census&quot;</span>,
+      <span class="dt">caption =</span> <span class="kw">paste0</span>(<span class="st">&quot;Source: &quot;</span>, <span class="kw">ipums_file_info</span>(nhgis_ddi)$ipums_project)
+    )
+}</code></pre></div>
+<p><img src="data:image/png;base64,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" /><!-- --></p>
+</div>
+</div>
+</div>
+
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

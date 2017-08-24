@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<meta name="author" content="Minnesota Population Center" />
+
+<meta name="date" content="2017-08-24" />
+
+<title>ripums Example - CPS</title>
+
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+</style>
+
+
+
+<link href="data:text/css;charset=utf-8,body%20%7B%0Abackground%2Dcolor%3A%20%23fff%3B%0Amargin%3A%201em%20auto%3B%0Amax%2Dwidth%3A%20700px%3B%0Aoverflow%3A%20visible%3B%0Apadding%2Dleft%3A%202em%3B%0Apadding%2Dright%3A%202em%3B%0Afont%2Dfamily%3A%20%22Open%20Sans%22%2C%20%22Helvetica%20Neue%22%2C%20Helvetica%2C%20Arial%2C%20sans%2Dserif%3B%0Afont%2Dsize%3A%2014px%3B%0Aline%2Dheight%3A%201%2E35%3B%0A%7D%0A%23header%20%7B%0Atext%2Dalign%3A%20center%3B%0A%7D%0A%23TOC%20%7B%0Aclear%3A%20both%3B%0Amargin%3A%200%200%2010px%2010px%3B%0Apadding%3A%204px%3B%0Awidth%3A%20400px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Aborder%2Dradius%3A%205px%3B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Afont%2Dsize%3A%2013px%3B%0Aline%2Dheight%3A%201%2E3%3B%0A%7D%0A%23TOC%20%2Etoctitle%20%7B%0Afont%2Dweight%3A%20bold%3B%0Afont%2Dsize%3A%2015px%3B%0Amargin%2Dleft%3A%205px%3B%0A%7D%0A%23TOC%20ul%20%7B%0Apadding%2Dleft%3A%2040px%3B%0Amargin%2Dleft%3A%20%2D1%2E5em%3B%0Amargin%2Dtop%3A%205px%3B%0Amargin%2Dbottom%3A%205px%3B%0A%7D%0A%23TOC%20ul%20ul%20%7B%0Amargin%2Dleft%3A%20%2D2em%3B%0A%7D%0A%23TOC%20li%20%7B%0Aline%2Dheight%3A%2016px%3B%0A%7D%0Atable%20%7B%0Amargin%3A%201em%20auto%3B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dcolor%3A%20%23DDDDDD%3B%0Aborder%2Dstyle%3A%20outset%3B%0Aborder%2Dcollapse%3A%20collapse%3B%0A%7D%0Atable%20th%20%7B%0Aborder%2Dwidth%3A%202px%3B%0Apadding%3A%205px%3B%0Aborder%2Dstyle%3A%20inset%3B%0A%7D%0Atable%20td%20%7B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dstyle%3A%20inset%3B%0Aline%2Dheight%3A%2018px%3B%0Apadding%3A%205px%205px%3B%0A%7D%0Atable%2C%20table%20th%2C%20table%20td%20%7B%0Aborder%2Dleft%2Dstyle%3A%20none%3B%0Aborder%2Dright%2Dstyle%3A%20none%3B%0A%7D%0Atable%20thead%2C%20table%20tr%2Eeven%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Ap%20%7B%0Amargin%3A%200%2E5em%200%3B%0A%7D%0Ablockquote%20%7B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Apadding%3A%200%2E25em%200%2E75em%3B%0A%7D%0Ahr%20%7B%0Aborder%2Dstyle%3A%20solid%3B%0Aborder%3A%20none%3B%0Aborder%2Dtop%3A%201px%20solid%20%23777%3B%0Amargin%3A%2028px%200%3B%0A%7D%0Adl%20%7B%0Amargin%2Dleft%3A%200%3B%0A%7D%0Adl%20dd%20%7B%0Amargin%2Dbottom%3A%2013px%3B%0Amargin%2Dleft%3A%2013px%3B%0A%7D%0Adl%20dt%20%7B%0Afont%2Dweight%3A%20bold%3B%0A%7D%0Aul%20%7B%0Amargin%2Dtop%3A%200%3B%0A%7D%0Aul%20li%20%7B%0Alist%2Dstyle%3A%20circle%20outside%3B%0A%7D%0Aul%20ul%20%7B%0Amargin%2Dbottom%3A%200%3B%0A%7D%0Apre%2C%20code%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0Aborder%2Dradius%3A%203px%3B%0Acolor%3A%20%23333%3B%0Awhite%2Dspace%3A%20pre%2Dwrap%3B%20%0A%7D%0Apre%20%7B%0Aborder%2Dradius%3A%203px%3B%0Amargin%3A%205px%200px%2010px%200px%3B%0Apadding%3A%2010px%3B%0A%7D%0Apre%3Anot%28%5Bclass%5D%29%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Acode%20%7B%0Afont%2Dfamily%3A%20Consolas%2C%20Monaco%2C%20%27Courier%20New%27%2C%20monospace%3B%0Afont%2Dsize%3A%2085%25%3B%0A%7D%0Ap%20%3E%20code%2C%20li%20%3E%20code%20%7B%0Apadding%3A%202px%200px%3B%0A%7D%0Adiv%2Efigure%20%7B%0Atext%2Dalign%3A%20center%3B%0A%7D%0Aimg%20%7B%0Abackground%2Dcolor%3A%20%23FFFFFF%3B%0Apadding%3A%202px%3B%0Aborder%3A%201px%20solid%20%23DDDDDD%3B%0Aborder%2Dradius%3A%203px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Amargin%3A%200%205px%3B%0A%7D%0Ah1%20%7B%0Amargin%2Dtop%3A%200%3B%0Afont%2Dsize%3A%2035px%3B%0Aline%2Dheight%3A%2040px%3B%0A%7D%0Ah2%20%7B%0Aborder%2Dbottom%3A%204px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Apadding%2Dbottom%3A%202px%3B%0Afont%2Dsize%3A%20145%25%3B%0A%7D%0Ah3%20%7B%0Aborder%2Dbottom%3A%202px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Afont%2Dsize%3A%20120%25%3B%0A%7D%0Ah4%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23f7f7f7%3B%0Amargin%2Dleft%3A%208px%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Ah5%2C%20h6%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23ccc%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Aa%20%7B%0Acolor%3A%20%230033dd%3B%0Atext%2Ddecoration%3A%20none%3B%0A%7D%0Aa%3Ahover%20%7B%0Acolor%3A%20%236666ff%3B%20%7D%0Aa%3Avisited%20%7B%0Acolor%3A%20%23800080%3B%20%7D%0Aa%3Avisited%3Ahover%20%7B%0Acolor%3A%20%23BB00BB%3B%20%7D%0Aa%5Bhref%5E%3D%22http%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0Aa%5Bhref%5E%3D%22https%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0A%0Acode%20%3E%20span%2Ekw%20%7B%20color%3A%20%23555%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Edt%20%7B%20color%3A%20%23902000%3B%20%7D%20%0Acode%20%3E%20span%2Edv%20%7B%20color%3A%20%2340a070%3B%20%7D%20%0Acode%20%3E%20span%2Ebn%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Efl%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Ech%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Est%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Eco%20%7B%20color%3A%20%23888888%3B%20font%2Dstyle%3A%20italic%3B%20%7D%20%0Acode%20%3E%20span%2Eot%20%7B%20color%3A%20%23007020%3B%20%7D%20%0Acode%20%3E%20span%2Eal%20%7B%20color%3A%20%23ff0000%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Efu%20%7B%20color%3A%20%23900%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%20code%20%3E%20span%2Eer%20%7B%20color%3A%20%23a61717%3B%20background%2Dcolor%3A%20%23e3d2d2%3B%20%7D%20%0A" rel="stylesheet" type="text/css" />
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore"><code>ripums</code> Example - CPS</h1>
+<h4 class="author"><em>Minnesota Population Center</em></h4>
+<h4 class="date"><em>2017-08-24</em></h4>
+
+
+
+<div id="ipums---cps-extraction-and-analysis" class="section level1">
+<h1>IPUMS - CPS Extraction and Analysis</h1>
+<div id="exercise-1" class="section level2">
+<h2>Exercise 1</h2>
+<p>OBJECTIVE: Gain an understanding of how the IPUMS dataset is structured and how it can be leveraged to explore your research interests. This exercise will use the IPUMS dataset to explore associations between health and work status and to create basic frequencies of food stamp usage.</p>
+<p>This vignette is adapted from the CPS Data Training Exercise available here: <a href>https://pop.umn.edu/sites/pop.umn.edu/files/final_review_-_cps_spss_exercise_1_0.pdf</a></p>
+<div id="research-questions" class="section level3">
+<h3>Research Questions</h3>
+<p>What is the frequency of food stamp recipiency in the US? Are health and work statuses related?</p>
+</div>
+<div id="objectives" class="section level3">
+<h3>Objectives</h3>
+<ul>
+<li>Create and download an IPUMS data extract</li>
+<li>Decompress data file and read data into R</li>
+<li>Analyze the data using sample code</li>
+<li>Validate data analysis work using answer key</li>
+</ul>
+</div>
+<div id="ipums-variables" class="section level3">
+<h3>IPUMS Variables</h3>
+<ul>
+<li>PERNUM: Person number in sample unit</li>
+<li>FOODSTMP: Food stamp receipt</li>
+<li>AGE: Age</li>
+<li>EMPSTAT: Employment status</li>
+<li>AHRSWORKT: Hours worked last week</li>
+<li>HEALTH: Health status</li>
+</ul>
+</div>
+</div>
+<div id="download-extract-from-ipums-website" class="section level2">
+<h2>Download Extract from IPUMS Website</h2>
+<ol style="list-style-type: decimal">
+<li><p><strong>Register with IPUMS</strong> - Go to <a href="http://cps.ipums.org" class="uri">http://cps.ipums.org</a>, click on CPS Registration and apply for access. On login screen, enter email address and password and submit it!</p></li>
+<li><strong>Make an Extract</strong></li>
+</ol>
+<ul>
+<li>Go to <a href="http://cps.ipums.org" class="uri">http://cps.ipums.org</a>, click on CPS Registration and Apply for access</li>
+<li>On login screen, enter email address and password and submit</li>
+<li>Go back to homepage and go to Select Data</li>
+<li>Click the Select Samples box, check the box for the 2011 ASEC sample, click the Submit sample selections box</li>
+<li>Using the drop down menu or search feature, select the following variables:
+<ul>
+<li>PERNUM: Person number in sample unit (under Person &gt; Technical in the drop down)</li>
+<li>FOODSTMP: Food stamp receipt (under Household &gt; Economic Characteristics; note that we do not want “FOODSTAMP: Family market value of food stamps”)</li>
+<li>AGE: Age (under Person &gt; Core Demographic)</li>
+<li>EMPSTAT: Employment status (under Person &gt; Work)</li>
+<li>AHRSWORKT: Hours worked last week (under Person &gt; Work)</li>
+<li>HEALTH: Health status (under Person &gt; Disability)</li>
+</ul></li>
+</ul>
+<ol start="3" style="list-style-type: decimal">
+<li><strong>Request the Data</strong></li>
+</ol>
+<ul>
+<li>Click the orange VIEW CART button under your data cart</li>
+<li>Review variable selection. Click the orange Create Data Extract button</li>
+<li>Review the ‘Extract Request Summary’ screen, describe your extract and click Submit Extract</li>
+<li>You will get an email when the data is available to download</li>
+<li>To get to the page to download the data, follow the link in the email, or follow the Download and Revise Extracts link on the homepage</li>
+</ul>
+<ol start="4" style="list-style-type: decimal">
+<li><strong>Download the Data</strong></li>
+</ol>
+<ul>
+<li>Go to <a href="http://cps.ipums.org" class="uri">http://cps.ipums.org</a> and click on Download or Revise Extracts</li>
+<li>Right-click on the data link next to extract you created</li>
+<li>Choose “Save Target As…” (or “Save Link As…”)</li>
+<li>Save into “Documents” (that should pop up as the default location)</li>
+<li>Do the same thing for the DDI link next to the extract</li>
+</ul>
+</div>
+<div id="getting-the-data-into-r" class="section level2">
+<h2>Getting the data into R</h2>
+<p>You will need to change the filepaths noted below to the place where you have saved the extracts.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(ripums)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Change these filepaths to the filepaths of your downloaded extract</span>
+cps_ddi_file &lt;-<span class="st"> &quot;C:/Users/My Name/My Documents/cps_00001.xml&quot;</span>
+cps_data_file &lt;-<span class="st"> &quot;C:/Users/My Name/My Documents/cps_00001.dat&quot;</span></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">cps_ddi &lt;-<span class="st"> </span><span class="kw">read_ddi</span>(cps_ddi_file) <span class="co"># Contains metadata, nice to have as separate object</span>
+cps_data &lt;-<span class="st"> </span><span class="kw">read_ipums_micro</span>(cps_ddi_file, <span class="dt">data_file =</span> cps_data_file)
+<span class="co">#&gt; Users of IPUMS-CPS data must agree to abide by the conditions of use. A user's license is valid for one year and may be renewed.  Users must agree to the following conditions:</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; (1) No fees may be charged for use or distribution of the data.  All persons are granted a limited license to use these data, but you may not charge a fee for the data if you distribute it to others.</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; (2) Cite IPUMS appropriately.  For information on proper citation,  refer to the citation requirement section of this DDI document.</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; (3) Tell us about any work you do using the IPUMS.  Publications, research  reports, or presentations making use of IPUMS-CPS should be added to our  Bibliography. Continued funding for the IPUMS depends on our ability to  show our sponsor agencies that researchers are using the data for productive  purposes.</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; (4) Use it for GOOD -- never for EVIL.</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Publications and research reports based on the IPUMS-CPS database must cite it appropriately. The citation should include the following:</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Sarah Flood, Miriam King, Steven Ruggles, and J. Robert Warren. Integrated Public Use Microdata Series, Current Population Survey: Version 5.0 [dataset]. Minneapolis, MN: University of Minnesota, 2017. https://doi.org/10.18128/D030.V5.0</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; The licensing agreement for use of IPUMS-CPS data requires that users supply us with the title and full citation for any publications, research reports, or educational materials making use of the data or documentation. Please add your citation to the IPUMS bibliography: http://bibliography.ipums.org/</span></code></pre></div>
+<p>Note that the <code>data_file</code> argument is optional if you didn’t change the data file name and have it saved in your working directory; <code>read_ipums_micro</code> can use information from the DDI file to locate the corresponding data file.</p>
+</div>
+<div id="exercises" class="section level2">
+<h2>Exercises</h2>
+<p>These exercises include example code written in the “tidyverse” style, meaning that they use the dplyr package. This package provides easy to use functions for data analysis, including <code>mutate()</code>, <code>select()</code>, <code>arrange()</code>, <code>slice()</code> and the pipe (<code>%&gt;%</code>). There a numerous other ways you could solve these answers, including using the base R, the <code>data.table</code> package and others.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(dplyr, <span class="dt">warn.conflicts =</span> <span class="ot">FALSE</span>)</code></pre></div>
+<div id="analyze-the-sample-part-i-frequencies-of-foodstmp" class="section level3">
+<h3>Analyze the Sample – Part I Frequencies of FOODSTMP</h3>
+<ol style="list-style-type: upper-alpha">
+<li>On the website, find the codes page for the FOODSTMP variable and write down the code value, and what category each code represents.</li>
+</ol>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Can find on the website or from the data</span>
+<span class="kw">ipums_val_labels</span>(cps_ddi, FOODSTMP)
+<span class="co">#&gt; # A tibble: 3 x 2</span>
+<span class="co">#&gt;     val   lbl</span>
+<span class="co">#&gt;   &lt;dbl&gt; &lt;chr&gt;</span>
+<span class="co">#&gt; 1     0   NIU</span>
+<span class="co">#&gt; 2     1    No</span>
+<span class="co">#&gt; 3     2   Yes</span>
+
+<span class="co">#    A: 0 = NIU, 1 = No, 2 = Yes</span></code></pre></div>
+<ol start="2" style="list-style-type: upper-alpha">
+<li>What is the universe for FOODSTMP in 2011 (under the Universe tab on the website)?</li>
+</ol>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ipums_website</span>(cps_ddi, <span class="st">&quot;FOODSTMP&quot;</span>)
+
+<span class="co">#    A: (Only available on website)</span>
+<span class="co">#       All interviewed households and group quarters. </span>
+<span class="co">#       Note the NIU on the codes page, this is a household variable and the</span>
+<span class="co">#       NIU cases are the vacant households.</span></code></pre></div>
+<ol start="3" style="list-style-type: upper-alpha">
+<li>How many people received food stamps in 2011?</li>
+</ol>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># We will be working with the FOODSTMP variable a lot, so </span>
+<span class="co"># let's turn it into a factor</span>
+cps_data &lt;-<span class="st"> </span>cps_data %&gt;%
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">FOODSTMP_factor =</span> <span class="kw">as_factor</span>(FOODSTMP))
+
+cps_data %&gt;%<span class="st"> </span>
+<span class="st">  </span><span class="kw">group_by</span>(FOODSTMP_factor) %&gt;%
+<span class="st">  </span><span class="kw">summarize</span>(<span class="dt">n_foodstmp =</span> <span class="kw">sum</span>(WTSUPP)) %&gt;%
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">pct_foodstmp =</span> n_foodstmp /<span class="st"> </span><span class="kw">sum</span>(n_foodstmp))
+<span class="co">#&gt; # A tibble: 2 x 3</span>
+<span class="co">#&gt;   FOODSTMP_factor n_foodstmp pct_foodstmp</span>
+<span class="co">#&gt;            &lt;fctr&gt;      &lt;dbl&gt;        &lt;dbl&gt;</span>
+<span class="co">#&gt; 1              No  267365863    0.8721679</span>
+<span class="co">#&gt; 2             Yes   39187348    0.1278321</span>
+
+<span class="co">#    A: 39,187,348</span></code></pre></div>
+<ol start="4" style="list-style-type: upper-alpha">
+<li>What proportion of the population received food stamps in 2011?</li>
+</ol>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#    A: 12.8% (found in code from previous question)</span></code></pre></div>
+</div>
+<div id="using-household-weights-hwtsupp" class="section level3">
+<h3>Using household weights (HWTSUPP)</h3>
+<p>Suppose you were interested not in the number of people living in homes that received food stamps, but in the number of households that were food stamp participants. To get this statistic you would need to use the household weight.</p>
+<p>In order to use household weight, you should be careful to select only one person from each household to represent that household’s characteristics. You will need to apply the household weight (HWTSUPP).</p>
+<ol style="list-style-type: upper-alpha">
+<li>How many households received food stamps in 2011?</li>
+</ol>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">cps_data %&gt;%<span class="st"> </span>
+<span class="st">  </span><span class="kw">group_by</span>(SERIAL) %&gt;%
+<span class="st">  </span><span class="kw">filter</span>(<span class="kw">row_number</span>() ==<span class="st"> </span><span class="dv">1</span>) %&gt;%
+<span class="st">  </span><span class="kw">group_by</span>(FOODSTMP_factor) %&gt;%
+<span class="st">  </span><span class="kw">summarize</span>(<span class="dt">n_foodstmp =</span> <span class="kw">sum</span>(HWTSUPP)) %&gt;%
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">pct_foodstmp =</span> n_foodstmp /<span class="st"> </span><span class="kw">sum</span>(n_foodstmp))
+<span class="co">#&gt; # A tibble: 2 x 3</span>
+<span class="co">#&gt;   FOODSTMP_factor n_foodstmp pct_foodstmp</span>
+<span class="co">#&gt;            &lt;fctr&gt;      &lt;dbl&gt;        &lt;dbl&gt;</span>
+<span class="co">#&gt; 1              No  107139102    0.8928676</span>
+<span class="co">#&gt; 2             Yes   12855283    0.1071324</span>
+
+<span class="co">#    A: 12,855,283</span></code></pre></div>
+<ol start="2" style="list-style-type: upper-alpha">
+<li>What proportion of households received food stamps in 2011?</li>
+</ol>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#    A: 10.7% (found in code from previous question)</span></code></pre></div>
+</div>
+<div id="analyze-the-sample-part-ii-relationships-in-the-data" class="section level3">
+<h3>Analyze the Sample – Part II Relationships in the Data</h3>
+<ol style="list-style-type: upper-alpha">
+<li>What is the universe for EMPSTAT in 2011?</li>
+</ol>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ipums_website</span>(cps_ddi, <span class="st">&quot;EMPSTAT&quot;</span>)
+
+<span class="co">#    A: Age 15+</span></code></pre></div>
+<ol start="2" style="list-style-type: upper-alpha">
+<li>What are the possible responses and codes for the self-reported HEALTH variable?</li>
+</ol>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ipums_val_labels</span>(cps_ddi, HEALTH)
+<span class="co">#&gt; # A tibble: 5 x 2</span>
+<span class="co">#&gt;     val       lbl</span>
+<span class="co">#&gt;   &lt;dbl&gt;     &lt;chr&gt;</span>
+<span class="co">#&gt; 1     1 Excellent</span>
+<span class="co">#&gt; 2     2 Very good</span>
+<span class="co">#&gt; 3     3      Good</span>
+<span class="co">#&gt; 4     4      Fair</span>
+<span class="co">#&gt; 5     5      Poor</span>
+
+<span class="co">#    A: 1 = Excellent, 2 = Very Good, 3 = Good, 4 = Fair, 5 = Poor</span></code></pre></div>
+<ol start="3" style="list-style-type: upper-alpha">
+<li>What percent of people with ‘poor’ self-reported health are at work?</li>
+</ol>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">cps_data %&gt;%
+<span class="st">  </span><span class="kw">filter</span>(HEALTH ==<span class="st"> </span><span class="dv">5</span>) %&gt;%
+<span class="st">  </span><span class="kw">summarize</span>(<span class="dt">emp_pct =</span> <span class="kw">weighted.mean</span>(EMPSTAT ==<span class="st"> </span><span class="dv">10</span>, WTSUPP))
+<span class="co">#&gt; # A tibble: 1 x 1</span>
+<span class="co">#&gt;     emp_pct</span>
+<span class="co">#&gt;       &lt;dbl&gt;</span>
+<span class="co">#&gt; 1 0.1160629</span>
+
+<span class="co">#    A: 11.6%</span></code></pre></div>
+<ol start="4" style="list-style-type: upper-alpha">
+<li>What percent of people with ‘very good’ self-reported health are at work?</li>
+</ol>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">cps_data %&gt;%
+<span class="st">  </span><span class="kw">filter</span>(HEALTH ==<span class="st"> </span><span class="dv">2</span>) %&gt;%
+<span class="st">  </span><span class="kw">summarize</span>(<span class="dt">emp_pct =</span> <span class="kw">weighted.mean</span>(EMPSTAT ==<span class="st"> </span><span class="dv">10</span>, WTSUPP))
+<span class="co">#&gt; # A tibble: 1 x 1</span>
+<span class="co">#&gt;     emp_pct</span>
+<span class="co">#&gt;       &lt;dbl&gt;</span>
+<span class="co">#&gt; 1 0.5161936</span>
+
+<span class="co">#    A: 51.6%</span></code></pre></div>
+<ol start="5" style="list-style-type: upper-alpha">
+<li>In the EMPSTAT universe, what percent of people:</li>
+</ol>
+<ol style="list-style-type: lower-roman">
+<li>self-report ‘poor’ health and are at work?</li>
+</ol>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ipums_val_labels</span>(cps_ddi, EMPSTAT)
+<span class="co">#&gt; # A tibble: 14 x 2</span>
+<span class="co">#&gt;      val                            lbl</span>
+<span class="co">#&gt;    &lt;dbl&gt;                          &lt;chr&gt;</span>
+<span class="co">#&gt;  1     0                            NIU</span>
+<span class="co">#&gt;  2     1                   Armed Forces</span>
+<span class="co">#&gt;  3    10                        At work</span>
+<span class="co">#&gt;  4    12 Has job, not at work last week</span>
+<span class="co">#&gt;  5    20                     Unemployed</span>
+<span class="co">#&gt;  6    21 Unemployed, experienced worker</span>
+<span class="co">#&gt;  7    22         Unemployed, new worker</span>
+<span class="co">#&gt;  8    30             Not in labor force</span>
+<span class="co">#&gt;  9    31                NILF, housework</span>
+<span class="co">#&gt; 10    32           NILF, unable to work</span>
+<span class="co">#&gt; 11    33                   NILF, school</span>
+<span class="co">#&gt; 12    34                    NILF, other</span>
+<span class="co">#&gt; 13    35      NILF, unpaid, lt 15 hours</span>
+<span class="co">#&gt; 14    36                  NILF, retired</span>
+
+<span class="co"># 10 is the code for &quot;At work&quot;</span>
+
+pct_emp_by_health &lt;-<span class="st"> </span>cps_data %&gt;%
+<span class="st">  </span><span class="kw">filter</span>(AGE &gt;=<span class="st"> </span><span class="dv">15</span>) %&gt;%
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">HEALTH_factor =</span> <span class="kw">as_factor</span>(HEALTH)) %&gt;%<span class="st"> </span>
+<span class="st">  </span><span class="kw">group_by</span>(HEALTH_factor) %&gt;%
+<span class="st">  </span><span class="kw">summarize</span>(<span class="dt">emp_pct =</span> <span class="kw">weighted.mean</span>(EMPSTAT ==<span class="st"> </span><span class="dv">10</span>, WTSUPP))
+
+pct_emp_by_health
+<span class="co">#&gt; # A tibble: 5 x 2</span>
+<span class="co">#&gt;   HEALTH_factor   emp_pct</span>
+<span class="co">#&gt;          &lt;fctr&gt;     &lt;dbl&gt;</span>
+<span class="co">#&gt; 1     Excellent 0.6390056</span>
+<span class="co">#&gt; 2     Very good 0.6398051</span>
+<span class="co">#&gt; 3          Good 0.5206191</span>
+<span class="co">#&gt; 4          Fair 0.2823251</span>
+<span class="co">#&gt; 5          Poor 0.1180730</span>
+
+<span class="co">#    A: 11.8%</span></code></pre></div>
+<ol start="2" style="list-style-type: lower-roman">
+<li>self-report ‘very good’ health and are at work?</li>
+</ol>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#    A: 64.0% (found in code from previous question)</span></code></pre></div>
+</div>
+<div id="analyze-the-sample-part-iii-relationships-in-the-data" class="section level3">
+<h3>Analyze the Sample – Part III Relationships in the Data</h3>
+<ol style="list-style-type: upper-alpha">
+<li>What is the universe for AHRSWORK?</li>
+</ol>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ipums_website</span>(cps_ddi, <span class="st">&quot;AHRSWORK&quot;</span>)
+
+<span class="co">#     A: Civilians age 15+, at work last week</span></code></pre></div>
+<ol start="2" style="list-style-type: upper-alpha">
+<li>What are the average hours of work for each self-reported health category?</li>
+</ol>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">avg_hrs_by_health &lt;-<span class="st"> </span>cps_data %&gt;%<span class="st"> </span>
+<span class="st">  </span><span class="kw">filter</span>(AGE &gt;=<span class="st"> </span><span class="dv">15</span> &amp;<span class="st"> </span>AHRSWORKT &lt;<span class="st"> </span><span class="dv">999</span>) %&gt;%
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">HEALTH_factor =</span> <span class="kw">as_factor</span>(HEALTH)) %&gt;%<span class="st"> </span>
+<span class="st">  </span><span class="kw">group_by</span>(HEALTH_factor) %&gt;%
+<span class="st">  </span><span class="kw">summarize</span>(<span class="dt">mean_hours_worked =</span> <span class="kw">weighted.mean</span>(AHRSWORKT, WTSUPP))
+
+avg_hrs_by_health 
+<span class="co">#&gt; # A tibble: 5 x 2</span>
+<span class="co">#&gt;   HEALTH_factor mean_hours_worked</span>
+<span class="co">#&gt;          &lt;fctr&gt;             &lt;dbl&gt;</span>
+<span class="co">#&gt; 1     Excellent          38.39723</span>
+<span class="co">#&gt; 2     Very good          38.66232</span>
+<span class="co">#&gt; 3          Good          37.77809</span>
+<span class="co">#&gt; 4          Fair          35.67317</span>
+<span class="co">#&gt; 5          Poor          32.41218</span>
+
+<span class="co">#     A: Excellent  38.4</span>
+<span class="co">#        Very good  38.7</span>
+<span class="co">#        Good       37.8</span>
+<span class="co">#        Fair       35.7</span>
+<span class="co">#        Poor       32.4</span></code></pre></div>
+</div>
+<div id="bonus" class="section level3">
+<h3>Bonus</h3>
+<ol style="list-style-type: upper-alpha">
+<li>Use the <code>ripums</code> package metadata functions (like <code>ipums_var_label()</code> and <code>ipums_file_info()</code>) and <code>ggplot2</code> to make a presentation-ready graph of the relationship between HEALTH and percent employed (from Part III above).</li>
+</ol>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(ggplot2)
+
+x_label &lt;-<span class="st"> </span><span class="kw">ipums_var_label</span>(cps_data, HEALTH)
+source_info &lt;-<span class="st"> </span><span class="kw">ipums_file_info</span>(cps_ddi)$ipums_project
+
+<span class="kw">ggplot</span>(pct_emp_by_health, <span class="kw">aes</span>(<span class="dt">x =</span> HEALTH_factor, <span class="dt">y =</span> emp_pct)) +<span class="st"> </span>
+<span class="st">  </span><span class="kw">geom_bar</span>(<span class="dt">stat =</span> <span class="st">&quot;identity&quot;</span>, <span class="dt">fill =</span> <span class="st">&quot;#00263a&quot;</span>) +<span class="st"> </span>
+<span class="st">  </span><span class="kw">scale_x_discrete</span>(x_label) +<span class="st"> </span>
+<span class="st">  </span><span class="kw">scale_y_continuous</span>(<span class="st">&quot;Percent employed&quot;</span>, <span class="dt">labels =</span> scales::percent) +<span class="st"> </span>
+<span class="st">  </span><span class="kw">labs</span>(
+    <span class="dt">title =</span> <span class="st">&quot;Low Self-Reported Health Status Correlated with Unemployment&quot;</span>, 
+    <span class="dt">subtitle =</span> <span class="st">&quot;Among age 15+ from CPS 2011 ASEC sample&quot;</span>,
+    <span class="dt">caption =</span> <span class="kw">paste0</span>(<span class="st">&quot;Source: &quot;</span>, source_info)
+  )</code></pre></div>
+<p><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAqAAAAGACAMAAABFpiBcAAABNVBMVEUAAAAAADoAAGYAJjoAOjoAOmYAOpAAZmYAZpAAZrYzMzM6AAA6ADo6AGY6OgA6Ojo6OmY6OpA6ZmY6kJA6kLY6kNtNTU1NTW5NTY5Nbo5NbqtNjqtNjshmAABmADpmAGZmOgBmZmZmkJBmtrZmtv9uTU1uTW5uTY5ubo5ubqtujshuq+SOTU2OTW6OTY6Obk2Obm6ObquOjk2Ojo6OyOSOyP+QOgCQOjqQkDqQkGaQtpCQ27aQ29uQ2/+rbk2rbm6rbo6rjk2r5Mir5OSr5P+2ZgC2kDq225C22/+2/9u2///Ijk3Ijm7I5KvI/8jI///bkDrbtmbbtrbb25Db/7bb/9vb///kq27k/8jk/+Tk///r6+v/tmb/yI7/25D/27b/29v/5Kv//7b//8j//9v//+T///9vIXRfAAAACXBIWXMAAA7DAAAOwwHHb6hkAAAdbElEQVR4nO2dDX/jxnGHqbOjltbJjd2Qdq5H23F4dq6U5bqp5Nip7ppWrGMptZjWEV2VYqs3fP+P0H0FFoulSM4Q2MXxPz9bogjMPMDuo8UCBHSdDIFIODqxNwCBeCwgKCLpgKCIpAOCIpIOCIpIOiAoIumAoIikA4Iikg6moJMnZyutN+6I6JXeuj/evVQL5DdZqqNjxYpZNt+vrnl/3PW27HbQq6yV42UJvR3hjfUQIWIlcbjCpnvMx/dkpa1etrsrbskasawxNhSNCHo70O6V2kI1zUy8azrCCrqyoSH2moLKlfwucjfWQzy+t/M9nRgSKwRfdU9W2urmBV11bGJGI4JO9Hg0Lo2hRtB8wLGlxp0Vm7gmQd2NXUdQIXZXf1s+hpIFzVeHoKuFs5Vy5MlbTvVy3sZjvdbtoFusp1YcOwNmuYntWuInMcrunGSlzK4ZbnvFm5kcjZ98v0DQ0lodvXG7fzmWL8WLHwfO/KPY2PtjvapJuberX5pdU28Uv2CmxHxPrlDa1p1/Vl9PSvvu1V20J+X2XLjV7u6KZX+2kxRbdL4n27EnS4t6Ravq8natiWpowSmvXuq0P5c2uvbYmKCqteU+q7fGcjQRe2nWcnYlX2+RoOPcCd2l7+/pV27m23udn33SMS1oFitnf/ZJUFBvLamV09WqVG5asbGmE2yKL6j6Oc+7P3ZHlPK2CpL8elnad6/uwj0ptefirS4JaneyKDrfk+248+2emoMUrZpPtMxaPbXxw/Lq7u6UN7r+2JSgYoOHsml3L+d7Q9EAfyMWzPTAZ6d1vWK9+V63eoh35qDFWvrAOel0HYJ41cvska5YUbdf1y+nf91zqB5Ouu4hvqM2xCY6G2uW2xTn2CoFVb2pjwqZ86LcGnpb86/OvlfqLtiTUnsu3GpP0FKbyaJigjzM1KAoR3i3VdU25lurTlyfnJVXdzfcJrbtEK8aWuzbzonsqfnTb0Qjj4vpzdied5hRVeQtErSbZc5atwNVRLWZJZjBSrKLFfUrs1JWFrRYS36TBpYE1VOJwq98Y51u73QCgrrnQyVB/W21Mpb2vVx34Z6U2nPhVpcFtcvcol35lsiWJYpWlT8VW6uO8TrRXd3d8BzbOkGVaTPdjhMxQep583V5kts1Bwt5uMgFnWiLVKmZnvIUa5kuEA1XEEz3yoRiRa16+CSpWMueapcEzSeV/sbqInmKv/rYeqw5JUHL2+rMOYt9L9ddvCduey7cam8OapYVRZ3hfiwFta2q/cv7TrfWMCuv7m24xrZXUPH/uKsm2t7prPz1WyKoMbQ2QeWQNVQt/7igZtCTy4uUyupKMcMp5qCBbQ0J6tVdvCduey4W1EynpFkMQeXCsR3P3zBB88PE7eDXA6Hd7r97y8yB2lq74DKTOkcq1tIHI9n77mEzF7RYUR+Gwsc8d61hVpmDlrra3VgHkc8V9Vl+wRnbPbAnV7eD6rbqr+V99+ou3hO3PRcKOrOz5s6wNAspFXUEta3qHeKFpb8f9PzVvU5rpaDFRFueuD6V4+i7tvHshH+mpuH64kZgDmpniKr57VpinOlVT5K0oOpcwllxWDpJKh3z7FpmbmWLTOx5bNHV7saq5UWKHqbGlqOdmDhnguYqWq+yrfaru+9e3cV74rbnoq3WJ0Fyq0vL3B0vC1q0qnuSJFd5X8A8Qb1OM4LaHa83uILmJyLFVRLxpj4y5u7Zz1iKi0Wd3qIRVJ8i5mvdDt62x9HyRRrF7hUr6lePXmbqFFdgrKDlC5uVjdXLbYpDlByzID8TdD9J8rbVbHFp34N1Q3vitufCrXZ6wpU3L+oLalu1fJlJLu3owd5d3es0I2g7LjMVzSL7R0uhxgb9W2fDOZ9Q/WjbOiCovaah1xKNNHMzi8vcZvSxK6rFCy/U52vJmZ+Y05mxQJb4S2UOWmysQuQpdrzryCR7ob58cclui7et9qy9tO9+3UV74rbnI1s9t9eLq9PkYfUQb1vVTj7yubS9hlAStLzhurTe6Noj9buZSifHiA3FI63a0JF75YCg2xiLW9VcIU0nIOg2xqJW1Ze+kgoIuo2xqFXNh8gpReqCIrY8ICgi6YCgiKQDgiKSDgiKSDogKCLpgKCIpAOCIpIOCIpIOtiCzjZyc4H6MxXylhnvk+Dxo3fMmAcz9H1u+mYf5/4i+ba6AcfeZLXvfnO23WaZ++XsYx4rfoTV0F/Y2NbgCnp//KsNfBap7lLOZpVKtx89Zv9M3c/YNYqox6G6xS1ot4OhfW/czRn2m7vtNqtQzVZeJSBorcEVdL7/Hb+DJp33ZZGx/Rx4kg+Cj9WWBopVnp7ote6Ph9pnkzRTN/er9+Q7hmG+udueZ+W0vPIqGw9Baw2uoMKlsbqJ+9O9Tlc/iCu+yicl9n9n72P+62N9h8wsP5LKd24H+d9s+M9L9fewvj4piqqQB9pPf/6Jekxb3Z1eQDI9zOnVrKCVQU+YJhdKBTXDfitve9et41a2m20fBei623D/9TfyHQUYrP43zxBrBVNQ2fUz52FrMeqoQ6t+CGYmH7AZqge5svyYa94RPmWT4nEJpdG75rEDdwTVf7dAlXQgcuHMZptDvHkC03VUAKyg1Tmo3fY8K38OeOZOfM1qZuudbdDPD/VEvfK+IDYZTEFn6gkE+YxX/r8xQlokXtoVTIgF5p1CHBnyJ5lx+/GZ+4CMFFTXkes6EMvWyXtFhn12TYV6WnKhoO6mqazSkjzKW+9sg9qMSdfMDR6fLiOowRPUPPjVdQU1cz+l3P7ZRP+k1pYi7ZyYd4pHaNQi44bu5tIIKpaYkr6g5UN8HvncUT29sFDQfNvzrAWHeHMXr956X9DZ7n/JUd7dF8Qmgyeo7lJ1uKuMoFpQZ5hSI2RpBPULLRI0PILqsm4pLZb9fdCPzdmTpIqg+bbnWd5JkjN0yimL3vqFIyiinuAJOtYmjXtOv9k5qBbLmYNKEcalOWjRsWqclAfk99QDxZ6g+Ry0JGj+fHhexvypQvMEpRlI7WUmX1Bn202Wc/pUPNys6gi42fqSoGpmauagkLSeYAlq512zJ9877tizeD3yiZ/+6qP8evgv9HL5jjhyFkfFub4E5J8L29HJnsWXBc0vCxRujIsH1fWfAHOuFpQFLbb9zGbZB9uHeWVLMX948Belacb98a/UE+f6LB5H+HqiiY86q+cPb8QZRf57gqgx6hbUHCAffaelAUGbiNpH0Enl/Lb6TjsDgjYRuJsJkXRAUETSAUERSQcERSQdEBSRdPAE/Z9NxGaqgJkKczNQCApm0lAICmbSUAgKZtJQCApm0lAICmbSUAgKZtJQCApm0lAICmbSUAgKZtJQCApm0lAICmbS0DdI0Leaisj72RZm0oLGkCUGk9TkzPy2MCGoJ0sMJqnJmfltYUJQT5YYTFKTM/PbwoSgniwxmKQmZ+a3hQlBPVliMElNzsxvCxOCerLEYJKanJnfFiYE9WSJwSQ1OTO/LUwI6skSg0lqcmZ+W5gQ1JMlBpPU5Mz8tjAhqCdLDCapyZn5bWFCUE+WGExSkzPz28KEoJ4sMZikJmfmt4XZqKAPr/ofnGbZ3UH/2VWWncuvD6+OICipyZn5bWE2Kuj5UXb97Eo6OX2e3by8Oh9l188xgtKanJnfFmaTgt4dXthvN59fCDWno4fXpxCU1uTM/LYwmxT05uUf5CFeDJ3Z3RenagSd2gH0HRGVhMZkicxENBVLBH1xJO0UR3kpqJyD/nT4w0F/ZJdXvG9MlshM0pjAzG8Ls9kR1A6dSlAR09F0ZF5C0DWbnJnfFmajc9CvlJlmDpqp2ej5UTENrZSNIUsMJqnJmfltYTZ9Fi+Gz4dXo0zPPafiBUZQYpMz89vCbFTQu4P+hxf5dVB9yMcclNjkzPy2MPFJkidLDCapyZn5bWFCUE+WGExSkzPz28KEoJ4sMZikJmfmt4UJQT1ZYjBJTc7MbwsTgnqyxGCSmpyZ3xYmBPVkicEkNTkzvy1MCOrJEoNJanJmfluYENSTJQaT1OTM/LYwIagnSwwmqcmZ+W1hQlBPlhhMUpMz89vChKCeLDGYpCZn5reFCUE9WWIwSU3OzG8LE4J6ssRgkpqcmd8WJgT1ZInBJDU5M78tTAjqyRKDSWpyZn5bmBDUkyUGk9TkzPy2MCGoJ0sMJqnJmfltYUJQT5YYTFKTM/PbwoSgniwxmKQmZ+a3hQlBPVliMElNzsxvCxOCerLEYJKanJnfFiYE9WSJwSQ1OTO/LUwI6skSg0lqcmZ+W5gQ1JMlBpPU5Mz8tjAhqCfLtjBJ3czMjweFoK1jkrqZmR8PCkFbxyR1MzM/HhSCto5J6mZmfjwoBG0dk9TNzPx4UAjaOiapm5n58aAQtHVMUjcz8+NBIWjrmKRuZubHg25G0Eo01nFbyNzOwAjaGiZpHGLmx4NC0NYxSd3MzI8HhaCtY5K6mZkfDwpBW8ckdTMzPx4UgraOSepmZn48KARtHZPUzcz8eFAI2jomqZuZ+fGgELR1TFI3M/PjQSFo65ikbmbmx4NC0NYxSd3MzI8HrQh6O+jYeHIGQRNkkrqZmR8PGhxBJ1LN28EQI2iKTFI3M/PjQUOCGjVnGEGTZJK6mZkfDwpBW8ckdTMzPx40JKg9xPdW9ROCNskkdTMzPx40KGg2k+dIq09BIWiTTFI3M/PjQcOCrhuVsjE6bluYpG5m5seDQtDWMUndzMyPBw0LOhEH+MnuJQRNkUnqZmZ+PGhQ0PHuj4Ph/XEXgqbIJHUzMz8eNCTo7WAorzThMlOaTFI3M/PjQSFo65ikbmbmx4OGBM0m8hCP66CJMkndzMyPBw0Kqq+Dru4nBG2SSepmZn48aFjQdaNSNkbHbQuT1M3M/HhQCNo6JqmbmfnxoCFBbwc7JxA0WSapm5n58aDhEXTc6axxmR6CNsokdTMzPx40LKi+sR5n8UkySd3MzI8HXSSoVnTVK6GVsjE6bluYpG5m5seDLhJ00ul05Weeqx3oK2VjdNy2MEndzMyPBw0Ken9s7gZd9cOkStkYHbctTFI3M/PjQUOC3g5W/5ATgjbOJHUzMz8eNDiCrh2VsjE6bluYpG5m5seDhgWdVD/qfHh1lGV3B/1nV1l2Lr+qNyBo80xSNzPz40GDgoYempv2j5ST0+fZzcur81F2/RwjKAStHRoSNPTY8c1vvjzK7g4vspvPL4Sa09HD61MICkFrh64o6MPrfxOjpxg6s7svTtUIOrUD6DsiMj8a67gtZG5nLDnEixFTCHr9TAkq56A/Hf5w0B/ZxRXvG+u4LWSSxiFmfjxoUNDKSZIYMx+KEVQbOx2ZlxC0WSapm5n58aBhQf2Y9mWMzBxUvCFenR8V09BK2Rgdty1MUjcz8+NBVxM005eZHl6NMj33nIoXGEEhaP3QiqCL/j6oex1UH+sxB4Wg9UNXHkEfjUrZGB23LUxSNzPz40EhaOuYpG5m5seDhgWd4K/bpcskdTMzPx40KCj+PmjKTFI3M/PjQUOC4i8sJ80kdTMzPx4UgraOSepmZn48aEjQbCYfO8YhPlEmqZuZ+fGg4RF03X8qqVI2RsdtC5PUzcz8eNDgCLp2VMrG6LhtYZK6mZkfDwpBW8ckdTMzPx40KOh8D/8UYrpMUjcz8+NBQ4Ku88e/IWjjTFI3M/PjQUOCrvOvdELQxpmkbmbmx4OGR1AImjCT1M3M/HjQkKDrXKKHoI0zSd3MzI8HDQqKk6SUmaRuZubHg4YEvT9e48/TQ9CmmaRuZubHg4YExUlS0kxSNzPz40HDIygETZhJ6mZmfjxoSNBsvo+TpHSZpG5m5seDhgS1N4vgJClJJqmbmfnxoMERdO2olI3RcdvCJHUzMz8eFIK2jknqZmZ+PGhYUPx78QkzSd3MzI8HDQqKfy8+ZSapm5n58aAhQfHPcSfNJHUzMz8eFIK2jknqZmZ+PGhIUPx78UkzSd3MzI8HDQqKfy8+ZSapm5n58aBhQdeNStkYHbctTFI3M/PjQSFo65ikbmbmx4NC0NYxSd3MzI8HhaCtY5K6mZkfD7oZQSvRWMdtIXM7A388rDVM0jjEzI8HhaCtY5K6mZkfD1oVdJL/5TB8Fp8kk9TNzPx40EdG0DWiUjZGx20Lk9TNzPx40JCg60elbIyO2xYmqZuZ+fGgQUHxXDyYb7F/KfDHw7xGBLM+Js0tbgFVJCAo5qBgekyaW9wCqkhwBIWgYCYsKP54GJgek+YWt4AqEhAUz8WD6TFpbnELqCKhEXTtqJSN0Yhg1sekucUtoIpAUDCXM2lucQuoIkFB8Vw8mCkLiufiwXwrYUHx2DGYHpPmFreAKgJBwVzOpLnFLaCKBATFc/FgekyaW9wCqkhIUDwXD+ZbSQu6blTKxmhEMOtj0tziFlBFICiYy5k0t7gFVJGQoPLfoVnrnrtK2RiNCGZ9TJpb3AKqSEjQcTdb767QStkYjQhmfUyaW9wCqkhAUDzVCabHpLnFLaCKQFAwlzNpbnELqCIBQbOJVBPXQcFkusUtoIqEBMV1UDDfSlrQdaNSNkYjglkfk+YWt4AqEhAUzySB6TFpbnELqCIBQfFUJ5gek+YWt4AqEhA0W+deZQi6DUyaW9wCqkhwBMVDc2AmLOj6USkboxHBrI9Jc4tbQBWBoGAuZ9Lc4hZQRYKCVh6au3nR7x9l2d1B/9lVlp3Lrw+vjiDotjBpbnELqCIhQSsPzd19cZrdfHYqnZw+z25eXp2PsuvnGEG3hklzi1tAFQkIWn0mScl4fnR3eJHdfH4hfpqOHl6fQtCtYdLc4hZQRVYS1IyiYug0385HUzuAviMi86OxRgSzEWb8WPrQ3MMrcVR/pgSVc9CfDn846I/swor3jTUimI0waYMft4AqEhI0cLPI3YGw0Yyg8ufpaDoyLyHom8+kucUtoIoEBa3EzQt5ym7moPrV+VExDa2UjdGIYNbHpLnFLaCKrCSo9lMd5vXccypeYATdHibNLW4BVaQq6Lj6Iee0L+PIXgfVx3rMQbeHSXOLW0AVqQg63r3Ut9SvEZWyMRoRzPqYNLe4BVQRX1B1M+i6d4RWysZoRDDrY9Lc4hZQRXxB1c2g8sF4CAom0y1uAVUEgoK5nElzi1tAFYGgYC5n0tziFlBFICiYy5k0t7gFVJGqoPk/x4076sFkucUtoIr4gpKiUjZGI4JZH5PmFreAKgJBwVzOpLnFLaCKQFAwlzNpbnELqCIQFMzlTJpb3AKqCAQFczmT5ha3gCoCQcFczqS5xS2gikBQMJczaW5xC6giEBTM5UyaW9wCqggEBXM5k+YWt4AqAkHBXM6kucUtoIpAUDCXM2lucQuoIhAUzOVMmlvcAqoIBAVzOZPmFreAKgJBwVzOpLnFLaCKQFAwlzNpbnELqCIQFMzlTJpb3AKqCAQFczmT5ha3gCoCQcFczqS5xS2gikBQMNNkQlAwk2ZCUDCTZkJQMJNmQlAwk2ZCUDCTZkJQMJNmblLQSjS2Q2C+scxyYAQFMzHmJkdQCArmxpkQFMykmRAUzKSZEBTMpJkQFMykmRAUzKSZEBTMpJkQFMykmRAUzKSZEBTMpJkQFMykmRAUzKSZEBTMpJkQFMykmRAUzKSZEBTMpJkQFMykmRAUzKSZEBTMpJkQFMykmRAUzKSZEBTMpJkQFMykmRAUzKSZEBTMpJkQFMykmRAUzKSZEBTMpJkQFMykmRAUzKSZEBTMpJkQFMykmRAUzKSZFEHvDvrPrrLsXH59eHUEQcGsj0kQVDo5fZ7dvLw6H2XXzzGCglkjkyDo3eFFdvP5hVBzOnp4fQpBwayRSRBUDJ3Z3RenagSd2gH0HRGrJCMQjFhJ0OtnSlA5B/3p8IeD/sguqHhPic1UATMVZoR/jtuMoPLldDQdmZcQFMz6oGsJauag+tX5UTEN3cSWbE3HbQszgqAPr0aZnntOxQuMoGDWD11LUHsdVB/rMQcFs37oeoIuik1sydZ03LYwISiYSTMhKJhJMyEomEkzISiYSTMhKJhJMyEomEkzUxJ0IxHjlhMw2wKFoGAmDYWgYCYNTUBQBGJxQFBE0gFBEUkHBEUkHRAUkXQ0J+jNi76ID04DSz6/0Pfrl9/jAvUD/PIW1nVzNhbXYo+fhxZsmFMO3dL2pt0NtOS6yE1Gg4IubKiaBJW3/5svK8dmxbn+8EI9jVA3x4tGlAwgiyctNhjNC3quHh+5O5CDqfj64YUV1Pzw8g/9/pF+zSWKwVM+P2UK/+bLD//xyIyo4q1f/oNd4nz75ZcbFKcYwuvl+GFbWg5rR6p1xa7X66xCyv0t7ekmuM0Lenf4w+GF3JfrZ1daViOo+eHFSC7ZxCgg5ZR62MICOZL/Zeq35Fr8gpwrlvutv0Fxin2ol7OAKwc03bRy1+sNhbz5zGvRTXCbnoOKjZ+KuYp5RlQ04d3hhW7F4ofgMZ8S6hE/h5LdfXX1J3kYko+pCn3lN7HU+bbRQ28+/a2ZU+G+yKe+eevWRyuQ4peuvKeb4EaYg8pftPxAK0+bjKD5DxsT9Oblf+sjvC388Ppfv7IP/wlB9Vvut+x8wyOo6LkP6uaEuCrO++JA24ygdlZR3VNmRBD0/LfPi6fszRIpaP7DxgR9+Jf/kBPAonA2/a06wjczgupiZUAjI6g5xB8c2UN8Y4K+CSOoGtZkB4k3zu1808xBzeRzY22qfSwKq9E7yxqagypEExwvTNuplvzstFFBvTlouwRV05T+P+nTo/ws/gM7ky9+kP8/vNrEeaf2sSgsxlTzm37Q/7vX/ln8w6tNn13LfS6fvtfD8ajGi2lfcpoVtHwW3ypBk4ibvy9eNn+1ELF+bJegU/NBlhjDgp9pIZKL7RIU0bqAoIikA4Iikg4Iikg6ICgi6YCgiKQDgiKSDgjKi9vBUH6bPTnzl8yfnmT/+0f1rRLi/eBrRCUgKC8eFVTKGRLUfS8oMCIPCMoLCFpzQFBeOILeH3c60tP5XqfT6QnzvhUvevOn34gfh3pttWgov/bManO9zok2VS+PuT/JBQTlRSHo/XE3yya7l+qdyZMzO4Lu7V7KH+VaWsS9ofzurJZZQe3yuLuUVkBQXtwOOiqenKmjvNDu/y4za5sWdJgfx+f7eiIgf3RWKwTdr0wUtj4gKC+KEXSiTe2JH8S3nRNPPrX2uNMRw6z5MV+tWMcsRxQBQXnhCLp7ad7ZOXFHUFdQNeLqw7qzmruOWh5pX5IMCMqLQtDZjpZwJkWdhUdQkyF/dFYrr2MqInRAUF64J0lCOWGcFHW+p8yTC1351DTVvG9Xk69vB73s/likmuVxdymtgKC88C4zyVFUTCR3fq+HyXGnWxod9bRTrtK1q6nX8vLSrz86yZcj8oCgiKQDgiKSDgiKSDogKCLpgKCIpAOCIpIOCIpIOiAo4tGQV3fXuUFgvn+mbhqU13P1zS/qHfX57e3AXC4uCsp1u+Y+RHUJ2OdBUMSjMe5KaVY3VOqovJQf4+aCPn1Xfp4xe1u8USqoP+DoZnlKhQdBEY/F7Ufyg6017gPMBb0/HhaC7v+uJ16NP90/KxXUn8PlNxqKlAoPgiIei2IwE0dhc9SWxv38kyfqUD7Mb8Aa9/RqYUG/e+8yu/34u/2z0micPymTp1QGawiKeDTkHdndTA92wicr6N5QvTOXxg0ze6th5h7in5w5gn7/9Uk268o3bEEZM5uXp5QWy4CgiGUhnNGzRHH8tYLaGwYzu8CuHD5J2j+b9LLxMD+yGwcLQfOTJHexDAiKWB7CR+mSOWqbQdIMm8qtnZKg+6UDt35n/t6PHztLnp5MxEjpHeJdnn0JQRGPhVbImOmMoOKbM4I64QqqB1ax3lyeHH37nvyeF1QrqJMkeQu3TSktlgFBEY+Fug3bPqwq7JHfJnp2aW7HljI5krqCZmORLO/Glu+MOz09ZTUF1QoTMfTKd/KU8uIMgiKWxVgcwaUv+iw+E0fmvzXH6uIsXt2E7Z3F58k9PcrO7KTUFlQx05flvZTCTwiKSDsgKCLpgKCIpAOCIpIOCIpIOiAoIumAoIik4/8ByBgiLdBGPiAAAAAASUVORK5CYII=" /><!-- --></p>
+<ol start="2" style="list-style-type: upper-alpha">
+<li>Are there any variables that might be confounding this relationship? How might you explore this relationship?</li>
+</ol>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Age is likely correlated with self-reported health and employment, so a good </span>
+<span class="co"># analysis would control for this.</span>
+
+<span class="co"># One way to do so graphically is to make faceted plots by age group</span>
+pct_emp_by_health_age &lt;-<span class="st"> </span>cps_data %&gt;%
+<span class="st">  </span><span class="kw">filter</span>(AGE &gt;=<span class="st"> </span><span class="dv">15</span>) %&gt;%
+<span class="st">  </span><span class="kw">mutate</span>(
+    <span class="dt">AGE_factor =</span> <span class="kw">cut</span>(
+      AGE, 
+      <span class="kw">c</span>(<span class="dv">15</span>, <span class="dv">25</span>, <span class="dv">35</span>, <span class="dv">45</span>, <span class="dv">55</span>, <span class="dv">65</span>, <span class="kw">max</span>(AGE)), 
+      <span class="kw">c</span>(<span class="st">&quot;15-24&quot;</span>, <span class="st">&quot;25-34&quot;</span>, <span class="st">&quot;35-44&quot;</span>, <span class="st">&quot;45-54&quot;</span>, <span class="st">&quot;55-64&quot;</span>, <span class="st">&quot;65+&quot;</span>),
+      <span class="dt">include.lowest =</span> <span class="ot">TRUE</span>
+    ),
+    <span class="dt">HEALTH_factor =</span> <span class="kw">as_factor</span>(HEALTH)
+  ) %&gt;%<span class="st"> </span>
+<span class="st">  </span><span class="kw">group_by</span>(HEALTH_factor, AGE_factor) %&gt;%
+<span class="st">  </span><span class="kw">summarize</span>(<span class="dt">emp_pct =</span> <span class="kw">weighted.mean</span>(EMPSTAT ==<span class="st"> </span><span class="dv">10</span>, WTSUPP))
+
+x_label &lt;-<span class="st"> </span><span class="kw">ipums_var_label</span>(cps_data, HEALTH)
+source_info &lt;-<span class="st"> </span><span class="kw">ipums_file_info</span>(cps_ddi)$ipums_project
+
+<span class="kw">ggplot</span>(pct_emp_by_health_age, <span class="kw">aes</span>(<span class="dt">x =</span> HEALTH_factor, <span class="dt">y =</span> emp_pct)) +<span class="st"> </span>
+<span class="st">  </span><span class="kw">geom_bar</span>(<span class="dt">stat =</span> <span class="st">&quot;identity&quot;</span>, <span class="dt">fill =</span> <span class="st">&quot;#00263a&quot;</span>) +<span class="st"> </span>
+<span class="st">  </span><span class="kw">scale_x_discrete</span>(x_label) +<span class="st"> </span>
+<span class="st">  </span><span class="kw">scale_y_continuous</span>(<span class="st">&quot;Percent employed&quot;</span>, <span class="dt">labels =</span> scales::percent) +<span class="st"> </span>
+<span class="st">  </span><span class="kw">facet_wrap</span>(~AGE_factor, <span class="dt">ncol =</span> <span class="dv">2</span>) +<span class="st"> </span>
+<span class="st">  </span><span class="kw">labs</span>(
+    <span class="dt">title =</span> <span class="st">&quot;Low Self-Reported Health Status Correlated with Unemployment&quot;</span>, 
+    <span class="dt">subtitle =</span> <span class="st">&quot;Among age 15+ from CPS 2011 ASEC sample&quot;</span>,
+    <span class="dt">caption =</span> <span class="kw">paste0</span>(<span class="st">&quot;Source: &quot;</span>, source_info)
+  )</code></pre></div>
+<p><img src="data:image/png;base64,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" /><!-- --></p>
+</div>
+</div>
+</div>
+
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

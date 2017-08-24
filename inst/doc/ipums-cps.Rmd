@@ -1,0 +1,331 @@
+---
+title: "`ripums` Example - CPS"
+author: "Minnesota Population Center"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{ipums-cps}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+# IPUMS - CPS Extraction and Analysis
+
+## Exercise 1
+OBJECTIVE: Gain an understanding of how the IPUMS dataset is structured and how it can be
+leveraged to explore your research interests. This exercise will use the IPUMS dataset to explore
+associations between health and work status and to create basic frequencies of food stamp usage.
+
+This vignette is adapted from the CPS Data Training Exercise available here:
+[https://pop.umn.edu/sites/pop.umn.edu/files/final_review_-_cps_spss_exercise_1_0.pdf]()
+
+### Research Questions ##
+What is the frequency of food stamp recipiency in the US? Are health and work
+statuses related?
+
+### Objectives
+- Create and download an IPUMS data extract
+- Decompress data file and read data into R
+- Analyze the data using sample code
+- Validate data analysis work using answer key
+
+### IPUMS Variables
+- PERNUM: Person number in sample unit
+- FOODSTMP: Food stamp receipt
+- AGE: Age
+- EMPSTAT: Employment status
+- AHRSWORKT: Hours worked last week
+- HEALTH: Health status
+
+## Download Extract from IPUMS Website
+1) **Register with IPUMS** - Go to http://cps.ipums.org, click on CPS Registration and apply for access. On login screen, enter email address and password and submit it!
+
+2) **Make an Extract**
+  - Go to http://cps.ipums.org, click on CPS Registration and Apply for access
+  - On login screen, enter email address and password and submit
+  - Go back to homepage and go to Select Data
+  - Click the Select Samples box, check the box for the 2011 ASEC sample, click the Submit sample selections box
+  - Using the drop down menu or search feature, select the following variables:
+    - PERNUM: Person number in sample unit (under Person > Technical in the drop down)
+    - FOODSTMP: Food stamp receipt (under Household > Economic Characteristics; note that we do not want "FOODSTAMP: Family market value of food stamps")
+    - AGE: Age (under Person > Core Demographic)
+    - EMPSTAT: Employment status (under Person > Work)
+    - AHRSWORKT: Hours worked last week (under Person > Work)
+    - HEALTH: Health status (under Person > Disability)
+
+3) **Request the Data**
+  - Click the orange VIEW CART button under your data cart
+  - Review variable selection. Click the orange Create Data Extract button
+  - Review the ‘Extract Request Summary’ screen, describe your extract and click Submit Extract
+  - You will get an email when the data is available to download
+  - To get to the page to download the data, follow the link in the email, or follow the Download and Revise Extracts link on the homepage
+
+4) **Download the Data**
+  - Go to http://cps.ipums.org and click on Download or Revise Extracts
+  - Right-click on the data link next to extract you created
+  - Choose "Save Target As..." (or "Save Link As...")
+  - Save into "Documents" (that should pop up as the default location)
+  - Do the same thing for the DDI link next to the extract
+
+## Getting the data into R ##
+You will need to change the filepaths noted below to the place where you have
+saved the extracts.
+
+```{r}
+library(ripums)
+```
+
+```{r, echo = FALSE}
+cps_ddi_file <- ripums_example("cps_00011.xml")
+cps_data_file <- ripums_example("cps_00011.dat.gz")
+```
+```{r, eval = FALSE}
+# Change these filepaths to the filepaths of your downloaded extract
+cps_ddi_file <- "C:/Users/My Name/My Documents/cps_00001.xml"
+cps_data_file <- "C:/Users/My Name/My Documents/cps_00001.dat"
+```
+```{r}
+cps_ddi <- read_ddi(cps_ddi_file) # Contains metadata, nice to have as separate object
+cps_data <- read_ipums_micro(cps_ddi_file, data_file = cps_data_file)
+```
+
+Note that the `data_file` argument is optional if you didn't change the data file name and have it saved in your working directory; `read_ipums_micro` can use information from the DDI file to locate the corresponding data file.
+
+## Exercises ##
+These exercises include example code written in the "tidyverse" style, meaning
+that they use the dplyr package. This package provides easy to use functions
+for data analysis, including `mutate()`, `select()`, `arrange()`, `slice()` and
+the pipe (`%>%`). There a numerous other ways you could solve these answers, including
+using the base R, the `data.table` package and others. 
+```{r}
+library(dplyr, warn.conflicts = FALSE)
+```
+
+### Analyze the Sample – Part I Frequencies of FOODSTMP
+A) On the website, find the codes page for the FOODSTMP variable
+and write down the code value, and what category each code
+represents. 
+
+```{r}
+# Can find on the website or from the data
+ipums_val_labels(cps_ddi, FOODSTMP)
+
+#    A: 0 = NIU, 1 = No, 2 = Yes
+```
+
+B) What is the universe for FOODSTMP in 2011 (under the
+Universe tab on the website)? 
+```{r, eval = FALSE}
+ipums_website(cps_ddi, "FOODSTMP")
+
+#    A: (Only available on website)
+#       All interviewed households and group quarters. 
+#       Note the NIU on the codes page, this is a household variable and the
+#       NIU cases are the vacant households.
+```
+
+C) How many people received food stamps in 2011? 
+```{r}
+# We will be working with the FOODSTMP variable a lot, so 
+# let's turn it into a factor
+cps_data <- cps_data %>%
+  mutate(FOODSTMP_factor = as_factor(FOODSTMP))
+
+cps_data %>% 
+  group_by(FOODSTMP_factor) %>%
+  summarize(n_foodstmp = sum(WTSUPP)) %>%
+  mutate(pct_foodstmp = n_foodstmp / sum(n_foodstmp))
+
+#    A: 39,187,348
+```
+
+D) What proportion of the population received food stamps in
+2011? 
+```{r}
+#    A: 12.8% (found in code from previous question)
+```
+
+
+### Using household weights (HWTSUPP)
+Suppose you were interested not in the number of people living in
+homes that received food stamps, but in the number of households
+that were food stamp participants. To get this statistic you would
+need to use the household weight.
+
+In order to use household weight, you should be careful to select
+only one person from each household to represent that household's
+characteristics. You will need to apply the household weight
+(HWTSUPP). 
+
+A) How many households received food stamps in 2011? 
+```{r}
+cps_data %>% 
+  group_by(SERIAL) %>%
+  filter(row_number() == 1) %>%
+  group_by(FOODSTMP_factor) %>%
+  summarize(n_foodstmp = sum(HWTSUPP)) %>%
+  mutate(pct_foodstmp = n_foodstmp / sum(n_foodstmp))
+
+#    A: 12,855,283
+```
+
+B) What proportion of households received food stamps in 2011?
+```{r}
+#    A: 10.7% (found in code from previous question)
+```
+
+
+### Analyze the Sample – Part II Relationships in the Data ###
+A) What is the universe for EMPSTAT in 2011? 
+```{r, eval = FALSE}
+ipums_website(cps_ddi, "EMPSTAT")
+
+#    A: Age 15+
+```
+
+B) What are the possible responses and codes for the self-reported
+HEALTH variable?
+```{r}
+ipums_val_labels(cps_ddi, HEALTH)
+
+#    A: 1 = Excellent, 2 = Very Good, 3 = Good, 4 = Fair, 5 = Poor
+```
+
+C) What percent of people with ‘poor’ self-reported health are at
+work?
+```{r}
+cps_data %>%
+  filter(HEALTH == 5) %>%
+  summarize(emp_pct = weighted.mean(EMPSTAT == 10, WTSUPP))
+
+#    A: 11.6%
+```
+
+D) What percent of people with ‘very good’ self-reported health
+are at work?
+```{r}
+cps_data %>%
+  filter(HEALTH == 2) %>%
+  summarize(emp_pct = weighted.mean(EMPSTAT == 10, WTSUPP))
+
+#    A: 51.6%
+```
+
+E) In the EMPSTAT universe, what percent of people:
+
+i. self-report ‘poor’ health and are at work? 
+```{r}
+ipums_val_labels(cps_ddi, EMPSTAT)
+
+# 10 is the code for "At work"
+
+pct_emp_by_health <- cps_data %>%
+  filter(AGE >= 15) %>%
+  mutate(HEALTH_factor = as_factor(HEALTH)) %>% 
+  group_by(HEALTH_factor) %>%
+  summarize(emp_pct = weighted.mean(EMPSTAT == 10, WTSUPP))
+
+pct_emp_by_health
+
+#    A: 11.8%
+```
+
+ii. self-report ‘very good’ health and are at work?
+```{r}
+#    A: 64.0% (found in code from previous question)
+```
+
+
+### Analyze the Sample – Part III Relationships in the Data
+A) What is the universe for AHRSWORK?
+```{r, eval = FALSE}
+ipums_website(cps_ddi, "AHRSWORK")
+
+#     A: Civilians age 15+, at work last week
+```
+
+B) What are the average hours of work for each self-reported health
+category? 
+```{r}
+avg_hrs_by_health <- cps_data %>% 
+  filter(AGE >= 15 & AHRSWORKT < 999) %>%
+  mutate(HEALTH_factor = as_factor(HEALTH)) %>% 
+  group_by(HEALTH_factor) %>%
+  summarize(mean_hours_worked = weighted.mean(AHRSWORKT, WTSUPP))
+
+avg_hrs_by_health 
+
+#     A: Excellent  38.4
+#        Very good  38.7
+#        Good       37.8
+#        Fair       35.7
+#        Poor       32.4
+```
+
+### Bonus ### 
+A) Use the `ripums` package metadata functions (like `ipums_var_label()` and 
+`ipums_file_info()`) and `ggplot2` to make a presentation-ready graph
+of the relationship between HEALTH and percent
+employed (from Part III above). 
+```{r, fig.height = 4, fig.width = 7}
+library(ggplot2)
+
+x_label <- ipums_var_label(cps_data, HEALTH)
+source_info <- ipums_file_info(cps_ddi)$ipums_project
+
+ggplot(pct_emp_by_health, aes(x = HEALTH_factor, y = emp_pct)) + 
+  geom_bar(stat = "identity", fill = "#00263a") + 
+  scale_x_discrete(x_label) + 
+  scale_y_continuous("Percent employed", labels = scales::percent) + 
+  labs(
+    title = "Low Self-Reported Health Status Correlated with Unemployment", 
+    subtitle = "Among age 15+ from CPS 2011 ASEC sample",
+    caption = paste0("Source: ", source_info)
+  )
+
+```
+
+
+B) Are there any variables that might be confounding this relationship? How might you explore this relationship? 
+```{r, fig.height = 6, fig.width = 7}
+# Age is likely correlated with self-reported health and employment, so a good 
+# analysis would control for this.
+
+# One way to do so graphically is to make faceted plots by age group
+pct_emp_by_health_age <- cps_data %>%
+  filter(AGE >= 15) %>%
+  mutate(
+    AGE_factor = cut(
+      AGE, 
+      c(15, 25, 35, 45, 55, 65, max(AGE)), 
+      c("15-24", "25-34", "35-44", "45-54", "55-64", "65+"),
+      include.lowest = TRUE
+    ),
+    HEALTH_factor = as_factor(HEALTH)
+  ) %>% 
+  group_by(HEALTH_factor, AGE_factor) %>%
+  summarize(emp_pct = weighted.mean(EMPSTAT == 10, WTSUPP))
+
+x_label <- ipums_var_label(cps_data, HEALTH)
+source_info <- ipums_file_info(cps_ddi)$ipums_project
+
+ggplot(pct_emp_by_health_age, aes(x = HEALTH_factor, y = emp_pct)) + 
+  geom_bar(stat = "identity", fill = "#00263a") + 
+  scale_x_discrete(x_label) + 
+  scale_y_continuous("Percent employed", labels = scales::percent) + 
+  facet_wrap(~AGE_factor, ncol = 2) + 
+  labs(
+    title = "Low Self-Reported Health Status Correlated with Unemployment", 
+    subtitle = "Among age 15+ from CPS 2011 ASEC sample",
+    caption = paste0("Source: ", source_info)
+  )
+
+```
+
