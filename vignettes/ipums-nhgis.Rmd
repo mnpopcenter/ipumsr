@@ -144,6 +144,8 @@ nhgis <- read_nhgis_sf(
 )
 ```
 
+Note that `read_nhgis_sf` relies on package `sf`. You can also read NHGIS data into the format used by package `sp` with function `read_nhgis_sp`.
+
 ## Exercises
 ### Analyze the Data
 8) How many states/territories are included in this table? _________________________

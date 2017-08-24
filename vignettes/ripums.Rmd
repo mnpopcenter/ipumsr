@@ -16,7 +16,7 @@ knitr::opts_chunk$set(
 ```
 
 The `ripums` package allows you to read in data from your extract into R along with 
-the associated metadata like variable labels, value labels and more. IPUMS data
+the associated metadata like variable labels, value labels and more. IPUMS 
 is a great source of international census and survey data.
 
 > IPUMS provides census and survey data from around the world integrated across 
@@ -68,7 +68,7 @@ Once your extract is downloaded, the `ripums` package functions `read_*()`
 help you load the data into R. 
 
 - `read_ipums_micro()`: Reads data from microdata projects (USA, CPS, International, DHS, Time Use, Health Surveys and Higher Ed)
-- `read_nhgis()`/`read_nhgis_sf()`/`read_nhgis_sp()`: Reads data from the NHGIS project (the latter 2 load shape files as well).
+- `read_nhgis()`/`read_nhgis_sf()`/`read_nhgis_sp()`: Reads data from the NHGIS project. `read_nhgis` loads only tabular data, whereas `read_nhgis_sf()` and `read_nhgis_sp()` load tabular data and shapefiles.
 - `read_terra_raster()`: Reads raster files from TerraPop
 - `read_terra_area()`: Reads raster files from TerraPop
 - `read_terra_micro()`: Reads microdata files from TerraPop

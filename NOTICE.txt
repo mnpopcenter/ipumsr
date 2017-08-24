@@ -6,7 +6,7 @@ Copyright 2017 Regents of the University of Minnesota
 Contributors:
   Greg Freedman Ellis, Minnesota Population Center, University of Minnesota
   Joe Grover, Minnesota Population Center, University of Minnesota
-  Derek Burke, Minnesota Population Center, University of Minnesota
+  Derek Burk, Minnesota Population Center, University of Minnesota
 
 
 This project is licensed under the Mozilla Public License, version 2.0 (the
