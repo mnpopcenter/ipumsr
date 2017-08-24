@@ -86,6 +86,7 @@ ipums_var_info.list <- function(object, vars = NULL) {
   # For hierarchical list datasets
   vars <- enquo(vars)
   out <- purrr::map_df(object, ~ipums_var_info(.))
+  out <- dplyr::distinct(out, .data$var_name, .keep_all = TRUE)
   out <- select_var_rows(out, vars)
   out
 }
