@@ -41,7 +41,10 @@ IPUMS data is downloaded from our website at [https://www.ipums.org]().
 The website provides an interactive extract system that allows you to select
 only the sample and variables that are relevent to your research question.
 
-**For microdata projects (all projects except NHGIS or TerraPop)**, once you 
+Currently we do not support the TerraPop or DHS projects, but we hope to add
+support soon!
+
+**For microdata projects (all supported projects except NHGIS)**, once you 
 have created your extract, you should choose to download data as either 
 fixed-width-files or comma separated ones. 
 
@@ -52,7 +55,7 @@ Stata and SPSS.
 
 ![Annotated screenshot for downloading microdata](microdata_annotated_screenshot.png){ width=700px }
 
-**For NHGIS & Terrapop**, download the table data as a csv, and, if you want 
+**For NHGIS**, download the table data as a csv, and, if you want 
 the associated mapping data, the GIS data. NHGIS provides the option to download 
 csvs with an extra header row, it does not matter which option you select.
 
@@ -69,9 +72,6 @@ help you load the data into R.
 
 - `read_ipums_micro()`: Reads data from microdata projects (USA, CPS, International, DHS, Time Use, Health Surveys and Higher Ed)
 - `read_nhgis()`/`read_nhgis_sf()`/`read_nhgis_sp()`: Reads data from the NHGIS project. `read_nhgis` loads only tabular data, whereas `read_nhgis_sf()` and `read_nhgis_sp()` load tabular data and shapefiles.
-- `read_terra_raster()`: Reads raster files from TerraPop
-- `read_terra_area()`: Reads raster files from TerraPop
-- `read_terra_micro()`: Reads microdata files from TerraPop
 - `read_ddi()`: Reads DDI files with metadata that are included alongside some extracts (mainly microdata)
 - `read_ipums_codebook()`: Reads the text codebook included alongside some extracts (mainly NHGIS and some TerraPop extracts)
 
@@ -97,6 +97,46 @@ In summary, it is generally best if you wish to use the labels, to convert from
 the `labelled` class to `factor` early on in data analysis workflow. This is
 because many data manipulation functions will lose the associated labels. The
 function `haven::as_factor()` is the main function to create factors from labels.
+
+```{r}
+library(ripums)
+library(dplyr, warn.conflicts = FALSE)
+
+# Note that you can pass in the loaded DDI into the `read_ipums_micro()`
+cps_ddi <- read_ddi(ripums_example("cps_00011.xml"))
+cps_data <- read_ipums_micro(cps_ddi, verbose = FALSE)
+
+# Show which variables have labels
+cps_data %>%
+  select_if(is.labelled)
+
+# Notice how the tibble print function shows the dbl+lbl class on top
+
+# Investigate labels
+ipums_val_labels(cps_data$FOODSTMP)
+
+# Convert the labels to factors exactly
+cps_data <- cps_data %>%
+  mutate(HEALTH_factor = as_factor(HEALTH))
+
+table(cps_data$HEALTH_factor, useNA = "always")
+```
+```{r, error = TRUE}
+# Manipulating the labelled value before as_factor 
+# often leads to losing the information...
+# Say we want to set HEALTH == 1 to missing
+cps_data <- cps_data %>%
+  mutate(HEALTH_factor2 = as_factor(ifelse(HEALTH == 1, NA, HEALTH)))
+```
+```{r}
+# Currently the best solution is to convert to factor first, then manipulate using
+# factor. We hope to improve this.
+cps_data <- cps_data %>%
+  mutate(HEALTH_factor2 = as_factor(HEALTH)) %>%
+  mutate(HEALTH_factor2 = ifelse(HEALTH_factor2 == "Poor", NA, HEALTH_factor2))
+
+table(cps_data$HEALTH_factor2, useNA = "always")
+```
 
 ### Other IPUMS attributes
 Similarly, the other attributes that `ripums` stores about the data are often lost
@@ -131,18 +171,21 @@ This means that they accept either a character vector of values (eg `c("YEAR", "
 bare vectors of values (eg `c(YEAR, AGE)`) and the helper functions allowed in 
 `dplyr::select()` (eg `one_of(c("YEAR", "AGE"))`).
 
-```{r, eval = FALSE}
+```{r}
 library(ripums)
 library(dplyr, warn.conflicts = FALSE)
 
 # The vars argument for `read_ipums_micro` uses this syntax
 # So these are all equivalent
 cf <-  ripums_example("cps_00011.xml")
-cps_data <- read_ipums_micro(cf, vars = c("YEAR", "AGE"), verbose = FALSE)
+read_ipums_micro(cf, vars = c("YEAR", "AGE"), verbose = FALSE) %>%
+  names()
 
-cps_data <- read_ipums_micro(cf, vars = c(YEAR, AGE), verbose = FALSE)
+read_ipums_micro(cf, vars = c(YEAR, AGE), verbose = FALSE)%>%
+  names()
 
-cps_data <- read_ipums_micro(cf, vars = c(one_of("YEAR"), starts_with("AG")), verbose = FALSE)
+read_ipums_micro(cf, vars = c(one_of("YEAR"), starts_with("AG")), verbose = FALSE) %>%
+  names()
 
 # `data_layer` and `shape_layer` arguments to `read_nhgis()` and terra functions
 # also use it.
@@ -153,6 +196,46 @@ ipums_list_files(nf)
 ipums_list_files(nf, data_layer = "nhgis0008_csv/nhgis0008_ds135_1990_pmsa.csv")
 
 ipums_list_files(nf, data_layer = contains("ds135"))
+```
+
+### Hierarchical data structures
+For certain IPUMS projects, the data is hierarchical, multiple people are 
+included in a single household, or multiple activities are performed by
+a single person. The `ripums` package provides two data structures for
+storing such data (for users who did not select the "rectangularize" option
+on the website). The data can be loaded `"list"` or in a `"list"`. 
+
+**Long** data has one row per unit, regardless of what type of record the unit is.
+Therefore, datasets loaded this way often contain variables with a large 
+number of missings, for the variables that only apply to certain record types. 
+
+**List** data loads each record type into a separate data.frame. The names 
+of the recordtype data.frames are the value of the RECTYPE variable (eg "H" 
+and "P").
+
+```{r}
+library(ripums)
+library(dplyr, warn.conflicts = FALSE)
+
+# Long data
+cps <- read_ipums_micro(
+  ripums_example("cps_00010.xml"),
+  data_structure = "long",
+  verbose = FALSE
+)
+
+cps
+
+# List data
+cps <- read_ipums_micro(
+  ripums_example("cps_00010.xml"),
+  data_structure = "list",
+  verbose = FALSE
+)
+
+cps$P
+
+cps$H
 ```
 
 ### Geospatial Packages: `sf` vs `sp`
