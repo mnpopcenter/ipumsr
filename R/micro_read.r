@@ -14,7 +14,7 @@
 #' and variable labels.
 #'
 #' @param ddi Either a filepath to a DDI xml file downloaded from
-#'   the website, or a \code{ipums_ddi} object parsed by \code{\link{read_ddi}}
+#'   the website, or a \code{ipums_ddi} object parsed by \code{\link{read_ipums_ddi}}
 #' @param vars Names of variables to load. Accepts a character vector of names, or
 #'  \code{\link{dplyr_select_style}} conventions. For hierarchical data, the
 #'  rectype id variable will be added even if it is not specified.
@@ -42,7 +42,7 @@ read_ipums_micro <- function(
   data_file = NULL,
   verbose = TRUE
 ) {
-  if (is.character(ddi)) ddi <- read_ddi(ddi)
+  if (is.character(ddi)) ddi <- read_ipums_ddi(ddi)
   if (is.null(data_file)) data_file <- file.path(ddi$file_path, ddi$file_name)
   # Look for zipped versions of the file or csv versions of the file if it doesn't exist
   if (!file.exists(data_file)) {

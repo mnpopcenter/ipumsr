@@ -10,7 +10,7 @@
 #' the metadata from the loaded datasets, but it is more reliable to load the DDI
 #' into a separate object and use it instead.
 #'
-#' @param object A DDI object (loaded with \code{\link{read_ddi}}), a data.frame
+#' @param object A DDI object (loaded with \code{\link{read_ipums_ddi}}), a data.frame
 #'   with ipums metadata attached, or a single column from an ipums data.frame.
 #' @param vars dplyr \code{\link[dplyr]{select}}-style notation for the variables to
 #'   give information about
@@ -32,7 +32,7 @@
 #'
 #' Note that many R functions drop attributes that provide this information.
 #' In order to make sure that they are available, it is best to keep a copy of the
-#' separate from the data your are manipulating using \code{\link{read_ddi}}. Then
+#' separate from the data your are manipulating using \code{\link{read_ipums_ddi}}. Then
 #' you can refer to the IPUMS documentation in this object.
 #'
 #' @export
@@ -142,7 +142,7 @@ ipums_val_labels.default <- function(object, var = NULL) {
 #' R functions drop attributes, it is best to load a DDI object separately
 #' from the data and get the conditions and citation from this object.
 #'
-#' @param object A DDI object (loaded with \code{\link{read_ddi}}), or a data.frame
+#' @param object A DDI object (loaded with \code{\link{read_ipums_ddi}}), or a data.frame
 #'   with ipums metadata attached.
 #'
 #' @export
@@ -172,7 +172,7 @@ ipums_conditions.default <- function(object) {
 #' the metadata from the loaded datasets, but it is more reliable to load the DDI
 #' into a separate object and use it instead.
 #'
-#' @param object A DDI object (loaded with \code{\link{read_ddi}}), or a data.frame
+#' @param object A DDI object (loaded with \code{\link{read_ipums_ddi}}), or a data.frame
 #'   with ipums metadata attached.
 #'
 #' @export

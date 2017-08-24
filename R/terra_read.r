@@ -130,16 +130,16 @@ read_terra_area <- function(
 
   # Try to read DDI for license info ----
   if (data_is_zip & is.null(ddi_file)) {
-    ddi <- read_ddi(data_file) # Don't pass in `data_layer` bc only 1 ddi/area extract
+    ddi <- read_ipums_ddi(data_file) # Don't pass in `data_layer` bc only 1 ddi/area extract
   } else if (!is.null(ddi_file)) {
-    ddi <- read_ddi(ddi_file)
+    ddi <- read_ipums_ddi(ddi_file)
   }
 
   # Try to read codebook for var info ----
   if (data_is_zip & is.null(cb_file)) {
     cb <- read_ipums_codebook(data_file, !!data_layer)
   } else if (!is.null(cb_file)) {
-    cb <- read_ddi(ddi_file)
+    cb <- read_ipums_codebook(cb_file)
   }
 
   # If both were loaded, then the ddi has better citation info, but the
@@ -302,9 +302,9 @@ read_terra_micro <- function(
 
   # Try to read DDI for license info ----
   if (data_is_zip & is.null(ddi_file)) {
-    ddi <- read_ddi(data_file)
+    ddi <- read_ipums_ddi(data_file)
   } else if (!is.null(ddi_file)) {
-    ddi <- read_ddi(ddi_file)
+    ddi <- read_ipums_ddi(ddi_file)
   } else {
     ddi <- terra_empty_ddi
   }

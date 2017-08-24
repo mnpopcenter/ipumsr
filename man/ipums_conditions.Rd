@@ -7,7 +7,7 @@
 ipums_conditions(object)
 }
 \arguments{
-\item{object}{A DDI object (loaded with \code{\link{read_ddi}}), or a data.frame
+\item{object}{A DDI object (loaded with \code{\link{read_ipums_ddi}}), or a data.frame
 with ipums metadata attached.}
 }
 \description{

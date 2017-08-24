@@ -72,7 +72,7 @@ help you load the data into R.
 
 - `read_ipums_micro()`: Reads data from microdata projects (USA, CPS, International, DHS, Time Use, Health Surveys and Higher Ed)
 - `read_nhgis()`/`read_nhgis_sf()`/`read_nhgis_sp()`: Reads data from the NHGIS project. `read_nhgis` loads only tabular data, whereas `read_nhgis_sf()` and `read_nhgis_sp()` load tabular data and shapefiles.
-- `read_ddi()`: Reads DDI files with metadata that are included alongside some extracts (mainly microdata)
+- `read_ipums_ddi()`: Reads DDI files with metadata that are included alongside some extracts (mainly microdata)
 - `read_ipums_codebook()`: Reads the text codebook included alongside some extracts (mainly NHGIS and some TerraPop extracts)
 
 ## Metadata Functions
@@ -103,7 +103,7 @@ library(ripums)
 library(dplyr, warn.conflicts = FALSE)
 
 # Note that you can pass in the loaded DDI into the `read_ipums_micro()`
-cps_ddi <- read_ddi(ripums_example("cps_00011.xml"))
+cps_ddi <- read_ipums_ddi(ripums_example("cps_00011.xml"))
 cps_data <- read_ipums_micro(cps_ddi, verbose = FALSE)
 
 # Show which variables have labels
@@ -141,7 +141,7 @@ table(cps_data$HEALTH_factor2, useNA = "always")
 ### Other IPUMS attributes
 Similarly, the other attributes that `ripums` stores about the data are often lost
 during an analysis. One way to deal with this is to load the DDI or codebook in addition
-to the actual data using the functions `read_ddi()` and `read_ipums_codebook()`. This
+to the actual data using the functions `read_ipums_ddi()` and `read_ipums_codebook()`. This
 way, when you wish to refer to variable labels or other metadata, you can use the 
 DDI object, which does not get modified during your analysis.
 
@@ -150,7 +150,7 @@ library(ripums)
 library(dplyr, warn.conflicts = FALSE)
 
 # Note that you can pass in the loaded DDI into the `read_ipums_micro()`
-cps_ddi <- read_ddi(ripums_example("cps_00011.xml"))
+cps_ddi <- read_ipums_ddi(ripums_example("cps_00011.xml"))
 cps_data <- read_ipums_micro(cps_ddi, verbose = FALSE)
 
 # Currently file level metadata is on cps_data

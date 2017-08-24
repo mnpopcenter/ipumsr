@@ -17,7 +17,7 @@ cps_data_file <- ripums_example("cps_00011.dat.gz")
 #  cps_data_file <- "C:/Users/My Name/My Documents/cps_00001.dat"
 
 ## ------------------------------------------------------------------------
-cps_ddi <- read_ddi(cps_ddi_file) # Contains metadata, nice to have as separate object
+cps_ddi <- read_ipums_ddi(cps_ddi_file) # Contains metadata, nice to have as separate object
 cps_data <- read_ipums_micro(cps_ddi_file, data_file = cps_data_file)
 
 ## ------------------------------------------------------------------------

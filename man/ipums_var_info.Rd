@@ -16,7 +16,7 @@ ipums_var_label(object, var = NULL)
 ipums_val_labels(object, var = NULL)
 }
 \arguments{
-\item{object}{A DDI object (loaded with \code{\link{read_ddi}}), a data.frame
+\item{object}{A DDI object (loaded with \code{\link{read_ipums_ddi}}), a data.frame
 with ipums metadata attached, or a single column from an ipums data.frame.}
 
 \item{vars}{dplyr \code{\link[dplyr]{select}}-style notation for the variables to
@@ -40,7 +40,7 @@ decimals and variable type.
 
 Note that many R functions drop attributes that provide this information.
 In order to make sure that they are available, it is best to keep a copy of the
-separate from the data your are manipulating using \code{\link{read_ddi}}. Then
+separate from the data your are manipulating using \code{\link{read_ipums_ddi}}. Then
 you can refer to the IPUMS documentation in this object.}
 }
 \description{

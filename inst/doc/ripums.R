@@ -17,7 +17,7 @@ library(ripums)
 library(dplyr, warn.conflicts = FALSE)
 
 # Note that you can pass in the loaded DDI into the `read_ipums_micro()`
-cps_ddi <- read_ddi(ripums_example("cps_00011.xml"))
+cps_ddi <- read_ipums_ddi(ripums_example("cps_00011.xml"))
 cps_data <- read_ipums_micro(cps_ddi, verbose = FALSE)
 
 # Show which variables have labels
@@ -56,7 +56,7 @@ library(ripums)
 library(dplyr, warn.conflicts = FALSE)
 
 # Note that you can pass in the loaded DDI into the `read_ipums_micro()`
-cps_ddi <- read_ddi(ripums_example("cps_00011.xml"))
+cps_ddi <- read_ipums_ddi(ripums_example("cps_00011.xml"))
 cps_data <- read_ipums_micro(cps_ddi, verbose = FALSE)
 
 # Currently file level metadata is on cps_data

@@ -192,8 +192,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <h2>Getting the data into R</h2>
 <p>You will need to change the filepaths noted below to the place where you have saved the extracts.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(ripums)
-<span class="kw">library</span>(sf)
-<span class="co">#&gt; Linking to GEOS 3.6.1, GDAL 2.2.0, proj.4 4.9.3</span></code></pre></div>
+<span class="kw">library</span>(sf)</code></pre></div>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Change these filepaths to the filepaths of your downloaded extract</span>
 nhgis_csv_file &lt;-<span class="st"> &quot;C:/Users/My Name/My Documents/nhgis0001_csv.zip&quot;</span>
 nhgis_shp_file &lt;-<span class="st"> &quot;C:/Users/My Name/My Documents/nhgis0001_shape.zip&quot;</span></code></pre></div>
@@ -248,7 +247,7 @@ nhgis &lt;-<span class="st"> </span><span class="kw">read_nhgis_sf</span>(
 <span class="co">#&gt; Reading data file...</span>
 <span class="co">#&gt; Reading geography...</span>
 <span class="co">#&gt; options:        ENCODING=UTF-8 </span>
-<span class="co">#&gt; Reading layer `US_state_1830' from data source `C:\Users\gfellis\AppData\Local\Temp\RtmpgND2G5\file199c43cd1c2f\US_state_1830.shp' using driver `ESRI Shapefile'</span>
+<span class="co">#&gt; Reading layer `US_state_1830' from data source `C:\Users\gfellis\AppData\Local\Temp\Rtmpem8iwq\file1d7c41855536\US_state_1830.shp' using driver `ESRI Shapefile'</span>
 <span class="co">#&gt; Simple feature collection with 29 features and 7 fields</span>
 <span class="co">#&gt; geometry type:  MULTIPOLYGON</span>
 <span class="co">#&gt; dimension:      XY</span>

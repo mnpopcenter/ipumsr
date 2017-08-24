@@ -105,7 +105,7 @@ devtools::<span class="kw">install_github</span>(<span class="st">&quot;mnpopcen
 <ul>
 <li><code>read_ipums_micro()</code>: Reads data from microdata projects (USA, CPS, International, DHS, Time Use, Health Surveys and Higher Ed)</li>
 <li><code>read_nhgis()</code>/<code>read_nhgis_sf()</code>/<code>read_nhgis_sp()</code>: Reads data from the NHGIS project. <code>read_nhgis</code> loads only tabular data, whereas <code>read_nhgis_sf()</code> and <code>read_nhgis_sp()</code> load tabular data and shapefiles.</li>
-<li><code>read_ddi()</code>: Reads DDI files with metadata that are included alongside some extracts (mainly microdata)</li>
+<li><code>read_ipums_ddi()</code>: Reads DDI files with metadata that are included alongside some extracts (mainly microdata)</li>
 <li><code>read_ipums_codebook()</code>: Reads the text codebook included alongside some extracts (mainly NHGIS and some TerraPop extracts)</li>
 </ul>
 </div>
@@ -129,7 +129,7 @@ devtools::<span class="kw">install_github</span>(<span class="st">&quot;mnpopcen
 <span class="kw">library</span>(dplyr, <span class="dt">warn.conflicts =</span> <span class="ot">FALSE</span>)
 
 <span class="co"># Note that you can pass in the loaded DDI into the `read_ipums_micro()`</span>
-cps_ddi &lt;-<span class="st"> </span><span class="kw">read_ddi</span>(<span class="kw">ripums_example</span>(<span class="st">&quot;cps_00011.xml&quot;</span>))
+cps_ddi &lt;-<span class="st"> </span><span class="kw">read_ipums_ddi</span>(<span class="kw">ripums_example</span>(<span class="st">&quot;cps_00011.xml&quot;</span>))
 cps_data &lt;-<span class="st"> </span><span class="kw">read_ipums_micro</span>(cps_ddi, <span class="dt">verbose =</span> <span class="ot">FALSE</span>)
 
 <span class="co"># Show which variables have labels</span>
@@ -188,12 +188,12 @@ cps_data &lt;-<span class="st"> </span>cps_data %&gt;%
 </div>
 <div id="other-ipums-attributes" class="section level3">
 <h3>Other IPUMS attributes</h3>
-<p>Similarly, the other attributes that <code>ripums</code> stores about the data are often lost during an analysis. One way to deal with this is to load the DDI or codebook in addition to the actual data using the functions <code>read_ddi()</code> and <code>read_ipums_codebook()</code>. This way, when you wish to refer to variable labels or other metadata, you can use the DDI object, which does not get modified during your analysis.</p>
+<p>Similarly, the other attributes that <code>ripums</code> stores about the data are often lost during an analysis. One way to deal with this is to load the DDI or codebook in addition to the actual data using the functions <code>read_ipums_ddi()</code> and <code>read_ipums_codebook()</code>. This way, when you wish to refer to variable labels or other metadata, you can use the DDI object, which does not get modified during your analysis.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(ripums)
 <span class="kw">library</span>(dplyr, <span class="dt">warn.conflicts =</span> <span class="ot">FALSE</span>)
 
 <span class="co"># Note that you can pass in the loaded DDI into the `read_ipums_micro()`</span>
-cps_ddi &lt;-<span class="st"> </span><span class="kw">read_ddi</span>(<span class="kw">ripums_example</span>(<span class="st">&quot;cps_00011.xml&quot;</span>))
+cps_ddi &lt;-<span class="st"> </span><span class="kw">read_ipums_ddi</span>(<span class="kw">ripums_example</span>(<span class="st">&quot;cps_00011.xml&quot;</span>))
 cps_data &lt;-<span class="st"> </span><span class="kw">read_ipums_micro</span>(cps_ddi, <span class="dt">verbose =</span> <span class="ot">FALSE</span>)
 
 <span class="co"># Currently file level metadata is on cps_data</span>

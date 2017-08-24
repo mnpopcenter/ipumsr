@@ -154,7 +154,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Change these filepaths to the filepaths of your downloaded extract</span>
 cps_ddi_file &lt;-<span class="st"> &quot;C:/Users/My Name/My Documents/cps_00001.xml&quot;</span>
 cps_data_file &lt;-<span class="st"> &quot;C:/Users/My Name/My Documents/cps_00001.dat&quot;</span></code></pre></div>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">cps_ddi &lt;-<span class="st"> </span><span class="kw">read_ddi</span>(cps_ddi_file) <span class="co"># Contains metadata, nice to have as separate object</span>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">cps_ddi &lt;-<span class="st"> </span><span class="kw">read_ipums_ddi</span>(cps_ddi_file) <span class="co"># Contains metadata, nice to have as separate object</span>
 cps_data &lt;-<span class="st"> </span><span class="kw">read_ipums_micro</span>(cps_ddi_file, <span class="dt">data_file =</span> cps_data_file)
 <span class="co">#&gt; Users of IPUMS-CPS data must agree to abide by the conditions of use. A user's license is valid for one year and may be renewed.  Users must agree to the following conditions:</span>
 <span class="co">#&gt; </span>

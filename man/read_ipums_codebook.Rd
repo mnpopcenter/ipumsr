@@ -29,5 +29,5 @@ data <- read_ipums_codebook("nhgis0001_csv.zip")
 }
 }
 \seealso{
-Other ipums_metadata: \code{\link{read_ddi}}
+Other ipums_metadata: \code{\link{read_ipums_ddi}}
 }

@@ -16,11 +16,11 @@
 #'   layer to load.
 #' @examples
 #' \dontrun{
-#' metadata <- read_ddi("cps_00001.xml")
+#' metadata <- read_ipums_ddi("cps_00001.xml")
 #' }
 #' @family ipums_metadata
 #' @export
-read_ddi <- function(ddi_file, data_layer = NULL) {
+read_ipums_ddi <- function(ddi_file, data_layer = NULL) {
   data_layer <- enquo(data_layer)
   if (stringr::str_sub(ddi_file, -4) == ".zip") {
     ddi_in_zip <- find_files_in_zip(ddi_file, "xml", data_layer)
