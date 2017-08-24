@@ -20,7 +20,13 @@ A name of an IPUMS project, one of:
 \item{launch}{If \code{TRUE}, launch the website.}
 }
 \description{
-Takes a DDI (or other object with ipums metadata) and
-a variable name, and launches a web browser to the variable's
-page on the ipums.org website. You can also specify a project.
+Takes a DDI (or you can specify a project directly) and
+a variable name, and makes a best guess at the URL for
+the variable's page on the IPUMS website. Note that
+NHGIS and TerraPop do not have accessible pages for
+variables.
+}
+\details{
+Because some variables are constructed during the extract
+creation process, the URL may not always work unfortunately.
 }

@@ -5,9 +5,14 @@
 
 #' Launch a browser window to the ipums website
 #'
-#' Takes a DDI (or other object with ipums metadata) and
-#' a variable name, and launches a web browser to the variable's
-#' page on the ipums.org website. You can also specify a project.
+#' Takes a DDI (or you can specify a project directly) and
+#' a variable name, and makes a best guess at the URL for
+#' the variable's page on the IPUMS website. Note that
+#' NHGIS and TerraPop do not have accessible pages for
+#' variables.
+#'
+#' Because some variables are constructed during the extract
+#' creation process, the URL may not always work unfortunately.
 #'
 #'@param x A DDI or empty (if specifying project)
 #'@param var A single variable name in a character vector
