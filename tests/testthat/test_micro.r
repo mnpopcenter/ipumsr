@@ -89,6 +89,7 @@ test_that(
       ripums_example("cps_00010.xml"),
       n_max = 100,
       vars = c(RECTYPE, STATEFIP),
+      data_structure = "long",
       verbose = FALSE
     )
     expect_equal(nrow(cps), 100)
