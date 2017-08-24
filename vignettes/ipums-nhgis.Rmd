@@ -144,8 +144,6 @@ saved the extracts.
 
 ```{r}
 library(ripums)
-library(dplyr, warn.conflicts = FALSE)
-library(haven)
 library(sf)
 ```
 
@@ -169,10 +167,19 @@ nhgis <- read_nhgis_sf(
 Note that `read_nhgis_sf` relies on package `sf`. You can also read NHGIS data into the format used by package `sp` with function `read_nhgis_sp`.
 
 ## Exercises
+These exercises include example code written in the "tidyverse" style, meaning
+that they use the dplyr package. This package provides easy to use functions
+for data analysis, including `mutate()`, `select()`, `arrange()`, `slice()` and
+the pipe (`%>%`). There a numerous other ways you could solve these answers, including
+using the base R, the `data.table` package and others. 
+```{r}
+library(dplyr, warn.conflicts = FALSE)
+```
 ### Analyze the Data
 Q8) How many states/territories are included in this table?
 ```{r}
 length(table(nhgis$STATE))
+
 #     A:  Twenty‐Eight (28)
 ```
 
@@ -190,9 +197,11 @@ nhgis <- nhgis %>%
   mutate(total_pop = ABO001 + ABO002 + ABO003 + ABO004 + ABO005 + ABO006)
 
 nhgis %>%
+  as.data.frame() %>%
   select(STATE, total_pop) %>%
   arrange(desc(total_pop)) %>%
   slice(1:5)
+
 #     A: New  York
 ```
 
@@ -202,9 +211,11 @@ nhgis <- nhgis %>%
   mutate(slave_pop = ABO003 + ABO004)
 
 nhgis %>%
+  as.data.frame() %>%
   select(STATE, slave_pop) %>%
   arrange(desc(slave_pop)) %>%
   slice(1:5)
+
 #     A: Virginia 
 ```
 
@@ -214,20 +225,25 @@ nhgis <- nhgis %>%
   mutate(pct_slave = slave_pop / total_pop)
 
 nhgis %>%
+  as.data.frame() %>%
   select(STATE, pct_slave) %>%
   filter(pct_slave %in% c(min(pct_slave, na.rm = TRUE), max(pct_slave, na.rm = TRUE)))
+
 #     A: South Carolina (54.27%) and Vermont (0.00%)
 ```
 
 Q13) Are there any surprises, or is it as you expected? 
 ```{r}
 nhgis %>%
+  as.data.frame() %>%
   filter(pct_slave > 0.5) %>%
   select(STATE, slave_pop, total_pop, pct_slave)
 
 nhgis %>%
+  as.data.frame() %>%
   filter(STATE %in% c("New York", "New Jersey")) %>%
-  select(STATE, slave_pop, total_pop, pct_slave)
+  select(STATE, slave_pop, total_pop, pct_slave) 
+
 #     A: Possibilities: Did you know some states had more slaves than free persons? Did
 #        you know that some “free states” were home to substantial numbers of slaves?
 ```
