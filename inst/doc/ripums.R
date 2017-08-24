@@ -100,15 +100,6 @@ ipums_list_files(nf, data_layer = contains("ds135"))
 library(ripums)
 library(dplyr, warn.conflicts = FALSE)
 
-# Long data
-cps <- read_ipums_micro(
-  ripums_example("cps_00010.xml"),
-  data_structure = "long",
-  verbose = FALSE
-)
-
-cps
-
 # List data
 cps <- read_ipums_micro(
   ripums_example("cps_00010.xml"),
@@ -119,4 +110,13 @@ cps <- read_ipums_micro(
 cps$P
 
 cps$H
+
+# Long data
+cps <- read_ipums_micro(
+  ripums_example("cps_00010.xml"),
+  data_structure = "long",
+  verbose = FALSE
+)
+
+cps
 

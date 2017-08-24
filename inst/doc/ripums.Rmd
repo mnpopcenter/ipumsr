@@ -203,28 +203,19 @@ For certain IPUMS projects, the data is hierarchical, multiple people are
 included in a single household, or multiple activities are performed by
 a single person. The `ripums` package provides two data structures for
 storing such data (for users who did not select the "rectangularize" option
-on the website). The data can be loaded `"list"` or in a `"list"`. 
-
-**Long** data has one row per unit, regardless of what type of record the unit is.
-Therefore, datasets loaded this way often contain variables with a large 
-number of missings, for the variables that only apply to certain record types. 
+on the website). The data can be loaded as a `"list"` or `"long"`. 
 
 **List** data loads each record type into a separate data.frame. The names 
 of the recordtype data.frames are the value of the RECTYPE variable (eg "H" 
 and "P").
 
+**Long** data has one row per unit, regardless of what type of record the unit is.
+Therefore, datasets loaded this way often contain variables with a large 
+number of missings, for the variables that only apply to certain record types. 
+
 ```{r}
 library(ripums)
 library(dplyr, warn.conflicts = FALSE)
-
-# Long data
-cps <- read_ipums_micro(
-  ripums_example("cps_00010.xml"),
-  data_structure = "long",
-  verbose = FALSE
-)
-
-cps
 
 # List data
 cps <- read_ipums_micro(
@@ -236,6 +227,15 @@ cps <- read_ipums_micro(
 cps$P
 
 cps$H
+
+# Long data
+cps <- read_ipums_micro(
+  ripums_example("cps_00010.xml"),
+  data_structure = "long",
+  verbose = FALSE
+)
+
+cps
 ```
 
 ### Geospatial Packages: `sf` vs `sp`

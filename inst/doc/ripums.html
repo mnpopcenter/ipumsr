@@ -255,34 +255,11 @@ nf &lt;-<span class="st"> </span><span class="kw">ripums_example</span>(<span cl
 </div>
 <div id="hierarchical-data-structures" class="section level3">
 <h3>Hierarchical data structures</h3>
-<p>For certain IPUMS projects, the data is hierarchical, multiple people are included in a single household, or multiple activities are performed by a single person. The <code>ripums</code> package provides two data structures for storing such data (for users who did not select the “rectangularize” option on the website). The data can be loaded <code>&quot;list&quot;</code> or in a <code>&quot;list&quot;</code>.</p>
-<p><strong>Long</strong> data has one row per unit, regardless of what type of record the unit is. Therefore, datasets loaded this way often contain variables with a large number of missings, for the variables that only apply to certain record types.</p>
+<p>For certain IPUMS projects, the data is hierarchical, multiple people are included in a single household, or multiple activities are performed by a single person. The <code>ripums</code> package provides two data structures for storing such data (for users who did not select the “rectangularize” option on the website). The data can be loaded as a <code>&quot;list&quot;</code> or <code>&quot;long&quot;</code>.</p>
 <p><strong>List</strong> data loads each record type into a separate data.frame. The names of the recordtype data.frames are the value of the RECTYPE variable (eg “H” and “P”).</p>
+<p><strong>Long</strong> data has one row per unit, regardless of what type of record the unit is. Therefore, datasets loaded this way often contain variables with a large number of missings, for the variables that only apply to certain record types.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(ripums)
 <span class="kw">library</span>(dplyr, <span class="dt">warn.conflicts =</span> <span class="ot">FALSE</span>)
-
-<span class="co"># Long data</span>
-cps &lt;-<span class="st"> </span><span class="kw">read_ipums_micro</span>(
-  <span class="kw">ripums_example</span>(<span class="st">&quot;cps_00010.xml&quot;</span>),
-  <span class="dt">data_structure =</span> <span class="st">&quot;long&quot;</span>,
-  <span class="dt">verbose =</span> <span class="ot">FALSE</span>
-)
-
-cps
-<span class="co">#&gt; # A tibble: 11,053 x 9</span>
-<span class="co">#&gt;    RECTYPE  YEAR SERIAL HWTSUPP  STATEFIP     MONTH PERNUM  WTSUPP</span>
-<span class="co">#&gt;  *   &lt;chr&gt; &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl+lbl&gt; &lt;dbl+lbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;</span>
-<span class="co">#&gt;  1       H  1962     80 1475.59        55         3     NA      NA</span>
-<span class="co">#&gt;  2       P  1962     80      NA        NA        NA      1 1475.59</span>
-<span class="co">#&gt;  3       P  1962     80      NA        NA        NA      2 1470.72</span>
-<span class="co">#&gt;  4       P  1962     80      NA        NA        NA      3 1578.75</span>
-<span class="co">#&gt;  5       H  1962     82 1597.61        27         3     NA      NA</span>
-<span class="co">#&gt;  6       P  1962     82      NA        NA        NA      1 1597.61</span>
-<span class="co">#&gt;  7       H  1962     83 1706.65        27         3     NA      NA</span>
-<span class="co">#&gt;  8       P  1962     83      NA        NA        NA      1 1706.65</span>
-<span class="co">#&gt;  9       H  1962     84 1790.25        27         3     NA      NA</span>
-<span class="co">#&gt; 10       P  1962     84      NA        NA        NA      1 1790.25</span>
-<span class="co">#&gt; # ... with 11,043 more rows, and 1 more variables: INCTOT &lt;dbl&gt;</span>
 
 <span class="co"># List data</span>
 cps &lt;-<span class="st"> </span><span class="kw">read_ipums_micro</span>(
@@ -321,7 +298,30 @@ cps$H
 <span class="co">#&gt;  8  1962    124 4104.41        55         3</span>
 <span class="co">#&gt;  9  1962    125 2182.17        55         3</span>
 <span class="co">#&gt; 10  1962    126 1826.38        55         3</span>
-<span class="co">#&gt; # ... with 3,375 more rows</span></code></pre></div>
+<span class="co">#&gt; # ... with 3,375 more rows</span>
+
+<span class="co"># Long data</span>
+cps &lt;-<span class="st"> </span><span class="kw">read_ipums_micro</span>(
+  <span class="kw">ripums_example</span>(<span class="st">&quot;cps_00010.xml&quot;</span>),
+  <span class="dt">data_structure =</span> <span class="st">&quot;long&quot;</span>,
+  <span class="dt">verbose =</span> <span class="ot">FALSE</span>
+)
+
+cps
+<span class="co">#&gt; # A tibble: 11,053 x 9</span>
+<span class="co">#&gt;    RECTYPE  YEAR SERIAL HWTSUPP  STATEFIP     MONTH PERNUM  WTSUPP</span>
+<span class="co">#&gt;  *   &lt;chr&gt; &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl+lbl&gt; &lt;dbl+lbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;</span>
+<span class="co">#&gt;  1       H  1962     80 1475.59        55         3     NA      NA</span>
+<span class="co">#&gt;  2       P  1962     80      NA        NA        NA      1 1475.59</span>
+<span class="co">#&gt;  3       P  1962     80      NA        NA        NA      2 1470.72</span>
+<span class="co">#&gt;  4       P  1962     80      NA        NA        NA      3 1578.75</span>
+<span class="co">#&gt;  5       H  1962     82 1597.61        27         3     NA      NA</span>
+<span class="co">#&gt;  6       P  1962     82      NA        NA        NA      1 1597.61</span>
+<span class="co">#&gt;  7       H  1962     83 1706.65        27         3     NA      NA</span>
+<span class="co">#&gt;  8       P  1962     83      NA        NA        NA      1 1706.65</span>
+<span class="co">#&gt;  9       H  1962     84 1790.25        27         3     NA      NA</span>
+<span class="co">#&gt; 10       P  1962     84      NA        NA        NA      1 1790.25</span>
+<span class="co">#&gt; # ... with 11,043 more rows, and 1 more variables: INCTOT &lt;dbl&gt;</span></code></pre></div>
 </div>
 <div id="geospatial-packages-sf-vs-sp" class="section level3">
 <h3>Geospatial Packages: <code>sf</code> vs <code>sp</code></h3>

@@ -19,11 +19,11 @@
 #'  \code{\link{dplyr_select_style}} conventions. For hierarchical data, the
 #'  rectype id variable will be added even if it is not specified.
 #' @param n_max The maximum number of records to load.
-#' @param data_structure For hierarchical data extract, one of "long" or "list",
-#'    to indicate how to structure the data once loaded. "long" data
-#'   puts all rectypes in the same data.frame, with \code{NA} values for
-#'   variables that do not apply to the rectype. "list" data puts a data.frame
-#'   for each rectype into a list.
+#' @param data_structure For hierarchical data extract, one of "list" or "long",
+#'   to indicate how to structure the data once loaded. "list" data puts a
+#'   data.frame for each rectype into a list. "long" data puts all rectypes in
+#'   the same data.frame, with \code{NA} values for variables that do not apply
+#'   to that particular rectype.
 #' @param data_file Specify a directory to look for the data file.
 #'   If left empty, it will look in the same directory as the DDI file.
 #' @param verbose Logical, indicating whether to print progress information
@@ -38,7 +38,7 @@ read_ipums_micro <- function(
   ddi,
   vars = NULL,
   n_max = -1,
-  data_structure = c("long", "list"),
+  data_structure = c("list", "long"),
   data_file = NULL,
   verbose = TRUE
 ) {
