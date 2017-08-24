@@ -3,7 +3,7 @@
 \name{read_terra_raster}
 \alias{read_terra_raster}
 \alias{read_terra_raster_list}
-\title{Read data from an IPUMS Terra raster extract}
+\title{EXPERIMENTAL - Read data from an IPUMS Terra raster extract}
 \usage{
 read_terra_raster(data_file, data_layer = NULL, verbose = TRUE)
 
@@ -40,3 +40,4 @@ Other ipums_read: \code{\link{read_ipums_micro}},
   \code{\link{read_terra_area}},
   \code{\link{read_terra_micro}}
 }
+\keyword{internal}

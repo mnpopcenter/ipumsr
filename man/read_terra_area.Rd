@@ -4,7 +4,7 @@
 \alias{read_terra_area}
 \alias{read_terra_area_sf}
 \alias{read_terra_area_sp}
-\title{Read data from an IPUMS Terra area extract}
+\title{EXPERIMENTAL - Read data from an IPUMS Terra area extract}
 \usage{
 read_terra_area(data_file, data_layer = NULL, ddi_file = NULL,
   cb_file = NULL, verbose = TRUE)
@@ -63,3 +63,4 @@ Other ipums_read: \code{\link{read_ipums_micro}},
   \code{\link{read_terra_micro}},
   \code{\link{read_terra_raster}}
 }
+\keyword{internal}

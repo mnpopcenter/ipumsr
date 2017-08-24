@@ -3,8 +3,11 @@
 # in this project's top-level directory, and also on-line at:
 #   https://github.com/mnpopcenter/ripums
 
+# NOTE: These functions are not exported intentionally. They are considered
+# experimental because the TerraPop group does not consider their extract
+# engine final, so these functions may break and change.
 
-#' Read data from an IPUMS Terra raster extract
+#' EXPERIMENTAL - Read data from an IPUMS Terra raster extract
 #'
 #' Read a single raster datasets downloaded from the IPUMS Terra extract system using
 #' \code{read_terra_raster}, or read multiple into a list using \code{read_terra_raster_list}.
@@ -25,7 +28,7 @@
 #' data <- read_terra_raster_list("2552_bundle.zip", "ZM")
 #' }
 #' @family ipums_read
-#' @export
+#' @keywords internal
 read_terra_raster <- function(
   data_file,
   data_layer = NULL,
@@ -35,7 +38,6 @@ read_terra_raster <- function(
   read_terra_raster_internal(data_file, data_layer, verbose, FALSE)
 }
 
-#' @export
 #' @rdname read_terra_raster
 read_terra_raster_list <- function(
   data_file,
@@ -82,7 +84,7 @@ read_terra_raster_internal <- function(data_file, data_layer, verbose, multiple_
     out
   }
 
-#' Read data from an IPUMS Terra area extract
+#' EXPERIMENTAL - Read data from an IPUMS Terra area extract
 #'
 #' Reads a area-level dataset downloaded from the IPUMS Terra extract system.
 #'
@@ -114,7 +116,7 @@ read_terra_raster_internal <- function(data_file, data_layer, verbose, multiple_
 #' data <- read_terra_area("2553_bundle.zip")
 #' }
 #' @family ipums_read
-#' @export
+#' @keywords internal
 read_terra_area <- function(
   data_file,
   data_layer = NULL,
@@ -178,7 +180,6 @@ read_terra_area <- function(
 }
 
 #' @rdname read_terra_area
-#' @export
 read_terra_area_sf <- function(
   data_file,
   shape_file = NULL,
@@ -224,7 +225,6 @@ read_terra_area_sf <- function(
 }
 
 #' @rdname read_terra_area
-#' @export
 read_terra_area_sp <- function(
   data_file,
   shape_file = NULL,
@@ -289,7 +289,7 @@ read_terra_area_sp <- function(
 #' data <- read_terra_micro("2553_bundle.zip")
 #' }
 #' @family ipums_read
-#' @export
+#' @keywords internal
 read_terra_micro <- function(
   data_file,
   ddi_file = NULL,
@@ -361,7 +361,6 @@ read_terra_micro <- function(
 }
 
 
-#' @export
 #' @rdname read_terra_micro
 read_terra_micro_sf <- function(
   data_file,
@@ -390,7 +389,6 @@ read_terra_micro_sf <- function(
   out
 }
 
-#' @export
 #' @rdname read_terra_micro
 read_terra_micro_sp <- function(
   data_file,
