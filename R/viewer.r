@@ -88,7 +88,7 @@ display_ipums_var_row <- function(var_name, var_label, var_desc, val_labels, pro
   }
 
   url <- try(
-    ipums_website(var = var_name, project = project, launch = FALSE, verbose = FALSE),
+    ipums_website(var = var_name, project = project, launch = FALSE, verbose = FALSE, var_label = var_label),
     silent = TRUE
   )
   if (class(url)[1] == "try-error") {

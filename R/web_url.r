@@ -23,14 +23,20 @@
 #'   or "IPUMS Terra"
 #' @param launch If \code{TRUE}, launch the website.
 #' @param verbose If \code{TRUE}, message user if no variable specific websites are available
+#' @param var_label Sometimes the variable label is useful for finding the correct URL. Only needed
+#'   if not passing in the ddi object.
 #'@export
-ipums_website <- function(x, var, project = NULL, launch = TRUE, verbose = TRUE) {
+ipums_website <- function(x, var, project = NULL, launch = TRUE, verbose = TRUE, var_label = NULL) {
   UseMethod("ipums_website")
 }
 
 #'@export
-ipums_website.ipums_ddi <- function(x, var, project = NULL, launch = TRUE, verbose = TRUE) {
+ipums_website.ipums_ddi <- function(x, var, project = NULL, launch = TRUE, verbose = TRUE, var_label = NULL) {
   if (is.null(project)) project <- x$ipums_project
+
+  # Some convuluted code to check for "detailed variables", because their urls aren't right
+  var <- fix_for_detailed_var(x, var)
+
   url <- get_ipums_url(var, project)
   if (launch) {
     shell.exec(url)
@@ -41,8 +47,13 @@ ipums_website.ipums_ddi <- function(x, var, project = NULL, launch = TRUE, verbo
 }
 
 #'@export
-ipums_website.default <- function(x, var, project = NULL, launch = TRUE, verbose = TRUE) {
+ipums_website.default <- function(x, var, project = NULL, launch = TRUE, verbose = TRUE, var_label = NULL) {
   if (is.null(project)) project <- attributes(x)[["ipums_project"]]
+  if (missing(x)) x <- NULL
+
+  # Some convuluted code to check for "detailed variables", because their urls aren't right
+  var <- fix_for_detailed_var(x, var, var_label)
+
   url <- get_ipums_url(var, project)
   if (launch) {
     shell.exec(url)
@@ -72,4 +83,19 @@ get_ipums_url <- function(var, project, verbose = TRUE) {
   }
 
   config$url_function(var)
+}
+
+
+# Some convuluted code to check for "detailed variables", because their urls aren't right
+fix_for_detailed_var <- function(object, var, var_label) {
+  if (is.null(var_label) & !is.null(object)) var_label <- ipums_var_label(object, one_of(var))
+
+  if (is.null(var_label)) return(var)
+
+  is_det <- stringr::str_detect(tolower(var_label), stringr::coll("[detailed version]"))
+
+  if (is_det && stringr::str_sub(var, -1) == "D") {
+    var <- stringr::str_sub(var, 1, -2)
+  }
+  var
 }
