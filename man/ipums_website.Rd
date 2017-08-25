@@ -4,7 +4,8 @@
 \alias{ipums_website}
 \title{Launch a browser window to the ipums website}
 \usage{
-ipums_website(x, var, project = NULL, launch = TRUE, verbose = TRUE)
+ipums_website(x, var, project = NULL, launch = TRUE, verbose = TRUE,
+  var_label = NULL)
 }
 \arguments{
 \item{x}{A DDI or empty (if specifying project)}
@@ -20,6 +21,9 @@ A name of an IPUMS project, one of:
 \item{launch}{If \code{TRUE}, launch the website.}
 
 \item{verbose}{If \code{TRUE}, message user if no variable specific websites are available}
+
+\item{var_label}{Sometimes the variable label is useful for finding the correct URL. Only needed
+if not passing in the ddi object.}
 }
 \description{
 Takes a DDI (or you can specify a project directly) and
