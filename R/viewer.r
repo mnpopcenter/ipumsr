@@ -87,10 +87,13 @@ display_ipums_var_row <- function(var_name, var_label, var_desc, val_labels, pro
     value_labels <- htmltools::tags$p("N/A")
   }
 
-  if (is.null(project)) {
+  url <- try(
+    ipums_website(var = var_name, project = project, launch = FALSE, verbose = FALSE),
+    silent = TRUE
+  )
+  if (class(url)[1] == "try-error") {
     link <- NULL
   } else {
-    url <- ipums_website(var = var_name, project = project, launch = FALSE)
     link <- htmltools::a(href = url, "More details")
   }
 
