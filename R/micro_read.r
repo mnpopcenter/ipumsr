@@ -48,10 +48,10 @@ read_ipums_micro <- function(
   if (!file.exists(data_file)) {
     if (file.exists(paste0(data_file, ".gz"))) {
       data_file <- paste0(data_file, ".gz")
-    } else if (file.exists(stringr::str_replace(data_file, "\\.dat", "\\.csv"))) {
-      data_file <- stringr::str_replace(data_file, "\\.dat", "\\.csv")
-    } else if (file.exists(stringr::str_replace(data_file, "\\.dat", "\\.csv.gz"))) {
-      data_file <- stringr::str_replace(data_file, "\\.dat", "\\.csv.gz")
+    } else if (file.exists(stringr::str_replace(data_file, "\\.dat", ".csv"))) {
+      data_file <- stringr::str_replace(data_file, "\\.dat", ".csv")
+    } else if (file.exists(stringr::str_replace(data_file, "\\.dat", ".csv.gz"))) {
+      data_file <- stringr::str_replace(data_file, "\\.dat", ".csv.gz")
     }
   }
   if (verbose) cat(ipums_conditions(ddi))
