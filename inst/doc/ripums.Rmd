@@ -103,7 +103,7 @@ library(ripums)
 library(dplyr, warn.conflicts = FALSE)
 
 # Note that you can pass in the loaded DDI into the `read_ipums_micro()`
-cps_ddi <- read_ipums_ddi(ripums_example("cps_00011.xml"))
+cps_ddi <- read_ipums_ddi(ripums_example("cps_00006.xml"))
 cps_data <- read_ipums_micro(cps_ddi, verbose = FALSE)
 
 # Show which variables have labels
@@ -113,29 +113,36 @@ cps_data %>%
 # Notice how the tibble print function shows the dbl+lbl class on top
 
 # Investigate labels
-ipums_val_labels(cps_data$FOODSTMP)
+ipums_val_labels(cps_data$STATEFIP)
 
-# Convert the labels to factors exactly
+# Convert the labels to factors (and drop the unused levels)
 cps_data <- cps_data %>%
-  mutate(HEALTH_factor = as_factor(HEALTH))
+  mutate(STATE_factor = droplevels(as_factor(STATEFIP)))
 
-table(cps_data$HEALTH_factor, useNA = "always")
+table(cps_data$STATE_factor, useNA = "always")
 ```
 ```{r, error = TRUE}
 # Manipulating the labelled value before as_factor 
 # often leads to losing the information...
-# Say we want to set HEALTH == 1 to missing
+# Say we want to set Iowa (STATEFIP == 19) to missing
 cps_data <- cps_data %>%
-  mutate(HEALTH_factor2 = as_factor(ifelse(HEALTH == 1, NA, HEALTH)))
+  mutate(STATE_factor2 = as_factor(ifelse(STATEFIP == 19, NA, STATEFIP)))
 ```
 ```{r}
 # Currently the best solution is to convert to factor first, then manipulate using
 # factor. We hope to improve this.
 cps_data <- cps_data %>%
-  mutate(HEALTH_factor2 = as_factor(HEALTH)) %>%
-  mutate(HEALTH_factor2 = ifelse(HEALTH_factor2 == "Poor", NA, HEALTH_factor2))
+  mutate(STATE_factor3 = droplevels(as_factor(STATEFIP), "Iowa"))
 
-table(cps_data$HEALTH_factor2, useNA = "always")
+table(cps_data$STATE_factor3, useNA = "always")
+
+# The as_factor function also has a "levels" argument that can 
+# put both the labels and values into the factor
+cps_data <- cps_data %>%
+  mutate(STATE_factor4 = droplevels(as_factor(STATEFIP, levels = "both")))
+
+table(cps_data$STATE_factor4, useNA = "always")
+
 ```
 
 ### Other IPUMS attributes
@@ -177,14 +184,14 @@ library(dplyr, warn.conflicts = FALSE)
 
 # The vars argument for `read_ipums_micro` uses this syntax
 # So these are all equivalent
-cf <-  ripums_example("cps_00011.xml")
-read_ipums_micro(cf, vars = c("YEAR", "AGE"), verbose = FALSE) %>%
+cf <- ripums_example("cps_00006.xml")
+read_ipums_micro(cf, vars = c("YEAR", "INCTOT"), verbose = FALSE) %>%
   names()
 
-read_ipums_micro(cf, vars = c(YEAR, AGE), verbose = FALSE)%>%
+read_ipums_micro(cf, vars = c(YEAR, INCTOT), verbose = FALSE) %>%
   names()
 
-read_ipums_micro(cf, vars = c(one_of("YEAR"), starts_with("AG")), verbose = FALSE) %>%
+read_ipums_micro(cf, vars = c(one_of("YEAR"), starts_with("INC")), verbose = FALSE) %>%
   names()
 
 # `data_layer` and `shape_layer` arguments to `read_nhgis()` and terra functions
