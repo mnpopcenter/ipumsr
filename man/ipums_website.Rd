@@ -4,7 +4,7 @@
 \alias{ipums_website}
 \title{Launch a browser window to the ipums website}
 \usage{
-ipums_website(x, var, project = NULL, launch = TRUE)
+ipums_website(x, var, project = NULL, launch = TRUE, verbose = TRUE)
 }
 \arguments{
 \item{x}{A DDI or empty (if specifying project)}
@@ -18,6 +18,8 @@ A name of an IPUMS project, one of:
   or "IPUMS Terra"}
 
 \item{launch}{If \code{TRUE}, launch the website.}
+
+\item{verbose}{If \code{TRUE}, message user if no variable specific websites are available}
 }
 \description{
 Takes a DDI (or you can specify a project directly) and

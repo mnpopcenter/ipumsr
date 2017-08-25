@@ -22,13 +22,14 @@
 #'   "ATUS-X", "AHTUS-X", "MTUS-X", "NHIS", "Higher Ed", "NHGIS",
 #'   or "IPUMS Terra"
 #' @param launch If \code{TRUE}, launch the website.
+#' @param verbose If \code{TRUE}, message user if no variable specific websites are available
 #'@export
-ipums_website <- function(x, var, project = NULL, launch = TRUE) {
+ipums_website <- function(x, var, project = NULL, launch = TRUE, verbose = TRUE) {
   UseMethod("ipums_website")
 }
 
 #'@export
-ipums_website.ipums_ddi <- function(x, var, project = NULL, launch = TRUE) {
+ipums_website.ipums_ddi <- function(x, var, project = NULL, launch = TRUE, verbose = TRUE) {
   if (is.null(project)) project <- x$ipums_project
   url <- get_ipums_url(var, project)
   if (launch) {
@@ -54,7 +55,7 @@ ipums_website.default <- function(x, var, project = NULL, launch = TRUE, verbose
 get_ipums_url <- function(var, project, verbose = TRUE) {
   if (is.null(project)) {
     stop(paste0("Project not found. Please specify the project name using 'project' argument. ",
-                "Options include: ", paste(acceptable_projects, collapse = ", ")
+                "Options include: ", paste(all_proj_names(), collapse = ", ")
     ))
   }
   config <- get_proj_config(project)
