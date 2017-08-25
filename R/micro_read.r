@@ -46,12 +46,16 @@ read_ipums_micro <- function(
   if (is.null(data_file)) data_file <- file.path(ddi$file_path, ddi$file_name)
   # Look for zipped versions of the file or csv versions of the file if it doesn't exist
   if (!file.exists(data_file)) {
-    if (file.exists(paste0(data_file, ".gz"))) {
-      data_file <- paste0(data_file, ".gz")
-    } else if (file.exists(stringr::str_replace(data_file, "\\.dat", ".csv"))) {
-      data_file <- stringr::str_replace(data_file, "\\.dat", ".csv")
-    } else if (file.exists(stringr::str_replace(data_file, "\\.dat", ".csv.gz"))) {
-      data_file <- stringr::str_replace(data_file, "\\.dat", ".csv.gz")
+    file_dat_gz <- file_as_ext(data_file, ".dat.gz")
+    file_csv <- file_as_ext(data_file, ".csv")
+    file_csv_gz <- file_as_ext(data_file, ".csv.gz")
+
+    if (file.exists(file_dat_gz)) {
+      data_file <- file_dat_gz
+    } else if (file.exists(file_csv)) {
+      data_file <- file_csv
+    } else if (file.exists(file_csv_gz)) {
+      data_file <- file_csv_gz
     }
   }
   if (verbose) cat(ipums_conditions(ddi))
@@ -72,8 +76,7 @@ read_ipums_micro <- function(
 }
 
 read_ipums_hier <- function(ddi, vars, n_max, data_structure, data_file, verbose) {
-  if (stringr::str_sub(data_file, -4, -1) == ".csv" |
-      stringr::str_sub(data_file, -7, -1) == ".csv.gz") {
+  if (ipums_file_ext(data_file) %in% c(".csv", ".csv.gz")) {
     stop("Hierarchical data cannot be read as csv.")
   }
   all_vars <- ddi$var_info
@@ -201,10 +204,8 @@ read_ipums_rect <- function(ddi, vars, n_max, data_file, verbose) {
     col_names = all_vars$var_name
   )
 
-  is_fwf <- stringr::str_sub(data_file, -4, -1) == ".dat" |
-    stringr::str_sub(data_file, -7, -1) == ".dat.gz"
-  is_csv <- stringr::str_sub(data_file, -4, -1) == ".csv" |
-    stringr::str_sub(data_file, -7, -1) == ".csv.gz"
+  is_fwf <- ipums_file_ext(data_file) %in% c(".dat", ".dat.gz")
+  is_csv <- ipums_file_ext(data_file) %in% c(".csv", ".csv.gz")
 
   if (is_fwf) {
     out <- readr::read_fwf(

@@ -118,6 +118,19 @@ load_rgdal_namespace <- function() {
 }
 
 file_is_zip <- function(file) {
-  stringr::str_sub(file, -4) == ".zip"
+  ipums_file_ext(file) == ".zip"
 }
 
+# Treat .gz as an incomplete file extension
+ipums_file_ext <- function(file) {
+  ext <- paste0(".", tools::file_ext(file))
+  if (ext == ".gz") {
+    ext_part1 <- tools::file_ext(tools::file_path_sans_ext(file))
+    if (ext_part1 != "") ext <- paste0(".", ext_part1, ext)
+  }
+  ext
+}
+
+file_as_ext <- function(file, ext) {
+  paste0(tools::file_path_sans_ext(file, compression = TRUE), ext)
+}
