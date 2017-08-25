@@ -167,7 +167,8 @@ read_terra_area <- function(
   data <- readr::read_csv(
     read_data,
     col_types = readr::cols(.default = "c"),
-    locale = ipums_locale(ddi$file_encoding)
+    locale = ipums_locale(ddi$file_encoding),
+    progress = show_readr_progress(verbose)
   )
   data <- readr::type_convert(data, col_types = readr::cols())
 
@@ -343,7 +344,8 @@ read_terra_micro <- function(
     read_data,
     col_types = var_types,
     na = "null",
-    locale = ipums_locale(ddi$file_encoding)
+    locale = ipums_locale(ddi$file_encoding),
+    progress = show_readr_progress(verbose)
   )
 
   data <- readr::type_convert(data, readr::cols())

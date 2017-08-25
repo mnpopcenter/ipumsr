@@ -67,13 +67,15 @@ read_nhgis <- function(
     data <- readr::read_csv(
       unz(data_file, csv_name),
       col_types = readr::cols(.default = "c"),
-      locale = extract_locale
+      locale = extract_locale,
+      progress = show_readr_progress(verbose)
     )
   } else {
     data <- readr::read_csv(
       data_file,
       col_types = readr::cols(.default = "c"),
-      locale = extract_locale
+      locale = extract_locale,
+      progress = show_readr_progress(verbose)
     )
   }
 

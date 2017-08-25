@@ -96,7 +96,7 @@ read_ipums_hier <- function(ddi, vars, n_max, data_structure, data_file, verbose
   if (verbose) cat("Reading data...\n")
   lines <- readr::read_lines(
     data_file,
-    progress = FALSE,
+    progress = show_readr_progress(verbose),
     n_max = n_max,
     locale = ipums_locale(ddi$file_encoding)
   )
@@ -213,14 +213,16 @@ read_ipums_rect <- function(ddi, vars, n_max, data_file, verbose) {
       col_positions,
       col_types,
       n_max = n_max,
-      locale = ipums_locale(ddi$file_encoding)
+      locale = ipums_locale(ddi$file_encoding),
+      progress = show_readr_progress(verbose)
     )
   } else if (is_csv) {
     out <- readr::read_csv(
       data_file,
       col_types = col_types,
       n_max = n_max,
-      locale = ipums_locale(ddi$file_encoding)
+      locale = ipums_locale(ddi$file_encoding),
+      progress = show_readr_progress(verbose)
     )
   } else {
     stop("Unrecognized file type.")

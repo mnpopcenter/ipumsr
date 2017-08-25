@@ -134,3 +134,9 @@ ipums_file_ext <- function(file) {
 file_as_ext <- function(file, ext) {
   paste0(tools::file_path_sans_ext(file, compression = TRUE), ext)
 }
+
+# Adapted from readr:::show_progress
+show_readr_progress <- function(verbose) {
+  verbose && isTRUE(getOption("readr.show_progress")) && interactive() &&
+    is.null(getOption("knitr.in.progress"))
+}
