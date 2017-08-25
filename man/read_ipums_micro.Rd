@@ -5,7 +5,7 @@
 \title{Read data from an IPUMS extract}
 \usage{
 read_ipums_micro(ddi, vars = NULL, n_max = -1, data_structure = c("list",
-  "long"), data_file = NULL, verbose = TRUE)
+  "long"), data_file = NULL, verbose = TRUE, rectype_convert = NULL)
 }
 \arguments{
 \item{ddi}{Either a filepath to a DDI xml file downloaded from
@@ -28,6 +28,10 @@ If left empty, it will look in the same directory as the DDI file.}
 
 \item{verbose}{Logical, indicating whether to print progress information
 to console.}
+
+\item{rectype_convert}{(Usually determined by project) A named vector
+indicating a conversion from the rectype in data to DDI. Not usually
+needed to be specified by the user.}
 }
 \description{
 Reads a dataset downloaded from the IPUMS extract system.

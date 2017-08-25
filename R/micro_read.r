@@ -28,6 +28,9 @@
 #'   If left empty, it will look in the same directory as the DDI file.
 #' @param verbose Logical, indicating whether to print progress information
 #'   to console.
+#' @param rectype_convert (Usually determined by project) A named vector
+#'   indicating a conversion from the rectype in data to DDI. Not usually
+#'   needed to be specified by the user.
 #' @examples
 #' \dontrun{
 #' data <- read_micro("cps_00001.xml")
@@ -40,7 +43,8 @@ read_ipums_micro <- function(
   n_max = -1,
   data_structure = c("list", "long"),
   data_file = NULL,
-  verbose = TRUE
+  verbose = TRUE,
+  rectype_convert = NULL
 ) {
   if (is.character(ddi)) ddi <- read_ipums_ddi(ddi)
   if (is.null(data_file)) data_file <- file.path(ddi$file_path, ddi$file_name)
@@ -64,7 +68,7 @@ read_ipums_micro <- function(
   data_structure <- match.arg(data_structure)
 
   if (ddi$file_type == "hierarchical") {
-    out <- read_ipums_hier(ddi, vars, n_max, data_structure, data_file, verbose)
+    out <- read_ipums_hier(ddi, vars, n_max, data_structure, data_file, verbose, rectype_convert)
   } else if (ddi$file_type == "rectangular") {
     out <- read_ipums_rect(ddi, vars, n_max, data_file, verbose)
   } else {
@@ -75,7 +79,7 @@ read_ipums_micro <- function(
   out
 }
 
-read_ipums_hier <- function(ddi, vars, n_max, data_structure, data_file, verbose) {
+read_ipums_hier <- function(ddi, vars, n_max, data_structure, data_file, verbose, rectype_convert) {
   if (ipums_file_ext(data_file) %in% c(".csv", ".csv.gz")) {
     stop("Hierarchical data cannot be read as csv.")
   }
@@ -121,9 +125,11 @@ read_ipums_hier <- function(ddi, vars, n_max, data_structure, data_file, verbose
       stringr::str_sub(lines, rec_vinfo$start, rec_vinfo$end)
 
     # Some projects have numeric RECTYPE in data, even though DDI refers to them by character.
-    config <- get_proj_config(ddi$ipums_project)
-    if (!is.null(config$rectype_trans)) {
-      out$RECTYPE_DDI <- convert_rectype(config$rectype_trans, out[[rec_vinfo$var_name]])
+    if (is.null(rectype_convert)) {
+      rectype_convert <- get_proj_config(ddi$ipums_project)$rectype_trans
+    }
+    if (!is.null(rectype_convert)) {
+      out$RECTYPE_DDI <- convert_rectype(rectype_convert, out[[rec_vinfo$var_name]])
       rec_vinfo$var_name <- "RECTYPE_DDI"
     }
 

@@ -91,8 +91,16 @@ proj_config[["HIGHER ED"]] <- list(
   url_function = function(var) paste0("https://highered.ipums.org/highered-action/variables/", var)
 )
 
+default_config <- list(
+  rectype_trans = NULL,
+  var_url = FALSE,
+  url_function = function(var) "https://www.ipums.org"
+)
+
 get_proj_config <- function(proj) {
-  proj_config[[toupper(proj)]] # Ignore case
+  out <- proj_config[[toupper(proj)]] # Ignore case
+  if (is.null(out)) out <- default_config
+  out
 }
 
 all_proj_names <- function() {
