@@ -117,17 +117,11 @@ read_ipums_hier <- function(ddi, vars, n_max, data_structure, data_file, verbose
     out[seq_len(nlines), rec_vinfo$var_name] <-
       stringr::str_sub(lines, rec_vinfo$start, rec_vinfo$end)
 
-    # Time Use data (ATUS-X/AHTUS-X/MTUS-X) all have numeric RECTYPE
-    # in data, even though DDI refers to them by character.
-    # 1 = H / 2 = P / 3 = A / 4 = W / 5 = R
-    # Fix by making a character version of RECTYPE var
-    if (ddi$ipums_project %in% c("ATUS-X", "AHTUS-X", "MTUS-X")) {
-      # Double check that data is numeric
-      rectype_num <- readr::type_convert(out[rec_vinfo$var_name], col_types = readr::cols())[[1]]
-      if (is.numeric(rectype_num)) {
-        out$RECTYPECHR <- c("H", "P", "A", "W", "R")[rectype_num]
-        rec_vinfo$var_name <- "RECTYPECHR"
-      }
+    # Some projects have numeric RECTYPE in data, even though DDI refers to them by character.
+    config <- get_proj_config(ddi$ipums_project)
+    if (!is.null(config$rectype_trans)) {
+      out$RECTYPE_DDI <- convert_rectype(config$rectype_trans, out[[rec_vinfo$var_name]])
+      rec_vinfo$var_name <- "RECTYPE_DDI"
     }
 
     # Add the rest of the variables
@@ -148,16 +142,10 @@ read_ipums_hier <- function(ddi, vars, n_max, data_structure, data_file, verbose
     # Determine rectypes
     rec_type <- stringr::str_sub(lines, rec_vinfo$start, rec_vinfo$end)
 
-    # Time Use data (ATUS-X/AHTUS-X/MTUS-X) all have numeric RECTYPE
-    # in data, even though DDI refers to them by character.
-    # 1 = H / 2 = P / 3 = A / 4 = W / 5 = R
-    # Fix by making a character version of RECTYPE var
-    if (ddi$ipums_project %in% c("ATUS-X", "AHTUS-X", "MTUS-X")) {
-      # Double check that data is numeric
-      rectype_num <- readr::parse_guess(rec_type)
-      if (is.numeric(rectype_num)) {
-        rec_type <- c("H", "P", "A", "W", "R")[rectype_num]
-      }
+    # Some projects have numeric RECTYPE in data, even though DDI refers to them by character.
+    config <- get_proj_config(ddi$ipums_project)
+    if (!is.null(config$rectype_trans)) {
+      rec_type <- convert_rectype(config$rectype_trans, rec_type)
     }
 
     rec_types_in_extract <- dplyr::intersect(rec_vinfo$rectypes[[1]], unique(rec_type))

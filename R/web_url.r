@@ -40,7 +40,7 @@ ipums_website.ipums_ddi <- function(x, var, project = NULL, launch = TRUE) {
 }
 
 #'@export
-ipums_website.default <- function(x, var, project = NULL, launch = TRUE) {
+ipums_website.default <- function(x, var, project = NULL, launch = TRUE, verbose = TRUE) {
   if (is.null(project)) project <- attributes(x)[["ipums_project"]]
   url <- get_ipums_url(var, project)
   if (launch) {
@@ -51,61 +51,24 @@ ipums_website.default <- function(x, var, project = NULL, launch = TRUE) {
   }
 }
 
-get_ipums_url <- function(var, project) {
+get_ipums_url <- function(var, project, verbose = TRUE) {
   if (is.null(project)) {
     stop(paste0("Project not found. Please specify the project name using 'project' argument. ",
                 "Options include: ", paste(acceptable_projects, collapse = ", ")
     ))
   }
-  # Ignore case
-  project <- toupper(project)
+  config <- get_proj_config(project)
 
-  if (project %in% c("NHGIS")) {
-    out <- "https://data2.nhgis.org/main"
-    message("Cannot give a variable-specific URL for NHGIS project.")
-  } else if (project %in% c("IPUMS TERRA")) {
-    out <- "https://data.terrapop.org/"
-    message("Cannot give a variable-specific URL for Terrapop project.")
-  } else {
-    out <- switch(
-      project,
-      `IPUMS-USA` = paste0("https://usa.ipums.org/usa-action/variables/", var),
-      `IPUMS-CPS` = paste0("https://cps.ipums.org/cps-action/variables/", var),
-      `IPUMS-INTERNATIONAL` = paste0("https://international.ipums.org/international-action/variables/", var),
-      `IPUMS-DHS` = paste0("https://www.idhsdata.org/idhs-action/variables/", var),
-      `ATUS-X` = paste0("https://www.atusdata.org/atus-action/variables/", var),
-      `AHTUS-X` = paste0("https://www.ahtusdata.org/ahtus-action/variables/", var),
-      `MTUS-X` = paste0("https://www.mtusdata.org/atus-action/variables/", var),
-      `NHIS` = paste0("https://www.mtusdata.org/atus-action/variables/", var),
-      `HIGHER ED` = paste0("https://www.mtusdata.org/atus-action/variables/", var),
-      NULL
-    )
-
-    if (is.null(out)) {
-      stop(paste0(
-        "Unexpected project '", project, "'. ",
-        "Options include: ", paste(acceptable_projects, collapse = ", ")
-      ))
-    }
+  if (is.null(config)) {
+    stop(paste0(
+      "Unexpected project '", project, "'. ",
+      "Options include: ", paste(all_proj_names(), collapse = ", ")
+    ))
   }
-  out
+
+  if (verbose && !config$var_url) {
+    message("Cannot give a variable-specific URL for this project.")
+  }
+
+  config$url_function(var)
 }
-
-acceptable_projects <- c(
-  "IPUMS-USA", "IPUMS-CPS", "IPUMS-International", "IPUMS-DHS", "ATUS-X",
-  "AHTUS-X", "MTUS-X", "NHIS", "Higher Ed", "NHGIS", "IPUMS Terra"
-)
-
-# Example URLS
-# USA Ex: https://usa.ipums.org/usa-action/variables/ABSENT
-# CPS Ex: https://cps.ipums.org/cps-action/variables/ABSENT
-# IPUMSI Ex: https://international.ipums.org/international-action/variables/ABROADCHD
-# DHS Ex: https://www.idhsdata.org/idhs-action/variables/ABDOMINYR
-# ATUS Ex: https://www.atusdata.org/atus-action/variables/WT06 (Time use vars won't work...)
-# AHTUS Ex: https://www.ahtusdata.org/ahtus-action/variables/EPNUM (Time use vars won't work...)
-# MTUS Ex: https://www.mtusdata.org/mtus-action/variables/SAMPLE
-# IHIS Ex: https://ihis.ipums.org/ihis-action/variables/ABGASTRUBYR
-# Higher Ed Ex: https://highered.ipums.org/highered-action/variables/ACADV
-
-# NHGIS Ex: https://data2.nhgis.org/main (can't get to specific variable...)
-# Terrapop Ex: https://data.terrapop.org/ (can't get to specific variable...)
