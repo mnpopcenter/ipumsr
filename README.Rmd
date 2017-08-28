@@ -61,10 +61,19 @@ Relies on user downloading the .xml DDI file and the .dat/.dat.gz file (doesn't 
 ```{r}
 # Use example file included with package:
 cps_hier_file <- ripums_example("cps_00010.xml")
-data <- read_ipums_micro(cps_hier_file)
+ddi <- read_ipums_ddi(cps_hier_file)
+data <- read_ipums_micro(ddi)
 
-cat(ipums_var_desc(data, MONTH))
-table(as_factor(data$MONTH, levels = "both"))
+# Variable description for the month variable
+cat(ipums_var_desc(ddi, MONTH))
+
+# Hierarachical data loaded as a list by rectype by default
+# Household data
+data$H
+
+# Value labels loaded as haven::labelled class
+# Convert to factors with `as_factor`
+table(as_factor(data$H$MONTH, levels = "both"))
 ```
 
 
@@ -82,10 +91,14 @@ ipums_view(data)
 
 ### NHGIS ###
 Relies on user downloading the csv file (with or without header row) and shape files (doesn't need to be unzipped).
+
+Note that to save space when including this data on CRAN, the shape file has
+been reduced to squares around the centroid of the PMSA. The original
+shape file can be found in the `ripumstest` package.
 ```{r}
 data <- read_nhgis_sf(
   ripums_example("nhgis0008_csv.zip"),
-  shape_file = ripums_example("nhgis0008_shape.zip"),
+  shape_file = ripums_example("nhgis0008_shape_small.zip"),
   verbose = FALSE
 )
 
@@ -99,9 +112,10 @@ data <- data %>%
 
 ggplot(data = data) + 
   geom_sf(aes(fill = pct_before_1950)) + 
-  ggtitle(
-    "Percent of homes built before 1950", 
-    subtitle = "By Primary Metropolitan Statistical Area in 1990 Census"
+  labs(
+    title = "Percent of homes built before 1950", 
+    subtitle = "By Primary Metropolitan Statistical Area in 1990 Census", 
+    caption = "Simplified PMSA boundaries (squares around centroid)"
   )
 ```
 

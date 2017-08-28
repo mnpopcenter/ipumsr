@@ -53,7 +53,8 @@ Relies on user downloading the .xml DDI file and the .dat/.dat.gz file (doesn't 
 ``` r
 # Use example file included with package:
 cps_hier_file <- ripums_example("cps_00010.xml")
-data <- read_ipums_micro(cps_hier_file)
+ddi <- read_ipums_ddi(cps_hier_file)
+data <- read_ipums_micro(ddi)
 #> Users of IPUMS-CPS data must agree to abide by the conditions of use. A user's license is valid for one year and may be renewed.  Users must agree to the following conditions:
 #> 
 #> (1) No fees may be charged for use or distribution of the data.  All persons are granted a limited license to use these data, but you may not charge a fee for the data if you distribute it to others.
@@ -73,9 +74,31 @@ data <- read_ipums_micro(cps_hier_file)
 #> Reading data...
 #> Parsing data...
 
-cat(ipums_var_desc(data, MONTH))
+# Variable description for the month variable
+cat(ipums_var_desc(ddi, MONTH))
 #> MONTH indicates the calendar month of the CPS interview.
-table(as_factor(data$MONTH, levels = "both"))
+
+# Hierarachical data loaded as a list by rectype by default
+# Household data
+data$H
+#> # A tibble: 3,385 x 5
+#>     YEAR SERIAL HWTSUPP  STATEFIP     MONTH
+#>    <dbl>  <dbl>   <dbl> <dbl+lbl> <dbl+lbl>
+#>  1  1962     80 1475.59        55         3
+#>  2  1962     82 1597.61        27         3
+#>  3  1962     83 1706.65        27         3
+#>  4  1962     84 1790.25        27         3
+#>  5  1962    107 4355.40        19         3
+#>  6  1962    108 1479.05        19         3
+#>  7  1962    122 3602.75        27         3
+#>  8  1962    124 4104.41        55         3
+#>  9  1962    125 2182.17        55         3
+#> 10  1962    126 1826.38        55         3
+#> # ... with 3,375 more rows
+
+# Value labels loaded as haven::labelled class
+# Convert to factors with `as_factor`
+table(as_factor(data$H$MONTH, levels = "both"))
 #> 
 #>   [1] January  [2] February     [3] March     [4] April       [5] May 
 #>             0             0          3385             0             0 
@@ -103,10 +126,12 @@ ipums_view(data)
 
 Relies on user downloading the csv file (with or without header row) and shape files (doesn't need to be unzipped).
 
+Note that to save space when including this data on CRAN, the shape file has been reduced to squares around the centroid of the PMSA. The original shape file can be found in the `ripumstest` package.
+
 ``` r
-data <- read_nhgis(
+data <- read_nhgis_sf(
   ripums_example("nhgis0008_csv.zip"),
-  ripums_example("nhgis0008_shape.zip"),
+  shape_file = ripums_example("nhgis0008_shape_small.zip"),
   verbose = FALSE
 )
 
@@ -131,9 +156,10 @@ data <- data %>%
 
 ggplot(data = data) + 
   geom_sf(aes(fill = pct_before_1950)) + 
-  ggtitle(
-    "Percent of homes built before 1950", 
-    subtitle = "By Primary Metropolitan Statistical Area in 1990 Census"
+  labs(
+    title = "Percent of homes built before 1950", 
+    subtitle = "By Primary Metropolitan Statistical Area in 1990 Census", 
+    caption = "Simplified PMSA boundaries (squares around centroid)"
   )
 ```
 

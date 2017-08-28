@@ -5,9 +5,10 @@
 
 #' Get path to ripumstest examples
 #'
-#' Get access to example extracts from the ripumstest `inst/extdata`
-#' directory. This data has been put in a separate file because they
-#' are too large for CRAN.
+#' Get access to example extracts. Some extracts (such as the full
+#' nhgis shape file and vignette examples) are too big for inclusion
+#' on CRAN and so have been included in a spearate package called
+#' 'ripumstest'.
 #'
 #' The 'ripumstest' package can be installed using the command:
 #' \code{devtools::install_github('mnpopcenter/ripumstest')}
@@ -18,16 +19,30 @@
 #' ripums_example()
 #' ripums_example("cps_00006.xml")
 ripums_example <- function(path = NULL) {
-  if (!requireNamespace("ripumstest", quietly = TRUE)) {
-    stop(paste0(
-      "IPUMS example extracts are found in the 'ripumstest' package, which ",
-      "can be installed using the command: devtools::install_github('mnpopcenter/ripumstest')."
-    ))
-  }
-
   if (is.null(path)) {
-    dir(system.file("extdata", package = "ripumstest"))
+    file <- dir(system.file("extdata", package = "ripums"))
+    if (!requireNamespace("ripumstest", quietly = TRUE)) {
+      warning(paste0(
+        "Some IPUMS example extracts are found in the 'ripumstest' package, which ",
+        "can be installed using the command: devtools::install_github('mnpopcenter/ripumstest')."
+      ))
+    } else {
+      file <- c(file, dir(system.file("extdata", package = "ripumstest")))
+    }
+
+
   } else {
-    system.file("extdata", path, package = "ripumstest", mustWork = TRUE)
+    file <- system.file("extdata", path, package = "ripums")
+    if (!file.exists(file)) {
+      if (requireNamespace("ripumstest", quietly = TRUE)) {
+        file <- system.file("extdata", path, package = "ripumstest", mustWork = TRUE)
+      } else {
+        stop(paste0(
+          "Some IPUMS example extracts are found in the 'ripumstest' package, which ",
+          "can be installed using the command: devtools::install_github('mnpopcenter/ripumstest')."
+        ))
+      }
+    }
   }
+  file
 }
