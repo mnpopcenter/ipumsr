@@ -75,7 +75,8 @@ read_ipums_sf <- function(shape_file, shape_layer = NULL, bind_multiple = TRUE, 
         read_shape_files <- purrr::map_chr(shape_shps, function(x) {
           shape_shp_files <- paste0(
             stringr::str_sub(x, 1, -4),
-            c("shp", "dbf", "prj", "sbn", "sbx", "shx")
+            # ignore  "sbn", "sbx" because R doesn't use them
+            c("shp", "dbf", "prj", "shx")
           )
 
           utils::unzip(shape_file, shape_shp_files, exdir = shape_temp)
@@ -201,7 +202,8 @@ read_ipums_sp <- function(shape_file, shape_layer = NULL, bind_multiple = TRUE, 
         read_shape_files <- purrr::map_chr(shape_shps, function(x) {
           shape_shp_files <- paste0(
             stringr::str_sub(x, 1, -4),
-            c("shp", "dbf", "prj", "sbn", "sbx", "shx")
+            # ignore "sbn", "sbx" because R doesn't use them
+            c("shp", "dbf", "prj", "shx")
           )
 
           utils::unzip(shape_file, shape_shp_files, exdir = shape_temp)
