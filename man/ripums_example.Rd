@@ -10,9 +10,10 @@ ripums_example(path = NULL)
 \item{path}{Name of file. If `NULL`, the example files will be listed.}
 }
 \description{
-Get access to example extracts from the ripumstest `inst/extdata`
-directory. This data has been put in a separate file because they
-are too large for CRAN.
+Get access to example extracts. Some extracts (such as the full
+nhgis shape file and vignette examples) are too big for inclusion
+on CRAN and so have been included in a spearate package called
+'ripumstest'.
 }
 \details{
 The 'ripumstest' package can be installed using the command:
