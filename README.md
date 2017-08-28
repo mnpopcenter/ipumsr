@@ -167,24 +167,24 @@ ggplot(data = data) +
 
 ### Terrapop
 
-Also have functions for loading terrapop data, but examples are too large to include in the package.
+There is experimental support for for loading terrapop data, but examples are too large to include in the package.
 
 ``` r
 # Raster data
-data <- read_terra_raster(
+data <- ripums:::read_terra_raster(
   "2552_bundle.zip",
   "CROPLAND2000ZM2013.tiff",
   verbose = FALSE
 )
 
 # Area data
-data <- read_terra_area(
+data <- ripums:::read_terra_area(
   "2553_bundle.zip",
   verbose = FALSE
 )
 
 # Microdata
-data <- read_terra_micro(
+data <- ripums:::read_terra_micro(
   "2554_bundle.zip",
   verbose = FALSE
 )
