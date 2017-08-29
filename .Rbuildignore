@@ -9,3 +9,4 @@
 ^data-raw$
 ^ripumsexamples$
 ^appveyor\.yml$
+^\.travis\.yml$
