@@ -12,7 +12,7 @@
 
 <meta name="author" content="Minnesota Population Center" />
 
-<meta name="date" content="2017-08-25" />
+<meta name="date" content="2017-08-29" />
 
 <title>Introduction to ripums - IPUMS Data in R</title>
 
@@ -70,7 +70,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 <h1 class="title toc-ignore">Introduction to <code>ripums</code> - IPUMS Data in R</h1>
 <h4 class="author"><em>Minnesota Population Center</em></h4>
-<h4 class="date"><em>2017-08-25</em></h4>
+<h4 class="date"><em>2017-08-29</em></h4>
 
 
 
@@ -95,9 +95,6 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <p class="caption">Annotated screenshot for downloading microdata</p>
 </div>
 <p><strong>For NHGIS</strong>, download the table data as a csv, and, if you want the associated mapping data, the GIS data. NHGIS provides the option to download csvs with an extra header row, it does not matter which option you select.</p>
-<p>The <code>ripumstest</code> package contains several example extracts, which are used in this vignette. To install, run the following code:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">if (!<span class="kw">require</span>(devtools)) <span class="kw">install.packages</span>(<span class="st">&quot;devtools&quot;</span>)
-devtools::<span class="kw">install_github</span>(<span class="st">&quot;mnpopcenter/ripumstest&quot;</span>)</code></pre></div>
 </div>
 <div id="import-functions" class="section level2">
 <h2>Import Functions</h2>
@@ -214,7 +211,7 @@ cps_data &lt;-<span class="st"> </span>cps_data %&gt;%
 <span class="kw">library</span>(dplyr, <span class="dt">warn.conflicts =</span> <span class="ot">FALSE</span>)
 
 <span class="co"># Note that you can pass in the loaded DDI into the `read_ipums_micro()`</span>
-cps_ddi &lt;-<span class="st"> </span><span class="kw">read_ipums_ddi</span>(<span class="kw">ripums_example</span>(<span class="st">&quot;cps_00011.xml&quot;</span>))
+cps_ddi &lt;-<span class="st"> </span><span class="kw">read_ipums_ddi</span>(<span class="kw">ripums_example</span>(<span class="st">&quot;cps_00006.xml&quot;</span>))
 cps_data &lt;-<span class="st"> </span><span class="kw">read_ipums_micro</span>(cps_ddi, <span class="dt">verbose =</span> <span class="ot">FALSE</span>)
 
 <span class="co"># Currently file level metadata is on cps_data</span>

@@ -2,7 +2,7 @@
 % Please edit documentation in R/examples.r
 \name{ripums_example}
 \alias{ripums_example}
-\title{Get path to ripumstest examples}
+\title{Get path to ripums example datasets}
 \usage{
 ripums_example(path = NULL)
 }
@@ -13,11 +13,11 @@ ripums_example(path = NULL)
 Get access to example extracts. Some extracts (such as the full
 nhgis shape file and vignette examples) are too big for inclusion
 on CRAN and so have been included in a spearate package called
-'ripumstest'.
+'ripumsexamples'.
 }
 \details{
-The 'ripumstest' package can be installed using the command:
-\code{devtools::install_github('mnpopcenter/ripumstest')}
+The 'ripumsexamples' package can be installed using the command:
+\code{devtools::install_github('mnpopcenter/ripums', subdir = "ripumsexamples")}
 }
 \examples{
 ripums_example()

@@ -18,9 +18,6 @@ We'll do our best to answer your question.
 # Pull Requests (Making changes to the package)
 We appreciate pull requests that follow these guidelines:
 1) Make sure that tests pass (and add new ones if possible). 
-Because the extracts are so big, some tests may depend on the 
-`ripumstest` package, which you can install using the following 
-command: `devtools::install_github("mnpopcenter/ripumstest")`
 
 2) Try to conform to the code style of the package, currently loosely
 based on the [tidyverse style guide](http://style.tidyverse.org/) 

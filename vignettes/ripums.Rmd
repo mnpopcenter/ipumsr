@@ -59,13 +59,6 @@ Stata and SPSS.
 the associated mapping data, the GIS data. NHGIS provides the option to download 
 csvs with an extra header row, it does not matter which option you select.
 
-The `ripumstest` package contains several example extracts, which are used 
-in this vignette. To install, run the following code:
-```{r, eval = FALSE}
-if (!require(devtools)) install.packages("devtools")
-devtools::install_github("mnpopcenter/ripumstest")
-```
-
 ## Import Functions
 Once your extract is downloaded, the `ripums` package functions `read_*()`
 help you load the data into R. 
@@ -157,7 +150,7 @@ library(ripums)
 library(dplyr, warn.conflicts = FALSE)
 
 # Note that you can pass in the loaded DDI into the `read_ipums_micro()`
-cps_ddi <- read_ipums_ddi(ripums_example("cps_00011.xml"))
+cps_ddi <- read_ipums_ddi(ripums_example("cps_00006.xml"))
 cps_data <- read_ipums_micro(cps_ddi, verbose = FALSE)
 
 # Currently file level metadata is on cps_data

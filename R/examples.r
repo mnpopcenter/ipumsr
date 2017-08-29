@@ -3,15 +3,15 @@
 # in this project's top-level directory, and also on-line at:
 #   https://github.com/mnpopcenter/ripums
 
-#' Get path to ripumstest examples
+#' Get path to ripums example datasets
 #'
 #' Get access to example extracts. Some extracts (such as the full
 #' nhgis shape file and vignette examples) are too big for inclusion
 #' on CRAN and so have been included in a spearate package called
-#' 'ripumstest'.
+#' 'ripumsexamples'.
 #'
-#' The 'ripumstest' package can be installed using the command:
-#' \code{devtools::install_github('mnpopcenter/ripumstest')}
+#' The 'ripumsexamples' package can be installed using the command:
+#' \code{devtools::install_github('mnpopcenter/ripums', subdir = "ripumsexamples")}
 #'
 #' @param path Name of file. If `NULL`, the example files will be listed.
 #' @export
@@ -21,25 +21,27 @@
 ripums_example <- function(path = NULL) {
   if (is.null(path)) {
     file <- dir(system.file("extdata", package = "ripums"))
-    if (!requireNamespace("ripumstest", quietly = TRUE)) {
+    if (!requireNamespace("ripumsexamples", quietly = TRUE)) {
       warning(paste0(
-        "Some IPUMS example extracts are found in the 'ripumstest' package, which ",
-        "can be installed using the command: devtools::install_github('mnpopcenter/ripumstest')."
+        "Some IPUMS example extracts are found in the 'ripumsexamples' package, which ",
+        "can be installed using the command: ",
+        "devtools::install_github('mnpopcenter/ripums', subdir = 'ripumsexamples')"
       ))
     } else {
-      file <- c(file, dir(system.file("extdata", package = "ripumstest")))
+      file <- c(file, dir(system.file("extdata", package = "ripumsexamples")))
     }
 
 
   } else {
     file <- system.file("extdata", path, package = "ripums")
     if (!file.exists(file)) {
-      if (requireNamespace("ripumstest", quietly = TRUE)) {
-        file <- system.file("extdata", path, package = "ripumstest", mustWork = TRUE)
+      if (requireNamespace("ripumsexamples", quietly = TRUE)) {
+        file <- system.file("extdata", path, package = "ripumsexamples", mustWork = TRUE)
       } else {
         stop(paste0(
-          "Some IPUMS example extracts are found in the 'ripumstest' package, which ",
-          "can be installed using the command: devtools::install_github('mnpopcenter/ripumstest')."
+          "Some IPUMS example extracts are found in the 'ripumsexample' package, which ",
+          "can be installed using the command: ",
+          "devtools::install_github('mnpopcenter/ripums', subdir = 'ripumsexamples')"
         ))
       }
     }

@@ -20,21 +20,26 @@ if (Sys.info()["sysname"] == "Windows") {
 }
 ```
 
-Examples
---------
+Vignettes
+---------
 
-Example extracts are included in the 'ripumstest' package, which can be installed using the following comands:
+Example extracts for the vignettes are too big to fit in the main package, but are included in the 'ripumsexamples' package, which can be installed using the following commands:
 
 ``` r
-devtools::install_github("mnpopcenter/ripumstest")
+devtools::install_github("mnpopcenter/ripums", subdir = "riupmstest")
 
 # MPC staff can install using local files 
 if (Sys.info()["sysname"] == "Windows") {
-  devtools::install_local("Z:/personal/gfellis/ripumstest")
+  devtools::install_local("Z:/personal/gfellis/ripums/ripumsexamples")
 } else {
-  devtools::install_local("/pkg/ipums/personal/gfellis/ripumstest")
+  devtools::install_local("/pkg/ipums/personal/gfellis/ripumsexamples")
 }
 ```
+
+Examples
+--------
+
+These examples rely on extracts made small enough to fit in the package itself:
 
 ``` r
 suppressPackageStartupMessages({
@@ -126,7 +131,7 @@ ipums_view(data)
 
 Relies on user downloading the csv file (with or without header row) and shape files (doesn't need to be unzipped).
 
-Note that to save space when including this data on CRAN, the shape file has been reduced to squares around the centroid of the PMSA. The original shape file can be found in the `ripumstest` package.
+Note that to save space when including this data on CRAN, the shape file has been reduced to squares around the centroid of the PMSA. The original shape file can be found in the `ripumsexamples` package.
 
 ``` r
 data <- read_nhgis_sf(

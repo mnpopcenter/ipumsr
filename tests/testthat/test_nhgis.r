@@ -114,7 +114,7 @@ test_that(
 
 test_that(
   "NHGIS - sf and sp polygon-data relationships didn't get scrambled in import", {
-    skip_if_not_installed("ripumstest")
+    skip_if_not_installed("ripumsexamples")
     skip_if_not_installed("sf")
     skip_if_not_installed("rgdal")
     skip_if_not_installed("sp")
