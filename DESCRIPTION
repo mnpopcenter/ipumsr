@@ -34,3 +34,4 @@ Suggests:
     shiny,
     testthat
 VignetteBuilder: knitr
+Remotes: mnpopcenter/ripums/ripumsexamples
