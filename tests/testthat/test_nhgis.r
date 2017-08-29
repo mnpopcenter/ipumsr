@@ -99,7 +99,7 @@ test_that(
     skip_if_not_installed("sp")
     nhgis <- read_nhgis_sp(
       ripums_example("nhgis0008_csv.zip"),
-      ripums_example("nhgis0008_shape.zip"),
+      ripums_example("nhgis0008_shape_small.zip"),
       verbose = FALSE
     )
 
@@ -114,26 +114,25 @@ test_that(
 
 test_that(
   "NHGIS - sf and sp polygon-data relationships didn't get scrambled in import", {
-    skip_if_not_installed("ripumsexamples")
     skip_if_not_installed("sf")
     skip_if_not_installed("rgdal")
     skip_if_not_installed("sp")
 
     nhgis_sf <- read_nhgis_sf(
       ripums_example("nhgis0008_csv.zip"),
-      ripums_example("nhgis0008_shape.zip"),
+      ripums_example("nhgis0008_shape_small.zip"),
       verbose = FALSE
     )
 
     nhgis_sp <- read_nhgis_sp(
       ripums_example("nhgis0008_csv.zip"),
-      ripums_example("nhgis0008_shape.zip"),
+      ripums_example("nhgis0008_shape_small.zip"),
       verbose = FALSE
     )
 
     check_geo <- nhgis_sf$GISJOIN[1]
     expect_equal(
-      dplyr::filter(nhgis_sf, GISJOIN == check_geo)$geometry[[1]][[1]][[1]],
+      dplyr::filter(nhgis_sf, GISJOIN == check_geo)$geometry[[1]][[1]],
       subset(nhgis_sp, GISJOIN == check_geo)@polygons[[1]]@Polygons[[1]]@coords
     )
 
