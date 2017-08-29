@@ -1,4 +1,4 @@
-context("select_var_rows")
+context("select-style functions (select_var_rows/find_files_in_zip)")
 test_that(
   "select_var_rows respects dplyr-select style syntax",
   {
@@ -41,6 +41,95 @@ test_that(
     expect_equal(
       ripums:::select_var_rows(test_df, rlang::quo(NULL)),
       test_df
+    )
+  }
+)
+
+test_that(
+  "find_files_in_zip respects dplyr-select style syntax",
+  {
+    # Again it's kind of weird that it takes quosures, but
+    # since it's internal I think it's okay.
+
+    # Make an example zip extract
+    temp_dir <- tempfile()
+    dir.create(temp_dir)
+    file.create(file.path(temp_dir, "test1.txt"))
+    file.create(file.path(temp_dir, "test2.txt"))
+    file.create(file.path(temp_dir, "test.csv"))
+    file.create(file.path(temp_dir, "abc.txt"))
+
+    file_names <- c("test1.txt", "test2.txt", "test.csv", "abc.txt")
+    zip_file <- file.path(temp_dir, "test.zip")
+
+    # Mess with wd because zip includes unwanted folders otherwise
+    old_wd <- getwd()
+    setwd(temp_dir)
+
+    zip(
+      zip_file,
+      files = file_names,
+      flags = "-q"
+    )
+    setwd(old_wd)
+
+    # Gets all files
+    expect_equal(
+      ripums:::find_files_in_zip(zip_file, multiple_ok = TRUE),
+      file_names
+    )
+
+    # Errors if multiple is not okay
+    expect_error(
+      ripums:::find_files_in_zip(zip_file, multiple_ok = FALSE)
+    )
+
+    # Can filter on extension
+    expect_equal(
+      ripums:::find_files_in_zip(zip_file, name_ext = "csv", multiple_ok = TRUE),
+      "test.csv"
+    )
+
+    # Bare file names
+    expect_equal(
+      ripums:::find_files_in_zip(
+        zip_file,
+        name_select = rlang::quo(c(test1.txt, test2.txt)),
+        multiple_ok = TRUE
+      ),
+      c("test1.txt", "test2.txt")
+    )
+
+    # String
+    expect_equal(
+      ripums:::find_files_in_zip(
+        zip_file,
+        name_select = rlang::quo(c("test1.txt", "test2.txt")),
+        multiple_ok = TRUE
+      ),
+      c("test1.txt", "test2.txt")
+    )
+
+    # variable from environment
+    my_vars <- c("test1.txt", "test2.txt")
+    expect_equal(
+      ripums:::find_files_in_zip(
+        zip_file,
+        name_select = rlang::quo(my_vars),
+        multiple_ok = TRUE
+      ),
+      c("test1.txt", "test2.txt")
+    )
+
+
+    # dplyr::select helpers
+    expect_equal(
+      ripums:::find_files_in_zip(
+        zip_file,
+        name_select = rlang::quo(starts_with("test")),
+        multiple_ok = TRUE
+      ),
+      c("test1.txt", "test2.txt", "test.csv")
     )
   }
 )
