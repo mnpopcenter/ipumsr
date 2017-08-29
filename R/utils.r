@@ -45,7 +45,7 @@ find_files_in_zip <- function(
     ), call. = FALSE)
   }
 
-  file_names
+  unname(file_names)
 }
 
 set_ipums_var_attributes <- function(data, var_info, set_imp_decim = TRUE) {
