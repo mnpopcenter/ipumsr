@@ -3,9 +3,7 @@
 ripums
 ======
 
-[![Project Status:Work-in-Progress](http://www.repostatus.org/badges/latest/wip.svg)](http://www.repostatus.org/#wip) [![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/ripums)](http://cran.r-project.org/web/packages/ripums)
-
-The ripums package helps import IPUMS extracts from the [IPUMS website](https://www.ipums.org) into R. This project is early in its development, and so we expect there may be bugs and future API changes that break code. We hope to post a more stable version on CRAN soon.
+[![Project Status:Work-in-Progress](http://www.repostatus.org/badges/latest/wip.svg)](http://www.repostatus.org/#wip) [![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/ripums)](http://cran.r-project.org/web/packages/ripums) [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/mnpopcenter/ripums?branch=master&svg=true)](https://ci.appveyor.com/project/mnpopcenter/ripums) The ripums package helps import IPUMS extracts from the [IPUMS website](https://www.ipums.org) into R. This project is early in its development, and so we expect there may be bugs and future API changes that break code. We hope to post a more stable version on CRAN soon.
 
 The ripums package can be installed by running the following commands:
 
