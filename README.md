@@ -15,10 +15,24 @@ if (!require(devtools)) install.packages("devtools")
 devtools::install_github("mnpopcenter/ripums")
 ```
 
-ripumsexamples
---------------
+Vignettes
+---------
 
-Example extracts for the vignettes are too big to fit in the main package, but are included in the 'ripumsexamples' package, which can be installed using the following commands:
+Once you have the package installed, it should have included the vignettes, which you can access via the command:
+
+``` r
+# To list them
+library(ripums)
+vignette(package = "ripums")
+
+vignette("ripums") # Some basic information about the ripums package
+vignette("ipums-cps") # Our CPS training example
+vignette("ipums-nhgis") # Our NHGIS training example
+```
+
+### ripumsexamples
+
+Example extracts for the CPS and NHGIS vignettes are too big to fit in the main package, but are included in the 'ripumsexamples' package, which can be installed using the following commands:
 
 ``` r
 devtools::install_github("mnpopcenter/ripums", subdir = "ripumsexamples")
@@ -156,7 +170,7 @@ ggplot(data = data) +
   )
 ```
 
-![](README-unnamed-chunk-7-1.png)
+![](README-unnamed-chunk-8-1.png)
 
 ### Terrapop
 
