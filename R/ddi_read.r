@@ -146,7 +146,7 @@ read_ipums_ddi <- function(ddi_file, data_layer = NULL) {
     }
   }
 
-  out <- make_ddi(
+  out <- make_ddi_from_scratch(
     file_name = file_name,
     file_path = dirname(ddi_file),
     file_type = file_type,
@@ -288,7 +288,7 @@ read_ipums_codebook <- function(cb_file, data_layer = NULL) {
   conditions_text <- paste(conditions_text, collapse = "\n")
 
 
-  out <- make_ddi(
+  out <- make_ddi_from_scratch(
     file_name = cb_name,
     file_type = "rectangular",
     ipums_project = type,
@@ -308,8 +308,13 @@ find_cb_section <- function(cb_text, section, section_markers) {
   cb_text[seq(start, end)]
 }
 
-
-make_ddi <- function(
+#' Create DDI structure (for internal use)
+#'
+#' Helper to make a new DDI structure (not very useful for end-users).
+#'
+#' @keywords internal
+#' @export
+make_ddi_from_scratch <- function(
   file_name = NULL,
   file_path = NULL,
   file_type = NULL,
