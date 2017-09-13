@@ -180,6 +180,14 @@ lbl_relabel <- function(x, ...) {
       value = c(unname(old_labels[!to_change]), lblval$.val)
     )
     new_labels <- dplyr::distinct(new_labels)
+
+    dup_labels <- table(new_labels$value)
+    dup_labels <- names(dup_labels)[dup_labels > 1]
+    if (length(dup_labels) > 0) {
+      dup_labels <- paste(dup_labels, collapse = ", ")
+      stop(paste0("Some values have more than 1 label: ", dup_labels))
+    }
+
     new_labels <- dplyr::arrange(new_labels, .data$value)
     new_labels <- tibble::deframe(new_labels)
 

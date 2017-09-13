@@ -137,6 +137,17 @@ test_that("lbl_relabel: to existing by single named argument to value", {
   )
 })
 
+test_that("lbl_relabel: error when to nonexisting by single unnamed argument", {
+  expect_error(
+    lbl_relabel(x, lbl(.val = -1) ~ .val == 11)
+  )
+})
+
+test_that("lbl_relabel: error when to existing value with new label", {
+  expect_error(
+    lbl_relabel(x, lbl(10, "Yes also") ~ .val == 11)
+  )
+})
 
 #test_that("lbl_add: ")
 #
