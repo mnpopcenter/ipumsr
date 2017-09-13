@@ -117,7 +117,76 @@ lbl_collapse <- function(x, .fun) {
   out
 }
 
+#' Relabel labelled values
+#'
+#' Converts values to a new value (that may or may not exist) based on their
+#' label and value in a \code{\link[haven]{labelled}} vector. Ignores any value
+#' that does not have a label.
+#'
+#' @param x A \code{\link[haven]{labelled}} vector
+#' @param ... Two-sided formulas where the left hand side is a label placeholder
+#'   (created with the \code{\link{lbl}} function) or a value that already exists
+#'   in the data and the right hand side is a function that returns a logical
+#'   vector that indicates which labels should be relabeled. The right hand side
+#'   is passed to a function similar to \code{\link[rlang]{as_function}}, so
+#'   also accepts quosure-style lambda functions (that use values .val and .lbl).
+#' @return A haven::labeled vector
+#' @examples
+#' x <- haven::labelled(
+#'   c(10, 10, 11, 20, 30, 99, 30, 10),
+#'   c(Yes = 10, `Yes - Logically Assigned` = 11, No = 20, Maybe = 30, NIU = 99)
+#' )
+#'
+#' lbl_relabel(
+#'   x,
+#'   lbl(10, "Yes/Yes-ish") ~ .val %in% c(10, 11),
+#'   lbl(90, "???") ~ .val == 99 | .lbl == "Maybe"
+#' )
+#'
+#' # If relabelling to labels that already exist, don't need to specify both label
+#' # and value:
+#' # If just bare, assumes it is a value:
+#' lbl_relabel(x, 10 ~ .val == 11)
+#' # Use single argument to lbl for the label
+#' lbl_relabel(x, lbl("Yes") ~ .val == 11)
+#' # Or can used named arguments
+#' lbl_relabel(x, lbl(.val = 10) ~ .val == 11)
+#'
+#' @family lbl_helpers
+#' @export
+lbl_relabel <- function(x, ...) {
+  dots <- list(...)
 
+  purrr::reduce(dots, .init = x, function(.x, .y) {
+    old_labels <- attr(.x, "labels")
+    # Figure out which values we're changing
+    ddd <- .y
+    rlang::f_lhs(ddd) <- NULL
+    to_change <- as_lbl_function(ddd)(.val = unname(old_labels), .lbl = names(old_labels))
+
+    # Figure out which label we're changing to
+    ddd <- .y
+    rlang::f_rhs(ddd) <- rlang::f_lhs(ddd)
+    rlang::f_lhs(ddd) <- NULL
+    lblval <- rlang::eval_tidy(rlang::as_quosure(ddd))
+    lblval <- fill_in_lbl(lblval, old_labels)
+
+    # Make changes to vector
+    out <- .x
+    out[out %in% old_labels[to_change]] <- lblval$.val
+
+    new_labels <- dplyr::data_frame(
+      label <- c(names(old_labels[!to_change]), lblval$.lbl),
+      value = c(unname(old_labels[!to_change]), lblval$.val)
+    )
+    new_labels <- dplyr::distinct(new_labels)
+    new_labels <- dplyr::arrange(new_labels, .data$value)
+    new_labels <- tibble::deframe(new_labels)
+
+    attr(out, "labels") <- new_labels
+    out
+  })
+}
 
 
 # Based on rlang::as_function
@@ -142,4 +211,62 @@ as_lbl_function <- function(x, env = caller_env()) {
       get(x, envir = env, mode = "function")
     }
   )
+}
+
+#' Make a label placeholder object
+#'
+#' Helper to make a placeholder for a label-value pair.
+#' @param ... Either one or two arugments, possibly named .val and .lbl. If a
+#'   single unnamed value, represents the label, if 2 unnamed values, the first
+#'   is the value and the second is the label.
+#' @family lbl_helpers
+#' @export
+lbl <- function(...) {
+  dots <- list(...)
+
+  if (!is.null(names(dots)) && any(!names(dots) %in% c(".val", ".lbl", ""))) {
+    stop("Expected only arguments named `.lbl` and `.val`")
+  }
+
+  if (length(dots) == 1) {
+    if (!is.null(names(dots)) && names(dots) == ".val") {
+      out <- list(.val = dots[[1]], .lbl = NULL)
+    } else {
+      out <- list(.val = NULL, .lbl = dots[[1]])
+    }
+  } else if (length(dots) == 2) {
+    if (is.null(names(dots))) {
+      names(dots) <- c(".val", ".lbl")
+    } else {
+      named_val <- names(dots) == ".val"
+      named_lbl <- names(dots) == ".lbl"
+      if (any(named_val)) names(dots)[!named_val] <- ".lbl"
+      if (any(named_lbl)) names(dots)[!named_lbl] <- ".val"
+    }
+    out <- list(.val = dots[[".val"]], .lbl = dots[[".lbl"]])
+  } else {
+    stop("Expected either 1 or 2 arguments.")
+  }
+
+  class(out) <- "lbl_placeholder"
+  out
+}
+
+
+fill_in_lbl <- function(lblval, orig_labels) {
+  if (class(lblval) != "lbl_placeholder") lblval <- lbl(.val = lblval)
+  if (is.null(lblval$.lbl) & is.null(lblval$.val)) {
+    stop("Could not fill in label because neither label nor value is specified")
+  }
+  if (is.null(lblval$.lbl)) {
+    found_val <- unname(orig_labels) == lblval$.val
+    if (!any(found_val)) stop(paste0("Could not find value ", lblval$.val,  " in existing labels."))
+    lblval$.lbl <- names(orig_labels)[found_val]
+  }
+  if (is.null(lblval$.val)) {
+    found_lbl <- names(orig_labels) == lblval$.lbl
+    if (!any(found_lbl)) stop(paste0("Could not find label ", lblval$.lbl,  " in existing labels."))
+    lblval$.val <- unname(orig_labels)[found_lbl]
+  }
+  lblval
 }
