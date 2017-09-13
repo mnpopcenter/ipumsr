@@ -18,6 +18,12 @@ x_inc <- haven::labelled(
 )
 attr(x_inc, "label") <- "Test label"
 
+x_unused <- haven::labelled(
+  c(1, 2, 3, 1, 2, 3, 1, 2, 3),
+  c(Q1 = 1, Q2 = 2, Q3 = 3, Q4= 4)
+)
+attr(x_unused, "label") <- "Test label"
+
 test_that("lbl_na_if: Simple example with both .lbl and .val keywords", {
   expect_equal(
     lbl_na_if(x, ~.val >= 90 | .lbl %in% c("Maybe")),
@@ -193,4 +199,15 @@ test_that("lbl_add_vals: basic", {
   attr(x_inc_new, "label") <- "Test label"
 
   expect_equal(lbl_add_vals(x_inc, ~paste0("$", .), c(100, 105)), x_inc_new)
+})
+
+
+test_that("lbl_clean: basic", {
+  x_used <- haven::labelled(
+    c(1, 2, 3, 1, 2, 3, 1, 2, 3),
+    c(Q1 = 1, Q2 = 2, Q3 = 3)
+  )
+  attr(x_used, "label") <- "Test label"
+
+  expect_equal(lbl_clean(x_unused), x_used)
 })

@@ -268,6 +268,32 @@ lbl_add_vals <- function(x, labeller = identity, vals = NULL) {
   do.call(lbl_add, dots)
 }
 
+
+#' Clean unused labels
+#'
+#' Remove labels that do not appear in the data.
+#'
+#' @param x A \code{\link[haven]{labelled}} vector
+#' @return A haven::labeled vector
+#' @examples
+#' x <- haven::labelled(
+#'   c(1, 2, 3, 1, 2, 3, 1, 2, 3),
+#'   c(Q1 = 1, Q2 = 2, Q3 = 3, Q4= 4)
+#' )
+#'
+#' lbl_clean(x)
+#'
+#' @family lbl_helpers
+#' @export
+lbl_clean <-function(x) {
+  old_labels <- attr(x, "labels")
+  unused_labels <- unname(old_labels) %in% dplyr::setdiff(unname(old_labels), unique(unname(x)))
+
+  out <- x
+  attr(out, "labels") <- old_labels[!unused_labels]
+  out
+}
+
 # Based on rlang::as_function
 # Changed so that instead of function having args .x & .y, it has
 # .val and .lbl
