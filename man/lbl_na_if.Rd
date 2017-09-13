@@ -41,6 +41,7 @@ lbl_na_if(x, "na_function")
 
 }
 \seealso{
-Other lbl_helpers: \code{\link{lbl_collapse}},
-  \code{\link{lbl_relabel}}, \code{\link{lbl}}
+Other lbl_helpers: \code{\link{lbl_add}},
+  \code{\link{lbl_collapse}}, \code{\link{lbl_relabel}},
+  \code{\link{lbl}}
 }

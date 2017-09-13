@@ -196,6 +196,77 @@ lbl_relabel <- function(x, ...) {
   })
 }
 
+#' Add labels for unlabelled values
+#'
+#' Add labels for values that don't already have them.
+#'
+#' @param x A \code{\link[haven]{labelled}} vector
+#' @param ... Labels formed by \code{\link{lbl}} indicating the value and label to be added.
+#' @param vals Vector of values to be labelled. NULL, the default labels all values
+#'   that are in the data, but aren't already labelled.
+#' @param labeller A function that takes a single argument of the values and returns the
+#'   labels. Defaults to \code{identity}. \code{\link[rlang]{as_function}}, so
+#'   also accepts quosure-style lambda functions.
+#' @return A haven::labeled vector
+#' @examples
+#' x <- haven::labelled(
+#'   c(100, 200, 105, 990, 999, 230),
+#'   c(`Unknown` = 990, NIU = 999)
+#' )
+#'
+#' lbl_add(x, lbl(100, "$100"), lbl(105, "$105"), lbl(200, "$200"), lbl(230, "$230"))
+#'
+#' lbl_add_vals(x)
+#' lbl_add_vals(x, ~paste0("$", .))
+#' lbl_add_vals(x, vals = c(100, 200))
+#'
+#' @family lbl_helpers
+#' @export
+lbl_add <- function(x, ...) {
+  dots <- list(...)
+
+  purrr::reduce(dots, .init = x, function(.x, .y) {
+    old_labels <- attr(.x, "labels")
+
+    # Figure out which label we're changing to
+    lblval <- fill_in_lbl(.y, old_labels)
+
+    # Make changes to vector
+    out <- .x
+
+    new_labels <- dplyr::data_frame(
+      label <- c(names(old_labels), lblval$.lbl),
+      value = c(unname(old_labels), lblval$.val)
+    )
+    new_labels <- dplyr::distinct(new_labels)
+
+    dup_labels <- table(new_labels$value)
+    dup_labels <- names(dup_labels)[dup_labels > 1]
+    if (length(dup_labels) > 0) {
+      dup_labels <- paste(dup_labels, collapse = ", ")
+      stop(paste0("Some values have more than 1 label: ", dup_labels))
+    }
+
+    new_labels <- dplyr::arrange(new_labels, .data$value)
+    new_labels <- tibble::deframe(new_labels)
+
+    attr(out, "labels") <- new_labels
+    out
+  })
+}
+
+#' @export
+#' @rdname lbl_add
+lbl_add_vals <- function(x, labeller = identity, vals = NULL) {
+  old_labels <- attr(x, "labels")
+  if (is.null(vals)) {
+    vals <- dplyr::setdiff(unique(x), unname(old_labels))
+  }
+  labeller <- rlang::as_function(labeller)
+  dots <- purrr::map(vals, ~lbl(.val = ., .lbl = labeller(.)))
+  dots$x <- x
+  do.call(lbl_add, dots)
+}
 
 # Based on rlang::as_function
 # Changed so that instead of function having args .x & .y, it has
@@ -259,7 +330,6 @@ lbl <- function(...) {
   class(out) <- "lbl_placeholder"
   out
 }
-
 
 fill_in_lbl <- function(lblval, orig_labels) {
   if (class(lblval) != "lbl_placeholder") lblval <- lbl(.val = lblval)

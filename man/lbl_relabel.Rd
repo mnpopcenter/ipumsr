@@ -47,6 +47,7 @@ lbl_relabel(x, lbl(.val = 10) ~ .val == 11)
 
 }
 \seealso{
-Other lbl_helpers: \code{\link{lbl_collapse}},
-  \code{\link{lbl_na_if}}, \code{\link{lbl}}
+Other lbl_helpers: \code{\link{lbl_add}},
+  \code{\link{lbl_collapse}}, \code{\link{lbl_na_if}},
+  \code{\link{lbl}}
 }

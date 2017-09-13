@@ -12,6 +12,12 @@ x_na <- haven::labelled(
 )
 attr(x_na, "label") <- "Test label"
 
+x_inc <- haven::labelled(
+  c(100, 200, 105, 990, 999, 230),
+  c(`Unknown` = 990, NIU = 999)
+)
+attr(x_inc, "label") <- "Test label"
+
 test_that("lbl_na_if: Simple example with both .lbl and .val keywords", {
   expect_equal(
     lbl_na_if(x, ~.val >= 90 | .lbl %in% c("Maybe")),
@@ -149,5 +155,42 @@ test_that("lbl_relabel: error when to existing value with new label", {
   )
 })
 
-#test_that("lbl_add: ")
-#
+test_that("lbl_add: can add a single label", {
+  x_newlabel <- haven::labelled(
+    c(10, 10, 11, 20, 30, 99, 30, 10),
+    c(Yes = 10, `Yes - Logically Assigned` = 11, No = 20, Maybe = 30, `New Label` = 90, NIU = 99)
+  )
+  attr(x_newlabel, "label") <- "Test label"
+  expect_equal(
+    lbl_add(x, lbl(90, "New Label")),
+    x_newlabel
+  )
+})
+
+test_that("lbl_add: can add more than one label", {
+  x_newlabel <- haven::labelled(
+    c(10, 10, 11, 20, 30, 99, 30, 10),
+    c(Yes = 10, `Yes - Logically Assigned` = 11, No = 20, Maybe = 30, `New Label` = 90, `n2` = 91, NIU = 99)
+  )
+  attr(x_newlabel, "label") <- "Test label"
+
+  expect_equal(
+    lbl_add(x, lbl(90, "New Label"), lbl(91, "n2")),
+    x_newlabel
+  )
+})
+
+test_that("lbl_add: error if trying to add new label for old value", {
+  expect_error(lbl_add(x, lbl(30, "New Label")))
+})
+
+
+test_that("lbl_add_vals: basic", {
+  x_inc_new <- haven::labelled(
+    c(100, 200, 105, 990, 999, 230),
+    c(`$100` = 100, `$105` = 105, `Unknown` = 990, NIU = 999)
+  )
+  attr(x_inc_new, "label") <- "Test label"
+
+  expect_equal(lbl_add_vals(x_inc, ~paste0("$", .), c(100, 105)), x_inc_new)
+})
