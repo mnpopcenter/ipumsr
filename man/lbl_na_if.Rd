@@ -40,3 +40,6 @@ na_function <- function(.val, .lbl) .val >= 90
 lbl_na_if(x, "na_function")
 
 }
+\seealso{
+Other lbl_helpers: \code{\link{lbl_collapse}}
+}
