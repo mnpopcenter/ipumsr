@@ -96,8 +96,8 @@ lbl_collapse <- function(x, .fun) {
   label_info <- dplyr::data_frame(
     old_val = unname(old_attributes$labels),
     old_label = names(old_attributes$labels),
-    new_val = pred_f(.val = old_val, .lbl = old_label),
-    vals_equal = old_val == new_val
+    new_val = pred_f(.val = .data$old_val, .lbl = .data$old_label),
+    vals_equal = .data$old_val == .data$new_val
   )
   # Arrange so that if value existed in old values it is first, otherwise first old value
   label_info <- dplyr::group_by(label_info, .data$new_val)
@@ -116,6 +116,8 @@ lbl_collapse <- function(x, .fun) {
   attributes(out) <- new_attributes
   out
 }
+
+
 
 
 # Based on rlang::as_function
