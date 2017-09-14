@@ -12,7 +12,7 @@
 
 <meta name="author" content="Minnesota Population Center" />
 
-<meta name="date" content="2017-08-29" />
+<meta name="date" content="2017-09-14" />
 
 <title>ripums Example - CPS</title>
 
@@ -70,7 +70,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 <h1 class="title toc-ignore"><code>ripums</code> Example - CPS</h1>
 <h4 class="author"><em>Minnesota Population Center</em></h4>
-<h4 class="date"><em>2017-08-29</em></h4>
+<h4 class="date"><em>2017-09-14</em></h4>
 
 
 
@@ -384,6 +384,8 @@ avg_hrs_by_health
 <li>Use the <code>ripums</code> package metadata functions (like <code>ipums_var_label()</code> and <code>ipums_file_info()</code>) and <code>ggplot2</code> to make a graph of the relationship between HEALTH and percent employed (from Part III above).</li>
 </ol>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(ggplot2)
+<span class="co">#&gt; Want to understand how all the pieces fit together? Buy the</span>
+<span class="co">#&gt; ggplot2 book: http://ggplot2.org/book/</span>
 
 x_label &lt;-<span class="st"> </span><span class="kw">ipums_var_label</span>(cps_data, HEALTH)
 source_info &lt;-<span class="st"> </span><span class="kw">ipums_file_info</span>(cps_ddi)$ipums_project

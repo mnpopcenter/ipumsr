@@ -63,7 +63,7 @@ csvs with an extra header row, it does not matter which option you select.
 Once your extract is downloaded, the `ripums` package functions `read_*()`
 help you load the data into R. 
 
-- `read_ipums_micro()`: Reads data from microdata projects (USA, CPS, International, DHS, Time Use, Health Surveys and Higher Ed)
+- `read_ipums_micro()` / `read_ipums_micro_list()`: Reads data from microdata projects (USA, CPS, International, DHS, Time Use, Health Surveys and Higher Ed)
 - `read_nhgis()`/`read_nhgis_sf()`/`read_nhgis_sp()`: Reads data from the NHGIS project. `read_nhgis` loads only tabular data, whereas `read_nhgis_sf()` and `read_nhgis_sp()` load tabular data and shapefiles.
 - `read_ipums_ddi()`: Reads DDI files with metadata that are included alongside some extracts (mainly microdata)
 - `read_ipums_codebook()`: Reads the text codebook included alongside some extracts (mainly NHGIS and some TerraPop extracts)
@@ -207,20 +207,20 @@ on the website). The data can be loaded as a `"list"` or `"long"`.
 
 **List** data loads each record type into a separate data.frame. The names 
 of the recordtype data.frames are the value of the RECTYPE variable (eg "H" 
-and "P").
+and "P"). Use the function `read_ipums_micro_list()` to load the data
+this way.
 
 **Long** data has one row per unit, regardless of what type of record the unit is.
 Therefore, datasets loaded this way often contain variables with a large 
 number of missings, for the variables that only apply to certain record types. 
-
+Use the function `read_ipums_micro()` to load the data this way.
 ```{r}
 library(ripums)
 library(dplyr, warn.conflicts = FALSE)
 
 # List data
-cps <- read_ipums_micro(
+cps <- read_ipums_micro_list(
   ripums_example("cps_00010.xml"),
-  data_structure = "list",
   verbose = FALSE
 )
 
@@ -231,7 +231,6 @@ cps$H
 # Long data
 cps <- read_ipums_micro(
   ripums_example("cps_00010.xml"),
-  data_structure = "long",
   verbose = FALSE
 )
 

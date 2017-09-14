@@ -12,7 +12,7 @@
 
 <meta name="author" content="Minnesota Population Center" />
 
-<meta name="date" content="2017-08-29" />
+<meta name="date" content="2017-09-14" />
 
 <title>Introduction to ripums - IPUMS Data in R</title>
 
@@ -70,7 +70,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 <h1 class="title toc-ignore">Introduction to <code>ripums</code> - IPUMS Data in R</h1>
 <h4 class="author"><em>Minnesota Population Center</em></h4>
-<h4 class="date"><em>2017-08-29</em></h4>
+<h4 class="date"><em>2017-09-14</em></h4>
 
 
 
@@ -100,7 +100,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <h2>Import Functions</h2>
 <p>Once your extract is downloaded, the <code>ripums</code> package functions <code>read_*()</code> help you load the data into R.</p>
 <ul>
-<li><code>read_ipums_micro()</code>: Reads data from microdata projects (USA, CPS, International, DHS, Time Use, Health Surveys and Higher Ed)</li>
+<li><code>read_ipums_micro()</code> / <code>read_ipums_micro_list()</code>: Reads data from microdata projects (USA, CPS, International, DHS, Time Use, Health Surveys and Higher Ed)</li>
 <li><code>read_nhgis()</code>/<code>read_nhgis_sf()</code>/<code>read_nhgis_sp()</code>: Reads data from the NHGIS project. <code>read_nhgis</code> loads only tabular data, whereas <code>read_nhgis_sf()</code> and <code>read_nhgis_sp()</code> load tabular data and shapefiles.</li>
 <li><code>read_ipums_ddi()</code>: Reads DDI files with metadata that are included alongside some extracts (mainly microdata)</li>
 <li><code>read_ipums_codebook()</code>: Reads the text codebook included alongside some extracts (mainly NHGIS and some TerraPop extracts)</li>
@@ -274,15 +274,14 @@ nf &lt;-<span class="st"> </span><span class="kw">ripums_example</span>(<span cl
 <div id="hierarchical-data-structures" class="section level3">
 <h3>Hierarchical data structures</h3>
 <p>For certain IPUMS projects, the data is hierarchical, multiple people are included in a single household, or multiple activities are performed by a single person. The <code>ripums</code> package provides two data structures for storing such data (for users who did not select the “rectangularize” option on the website). The data can be loaded as a <code>&quot;list&quot;</code> or <code>&quot;long&quot;</code>.</p>
-<p><strong>List</strong> data loads each record type into a separate data.frame. The names of the recordtype data.frames are the value of the RECTYPE variable (eg “H” and “P”).</p>
-<p><strong>Long</strong> data has one row per unit, regardless of what type of record the unit is. Therefore, datasets loaded this way often contain variables with a large number of missings, for the variables that only apply to certain record types.</p>
+<p><strong>List</strong> data loads each record type into a separate data.frame. The names of the recordtype data.frames are the value of the RECTYPE variable (eg “H” and “P”). Use the function <code>read_ipums_micro_list()</code> to load the data this way.</p>
+<p><strong>Long</strong> data has one row per unit, regardless of what type of record the unit is. Therefore, datasets loaded this way often contain variables with a large number of missings, for the variables that only apply to certain record types. Use the function <code>read_ipums_micro()</code> to load the data this way.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(ripums)
 <span class="kw">library</span>(dplyr, <span class="dt">warn.conflicts =</span> <span class="ot">FALSE</span>)
 
 <span class="co"># List data</span>
-cps &lt;-<span class="st"> </span><span class="kw">read_ipums_micro</span>(
+cps &lt;-<span class="st"> </span><span class="kw">read_ipums_micro_list</span>(
   <span class="kw">ripums_example</span>(<span class="st">&quot;cps_00010.xml&quot;</span>),
-  <span class="dt">data_structure =</span> <span class="st">&quot;list&quot;</span>,
   <span class="dt">verbose =</span> <span class="ot">FALSE</span>
 )
 
@@ -321,7 +320,6 @@ cps$H
 <span class="co"># Long data</span>
 cps &lt;-<span class="st"> </span><span class="kw">read_ipums_micro</span>(
   <span class="kw">ripums_example</span>(<span class="st">&quot;cps_00010.xml&quot;</span>),
-  <span class="dt">data_structure =</span> <span class="st">&quot;long&quot;</span>,
   <span class="dt">verbose =</span> <span class="ot">FALSE</span>
 )
 

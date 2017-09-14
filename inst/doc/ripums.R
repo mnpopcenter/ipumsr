@@ -104,9 +104,8 @@ library(ripums)
 library(dplyr, warn.conflicts = FALSE)
 
 # List data
-cps <- read_ipums_micro(
+cps <- read_ipums_micro_list(
   ripums_example("cps_00010.xml"),
-  data_structure = "list",
   verbose = FALSE
 )
 
@@ -117,7 +116,6 @@ cps$H
 # Long data
 cps <- read_ipums_micro(
   ripums_example("cps_00010.xml"),
-  data_structure = "long",
   verbose = FALSE
 )
 
