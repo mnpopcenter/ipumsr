@@ -100,25 +100,21 @@ read_ipums_ddi <- function(ddi_file, data_layer = NULL) {
   var_info_xml <- xml2::xml_find_all(ddi_xml, "/d1:codeBook/d1:dataDscr/d1:var")
 
   if (length(var_info_xml) == 0) {
-    # Empty dataframe if there's no variable info
-    var_info <- tibble::data_frame(
-      var_name = character(0),
-      var_label = character(0),
-      var_desc = character(0),
-      val_labels = list(),
-      start = numeric(0),
-      end = numeric(0),
-      imp_decim = numeric(0),
-      var_type = character(0),
-      rectypes = logical(0)
-    )
+    # NULL if there's no variable info
+    var_info <- NULL
   } else {
     loc <- xml2::xml_find_first(var_info_xml, "d1:location")
     start <- as.numeric(xml2::xml_attr(loc, "StartPos"))
     end <- as.numeric(xml2::xml_attr(loc, "EndPos"))
     var_type <- xml2::xml_attr(xml2::xml_find_first(var_info_xml, "d1:varFormat"), "type")
 
-    var_info <- dplyr::data_frame(
+    if  (file_type == "hierarchical") {
+      rectype_by_var <- stringr::str_split(xml2::xml_attr(var_info_xml, "rectype"), " ")
+    } else {
+      rectype_by_var <- NA
+    }
+
+    var_info <- make_var_info_from_scratch(
       var_name = xml2::xml_attr(var_info_xml, "name"),
       var_label =  xml2::xml_text(xml2::xml_find_first(var_info_xml, "d1:labl")),
       var_desc = xml2::xml_text(xml2::xml_find_first(var_info_xml, "d1:txt")),
@@ -147,17 +143,13 @@ read_ipums_ddi <- function(ddi_file, data_layer = NULL) {
       start = start,
       end = end,
       imp_decim = as.numeric(xml2::xml_attr(var_info_xml, "dcml")),
-      var_type = var_type
+      var_type = var_type,
+      rectypes = rectype_by_var
     )
 
-    if  (file_type == "hierarchical") {
-      var_info$rectypes <- stringr::str_split(xml2::xml_attr(var_info_xml, "rectype"), " ")
-    } else {
-      var_info$rectypes <- NA
-    }
-  }
 
-  out <- make_ddi_from_scratch(
+  }
+  make_ddi_from_scratch(
     file_name = file_name,
     file_path = dirname(ddi_file),
     file_type = file_type,
@@ -170,8 +162,6 @@ read_ipums_ddi <- function(ddi_file, data_layer = NULL) {
     conditions = conditions,
     citation = citation
   )
-
-  out
 }
 
 
@@ -256,7 +246,7 @@ read_ipums_codebook <- function(cb_file, data_layer = NULL) {
     }
     var_info <- dd[data_file_sections[[this_file]]]
     var_info <- stringr::str_match(var_info, "([[:alnum:]|[:punct:]]+):[:blank:]+(.+)$")
-    var_info <- tibble::data_frame(
+    var_info <- make_var_info_from_scratch(
       var_name = var_info[, 2],
       var_label = var_info[, 3],
       var_desc = ""
@@ -291,7 +281,11 @@ read_ipums_codebook <- function(cb_file, data_layer = NULL) {
         var_desc = paste0(table_name, " (", nhgis_table_code, ")")
       )
     })
-    var_info <- dplyr::bind_rows(context_vars, table_vars)
+    var_info <- make_var_info_from_scratch(
+      var_name = c(context_vars$var_name, table_vars$var_name),
+      var_label = c(context_vars$var_label, table_vars$var_label),
+      var_desc = c(context_vars$var_desc, table_vars$var_desc)
+    )
   }
 
   # Get License and Condition section
@@ -356,4 +350,28 @@ make_ddi_from_scratch <- function(
 
   class(out) <- "ipums_ddi"
   out
+}
+
+make_var_info_from_scratch <- function(
+  var_name = "",
+  var_label = "",
+  var_desc = "",
+  val_labels = list(dplyr::data_frame(val = numeric(0), lbl = character(0))),
+  start = NA,
+  end = NA,
+  imp_decim = 0,
+  var_type = "",
+  rectypes = NA
+) {
+  dplyr::data_frame(
+    var_name = var_name,
+    var_label = var_label,
+    var_desc = var_desc,
+    val_labels = val_labels,
+    start = start,
+    end = end,
+    imp_decim = imp_decim,
+    var_type = var_type,
+    rectypes = rectypes
+  )
 }
