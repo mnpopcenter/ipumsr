@@ -13,15 +13,18 @@ read_ipums_ddi(ddi_file, data_layer = NULL)
 \code{\link[dplyr]{select}}-style notation indicating which .xml data
 layer to load.}
 }
+\value{
+An \code{ipums_ddi} object with metadata information.
+}
 \description{
 Reads the metadata about an IPUMS extract from a DDI file into R.
 Includes information about variable and value labels, terms of
 usage for the data and positions for the fixed-width file.
 }
 \examples{
-\dontrun{
-metadata <- read_ipums_ddi("cps_00001.xml")
-}
+# Example extract DDI
+ddi_file <- ripums_example("cps_00006.xml")
+ddi <- read_ipums_ddi(ddi_file)
 }
 \seealso{
 Other ipums_metadata: \code{\link{read_ipums_codebook}}

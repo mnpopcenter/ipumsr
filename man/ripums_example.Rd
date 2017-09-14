@@ -9,6 +9,10 @@ ripums_example(path = NULL)
 \arguments{
 \item{path}{Name of file. If `NULL`, the example files will be listed.}
 }
+\value{
+The filepath to an example file, or if path is empty, a vector of all
+  available files.
+}
 \description{
 Get access to example extracts. Some extracts (such as the full
 nhgis shape file and vignette examples) are too big for inclusion
@@ -20,6 +24,6 @@ The 'ripumsexamples' package can be installed using the command:
 \code{devtools::install_github('mnpopcenter/ripums', subdir = "ripumsexamples")}
 }
 \examples{
-ripums_example()
-ripums_example("cps_00006.xml")
+ripums_example() # Lists all available examples
+ripums_example("cps_00006.xml") # Gives filepath for a cps DDI
 }

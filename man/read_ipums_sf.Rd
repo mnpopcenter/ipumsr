@@ -24,15 +24,26 @@ a single object.}
 
 \item{verbose}{I \code{TRUE}, will report progress information}
 }
+\value{
+\code{read_ipums_sf} returns a sf object and \code{read_ipums_sp} returns
+  a SpatialPolygonsDataFrame.
+}
 \description{
 Reads the boundary files from an IPUMS extract into R as simple features (sf) objects or
 SpatialPolygonsDataFrame (sp) objects.
 }
 \examples{
-\dontrun{
-boundaries <- read_ipums_sf("nhgis_00001.zip")
-boundaries <- read_ipums_sp("nhgis_00001.zip")
+shape_file <- ripums_example("nhgis0010_shape.zip")
+# If sf package is availble, can load as sf object
+if (require(sf)) {
+  sf_data <- read_ipums_sf(shape_file)
 }
+
+# If sp package is available, can load as SpatialPolygonsDataFrame
+if (require(sp)) {
+  sp_data <- read_ipums_sp(shape_file)
+}
+
 }
 \seealso{
 Other ipums_read: \code{\link{read_ipums_micro}},

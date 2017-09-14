@@ -43,8 +43,21 @@ In order to make sure that they are available, it is best to keep a copy of the
 separate from the data your are manipulating using \code{\link{read_ipums_ddi}}. Then
 you can refer to the IPUMS documentation in this object.}
 }
+\value{
+\code{ipums_var_info} returns a \code{tbl_df} data frame with variable information, and
+  the other functions return a length 1 character vector.
+}
 \description{
 Get IPUMS metadata information about variables loaded into R. Will try to read
 the metadata from the loaded datasets, but it is more reliable to load the DDI
 into a separate object and use it instead.
+}
+\examples{
+ddi <- read_ipums_ddi(ripums_example("cps_00006.xml"))
+
+ipums_var_info(ddi)
+ipums_var_desc(ddi, MONTH)
+ipums_var_label(ddi, MONTH)
+ipums_val_labels(ddi, MONTH)
+
 }

@@ -25,6 +25,9 @@ A name of an IPUMS project, one of:
 \item{var_label}{Sometimes the variable label is useful for finding the correct URL. Only needed
 if not passing in the ddi object.}
 }
+\value{
+The url to the page on ipums.org (silently if launch is \code{TRUE})
+}
 \description{
 Takes a DDI (or you can specify a project directly) and
 a variable name, and makes a best guess at the URL for
@@ -35,4 +38,18 @@ variables.
 \details{
 Because some variables are constructed during the extract
 creation process, the URL may not always work unfortunately.
+}
+\examples{
+ddi <- read_ipums_ddi(ripums_example("cps_00006.xml"))
+ipums_website(ddi, "MONTH", launch = FALSE)
+
+\dontrun{
+# Launches website
+ipums_website(ddi, "MONTH")
+}
+
+# Can also specify project instead of using DDI
+ipums_website(var = "RECTYPE", project = "IPUMS-CPS", launch = FALSE)
+
+
 }

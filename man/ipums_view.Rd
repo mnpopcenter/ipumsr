@@ -4,14 +4,26 @@
 \alias{ipums_view}
 \title{View a static webpage with variable information from a IPUMS extract}
 \usage{
-ipums_view(x, out_file = NULL)
+ipums_view(x, out_file = NULL, launch = TRUE)
 }
 \arguments{
 \item{x}{A DDI or other object with ipums attributes (such as data loaded from an extract)}
 
 \item{out_file}{Optionally specify a location to save HTML file. NULL the default
 makes a temporary file.}
+
+\item{launch}{Logical indicating whether to launch the website.}
+}
+\value{
+The filepath to the html (silently if launch is \code{TRUE})
 }
 \description{
 Requires that htmltools, shiny and DT are installed.
+}
+\examples{
+ddi <- read_ipums_ddi(ripums_example("cps_00006.xml"))
+\dontrun{
+ipums_view(ddi)
+ipums_view(ddi, "codebook.html", launch = FALSE)
+}
 }

@@ -37,29 +37,29 @@ haven::is.labelled
 #'     \code{starts_with()}, \code{contains} and others.}
 #' }
 #' @examples
-#' \dontrun{
-#' # For microdata, use it to load variables
+#' # For microdata, use this syntax to load variables
 #' # Load 3 variables by name
-#' data <- read_ipums_micro("cps_00001.xml", vars = c("RECTYPE", "YEAR", "TCIG100"))
+#' cps_file <- ripums_example("cps_00006.xml")
+#' data <- read_ipums_micro(cps_file, vars = c("YEAR", "MONTH", "PERNUM"))
 #'
 #' # Load same 3 variables using bare names
-#' data <- read_ipums_micro("cps_00001.xml", vars = c(RECTYPE, YEAR, TCIG100))
+#' data <- read_ipums_micro(cps_file, vars = c(YEAR, MONTH, PERNUM))
 #'
-#' # Use helper functions to load all variables that start with REPWT
-#' data <- read_ipums_micro("cps_00001.xml", vars = starts_with("REPWT"))
+#' # Use helper functions to load all variables that start with "WT"
+#' data <- read_ipums_micro(cps_file, vars = starts_with("WT"))
 #'
-#' # Use bare names and helper function to load RECTYPE, YEAR and all variables with 'CIG' in name
-#' data <- read_ipums_micro("cps_00001.xml", vars = c(RECTYPE, YEAR, contains("CIG")))
+#' # Use bare names and helper function to load YEAR, MONTH and all variables with 'INC' in name
+#' data <- read_ipums_micro(cps_file, vars = c(YEAR, MONTH, contains("INC")))
 #'
 #' # For geographic extracts, `data_layer` and `shape_layer` arguments use the same conventions
 #' # to select file names from within zip files.
+#' # (This extract only contains 1 type of file, but some have multiple)
+#' csv_file <- ripums_example("nhgis0010_csv.zip")
 #' data <- read_nhgis(
-#'   "nhgis0001_csv.zip",
-#'   "nhgis0001_shape.zip",
+#'   csv_file,
 #'   data_layer = contains("state")
 #' )
 #'
-#' }
 #' @name dplyr_select_style
 NULL
 

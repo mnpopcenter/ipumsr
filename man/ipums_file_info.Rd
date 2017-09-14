@@ -10,8 +10,16 @@ ipums_file_info(object)
 \item{object}{A DDI object (loaded with \code{\link{read_ipums_ddi}}), or a data.frame
 with ipums metadata attached.}
 }
+\value{
+A list with the \code{ipums_project}, \code{extract_date}, \code{extract_notes},
+  \code{conditions}, and \code{citation}.
+}
 \description{
 Get IPUMS metadata information about the data file loaded into R. Will try to read
 the metadata from the loaded datasets, but it is more reliable to load the DDI
 into a separate object and use it instead.
+}
+\examples{
+ddi <- read_ipums_ddi(ripums_example("cps_00006.xml"))
+ipums_file_info(ddi)
 }

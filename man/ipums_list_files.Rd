@@ -31,6 +31,14 @@ shape files to look for}
 \item{raster_layer}{dplyr \code{\link[dplyr]{select}}-style notation for the
 raster files to look for}
 }
+\value{
+A \code{tbl_df} data.frame containing the files avilable
+}
 \description{
 Find which files can be loaded from an IPUMS extract zip file.
+}
+\examples{
+nhgis_file <- ripums_example("nhgis0010_csv.zip")
+ipums_list_files(nhgis_file) # Only one extract available
+
 }

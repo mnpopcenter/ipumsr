@@ -14,10 +14,12 @@
 #' \code{devtools::install_github('mnpopcenter/ripums', subdir = "ripumsexamples")}
 #'
 #' @param path Name of file. If `NULL`, the example files will be listed.
+#' @return The filepath to an example file, or if path is empty, a vector of all
+#'   available files.
 #' @export
 #' @examples
-#' ripums_example()
-#' ripums_example("cps_00006.xml")
+#' ripums_example() # Lists all available examples
+#' ripums_example("cps_00006.xml") # Gives filepath for a cps DDI
 ripums_example <- function(path = NULL) {
   if (is.null(path)) {
     file <- dir(system.file("extdata", package = "ripums"))

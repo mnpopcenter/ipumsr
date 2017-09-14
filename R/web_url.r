@@ -25,6 +25,20 @@
 #' @param verbose If \code{TRUE}, message user if no variable specific websites are available
 #' @param var_label Sometimes the variable label is useful for finding the correct URL. Only needed
 #'   if not passing in the ddi object.
+#' @return The url to the page on ipums.org (silently if launch is \code{TRUE})
+#' @examples
+#' ddi <- read_ipums_ddi(ripums_example("cps_00006.xml"))
+#' ipums_website(ddi, "MONTH", launch = FALSE)
+#'
+#' \dontrun{
+#' # Launches website
+#' ipums_website(ddi, "MONTH")
+#' }
+#'
+#' # Can also specify project instead of using DDI
+#' ipums_website(var = "RECTYPE", project = "IPUMS-CPS", launch = FALSE)
+#'
+#'
 #'@export
 ipums_website <- function(x, var, project = NULL, launch = TRUE, verbose = TRUE, var_label = NULL) {
   UseMethod("ipums_website")
@@ -35,7 +49,7 @@ ipums_website.ipums_ddi <- function(x, var, project = NULL, launch = TRUE, verbo
   if (is.null(project)) project <- x$ipums_project
 
   # Some convuluted code to check for "detailed variables", because their urls aren't right
-  var <- fix_for_detailed_var(x, var)
+  var <- fix_for_detailed_var(x, var, var_label)
 
   url <- get_ipums_url(var, project)
   if (launch) {

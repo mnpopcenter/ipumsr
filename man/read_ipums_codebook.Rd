@@ -24,9 +24,9 @@ NHGIS and Terra Area-level extracts in a format analogous to the DDI's
 available for other projects.
 }
 \examples{
-\dontrun{
-data <- read_ipums_codebook("nhgis0001_csv.zip")
-}
+# Example NHGIS extract
+nhgis_file <- ripums_example("nhgis0008_csv.zip")
+ddi <- read_ipums_codebook(nhgis_file)
 }
 \seealso{
 Other ipums_metadata: \code{\link{read_ipums_ddi}}

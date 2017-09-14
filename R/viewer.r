@@ -7,11 +7,19 @@
 #'
 #' Requires that htmltools, shiny and DT are installed.
 #'
-#'@param x A DDI or other object with ipums attributes (such as data loaded from an extract)
-#'@param out_file Optionally specify a location to save HTML file. NULL the default
-#'  makes a temporary file.
+#' @param x A DDI or other object with ipums attributes (such as data loaded from an extract)
+#' @param out_file Optionally specify a location to save HTML file. NULL the default
+#'   makes a temporary file.
+#' @param launch Logical indicating whether to launch the website.
+#' @return The filepath to the html (silently if launch is \code{TRUE})
+#' @examples
+#' ddi <- read_ipums_ddi(ripums_example("cps_00006.xml"))
+#'\dontrun{
+#' ipums_view(ddi)
+#' ipums_view(ddi, "codebook.html", launch = FALSE)
+#'}
 #'@export
-ipums_view <- function(x, out_file = NULL) {
+ipums_view <- function(x, out_file = NULL, launch = TRUE) {
   if (
     !requireNamespace("htmltools", quietly = TRUE) ||
     !requireNamespace("shiny", quietly = TRUE) ||
@@ -38,11 +46,15 @@ ipums_view <- function(x, out_file = NULL) {
 
   htmltools::save_html(html_page, out_file)
 
-
-  if (requireNamespace("rstudioapi", quietly = TRUE)) {
-    rstudioapi::viewer(out_file)
+  if (launch) {
+    if (requireNamespace("rstudioapi", quietly = TRUE)) {
+      rstudioapi::viewer(out_file)
+    } else {
+      shell.exec(out_file)
+    }
+    invisible(out_file)
   } else {
-    cat(paste0("See HTML file at: ", out_file))
+    out_file
   }
 }
 

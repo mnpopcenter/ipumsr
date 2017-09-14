@@ -28,9 +28,21 @@
 #' @param verbose Logical, indicating whether to print progress information to
 #'   console.
 #' @examples
-#' \dontrun{
-#' data <- read_nhgis("nhgis0001_csv.zip", "nhgis0001_shp.zip")
+#' csv_file <- ripums_example("nhgis0010_csv.zip")
+#' shape_file <- ripums_example("nhgis0010_shape.zip")
+#'
+#' data_only <- read_nhgis(csv_file)
+#'
+#' # If sf package is availble, can load as sf object
+#' if (require(sf)) {
+#'   sf_data <- read_nhgis_sf(csv_file, shape_file)
 #' }
+#'
+#' # If sp package is available, can load as SpatialPolygonsDataFrame
+#' if (require(rgdal) && require(sp)) {
+#'   sp_data <- read_nhgis_sp(csv_file, shape_file)
+#' }
+#'
 #' @family ipums_read
 #' @export
 read_nhgis <- function(

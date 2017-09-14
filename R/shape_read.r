@@ -17,11 +17,20 @@
 #' @param bind_multiple If \code{TRUE}, will combine multiple shape files found into
 #'   a single object.
 #' @param verbose I \code{TRUE}, will report progress information
+#' @return \code{read_ipums_sf} returns a sf object and \code{read_ipums_sp} returns
+#'   a SpatialPolygonsDataFrame.
 #' @examples
-#' \dontrun{
-#' boundaries <- read_ipums_sf("nhgis_00001.zip")
-#' boundaries <- read_ipums_sp("nhgis_00001.zip")
+#' shape_file <- ripums_example("nhgis0010_shape.zip")
+#' # If sf package is availble, can load as sf object
+#' if (require(sf)) {
+#'   sf_data <- read_ipums_sf(shape_file)
 #' }
+#'
+#' # If sp package is available, can load as SpatialPolygonsDataFrame
+#' if (require(sp)) {
+#'   sp_data <- read_ipums_sp(shape_file)
+#' }
+#'
 #' @family ipums_read
 #' @export
 read_ipums_sf <- function(shape_file, shape_layer = NULL, bind_multiple = TRUE, verbose = TRUE) {

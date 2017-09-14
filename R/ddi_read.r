@@ -14,10 +14,11 @@
 #' @param data_layer If ddi_file is an extract with multiple DDIs, dplyr
 #'   \code{\link[dplyr]{select}}-style notation indicating which .xml data
 #'   layer to load.
+#' @return An \code{ipums_ddi} object with metadata information.
 #' @examples
-#' \dontrun{
-#' metadata <- read_ipums_ddi("cps_00001.xml")
-#' }
+#' # Example extract DDI
+#' ddi_file <- ripums_example("cps_00006.xml")
+#' ddi <- read_ipums_ddi(ddi_file)
 #' @family ipums_metadata
 #' @export
 read_ipums_ddi <- function(ddi_file, data_layer = NULL) {
@@ -179,9 +180,9 @@ read_ipums_ddi <- function(ddi_file, data_layer = NULL) {
 #'   identifying the data layer to load. Required for reading from .zip files
 #'    for extracts with multiple files.
 #' @examples
-#' \dontrun{
-#' data <- read_ipums_codebook("nhgis0001_csv.zip")
-#' }
+#' # Example NHGIS extract
+#' nhgis_file <- ripums_example("nhgis0008_csv.zip")
+#' ddi <- read_ipums_codebook(nhgis_file)
 #' @family ipums_metadata
 #' @export
 read_ipums_codebook <- function(cb_file, data_layer = NULL) {

@@ -35,6 +35,17 @@
 #' separate from the data your are manipulating using \code{\link{read_ipums_ddi}}. Then
 #' you can refer to the IPUMS documentation in this object.
 #'
+#' @return
+#'   \code{ipums_var_info} returns a \code{tbl_df} data frame with variable information, and
+#'   the other functions return a length 1 character vector.
+#' @examples
+#' ddi <- read_ipums_ddi(ripums_example("cps_00006.xml"))
+#'
+#' ipums_var_info(ddi)
+#' ipums_var_desc(ddi, MONTH)
+#' ipums_var_label(ddi, MONTH)
+#' ipums_val_labels(ddi, MONTH)
+#'
 #' @export
 ipums_var_info <- function(object, vars = NULL) {
   UseMethod("ipums_var_info")
@@ -174,7 +185,11 @@ ipums_conditions.default <- function(object) {
 #'
 #' @param object A DDI object (loaded with \code{\link{read_ipums_ddi}}), or a data.frame
 #'   with ipums metadata attached.
-#'
+#' @return A list with the \code{ipums_project}, \code{extract_date}, \code{extract_notes},
+#'   \code{conditions}, and \code{citation}.
+#' @examples
+#' ddi <- read_ipums_ddi(ripums_example("cps_00006.xml"))
+#' ipums_file_info(ddi)
 #' @export
 ipums_file_info <- function(object) {
   UseMethod("ipums_file_info")

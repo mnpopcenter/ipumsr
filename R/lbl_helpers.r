@@ -324,6 +324,15 @@ as_lbl_function <- function(x, env = caller_env()) {
 #' @param ... Either one or two arugments, possibly named .val and .lbl. If a
 #'   single unnamed value, represents the label, if 2 unnamed values, the first
 #'   is the value and the second is the label.
+#' @return A \code{label_placeholder} object, useful in functions like \code{\link{lbl_add}}
+#' @examples
+#' x <- haven::labelled(
+#'   c(100, 200, 105, 990, 999, 230),
+#'   c(`Unknown` = 990, NIU = 999)
+#' )
+#'
+#' lbl_add(x, lbl(100, "$100"), lbl(105, "$105"), lbl(200, "$200"), lbl(230, "$230"))
+#'
 #' @family lbl_helpers
 #' @export
 lbl <- function(...) {

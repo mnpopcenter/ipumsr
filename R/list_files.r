@@ -17,6 +17,11 @@
 #'   shape files to look for
 #' @param raster_layer dplyr \code{\link[dplyr]{select}}-style notation for the
 #'   raster files to look for
+#' @return A \code{tbl_df} data.frame containing the files avilable
+#' @examples
+#' nhgis_file <- ripums_example("nhgis0010_csv.zip")
+#' ipums_list_files(nhgis_file) # Only one extract available
+#'
 #' @export
 ipums_list_files <- function(file, types = NULL, data_layer = NULL,
                           shape_layer = NULL, raster_layer = NULL) {
