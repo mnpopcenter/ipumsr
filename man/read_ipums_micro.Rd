@@ -2,10 +2,14 @@
 % Please edit documentation in R/micro_read.r
 \name{read_ipums_micro}
 \alias{read_ipums_micro}
+\alias{read_ipums_micro_list}
 \title{Read data from an IPUMS extract}
 \usage{
-read_ipums_micro(ddi, vars = NULL, n_max = -1, data_structure = c("list",
-  "long"), data_file = NULL, verbose = TRUE, rectype_convert = NULL)
+read_ipums_micro(ddi, vars = NULL, n_max = -1, data_file = NULL,
+  verbose = TRUE, rectype_convert = NULL)
+
+read_ipums_micro_list(ddi, vars = NULL, n_max = -1, data_file = NULL,
+  verbose = TRUE, rectype_convert = NULL)
 }
 \arguments{
 \item{ddi}{Either a filepath to a DDI xml file downloaded from
@@ -17,12 +21,6 @@ rectype id variable will be added even if it is not specified.}
 
 \item{n_max}{The maximum number of records to load.}
 
-\item{data_structure}{For hierarchical data extract, one of "list" or "long",
-to indicate how to structure the data once loaded. "list" data puts a
-data.frame for each rectype into a list. "long" data puts all rectypes in
-the same data.frame, with \code{NA} values for variables that do not apply
-to that particular rectype.}
-
 \item{data_file}{Specify a directory to look for the data file.
 If left empty, it will look in the same directory as the DDI file.}
 
@@ -33,19 +31,63 @@ to console.}
 indicating a conversion from the rectype in data to DDI. Not usually
 needed to be specified by the user.}
 }
+\value{
+\code{read_ipums_micro} returns a single tbl_df data frame, and
+  \code{read_ipums_micro_list} returns a list of data frames, named by
+  the letter abbreviation of the Record Type. See 'Details' for more
+  information.
+}
 \description{
 Reads a dataset downloaded from the IPUMS extract system.
-}
-\details{
 For IPUMS projects with microdata, it relies on a downloaded
 DDI codebook and a fixed-width file. Loads the data with
 value labels (using \code{\link[haven]{labelled}} format)
-and variable labels.
+and variable labels. See 'Details' for more information on
+how record types are handled by the ripums package.
+}
+\details{
+Some IPUMS projects have data for multiple types of records
+(eg Household and Person). When downloading data from many of these
+projects you have the option for the IPUMS extract system
+to "rectangularize" the data, meaning that the data is
+transformed so that each row of data represents only one
+type of record.
+
+There also is the option to download "hierarchical" extracts,
+which are a single file with record types mixed in the rows.
+The ripums package offers two methods for importing this data.
+
+\code{read_ipums_micro} loads this data into a "long" format
+where the record types are mixed in the rows, but the variables
+are \code{NA} for the record types that they do not apply to.
+
+\code{read_ipums_micro_list} loads the data into a list of
+data frames objects, where each data frame contains only
+one record type. The names of the data frames in the list
+are the one letter code representing the record type (
+often 'H' for Household and 'P' for Person).
 }
 \examples{
-\dontrun{
-data <- read_micro("cps_00001.xml")
-}
+  # Rectangular example file
+  cps_rect_ddi_file <- ripums_example("cps_00006.xml")
+
+  cps <- read_ipums_micro(cps_rect_ddi_file)
+  # Or load DDI separately to keep the metadata
+  ddi <- read_ipums_ddi(cps_rect_ddi_file)
+  cps <- read_ipums_micro(ddi)
+
+  # Hierarchical example file
+  cps_hier_ddi_file <- ripums_example("cps_00010.xml")
+
+  # Read in "long" format and you get 1 data frame
+  cps_long <- read_ipums_micro(cps_hier_ddi_file)
+  head(cps_long)
+
+  # Read in "list" format and you get a list of multiple data frames
+  cps_list <- read_ipums_micro_list(cps_hier_ddi_file)
+  head(cps_list$P)
+  head(cps_list$H)
+
 }
 \seealso{
 Other ipums_read: \code{\link{read_ipums_sf}},

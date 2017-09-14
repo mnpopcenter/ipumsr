@@ -7,11 +7,32 @@
 #' Read data from an IPUMS extract
 #'
 #' Reads a dataset downloaded from the IPUMS extract system.
-#'
 #' For IPUMS projects with microdata, it relies on a downloaded
 #' DDI codebook and a fixed-width file. Loads the data with
 #' value labels (using \code{\link[haven]{labelled}} format)
-#' and variable labels.
+#' and variable labels. See 'Details' for more information on
+#' how record types are handled by the ripums package.
+#'
+#' Some IPUMS projects have data for multiple types of records
+#' (eg Household and Person). When downloading data from many of these
+#' projects you have the option for the IPUMS extract system
+#' to "rectangularize" the data, meaning that the data is
+#' transformed so that each row of data represents only one
+#' type of record.
+#'
+#' There also is the option to download "hierarchical" extracts,
+#' which are a single file with record types mixed in the rows.
+#' The ripums package offers two methods for importing this data.
+#'
+#' \code{read_ipums_micro} loads this data into a "long" format
+#' where the record types are mixed in the rows, but the variables
+#' are \code{NA} for the record types that they do not apply to.
+#'
+#' \code{read_ipums_micro_list} loads the data into a list of
+#' data frames objects, where each data frame contains only
+#' one record type. The names of the data frames in the list
+#' are the one letter code representing the record type (
+#' often 'H' for Household and 'P' for Person).
 #'
 #' @param ddi Either a filepath to a DDI xml file downloaded from
 #'   the website, or a \code{ipums_ddi} object parsed by \code{\link{read_ipums_ddi}}
@@ -19,11 +40,6 @@
 #'  \code{\link{dplyr_select_style}} conventions. For hierarchical data, the
 #'  rectype id variable will be added even if it is not specified.
 #' @param n_max The maximum number of records to load.
-#' @param data_structure For hierarchical data extract, one of "list" or "long",
-#'   to indicate how to structure the data once loaded. "list" data puts a
-#'   data.frame for each rectype into a list. "long" data puts all rectypes in
-#'   the same data.frame, with \code{NA} values for variables that do not apply
-#'   to that particular rectype.
 #' @param data_file Specify a directory to look for the data file.
 #'   If left empty, it will look in the same directory as the DDI file.
 #' @param verbose Logical, indicating whether to print progress information
@@ -31,17 +47,37 @@
 #' @param rectype_convert (Usually determined by project) A named vector
 #'   indicating a conversion from the rectype in data to DDI. Not usually
 #'   needed to be specified by the user.
+#' @return \code{read_ipums_micro} returns a single tbl_df data frame, and
+#'   \code{read_ipums_micro_list} returns a list of data frames, named by
+#'   the letter abbreviation of the Record Type. See 'Details' for more
+#'   information.
 #' @examples
-#' \dontrun{
-#' data <- read_micro("cps_00001.xml")
-#' }
+#'   # Rectangular example file
+#'   cps_rect_ddi_file <- ripums_example("cps_00006.xml")
+#'
+#'   cps <- read_ipums_micro(cps_rect_ddi_file)
+#'   # Or load DDI separately to keep the metadata
+#'   ddi <- read_ipums_ddi(cps_rect_ddi_file)
+#'   cps <- read_ipums_micro(ddi)
+#'
+#'   # Hierarchical example file
+#'   cps_hier_ddi_file <- ripums_example("cps_00010.xml")
+#'
+#'   # Read in "long" format and you get 1 data frame
+#'   cps_long <- read_ipums_micro(cps_hier_ddi_file)
+#'   head(cps_long)
+#'
+#'   # Read in "list" format and you get a list of multiple data frames
+#'   cps_list <- read_ipums_micro_list(cps_hier_ddi_file)
+#'   head(cps_list$P)
+#'   head(cps_list$H)
+#'
 #' @family ipums_read
 #' @export
 read_ipums_micro <- function(
   ddi,
   vars = NULL,
   n_max = -1,
-  data_structure = c("list", "long"),
   data_file = NULL,
   verbose = TRUE,
   rectype_convert = NULL
@@ -65,10 +101,9 @@ read_ipums_micro <- function(
   if (verbose) cat(ipums_conditions(ddi))
 
   vars <- enquo(vars)
-  data_structure <- match.arg(data_structure)
 
   if (ddi$file_type == "hierarchical") {
-    out <- read_ipums_hier(ddi, vars, n_max, data_structure, data_file, verbose, rectype_convert)
+    out <- read_ipums_hier(ddi, vars, n_max, "long", data_file, verbose, rectype_convert)
   } else if (ddi$file_type == "rectangular") {
     out <- read_ipums_rect(ddi, vars, n_max, data_file, verbose)
   } else {
@@ -78,6 +113,51 @@ read_ipums_micro <- function(
   out <- set_ipums_df_attributes(out, ddi)
   out
 }
+
+#' @export
+#' @rdname read_ipums_micro
+read_ipums_micro_list <- function(
+  ddi,
+  vars = NULL,
+  n_max = -1,
+  data_file = NULL,
+  verbose = TRUE,
+  rectype_convert = NULL
+) {
+  if (is.character(ddi)) ddi <- read_ipums_ddi(ddi)
+  if (is.null(data_file)) data_file <- file.path(ddi$file_path, ddi$file_name)
+  # Look for zipped versions of the file or csv versions of the file if it doesn't exist
+  if (!file.exists(data_file)) {
+    file_dat_gz <- file_as_ext(data_file, ".dat.gz")
+    file_csv <- file_as_ext(data_file, ".csv")
+    file_csv_gz <- file_as_ext(data_file, ".csv.gz")
+
+    if (file.exists(file_dat_gz)) {
+      data_file <- file_dat_gz
+    } else if (file.exists(file_csv)) {
+      data_file <- file_csv
+    } else if (file.exists(file_csv_gz)) {
+      data_file <- file_csv_gz
+    }
+  }
+  if (verbose) cat(ipums_conditions(ddi))
+
+  vars <- enquo(vars)
+
+  if (ddi$file_type == "hierarchical") {
+    out <- read_ipums_hier(ddi, vars, n_max, "list", data_file, verbose, rectype_convert)
+  } else if (ddi$file_type == "rectangular") {
+    out <- read_ipums_rect(ddi, vars, n_max, data_file, verbose)
+    warning("Assuming data rectangularized to 'P' record type")
+    out <- list(P = out)
+  } else {
+    stop(paste0("Don't know how to read ", ddi$file_type, " type file."), call. = FALSE)
+  }
+
+  out <- set_ipums_df_attributes(out, ddi)
+  out
+}
+
 
 read_ipums_hier <- function(ddi, vars, n_max, data_structure, data_file, verbose, rectype_convert) {
   if (ipums_file_ext(data_file) %in% c(".csv", ".csv.gz")) {

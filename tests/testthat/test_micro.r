@@ -47,7 +47,6 @@ test_that(
   "Can read Hierarchical into long format", {
     cps <- read_ipums_micro(
       ripums_example("cps_00010.xml"),
-      data_structure = "long",
       verbose = FALSE
     )
 
@@ -60,9 +59,8 @@ test_that(
 
 test_that(
   "Can read Hierarchical into list format", {
-    cps <- read_ipums_micro(
+    cps <- read_ipums_micro_list(
       ripums_example("cps_00010.xml"),
-      data_structure = "list",
       verbose = FALSE
     )
 
@@ -84,7 +82,6 @@ test_that(
       ripums_example("cps_00010.xml"),
       n_max = 100,
       vars = c(RECTYPE, STATEFIP),
-      data_structure = "long",
       verbose = FALSE
     )
     expect_equal(nrow(cps), 100)
