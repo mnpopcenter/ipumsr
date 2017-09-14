@@ -116,12 +116,13 @@ read_ipums_ddi <- function(ddi_file, data_layer = NULL) {
     loc <- xml2::xml_find_first(var_info_xml, "d1:location")
     start <- as.numeric(xml2::xml_attr(loc, "StartPos"))
     end <- as.numeric(xml2::xml_attr(loc, "EndPos"))
+    var_type <- xml2::xml_attr(xml2::xml_find_first(var_info_xml, "d1:varFormat"), "type")
 
     var_info <- dplyr::data_frame(
       var_name = xml2::xml_attr(var_info_xml, "name"),
       var_label =  xml2::xml_text(xml2::xml_find_first(var_info_xml, "d1:labl")),
       var_desc = xml2::xml_text(xml2::xml_find_first(var_info_xml, "d1:txt")),
-      val_labels = purrr::map(var_info_xml, function(vvv, vtype) {
+      val_labels = purrr::map2(var_info_xml, var_type, function(vvv, vtype) {
         lbls <- xml2::xml_find_all(vvv, "d1:catgry")
         if (length(lbls) == 0) return(dplyr::data_frame(val = numeric(0), lbl = character(0)))
 
@@ -130,14 +131,23 @@ read_ipums_ddi <- function(ddi_file, data_layer = NULL) {
           lbl = xml2::xml_text(xml2::xml_find_all(lbls, "d1:labl"))
         )
 
-        vtype <- xml2::xml_attr(xml2::xml_find_first(vvv, "d1:varFormat"), "type")
         if (vtype == "numeric") lbls$val <- as.numeric(lbls$val)
+
+        # Drop labels that are the same as the value
+        # But leading 0's can be ignored if numeric
+        if (vtype == "numeric") {
+          lnum <- suppressWarnings(as.numeric(lbls$lbl))
+          lbls <- dplyr::filter(lbls, (is.na(lnum) | .data$val != .env$lnum))
+        } else {
+          lbls <- dplyr::filter(lbls, .data$val != .data$lbl)
+        }
+
         lbls
       }),
       start = start,
       end = end,
       imp_decim = as.numeric(xml2::xml_attr(var_info_xml, "dcml")),
-      var_type = xml2::xml_attr(xml2::xml_find_first(var_info_xml, "d1:varFormat"), "type")
+      var_type = var_type
     )
 
     if  (file_type == "hierarchical") {
