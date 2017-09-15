@@ -61,7 +61,7 @@ ipums_view <- function(x, out_file = NULL, launch = TRUE) {
 
 file_info_html <- function(file_info) {
   htmltools::tags$div(
-    htmltools::tags$h3("Extract Information"),
+    htmltools::tags$h2("Extract Information"),
     htmltools::tags$p(htmltools::tags$b("Project: "), file_info$ipums_project),
     htmltools::tags$p(htmltools::tags$b("Date Created: "), file_info$extract_date),
     htmltools::tags$p(
@@ -83,18 +83,22 @@ file_info_html <- function(file_info) {
         class = "collapse"
       )
     ),
-    htmltools::tags$h3("Variable Information (click name to expand)")
+    htmltools::tags$h2("Variable Information"),
+    htmltools::tags$p("Click variable name for more details")
   )
 }
 
-display_ipums_var_row <- function(var_name, var_label, var_desc, val_labels, project, ...) {
+display_ipums_var_row <- function(var_name, var_label, var_desc, val_labels, code_instr, project, ...) {
   if (is.na(var_label)) var_label <- "-"
 
   if (is.na(var_desc)) var_desc <- "No variable description available..."
   vd_html <- split_double_linebreaks_to_ptags(var_desc)
 
+  if (is.na(code_instr)) code_instr <- "N/A"
+  code_instr <- split_double_linebreaks_to_ptags(code_instr)
+
   if (nrow(val_labels) > 0) {
-    value_labels <- DT::datatable(val_labels, width = "100%")
+    value_labels <- DT::datatable(val_labels, style = "bootstrap", rownames = FALSE, width = "100%")
   } else {
     value_labels <- htmltools::tags$p("N/A")
   }
@@ -113,8 +117,15 @@ display_ipums_var_row <- function(var_name, var_label, var_desc, val_labels, pro
     var_name,
     var_label,
     shiny::fluidRow(
-      shiny::column(6, htmltools::tags$h4("Variable Description"), vd_html, link),
-      shiny::column(6, htmltools::tags$h4("Value Labels"), value_labels)
+      shiny::column(6, htmltools::tags$h3("Variable Description"), vd_html, link),
+      shiny::column(
+        6,
+        htmltools::tags$h3("Value Labels"),
+        htmltools::tags$h4("Coding Instructions"),
+        code_instr,
+        htmltools::tags$h4("Labelled Values"),
+        value_labels
+      )
     )
   )
 }
@@ -135,7 +146,7 @@ expandable_div <- function(title, subtitle, content) {
           href = paste0("#", title),
           htmltools::tags$div(
             htmltools::tags$i(class = "more-less glyphicon glyphicon-plus"),
-            htmltools::tags$h3(
+            htmltools::tags$h2(
               title,
               style = "display:inline-block; padding-right:0.5em"
             ),
