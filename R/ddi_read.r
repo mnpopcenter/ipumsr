@@ -114,13 +114,14 @@ read_ipums_ddi <- function(ddi_file, data_layer = NULL) {
       rectype_by_var <- NA
     }
 
-    var_info <- make_var_info_from_scratch(
-      var_name = xml2::xml_attr(var_info_xml, "name"),
-      var_label =  xml2::xml_text(xml2::xml_find_first(var_info_xml, "d1:labl")),
-      var_desc = xml2::xml_text(xml2::xml_find_first(var_info_xml, "d1:txt")),
-      val_labels = purrr::map2(var_info_xml, var_type, function(vvv, vtype) {
+    code_instr <- xml2::xml_text(xml2::xml_find_first(var_info_xml, "d1:codInstr"))
+    lbls_from_code_instr <- parse_labels_from_code_instr(code_instr, var_type)
+
+    val_labels <- purrr::pmap(
+      list(var_info_xml, var_type, lbls_from_code_instr),
+      function(vvv, vtype, extra_labels) {
         lbls <- xml2::xml_find_all(vvv, "d1:catgry")
-        if (length(lbls) == 0) return(dplyr::data_frame(val = numeric(0), lbl = character(0)))
+        if (length(lbls) == 0) return(extra_labels)
 
         lbls <- dplyr::data_frame(
           val = xml2::xml_text(xml2::xml_find_all(lbls, "d1:catValu")),
@@ -138,8 +139,16 @@ read_ipums_ddi <- function(ddi_file, data_layer = NULL) {
           lbls <- dplyr::filter(lbls, .data$val != .data$lbl)
         }
 
-        lbls
-      }),
+        out <- dplyr::bind_rows(lbls, extra_labels)
+        dplyr::arrange(out, .data$val)
+      })
+
+    var_info <- make_var_info_from_scratch(
+      var_name = xml2::xml_attr(var_info_xml, "name"),
+      var_label =  xml2::xml_text(xml2::xml_find_first(var_info_xml, "d1:labl")),
+      var_desc = xml2::xml_text(xml2::xml_find_first(var_info_xml, "d1:txt")),
+      val_labels = val_labels,
+      code_instr = code_instr,
       start = start,
       end = end,
       imp_decim = as.numeric(xml2::xml_attr(var_info_xml, "dcml")),
@@ -357,6 +366,7 @@ make_var_info_from_scratch <- function(
   var_label = "",
   var_desc = "",
   val_labels = list(dplyr::data_frame(val = numeric(0), lbl = character(0))),
+  code_instr = "",
   start = NA,
   end = NA,
   imp_decim = 0,
@@ -368,10 +378,34 @@ make_var_info_from_scratch <- function(
     var_label = var_label,
     var_desc = var_desc,
     val_labels = val_labels,
+    code_instr = code_instr,
     start = start,
     end = end,
     imp_decim = imp_decim,
     var_type = var_type,
     rectypes = rectypes
   )
+}
+
+make_empty_labels <- function() {
+  dplyr::data_frame(val = numeric(0), lbl = character(0))
+}
+
+# Helper to get labels out of free text from codInstr in xml
+parse_labels_from_code_instr <- function(code, var_type) {
+  purrr::map2(code, var_type, function(x, vt) {
+    if (is.na(x)) return(make_empty_labels())
+    lines <- stringr::str_split(x, "\n")[[1]]
+    if (vt == "numeric") {
+      labels <- stringr::str_match(lines, "^(-?[0-9.,]+)([[:blank:]|[:punct:]|=]+)(.+)$")
+      labels <- dplyr::data_frame(val = labels[, 2], lbl = labels[, 4])
+      labels <- dplyr::filter(labels, !is.na(.data$val))
+      labels$val <- as.numeric(stringr::str_replace_all(labels$val, ",", ""))
+    } else {
+      labels <- stringr::str_match(lines, "^([:graph:]+)([:blank:]+[[:punct:]|=]+[:blank:]+)(.+)$")
+      labels <- dplyr::data_frame(val = labels[, 2], lbl = labels[, 4])
+      labels <- dplyr::filter(labels, !is.na(.data$val))
+    }
+    dplyr::arrange(labels, .data$val)
+  })
 }
