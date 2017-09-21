@@ -77,15 +77,18 @@ data <- read_ipums_micro(ddi)
 cat(ipums_var_desc(ddi, MONTH))
 
 # Hierarachical data loaded as a data frame
-# Household data
-data$H
+
 
 # Value labels loaded as haven::labelled class
 # Convert to factors with `as_factor`
 table(as_factor(data$MONTH, levels = "both"))
 
 # Can also load as a list by rectype
-data <- read_ipums_micro_list(ddi)
+data <- read_ipums_micro_list(ddi, verbose = FALSE)
+# Household data
+data$HOUSEHOLD
+# Person data
+data$PERSON
 ```
 
 

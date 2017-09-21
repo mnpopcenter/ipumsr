@@ -34,7 +34,7 @@ needed to be specified by the user.}
 \value{
 \code{read_ipums_micro} returns a single tbl_df data frame, and
   \code{read_ipums_micro_list} returns a list of data frames, named by
-  the letter abbreviation of the Record Type. See 'Details' for more
+  the Record Type. See 'Details' for more
   information.
 }
 \description{
@@ -64,8 +64,8 @@ are \code{NA} for the record types that they do not apply to.
 \code{read_ipums_micro_list} loads the data into a list of
 data frames objects, where each data frame contains only
 one record type. The names of the data frames in the list
-are the one letter code representing the record type (
-often 'H' for Household and 'P' for Person).
+are the text from the record type labels without 'Record'
+(often 'HOUSEHOLD' for Household and 'PERSON' for Person).
 }
 \examples{
   # Rectangular example file
@@ -85,8 +85,8 @@ often 'H' for Household and 'P' for Person).
 
   # Read in "list" format and you get a list of multiple data frames
   cps_list <- read_ipums_micro_list(cps_hier_ddi_file)
-  head(cps_list$P)
-  head(cps_list$H)
+  head(cps_list$PERSON)
+  head(cps_list$HOUSEHOLD)
 
 }
 \seealso{

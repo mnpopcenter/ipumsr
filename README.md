@@ -86,10 +86,7 @@ cat(ipums_var_desc(ddi, MONTH))
 #> MONTH indicates the calendar month of the CPS interview.
 
 # Hierarachical data loaded as a data frame
-# Household data
-data$H
-#> Warning: Unknown or uninitialised column: 'H'.
-#> NULL
+
 
 # Value labels loaded as haven::labelled class
 # Convert to factors with `as_factor`
@@ -103,25 +100,39 @@ table(as_factor(data$MONTH, levels = "both"))
 #>             0             0
 
 # Can also load as a list by rectype
-data <- read_ipums_micro_list(ddi)
-#> Users of IPUMS-CPS data must agree to abide by the conditions of use. A user's license is valid for one year and may be renewed.  Users must agree to the following conditions:
-#> 
-#> (1) No fees may be charged for use or distribution of the data.  All persons are granted a limited license to use these data, but you may not charge a fee for the data if you distribute it to others.
-#> 
-#> (2) Cite IPUMS appropriately.  For information on proper citation,  refer to the citation requirement section of this DDI document.
-#> 
-#> (3) Tell us about any work you do using the IPUMS.  Publications, research  reports, or presentations making use of IPUMS-CPS should be added to our  Bibliography. Continued funding for the IPUMS depends on our ability to  show our sponsor agencies that researchers are using the data for productive  purposes.
-#> 
-#> (4) Use it for GOOD -- never for EVIL.
-#> 
-#> Publications and research reports based on the IPUMS-CPS database must cite it appropriately. The citation should include the following:
-#> 
-#> Sarah Flood, Miriam King, Steven Ruggles, and J. Robert Warren. Integrated Public Use Microdata Series, Current Population Survey: Version 5.0 [dataset]. Minneapolis, MN: University of Minnesota, 2017. https://doi.org/10.18128/D030.V5.0
-#> 
-#> The licensing agreement for use of IPUMS-CPS data requires that users supply us with the title and full citation for any publications, research reports, or educational materials making use of the data or documentation. Please add your citation to the IPUMS bibliography: http://bibliography.ipums.org/
-#> 
-#> Reading data...
-#> Parsing data...
+data <- read_ipums_micro_list(ddi, verbose = FALSE)
+# Household data
+data$HOUSEHOLD
+#> # A tibble: 3,385 x 5
+#>     YEAR SERIAL HWTSUPP  STATEFIP     MONTH
+#>    <dbl>  <dbl>   <dbl> <dbl+lbl> <dbl+lbl>
+#>  1  1962     80 1475.59        55         3
+#>  2  1962     82 1597.61        27         3
+#>  3  1962     83 1706.65        27         3
+#>  4  1962     84 1790.25        27         3
+#>  5  1962    107 4355.40        19         3
+#>  6  1962    108 1479.05        19         3
+#>  7  1962    122 3602.75        27         3
+#>  8  1962    124 4104.41        55         3
+#>  9  1962    125 2182.17        55         3
+#> 10  1962    126 1826.38        55         3
+#> # ... with 3,375 more rows
+# Person data
+data$PERSON
+#> # A tibble: 7,668 x 5
+#>     YEAR SERIAL PERNUM  WTSUPP    INCTOT
+#>    <dbl>  <dbl>  <dbl>   <dbl> <dbl+lbl>
+#>  1  1962     80      1 1475.59      4883
+#>  2  1962     80      2 1470.72      5800
+#>  3  1962     80      3 1578.75  99999998
+#>  4  1962     82      1 1597.61     14015
+#>  5  1962     83      1 1706.65     16552
+#>  6  1962     84      1 1790.25      6375
+#>  7  1962    107      1 4355.40  99999999
+#>  8  1962    107      2 1385.81         0
+#>  9  1962    107      3 1629.10       600
+#> 10  1962    107      4 1432.24  99999999
+#> # ... with 7,658 more rows
 ```
 
 ### CPS - Rectangular Data

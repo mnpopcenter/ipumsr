@@ -31,8 +31,8 @@
 #' \code{read_ipums_micro_list} loads the data into a list of
 #' data frames objects, where each data frame contains only
 #' one record type. The names of the data frames in the list
-#' are the one letter code representing the record type (
-#' often 'H' for Household and 'P' for Person).
+#' are the text from the record type labels without 'Record'
+#' (often 'HOUSEHOLD' for Household and 'PERSON' for Person).
 #'
 #' @param ddi Either a filepath to a DDI xml file downloaded from
 #'   the website, or a \code{ipums_ddi} object parsed by \code{\link{read_ipums_ddi}}
@@ -49,7 +49,7 @@
 #'   needed to be specified by the user.
 #' @return \code{read_ipums_micro} returns a single tbl_df data frame, and
 #'   \code{read_ipums_micro_list} returns a list of data frames, named by
-#'   the letter abbreviation of the Record Type. See 'Details' for more
+#'   the Record Type. See 'Details' for more
 #'   information.
 #' @examples
 #'   # Rectangular example file
@@ -69,8 +69,8 @@
 #'
 #'   # Read in "list" format and you get a list of multiple data frames
 #'   cps_list <- read_ipums_micro_list(cps_hier_ddi_file)
-#'   head(cps_list$P)
-#'   head(cps_list$H)
+#'   head(cps_list$PERSON)
+#'   head(cps_list$HOUSEHOLD)
 #'
 #' @family ipums_read
 #' @export
@@ -279,7 +279,25 @@ read_ipums_hier <- function(ddi, vars, n_max, data_structure, data_file, verbose
 
       out_rt <- set_ipums_var_attributes(out_rt, vars_in_rec)
     })
-    names(out) <- rec_types_in_extract
+
+    # If value labels for rectype are available use them to name data.frames
+    rt_lbls <- rec_vinfo$val_labels[[1]]
+    matched_lbls <- match(rec_types_in_extract, rt_lbls$val)
+    if (all(!is.na(matched_lbls))) {
+      # Can use the value labels
+      rt_lbls <- rt_lbls$lbl[matched_lbls]
+      # Clean it up a bit though: all upper case
+      rt_lbls <- toupper(rt_lbls)
+      # drop trailing 'record'
+      rt_lbls <- stringr::str_replace_all(rt_lbls, " RECORD$", "")
+      # and replace blank space with _
+      rt_lbls <- stringr::str_replace_all(rt_lbls, "[:blank:]", "_")
+      names(out) <- rt_lbls
+    } else {
+      names(out) <- rec_types_in_extract
+    }
+
+
   }
   out
 }

@@ -64,15 +64,15 @@ test_that(
       verbose = FALSE
     )
 
-    expect_equal(nrow(cps$H), rows_h)
-    expect_equal(nrow(cps$P), rows_p)
-    expect_equal(ncol(cps$H), vars_h)
-    expect_equal(ncol(cps$P), vars_p)
-    expect_equal(attr(cps$H[["YEAR"]], "label"), YEAR_label)
-    expect_equal(attr(cps$P[["YEAR"]], "label"), YEAR_label)
-    expect_equal(attr(cps$H[["YEAR"]], "var_desc"), YEAR_var_desc)
-    expect_equal(attr(cps$P[["YEAR"]], "var_desc"), YEAR_var_desc)
-    expect_equal(attr(cps$H[["STATEFIP"]], "labels")[1:2], STATEFIP_val_labels)
+    expect_equal(nrow(cps$HOUSEHOLD), rows_h)
+    expect_equal(nrow(cps$PERSON), rows_p)
+    expect_equal(ncol(cps$HOUSEHOLD), vars_h)
+    expect_equal(ncol(cps$PERSON), vars_p)
+    expect_equal(attr(cps$HOUSEHOLD[["YEAR"]], "label"), YEAR_label)
+    expect_equal(attr(cps$PERSON[["YEAR"]], "label"), YEAR_label)
+    expect_equal(attr(cps$HOUSEHOLD[["YEAR"]], "var_desc"), YEAR_var_desc)
+    expect_equal(attr(cps$PERSON[["YEAR"]], "var_desc"), YEAR_var_desc)
+    expect_equal(attr(cps$HOUSEHOLD[["STATEFIP"]], "labels")[1:2], STATEFIP_val_labels)
   })
 
 
