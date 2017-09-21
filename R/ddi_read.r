@@ -31,133 +31,80 @@ read_ipums_ddi <- function(ddi_file, data_layer = NULL) {
   }
   ddi_xml <- xml2::read_xml(ddi_file_load, data_layer = NULL)
 
-  # Citation / Conditions
-  cite_info <-  xml2::xml_find_all(
+  # Basic information
+  conditions <- xml_text_from_path_first(
     ddi_xml,
-    "/d1:codeBook/d1:stdyDscr/d1:dataAccs/d1:useStmt"
+    "/d1:codeBook/d1:stdyDscr/d1:dataAccs/d1:useStmt/d1:conditions"
   )
 
-  conditions <- xml2::xml_find_all(cite_info, "d1:conditions")
-  conditions <- xml2::xml_text(conditions)
+  citation <- xml_text_from_path_first(
+    ddi_xml,
+    "/d1:codeBook/d1:stdyDscr/d1:dataAccs/d1:useStmt/d1:citReq"
+  )
 
-  citation <- xml2::xml_find_all(cite_info, "d1:citReq")
-  citation <- xml2::xml_text(citation)
-
-  # ipums_project
-  ipums_project <- xml2::xml_find_all(
+  ipums_project <- xml_text_from_path_first(
     ddi_xml,
     "/d1:codeBook/d1:stdyDscr/d1:citation/d1:serStmt/d1:serName"
   )
-  ipums_project <- xml2::xml_text(ipums_project)
 
-
-  # Users's extract notes
-  extract_notes <- xml2::xml_find_all(
+  extract_notes <- xml_text_from_path_collapsed(
     ddi_xml,
     "/d1:codeBook/d1:stdyDscr/d1:notes"
   )
-  extract_notes <- paste(xml2::xml_text(extract_notes), collapse = "\n\n")
 
-  # Extract creation time
-  extract_date <- xml2::xml_attr(
-    xml2::xml_find_all(ddi_xml, "/d1:codeBook/d1:stdyDscr/d1:citation/d1:prodStmt/d1:prodDate"),
-    "date"
+  extract_date <- xml_text_from_path_first(
+    ddi_xml,
+    "/d1:codeBook/d1:stdyDscr/d1:citation/d1:prodStmt/d1:prodDate/@date"
   )
   extract_date <- as.Date(extract_date)
 
-  # Files
+  # File information
   files <- xml2::xml_find_all(ddi_xml, "/d1:codeBook/d1:fileDscr")
+  if (length(files) > 1) {
+    warning("Extracts with multiple files not supported, using first file.", call. = FALSE)
+  }
 
-  if (length(files) > 1) stop("Extracts with multiple files not supported.", call. = FALSE)
+  file_name <- xml_text_from_path_first(
+    ddi_xml,
+    "/d1:codeBook/d1:fileDscr/d1:fileTxt/d1:fileName"
+  )
 
-  file_name <- xml2::xml_find_all(files, "d1:fileTxt/d1:fileName")
-  file_name <- xml2::xml_text(file_name)
+  file_type <- xml_text_from_path_first(
+    ddi_xml,
+    "/d1:codeBook/d1:fileDscr/d1:fileTxt/d1:fileStrc/@type"
+  )
 
-  file_structure <- xml2::xml_find_all(files, "d1:fileTxt/d1:fileStrc")
-
-  file_type <- xml2::xml_attr(file_structure, "type")
-
-  file_encoding <- xml2::xml_find_all(files, "d1:fileTxt/d1:fileType")
-  file_encoding <- xml2::xml_attr(file_encoding, "charset")
+  file_encoding <- xml_text_from_path_first(
+    ddi_xml,
+    "/d1:codeBook/d1:fileDscr/d1:fileTxt/d1:fileType/@charset"
+  )
 
   # Get rectype info if hierarchical
   if (file_type == "hierarchical") {
-    rectypes <- xml2::xml_find_all(file_structure, "d1:recGrp")
-    rectypes <- xml2::xml_attr(rectypes, "rectype")
+    rectypes <- xml_text_from_path_all(
+      ddi_xml,
+      "/d1:codeBook/d1:fileDscr/d1:fileTxt/d1:fileStrc/d1:recGrp/@rectype"
+    )
 
-    rectype_idvar <- xml2::xml_find_all(file_structure, "d1:recGrp")
-    rectype_idvar <- xml2::xml_attr(rectype_idvar, "recidvar")
+    rectype_idvar <- xml_text_from_path_all(
+      ddi_xml,
+      "/d1:codeBook/d1:fileDscr/d1:fileTxt/d1:fileStrc/d1:recGrp/@recidvar"
+    )
 
     # TODO: Figure out system for rectype vars
     # For cps, the last one is the actual one. The first one has a "P" at the end
     # for Person level rectype var...
+    # UPDATE: Seems like new extract system has them all as RECTYPE (at least for atus)
+    # so we may be okay
     rectype_idvar <- rectype_idvar[length(rectype_idvar)]
   } else {
     rectypes <- NULL
     rectype_idvar <- NULL
   }
 
-  var_info_xml <- xml2::xml_find_all(ddi_xml, "/d1:codeBook/d1:dataDscr/d1:var")
+  # Get variable specific information
+  var_info <- get_var_info_from_ddi(ddi_xml, file_type)
 
-  if (length(var_info_xml) == 0) {
-    # NULL if there's no variable info
-    var_info <- NULL
-  } else {
-    loc <- xml2::xml_find_first(var_info_xml, "d1:location")
-    start <- as.numeric(xml2::xml_attr(loc, "StartPos"))
-    end <- as.numeric(xml2::xml_attr(loc, "EndPos"))
-    var_type <- xml2::xml_attr(xml2::xml_find_first(var_info_xml, "d1:varFormat"), "type")
-
-    if  (file_type == "hierarchical") {
-      rectype_by_var <- stringr::str_split(xml2::xml_attr(var_info_xml, "rectype"), " ")
-    } else {
-      rectype_by_var <- NA
-    }
-
-    code_instr <- xml2::xml_text(xml2::xml_find_first(var_info_xml, "d1:codInstr"))
-    lbls_from_code_instr <- parse_labels_from_code_instr(code_instr, var_type)
-
-    val_labels <- purrr::pmap(
-      list(var_info_xml, var_type, lbls_from_code_instr),
-      function(vvv, vtype, extra_labels) {
-        lbls <- xml2::xml_find_all(vvv, "d1:catgry")
-        if (length(lbls) == 0) return(extra_labels)
-
-        lbls <- dplyr::data_frame(
-          val = xml2::xml_text(xml2::xml_find_all(lbls, "d1:catValu")),
-          lbl = xml2::xml_text(xml2::xml_find_all(lbls, "d1:labl"))
-        )
-
-        if (vtype == "numeric") lbls$val <- as.numeric(lbls$val)
-
-        # Drop labels that are the same as the value
-        # But leading 0's can be ignored if numeric
-        if (vtype == "numeric") {
-          lnum <- suppressWarnings(as.numeric(lbls$lbl))
-          lbls <- dplyr::filter(lbls, (is.na(lnum) | .data$val != lnum))
-        } else {
-          lbls <- dplyr::filter(lbls, .data$val != .data$lbl)
-        }
-
-        out <- dplyr::bind_rows(lbls, extra_labels)
-        dplyr::arrange(out, .data$val)
-      })
-
-    var_info <- make_var_info_from_scratch(
-      var_name = xml2::xml_attr(var_info_xml, "name"),
-      var_label =  xml2::xml_text(xml2::xml_find_first(var_info_xml, "d1:labl")),
-      var_desc = xml2::xml_text(xml2::xml_find_first(var_info_xml, "d1:txt")),
-      val_labels = val_labels,
-      code_instr = code_instr,
-      start = start,
-      end = end,
-      imp_decim = as.numeric(xml2::xml_attr(var_info_xml, "dcml")),
-      var_type = var_type,
-      rectypes = rectype_by_var
-    )
-
-
-  }
   make_ddi_from_scratch(
     file_name = file_name,
     file_path = dirname(ddi_file),
@@ -170,6 +117,77 @@ read_ipums_ddi <- function(ddi_file, data_layer = NULL) {
     var_info = var_info,
     conditions = conditions,
     citation = citation
+  )
+}
+
+xml_text_from_path_first <- function(xml, path) {
+  xml2::xml_text(xml2::xml_find_first(xml, path))
+}
+
+xml_text_from_path_collapsed <- function(xml, path, collapse = "\n\n") {
+  out <- xml2::xml_text(xml2::xml_find_all(xml, path))
+  paste(out, collapse = collapse)
+}
+
+xml_text_from_path_all <- function(xml, path) {
+  xml2::xml_text(xml2::xml_find_all(xml, path))
+}
+
+get_var_info_from_ddi <- function(ddi_xml, file_type) {
+  var_info_xml <- xml2::xml_find_all(ddi_xml, "/d1:codeBook/d1:dataDscr/d1:var")
+  if (length(var_info_xml) == 0) return(NULL)
+
+  start <- as.numeric(xml_text_from_path_first(var_info_xml, "d1:location/@StartPos"))
+  end <- as.numeric(xml_text_from_path_first(var_info_xml, "d1:location/@EndPos"))
+  var_type <- xml_text_from_path_first(var_info_xml, "d1:varFormat/@type")
+  code_instr <- xml_text_from_path_first(var_info_xml, "d1:codInstr")
+
+  if  (file_type == "hierarchical") {
+    rectype_by_var <- stringr::str_split(xml2::xml_attr(var_info_xml, "rectype"), " ")
+  } else {
+    rectype_by_var <- NA
+  }
+
+  # Value labels
+  lbls_from_code_instr <- parse_labels_from_code_instr(code_instr, var_type)
+
+  val_labels <- purrr::pmap(
+    list(var_info_xml, var_type, lbls_from_code_instr),
+    function(vvv, vtype, extra_labels) {
+      lbls <- xml2::xml_find_all(vvv, "d1:catgry")
+      if (length(lbls) == 0) return(extra_labels)
+
+      lbls <- dplyr::data_frame(
+        val = xml_text_from_path_all(lbls, "d1:catValu"),
+        lbl = xml_text_from_path_all(lbls, "d1:labl")
+      )
+
+      if (vtype == "numeric") lbls$val <- as.numeric(lbls$val)
+
+      # Drop labels that are the same as the value
+      # But leading 0's can be ignored if numeric
+      if (vtype == "numeric") {
+        lnum <- suppressWarnings(as.numeric(lbls$lbl))
+        lbls <- dplyr::filter(lbls, (is.na(lnum) | .data$val != lnum))
+      } else {
+        lbls <- dplyr::filter(lbls, .data$val != .data$lbl)
+      }
+
+      out <- dplyr::bind_rows(lbls, extra_labels)
+      dplyr::arrange(out, .data$val)
+    })
+
+  make_var_info_from_scratch(
+    var_name = xml2::xml_attr(var_info_xml, "name"),
+    var_label =  xml2::xml_text(xml2::xml_find_first(var_info_xml, "d1:labl")),
+    var_desc = xml2::xml_text(xml2::xml_find_first(var_info_xml, "d1:txt")),
+    val_labels = val_labels,
+    code_instr = code_instr,
+    start = start,
+    end = end,
+    imp_decim = as.numeric(xml2::xml_attr(var_info_xml, "dcml")),
+    var_type = var_type,
+    rectypes = rectype_by_var
   )
 }
 
