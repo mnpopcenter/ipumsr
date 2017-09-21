@@ -132,7 +132,7 @@ test_that(
 
     check_geo <- nhgis_sf$GISJOIN[1]
     expect_equal(
-      dplyr::filter(nhgis_sf, GISJOIN == check_geo)$geometry[[1]][[1]],
+      dplyr::filter(nhgis_sf, GISJOIN == check_geo)$geometry[[1]][[1]][[1]],
       subset(nhgis_sp, GISJOIN == check_geo)@polygons[[1]]@Polygons[[1]]@coords
     )
 
