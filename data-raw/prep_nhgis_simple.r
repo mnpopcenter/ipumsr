@@ -4,25 +4,14 @@
 # (missing .shp.xml, sbx, and sbn files), but hopefully
 # this is good enough.
 
+# Preparation requires the rmapshaper package
+# (available from CRAN, but not included in package dependencies)
+library(rmapshaper)
+
 # Relies on being at project root directory
 # (And changes it to get around `zip`'s behavior of
 # including directory structure in zip)
 old_wd <- getwd()
-
-make_square_around_centroid <- function(geo, dist) {
-  out <- purrr::map(geo, function(x) {
-    centroid <- (sf::st_centroid(x))
-    points <- list(matrix(c(
-      centroid + c(dist, dist), centroid + c(dist, -dist),
-      centroid + c(-dist, -dist), centroid + c(-dist, dist),
-      centroid + c(dist, dist)
-    ), ncol = 2))
-
-    sf::st_multipolygon(list(points))
-  })
-  attributes(out) <- attributes(geo)
-  out
-}
 
 temp_dir <- file.path(tempdir(), "small_extract")
 dir.create(temp_dir)
@@ -32,9 +21,12 @@ temp_dir_out <- file.path(temp_dir, "nhgis0008_shape")
 dir.create(temp_dir_out)
 
 shp_data <- ripums::read_ipums_sf(file.path("data-raw/nhgis0008_shape.zip"))
-shp_data$geometry <- make_square_around_centroid(shp_data$geometry, 20000)
+shp_data <- rmapshaper::ms_simplify(shp_data, keep = 0.01)
 
 shp_data <- as(shp_data, "Spatial")
+# Ignore warnings because of gdal bug
+# https://github.com/r-spatial/sf/issues/306
+# Couldn't suppress them with supressWarnings/suppressMessages nor purrr::quietly
 rgdal::writeOGR(
   obj = shp_data,
   dsn = temp_dir_inner,

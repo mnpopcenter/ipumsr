@@ -142,7 +142,7 @@ ipums_view(data)
 
 Relies on user downloading the csv file (with or without header row) and shape files (doesn't need to be unzipped).
 
-Note that to save space when including this data on CRAN, the shape file has been reduced to squares around the centroid of the PMSA. The original shape file can be found in the `ripumsexamples` package.
+Note that to save space when including this data on CRAN, the shape file has been reduced to 1% of the points in the polygon of the PMSA. The original shape file can be found in the `ripumsexamples` package.
 
 ``` r
 data <- read_nhgis_sf(
@@ -175,7 +175,7 @@ ggplot(data = data) +
   labs(
     title = "Percent of homes built before 1950", 
     subtitle = "By Primary Metropolitan Statistical Area in 1990 Census", 
-    caption = "Simplified PMSA boundaries (squares around centroid)"
+    caption = "Simplified PMSA boundaries (1% of polygon points retained)"
   )
 ```
 
