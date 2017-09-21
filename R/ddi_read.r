@@ -134,7 +134,7 @@ read_ipums_ddi <- function(ddi_file, data_layer = NULL) {
         # But leading 0's can be ignored if numeric
         if (vtype == "numeric") {
           lnum <- suppressWarnings(as.numeric(lbls$lbl))
-          lbls <- dplyr::filter(lbls, (is.na(lnum) | .data$val != .env$lnum))
+          lbls <- dplyr::filter(lbls, (is.na(lnum) | .data$val != lnum))
         } else {
           lbls <- dplyr::filter(lbls, .data$val != .data$lbl)
         }
