@@ -205,10 +205,14 @@ read_ipums_hier <- function(ddi, vars, n_max, data_structure, data_file, verbose
       stringr::str_sub(lines, rec_vinfo$start, rec_vinfo$end)
 
     # Some projects have numeric RECTYPE in data, even though DDI refers to them by character.
+    # This is being addressed in redmine 14283, so need to check that this conversion
+    # is actually needed
     if (is.null(rectype_convert)) {
       rectype_convert <- get_proj_config(ddi$ipums_project)$rectype_trans
     }
-    if (!is.null(rectype_convert)) {
+    proj_has_conversion <- !is.null(rectype_convert)
+    ddi_not_updated <- any(!names(rectype_convert) %in% ddi$rectypes)
+    if (proj_has_conversion && ddi_not_updated) {
       out$RECTYPE_DDI <- convert_rectype(rectype_convert, out[[rec_vinfo$var_name]])
       rec_vinfo$var_name <- "RECTYPE_DDI"
     }
@@ -232,9 +236,16 @@ read_ipums_hier <- function(ddi, vars, n_max, data_structure, data_file, verbose
     rec_type <- stringr::str_sub(lines, rec_vinfo$start, rec_vinfo$end)
 
     # Some projects have numeric RECTYPE in data, even though DDI refers to them by character.
-    config <- get_proj_config(ddi$ipums_project)
-    if (!is.null(config$rectype_trans)) {
-      rec_type <- convert_rectype(config$rectype_trans, rec_type)
+    # This is being addressed in redmine 14283, so need to check that this conversion
+    # is actually needed
+    if (is.null(rectype_convert)) {
+      rectype_convert <- get_proj_config(ddi$ipums_project)$rectype_trans
+    }
+    proj_has_conversion <- !is.null(rectype_convert)
+    ddi_not_updated <- any(!names(rectype_convert) %in% ddi$rectypes)
+
+    if (proj_has_conversion && ddi_not_updated) {
+      rec_type <- convert_rectype(rectype_convert, rec_type)
     }
 
     rec_types_in_extract <- dplyr::intersect(rec_vinfo$rectypes[[1]], unique(rec_type))

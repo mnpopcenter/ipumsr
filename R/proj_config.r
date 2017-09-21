@@ -17,6 +17,7 @@
 # just to a general website depending on the value of var_url)
 
 # Handle the RECTYPE converstion -----
+# Hopefully can get rid of this soon! (redmine 14283)
 convert_rectype <- function(rt_trans, rt_data) {
   unname(rt_trans)[match(rt_data, names(rt_trans))]
 }
