@@ -97,13 +97,25 @@ read_ipums_ddi <- function(ddi_file, data_layer = NULL) {
     # UPDATE: Seems like new extract system has them all as RECTYPE (at least for atus)
     # so we may be okay
     rectype_idvar <- rectype_idvar[length(rectype_idvar)]
+
+    # For some reason our extract engine can't provide value labels for rec types
+    # So get it from file structure area
+    rt_lbls <- xml_text_from_path_all(
+      ddi_xml,
+      "/d1:codeBook/d1:fileDscr/d1:fileTxt/d1:fileStrc/d1:recGrp/d1:labl"
+    )
+    rectype_labels <- dplyr::data_frame(
+      val = rectypes,
+      lbl = rt_lbls
+    )
   } else {
     rectypes <- NULL
     rectype_idvar <- NULL
+    rectype_labels <- NULL
   }
 
   # Get variable specific information
-  var_info <- get_var_info_from_ddi(ddi_xml, file_type)
+  var_info <- get_var_info_from_ddi(ddi_xml, file_type, rectype_idvar, rectype_labels)
 
   make_ddi_from_scratch(
     file_name = file_name,
@@ -133,10 +145,11 @@ xml_text_from_path_all <- function(xml, path) {
   xml2::xml_text(xml2::xml_find_all(xml, path))
 }
 
-get_var_info_from_ddi <- function(ddi_xml, file_type) {
+get_var_info_from_ddi <- function(ddi_xml, file_type, rt_idvar, rectype_labels) {
   var_info_xml <- xml2::xml_find_all(ddi_xml, "/d1:codeBook/d1:dataDscr/d1:var")
   if (length(var_info_xml) == 0) return(NULL)
 
+  var_name <- xml2::xml_attr(var_info_xml, "name")
   start <- as.numeric(xml_text_from_path_first(var_info_xml, "d1:location/@StartPos"))
   end <- as.numeric(xml_text_from_path_first(var_info_xml, "d1:location/@EndPos"))
   var_type <- xml_text_from_path_first(var_info_xml, "d1:varFormat/@type")
@@ -149,7 +162,23 @@ get_var_info_from_ddi <- function(ddi_xml, file_type) {
   }
 
   # Value labels
+  # Some come from parsed code sections
   lbls_from_code_instr <- parse_labels_from_code_instr(code_instr, var_type)
+
+  # For hierarchical, RECTYPE comes from elsewhere in the DDI
+  if (file_type == "hierarchical") {
+    # If var is numeric, need to convert
+    rt_type <- var_type[var_name == rt_idvar]
+    if (length(rt_type) == 1 && rt_type == "numeric") {
+      rectype_labels$val <- suppressWarnings(as.numeric(rectype_labels$val))
+    }
+    rectype_labels <- dplyr::filter(rectype_labels, !is.na(.data$val))
+    rectype_labels <- dplyr::arrange(rectype_labels, .data$val)
+    # Replace in the code_instructions
+    if (nrow(rectype_labels) > 0) {
+      lbls_from_code_instr[[which(var_name == rt_idvar)]] <- rectype_labels
+    }
+  }
 
   val_labels <- purrr::pmap(
     list(var_info_xml, var_type, lbls_from_code_instr),
@@ -178,7 +207,7 @@ get_var_info_from_ddi <- function(ddi_xml, file_type) {
     })
 
   make_var_info_from_scratch(
-    var_name = xml2::xml_attr(var_info_xml, "name"),
+    var_name = var_name,
     var_label =  xml2::xml_text(xml2::xml_find_first(var_info_xml, "d1:labl")),
     var_desc = xml2::xml_text(xml2::xml_find_first(var_info_xml, "d1:txt")),
     val_labels = val_labels,
