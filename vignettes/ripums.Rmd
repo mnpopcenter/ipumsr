@@ -83,13 +83,14 @@ values as an integer sequence (1, 2, 3, ...), but IPUMS conventions are to store
 missing / not in universe codes as large numbers, to distinguish them from the normal values.
 
 Therefore, the `ripums` package uses the `labelled` class from the `haven` package to store
-labelled values. See the "semantics" vignette from the haven package for more information.
-`vignette("semantics", package = "haven")`
+labelled values. See the "value-labels" vignette for more information 
+(`vignette('value-labels')`).
 
 In summary, it is generally best if you wish to use the labels, to convert from
 the `labelled` class to `factor` early on in data analysis workflow. This is
 because many data manipulation functions will lose the associated labels. The
-function `haven::as_factor()` is the main function to create factors from labels.
+function `as_factor()` is the main function to create factors from labels, but 
+often you will need to do more manipulation before that.
 
 ```{r}
 library(ripums)

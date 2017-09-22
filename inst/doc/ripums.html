@@ -120,8 +120,8 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <div id="value-labels" class="section level3">
 <h3>Value Labels</h3>
 <p>The way that IPUMS treats value labels does not align with factors (the main way that R is able to store values associated with labels). R’s <code>factor</code> variables can only store values as an integer sequence (1, 2, 3, …), but IPUMS conventions are to store missing / not in universe codes as large numbers, to distinguish them from the normal values.</p>
-<p>Therefore, the <code>ripums</code> package uses the <code>labelled</code> class from the <code>haven</code> package to store labelled values. See the “semantics” vignette from the haven package for more information. <code>vignette(&quot;semantics&quot;, package = &quot;haven&quot;)</code></p>
-<p>In summary, it is generally best if you wish to use the labels, to convert from the <code>labelled</code> class to <code>factor</code> early on in data analysis workflow. This is because many data manipulation functions will lose the associated labels. The function <code>haven::as_factor()</code> is the main function to create factors from labels.</p>
+<p>Therefore, the <code>ripums</code> package uses the <code>labelled</code> class from the <code>haven</code> package to store labelled values. See the “value-labels” vignette for more information (<code>vignette('value-labels')</code>).</p>
+<p>In summary, it is generally best if you wish to use the labels, to convert from the <code>labelled</code> class to <code>factor</code> early on in data analysis workflow. This is because many data manipulation functions will lose the associated labels. The function <code>as_factor()</code> is the main function to create factors from labels, but often you will need to do more manipulation before that.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(ripums)
 <span class="kw">library</span>(dplyr, <span class="dt">warn.conflicts =</span> <span class="ot">FALSE</span>)
 
