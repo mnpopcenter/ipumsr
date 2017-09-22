@@ -443,16 +443,28 @@ parse_labels_from_code_instr <- function(code, var_type) {
   purrr::map2(code, var_type, function(x, vt) {
     if (is.na(x)) return(make_empty_labels())
     lines <- stringr::str_split(x, "\n")[[1]]
-    if (vt == "numeric") {
-      labels <- stringr::str_match(lines, "^(-?[0-9.,]+)([[:blank:]|[:punct:]|=]+)(.+)$")
-      labels <- dplyr::data_frame(val = labels[, 2], lbl = labels[, 4])
-      labels <- dplyr::filter(labels, !is.na(.data$val))
-      labels$val <- as.numeric(stringr::str_replace_all(labels$val, ",", ""))
-    } else {
-      labels <- stringr::str_match(lines, "^([:graph:]+)([:blank:]+[[:punct:]|=]+[:blank:]+)(.+)$")
-      labels <- dplyr::data_frame(val = labels[, 2], lbl = labels[, 4])
-      labels <- dplyr::filter(labels, !is.na(.data$val))
-    }
+    labels <- parse_code_regex(lines, vt)
     dplyr::arrange(labels, .data$val)
   })
+}
+
+parse_code_regex <- function(x, vtype) {
+  if (vtype == "numeric") {
+    labels <- stringr::str_match(
+      x,
+      "^(-?[0-9.,]+)(([:blank:][:punct:]|[:punct:][:blank:]|[:blank:]|=)+)(.+?)$"
+    )
+
+    labels <- dplyr::data_frame(val = labels[, 2], lbl = labels[, 5])
+    labels <- dplyr::filter(labels, !is.na(.data$val))
+    labels$val <- as.numeric(stringr::str_replace_all(labels$val, ",", ""))
+  } else {
+    labels <- stringr::str_match(
+      x, "^([:graph:]+)([:blank:]+[[:punct:]|=]+[:blank:]+)(.+)$"
+    )
+
+    labels <- dplyr::data_frame(val = labels[, 2], lbl = labels[, 4])
+    labels <- dplyr::filter(labels, !is.na(.data$val))
+  }
+  labels
 }
