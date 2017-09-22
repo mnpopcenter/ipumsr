@@ -109,9 +109,9 @@ cps <- read_ipums_micro_list(
   verbose = FALSE
 )
 
-cps$P
+cps$PERSON
 
-cps$H
+cps$HOUSEHOLD
 
 # Long data
 cps <- read_ipums_micro(

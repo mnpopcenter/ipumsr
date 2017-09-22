@@ -12,7 +12,7 @@
 
 <meta name="author" content="Minnesota Population Center" />
 
-<meta name="date" content="2017-09-14" />
+<meta name="date" content="2017-09-22" />
 
 <title>Introduction to ripums - IPUMS Data in R</title>
 
@@ -70,7 +70,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 <h1 class="title toc-ignore">Introduction to <code>ripums</code> - IPUMS Data in R</h1>
 <h4 class="author"><em>Minnesota Population Center</em></h4>
-<h4 class="date"><em>2017-09-14</em></h4>
+<h4 class="date"><em>2017-09-22</em></h4>
 
 
 
@@ -132,19 +132,19 @@ cps_data &lt;-<span class="st"> </span><span class="kw">read_ipums_micro</span>(
 <span class="co"># Show which variables have labels</span>
 cps_data %&gt;%
 <span class="st">  </span><span class="kw">select_if</span>(is.labelled)
-<span class="co">#&gt; # A tibble: 7,668 x 2</span>
-<span class="co">#&gt;     STATEFIP     MONTH</span>
-<span class="co">#&gt;  * &lt;dbl+lbl&gt; &lt;dbl+lbl&gt;</span>
-<span class="co">#&gt;  1        55         3</span>
-<span class="co">#&gt;  2        55         3</span>
-<span class="co">#&gt;  3        55         3</span>
-<span class="co">#&gt;  4        27         3</span>
-<span class="co">#&gt;  5        27         3</span>
-<span class="co">#&gt;  6        27         3</span>
-<span class="co">#&gt;  7        19         3</span>
-<span class="co">#&gt;  8        19         3</span>
-<span class="co">#&gt;  9        19         3</span>
-<span class="co">#&gt; 10        19         3</span>
+<span class="co">#&gt; # A tibble: 7,668 x 3</span>
+<span class="co">#&gt;     STATEFIP     MONTH    INCTOT</span>
+<span class="co">#&gt;  * &lt;dbl+lbl&gt; &lt;dbl+lbl&gt; &lt;dbl+lbl&gt;</span>
+<span class="co">#&gt;  1        55         3      4883</span>
+<span class="co">#&gt;  2        55         3      5800</span>
+<span class="co">#&gt;  3        55         3  99999998</span>
+<span class="co">#&gt;  4        27         3     14015</span>
+<span class="co">#&gt;  5        27         3     16552</span>
+<span class="co">#&gt;  6        27         3      6375</span>
+<span class="co">#&gt;  7        19         3  99999999</span>
+<span class="co">#&gt;  8        19         3         0</span>
+<span class="co">#&gt;  9        19         3       600</span>
+<span class="co">#&gt; 10        19         3  99999999</span>
 <span class="co">#&gt; # ... with 7,658 more rows</span>
 
 <span class="co"># Notice how the tibble print function shows the dbl+lbl class on top</span>
@@ -285,23 +285,23 @@ cps &lt;-<span class="st"> </span><span class="kw">read_ipums_micro_list</span>(
   <span class="dt">verbose =</span> <span class="ot">FALSE</span>
 )
 
-cps$P
+cps$PERSON
 <span class="co">#&gt; # A tibble: 7,668 x 5</span>
-<span class="co">#&gt;     YEAR SERIAL PERNUM  WTSUPP   INCTOT</span>
-<span class="co">#&gt;    &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt;</span>
-<span class="co">#&gt;  1  1962     80      1 1475.59     4883</span>
-<span class="co">#&gt;  2  1962     80      2 1470.72     5800</span>
-<span class="co">#&gt;  3  1962     80      3 1578.75 99999998</span>
-<span class="co">#&gt;  4  1962     82      1 1597.61    14015</span>
-<span class="co">#&gt;  5  1962     83      1 1706.65    16552</span>
-<span class="co">#&gt;  6  1962     84      1 1790.25     6375</span>
-<span class="co">#&gt;  7  1962    107      1 4355.40 99999999</span>
-<span class="co">#&gt;  8  1962    107      2 1385.81        0</span>
-<span class="co">#&gt;  9  1962    107      3 1629.10      600</span>
-<span class="co">#&gt; 10  1962    107      4 1432.24 99999999</span>
+<span class="co">#&gt;     YEAR SERIAL PERNUM  WTSUPP    INCTOT</span>
+<span class="co">#&gt;    &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl+lbl&gt;</span>
+<span class="co">#&gt;  1  1962     80      1 1475.59      4883</span>
+<span class="co">#&gt;  2  1962     80      2 1470.72      5800</span>
+<span class="co">#&gt;  3  1962     80      3 1578.75  99999998</span>
+<span class="co">#&gt;  4  1962     82      1 1597.61     14015</span>
+<span class="co">#&gt;  5  1962     83      1 1706.65     16552</span>
+<span class="co">#&gt;  6  1962     84      1 1790.25      6375</span>
+<span class="co">#&gt;  7  1962    107      1 4355.40  99999999</span>
+<span class="co">#&gt;  8  1962    107      2 1385.81         0</span>
+<span class="co">#&gt;  9  1962    107      3 1629.10       600</span>
+<span class="co">#&gt; 10  1962    107      4 1432.24  99999999</span>
 <span class="co">#&gt; # ... with 7,658 more rows</span>
 
-cps$H
+cps$HOUSEHOLD
 <span class="co">#&gt; # A tibble: 3,385 x 5</span>
 <span class="co">#&gt;     YEAR SERIAL HWTSUPP  STATEFIP     MONTH</span>
 <span class="co">#&gt;    &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl+lbl&gt; &lt;dbl+lbl&gt;</span>
@@ -325,19 +325,19 @@ cps &lt;-<span class="st"> </span><span class="kw">read_ipums_micro</span>(
 
 cps
 <span class="co">#&gt; # A tibble: 11,053 x 9</span>
-<span class="co">#&gt;    RECTYPE  YEAR SERIAL HWTSUPP  STATEFIP     MONTH PERNUM  WTSUPP</span>
-<span class="co">#&gt;  *   &lt;chr&gt; &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl+lbl&gt; &lt;dbl+lbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;</span>
-<span class="co">#&gt;  1       H  1962     80 1475.59        55         3     NA      NA</span>
-<span class="co">#&gt;  2       P  1962     80      NA        NA        NA      1 1475.59</span>
-<span class="co">#&gt;  3       P  1962     80      NA        NA        NA      2 1470.72</span>
-<span class="co">#&gt;  4       P  1962     80      NA        NA        NA      3 1578.75</span>
-<span class="co">#&gt;  5       H  1962     82 1597.61        27         3     NA      NA</span>
-<span class="co">#&gt;  6       P  1962     82      NA        NA        NA      1 1597.61</span>
-<span class="co">#&gt;  7       H  1962     83 1706.65        27         3     NA      NA</span>
-<span class="co">#&gt;  8       P  1962     83      NA        NA        NA      1 1706.65</span>
-<span class="co">#&gt;  9       H  1962     84 1790.25        27         3     NA      NA</span>
-<span class="co">#&gt; 10       P  1962     84      NA        NA        NA      1 1790.25</span>
-<span class="co">#&gt; # ... with 11,043 more rows, and 1 more variables: INCTOT &lt;dbl&gt;</span></code></pre></div>
+<span class="co">#&gt;      RECTYPE  YEAR SERIAL HWTSUPP  STATEFIP     MONTH PERNUM  WTSUPP</span>
+<span class="co">#&gt;  * &lt;chr+lbl&gt; &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl+lbl&gt; &lt;dbl+lbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;</span>
+<span class="co">#&gt;  1         H  1962     80 1475.59        55         3     NA      NA</span>
+<span class="co">#&gt;  2         P  1962     80      NA        NA        NA      1 1475.59</span>
+<span class="co">#&gt;  3         P  1962     80      NA        NA        NA      2 1470.72</span>
+<span class="co">#&gt;  4         P  1962     80      NA        NA        NA      3 1578.75</span>
+<span class="co">#&gt;  5         H  1962     82 1597.61        27         3     NA      NA</span>
+<span class="co">#&gt;  6         P  1962     82      NA        NA        NA      1 1597.61</span>
+<span class="co">#&gt;  7         H  1962     83 1706.65        27         3     NA      NA</span>
+<span class="co">#&gt;  8         P  1962     83      NA        NA        NA      1 1706.65</span>
+<span class="co">#&gt;  9         H  1962     84 1790.25        27         3     NA      NA</span>
+<span class="co">#&gt; 10         P  1962     84      NA        NA        NA      1 1790.25</span>
+<span class="co">#&gt; # ... with 11,043 more rows, and 1 more variables: INCTOT &lt;dbl+lbl&gt;</span></code></pre></div>
 </div>
 <div id="geospatial-packages-sf-vs-sp" class="section level3">
 <h3>Geospatial Packages: <code>sf</code> vs <code>sp</code></h3>
