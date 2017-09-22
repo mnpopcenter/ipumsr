@@ -178,7 +178,8 @@ read_ipums_hier <- function(ddi, vars, n_max, data_structure, data_file, verbose
   nonrec_vinfo <- tidyr::unnest_(nonrec_vinfo, "rectypes", .drop = FALSE)
 
   if (verbose) cat("Reading data...\n")
-  lines <- readr::read_lines(
+  lines <- read_check_for_negative_bug(
+    readr::read_lines,
     data_file,
     progress = show_readr_progress(verbose),
     n_max = n_max,
@@ -323,7 +324,8 @@ read_ipums_rect <- function(ddi, vars, n_max, data_file, verbose) {
   is_csv <- ipums_file_ext(data_file) %in% c(".csv", ".csv.gz")
 
   if (is_fwf) {
-    out <- readr::read_fwf(
+    out <- read_check_for_negative_bug(
+      readr::read_fwf,
       data_file,
       col_positions,
       col_types,
@@ -332,7 +334,8 @@ read_ipums_rect <- function(ddi, vars, n_max, data_file, verbose) {
       progress = show_readr_progress(verbose)
     )
   } else if (is_csv) {
-    out <- readr::read_csv(
+    out <- read_check_for_negative_bug(
+      readr::read_csv,
       data_file,
       col_types = col_types,
       n_max = n_max,
@@ -345,4 +348,24 @@ read_ipums_rect <- function(ddi, vars, n_max, data_file, verbose) {
   out <- set_ipums_var_attributes(out, all_vars)
 
   out
+}
+
+# Check for https://github.com/tidyverse/readr/issues/663
+read_check_for_negative_bug <- function(readr_f, data_file, ...) {
+  lines <- purrr::safely(readr_f)(data_file, ...)
+  if (!is.null(lines$error)) {
+    error_message <- as.character(lines$error)
+    if (tools::file_ext(data_file) %in% c("gz", "zip") &&
+        stringr::str_detect(error_message, "negative length")) {
+      stop(call. = FALSE, paste0(
+        "Could not read data file, possibly because of a bug in readr when loading ",
+        "large zip files. Try unzipping the .gz file and reading the data again."
+      ))
+    } else {
+      stop(error_message, call. = FALSE)
+    }
+  } else {
+    lines <- lines$result
+  }
+  lines
 }
