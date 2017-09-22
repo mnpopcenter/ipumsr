@@ -81,138 +81,153 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 ddi &lt;-<span class="st"> </span><span class="kw">read_ipums_ddi</span>(<span class="kw">ripums_example</span>(<span class="st">&quot;cps_00015.xml&quot;</span>))
 cps &lt;-<span class="st"> </span><span class="kw">read_ipums_micro</span>(ddi, <span class="dt">verbose =</span> <span class="ot">FALSE</span>)
 
-cps</code></pre></div>
-<pre><code>## # A tibble: 10,883 x 13
-##     YEAR SERIAL HWTSUPP  STATEFIP  ASECFLAG     MONTH PERNUM  WTSUPP
-##  * &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl+lbl&gt; &lt;dbl+lbl&gt; &lt;dbl+lbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;
-##  1  2016  24138 3249.07        55         1         3      1 3249.07
-##  2  2016  24139 3154.25        55         1         3      1 3154.25
-##  3  2016  24139 3154.25        55         1         3      2 3154.25
-##  4  2016  24140 1652.37        55         1         3      1 1652.37
-##  5  2016  24140 1652.37        55         1         3      2 1502.68
-##  6  2016  24140 1652.37        55         1         3      3 1652.37
-##  7  2016  24141 3049.23        55         1         3      1 3049.23
-##  8  2016  24142 1636.77        55         1         3      1 1636.77
-##  9  2016  24142 1636.77        55         1         3      2 1636.77
-## 10  2016  24142 1636.77        55         1         3      3 1887.04
-## # ... with 10,873 more rows, and 5 more variables: AGE &lt;dbl+lbl&gt;,
-## #   EDUC &lt;dbl+lbl&gt;, INCTOT &lt;dbl+lbl&gt;, HEALTH &lt;dbl+lbl&gt;, MIGRATE1 &lt;dbl+lbl&gt;</code></pre>
+cps
+<span class="co">#&gt; # A tibble: 10,883 x 13</span>
+<span class="co">#&gt;     YEAR SERIAL HWTSUPP  STATEFIP  ASECFLAG     MONTH PERNUM  WTSUPP</span>
+<span class="co">#&gt;  * &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl+lbl&gt; &lt;dbl+lbl&gt; &lt;dbl+lbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;</span>
+<span class="co">#&gt;  1  2016  24138 3249.07        55         1         3      1 3249.07</span>
+<span class="co">#&gt;  2  2016  24139 3154.25        55         1         3      1 3154.25</span>
+<span class="co">#&gt;  3  2016  24139 3154.25        55         1         3      2 3154.25</span>
+<span class="co">#&gt;  4  2016  24140 1652.37        55         1         3      1 1652.37</span>
+<span class="co">#&gt;  5  2016  24140 1652.37        55         1         3      2 1502.68</span>
+<span class="co">#&gt;  6  2016  24140 1652.37        55         1         3      3 1652.37</span>
+<span class="co">#&gt;  7  2016  24141 3049.23        55         1         3      1 3049.23</span>
+<span class="co">#&gt;  8  2016  24142 1636.77        55         1         3      1 1636.77</span>
+<span class="co">#&gt;  9  2016  24142 1636.77        55         1         3      2 1636.77</span>
+<span class="co">#&gt; 10  2016  24142 1636.77        55         1         3      3 1887.04</span>
+<span class="co">#&gt; # ... with 10,873 more rows, and 5 more variables: AGE &lt;dbl+lbl&gt;,</span>
+<span class="co">#&gt; #   EDUC &lt;dbl+lbl&gt;, INCTOT &lt;dbl+lbl&gt;, HEALTH &lt;dbl+lbl&gt;, MIGRATE1 &lt;dbl+lbl&gt;</span></code></pre></div>
 <p>The first clue that some of the variables are labelled is the <code>&lt;dbl+lbl&gt;</code> that appear below <code>STATEFIP</code>, <code>ASECFLAG</code> and other variables. The tibble package prints the variable’s type information below the variable name. You also can use the <code>is.labelled()</code> function to check if a variable is labelled.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">is.labelled</span>(cps$STATEFIP)</code></pre></div>
-<pre><code>## [1] TRUE</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">sapply</span>(cps, is.labelled)</code></pre></div>
-<pre><code>##     YEAR   SERIAL  HWTSUPP STATEFIP ASECFLAG    MONTH   PERNUM   WTSUPP 
-##    FALSE    FALSE    FALSE     TRUE     TRUE     TRUE    FALSE    FALSE 
-##      AGE     EDUC   INCTOT   HEALTH MIGRATE1 
-##     TRUE     TRUE     TRUE     TRUE     TRUE</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">is.labelled</span>(cps$STATEFIP)
+<span class="co">#&gt; [1] TRUE</span>
+<span class="kw">sapply</span>(cps, is.labelled)
+<span class="co">#&gt;     YEAR   SERIAL  HWTSUPP STATEFIP ASECFLAG    MONTH   PERNUM   WTSUPP </span>
+<span class="co">#&gt;    FALSE    FALSE    FALSE     TRUE     TRUE     TRUE    FALSE    FALSE </span>
+<span class="co">#&gt;      AGE     EDUC   INCTOT   HEALTH MIGRATE1 </span>
+<span class="co">#&gt;     TRUE     TRUE     TRUE     TRUE     TRUE</span></code></pre></div>
 <p>There are a few options to see what the actual labels are:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Printing the variable directly (or a subset)</span>
-<span class="kw">head</span>(cps$MONTH)</code></pre></div>
-<pre><code>## &lt;Labelled double&gt;
-## [1] 3 3 3 3 3 3
-## 
-## Labels:
-##  value     label
-##      1   January
-##      2  February
-##      3     March
-##      4     April
-##      5       May
-##      6      June
-##      7      July
-##      8    August
-##      9 September
-##     10   October
-##     11  November
-##     12  December</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Just get the labels</span>
-<span class="kw">ipums_val_labels</span>(cps$MONTH)</code></pre></div>
-<pre><code>## # A tibble: 12 x 2
-##      val       lbl
-##    &lt;dbl&gt;     &lt;chr&gt;
-##  1     1   January
-##  2     2  February
-##  3     3     March
-##  4     4     April
-##  5     5       May
-##  6     6      June
-##  7     7      July
-##  8     8    August
-##  9     9 September
-## 10    10   October
-## 11    11  November
-## 12    12  December</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># or if you're working interactively you can use ipums_view</span>
+<span class="kw">head</span>(cps$MONTH)
+<span class="co">#&gt; &lt;Labelled double&gt;</span>
+<span class="co">#&gt; [1] 3 3 3 3 3 3</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Labels:</span>
+<span class="co">#&gt;  value     label</span>
+<span class="co">#&gt;      1   January</span>
+<span class="co">#&gt;      2  February</span>
+<span class="co">#&gt;      3     March</span>
+<span class="co">#&gt;      4     April</span>
+<span class="co">#&gt;      5       May</span>
+<span class="co">#&gt;      6      June</span>
+<span class="co">#&gt;      7      July</span>
+<span class="co">#&gt;      8    August</span>
+<span class="co">#&gt;      9 September</span>
+<span class="co">#&gt;     10   October</span>
+<span class="co">#&gt;     11  November</span>
+<span class="co">#&gt;     12  December</span>
+
+<span class="co"># Just get the labels</span>
+<span class="kw">ipums_val_labels</span>(cps$MONTH)
+<span class="co">#&gt; # A tibble: 12 x 2</span>
+<span class="co">#&gt;      val       lbl</span>
+<span class="co">#&gt;    &lt;dbl&gt;     &lt;chr&gt;</span>
+<span class="co">#&gt;  1     1   January</span>
+<span class="co">#&gt;  2     2  February</span>
+<span class="co">#&gt;  3     3     March</span>
+<span class="co">#&gt;  4     4     April</span>
+<span class="co">#&gt;  5     5       May</span>
+<span class="co">#&gt;  6     6      June</span>
+<span class="co">#&gt;  7     7      July</span>
+<span class="co">#&gt;  8     8    August</span>
+<span class="co">#&gt;  9     9 September</span>
+<span class="co">#&gt; 10    10   October</span>
+<span class="co">#&gt; 11    11  November</span>
+<span class="co">#&gt; 12    12  December</span>
+
+<span class="co"># or if you're working interactively you can use ipums_view</span>
 <span class="co"># ipums_view(ddi)</span></code></pre></div>
 </div>
 <div id="why-use-the-labelled-class-instead-of-base-rs-factors" class="section level1">
 <h1>Why use the labelled class instead of base R’s factors?</h1>
-<p>The usual way to connect numeric data to labels in R is in <code>factor</code> variables. Though this data type is more native to R, and more widely supported by R code, it was designed to for efficient calculations in linear models, not as a general purpose value labelling system and so is missing important features that the value labels provided by IPUMS require.</p>
+<p>The usual way to connect numeric data to labels in R is in <code>factor</code> variables. Though this data type is more native to R, and more widely supported by R code, it was designed to for efficient calculations in linear models, not as a general purpose value labeling system and so is missing important features that the value labels provided by IPUMS require.</p>
 <p>Factors only allow for integers to be mapped to a text label, and these integers have to be a count starting at 1. This doesn’t work for IPUMS data because often we use the numeric values to have meaning that would be lost if converted to factors. The variable <code>AGE</code> uses the value to mean the actual age, but does have value labels indicating what age 0 means and the top codes.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">head</span>(cps$AGE)</code></pre></div>
-<pre><code>## &lt;Labelled double&gt;
-## [1] 54 54 52 38 15 38
-## 
-## Labels:
-##  value               label
-##      0        Under 1 year
-##     90 90 (90+, 1988-2002)
-##     99                 99+</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">cps$AGE_FACTOR &lt;-<span class="st"> </span><span class="kw">as_factor</span>(cps$AGE)
-<span class="kw">head</span>(cps$AGE_FACTOR)</code></pre></div>
-<pre><code>## [1] 54 54 52 38 15 38
-## 84 Levels: Under 1 year 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 ... 99+</code></pre>
-<p>It may seem like the new <code>AGE_FACTOR</code> variable is okay, but it can be very confusing!</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">mean</span>(cps$AGE)</code></pre></div>
-<pre><code>## [1] 35.0226</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># mean(cps$AGE_FACTOR) # error because data is a factor not numeric</span>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">head</span>(cps$AGE)
+<span class="co">#&gt; &lt;Labelled double&gt;</span>
+<span class="co">#&gt; [1] 54 54 52 38 15 38</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Labels:</span>
+<span class="co">#&gt;  value               label</span>
+<span class="co">#&gt;      0        Under 1 year</span>
+<span class="co">#&gt;     90 90 (90+, 1988-2002)</span>
+<span class="co">#&gt;     99                 99+</span>
 
-<span class="kw">mean</span>(<span class="kw">as.numeric</span>(cps$AGE_FACTOR)) <span class="co"># A common mistake</span></code></pre></div>
-<pre><code>## [1] 35.94836</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># The &quot;more&quot; correct way, but NA because of the text labels</span>
-<span class="kw">mean</span>(<span class="kw">as.numeric</span>(<span class="kw">as.character</span>(cps$AGE_FACTOR)))</code></pre></div>
-<pre><code>## Warning in mean(as.numeric(as.character(cps$AGE_FACTOR))): NAs introduced
-## by coercion</code></pre>
-<pre><code>## [1] NA</code></pre>
+cps$AGE_FACTOR &lt;-<span class="st"> </span><span class="kw">as_factor</span>(cps$AGE)
+<span class="kw">head</span>(cps$AGE_FACTOR)
+<span class="co">#&gt; [1] 54 54 52 38 15 38</span>
+<span class="co">#&gt; 84 Levels: Under 1 year 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 ... 99+</span></code></pre></div>
+<p>It may seem like the new <code>AGE_FACTOR</code> variable is okay, but it can be very confusing!</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">mean</span>(cps$AGE)
+<span class="co">#&gt; [1] 35.0226</span>
+
+<span class="co"># mean(cps$AGE_FACTOR) # error because data is a factor not numeric</span>
+
+<span class="kw">mean</span>(<span class="kw">as.numeric</span>(cps$AGE_FACTOR)) <span class="co"># A common mistake</span>
+<span class="co">#&gt; [1] 35.94836</span>
+
+<span class="co"># The &quot;more&quot; correct way, but NA because of the text labels</span>
+<span class="kw">mean</span>(<span class="kw">as.numeric</span>(<span class="kw">as.character</span>(cps$AGE_FACTOR)))
+<span class="co">#&gt; Warning in mean(as.numeric(as.character(cps$AGE_FACTOR))): NAs introduced</span>
+<span class="co">#&gt; by coercion</span>
+<span class="co">#&gt; [1] NA</span></code></pre></div>
 <p>Because the factor variable has to assign values starting at 1, but the AGE variable started at 0, most values were 1 higher than they should have been. Not all values are 1 higher though, because not all values exist in the data, so 85, 90, and 99 are 82, 83 and 84 respectively.</p>
 <p>Factors also require that every value be labelled, which is not always true in IPUMS data. In the AGE variable, the only values with labels are 0, 90 and 99. For all other values, there is not additional label information.</p>
 </div>
 <div id="is-the-labelled-class-a-panacea-hint-no" class="section level1">
 <h1>Is the labelled class a panacea? (Hint: no)</h1>
 <p>Though the labelled does express all of the meaning provided by IPUMS value labels into R, many R functions cannot use them or even actively remove them from the data.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ipums_val_labels</span>(cps$HEALTH)</code></pre></div>
-<pre><code>## # A tibble: 5 x 2
-##     val       lbl
-##   &lt;dbl&gt;     &lt;chr&gt;
-## 1     1 Excellent
-## 2     2 Very good
-## 3     3      Good
-## 4     4      Fair
-## 5     5      Poor</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">HEALTH2 &lt;-<span class="st"> </span><span class="kw">ifelse</span>(cps$HEALTH &gt;<span class="st"> </span><span class="dv">3</span>, <span class="dv">3</span>, cps$HEALTH)
-<span class="kw">ipums_val_labels</span>(HEALTH2)</code></pre></div>
-<pre><code>## # A tibble: 0 x 2
-## # ... with 2 variables: val &lt;dbl&gt;, lbl &lt;chr&gt;</code></pre>
-<p>Therefore, your first task when importing an IPUMS dataset will usually be to convert the labelled values to other data structures. The bad news is that there’s no good automatic way to do this; a lot depends on how you plan to use the variables in your analysis and your preferences.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ipums_val_labels</span>(cps$HEALTH)
+<span class="co">#&gt; # A tibble: 5 x 2</span>
+<span class="co">#&gt;     val       lbl</span>
+<span class="co">#&gt;   &lt;dbl&gt;     &lt;chr&gt;</span>
+<span class="co">#&gt; 1     1 Excellent</span>
+<span class="co">#&gt; 2     2 Very good</span>
+<span class="co">#&gt; 3     3      Good</span>
+<span class="co">#&gt; 4     4      Fair</span>
+<span class="co">#&gt; 5     5      Poor</span>
+
+HEALTH2 &lt;-<span class="st"> </span><span class="kw">ifelse</span>(cps$HEALTH &gt;<span class="st"> </span><span class="dv">3</span>, <span class="dv">3</span>, cps$HEALTH)
+<span class="kw">ipums_val_labels</span>(HEALTH2)
+<span class="co">#&gt; # A tibble: 0 x 2</span>
+<span class="co">#&gt; # ... with 2 variables: val &lt;dbl&gt;, lbl &lt;chr&gt;</span></code></pre></div>
+<p>Therefore, your first task when importing an IPUMS data set will usually be to convert the labelled values to other data structures. The bad news is that there’s no good automatic way to do this; a lot depends on how you plan to use the variables in your analysis and your preferences.</p>
 <p>The good news is that the ripums package provides several functions to make this process easier.</p>
-<p>I think it is easiest to learn them by seeing them in action, but here is a list: - <code>as_factor()</code> (really from the haven package) - <code>zap_labels()</code> - <code>lbl_na_if()</code> - <code>lbl_collapse()</code> - <code>lbl_relabel()</code> - <code>lbl_add()</code> - <code>lbl_add_vals()</code></p>
+<p>I think it is easiest to learn them by seeing them in action, so see below for a workflow for bringing in the cps example extract. For your reference, here is a list of the functions:</p>
+<ul>
+<li><code>as_factor()</code> (reexported from the haven package)</li>
+<li><code>zap_labels()</code> (also from haven)</li>
+<li><code>lbl_na_if()</code></li>
+<li><code>lbl_collapse()</code></li>
+<li><code>lbl_relabel()</code></li>
+<li><code>lbl_add()</code></li>
+<li><code>lbl_add_vals()</code></li>
+</ul>
 </div>
 <div id="workflow-example-using-ripums-functions" class="section level1">
 <h1>Workflow example using ripums functions</h1>
 <div id="as_factor" class="section level2">
 <h2><code>as_factor()</code></h2>
 <p>The HEALTH variable is structured just like a factor and so can be converted directly. The <code>as_factor()</code> function is the easiest way to do so.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ipums_val_labels</span>(cps$HEALTH)</code></pre></div>
-<pre><code>## # A tibble: 5 x 2
-##     val       lbl
-##   &lt;dbl&gt;     &lt;chr&gt;
-## 1     1 Excellent
-## 2     2 Very good
-## 3     3      Good
-## 4     4      Fair
-## 5     5      Poor</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">cps$HEALTH &lt;-<span class="st"> </span><span class="kw">as_factor</span>(cps$HEALTH)</code></pre></div>
-<p>The ASECFLAG and MONTH variable can also be converted directly (which were included by default by the IPUMS extract engine, but isn’t that useful because this dataset only has respondents from ASEC in March)</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ipums_val_labels</span>(cps$HEALTH)
+<span class="co">#&gt; # A tibble: 5 x 2</span>
+<span class="co">#&gt;     val       lbl</span>
+<span class="co">#&gt;   &lt;dbl&gt;     &lt;chr&gt;</span>
+<span class="co">#&gt; 1     1 Excellent</span>
+<span class="co">#&gt; 2     2 Very good</span>
+<span class="co">#&gt; 3     3      Good</span>
+<span class="co">#&gt; 4     4      Fair</span>
+<span class="co">#&gt; 5     5      Poor</span>
+cps$HEALTH &lt;-<span class="st"> </span><span class="kw">as_factor</span>(cps$HEALTH)</code></pre></div>
+<p>The ASECFLAG and MONTH variable can also be converted directly (which were included by default by the IPUMS extract engine, but isn’t that useful because this data set only has respondents from ASEC in March)</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">cps$ASECFLAG &lt;-<span class="st"> </span><span class="kw">as_factor</span>(cps$ASECFLAG)
 cps$MONTH &lt;-<span class="st"> </span><span class="kw">as_factor</span>(cps$MONTH)</code></pre></div>
 <p><code>as_factor</code> works on data.frames by converting every labelled variable to a factor. However, this can create confusing variables like AGE_FACTOR from above, so this isn’t the best thing to do right away.</p>
@@ -221,52 +236,52 @@ cps$MONTH &lt;-<span class="st"> </span><span class="kw">as_factor</span>(cps$MO
 <h2><code>zap_labels()</code></h2>
 <p>I may decide that for my analysis, the AGE variable is most useful as the numeric values. The <code>zap_labels()</code> function removes the labels.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">cps$AGE &lt;-<span class="st"> </span><span class="kw">zap_labels</span>(cps$AGE)</code></pre></div>
-<p>The topcodes (which are only available on the CPS website) indicate that the values 80 actually indicates 80-84 and 85 indicates 85+, so another option would be to convert them to a factor with age ranges.</p>
+<p>The top-codes (which are only available on the CPS website) indicate that the values 80 actually indicates 80-84 and 85 indicates 85+, so another option would be to convert them to a factor with age ranges.</p>
 </div>
 <div id="lbl_clean" class="section level2">
 <h2><code>lbl_clean()</code></h2>
-<p>This extract only contains data from a few states and I don’t want the factor to have a level for the unused ones. The <code>lbl_clean()</code> function keeps only labels for values in the current dataset and returns a labelled variable which we can convert to a factor.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ipums_val_labels</span>(cps$STATEFIP)</code></pre></div>
-<pre><code>## # A tibble: 75 x 2
-##      val                  lbl
-##    &lt;dbl&gt;                &lt;chr&gt;
-##  1     1              Alabama
-##  2     2               Alaska
-##  3     4              Arizona
-##  4     5             Arkansas
-##  5     6           California
-##  6     8             Colorado
-##  7     9          Connecticut
-##  8    10             Delaware
-##  9    11 District of Columbia
-## 10    12              Florida
-## # ... with 65 more rows</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">cps$STATEFIP &lt;-<span class="st"> </span><span class="kw">lbl_clean</span>(cps$STATEFIP)
+<p>This extract only contains data from a few states and I don’t want the factor to have a level for the unused ones. The <code>lbl_clean()</code> function keeps only labels for values in the current data set and returns a labelled variable which we can convert to a factor.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ipums_val_labels</span>(cps$STATEFIP)
+<span class="co">#&gt; # A tibble: 75 x 2</span>
+<span class="co">#&gt;      val                  lbl</span>
+<span class="co">#&gt;    &lt;dbl&gt;                &lt;chr&gt;</span>
+<span class="co">#&gt;  1     1              Alabama</span>
+<span class="co">#&gt;  2     2               Alaska</span>
+<span class="co">#&gt;  3     4              Arizona</span>
+<span class="co">#&gt;  4     5             Arkansas</span>
+<span class="co">#&gt;  5     6           California</span>
+<span class="co">#&gt;  6     8             Colorado</span>
+<span class="co">#&gt;  7     9          Connecticut</span>
+<span class="co">#&gt;  8    10             Delaware</span>
+<span class="co">#&gt;  9    11 District of Columbia</span>
+<span class="co">#&gt; 10    12              Florida</span>
+<span class="co">#&gt; # ... with 65 more rows</span>
+cps$STATEFIP &lt;-<span class="st"> </span><span class="kw">lbl_clean</span>(cps$STATEFIP)
 
-<span class="kw">ipums_val_labels</span>(cps$STATEFIP)</code></pre></div>
-<pre><code>## # A tibble: 5 x 2
-##     val          lbl
-##   &lt;dbl&gt;        &lt;chr&gt;
-## 1    19         Iowa
-## 2    27    Minnesota
-## 3    38 North Dakota
-## 4    46 South Dakota
-## 5    55    Wisconsin</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">cps$STATEFIP &lt;-<span class="st"> </span><span class="kw">as_factor</span>(cps$STATEFIP)</code></pre></div>
+<span class="kw">ipums_val_labels</span>(cps$STATEFIP)
+<span class="co">#&gt; # A tibble: 5 x 2</span>
+<span class="co">#&gt;     val          lbl</span>
+<span class="co">#&gt;   &lt;dbl&gt;        &lt;chr&gt;</span>
+<span class="co">#&gt; 1    19         Iowa</span>
+<span class="co">#&gt; 2    27    Minnesota</span>
+<span class="co">#&gt; 3    38 North Dakota</span>
+<span class="co">#&gt; 4    46 South Dakota</span>
+<span class="co">#&gt; 5    55    Wisconsin</span>
+cps$STATEFIP &lt;-<span class="st"> </span><span class="kw">as_factor</span>(cps$STATEFIP)</code></pre></div>
 </div>
 <div id="lbl_na_if" class="section level2">
 <h2><code>lbl_na_if()</code></h2>
 <p>The INCTOT variable has 2 labelled values that are not actually incomes: 99999998 indicates “Missing” and 99999999 indicate “Not in Universe”. On the CPS website, the Universe tab indicates that the Universe for 2016 is respondents age 15+. Let’s say for my analysis, I can treat these values as missing.</p>
-<p>The <code>lbl_na_if()</code> function takes the variable and a function that refers to .val and .lbl (the values and labels respectively) and returns an indicator of whether to set those values to NA and remove the label. You can also use the <code>~</code> notation from the purrr package to create succinct annonymous functions.</p>
-<p>The .val and .lbl only refer to values that already have labels, they do not apply to unlabelled values. See the <code>lbl_add()</code> and <code>lbl_add_vals()</code> functions below for working with unlabelled values.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ipums_val_labels</span>(cps$INCTOT)</code></pre></div>
-<pre><code>## # A tibble: 2 x 2
-##     val                       lbl
-##   &lt;dbl&gt;                     &lt;chr&gt;
-## 1 1e+08                  Missing.
-## 2 1e+08 N.I.U. (Not in Universe).</code></pre>
+<p>The <code>lbl_na_if()</code> function takes the variable and a function that refers to .val and .lbl (the values and labels respectively) and returns an indicator of whether to set those values to NA and remove the label. You can also use the <code>~</code> notation from the purrr package to create succinct anonymous functions.</p>
+<p>The .val and .lbl only refer to values that already have labels, they do not apply to unlabeled values. See the <code>lbl_add()</code> and <code>lbl_add_vals()</code> functions below for working with unlabeled values.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Caution: R defaults to printing large numbers like 99999999 in rounded </span>
 <span class="co"># exponential format (1e+08) but that's not how they are actually stored</span>
+<span class="kw">ipums_val_labels</span>(cps$INCTOT)
+<span class="co">#&gt; # A tibble: 2 x 2</span>
+<span class="co">#&gt;     val                       lbl</span>
+<span class="co">#&gt;   &lt;dbl&gt;                     &lt;chr&gt;</span>
+<span class="co">#&gt; 1 1e+08                  Missing.</span>
+<span class="co">#&gt; 2 1e+08 N.I.U. (Not in Universe).</span>
 
 <span class="co"># All of these are equivalent</span>
 INCTOT1 &lt;-<span class="st"> </span><span class="kw">lbl_na_if</span>(cps$INCTOT, ~.val &gt;=<span class="st"> </span><span class="dv">99999990</span>)
@@ -288,67 +303,77 @@ cps$INCTOT &lt;-<span class="st"> </span><span class="kw">as_factor</span>(cps$I
 <h2><code>lbl_collapse()</code></h2>
 <p>The EDUC variable provides an example of a common IPUMS practice of grouping categories together by the starting digits. For example, the value 10 indicates “Grades 1, 2, 3, or 4”, and 11 - “Grade 1”, 12 - “Grade 2”, etc.</p>
 <p>Let’s say that I only care about those more general categories provided by the first 2 digits. The <code>lbl_collapse()</code> function allows me to provide a function that takes .val and .lbl and returns the value to assign it to. If that code is already used, then the all of the values assigned to it will get that label, otherwise the label of the smallest value is used. Just like with <code>lbl_na_if()</code>, the purrr-style compact syntax using <code>~</code> functions is supported.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ipums_val_labels</span>(cps$EDUC)</code></pre></div>
-<pre><code>## # A tibble: 36 x 2
-##      val                  lbl
-##    &lt;dbl&gt;                &lt;chr&gt;
-##  1     0  NIU or no schooling
-##  2     1         NIU or blank
-##  3     2    None or preschool
-##  4    10 Grades 1, 2, 3, or 4
-##  5    11              Grade 1
-##  6    12              Grade 2
-##  7    13              Grade 3
-##  8    14              Grade 4
-##  9    20        Grades 5 or 6
-## 10    21              Grade 5
-## # ... with 26 more rows</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># %/% is integer division, which divides by the number but doesn't keep the remainder</span>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ipums_val_labels</span>(cps$EDUC)
+<span class="co">#&gt; # A tibble: 36 x 2</span>
+<span class="co">#&gt;      val                  lbl</span>
+<span class="co">#&gt;    &lt;dbl&gt;                &lt;chr&gt;</span>
+<span class="co">#&gt;  1     0  NIU or no schooling</span>
+<span class="co">#&gt;  2     1         NIU or blank</span>
+<span class="co">#&gt;  3     2    None or preschool</span>
+<span class="co">#&gt;  4    10 Grades 1, 2, 3, or 4</span>
+<span class="co">#&gt;  5    11              Grade 1</span>
+<span class="co">#&gt;  6    12              Grade 2</span>
+<span class="co">#&gt;  7    13              Grade 3</span>
+<span class="co">#&gt;  8    14              Grade 4</span>
+<span class="co">#&gt;  9    20        Grades 5 or 6</span>
+<span class="co">#&gt; 10    21              Grade 5</span>
+<span class="co">#&gt; # ... with 26 more rows</span>
+<span class="co"># %/% is integer division, which divides by the number but doesn't keep the remainder</span>
 cps$EDUC &lt;-<span class="st"> </span><span class="kw">lbl_collapse</span>(cps$EDUC, ~.val %/%<span class="st"> </span><span class="dv">10</span>)
 
-<span class="kw">ipums_val_labels</span>(cps$EDUC)</code></pre></div>
-<pre><code>## # A tibble: 14 x 2
-##      val                  lbl
-##    &lt;dbl&gt;                &lt;chr&gt;
-##  1     0  NIU or no schooling
-##  2     1 Grades 1, 2, 3, or 4
-##  3     2        Grades 5 or 6
-##  4     3        Grades 7 or 8
-##  5     4              Grade 9
-##  6     5             Grade 10
-##  7     6             Grade 11
-##  8     7             Grade 12
-##  9     8    1 year of college
-## 10     9   2 years of college
-## 11    10   3 years of college
-## 12    11   4 years of college
-## 13    12  5+ years of college
-## 14    99      Missing/Unknown</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">cps$EDUC &lt;-<span class="st"> </span><span class="kw">as_factor</span>(cps$EDUC)</code></pre></div>
+<span class="kw">ipums_val_labels</span>(cps$EDUC)
+<span class="co">#&gt; # A tibble: 14 x 2</span>
+<span class="co">#&gt;      val                  lbl</span>
+<span class="co">#&gt;    &lt;dbl&gt;                &lt;chr&gt;</span>
+<span class="co">#&gt;  1     0  NIU or no schooling</span>
+<span class="co">#&gt;  2     1 Grades 1, 2, 3, or 4</span>
+<span class="co">#&gt;  3     2        Grades 5 or 6</span>
+<span class="co">#&gt;  4     3        Grades 7 or 8</span>
+<span class="co">#&gt;  5     4              Grade 9</span>
+<span class="co">#&gt;  6     5             Grade 10</span>
+<span class="co">#&gt;  7     6             Grade 11</span>
+<span class="co">#&gt;  8     7             Grade 12</span>
+<span class="co">#&gt;  9     8    1 year of college</span>
+<span class="co">#&gt; 10     9   2 years of college</span>
+<span class="co">#&gt; 11    10   3 years of college</span>
+<span class="co">#&gt; 12    11   4 years of college</span>
+<span class="co">#&gt; 13    12  5+ years of college</span>
+<span class="co">#&gt; 14    99      Missing/Unknown</span>
+
+cps$EDUC &lt;-<span class="st"> </span><span class="kw">as_factor</span>(cps$EDUC)</code></pre></div>
 </div>
 <div id="lbl_relabel" class="section level2">
 <h2><code>lbl_relabel()</code></h2>
 <p>Sometimes you may wish to move the labels into new categories. For example, the categories in MIGRATE1 may not quite map what I want to use in my analysis.</p>
 <p>The <code>lbl_relabel()</code> function provides a more flexible way to group existing labelled values into new ones. It takes a two-sided formula, where the left-hand side is a label (defined with the <code>lbl()</code> function) and the right hand side is an expression that can use .val and .lbl to evaluate to a logical indicating which values should be assigned to this label.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ipums_val_labels</span>(cps$MIGRATE1)</code></pre></div>
-<pre><code>## # A tibble: 8 x 2
-##     val                                  lbl
-##   &lt;dbl&gt;                                &lt;chr&gt;
-## 1     0                                  NIU
-## 2     1                           Same house
-## 3     2  Different house, place not reported
-## 4     3                  Moved within county
-## 5     4 Moved within state, different county
-## 6     5                 Moved between states
-## 7     6                               Abroad
-## 8     9                              Unknown</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">cps$MIGRATE1 &lt;-<span class="st"> </span><span class="kw">lbl_relabel</span>(
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ipums_val_labels</span>(cps$MIGRATE1)
+<span class="co">#&gt; # A tibble: 8 x 2</span>
+<span class="co">#&gt;     val                                  lbl</span>
+<span class="co">#&gt;   &lt;dbl&gt;                                &lt;chr&gt;</span>
+<span class="co">#&gt; 1     0                                  NIU</span>
+<span class="co">#&gt; 2     1                           Same house</span>
+<span class="co">#&gt; 3     2  Different house, place not reported</span>
+<span class="co">#&gt; 4     3                  Moved within county</span>
+<span class="co">#&gt; 5     4 Moved within state, different county</span>
+<span class="co">#&gt; 6     5                 Moved between states</span>
+<span class="co">#&gt; 7     6                               Abroad</span>
+<span class="co">#&gt; 8     9                              Unknown</span>
+
+cps$MIGRATE1 &lt;-<span class="st"> </span><span class="kw">lbl_relabel</span>(
   cps$MIGRATE1,
-  <span class="kw">lbl</span>(<span class="dv">0</span>, <span class="st">&quot;NIU / Missing&quot;</span>) ~<span class="st"> </span>.val %in%<span class="st"> </span><span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">2</span>, <span class="dv">9</span>),
-  <span class="kw">lbl</span>(<span class="dv">1</span>, <span class="st">&quot;Stayed in state&quot;</span>) ~<span class="st"> </span>.val %in%<span class="st"> </span><span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">4</span>),
-  <span class="kw">lbl</span>(<span class="dv">2</span>, <span class="st">&quot;Moved to new state&quot;</span>) ~<span class="st"> </span>.val ==<span class="st"> </span><span class="dv">5</span>,
-  <span class="kw">lbl</span>(<span class="dv">3</span>, <span class="st">&quot;Moved abroad&quot;</span>) ~<span class="st"> </span>.val ==<span class="st"> </span><span class="dv">6</span>
+  <span class="kw">lbl</span>(<span class="dv">0</span>, <span class="st">&quot;NIU / Missing / Unknown&quot;</span>) ~<span class="st"> </span>.val %in%<span class="st"> </span><span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">2</span>, <span class="dv">9</span>),
+  <span class="kw">lbl</span>(<span class="dv">1</span>, <span class="st">&quot;Stayed in state&quot;</span>) ~<span class="st"> </span>.val %in%<span class="st"> </span><span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">4</span>)
 )
+
+<span class="kw">ipums_val_labels</span>(cps$MIGRATE1)
+<span class="co">#&gt; # A tibble: 4 x 2</span>
+<span class="co">#&gt;     val                     lbl</span>
+<span class="co">#&gt;   &lt;dbl&gt;                   &lt;chr&gt;</span>
+<span class="co">#&gt; 1     0 NIU / Missing / Unknown</span>
+<span class="co">#&gt; 2     1         Stayed in state</span>
+<span class="co">#&gt; 3     5    Moved between states</span>
+<span class="co">#&gt; 4     6                  Abroad</span>
+
 cps$MIGRATE1 &lt;-<span class="st"> </span><span class="kw">as_factor</span>(cps$MIGRATE1)</code></pre></div>
 </div>
 <div id="lbl_add-and-lbl_add_vals" class="section level2">
@@ -359,30 +384,30 @@ cps$MIGRATE1 &lt;-<span class="st"> </span><span class="kw">as_factor</span>(cps
   <span class="kw">c</span>(<span class="st">`</span><span class="dt">Unknown</span><span class="st">`</span> =<span class="st"> </span><span class="dv">990</span>, <span class="dt">NIU =</span> <span class="dv">999</span>)
 )
 
-<span class="kw">lbl_add</span>(x, <span class="kw">lbl</span>(<span class="dv">100</span>, <span class="st">&quot;$100&quot;</span>), <span class="kw">lbl</span>(<span class="dv">105</span>, <span class="st">&quot;$105&quot;</span>), <span class="kw">lbl</span>(<span class="dv">200</span>, <span class="st">&quot;$200&quot;</span>), <span class="kw">lbl</span>(<span class="dv">230</span>, <span class="st">&quot;$230&quot;</span>))</code></pre></div>
-<pre><code>## &lt;Labelled double&gt;
-## [1] 100 200 105 990 999 230
-## 
-## Labels:
-##  value   label
-##    100    $100
-##    105    $105
-##    200    $200
-##    230    $230
-##    990 Unknown
-##    999     NIU</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">lbl_add_vals</span>(x, ~<span class="kw">paste0</span>(<span class="st">&quot;$&quot;</span>, .))</code></pre></div>
-<pre><code>## &lt;Labelled double&gt;
-## [1] 100 200 105 990 999 230
-## 
-## Labels:
-##  value   label
-##    100    $100
-##    105    $105
-##    200    $200
-##    230    $230
-##    990 Unknown
-##    999     NIU</code></pre>
+<span class="kw">lbl_add</span>(x, <span class="kw">lbl</span>(<span class="dv">100</span>, <span class="st">&quot;$100&quot;</span>), <span class="kw">lbl</span>(<span class="dv">105</span>, <span class="st">&quot;$105&quot;</span>), <span class="kw">lbl</span>(<span class="dv">200</span>, <span class="st">&quot;$200&quot;</span>), <span class="kw">lbl</span>(<span class="dv">230</span>, <span class="st">&quot;$230&quot;</span>))
+<span class="co">#&gt; &lt;Labelled double&gt;</span>
+<span class="co">#&gt; [1] 100 200 105 990 999 230</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Labels:</span>
+<span class="co">#&gt;  value   label</span>
+<span class="co">#&gt;    100    $100</span>
+<span class="co">#&gt;    105    $105</span>
+<span class="co">#&gt;    200    $200</span>
+<span class="co">#&gt;    230    $230</span>
+<span class="co">#&gt;    990 Unknown</span>
+<span class="co">#&gt;    999     NIU</span>
+<span class="kw">lbl_add_vals</span>(x, ~<span class="kw">paste0</span>(<span class="st">&quot;$&quot;</span>, .))
+<span class="co">#&gt; &lt;Labelled double&gt;</span>
+<span class="co">#&gt; [1] 100 200 105 990 999 230</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Labels:</span>
+<span class="co">#&gt;  value   label</span>
+<span class="co">#&gt;    100    $100</span>
+<span class="co">#&gt;    105    $105</span>
+<span class="co">#&gt;    200    $200</span>
+<span class="co">#&gt;    230    $230</span>
+<span class="co">#&gt;    990 Unknown</span>
+<span class="co">#&gt;    999     NIU</span></code></pre></div>
 </div>
 <div id="ready-for-analysis" class="section level2">
 <h2>Ready for analysis</h2>

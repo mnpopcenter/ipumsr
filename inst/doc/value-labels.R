@@ -1,3 +1,9 @@
+## ----setup, include = FALSE----------------------------------------------
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+
 ## ------------------------------------------------------------------------
 library(ripums)
 ddi <- read_ipums_ddi(ripums_example("cps_00015.xml"))
@@ -60,9 +66,9 @@ ipums_val_labels(cps$STATEFIP)
 cps$STATEFIP <- as_factor(cps$STATEFIP)
 
 ## ------------------------------------------------------------------------
-ipums_val_labels(cps$INCTOT)
 # Caution: R defaults to printing large numbers like 99999999 in rounded 
 # exponential format (1e+08) but that's not how they are actually stored
+ipums_val_labels(cps$INCTOT)
 
 # All of these are equivalent
 INCTOT1 <- lbl_na_if(cps$INCTOT, ~.val >= 99999990)
@@ -94,11 +100,12 @@ ipums_val_labels(cps$MIGRATE1)
 
 cps$MIGRATE1 <- lbl_relabel(
   cps$MIGRATE1,
-  lbl(0, "NIU / Missing") ~ .val %in% c(0, 2, 9),
-  lbl(1, "Stayed in state") ~ .val %in% c(1, 3, 4),
-  lbl(2, "Moved to new state") ~ .val == 5,
-  lbl(3, "Moved abroad") ~ .val == 6
+  lbl(0, "NIU / Missing / Unknown") ~ .val %in% c(0, 2, 9),
+  lbl(1, "Stayed in state") ~ .val %in% c(1, 3, 4)
 )
+
+ipums_val_labels(cps$MIGRATE1)
+
 cps$MIGRATE1 <- as_factor(cps$MIGRATE1)
 
 ## ------------------------------------------------------------------------

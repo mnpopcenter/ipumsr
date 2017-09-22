@@ -9,6 +9,13 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
 # Value labels in the ripums package
 Integrated variables in IPUMS data often have value labels, which attach
 text labels to the values taken by a variable (for example 1 = "Excellent").
@@ -49,7 +56,7 @@ ipums_val_labels(cps$MONTH)
 The usual way to connect numeric data to labels in R is in `factor` variables. 
 Though this data type is more native to R, and more widely supported by R code,
 it was designed to for efficient calculations in linear models, not as a general 
-purpose value labelling system and so is missing important features that the 
+purpose value labeling system and so is missing important features that the 
 value labels provided by IPUMS require.
 
 Factors only allow for integers to be mapped to a text label, and these
@@ -101,7 +108,7 @@ HEALTH2 <- ifelse(cps$HEALTH > 3, 3, cps$HEALTH)
 ipums_val_labels(HEALTH2)
 ```
 
-Therefore, your first task when importing an IPUMS dataset will usually be 
+Therefore, your first task when importing an IPUMS data set will usually be 
 to convert the labelled values to other data structures. The bad news is 
 that there's no good automatic way to do this; a lot depends on how you plan to use
 the variables in your analysis and your preferences. 
@@ -109,9 +116,12 @@ the variables in your analysis and your preferences.
 The good news is that the ripums package provides several functions to 
 make this process easier.
 
-I think it is easiest to learn them by seeing them in action, but here is a list:
-- `as_factor()` (really from the haven package)
-- `zap_labels()`
+I think it is easiest to learn them by seeing them in action, so
+see below for a workflow for bringing in the cps example extract.
+For your reference, here is a list of the functions:
+
+- `as_factor()` (reexported from the haven package)
+- `zap_labels()` (also from haven)
 - `lbl_na_if()`
 - `lbl_collapse()`
 - `lbl_relabel()`
@@ -128,7 +138,7 @@ cps$HEALTH <- as_factor(cps$HEALTH)
 ```
 
 The ASECFLAG and MONTH variable can also be converted directly (which were included by default by 
-the IPUMS extract engine, but isn't that useful because this dataset only has respondents 
+the IPUMS extract engine, but isn't that useful because this data set only has respondents 
 from ASEC in March)
 ```{r}
 cps$ASECFLAG <- as_factor(cps$ASECFLAG)
@@ -145,14 +155,14 @@ The `zap_labels()` function removes the labels.
 ```{r}
 cps$AGE <- zap_labels(cps$AGE)
 ```
-The topcodes (which are only available on the CPS website) indicate that the values
+The top-codes (which are only available on the CPS website) indicate that the values
 80 actually indicates 80-84 and 85 indicates 85+, so another option would be to
 convert them to a factor with age ranges.
 
 ## `lbl_clean()`
 This extract only contains data from a few states and I don't want the factor to have
 a level for the unused ones. The `lbl_clean()` function keeps only labels for values
-in the current dataset and returns a labelled variable which we can convert to a factor.
+in the current data set and returns a labelled variable which we can convert to a factor.
 ```{r}
 ipums_val_labels(cps$STATEFIP)
 cps$STATEFIP <- lbl_clean(cps$STATEFIP)
@@ -171,15 +181,15 @@ as missing.
 The `lbl_na_if()` function takes the variable and a function that refers to
 .val and .lbl (the values and labels respectively) and returns an indicator
 of whether to set those values to NA and remove the label. You can also use the 
-`~` notation from the purrr package to create succinct annonymous functions.
+`~` notation from the purrr package to create succinct anonymous functions.
 
 The .val and .lbl only refer to values that already have labels, they do not apply 
-to unlabelled values. See the `lbl_add()` and `lbl_add_vals()` functions below for
-working with unlabelled values.
+to unlabeled values. See the `lbl_add()` and `lbl_add_vals()` functions below for
+working with unlabeled values.
 ```{r}
-ipums_val_labels(cps$INCTOT)
 # Caution: R defaults to printing large numbers like 99999999 in rounded 
 # exponential format (1e+08) but that's not how they are actually stored
+ipums_val_labels(cps$INCTOT)
 
 # All of these are equivalent
 INCTOT1 <- lbl_na_if(cps$INCTOT, ~.val >= 99999990)
@@ -235,11 +245,12 @@ ipums_val_labels(cps$MIGRATE1)
 
 cps$MIGRATE1 <- lbl_relabel(
   cps$MIGRATE1,
-  lbl(0, "NIU / Missing") ~ .val %in% c(0, 2, 9),
-  lbl(1, "Stayed in state") ~ .val %in% c(1, 3, 4),
-  lbl(2, "Moved to new state") ~ .val == 5,
-  lbl(3, "Moved abroad") ~ .val == 6
+  lbl(0, "NIU / Missing / Unknown") ~ .val %in% c(0, 2, 9),
+  lbl(1, "Stayed in state") ~ .val %in% c(1, 3, 4)
 )
+
+ipums_val_labels(cps$MIGRATE1)
+
 cps$MIGRATE1 <- as_factor(cps$MIGRATE1)
 ```
 
