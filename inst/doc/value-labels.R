@@ -78,9 +78,6 @@ INCTOT3 <- lbl_na_if(cps$INCTOT, function(.val, .lbl) {
   is_niu <- .lbl == "N.I.U. (Not in Universe)."
   return(is_missing | is_niu)
 })
-# Because only missing and NIU are labelled, and lbl_na_if ignores unlabelled
-# values, this also works:
-INCTOT4 <- lbl_na_if(cps$INCTOT, ~TRUE) 
 
 # Change to a factor in the original cps data.frame
 cps$INCTOT <- lbl_na_if(cps$INCTOT, ~.val >= 9999990)
@@ -116,4 +113,20 @@ x <- haven::labelled(
 
 lbl_add(x, lbl(100, "$100"), lbl(105, "$105"), lbl(200, "$200"), lbl(230, "$230"))
 lbl_add_vals(x, ~paste0("$", .))
+
+## ------------------------------------------------------------------------
+# Reload cps data so that INCTOT is a labelled class again
+cps <- read_ipums_micro(ddi, verbose = FALSE)
+
+# Try to set all values above 1000000 to NA
+test1 <- lbl_na_if(cps$INCTOT, ~.val > 1000000)
+test1 <- zap_labels(test1)
+max(test1, na.rm = TRUE)
+# Didn't work
+
+## ------------------------------------------------------------------------
+test2 <- lbl_add_vals(cps$INCTOT)
+test2 <- lbl_na_if(test2, ~.val > 1000000)
+test2 <- zap_labels(test2)
+max(test2, na.rm = TRUE)
 

@@ -18,9 +18,10 @@ knitr::opts_chunk$set(
 
 # Value labels in the ripums package
 Integrated variables in IPUMS data often have value labels, which attach
-text labels to the values taken by a variable (for example 1 = "Excellent").
-These values can be incredibly useful during analysis. The `ripums` package
-does import the labels, but they can be hard to spot at first:
+text labels to the values taken by a variable (for example the HEALTH variable 
+has value labels: 1 = "Excellent", 2 = "Very good", etc.). The `ripums` package
+does import the labels, but not as factors, which may be how you were expecting them.
+The values can be hard to spot at first:
 
 ```{r}
 library(ripums)
@@ -32,7 +33,8 @@ cps
 
 The first clue that some of the variables are labelled is the `<dbl+lbl>`
 that appear below `STATEFIP`, `ASECFLAG` and other variables. The tibble package 
-prints the variable's type information below the variable name. You also can use
+prints the variable's type information below the variable name, and this "+lbl" indicates
+that the variable uses the `labelled` type. You also can use
 the `is.labelled()` function to check if a variable is labelled.
 
 ```{r}
@@ -199,9 +201,6 @@ INCTOT3 <- lbl_na_if(cps$INCTOT, function(.val, .lbl) {
   is_niu <- .lbl == "N.I.U. (Not in Universe)."
   return(is_missing | is_niu)
 })
-# Because only missing and NIU are labelled, and lbl_na_if ignores unlabelled
-# values, this also works:
-INCTOT4 <- lbl_na_if(cps$INCTOT, ~TRUE) 
 
 # Change to a factor in the original cps data.frame
 cps$INCTOT <- lbl_na_if(cps$INCTOT, ~.val >= 9999990)
@@ -273,17 +272,55 @@ And now, after converting all those labels to factors, I'm ready for analysis! I
 think of any other helper functions that would be useful for dealing with labels please
 let us know by filing an issue on [github](https://github.com/mnpopcenter/ripums/issues).
 
+# More detail on how the lbl_* functions work
+One implementation detail that may help you understand the lbl_* functions
+better is that the value labels are stored separately from the actual data. This
+can be important because it allows for values to exist in the data without
+labels (such as the non-special codes in the INCTOT variable from the example
+above) and also for value labels to exist even if they don't exist in the data
+(like the STATEFIPS that we didn't include in our extract).
+
+The `.val` and `.lbl` pronouns that are usable in functions like `lbl_na_if()`,
+`lbl_collapse()` and `lbl_relabel()` only include these labelled values, *not*
+all values in the dataset. Though this makes many calculations simpler, 
+because only the labelled values are considered, it can be confusing when you
+want to work with the unlabeled values.
+
+For example, considering the INCTOT variable, if there are unlabeled values
+that you want to set to NA, you cannot use `lbl_na_if()` directly. 
+```{r}
+# Reload cps data so that INCTOT is a labelled class again
+cps <- read_ipums_micro(ddi, verbose = FALSE)
+
+# Try to set all values above 1000000 to NA
+test1 <- lbl_na_if(cps$INCTOT, ~.val > 1000000)
+test1 <- zap_labels(test1)
+max(test1, na.rm = TRUE)
+# Didn't work
+```
+
+Instead you should add the value labels with `lbl_add_vals()` (or you could use
+a function that doesn't use the labels, such as `dplyr::na_if()`)
+```{r}
+test2 <- lbl_add_vals(cps$INCTOT)
+test2 <- lbl_na_if(test2, ~.val > 1000000)
+test2 <- zap_labels(test2)
+max(test2, na.rm = TRUE)
+```
+
 # Other resources
 The haven package vignette 'semantics' has some more details about the motivation and
 implementation of the labelled class. You can view it by running the command:
-```r
-vignette("semantics", package = "haven")
-```
+`vignette("semantics", package = "haven")`
 
-If the ripums `lbl_*` functions don't match your workflow, there also is a package called
-[labelled](http://larmarange.github.io/labelled/articles/intro_labelled.html) 
-which provides other methods for manipulating value labels. It is not installed
-by ripums, but is available on CRAN via the following command:
-```r
-install.packages("labelled")
-```
+The [labelled](http://larmarange.github.io/labelled/articles/intro_labelled.html) 
+package provides other methods for manipulating
+value labels. It is not installed by ripums, but is available on CRAN via the
+following command: `install.packages("labelled")`
+
+Finally, the [foreign](https://cran.r-project.org/package=foreign) and 
+[prettyR](https://cran.r-project.org/package=prettyR) packages don't use exactly
+the same data structure as haven (which ripums uses), but do have similar
+concepts for attaching value labels. Code designed for these packages
+could be adapted for use with the haven labelled class without too much
+difficulty.
