@@ -7,7 +7,7 @@
 \usage{
 lbl_add(x, ...)
 
-lbl_add_vals(x, labeller = identity, vals = NULL)
+lbl_add_vals(x, labeller = as.character, vals = NULL)
 }
 \arguments{
 \item{x}{A \code{\link[haven]{labelled}} vector}
@@ -15,7 +15,7 @@ lbl_add_vals(x, labeller = identity, vals = NULL)
 \item{...}{Labels formed by \code{\link{lbl}} indicating the value and label to be added.}
 
 \item{labeller}{A function that takes a single argument of the values and returns the
-labels. Defaults to \code{identity}. \code{\link[rlang]{as_function}}, so
+labels. Defaults to \code{as.character}. \code{\link[rlang]{as_function}}, so
 also accepts quosure-style lambda functions.}
 
 \item{vals}{Vector of values to be labelled. NULL, the default labels all values

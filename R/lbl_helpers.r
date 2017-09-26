@@ -205,7 +205,7 @@ lbl_relabel <- function(x, ...) {
 #' @param vals Vector of values to be labelled. NULL, the default labels all values
 #'   that are in the data, but aren't already labelled.
 #' @param labeller A function that takes a single argument of the values and returns the
-#'   labels. Defaults to \code{identity}. \code{\link[rlang]{as_function}}, so
+#'   labels. Defaults to \code{as.character}. \code{\link[rlang]{as_function}}, so
 #'   also accepts quosure-style lambda functions.
 #' @return A haven::labeled vector
 #' @examples
@@ -257,15 +257,29 @@ lbl_add <- function(x, ...) {
 
 #' @export
 #' @rdname lbl_add
-lbl_add_vals <- function(x, labeller = identity, vals = NULL) {
+lbl_add_vals <- function(x, labeller = as.character, vals = NULL) {
   old_labels <- attr(x, "labels")
+  old_labels <- dplyr::data_frame(val = unname(old_labels), lbl = names(old_labels))
+
   if (is.null(vals)) {
-    vals <- dplyr::setdiff(unique(x), unname(old_labels))
+    vals <- dplyr::setdiff(unique(x), old_labels$val)
+  } else {
+    if (any(vals %in% unname(old_labels))) {
+      stop(paste0("Some values have more than 1 label."))
+    }
   }
-  labeller <- rlang::as_function(labeller)
-  dots <- purrr::map(vals, ~lbl(.val = ., .lbl = labeller(.)))
-  dots$x <- x
-  do.call(lbl_add, dots)
+  new_labels <- dplyr::data_frame(
+    val = vals,
+    lbl = purrr::map_chr(vals, rlang::as_function(labeller))
+  )
+
+  new_labels <- dplyr::bind_rows(old_labels, new_labels)
+  new_labels <- dplyr::arrange(new_labels, .data$val)
+  new_labels <- purrr::set_names(new_labels$val, new_labels$lbl)
+
+  out <- x
+  attr(out, "labels") <- new_labels
+  out
 }
 
 
