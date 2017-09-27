@@ -3,6 +3,10 @@
 # in this project's top-level directory, and also on-line at:
 #   https://github.com/mnpopcenter/ripums
 
+# Rcpp for reading hierarchical data
+#' @useDynLib ripums
+#' @importFrom Rcpp sourceCpp
+NULL
 
 # Import all of rlang
 #'@import rlang
