@@ -34,6 +34,8 @@ ipums_view <- function(x, out_file = NULL, launch = TRUE) {
 
   file_info <- ipums_file_info(x)
   var_info <- ipums_var_info(x)
+  # Make sure var_info has all required columns
+  var_info <- dplyr::bind_rows(var_info, empty_var_info_df())
 
   html_page <- shiny::basicPage(
     htmltools::tags$h1("IPUMS Data Dictionary Viewer"),
@@ -173,6 +175,7 @@ split_double_linebreaks_to_ptags <- function(x) {
 }
 
 convert_single_linebreak_to_brtags <- function(x) {
+  if (is.null(x)) return(NULL)
   split <- stringr::str_split(x, "\n")[[1]]
   if (length(split) == 1) return(x)
   out <- vector(mode = "list", length = (length(split) - 1) * 2 - 1)
@@ -199,3 +202,14 @@ add_jquery_dependency <- function(page) {
   htmltools::htmlDependencies(page) <- rev(htmltools::htmlDependencies(page))
   page
 }
+
+empty_var_info_df <- function() {
+  dplyr::data_frame(
+    var_name = character(0),
+    var_label = character(0),
+    var_desc = character(0),
+    val_labels = list(),
+    code_instr = character(0)
+  )
+}
+
