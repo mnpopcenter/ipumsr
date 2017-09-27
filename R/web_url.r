@@ -51,7 +51,7 @@ ipums_website.ipums_ddi <- function(x, var, project = NULL, launch = TRUE, verbo
   # Some convuluted code to check for "detailed variables", because their urls aren't right
   var <- fix_for_detailed_var(x, var, var_label)
 
-  url <- get_ipums_url(var, project)
+  url <- get_ipums_url(var, project, verbose)
   if (launch) {
     shell.exec(url)
     invisible(url)
@@ -68,7 +68,7 @@ ipums_website.default <- function(x, var, project = NULL, launch = TRUE, verbose
   # Some convuluted code to check for "detailed variables", because their urls aren't right
   var <- fix_for_detailed_var(x, var, var_label)
 
-  url <- get_ipums_url(var, project)
+  url <- get_ipums_url(var, project, verbose)
   if (launch) {
     shell.exec(url)
     invisible(url)
