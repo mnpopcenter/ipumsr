@@ -128,7 +128,8 @@ read_ipums_ddi <- function(ddi_file, data_layer = NULL) {
     rectype_idvar = rectype_idvar,
     var_info = var_info,
     conditions = conditions,
-    citation = citation
+    citation = citation,
+    file_encoding = file_encoding
   )
 }
 
