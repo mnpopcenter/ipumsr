@@ -25,6 +25,8 @@
 #' @param verbose If \code{TRUE}, message user if no variable specific websites are available
 #' @param var_label Sometimes the variable label is useful for finding the correct URL. Only needed
 #'   if not passing in the ddi object.
+#' @param homepage_if_missing If \code{TRUE}, Return homepage if project does not provide variable
+#'   specific web pages.
 #' @return The url to the page on ipums.org (silently if launch is \code{TRUE})
 #' @examples
 #' ddi <- read_ipums_ddi(ripums_example("cps_00006.xml"))
@@ -40,18 +42,22 @@
 #'
 #'
 #'@export
-ipums_website <- function(x, var, project = NULL, launch = TRUE, verbose = TRUE, var_label = NULL) {
+ipums_website <- function(
+  x, var, project = NULL, launch = TRUE, verbose = TRUE, var_label = NULL, homepage_if_missing = TRUE
+) {
   UseMethod("ipums_website")
 }
 
 #'@export
-ipums_website.ipums_ddi <- function(x, var, project = NULL, launch = TRUE, verbose = TRUE, var_label = NULL) {
+ipums_website.ipums_ddi <- function(
+  x, var, project = NULL, launch = TRUE, verbose = TRUE, var_label = NULL, homepage_if_missing = TRUE
+) {
   if (is.null(project)) project <- x$ipums_project
 
   # Some convuluted code to check for "detailed variables", because their urls aren't right
   var <- fix_for_detailed_var(x, var, var_label)
 
-  url <- get_ipums_url(var, project, verbose)
+  url <- get_ipums_url(var, project, verbose, homepage_if_missing)
   if (launch) {
     shell.exec(url)
     invisible(url)
@@ -61,14 +67,16 @@ ipums_website.ipums_ddi <- function(x, var, project = NULL, launch = TRUE, verbo
 }
 
 #'@export
-ipums_website.default <- function(x, var, project = NULL, launch = TRUE, verbose = TRUE, var_label = NULL) {
+ipums_website.default <- function(
+  x, var, project = NULL, launch = TRUE, verbose = TRUE, var_label = NULL, homepage_if_missing = TRUE
+) {
   if (is.null(project)) project <- attributes(x)[["ipums_project"]]
   if (missing(x)) x <- NULL
 
   # Some convuluted code to check for "detailed variables", because their urls aren't right
   var <- fix_for_detailed_var(x, var, var_label)
 
-  url <- get_ipums_url(var, project, verbose)
+  url <- get_ipums_url(var, project, verbose, homepage_if_missing)
   if (launch) {
     shell.exec(url)
     invisible(url)
@@ -77,7 +85,7 @@ ipums_website.default <- function(x, var, project = NULL, launch = TRUE, verbose
   }
 }
 
-get_ipums_url <- function(var, project, verbose = TRUE) {
+get_ipums_url <- function(var, project, verbose = TRUE, homepage_if_missing = FALSE) {
   if (is.null(project)) {
     stop(paste0("Project not found. Please specify the project name using 'project' argument. ",
                 "Options include: ", paste(all_proj_names(), collapse = ", ")
@@ -94,6 +102,10 @@ get_ipums_url <- function(var, project, verbose = TRUE) {
 
   if (verbose && !config$var_url) {
     message("Cannot give a variable-specific URL for this project.")
+  }
+
+  if (!homepage_if_missing && !config$var_url) {
+    return(NULL)
   }
 
   config$url_function(var)

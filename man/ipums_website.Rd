@@ -5,7 +5,7 @@
 \title{Launch a browser window to the ipums website}
 \usage{
 ipums_website(x, var, project = NULL, launch = TRUE, verbose = TRUE,
-  var_label = NULL)
+  var_label = NULL, homepage_if_missing = TRUE)
 }
 \arguments{
 \item{x}{A DDI or empty (if specifying project)}
@@ -24,6 +24,9 @@ A name of an IPUMS project, one of:
 
 \item{var_label}{Sometimes the variable label is useful for finding the correct URL. Only needed
 if not passing in the ddi object.}
+
+\item{homepage_if_missing}{If \code{TRUE}, Return homepage if project does not provide variable
+specific web pages.}
 }
 \value{
 The url to the page on ipums.org (silently if launch is \code{TRUE})
