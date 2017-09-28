@@ -331,7 +331,7 @@ read_ipums_codebook <- function(cb_file, data_layer = NULL) {
       table_name <- stringr::str_match(dd[rows[1]], "^[:blank:]*Table [0-9]+:[:blank:]+(.+)$")[, 2]
       nhgis_table_code <- stringr::str_match(dd[rows[4]], "^[:blank:]*NHGIS code:[:blank:]+(.+)$")[, 2]
       vars <- stringr::str_match(dd[rows[-1:-4]], "([[:alnum:]|[:punct:]]+):[:blank:]+(.+)$")
-      vars <- vars[!is.na(vars[, 2]), ]
+      vars <- vars[!is.na(vars[, 2]), , drop = FALSE]
       dplyr::data_frame(
         var_name = vars[, 2],
         var_label = vars[, 3],
