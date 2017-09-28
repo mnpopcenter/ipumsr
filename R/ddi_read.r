@@ -310,6 +310,15 @@ read_ipums_codebook <- function(cb_file, data_layer = NULL) {
     )
     var_info <- var_info[!is.na(var_info$var_name), ]
   } else if (type == "NHGIS") {
+    # Check if file is a time series file
+    time_series_type <- stringr::str_match(cb, "^Time series layout:[:blank:]+(.+)$")[, 2]
+    time_series_type <- time_series_type[!is.na(time_series_type)]
+    if (length(time_series_type) > 0) {
+      is_time_series <- TRUE
+    } else {
+      is_time_series <- FALSE
+    }
+
     context_start <- which(dd == "Context Fields ") + 1
     context_end <- which(stringr::str_detect(dd, "^[:blank:]$")) - 1
     context_end <- min(context_end[context_end > context_start])
@@ -328,10 +337,23 @@ read_ipums_codebook <- function(cb_file, data_layer = NULL) {
     table_sections <- purrr::map2(table_name_rows, c(table_name_rows[-1], length(dd)), ~seq(.x, .y - 1))
 
     table_vars <- purrr::map_df(table_sections, function(rows) {
-      table_name <- stringr::str_match(dd[rows[1]], "^[:blank:]*Table [0-9]+:[:blank:]+(.+)$")[, 2]
-      nhgis_table_code <- stringr::str_match(dd[rows[4]], "^[:blank:]*NHGIS code:[:blank:]+(.+)$")[, 2]
-      vars <- stringr::str_match(dd[rows[-1:-4]], "([[:alnum:]|[:punct:]]+):[:blank:]+(.+)$")
-      vars <- vars[!is.na(vars[, 2]), , drop = FALSE]
+
+      if (is_time_series) {
+        table_name_and_code <- stringr::str_match(dd[rows[1]], "^[:blank:]*Table .+?:[:blank:]+\\((.+?)\\)[:blank:]+(.+)$")
+        table_name <- table_name_and_code[, 3]
+        nhgis_table_code <- table_name_and_code[, 2]
+
+        time_series_headers <- stringr::str_detect(dd[rows], "^[:blank:]+Time series")
+        vars <- dd[rows][!time_series_headers]
+        vars <- vars[-1] # First row was table name/code
+        vars <- stringr::str_match(vars, "([[:alnum:]|[:punct:]]+):[:blank:]+(.+)$")
+        vars <- vars[!is.na(vars[, 2]), , drop = FALSE]
+      } else {
+        table_name <- stringr::str_match(dd[rows[1]], "^[:blank:]*Table .+?:[:blank:]+(.+)$")[, 2]
+        nhgis_table_code <- stringr::str_match(dd[rows[4]], "^[:blank:]*NHGIS code:[:blank:]+(.+)$")[, 2]
+        vars <- stringr::str_match(dd[rows[-1:-4]], "([[:alnum:]|[:punct:]]+):[:blank:]+(.+)$")
+        vars <- vars[!is.na(vars[, 2]), , drop = FALSE]
+      }
       dplyr::data_frame(
         var_name = vars[, 2],
         var_label = vars[, 3],
