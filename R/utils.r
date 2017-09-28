@@ -38,10 +38,10 @@ find_files_in_zip <- function(
   if (!quo_is_null(name_select)) file_names <- dplyr::select_vars(file_names, !!name_select)
 
   if (!multiple_ok && length(file_names) > 1) {
-    arg_name <- deparse(substitute(name_regex))
+    arg_name <- deparse(substitute(name_select))
     stop(paste0(
       "Multiple files found, please use the `", arg_name, "` argument to ",
-      " specify which you want to load.\n", paste(file_names, collapse = ", ")
+      "specify which you want to load.\n", paste(file_names, collapse = ", ")
     ), call. = FALSE)
   }
 
