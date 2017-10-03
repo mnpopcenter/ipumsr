@@ -327,7 +327,7 @@ The [questionr](https://juba.github.io/questionr/) package includes great
 functions for exploring `labelled` variables. In particular, the functions
 `describe`, `freq` and `lookfor` all print out to console information about the
 variable using the value labels. It is also not installed by ripums, but can be
-installed from CRAN using: `install.packages("labelled")`
+installed from CRAN using: `install.packages("questionr")`
 
 Finally, the [foreign](https://cran.r-project.org/package=foreign) and 
 [prettyR](https://cran.r-project.org/package=prettyR) packages don't use the 
