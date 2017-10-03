@@ -90,6 +90,13 @@ read_ipums_sf <- function(shape_file, shape_layer = NULL, bind_multiple = TRUE, 
 
           utils::unzip(shape_file, shape_shp_files, exdir = shape_temp)
 
+          # If there is a cpg file (encoding information) extract that
+          all_files <- utils::unzip(shape_file, list = TRUE)$Name
+          cpg_file <- ".cpg" == tolower(purrr::map_chr(all_files, ipums_file_ext))
+          if (any(cpg_file)) {
+            utils::unzip(shape_file, all_files[cpg_file], exdir = shape_temp)
+          }
+
           file.path(shape_temp, shape_shp_files[1])
         })
       }
@@ -113,7 +120,13 @@ read_ipums_sf <- function(shape_file, shape_layer = NULL, bind_multiple = TRUE, 
     stop("Expected `shape_file` to be a .zip or .shp file.")
   }
 
-  out <- purrr::map(read_shape_files, ~sf::read_sf(., quiet = !verbose, options = "ENCODING=UTF-8"))
+  encoding <- get_encoding_from_cpg(read_shape_files)
+
+  out <- purrr::map2(
+    read_shape_files,
+    encoding,
+    ~sf::read_sf(.x, quiet = !verbose, options = paste0("ENCODING=", .y))
+  )
   out <- careful_sf_rbind(out)
 
   out
@@ -217,6 +230,13 @@ read_ipums_sp <- function(shape_file, shape_layer = NULL, bind_multiple = TRUE, 
 
           utils::unzip(shape_file, shape_shp_files, exdir = shape_temp)
 
+          # If there is a cpg file (encoding information) extract that
+          all_files <- utils::unzip(shape_file, list = TRUE)$Name
+          cpg_file <- ".cpg" == tolower(purrr::map_chr(all_files, ipums_file_ext))
+          if (any(cpg_file)) {
+            utils::unzip(shape_file, all_files[cpg_file], exdir = shape_temp)
+          }
+
           file.path(shape_temp, shape_shp_files[1])
         })
       }
@@ -240,14 +260,17 @@ read_ipums_sp <- function(shape_file, shape_layer = NULL, bind_multiple = TRUE, 
     stop("Expected `shape_file` to be a .zip or .shp file.")
   }
 
-  out <- purrr::map(
+  encoding <- get_encoding_from_cpg(read_shape_files)
+
+  out <- purrr::map2(
     read_shape_files,
+    encoding,
     ~rgdal::readOGR(
-      dsn = dirname(.),
-      layer = stringr::str_sub(basename(.), 1, -5),
+      dsn = dirname(.x),
+      layer = stringr::str_sub(basename(.x), 1, -5),
       verbose = verbose,
       stringsAsFactors = FALSE,
-      encoding = "UTF-8"
+      encoding = .y
     )
   )
   out <- careful_sp_rbind(out)
@@ -291,5 +314,29 @@ careful_sp_rbind <- function(sp_list) {
     })
     out <- do.call(rbind, out)
   }
+  out
+}
+
+# Encoding:
+# Official spec is that shape files must be latin1. But some GIS software
+# add to the spec a cpg file that can specify an encoding.
+## NHGIS: Place names in 2010 have accents - and are latin1 encoded,
+##        No indication of encoding.
+## IPUMSI: Brazil has a cpg file indicating the encoding is ANSI 1252,
+##         while China has UTF-8 (but only english characters)
+## Terrapop Brazil has multi-byte error characters for the data.
+# Current solution: Assume latin1, unless I find a CPG file and
+# with encoding I recognize and then use that.
+get_encoding_from_cpg <- function(shape_file_vector) {
+  out <- purrr::map_chr(shape_file_vector, function(x) {
+    cpg_file <- dir(dirname(x), pattern = "\\.cpg$", ignore.case = TRUE, full.names = TRUE)
+
+    if (length(cpg_file) == 0) return("latin1")
+
+    cpg_text <- readr::read_lines(cpg_file)[1]
+    if (stringr::str_detect(cpg_text, "ANSI 1252")) return("CP1252")
+    else if (stringr::str_detect(cpg_text, "UTF[[-][|:blank:]]?8")) return("UTF-8")
+    else return("latin1")
+  })
   out
 }
