@@ -61,12 +61,11 @@ it was designed to for efficient calculations in linear models, not as a general
 purpose value labeling system and so is missing important features that the 
 value labels provided by IPUMS require.
 
-Factors only allow for integers to be mapped to a text label, and these
-integers have to be a count starting at 1. This doesn't work for IPUMS 
-data because often we use the numeric values to have meaning that would
-be lost if converted to factors. The variable `AGE` uses the value to mean
-the actual age, but does have value labels indicating what age 0 means and
-the top codes.
+Factors only allow for integers to be mapped to a text label, and these integers
+have to be a count starting at 1. This doesn't work for IPUMS data because often
+our variables have specific meanings for the codes. For example, the variable
+`AGE` uses the value to mean the actual age, but does have labels
+for age 0 and the top codes.
 
 ```{r}
 head(cps$AGE)
@@ -92,6 +91,12 @@ Because the factor variable has to assign values starting at 1, but the
 AGE variable started at 0, most values were 1 higher than they should
 have been. Not all values are 1 higher though, because not all values
 exist in the data, so 85, 90, and 99 are 82, 83 and 84 respectively.
+
+Other variables have special meanings behind certain codes. For example,
+often missing or NIU values are indicated in IPUMS by values starting
+with the number 9 that are offset from the typical values. R's factors
+do not allow for this separation, so the missing codes will be harder
+to distinguish.
 
 Factors also require that every value be labelled, which is not always
 true in IPUMS data. In the AGE variable, the only values with labels
@@ -318,9 +323,15 @@ package provides other methods for manipulating
 value labels. It is not installed by ripums, but is available on CRAN via the
 following command: `install.packages("labelled")`
 
+The [questionr](https://juba.github.io/questionr/) package includes great
+functions for exploring `labelled` variables. In particular, the functions
+`describe`, `freq` and `lookfor` all print out to console information about the
+variable using the value labels. It is also not installed by ripums, but can be
+installed from CRAN using: `install.packages("labelled")`
+
 Finally, the [foreign](https://cran.r-project.org/package=foreign) and 
-[prettyR](https://cran.r-project.org/package=prettyR) packages don't use exactly
-the same data structure as haven (which ripums uses), but do have similar
-concepts for attaching value labels. Code designed for these packages
-could be adapted for use with the haven labelled class without too much
+[prettyR](https://cran.r-project.org/package=prettyR) packages don't use the 
+`labelled` class data structure from haven (which ripums uses), but do have very
+similar concepts for attaching value labels. Code designed for these packages 
+could be adapted for use with the haven labelled class without too much 
 difficulty.

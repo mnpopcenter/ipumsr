@@ -150,7 +150,7 @@ cps
 <div id="why-use-the-labelled-class-instead-of-base-rs-factors" class="section level1">
 <h1>Why use the labelled class instead of base R’s factors?</h1>
 <p>The usual way to connect numeric data to labels in R is in <code>factor</code> variables. Though this data type is more native to R, and more widely supported by R code, it was designed to for efficient calculations in linear models, not as a general purpose value labeling system and so is missing important features that the value labels provided by IPUMS require.</p>
-<p>Factors only allow for integers to be mapped to a text label, and these integers have to be a count starting at 1. This doesn’t work for IPUMS data because often we use the numeric values to have meaning that would be lost if converted to factors. The variable <code>AGE</code> uses the value to mean the actual age, but does have value labels indicating what age 0 means and the top codes.</p>
+<p>Factors only allow for integers to be mapped to a text label, and these integers have to be a count starting at 1. This doesn’t work for IPUMS data because often our variables have specific meanings for the codes. For example, the variable <code>AGE</code> uses the value to mean the actual age, but does have labels for age 0 and the top codes.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">head</span>(cps$AGE)
 <span class="co">#&gt; &lt;Labelled double&gt;</span>
 <span class="co">#&gt; [1] 54 54 52 38 15 38</span>
@@ -180,6 +180,7 @@ cps$AGE_FACTOR &lt;-<span class="st"> </span><span class="kw">as_factor</span>(c
 <span class="co">#&gt; by coercion</span>
 <span class="co">#&gt; [1] NA</span></code></pre></div>
 <p>Because the factor variable has to assign values starting at 1, but the AGE variable started at 0, most values were 1 higher than they should have been. Not all values are 1 higher though, because not all values exist in the data, so 85, 90, and 99 are 82, 83 and 84 respectively.</p>
+<p>Other variables have special meanings behind certain codes. For example, often missing or NIU values are indicated in IPUMS by values starting with the number 9 that are offset from the typical values. R’s factors do not allow for this separation, so the missing codes will be harder to distinguish.</p>
 <p>Factors also require that every value be labelled, which is not always true in IPUMS data. In the AGE variable, the only values with labels are 0, 90 and 99. For all other values, there is not additional label information.</p>
 </div>
 <div id="is-the-labelled-class-a-panacea-hint-no" class="section level1">
@@ -436,7 +437,8 @@ test2 &lt;-<span class="st"> </span><span class="kw">zap_labels</span>(test2)
 <h1>Other resources</h1>
 <p>The haven package vignette ‘semantics’ has some more details about the motivation and implementation of the labelled class. You can view it by running the command: <code>vignette(&quot;semantics&quot;, package = &quot;haven&quot;)</code></p>
 <p>The <a href="http://larmarange.github.io/labelled/articles/intro_labelled.html">labelled</a> package provides other methods for manipulating value labels. It is not installed by ripums, but is available on CRAN via the following command: <code>install.packages(&quot;labelled&quot;)</code></p>
-<p>Finally, the <a href="https://cran.r-project.org/package=foreign">foreign</a> and <a href="https://cran.r-project.org/package=prettyR">prettyR</a> packages don’t use exactly the same data structure as haven (which ripums uses), but do have similar concepts for attaching value labels. Code designed for these packages could be adapted for use with the haven labelled class without too much difficulty.</p>
+<p>The <a href="https://juba.github.io/questionr/">questionr</a> package includes great functions for exploring <code>labelled</code> variables. In particular, the functions <code>describe</code>, <code>freq</code> and <code>lookfor</code> all print out to console information about the variable using the value labels. It is also not installed by ripums, but can be installed from CRAN using: <code>install.packages(&quot;labelled&quot;)</code></p>
+<p>Finally, the <a href="https://cran.r-project.org/package=foreign">foreign</a> and <a href="https://cran.r-project.org/package=prettyR">prettyR</a> packages don’t use the <code>labelled</code> class data structure from haven (which ripums uses), but do have very similar concepts for attaching value labels. Code designed for these packages could be adapted for use with the haven labelled class without too much difficulty.</p>
 </div>
 
 
