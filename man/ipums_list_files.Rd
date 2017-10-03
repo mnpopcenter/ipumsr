@@ -38,7 +38,7 @@ A \code{tbl_df} data.frame containing the files avilable
 Find which files can be loaded from an IPUMS extract zip file.
 }
 \examples{
-nhgis_file <- ripums_example("nhgis0010_csv.zip")
+nhgis_file <- ripums_example("nhgis0008_csv.zip")
 ipums_list_files(nhgis_file) # Only one extract available
 
 }

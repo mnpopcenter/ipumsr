@@ -20,7 +20,7 @@
 #' @return \code{read_ipums_sf} returns a sf object and \code{read_ipums_sp} returns
 #'   a SpatialPolygonsDataFrame.
 #' @examples
-#' shape_file <- ripums_example("nhgis0010_shape.zip")
+#' shape_file <- ripums_example("nhgis0008_shape_small.zip")
 #' # If sf package is availble, can load as sf object
 #' if (require(sf)) {
 #'   sf_data <- read_ipums_sf(shape_file)

@@ -31,8 +31,8 @@ library(ripums)
 library(sf)
 
 ## ---- echo = FALSE-------------------------------------------------------
-nhgis_csv_file <- ripums_example("nhgis0010_csv.zip")
-nhgis_shp_file <- ripums_example("nhgis0010_shape.zip")
+nhgis_csv_file <- system.file("extdata", "nhgis0010_csv.zip", package = "ripumsexamples")
+nhgis_shp_file <- system.file("extdata", "nhgis0010_shape.zip", package = "ripumsexamples")
 
 ## ---- eval = FALSE-------------------------------------------------------
 #  # Change these filepaths to the filepaths of your downloaded extract

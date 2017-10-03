@@ -28,8 +28,8 @@
 #' @param verbose Logical, indicating whether to print progress information to
 #'   console.
 #' @examples
-#' csv_file <- ripums_example("nhgis0010_csv.zip")
-#' shape_file <- ripums_example("nhgis0010_shape.zip")
+#' csv_file <- ripums_example("nhgis0008_csv.zip")
+#' shape_file <- ripums_example("nhgis0008_shape_small.zip")
 #'
 #' data_only <- read_nhgis(csv_file)
 #'

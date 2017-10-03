@@ -8,8 +8,8 @@ knitr::opts_chunk$set(
 library(ripums)
 
 ## ---- echo = FALSE-------------------------------------------------------
-cps_ddi_file <- ripums_example("cps_00011.xml")
-cps_data_file <- ripums_example("cps_00011.dat.gz")
+cps_ddi_file <- system.file("extdata", "cps_00011.xml", package = "ripumsexamples")
+cps_data_file <- system.file("extdata", "cps_00011.dat.gz", package = "ripumsexamples")
 
 ## ---- eval = FALSE-------------------------------------------------------
 #  # Change these filepaths to the filepaths of your downloaded extract

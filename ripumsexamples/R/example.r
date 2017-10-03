@@ -12,17 +12,17 @@
 #'   available files.
 #' @export
 #' @examples
-#' ripums_example() # Lists all available examples
-#' ripums_example("cps_00006.xml") # Gives filepath for a cps DDI
-ripums_example <- function(path = NULL) {
+#' ripums_extra_example() # Lists all available examples
+#' ripums_extra_example("nhgis0010_csv.zip") # Gives filepath for a nhgis shape
+ripums_extra_example <- function(path = NULL) {
   if (is.null(path)) {
-    file <- dir(system.file("extdata", package = "ripums"))
+    file <- dir(system.file("extdata", package = "ripumsexamples"))
   } else {
-    file <- system.file("extdata", path, package = "ripums")
+    file <- system.file("extdata", path, package = "ripumsexamples")
     if (!file.exists(file)) {
-      all_files <- paste(dir(system.file("extdata", package = "ripums")), collapse = ", ")
+      all_files <- paste(dir(system.file("extdata", package = "ripumsexamples")), collapse = ", ")
       stop(paste0(
-        "Could not find file '", path, "' in examples. Available files are:\n",
+        "Could not find file '", path, "' in extra examples. Available files are:\n",
         all_files
       ))
     }

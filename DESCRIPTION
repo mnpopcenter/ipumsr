@@ -28,7 +28,6 @@ Suggests:
     knitr,
     rgdal,
     rmarkdown,
-    ripumsexamples,
     rstudioapi,
     scales,
     sf,
