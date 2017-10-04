@@ -4,7 +4,7 @@ Version: 0.0.1.9000
 Authors@R: person("Minnesota Population Center", email = "gfellis@umn.edu", role = c("aut", "cre"))
 URL: https://github.com/mnpopcenter/ripums
 BugReports: https://github.com/mnpopcenter/ripums/issues
-Description: Import IPUMS data from website extracts.
+Description: Import 'IPUMS' data from website extracts.
 Depends: R (>= 3.2.0)
 License: Mozilla Public License 2.0
 Encoding: UTF-8
