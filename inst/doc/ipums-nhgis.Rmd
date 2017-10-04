@@ -23,7 +23,7 @@ be leveraged to explore your research interests. This exercise will use an NHGIS
 explore slavery in the United States in 1830.
 
 This vignette is adapted from the NHGIS Data Training Exercise available here:
-[https://pop.umn.edu/sites/pop.umn.edu/files/nhgis_training_ex1_2017-01.pdf]()
+<https://pop.umn.edu/sites/pop.umn.edu/files/nhgis_training_ex1_2017-01.pdf>
 
 ### Research Question
 What was the state‐level distribution of slavery in 1830?
@@ -36,7 +36,7 @@ What was the state‐level distribution of slavery in 1830?
 
 ## Download Extract from IPUMS Website
 1) **Log in to NHGIS**
-- Go to [http://www.nhgis.org]() and click on ‘Login’ in the top right.
+- Go to <http://www.nhgis.org> and click on ‘Login’ in the top right.
 - If you have already registered on any Minnesota Population Center website…
     - If you remember your password, log in now. Otherwise, click the "Forgot
       your password?" link on the right and follow the instructions.

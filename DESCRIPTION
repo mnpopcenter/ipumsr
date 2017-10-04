@@ -1,5 +1,5 @@
 Package: ripums
-Title: Read IPUMS extract files into R
+Title: Read IPUMS Extract Files into R
 Version: 0.0.1.9000
 Authors@R: person("Minnesota Population Center", email = "gfellis@umn.edu", role = c("aut", "cre"))
 URL: https://github.com/mnpopcenter/ripums
@@ -35,4 +35,3 @@ Suggests:
     shiny,
     testthat
 VignetteBuilder: knitr
-Remotes: mnpopcenter/ripums/ripumsexamples

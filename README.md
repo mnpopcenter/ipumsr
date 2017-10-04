@@ -181,16 +181,20 @@ data <- data %>%
            (D6Z001 + D6Z002 + D6Z003 + D6Z004 + D6Z005 + D6Z006 + D6Z007 + D6Z008)
   )
 
-ggplot(data = data) + 
-  geom_sf(aes(fill = pct_before_1950)) + 
-  labs(
-    title = "Percent of homes built before 1950", 
-    subtitle = "By Primary Metropolitan Statistical Area in 1990 Census", 
-    caption = "Simplified PMSA boundaries (1% of polygon points retained)"
-  )
+# Note the function `geom_sf()` is a very new function, so you may need to update
+# ggplot2 to run.
+if ("geom_sf" %in% getNamespaceExports("ggplot2")) {
+  ggplot(data = data) + 
+    geom_sf(aes(fill = pct_before_1950)) + 
+    labs(
+      title = "Percent of homes built before 1950", 
+      subtitle = "By Primary Metropolitan Statistical Area in 1990 Census", 
+      caption = "Simplified PMSA boundaries (1% of polygon points retained)"
+    )
+}
 ```
 
-![](README-unnamed-chunk-8-1.png)
+![](man/figures/README-unnamed-chunk-8-1.png)
 
 ### Terrapop
 

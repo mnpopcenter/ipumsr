@@ -24,7 +24,7 @@ leveraged to explore your research interests. This exercise will use the IPUMS d
 associations between health and work status and to create basic frequencies of food stamp usage.
 
 This vignette is adapted from the CPS Data Training Exercise available here:
-[https://pop.umn.edu/sites/pop.umn.edu/files/final_review_-_cps_spss_exercise_1_0.pdf]()
+<https://pop.umn.edu/sites/pop.umn.edu/files/final_review_-_cps_spss_exercise_1_0.pdf>
 
 ### Research Questions ##
 What is the frequency of food stamp recipiency in the US? Are health and work

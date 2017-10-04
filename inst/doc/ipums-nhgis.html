@@ -79,7 +79,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <div id="exercise-1" class="section level2">
 <h2>Exercise 1</h2>
 <p>OBJECTIVE: Gain an understanding of how the NHGIS datasets are structured and how they can be leveraged to explore your research interests. This exercise will use an NHGIS dataset to explore slavery in the United States in 1830.</p>
-<p>This vignette is adapted from the NHGIS Data Training Exercise available here: <a href>https://pop.umn.edu/sites/pop.umn.edu/files/nhgis_training_ex1_2017-01.pdf</a></p>
+<p>This vignette is adapted from the NHGIS Data Training Exercise available here: <a href="https://pop.umn.edu/sites/pop.umn.edu/files/nhgis_training_ex1_2017-01.pdf" class="uri">https://pop.umn.edu/sites/pop.umn.edu/files/nhgis_training_ex1_2017-01.pdf</a></p>
 <div id="research-question" class="section level3">
 <h3>Research Question</h3>
 <p>What was the state‐level distribution of slavery in 1830?</p>
@@ -100,7 +100,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li><strong>Log in to NHGIS</strong></li>
 </ol>
 <ul>
-<li>Go to <a href>http://www.nhgis.org</a> and click on ‘Login’ in the top right.</li>
+<li>Go to <a href="http://www.nhgis.org" class="uri">http://www.nhgis.org</a> and click on ‘Login’ in the top right.</li>
 <li>If you have already registered on any Minnesota Population Center website…
 <ul>
 <li>If you remember your password, log in now. Otherwise, click the “Forgot your password?” link on the right and follow the instructions.</li>
@@ -193,7 +193,6 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <p>You will need to change the filepaths noted below to the place where you have saved the extracts.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(ripums)
 <span class="kw">library</span>(sf)
-<span class="co">#&gt; Linking to GEOS 3.6.1, GDAL 2.2.0, proj.4 4.9.3</span>
 
 <span class="co"># Change these filepaths to the filepaths of your downloaded extract</span>
 nhgis_csv_file &lt;-<span class="st"> &quot;nhgis0001_csv.zip&quot;</span>
@@ -249,7 +248,7 @@ nhgis &lt;-<span class="st"> </span><span class="kw">read_nhgis_sf</span>(
 <span class="co">#&gt; Reading data file...</span>
 <span class="co">#&gt; Reading geography...</span>
 <span class="co">#&gt; options:        ENCODING=latin1 </span>
-<span class="co">#&gt; Reading layer `US_state_1830' from data source `C:\Users\gfellis\AppData\Local\Temp\RtmpExV2z3\file72c638872a6\US_state_1830.shp' using driver `ESRI Shapefile'</span>
+<span class="co">#&gt; Reading layer `US_state_1830' from data source `C:\Users\gfellis\AppData\Local\Temp\RtmpExV2z3\file72c1aab5d2b\US_state_1830.shp' using driver `ESRI Shapefile'</span>
 <span class="co">#&gt; Simple feature collection with 29 features and 7 fields</span>
 <span class="co">#&gt; geometry type:  MULTIPOLYGON</span>
 <span class="co">#&gt; dimension:      XY</span>

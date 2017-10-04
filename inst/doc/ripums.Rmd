@@ -25,7 +25,7 @@ is a great source of international census and survey data.
 > individuals within family and community context. Data and services available free 
 > of charge. 
 
-Learn more here: [https://www.ipums.org/whatIsIPUMS.shtml]().
+Learn more here: <https://www.ipums.org/whatIsIPUMS.shtml>
 
 # Basics
 This vignette gives the basic outline of the `ripums` package. There are also
@@ -37,7 +37,7 @@ vignette("ipums-nhgis", package = "ripums")
 ```
 
 ## Getting Data from the IPUMS website
-IPUMS data is downloaded from our website at [https://www.ipums.org](). 
+IPUMS data is downloaded from our website at <https://www.ipums.org>. 
 The website provides an interactive extract system that allows you to select
 only the sample and variables that are relevent to your research question.
 

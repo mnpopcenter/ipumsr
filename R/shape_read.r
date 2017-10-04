@@ -340,3 +340,43 @@ get_encoding_from_cpg <- function(shape_file_vector) {
   })
   out
 }
+
+
+ipums_shape_join <- function(
+  shape_data,
+  data,
+  direction = c("inner", "full", "left", "right"),
+  verbose = TRUE,
+  warn_join_failure = TRUE,
+  merge_vars = NULL
+) {
+  UseMethod()
+}
+
+ipums_shape_join.sf <- function(
+  shape_data,
+  data,
+  direction = c("inner", "full", "left", "right"),
+  verbose = TRUE,
+  warn_join_failure = TRUE,
+  merge_vars = NULL
+) {
+  if (is.null(merge_vars)) {
+    if ("GISJOIN" %in% names(shape_data) && "GISJOIN" %in% names(data)) {
+      merge_vars <- "GISJOIN"
+    } else if (stringr::str_detect(names(shape_data), "^GEOLEVEL")) {
+
+    }
+
+    if (is.null(merge_vars)) {
+      stop(paste0(
+        "Could not determine variables to merge shapes on automatically. Please specify ",
+        "using the `merge_vars` argument."
+      ))
+    }
+
+    if (verbose) {
+      cat(paste0("Merging on variables '' in shape data and '' in data."))
+    }
+  }
+}
