@@ -1,4 +1,4 @@
-## ----setup, include = FALSE----------------------------------------------
+## ---- echo = FALSE-------------------------------------------------------
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
@@ -7,14 +7,36 @@ knitr::opts_chunk$set(
 ## ------------------------------------------------------------------------
 library(ripums)
 
-## ---- echo = FALSE-------------------------------------------------------
-cps_ddi_file <- system.file("extdata", "cps_00011.xml", package = "ripumsexamples")
-cps_data_file <- system.file("extdata", "cps_00011.dat.gz", package = "ripumsexamples")
+# Change these filepaths to the filepaths of your downloaded extract
+cps_ddi_file <- "cps_00001.xml"
+cps_data_file <- "cps_00001.dat"
 
-## ---- eval = FALSE-------------------------------------------------------
-#  # Change these filepaths to the filepaths of your downloaded extract
-#  cps_ddi_file <- "C:/Users/My Name/My Documents/cps_00001.xml"
-#  cps_data_file <- "C:/Users/My Name/My Documents/cps_00001.dat"
+## ---- echo = FALSE-------------------------------------------------------
+# If files doesn't exist, check if ripumsexamples is installed
+if (!file.exists(cps_ddi_file) | !file.exists(cps_data_file)) {
+  ripumsexamples_ddi <- system.file("extdata", "cps_00011.xml", package = "ripumsexamples")
+  ripumsexamples_data <- system.file("extdata", "cps_00011.dat.gz", package = "ripumsexamples")
+  if (file.exists(ripumsexamples_ddi)) cps_ddi_file <- ripumsexamples_ddi
+  if (file.exists(ripumsexamples_data)) cps_data_file <- ripumsexamples_data
+}
+
+# But if they still don't exist, give an error message
+if (!file.exists(cps_ddi_file) | !file.exists(cps_data_file)) {
+  message(paste0(
+    "Could not find CPS data and so could not run vignette.\n\n",
+    "If you tried to download the data following the instructions above, please make" , 
+    "sure that the filenames are correct: ", 
+    "\nddi - ", cps_ddi_file, "\ndata - ", cps_data_file, "\nAnd that you are in ",
+    "the correct directory if you are using a relative path:\nCurrent directory - ", 
+    getwd(), "\n\n",
+    "The data is also available on github. You can install it using the following ",
+    "commands: \n",
+    "  if (!require(devtools)) install.packages('devtools')\n",
+    "  devtools::install_github('mnpopcenter/ripums/ripumsexamples')\n",
+    "After installation, the data should be available for this vignette.\n\n"
+  ))
+  knitr::opts_chunk$set(eval = FALSE)
+}
 
 ## ------------------------------------------------------------------------
 cps_ddi <- read_ipums_ddi(cps_ddi_file) # Contains metadata, nice to have as separate object

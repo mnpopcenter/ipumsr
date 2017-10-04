@@ -9,13 +9,9 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 ```{r, echo = FALSE}
-# Borrowed from googlesheets to prevent running vignette on CRAN
-NOT_CRAN <- identical(tolower(Sys.getenv("NOT_CRAN")), "true")
 knitr::opts_chunk$set(
   collapse = TRUE,
-  comment = "#>",
-  purl = NOT_CRAN,
-  eval = NOT_CRAN
+  comment = "#>"
 )
 ```
 
@@ -149,11 +145,10 @@ saved the extracts.
 ```{r}
 library(ripums)
 library(sf)
-```
-```{r}
+
 # Change these filepaths to the filepaths of your downloaded extract
-nhgis_csv_file <- "C:/Users/My Name/My Documents/nhgis0001_csv.zip"
-nhgis_shp_file <- "C:/Users/My Name/My Documents/nhgis0001_shape.zip"
+nhgis_csv_file <- "nhgis0001_csv.zip"
+nhgis_shp_file <- "nhgis0001_shape.zip"
 ```
 ```{r, echo = FALSE}
 # If files doesn't exist, check if ripumsexamples is installed
@@ -166,12 +161,20 @@ if (!file.exists(nhgis_csv_file) | !file.exists(nhgis_shp_file)) {
 
 # But if they still don't exist, give an error message
 if (!file.exists(nhgis_csv_file) | !file.exists(nhgis_shp_file)) {
-  stop(paste0(
-    "Could not find NHGIS data.\n\nPlease make sure that the filenames are correct: ", 
-    "\ncsv - ", nhgis_csv_file, "\nshape - ", nhgis_shp_file, "\n\nAlso, that you are in ",
+  message(paste0(
+    "Could not find NHGIS data and so could not run vignette.\n\n",
+    "If you tried to download the data following the instructions above, please make" , 
+    "sure that the filenames are correct: ", 
+    "\ncsv - ", nhgis_csv_file, "\nshape - ", nhgis_shp_file, "\nAnd that you are in ",
     "the correct directory if you are using a relative path:\nCurrent directory - ", 
-    getwd(), " - is that where you saved the data?"
+    getwd(), "\n\n",
+    "The data is also available on github. You can install it using the following ",
+    "commands: \n",
+    "  if (!require(devtools)) install.packages('devtools')\n",
+    "  devtools::install_github('mnpopcenter/ripums/ripumsexamples')\n",
+    "After installation, the data should be available for this vignette.\n\n"
   ))
+  knitr::opts_chunk$set(eval = FALSE)
 }
 ```
 

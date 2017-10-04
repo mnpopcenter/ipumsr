@@ -10,13 +10,9 @@ vignette: >
 ---
 
 ```{r, echo = FALSE}
-# Borrowed from googlesheets to prevent running vignette on CRAN
-NOT_CRAN <- identical(tolower(Sys.getenv("NOT_CRAN")), "true")
 knitr::opts_chunk$set(
   collapse = TRUE,
-  comment = "#>",
-  purl = NOT_CRAN,
-  eval = NOT_CRAN
+  comment = "#>"
 )
 ```
 
@@ -84,10 +80,7 @@ saved the extracts.
 
 ```{r}
 library(ripums)
-```
 
-
-```{r}
 # Change these filepaths to the filepaths of your downloaded extract
 cps_ddi_file <- "cps_00001.xml"
 cps_data_file <- "cps_00001.dat"
@@ -103,12 +96,20 @@ if (!file.exists(cps_ddi_file) | !file.exists(cps_data_file)) {
 
 # But if they still don't exist, give an error message
 if (!file.exists(cps_ddi_file) | !file.exists(cps_data_file)) {
-  stop(paste0(
-    "Could not find CPS data.\n\nPlease make sure that the filenames are correct: ", 
-    "\nddi - ", cps_ddi_file, "\ndata - ", cps_data_file, "\n\nAlso, that you are in ",
+  message(paste0(
+    "Could not find CPS data and so could not run vignette.\n\n",
+    "If you tried to download the data following the instructions above, please make" , 
+    "sure that the filenames are correct: ", 
+    "\nddi - ", cps_ddi_file, "\ndata - ", cps_data_file, "\nAnd that you are in ",
     "the correct directory if you are using a relative path:\nCurrent directory - ", 
-    getwd(), " - is that where you saved the data?"
+    getwd(), "\n\n",
+    "The data is also available on github. You can install it using the following ",
+    "commands: \n",
+    "  if (!require(devtools)) install.packages('devtools')\n",
+    "  devtools::install_github('mnpopcenter/ripums/ripumsexamples')\n",
+    "After installation, the data should be available for this vignette.\n\n"
   ))
+  knitr::opts_chunk$set(eval = FALSE)
 }
 ```
 

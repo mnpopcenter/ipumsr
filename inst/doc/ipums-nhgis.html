@@ -12,7 +12,7 @@
 
 <meta name="author" content="Minnesota Population Center" />
 
-<meta name="date" content="2017-10-03" />
+<meta name="date" content="2017-10-04" />
 
 <title>ripums Example - NHGIS</title>
 
@@ -70,7 +70,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 <h1 class="title toc-ignore"><code>ripums</code> Example - NHGIS</h1>
 <h4 class="author"><em>Minnesota Population Center</em></h4>
-<h4 class="date"><em>2017-10-03</em></h4>
+<h4 class="date"><em>2017-10-04</em></h4>
 
 
 
@@ -193,10 +193,11 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <p>You will need to change the filepaths noted below to the place where you have saved the extracts.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(ripums)
 <span class="kw">library</span>(sf)
-<span class="co">#&gt; Linking to GEOS 3.6.1, GDAL 2.2.0, proj.4 4.9.3</span></code></pre></div>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Change these filepaths to the filepaths of your downloaded extract</span>
-nhgis_csv_file &lt;-<span class="st"> &quot;C:/Users/My Name/My Documents/nhgis0001_csv.zip&quot;</span>
-nhgis_shp_file &lt;-<span class="st"> &quot;C:/Users/My Name/My Documents/nhgis0001_shape.zip&quot;</span></code></pre></div>
+<span class="co">#&gt; Linking to GEOS 3.6.1, GDAL 2.2.0, proj.4 4.9.3</span>
+
+<span class="co"># Change these filepaths to the filepaths of your downloaded extract</span>
+nhgis_csv_file &lt;-<span class="st"> &quot;nhgis0001_csv.zip&quot;</span>
+nhgis_shp_file &lt;-<span class="st"> &quot;nhgis0001_shape.zip&quot;</span></code></pre></div>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">nhgis_ddi &lt;-<span class="st"> </span><span class="kw">read_ipums_codebook</span>(nhgis_csv_file) <span class="co"># Contains metadata, nice to have as separate object</span>
 nhgis &lt;-<span class="st"> </span><span class="kw">read_nhgis_sf</span>(
   <span class="dt">data_file =</span> nhgis_csv_file,
@@ -247,8 +248,8 @@ nhgis &lt;-<span class="st"> </span><span class="kw">read_nhgis_sf</span>(
 <span class="co">#&gt; </span>
 <span class="co">#&gt; Reading data file...</span>
 <span class="co">#&gt; Reading geography...</span>
-<span class="co">#&gt; options:        ENCODING=UTF-8 </span>
-<span class="co">#&gt; Reading layer `US_state_1830' from data source `C:\Users\gfellis\AppData\Local\Temp\RtmpOIhcAq\file11103810103e\US_state_1830.shp' using driver `ESRI Shapefile'</span>
+<span class="co">#&gt; options:        ENCODING=latin1 </span>
+<span class="co">#&gt; Reading layer `US_state_1830' from data source `C:\Users\gfellis\AppData\Local\Temp\RtmpExV2z3\file72c638872a6\US_state_1830.shp' using driver `ESRI Shapefile'</span>
 <span class="co">#&gt; Simple feature collection with 29 features and 7 fields</span>
 <span class="co">#&gt; geometry type:  MULTIPOLYGON</span>
 <span class="co">#&gt; dimension:      XY</span>

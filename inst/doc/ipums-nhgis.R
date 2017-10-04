@@ -1,4 +1,4 @@
-## ----setup, include = FALSE----------------------------------------------
+## ---- echo = FALSE-------------------------------------------------------
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
@@ -30,14 +30,36 @@ knitr::opts_chunk$set(
 library(ripums)
 library(sf)
 
-## ---- echo = FALSE-------------------------------------------------------
-nhgis_csv_file <- system.file("extdata", "nhgis0010_csv.zip", package = "ripumsexamples")
-nhgis_shp_file <- system.file("extdata", "nhgis0010_shape.zip", package = "ripumsexamples")
+# Change these filepaths to the filepaths of your downloaded extract
+nhgis_csv_file <- "nhgis0001_csv.zip"
+nhgis_shp_file <- "nhgis0001_shape.zip"
 
-## ---- eval = FALSE-------------------------------------------------------
-#  # Change these filepaths to the filepaths of your downloaded extract
-#  nhgis_csv_file <- "C:/Users/My Name/My Documents/nhgis0001_csv.zip"
-#  nhgis_shp_file <- "C:/Users/My Name/My Documents/nhgis0001_shape.zip"
+## ---- echo = FALSE-------------------------------------------------------
+# If files doesn't exist, check if ripumsexamples is installed
+if (!file.exists(nhgis_csv_file) | !file.exists(nhgis_shp_file)) {
+  ripumsexamples_csv <- system.file("extdata", "nhgis0010_csv.zip", package = "ripumsexamples")
+  ripumsexamples_shp <- system.file("extdata", "nhgis0010_shape.zip", package = "ripumsexamples")
+  if (file.exists(ripumsexamples_csv)) nhgis_csv_file <- ripumsexamples_csv
+  if (file.exists(ripumsexamples_shp)) nhgis_shp_file <- ripumsexamples_shp
+}
+
+# But if they still don't exist, give an error message
+if (!file.exists(nhgis_csv_file) | !file.exists(nhgis_shp_file)) {
+  message(paste0(
+    "Could not find NHGIS data and so could not run vignette.\n\n",
+    "If you tried to download the data following the instructions above, please make" , 
+    "sure that the filenames are correct: ", 
+    "\ncsv - ", nhgis_csv_file, "\nshape - ", nhgis_shp_file, "\nAnd that you are in ",
+    "the correct directory if you are using a relative path:\nCurrent directory - ", 
+    getwd(), "\n\n",
+    "The data is also available on github. You can install it using the following ",
+    "commands: \n",
+    "  if (!require(devtools)) install.packages('devtools')\n",
+    "  devtools::install_github('mnpopcenter/ripums/ripumsexamples')\n",
+    "After installation, the data should be available for this vignette.\n\n"
+  ))
+  knitr::opts_chunk$set(eval = FALSE)
+}
 
 ## ------------------------------------------------------------------------
 nhgis_ddi <- read_ipums_codebook(nhgis_csv_file) # Contains metadata, nice to have as separate object
