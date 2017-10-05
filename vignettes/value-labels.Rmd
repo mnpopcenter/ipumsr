@@ -57,7 +57,7 @@ ipums_val_labels(cps$MONTH)
 # Why use the labelled class instead of base R's factors?
 The usual way to connect numeric data to labels in R is in `factor` variables. 
 Though this data type is more native to R, and more widely supported by R code,
-it was designed to for efficient calculations in linear models, not as a general 
+it was designed for efficient calculations in linear models, not as a general 
 purpose value labeling system and so is missing important features that the 
 value labels provided by IPUMS require.
 
@@ -104,7 +104,7 @@ are 0, 90 and 99. For all other values, there is not additional label
 information.
 
 # Is the labelled class a panacea? (Hint: no)
-Though the labelled does express all of the meaning provided by IPUMS value
+Though the labelled class does express all of the meaning provided by IPUMS value
 labels into R, many R functions cannot use them or even actively remove them
 from the data.
 
@@ -124,7 +124,7 @@ The good news is that the ripums package provides several functions to
 make this process easier.
 
 I think it is easiest to learn them by seeing them in action, so
-see below for a workflow for bringing in the cps example extract.
+see below for a workflow for bringing in the CPS example extract.
 For your reference, here is a list of the functions:
 
 - `as_factor()` (reexported from the haven package)
@@ -144,8 +144,8 @@ ipums_val_labels(cps$HEALTH)
 cps$HEALTH <- as_factor(cps$HEALTH)
 ```
 
-The ASECFLAG and MONTH variable can also be converted directly (which were included by default by 
-the IPUMS extract engine, but isn't that useful because this data set only has respondents 
+The ASECFLAG and MONTH variables can also be converted directly (these were included by default by 
+the IPUMS extract engine, but aren't useful here because this data set only has respondents 
 from ASEC in March)
 ```{r}
 cps$ASECFLAG <- as_factor(cps$ASECFLAG)
@@ -162,7 +162,7 @@ The `zap_labels()` function removes the labels.
 ```{r}
 cps$AGE <- zap_labels(cps$AGE)
 ```
-The top-codes (which are only available on the CPS website) indicate that the values
+The top-codes (which are only available on the CPS website) indicate that the value
 80 actually indicates 80-84 and 85 indicates 85+, so another option would be to
 convert them to a factor with age ranges.
 
@@ -259,9 +259,10 @@ cps$MIGRATE1 <- as_factor(cps$MIGRATE1)
 ```
 
 ## `lbl_add()` and `lbl_add_vals()`
+These functions allow you to create labels for values that aren't already labelled. 
 It's harder to come up with real world examples of when these functions would be useful, 
-but for completion's sake, these functions allow you to create labels for values that
-aren't already labelled.
+but just in case you come across such a situation, here's how they work.
+
 ```{r}
 x <- haven::labelled(
   c(100, 200, 105, 990, 999, 230),
