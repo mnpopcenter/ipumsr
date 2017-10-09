@@ -1,15 +1,69 @@
-ipums_shape_left_join <- function(data, shape_data, by, suffix, verbose) {
+# This file is part of the Minnesota Population Center's ripums.
+# For copyright and licensing information, see the NOTICE and LICENSE files
+# in this project's top-level directory, and also on-line at:
+#   https://github.com/mnpopcenter/ripums
+
+
+#' Join data to geographic boundaries
+#'
+#' Helpers for joining shape files downloaded from the IPUMS website to data from extracts.
+#' Because of historical reasons, the attributes of (like variable type) of variables
+#' in the shape files does not always match those in the data files.
+#'
+#' @param data A dataset, usually one that has been aggregated to a geographic level.
+#' @param shape_data A shape file (loaded with \code{\link{read_ipums_sf}} or \code{read_ipums_sp})
+#' @param by A vector of variable names to join on. Like the dplyr join functions, named vectors
+#'   indicate that the names are different between the data and shape file.
+#'   shape files to load. Accepts a character vector specifying the file name, or
+#'  \code{\link{dplyr_select_style}} conventions. Can load multiple shape files,
+#'    which will be combined.
+#' @param suffix For variables that are found in both, but aren't joined on, a suffix
+#'   to put on the variables. Defaults to nothing for data variables and "_SHAPE" for
+#'   variables from the shape file.
+#' @param verbose I \code{TRUE}, will report information about geometries dropped in the merge.
+#' @return returns a sf or a SpatialPolygonsDataFrame depending on what was passed in.
+#' @examples
+#' # Note that these examples use NHGIS data so that they use the example data provided,
+#' # but the functions read_nhgis_sf/read_nhgis_sp perform this merge for you.
+#'
+#' data <- read_nhgis(ripums_example("nhgis0008_csv.zip"))
+#'
+#' if (require(sf)) {
+#'   sf <- read_ipums_sf(ripums_example("nhgis0008_shape_small.zip"))
+#'   data_sf <- ipums_shape_inner_join(data, sf, by = "GISJOIN")
+#' }
+#'
+#' if (require(sp)) {
+#'   sp <- read_ipums_sp(ripums_example("nhgis0008_shape_small.zip"))
+#'   data_sp <- ipums_shape_inner_join(data, sp, by = "GISJOIN")
+#' }
+#'
+#' \dontrun{
+#'   # Sometimes variable names won't match between datasets (for example in IPUMS international)
+#'   data <- read_ipums_micro("ipumsi_00004.xml")
+#'   shape <- read_ipums_sf("geo2_br1980_2010.zip")
+#'   data_sf <- ipums_shape_inner_join(data, shape, by = c("GEO2" = "GEOLEVEL2"))
+#' }
+#'
+#' @export
+ipums_shape_left_join <- function(data, shape_data, by, suffix = c("", "SHAPE"), verbose = TRUE) {
   ipums_shape_join(data, shape_data, by, "left", suffix, verbose)
 }
 
-ipums_shape_right_join <- function(data, shape_data, by, suffix, verbose) {
+#' @rdname ipums_shape_left_join
+#' @export
+ipums_shape_right_join <- function(data, shape_data, by, suffix = c("", "SHAPE"), verbose = TRUE) {
   ipums_shape_join(data, shape_data, by, "right", suffix, verbose)
 }
 
+#' @rdname ipums_shape_left_join
+#' @export
 ipums_shape_inner_join <- function(data, shape_data, by, suffix, verbose) {
   ipums_shape_join(data, shape_data, by, "inner", suffix, verbose)
 }
 
+#' @rdname ipums_shape_left_join
+#' @export
 ipums_shape_full_join <- function(data, shape_data, by, suffix, verbose) {
   ipums_shape_join(data, shape_data, by, "full", suffix, verbose)
 }
