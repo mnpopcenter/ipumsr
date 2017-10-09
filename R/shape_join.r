@@ -34,12 +34,12 @@ ipums_shape_join.sf <- function(
   suffix = c("", "_SHAPE"),
   verbose = TRUE
 ) {
-  if (!is.null(names(by))) {
+  if (is.null(names(by))) {
     by_shape <- by
     by_data <- by
   } else {
-    by_shape <- names(by)
-    by_data <- unname(by)
+    by_shape <- unname(by)
+    by_data <- names(by)
   }
   direction <- match.arg(direction)
 
@@ -64,10 +64,11 @@ ipums_shape_join.sf <- function(
 
   # message for merge failures
   if (verbose) {
-    join_fail_attributes <- check_for_join_failures(out, by)
+    join_fail_attributes <- check_for_join_failures(out, by, alligned$shape_data, alligned$data)
     attr(out, "join_failures") <- join_fail_attributes
   }
 
+  out <- dplyr::select(out, dplyr::one_of(names(data)), dplyr::everything())
   out
 }
 
@@ -79,12 +80,12 @@ ipums_shape_join.SpatialPolygonsDataFrame <- function(
   suffix = c("", "_SHAPE"),
   verbose = TRUE
 ) {
-  if (!is.null(names(by))) {
+  if (is.null(names(by))) {
     by_shape <- by
     by_data <- by
   } else {
-    by_shape <- names(by)
-    by_data <- unname(by)
+    by_shape <- unname(by)
+    by_data <- names(by)
   }
   direction <- match.arg(direction)
   if (direction %in% c("left", "full")) { # Note that directions are reversed because of dispatch
@@ -118,16 +119,18 @@ ipums_shape_join.SpatialPolygonsDataFrame <- function(
   out <- merge_f(alligned$shape_data, alligned$data, by = by, suffix = suffix)
 
   if (verbose) {
-    join_fail_attributes <- check_for_join_failures(out, by)
+    join_fail_attributes <- check_for_join_failures(out, by, alligned$shape_data, alligned$data)
   } else {
     join_fail_attributes <- NULL
   }
 
+  out <- dplyr::select(out, dplyr::one_of(names(data)), dplyr::everything())
+
   # Construct the sp object
-  shape_data_out <- shape_data[out$DoNotUse_temp_sequential_ID_963]
+  shape_data_out <- shape_data[out$DoNotUse_temp_sequential_ID_963, ]
   out$DoNotUse_temp_sequential_ID_963 <- NULL
   shape_data_out@data <- out
-  attr(out_shape_data, "join_failures") <- join_fail_attributes
+  attr(shape_data_out, "join_failures") <- join_fail_attributes
 
   shape_data_out
 }
@@ -199,7 +202,7 @@ allign_id_vars <- function(shape_data, data, by) {
   list(shape_data = shape_data, data = data)
 }
 
-check_for_join_failures <- function(merged, by) {
+check_for_join_failures <- function(merged, by, shape_data, data) {
   merge_fail <- list(
     shape = dplyr::anti_join(shape_data, as.data.frame(merged), by = by),
     data = dplyr::anti_join(data, merged, by = by)
