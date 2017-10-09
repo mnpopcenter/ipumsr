@@ -58,13 +58,13 @@ ipums_shape_right_join <- function(data, shape_data, by, suffix = c("", "SHAPE")
 
 #' @rdname ipums_shape_left_join
 #' @export
-ipums_shape_inner_join <- function(data, shape_data, by, suffix, verbose) {
+ipums_shape_inner_join <- function(data, shape_data, by, suffix = c("", "SHAPE"), verbose = TRUE) {
   ipums_shape_join(data, shape_data, by, "inner", suffix, verbose)
 }
 
 #' @rdname ipums_shape_left_join
 #' @export
-ipums_shape_full_join <- function(data, shape_data, by, suffix, verbose) {
+ipums_shape_full_join <- function(data, shape_data, by, suffix = c("", "SHAPE"), verbose = TRUE) {
   ipums_shape_join(data, shape_data, by, "full", suffix, verbose)
 }
 
@@ -233,8 +233,8 @@ allign_id_vars <- function(shape_data, data, by) {
     }
 
     if (any(convert_failures)) {
-      bad_shape <- by_shape[convert_failures]
-      bad_data <- by_data[convert_failures]
+      bad_shape <- by[convert_failures]
+      bad_data <- by[convert_failures]
       text <- ifelse(bad_shape != bad_data, paste0(bad_shape, " -> ", bad_data), bad_shape)
       stop(paste0(
         "Variables were numeric in one object but character in the other and ",

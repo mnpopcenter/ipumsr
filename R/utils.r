@@ -143,7 +143,7 @@ show_readr_progress <- function(verbose) {
 
 tbl_print_for_message <- function(x, n = 5) {
   x <- dplyr::as_data_frame(x)
-  out <- capture.output(print(x, n = n))
+  out <- utils::capture.output(print(x, n = n))
   out <- paste(out[-1], collapse = "\n")
   out
 }

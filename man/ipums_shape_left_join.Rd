@@ -13,9 +13,11 @@ ipums_shape_left_join(data, shape_data, by, suffix = c("", "SHAPE"),
 ipums_shape_right_join(data, shape_data, by, suffix = c("", "SHAPE"),
   verbose = TRUE)
 
-ipums_shape_inner_join(data, shape_data, by, suffix, verbose)
+ipums_shape_inner_join(data, shape_data, by, suffix = c("", "SHAPE"),
+  verbose = TRUE)
 
-ipums_shape_full_join(data, shape_data, by, suffix, verbose)
+ipums_shape_full_join(data, shape_data, by, suffix = c("", "SHAPE"),
+  verbose = TRUE)
 }
 \arguments{
 \item{data}{A dataset, usually one that has been aggregated to a geographic level.}
