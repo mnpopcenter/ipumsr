@@ -474,20 +474,3 @@ ipums_shape_join.sf <- function(
   }
   out
 }
-
-get_unique_values <- function(x) {
-  x <- dplyr::select(x, starts_with("RIPUMS_GEO_JOIN_VAR"))
-  x <- dplyr::group_by(x, !!!rlang::syms(names(x)))
-  x <- dplyr::summarize(x, n = !!rlang::quo(n()))
-  x
-}
-
-check_for_uniqueness <- function(x, type) {
-  x <- get_unique_values(x)
-  x_dups <- dplyr::filter(x, n > 1)
-  if (nrow(x_dups) > 1) {
-    tbl_msg <- tbl_print_for_message(x_dups)
-    stop(paste0("IDs do not uniquely identify observations in", type, ".\n", tbl_msg))
-  }
-  x
-}
