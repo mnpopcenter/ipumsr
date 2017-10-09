@@ -324,6 +324,7 @@ careful_sp_rbind <- function(sp_list) {
 ##        No indication of encoding.
 ## IPUMSI: Brazil has a cpg file indicating the encoding is ANSI 1252,
 ##         while China has UTF-8 (but only english characters)
+## USA:   Also have cpg files.
 ## Terrapop Brazil has multi-byte error characters for the data.
 # Current solution: Assume latin1, unless I find a CPG file and
 # with encoding I recognize and then use that.
@@ -343,40 +344,129 @@ get_encoding_from_cpg <- function(shape_file_vector) {
 
 
 ipums_shape_join <- function(
-  shape_data,
   data,
-  direction = c("inner", "full", "left", "right"),
-  verbose = TRUE,
-  warn_join_failure = TRUE,
-  merge_vars = NULL
+  shape_data,
+  by,
+  direction = c("full", "inner", "left", "right"),
+  suffix = c("", "_SHAPE"),
+  verbose = TRUE
 ) {
-  UseMethod()
+  UseMethod("ipums_shape_join", shape_data)
 }
 
 ipums_shape_join.sf <- function(
-  shape_data,
   data,
-  direction = c("inner", "full", "left", "right"),
-  verbose = TRUE,
-  warn_join_failure = TRUE,
-  merge_vars = NULL
+  shape_data,
+  by,
+  direction = c("full", "inner", "left", "right"),
+  suffix = c("", "_SHAPE"),
+  verbose = TRUE
 ) {
-  if (is.null(merge_vars)) {
-    if ("GISJOIN" %in% names(shape_data) && "GISJOIN" %in% names(data)) {
-      merge_vars <- "GISJOIN"
-    } else if (stringr::str_detect(names(shape_data), "^GEOLEVEL")) {
+  if (!is.null(names(by))) {
+    by_shape <- by
+    by_data <- by
+  } else {
+    by_shape <- names(by)
+    by_data <- unname(by)
+  }
 
+  not_in_shape <- dplyr::setdiff(by_shape, names(shape_data))
+  if (length(not_in_shape) > 0) {
+    stop(paste0("Variables ", paste(not_in_shape, collapse = ", "), " are not in shape data."))
+  }
+  not_in_data <- dplyr::setdiff(by_shape, names(data))
+  if (length(not_in_shape) > 0) {
+    stop(paste0("Variables ", paste(not_in_data, collapse = ", "), " are not in data."))
+  }
+  direction <- match.arg(direction)
+
+  # We're pretending like the x in the join is the data, but
+  # because of the join functions dispatch, we will actually be
+  # doing the reverse. Therefore, rename the variables in shape,
+  # and also reverse the suffix.
+  if (!is.null(names(by))) {
+    shape_data <- dplyr::rename(shape_data, !!!rlang::syms(by))
+    by <- names(by)
+  }
+  suffix <- rev(suffix)
+
+  # Allign variable attributes
+  shp_id_is_char <- purrr::map_lgl(by, ~is.character(shape_data[[.]]))
+  data_id_is_char <- purrr::map_lgl(by, ~is.character(data[[.]]))
+  convert_failures <- rep(FALSE, length(by))
+  for (iii in seq_along(by)) {
+    # If one is character but other is numeric, convert if possible
+    if (shp_id_is_char[iii] && !data_id_is_char[iii]) {
+      shape_data[[by[iii]]] <- custom_parse_number(shape_data[[by[iii]]])
+      if (is.character(shape_data[[by[iii]]])) convert_failures[iii] <- TRUE
+    } else if (!shp_id_is_char[iii] && data_id_is_char[iii]) {
+      data[[by[iii]]] <- custom_parse_number(data[[by[iii]]])
+      if (is.character(shape_data[[by[iii]]])) convert_failures[iii] <- TRUE
     }
 
-    if (is.null(merge_vars)) {
+    if (any(convert_failures)) {
+      bad_shape <- by_shape[convert_failures]
+      bad_data <- by_data[convert_failures]
+      text <- ifelse(bad_shape != bad_data, paste0(bad_shape, " -> ", bad_data), bad_shape)
       stop(paste0(
-        "Could not determine variables to merge shapes on automatically. Please specify ",
-        "using the `merge_vars` argument."
+        "Variables were numeric in one object but character in the other and ",
+        "could not be converted:\n", paste(text, collapse = ", ")
       ))
     }
 
-    if (verbose) {
-      cat(paste0("Merging on variables '' in shape data and '' in data."))
+    #Combine attributes (prioritzing data attributes because the DDI has more info)
+    shape_attr <- attributes(shape_data[[by[iii]]])
+    data_attr <- attributes(data[[by[iii]]])
+
+    overlapping_attr <- dplyr::intersect(names(shape_attr), names(data_attr))
+    shape_attr <- shape_attr[!names(shape_attr) %in% overlapping_attr]
+
+    all_attr <- c(data_attr, shape_attr)
+    attributes(shape_data[[by[iii]]]) <- all_attr
+    attributes(data[[by[iii]]]) <- all_attr
+  }
+
+  merge_f <- utils::getFromNamespace(paste0(direction, "_join"), "dplyr")
+  out <- merge_f(shape_data, data, by = by, suffix = suffix)
+
+  # message for merge failures
+  if (verbose) {
+    merge_fail <- list(
+      shape = dplyr::anti_join(shape_data, as.data.frame(out), by = by),
+      data = dplyr::anti_join(data, out, by = by)
+    )
+    sh_num <- nrow(merge_fail$shape)
+    d_num <- nrow(merge_fail$data)
+    if (sh_num > 0 | d_num > 0) {
+      if (sh_num > 0 && d_num > 0) {
+        count_message <- paste0(sh_num, " observations in the shape file and ", d_num, " obervation in data")
+      } else if (sh_num > 0) {
+        count_message <- paste0(sh_num, " observations in the shape file")
+      } else if (d_num > 0) {
+        count_message <- paste0(d_num, " observations in the data")
+      }
+      cat(paste0(
+        "Some observations were lost in the join (", count_message, "). See `join_problems(...)` for more details."
+      ))
+      attr(out, "join_problems") <- merge_fail
     }
   }
+  out
+}
+
+get_unique_values <- function(x) {
+  x <- dplyr::select(x, starts_with("RIPUMS_GEO_JOIN_VAR"))
+  x <- dplyr::group_by(x, !!!rlang::syms(names(x)))
+  x <- dplyr::summarize(x, n = !!rlang::quo(n()))
+  x
+}
+
+check_for_uniqueness <- function(x, type) {
+  x <- get_unique_values(x)
+  x_dups <- dplyr::filter(x, n > 1)
+  if (nrow(x_dups) > 1) {
+    tbl_msg <- tbl_print_for_message(x_dups)
+    stop(paste0("IDs do not uniquely identify observations in", type, ".\n", tbl_msg))
+  }
+  x
 }

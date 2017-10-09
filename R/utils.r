@@ -140,3 +140,20 @@ show_readr_progress <- function(verbose) {
   verbose && isTRUE(getOption("readr.show_progress")) && interactive() &&
     is.null(getOption("knitr.in.progress"))
 }
+
+tbl_print_for_message <- function(x, n = 5) {
+  x <- dplyr::as_data_frame(x)
+  out <- capture.output(print(x, n = n))
+  out <- paste(out[-1], collapse = "\n")
+  out
+}
+
+# TODO: Could adapt readr parse_number to be much faster than this.
+#       Can't use it directly because parse_number ignores when there
+#       are letters and numbers, while readr::parse_guess thinks leading
+#       0's means it is string.
+custom_parse_number <- function(x) {
+  converted <- suppressWarnings(as.numeric(x))
+  if (all(is.na(converted) == is.na(x))) return(converted) else return(x)
+}
+
