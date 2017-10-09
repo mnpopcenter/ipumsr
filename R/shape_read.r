@@ -270,7 +270,8 @@ read_ipums_sp <- function(shape_file, shape_layer = NULL, bind_multiple = TRUE, 
       layer = stringr::str_sub(basename(.x), 1, -5),
       verbose = verbose,
       stringsAsFactors = FALSE,
-      encoding = .y
+      encoding = .y,
+      use_iconv = TRUE
     )
   )
   out <- careful_sp_rbind(out)
