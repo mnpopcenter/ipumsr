@@ -391,17 +391,38 @@ ipums_shape_join.sf <- function(
   suffix <- rev(suffix)
 
   # Allign variable attributes
+  ## Vectors to hold type information
   shp_id_is_char <- purrr::map_lgl(by, ~is.character(shape_data[[.]]))
+  shp_id_is_num <- purrr::map_lgl(by, ~is.numeric(shape_data[[.]]))
+  shp_id_is_fact <- purrr::map_lgl(by, ~is.factor(shape_data[[.]]))
   data_id_is_char <- purrr::map_lgl(by, ~is.character(data[[.]]))
+  data_id_is_num <- purrr::map_lgl(by, ~is.numeric(data[[.]]))
+  data_id_is_fact <- purrr::map_lgl(by, ~is.factor(data[[.]]))
+
   convert_failures <- rep(FALSE, length(by))
   for (iii in seq_along(by)) {
     # If one is character but other is numeric, convert if possible
-    if (shp_id_is_char[iii] && !data_id_is_char[iii]) {
+    # if one is factor and the other is character, convert to character
+    # If one is factor and the other is numeric, give error because I can't
+    # really imagine how this happened.
+    # TODO: It seems like a lot of people may convert the data from number -> factor
+    #       (using the labels) and then try to merge on the "numeirc" id (which
+    #       is often stored as text in shape file). Consider trying to give
+    #       better error in this situation.
+    if (shp_id_is_char[iii] && data_id_is_num[iii]) {
       shape_data[[by[iii]]] <- custom_parse_number(shape_data[[by[iii]]])
       if (is.character(shape_data[[by[iii]]])) convert_failures[iii] <- TRUE
-    } else if (!shp_id_is_char[iii] && data_id_is_char[iii]) {
+    } else if (shp_id_is_num[iii] && data_id_is_char[iii]) {
       data[[by[iii]]] <- custom_parse_number(data[[by[iii]]])
       if (is.character(shape_data[[by[iii]]])) convert_failures[iii] <- TRUE
+    } else if (shp_id_is_char[iii] && data_id_is_fact[iii]) {
+      shape_data[[by[iii]]] <- as.character(shape_data[[by[iii]]])
+    } else if  (shp_id_is_fact[iii] && data_id_is_char[iii]) {
+      data[[by[iii]]] <- as.character(data[[by[iii]]])
+    } else if (shp_id_is_fact[iii] && data_id_is_num[iii]) {
+      stop(paste0("Variable ", by[iii], "is factor in shape data but numeric in data."))
+    } else if (shp_id_is_num[iii] && data_id_is_fact[iii]) {
+      stop(paste0("Variable ", by[iii], "is factor in data but numeric in shape data."))
     }
 
     if (any(convert_failures)) {
