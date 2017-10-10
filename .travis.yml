@@ -4,6 +4,7 @@ language: R
 sudo: required
 cache: packages
 dist: trusty
+r_github_packages: mnpopcenter/ripums/ripumsexamples
 
 before_install:
     - sudo add-apt-repository ppa:ubuntugis/ubuntugis-unstable --yes
