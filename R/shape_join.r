@@ -92,6 +92,9 @@ ipums_shape_join.sf <- function(
     by_shape <- by
     by_data <- by
   } else {
+    # Can be a mix of named arguments and unnamed ones. If unnamed
+    # use the value as name.
+    names(by)[names(by) == ""] <- unname(by)[names(by) == ""]
     by_shape <- unname(by)
     by_data <- names(by)
   }
@@ -138,6 +141,9 @@ ipums_shape_join.SpatialPolygonsDataFrame <- function(
     by_shape <- by
     by_data <- by
   } else {
+    # Can be a mix of named arguments and unnamed ones. If unnamed
+    # use the value as name.
+    names(by)[names(by) == ""] <- unname(by)[names(by) == ""]
     by_shape <- unname(by)
     by_data <- names(by)
   }
