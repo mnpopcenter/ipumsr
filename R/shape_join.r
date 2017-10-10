@@ -229,9 +229,9 @@ allign_id_vars <- function(shape_data, data, by) {
       data[[by[iii]]] <- custom_parse_number(data[[by[iii]]])
       if (is.character(shape_data[[by[iii]]])) convert_failures[iii] <- TRUE
     } else if (shp_id_is_char[iii] && data_id_is_fact[iii]) {
-      shape_data[[by[iii]]] <- as.character(shape_data[[by[iii]]])
-    } else if  (shp_id_is_fact[iii] && data_id_is_char[iii]) {
       data[[by[iii]]] <- as.character(data[[by[iii]]])
+    } else if (shp_id_is_fact[iii] && data_id_is_char[iii]) {
+      shape_data[[by[iii]]] <- as.character(shape_data[[by[iii]]])
     } else if (shp_id_is_fact[iii] && data_id_is_num[iii]) {
       stop(paste0("Variable ", by[iii], "is factor in shape data but numeric in data."))
     } else if (shp_id_is_num[iii] && data_id_is_fact[iii]) {
