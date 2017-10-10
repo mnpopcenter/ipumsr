@@ -244,3 +244,6 @@ Simple Features and sp for Spatial). The `sf` package is relatively new, and so
 does not have as widespread support as the `sp` package. However, (in my opinion)
 it does allow for easier analysis, and so may be a better place to start if you
 have not used GIS data in R before.
+
+For more details about how to load geographic data using ripums, see the vignette
+"ipums-geography" (`vignette("ipums-geography", package = "ripums")`)
