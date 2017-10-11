@@ -38,7 +38,7 @@ IPUMS geographic data takes several different forms:
 and [IPUMS USA](https://usa.ipums.org/usa/volii/tgeotools.shtml) provide the shape 
 files on separate pages.
 - [NHGIS](https://nhgis.org) provides access to the shape files relevant to your
-current extact as part of the system to create the data extract.
+current extract as part of the system to create the data extract.
 - [IPUMS Terra](https://www.terrapop.org/) provides shape files along with the extract
 and allows for aggregating microdata and raster data into the boundaries. 
 
@@ -50,8 +50,8 @@ The examples here focus on the specifics of working with IPUMS geographic data a
 provided minimal instruction about how to actually use this data. However, once you've 
 loaded the data, there are a variety of R packages that let you work with geographic
 data. In this vignette, I show how to make static graphs using ggplot2, but you can
-make interactive maps, perform geospatial analysis and other things. At the end of
-this vignette, there are some resources for learning more.
+make interactive maps, perform geospatial analysis and other things. [At the end of
+this vignette](#resources), there are some resources for learning more.
 
 ## R's Geospatial Packages: `sf` vs `sp`
 The `ripums` package allows for loading geospatial data in two formats (sf for
@@ -61,8 +61,9 @@ it does allow for easier analysis, and so may be a better place to start if you
 have not used GIS data in R before.
 
 All examples in this vignette will use the sf package, but the functionality of the sp
-functions is generally similar. I have tried to make notes when something would be 
-different for the sp package.
+functions is generally similar. The only place where the code is noticably different
+is for making plots. See the [resources at the end of this vignette](#resources) for
+some instructions on plotting with the sp package.
 
 ## IPUMS Geography Overview
 There are two dimensions that can classify the IPUMS geographic data.
@@ -70,18 +71,19 @@ There are two dimensions that can classify the IPUMS geographic data.
 - Harmonized vs. Non-Harmonized - Because boundaries can change over time, 
 it is not always possible to compare the data over time. For many geographies
 IPUMS provides boundary files that have been made consistent (by combining
-geographies that share area for different time periods and other methods).
+geographies that share area for different time periods, see the project specific
+geography webpages for more details).
 These boundaries are called harmonized. 
-- Level - The specificity of the data (for example states and
+- Level - The specificity of the geography (eg states and
 counties in the United States). IPUMS often provides multiple levels of 
 data, sometimes overlapping (as the case of counties within states) but sometimes
-not (for example zip codes in the US may not fit within county boundaries).
+not (eg zip codes in the US may not fit within county boundaries).
 
 ## Workflow for Loading IPUMS Microdata and Geographic Boundaries
 Every analysis will be slightly different, but in general there are 
 7 steps to working with IPUMS microdata and geographic data. As an example, 
 let's say I wanted to analyze the use of solid fuel
-for cooking in households with children aged 0-5 in Colobmia, 
+for cooking in households with children aged 0-5 in Colombia, 
 Ecuador and Peru. 
 
 Before you work on the data for yourself, I recommend reading
@@ -222,8 +224,9 @@ ipumsi_summary <- ipumsi_data %>%
 ### 6) Combine multiple shape files (if necessary)
 In this example we have three shape files. The command `rbind()` has been
 implemented for sf (and sp) spatial objects, but before we do that, we want to
-give them the same structure. When combining non-harmonized geographies or
-across diferent geographic levels, the variable names will not be the same.
+give each country's shape data the same structure. When combining non-harmonized
+geographies or across different geographic levels, the variable names will not
+be the same.
 
 ```{r}
 # Currently each shape file has different variable names
@@ -270,13 +273,13 @@ your data, perhaps you merged the wrong shape file, or didn't load an entire
 file. However, often when an area can is in the shape file but not the data, it
 means that there was no population in the area that match our subsample.
 
-We can investigate this join failure using hte `join_failures` command.
+We can investigate this join failure using the `join_failures` command.
 ```{r}
 join_failures(ipumsi)
 ```
 
 In this case, it appears that the shape file includes Lake Titicaca for mapping
-purposes, even though noone lives in the lake. We will just leave this boundary
+purposes, even though no one lives in the lake. We will just leave this boundary
 out of our dataset.
 
 Sometimes the join failure is in the opposite direction; data is available in the data
@@ -322,7 +325,7 @@ after selecting a table. Also, the geographic boundary files can be selected
 alongside the tables using the "GIS Boundary Files" tab. The extract engine also
 provides a single place to download both the data and the boundary files.
 
-In our example, we select table P13, Median Age by Sex at the census block level.
+In our example, we select table P13, "Median Age by Sex" at the census block level.
 Because census block data is so large, the extract engine divides each state's 
 boundaries into different files, so we also need to select that we want Connecticut
 and Rhode Island.
@@ -383,7 +386,7 @@ if ("geom_sf" %in% getNamespaceExports("ggplot2")) {
 }
 ```
 
-## Resources for Geographic Analysis in R
+## Resources for Geographic Analysis in R {#resources}
 There are so many great resources on working with geographic data in R, 
 it's hard to pick just a few. Here I've attempted to put some good starting
 places:
@@ -393,10 +396,10 @@ vignettes for those packages(`vignette(package = "sf")` and
 `vignette(packge = "sp")`). 
 - The [leaflet](https://rstudio.github.io/leaflet/) package is great for interactive 
 web-technology based maps. 
-- The CRAN website has a great tutorial called ["Introduction to visualizaing 
+- The CRAN website has a great tutorial called ["Introduction to visualizing 
 spatial Data in R"](https://cran.r-project.org/doc/contrib/intro-spatial-rl.pdf)
 that focuses on visualizing data from the sp package. 
 - The [R consortium proposal for the sf 
 package](https://github.com/r-spatial/sf/blob/master/PROPOSAL.md) 
-provides of the history behind the sf packge.
+provides of the history behind the sf package.
 
