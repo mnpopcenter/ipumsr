@@ -1,0 +1,409 @@
+---
+title: "Geographic Data in `ripums`"
+author: "Minnesota Population Center"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{ipums-geography}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+```{r, echo = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+
+# Don't give instructions about downloading data for yourself for geography data
+# because some of the files (like the small shape file) aren't available.
+ripumsexamples_file <- system.file("extdata", "nhgis0010_csv.zip", package = "ripumsexamples")
+
+if (!file.exists(ripumsexamples_file)) {
+  message(paste0(
+    "Could not find data and so could not run vignette.\n\n",
+    "The data is available on github - you can install it using the following ",
+    "commands: \n",
+    "  if (!require(devtools)) install.packages('devtools')\n",
+    "  devtools::install_github('mnpopcenter/ripums/ripumsexamples')\n",
+    "After installation, the data should be available for this vignette.\n\n"
+  ))
+  knitr::opts_chunk$set(eval = FALSE)
+}
+
+if (!suppressPackageStartupMessages(require(sf))) {
+  message("Could not find sf package and so could not run vignette.")
+  knitr::opts_chunk$set(eval = FALSE)
+}
+```
+IPUMS geographic data takes several different forms:
+
+- Microdata projects like 
+[IPUMS DHS](https://www.idhsdata.org/idhs/gis.shtml), 
+[IPUMS International](https://international.ipums.org/international/geography_gis.shtml) 
+and [IPUMS USA](https://usa.ipums.org/usa/volii/tgeotools.shtml) provide the shape 
+files on separate pages.
+- [NHGIS](https://nhgis.org) provides access to the shape files relevant to your
+current extract as part of the system to create the data extract.
+- [IPUMS Terra](https://www.terrapop.org/) provides shape files along with the extract
+and allows for aggregating microdata and raster data into the boundaries. 
+
+The ripums package does not yet support IPUMS Terra data, but does try to help 
+work with NHGIS and the microdata projects' geographic data. We hope to add
+support for IPUMS Terra soon.
+
+The examples here focus on the specifics of working with IPUMS geographic data and only
+provided minimal instruction about how to actually use this data. However, once you've 
+loaded the data, there are a variety of R packages that let you work with geographic
+data. In this vignette, I show how to make static graphs using ggplot2, but you can
+make interactive maps, perform geospatial analysis and other things. [At the end of
+this vignette](#resources), there are some resources for learning more.
+
+## R's Geospatial Packages: `sf` vs `sp`
+The `ripums` package allows for loading geospatial data in two formats (sf for
+Simple Features and sp for Spatial). The `sf` package is relatively new, and so 
+does not have as widespread support as the `sp` package. However, (in my opinion)
+it does allow for easier analysis, and so may be a better place to start if you
+have not used GIS data in R before.
+
+All examples in this vignette will use the sf package, but the functionality of the sp
+functions is generally similar. The only place where the code is noticably different
+is for making plots. See the [resources at the end of this vignette](#resources) for
+some instructions on plotting with the sp package.
+
+## IPUMS Geography Overview
+There are two dimensions that can classify the IPUMS geographic data.
+
+- Harmonized vs. Non-Harmonized - Because boundaries can change over time, 
+it is not always possible to compare the data over time. For many geographies
+IPUMS provides boundary files that have been made consistent (by combining
+geographies that share area for different time periods, see the project specific
+geography webpages for more details).
+These boundaries are called harmonized. 
+- Level - The specificity of the geography (eg states and
+counties in the United States). IPUMS often provides multiple levels of 
+data, sometimes overlapping (as the case of counties within states) but sometimes
+not (eg zip codes in the US may not fit within county boundaries).
+
+## Workflow for Loading IPUMS Microdata and Geographic Boundaries
+Every analysis will be slightly different, but in general there are 
+7 steps to working with IPUMS microdata and geographic data. As an example, 
+let's say I wanted to analyze the use of solid fuel
+for cooking in households with children aged 0-5 in Colombia, 
+Ecuador and Peru. 
+
+Before you work on the data for yourself, I recommend reading
+the specifics about the project's geographic data on the IPUMS website
+([IPUMS DHS](https://www.idhsdata.org/idhs/gis.shtml) 
+[IPUMS International](https://international.ipums.org/international/geography_gis.shtml) 
+and [IPUMS USA](https://usa.ipums.org/usa/volii/tgeotools.shtml)).
+Each project has its own idiosyncrasies that you'll want to understand
+before diving in.
+
+The data for this example is included in the package `ripumsexamples`
+which is available on github. If you want to run the code from this 
+vignette you will need to install it by running the following commands:
+```{r, eval = FALSE}
+if (!require(devtools)) install.packages(devtools)
+devtools::install_github("mnpopcenter/ripums/ripumsexamples")
+```
+
+```{r}
+# This function helps find the data from the ripumsexamples package for us
+ex_file <- function(x) {
+  system.file("extdata", x, package = "ripumsexamples")
+}
+```
+
+### 1) Determine what geographic data you want to use (and is available) 
+From the data extract engine I see that the variable FUELCOOK is available
+in the three censuses from Colombia (1985, 1993 and 2005), and one each 
+from Ecuador (2010) and Peru (2007).
+
+The project specific geography information webpages 
+([IPUMS DHS](https://www.idhsdata.org/idhs/gis.shtml) 
+[IPUMS International](https://international.ipums.org/international/geography_gis.shtml) 
+and [IPUMS USA](https://usa.ipums.org/usa/volii/tgeotools.shtml))
+give guidance on what variables are available, but determining which geographic
+variables I want to use ultimately depends on my research question. If I want to
+be able to compare across time in Colombia, I will need to use the harmonized
+version of the Colombian geography, but since there is only one sample in
+Ecuador and Peru, I may want to use only the year-specific geography for the
+years with FUELCOOK because I won't gain anything from the harmonized versions
+and I may lose geographic detail. I also have to pick a geographic level, and
+for now I have chosen the level 1 geography.
+
+So, I will want the variables GEOLEV1 (or GEO1_CO) for Colombia, GEO1_EC2010 for
+Ecuador and GEO1_PE2007 for Peru to my data extract.
+
+### 2) Download Data and Shape Files
+The geographic data for microdata projects is not integrated into the data
+extract system at this time. The project specific geography pages listed above
+have links to the downloads for each of the files. 
+
+Then I made my data extract including the geographic variables listed above
+(GEOLEV1, GEO1_EC2010 and GEO1_PE2007).
+
+### 3) Load data and shape files into R
+The `read_ipums_micro` function loads the data and the `read_ipums_sf` 
+(or `read_ipums_sp`) function loads the shape files. 
+
+```{r}
+suppressPackageStartupMessages({
+  library(ripums)
+  library(sf)
+  library(dplyr)
+  library(ggplot2)
+})
+
+# Load data
+ipumsi_ddi_file <- ex_file("ipumsi_00011.xml")
+ipumsi_ddi <- read_ipums_ddi(ipumsi_ddi_file)
+ipumsi_data <- read_ipums_micro(ipumsi_ddi_file, verbose = FALSE)
+
+# Load shape files
+colombia_shape <- read_ipums_sf(ex_file("geo1_co1964_2005.zip"), verbose = FALSE)
+ecuador_shape <- read_ipums_sf(ex_file("geo1_ec2010.zip"), verbose = FALSE)
+peru_shape <- read_ipums_sf(ex_file("geo1_pe2007.zip"), verbose = FALSE)
+```
+
+### 4) Data processing
+Though IPUMS data has been cleaned and formatted to be easy to use,
+as discussed in the value-labels vignette, generally there is at least
+some data processing we need to do. 
+
+In this example, I want to make the solid fuel use variable binary and
+also use the value labels for (COUNTRY, SAMPLE and AGE2), but zap them for 
+the geography variables. 
+
+When combining with shape files, the shape files also generally have the labels
+for the geographic units, so we do not need to use the labels. Also because the
+name of a geography may not be unique (eg there are 8 states in the US with a
+Fulton County), it's better to merge on the numeric representation.
+```{r}
+# Convert labelled values to factors where useful (and zap elsewhere)
+# See the value-labels vignette for more on this process.
+fuel_labels <- ipums_val_labels(ipumsi_data$FUELCOOK)
+fuel_missing_lbls <- c(
+  "NIU (not in universe)", "Multiple fuels", "Other combinations", "Other", "Unknown/missing"
+)
+fuel_solid_vals <- c(50:56, 61, 73, 74, 75)
+
+ipumsi_data <- ipumsi_data %>%
+  mutate_at(vars(COUNTRY, SAMPLE, AGE2), ~as_factor(lbl_clean(.))) %>%
+  # We will get labels from shape file for geographic variables
+  mutate_at(vars(starts_with("GEO")), zap_labels) %>% 
+  mutate(
+    SOLIDFUEL = FUELCOOK %>% 
+      lbl_na_if(~.lbl %in% fuel_missing_lbls) %>%
+      lbl_relabel(
+        lbl(0, "Non-solid Fuel") ~ !.val %in% fuel_solid_vals,
+        lbl(1, "Solid Fuel") ~ .val %in% fuel_solid_vals
+      ) %>%
+      as_factor(),
+    FUELCOOK = as_factor(FUELCOOK)
+  )
+```
+
+
+### 5) Aggregate data to geographic level
+Since there is microdata has an observation per person, to make a map
+we usually want to summarize the data to represent the entire geographic
+unit. Since Colombia has 3 years of survey, each unit will really represent
+a country in a particular year.
+
+Because this example is combining unharmonized geographic units, the
+data currently has multiple variables representing the geographic ID.
+Now is a good chance to combine them into one.
+
+Here we calculate the percent of all children who live in a household
+that uses solid fuel for cooking.
+```{r}
+ipumsi_summary <- ipumsi_data %>% 
+  mutate(GEOLEV1 = case_when(
+    COUNTRY == "Colombia" ~ GEOLEV1,
+    COUNTRY == "Ecuador" ~ GEO1_EC2010,
+    COUNTRY == "Peru" ~ GEO1_PE2007
+  )) %>%
+  group_by(YEAR, COUNTRY, GEOLEV1) %>%
+  summarize(pct_solid = mean(SOLIDFUEL == "Solid Fuel", na.rm = TRUE))
+```
+
+### 6) Combine multiple shape files (if necessary)
+In this example we have three shape files. The command `rbind()` has been
+implemented for sf (and sp) spatial objects, but before we do that, we want to
+give each country's shape data the same structure. When combining non-harmonized
+geographies or across different geographic levels, the variable names will not
+be the same.
+
+```{r}
+# Currently each shape file has different variable names
+names(colombia_shape)
+names(ecuador_shape)
+names(peru_shape)
+
+# Keep CNTRY_NAME (because the year-specific geographies are not unique across
+# countries, so we need to merge using it), ADMIN_NAME (to get the name of 
+# geography), and rename GEOLEVEL1, IPUM2010 and IPUM2007 to the same variable
+# name (and geography, which contains the shape)
+colombia_shape <- colombia_shape %>%
+  select(CNTRY_NAME, ADMIN_NAME, GEOJOIN = GEOLEVEL1)
+ecuador_shape <- ecuador_shape %>%
+  select(CNTRY_NAME, ADMIN_NAME, GEOJOIN = IPUM2010)
+peru_shape <- peru_shape %>%
+  select(CNTRY_NAME, ADMIN_NAME, GEOJOIN = IPUM2007)
+
+# Now we can rbind them together
+all_shapes <- rbind(colombia_shape, ecuador_shape, peru_shape)
+```
+
+### 7) Merge data and geography
+The function `ipums_shape_right_join()` allows us to combine the data and 
+shape file while smoothing out some of the complications because the data
+and shape files are provided in slightly different formats (For example,
+the ID variable is numeric in the data, but stored as character in the
+shape file). It also gives a message when some of the data has been
+dropped by the join.
+
+```{r}
+ipumsi <- ipums_shape_inner_join(
+  ipumsi_summary, 
+  all_shapes,
+  by = c("COUNTRY" = "CNTRY_NAME", "GEOLEV1" = "GEOJOIN")
+)
+```
+
+Notice that the join warned us about one observation dropping out of the shape
+file. Because we chose an inner join, all observations that was not in both the
+data and the shape data are dropped from the results. Join failures like this
+can happen for a variety of reasons. It can mean that something is wrong with
+your data, perhaps you merged the wrong shape file, or didn't load an entire
+file. However, often when an area can is in the shape file but not the data, it
+means that there was no population in the area that match our subsample.
+
+We can investigate this join failure using the `join_failures` command.
+```{r}
+join_failures(ipumsi)
+```
+
+In this case, it appears that the shape file includes Lake Titicaca for mapping
+purposes, even though no one lives in the lake. We will just leave this boundary
+out of our dataset.
+
+Sometimes the join failure is in the opposite direction; data is available in the data
+but not the shape file. Again, this can happen because of problems in your data, but
+it also can mean that the geographic unit was too small to appear in the shape file.
+
+### 8) Use the data!
+Now the data is ready for us to use. Here's a quick example of how to
+make a map with ggplot2.
+```{r, fig.height = 4, fig.width = 7}
+# Note the function `geom_sf()` is a very new function, so you may need to update
+# ggplot2 to run.
+ipumsi <- ipumsi %>%
+  mutate(census_round = cut(YEAR, c(1984, 1992, 2004, 2014), c("1985", "1993", "2005-2010")))
+
+if ("geom_sf" %in% getNamespaceExports("ggplot2")) {
+  ggplot(data = ipumsi, aes(fill = pct_solid)) +
+    geom_sf() + 
+    facet_wrap(~census_round) + 
+    scale_fill_continuous("", labels = scales::percent) + 
+    labs(
+      title = "Percent of Children 0-5 Who Live in a Home That Cooks Using Solid Fuel",
+      subtitle = "Colombia (1985, 1993, 2005), Ecuador (2010) and Peru (2007) Census Data",
+      caption = paste0("Source: ", ipums_file_info(ipumsi_ddi)$ipums_project)
+    )
+}
+```
+
+## Workflow for Loading NHGIS Data and Boundaries
+The geographic data is more tightly integrated with the census data for
+the NHGIS project, but otherwise the process for using NHGIS data is
+similar to using the microdata projects.
+
+Again, the specifics of each analysis will be slightly different, but
+here is an example showing the median age by census block in Connecticut
+and Rhode Island.
+
+### 1) Getting the data and shape files
+NHGIS has better integration of the shape files and data. The website's extract
+engine allows you to filter on variables that are only available at a particular
+geographic level when looking for variables and to select particular levels
+after selecting a table. Also, the geographic boundary files can be selected
+alongside the tables using the "GIS Boundary Files" tab. The extract engine also
+provides a single place to download both the data and the boundary files.
+
+In our example, we select table P13, "Median Age by Sex" at the census block level.
+Because census block data is so large, the extract engine divides each state's 
+boundaries into different files, so we also need to select that we want Connecticut
+and Rhode Island.
+
+### 2) Load data and shape files into R
+For most uses you will be able to load the data and shape files at the same
+time using the `read_nhgis_sf` (or `read_nhgis_sp`) function. Additionally,
+when the geographic data is only divided because of size reasons (like 
+how each census block file is for a single state), these functions will
+combine the shape files for us.
+
+So in our example, we run the following to load the data:
+```{r}
+nhgis_ddi <- read_ipums_codebook(ex_file("nhgis0024_csv.zip")) 
+nhgis <- read_nhgis_sf(
+  data_file = ex_file("nhgis0024_csv.zip"),
+  shape_file = ex_file("nhgis0024_shape_small.zip"),
+  verbose = FALSE
+)
+```
+
+In other situations, like when combining data from different tables or
+geographic level, you may need to load the data and shape files
+separately. In this case, you can use the function `read_nhgis` to load
+the data and `read_ipums_sf` (or sp) to load the shape files. Then the
+process for combining the data is similar to the process described above
+for the IPUMS International data.
+
+### 3) Use the data!
+Now we're ready to use the data. Here is a map of the median age for
+Hartford County, CT and Providence County, RI.
+```{r, fig.height = 4, fig.width = 7}
+# The median age is 0 for unpopulated counties, set them to NA
+nhgis <- nhgis %>%
+  mutate(H77001 = ifelse(H77001 == 0, NA, H77001))
+
+# For map filter to Hartford County, CT and Providence County, RI
+nhgis_subset <- nhgis %>%
+  filter(COUNTY %in% c("Hartford County", "Providence County")) %>%
+  mutate(place_name = paste0(COUNTY, ", ", STATE))
+
+if ("geom_sf" %in% getNamespaceExports("ggplot2")) {
+  ggplot(data = nhgis_subset, aes(fill = H77001)) +
+    geom_sf(linetype = "blank") + 
+    scale_fill_continuous("") + 
+    facet_wrap(~place_name, scales = "free") + 
+    labs(
+      title = "Median Age of Population By Census Block",
+      subtitle = "2010 Census",
+      caption = paste0(
+        "Source: ", ipums_file_info(nhgis_ddi)$ipums_project, "\n",
+        "Simplified Census Block boundaries (1% of points retained)"
+      )
+    )
+}
+```
+
+## Resources for Geographic Analysis in R {#resources}
+There are so many great resources on working with geographic data in R, 
+it's hard to pick just a few. Here I've attempted to put some good starting
+places:
+
+- For general information about the sf and sp packages, I recommend reading the 
+vignettes for those packages(`vignette(package = "sf")` and 
+`vignette(packge = "sp")`). 
+- The [leaflet](https://rstudio.github.io/leaflet/) package is great for interactive 
+web-technology based maps. 
+- The CRAN website has a great tutorial called ["Introduction to visualizing 
+spatial Data in R"](https://cran.r-project.org/doc/contrib/intro-spatial-rl.pdf)
+that focuses on visualizing data from the sp package. 
+- The [R consortium proposal for the sf 
+package](https://github.com/r-spatial/sf/blob/master/PROPOSAL.md) 
+provides of the history behind the sf package.
+

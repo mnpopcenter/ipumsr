@@ -12,7 +12,7 @@
 
 <meta name="author" content="Minnesota Population Center" />
 
-<meta name="date" content="2017-10-04" />
+<meta name="date" content="2017-10-11" />
 
 <title>Introduction to ripums - IPUMS Data in R</title>
 
@@ -70,7 +70,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 <h1 class="title toc-ignore">Introduction to <code>ripums</code> - IPUMS Data in R</h1>
 <h4 class="author"><em>Minnesota Population Center</em></h4>
-<h4 class="date"><em>2017-10-04</em></h4>
+<h4 class="date"><em>2017-10-11</em></h4>
 
 
 
@@ -130,7 +130,7 @@ cps_ddi &lt;-<span class="st"> </span><span class="kw">read_ipums_ddi</span>(<sp
 cps_data &lt;-<span class="st"> </span><span class="kw">read_ipums_micro</span>(cps_ddi, <span class="dt">verbose =</span> <span class="ot">FALSE</span>)
 
 <span class="co"># Show which variables have labels</span>
-cps_data %&gt;%
+cps_data <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw">select_if</span>(is.labelled)
 <span class="co">#&gt; # A tibble: 7,668 x 3</span>
 <span class="co">#&gt;     STATEFIP     MONTH    INCTOT</span>
@@ -150,7 +150,7 @@ cps_data %&gt;%
 <span class="co"># Notice how the tibble print function shows the dbl+lbl class on top</span>
 
 <span class="co"># Investigate labels</span>
-<span class="kw">ipums_val_labels</span>(cps_data$STATEFIP)
+<span class="kw">ipums_val_labels</span>(cps_data<span class="op">$</span>STATEFIP)
 <span class="co">#&gt; # A tibble: 75 x 2</span>
 <span class="co">#&gt;      val                  lbl</span>
 <span class="co">#&gt;    &lt;dbl&gt;                &lt;chr&gt;</span>
@@ -167,10 +167,10 @@ cps_data %&gt;%
 <span class="co">#&gt; # ... with 65 more rows</span>
 
 <span class="co"># Convert the labels to factors (and drop the unused levels)</span>
-cps_data &lt;-<span class="st"> </span>cps_data %&gt;%
+cps_data &lt;-<span class="st"> </span>cps_data <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw">mutate</span>(<span class="dt">STATE_factor =</span> <span class="kw">droplevels</span>(<span class="kw">as_factor</span>(STATEFIP)))
 
-<span class="kw">table</span>(cps_data$STATE_factor, <span class="dt">useNA =</span> <span class="st">&quot;always&quot;</span>)
+<span class="kw">table</span>(cps_data<span class="op">$</span>STATE_factor, <span class="dt">useNA =</span> <span class="st">&quot;always&quot;</span>)
 <span class="co">#&gt; </span>
 <span class="co">#&gt;         Iowa    Minnesota North Dakota South Dakota    Wisconsin </span>
 <span class="co">#&gt;         1892         2362          188          227         2999 </span>
@@ -179,25 +179,25 @@ cps_data &lt;-<span class="st"> </span>cps_data %&gt;%
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Manipulating the labelled value before as_factor </span>
 <span class="co"># often leads to losing the information...</span>
 <span class="co"># Say we want to set Iowa (STATEFIP == 19) to missing</span>
-cps_data &lt;-<span class="st"> </span>cps_data %&gt;%
-<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">STATE_factor2 =</span> <span class="kw">as_factor</span>(<span class="kw">ifelse</span>(STATEFIP ==<span class="st"> </span><span class="dv">19</span>, <span class="ot">NA</span>, STATEFIP)))
+cps_data &lt;-<span class="st"> </span>cps_data <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">STATE_factor2 =</span> <span class="kw">as_factor</span>(<span class="kw">ifelse</span>(STATEFIP <span class="op">==</span><span class="st"> </span><span class="dv">19</span>, <span class="ot">NA</span>, STATEFIP)))
 <span class="co">#&gt; Error in mutate_impl(.data, dots): Evaluation error: no applicable method for 'as_factor' applied to an object of class &quot;c('double', 'numeric')&quot;.</span></code></pre></div>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Currently the best solution is to convert to factor first, then manipulate using</span>
 <span class="co"># factor. We hope to improve this.</span>
-cps_data &lt;-<span class="st"> </span>cps_data %&gt;%
+cps_data &lt;-<span class="st"> </span>cps_data <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw">mutate</span>(<span class="dt">STATE_factor3 =</span> <span class="kw">droplevels</span>(<span class="kw">as_factor</span>(STATEFIP), <span class="st">&quot;Iowa&quot;</span>))
 
-<span class="kw">table</span>(cps_data$STATE_factor3, <span class="dt">useNA =</span> <span class="st">&quot;always&quot;</span>)
+<span class="kw">table</span>(cps_data<span class="op">$</span>STATE_factor3, <span class="dt">useNA =</span> <span class="st">&quot;always&quot;</span>)
 <span class="co">#&gt; </span>
 <span class="co">#&gt;    Minnesota North Dakota South Dakota    Wisconsin         &lt;NA&gt; </span>
 <span class="co">#&gt;         2362          188          227         2999         1892</span>
 
 <span class="co"># The as_factor function also has a &quot;levels&quot; argument that can </span>
 <span class="co"># put both the labels and values into the factor</span>
-cps_data &lt;-<span class="st"> </span>cps_data %&gt;%
+cps_data &lt;-<span class="st"> </span>cps_data <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw">mutate</span>(<span class="dt">STATE_factor4 =</span> <span class="kw">droplevels</span>(<span class="kw">as_factor</span>(STATEFIP, <span class="dt">levels =</span> <span class="st">&quot;both&quot;</span>)))
 
-<span class="kw">table</span>(cps_data$STATE_factor4, <span class="dt">useNA =</span> <span class="st">&quot;always&quot;</span>)
+<span class="kw">table</span>(cps_data<span class="op">$</span>STATE_factor4, <span class="dt">useNA =</span> <span class="st">&quot;always&quot;</span>)
 <span class="co">#&gt; </span>
 <span class="co">#&gt;         [19] Iowa    [27] Minnesota [38] North Dakota [46] South Dakota </span>
 <span class="co">#&gt;              1892              2362               188               227 </span>
@@ -215,17 +215,17 @@ cps_ddi &lt;-<span class="st"> </span><span class="kw">read_ipums_ddi</span>(<sp
 cps_data &lt;-<span class="st"> </span><span class="kw">read_ipums_micro</span>(cps_ddi, <span class="dt">verbose =</span> <span class="ot">FALSE</span>)
 
 <span class="co"># Currently file level metadata is on cps_data</span>
-<span class="kw">ipums_file_info</span>(cps_data)$ipums_project
+<span class="kw">ipums_file_info</span>(cps_data)<span class="op">$</span>ipums_project
 <span class="co">#&gt; [1] &quot;IPUMS-CPS&quot;</span>
 
 <span class="co"># But after a mutate, it is lost</span>
-cps_data &lt;-<span class="st"> </span>cps_data %&gt;%
-<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">MONTH =</span> haven::<span class="kw">as_factor</span>(MONTH))
-<span class="kw">ipums_file_info</span>(cps_data)$ipums_project
+cps_data &lt;-<span class="st"> </span>cps_data <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">MONTH =</span> haven<span class="op">::</span><span class="kw">as_factor</span>(MONTH))
+<span class="kw">ipums_file_info</span>(cps_data)<span class="op">$</span>ipums_project
 <span class="co">#&gt; NULL</span>
 
 <span class="co"># So you can use the DDI</span>
-<span class="kw">ipums_file_info</span>(cps_ddi)$ipums_project
+<span class="kw">ipums_file_info</span>(cps_ddi)<span class="op">$</span>ipums_project
 <span class="co">#&gt; [1] &quot;IPUMS-CPS&quot;</span></code></pre></div>
 </div>
 <div id="dplyr-select-style-syntax" class="section level3">
@@ -237,15 +237,15 @@ cps_data &lt;-<span class="st"> </span>cps_data %&gt;%
 <span class="co"># The vars argument for `read_ipums_micro` uses this syntax</span>
 <span class="co"># So these are all equivalent</span>
 cf &lt;-<span class="st"> </span><span class="kw">ripums_example</span>(<span class="st">&quot;cps_00006.xml&quot;</span>)
-<span class="kw">read_ipums_micro</span>(cf, <span class="dt">vars =</span> <span class="kw">c</span>(<span class="st">&quot;YEAR&quot;</span>, <span class="st">&quot;INCTOT&quot;</span>), <span class="dt">verbose =</span> <span class="ot">FALSE</span>) %&gt;%
+<span class="kw">read_ipums_micro</span>(cf, <span class="dt">vars =</span> <span class="kw">c</span>(<span class="st">&quot;YEAR&quot;</span>, <span class="st">&quot;INCTOT&quot;</span>), <span class="dt">verbose =</span> <span class="ot">FALSE</span>) <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw">names</span>()
 <span class="co">#&gt; [1] &quot;YEAR&quot;   &quot;INCTOT&quot;</span>
 
-<span class="kw">read_ipums_micro</span>(cf, <span class="dt">vars =</span> <span class="kw">c</span>(YEAR, INCTOT), <span class="dt">verbose =</span> <span class="ot">FALSE</span>) %&gt;%
+<span class="kw">read_ipums_micro</span>(cf, <span class="dt">vars =</span> <span class="kw">c</span>(YEAR, INCTOT), <span class="dt">verbose =</span> <span class="ot">FALSE</span>) <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw">names</span>()
 <span class="co">#&gt; [1] &quot;YEAR&quot;   &quot;INCTOT&quot;</span>
 
-<span class="kw">read_ipums_micro</span>(cf, <span class="dt">vars =</span> <span class="kw">c</span>(<span class="kw">one_of</span>(<span class="st">&quot;YEAR&quot;</span>), <span class="kw">starts_with</span>(<span class="st">&quot;INC&quot;</span>)), <span class="dt">verbose =</span> <span class="ot">FALSE</span>) %&gt;%
+<span class="kw">read_ipums_micro</span>(cf, <span class="dt">vars =</span> <span class="kw">c</span>(<span class="kw">one_of</span>(<span class="st">&quot;YEAR&quot;</span>), <span class="kw">starts_with</span>(<span class="st">&quot;INC&quot;</span>)), <span class="dt">verbose =</span> <span class="ot">FALSE</span>) <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw">names</span>()
 <span class="co">#&gt; [1] &quot;YEAR&quot;   &quot;INCTOT&quot;</span>
 
@@ -285,7 +285,7 @@ cps &lt;-<span class="st"> </span><span class="kw">read_ipums_micro_list</span>(
   <span class="dt">verbose =</span> <span class="ot">FALSE</span>
 )
 
-cps$PERSON
+cps<span class="op">$</span>PERSON
 <span class="co">#&gt; # A tibble: 7,668 x 5</span>
 <span class="co">#&gt;     YEAR SERIAL PERNUM  WTSUPP    INCTOT</span>
 <span class="co">#&gt;    &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl+lbl&gt;</span>
@@ -301,7 +301,7 @@ cps$PERSON
 <span class="co">#&gt; 10  1962    107      4 1432.24  99999999</span>
 <span class="co">#&gt; # ... with 7,658 more rows</span>
 
-cps$HOUSEHOLD
+cps<span class="op">$</span>HOUSEHOLD
 <span class="co">#&gt; # A tibble: 3,385 x 5</span>
 <span class="co">#&gt;     YEAR SERIAL HWTSUPP  STATEFIP     MONTH</span>
 <span class="co">#&gt;    &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl+lbl&gt; &lt;dbl+lbl&gt;</span>
@@ -342,6 +342,7 @@ cps
 <div id="geospatial-packages-sf-vs-sp" class="section level3">
 <h3>Geospatial Packages: <code>sf</code> vs <code>sp</code></h3>
 <p>The <code>ripums</code> package allows for loading geospatial data in two formats (sf for Simple Features and sp for Spatial). The <code>sf</code> package is relatively new, and so does not have as widespread support as the <code>sp</code> package. However, (in my opinion) it does allow for easier analysis, and so may be a better place to start if you have not used GIS data in R before.</p>
+<p>For more details about how to load geographic data using ripums, see the vignette “ipums-geography” (<code>vignette(&quot;ipums-geography&quot;, package = &quot;ripums&quot;)</code>)</p>
 </div>
 </div>
 </div>
