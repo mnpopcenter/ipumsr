@@ -122,10 +122,11 @@ ipums_shape_join.sf <- function(
   # message for merge failures
   if (verbose) {
     join_fail_attributes <- check_for_join_failures(out, by, alligned$shape_data, alligned$data)
-    attr(out, "join_failures") <- join_fail_attributes
   }
 
   out <- dplyr::select(out, dplyr::one_of(names(data)), dplyr::everything())
+
+  if (verbose) attr(out, "join_failures") <- join_fail_attributes
   out
 }
 
@@ -283,5 +284,27 @@ check_for_join_failures <- function(merged, by, shape_data, data) {
     merge_fail
   } else {
     return(NULL)
+  }
+}
+
+
+#' Report on observations dropped by a join
+#'
+#' Helper for learning which observations were dropped from a dataset because
+#' they were not joined on.
+#'
+#' @param join_results A dataset that has just been created by a shape join
+#'   (like \code{\link{ipums_shape_left_join}})
+#' @return returns a list of data.frames, where the first item (shape) is the observations
+#'   dropped from the shape file and the second (data) is the observations dropped from the
+#'   data.
+#' @export
+join_failures <- function(join_results) {
+  out <- attr(join_results, "join_failures")
+  if (is.null(out)) {
+    message("No join failures found.")
+    NULL
+  } else {
+    out
   }
 }
