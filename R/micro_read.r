@@ -348,7 +348,7 @@ prep_all_var_info_cpp <- function(all_vars) {
     dplyr::one_of(c("var_name", "start", "width", "end", "var_pos", "var_type", "rectypes"))
   )
   out <- tidyr::unnest(out)
-  out <- dplyr::group_by(out, rectypes)
+  out <- dplyr::group_by(out, .data$rectypes)
   out <- dplyr::mutate(out, max_end = max(.data$end))
   out <- tidyr::nest(out, -rectypes)
   out <- tibble::deframe(out)
