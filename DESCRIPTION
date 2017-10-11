@@ -19,7 +19,8 @@ Imports:
     stringr,
     tibble,
     tidyr,
-    xml2
+    xml2,
+    Rcpp
 RoxygenNote: 6.0.1
 Suggests:
     DT,
@@ -35,3 +36,4 @@ Suggests:
     shiny,
     testthat
 VignetteBuilder: knitr
+LinkingTo: Rcpp

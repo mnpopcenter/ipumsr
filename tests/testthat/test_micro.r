@@ -4,8 +4,8 @@ context("Microdata")
 rows_h <- 3385
 rows_p <- 7668
 
-vars_h <- 5
-vars_p <- 5
+vars_h <- 6
+vars_p <- 6
 vars_all <- 9
 vars_rect <- 8
 

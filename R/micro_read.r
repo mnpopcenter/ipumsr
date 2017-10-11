@@ -178,112 +178,30 @@ read_ipums_hier <- function(ddi, vars, n_max, data_structure, data_file, verbose
   nonrec_vinfo <- tidyr::unnest_(nonrec_vinfo, "rectypes", .drop = FALSE)
 
   if (verbose) cat("Reading data...\n")
-  lines <- read_check_for_negative_bug(
-    readr::read_lines,
+
+  raw <- read_check_for_negative_bug(
+    readr::read_lines_raw,
     data_file,
     progress = show_readr_progress(verbose),
-    n_max = n_max,
-    locale = ipums_locale(ddi$file_encoding)
+    n_max = n_max
   )
 
   if (verbose) cat("Parsing data...\n")
   if (data_structure == "long") {
-    nlines <- length(lines)
-
-    # Make a data.frame with all of the variables we will need
-    out <- purrr::map(all_vars$var_type, nlines = nlines, function(.x, nlines) {
-      switch(
-        .x,
-        "numeric" = rep(NA_real_, nlines),
-        "character" = rep(NA_character_, nlines)
-      )
-    })
-    out <- purrr::set_names(out, all_vars$var_name)
-    out <- tibble::as.tibble(out)
-
-    # Add rectype var into our empty data frame
-    out[seq_len(nlines), rec_vinfo$var_name] <-
-      stringr::str_sub(lines, rec_vinfo$start, rec_vinfo$end)
-
-    # Some projects have numeric RECTYPE in data, even though DDI refers to them by character.
-    # This is being addressed in redmine 14283, so need to check that this conversion
-    # is actually needed
-    if (is.null(rectype_convert)) {
-      rectype_convert <- get_proj_config(ddi$ipums_project)$rectype_trans
-    }
-    proj_has_conversion <- !is.null(rectype_convert)
-    ddi_not_updated <- any(!names(rectype_convert) %in% ddi$rectypes)
-    if (proj_has_conversion && ddi_not_updated) {
-      out$RECTYPE_DDI <- convert_rectype(rectype_convert, out[[rec_vinfo$var_name]])
-      rec_vinfo$var_name <- "RECTYPE_DDI"
-    }
-
-    # Add the rest of the variables
-    all_rec_types <- unique(out[[rec_vinfo$var_name]])
-    rec_index <- purrr::map(all_rec_types, ~out[[rec_vinfo$var_name]] == .)
-    rec_index <- purrr::set_names(rec_index, all_rec_types)
-
-    purrr::pwalk(nonrec_vinfo, function(var_name, start, end, imp_decim, var_type, rectypes, ...) {
-      var_data <- stringr::str_sub(lines[rec_index[[rectypes]]], start, end)
-      if (var_type == "numeric") {
-        var_data <- as.numeric(var_data)
-      }
-      out[rec_index[[rectypes]], var_name] <<- var_data
-    })
+    # TODO: Add back in fix for RT conversion?
+    out <- read_raw_to_df_long(raw, rec_vinfo, all_vars, ddi$file_encoding)
 
     out <- set_ipums_var_attributes(out, all_vars)
   } else if (data_structure == "list") {
-    # Determine rectypes
-    rec_type <- stringr::str_sub(lines, rec_vinfo$start, rec_vinfo$end)
-
-    # Some projects have numeric RECTYPE in data, even though DDI refers to them by character.
-    # This is being addressed in redmine 14283, so need to check that this conversion
-    # is actually needed
-    if (is.null(rectype_convert)) {
-      rectype_convert <- get_proj_config(ddi$ipums_project)$rectype_trans
+    # TODO: Add back in fix for RT conversion?
+    out <- read_raw_to_df_list(raw, rec_vinfo, all_vars, ddi$file_encoding)
+    for (rt in names(out)) {
+      rt_vinfo <- all_vars[purrr::map_lgl(all_vars$rectypes, ~rt %in% .), ]
+      out[[rt]] <- set_ipums_var_attributes(out[[rt]], rt_vinfo)
     }
-    proj_has_conversion <- !is.null(rectype_convert)
-    ddi_not_updated <- any(!names(rectype_convert) %in% ddi$rectypes)
-
-    if (proj_has_conversion && ddi_not_updated) {
-      rec_type <- convert_rectype(rectype_convert, rec_type)
-    }
-
-    rec_types_in_extract <- dplyr::intersect(rec_vinfo$rectypes[[1]], unique(rec_type))
-
-    # Make a data.frame for each rectype
-    out <- purrr::map(rec_types_in_extract, function(rt) {
-      vars_in_rec <- nonrec_vinfo[purrr::map_lgl(nonrec_vinfo$rectypes, ~rt %in% .), ]
-      lines_in_rec <- lines[rec_type == rt]
-
-      nlines_rt <- length(lines_in_rec)
-
-      out_rt <- purrr::map(vars_in_rec$var_type, nlines = nlines_rt, function(.x, nlines) {
-        switch(
-          .x,
-          "numeric" = rep(NA_real_, nlines),
-          "character" = rep(NA_character_, nlines)
-        )
-      })
-      out_rt <- purrr::set_names(out_rt, vars_in_rec$var_name)
-      out_rt <- tibble::as.tibble(out_rt)
-
-
-      # Add in the variables
-      purrr::pwalk(vars_in_rec, function(var_name, start, end, imp_decim, var_type, rectypes, ...) {
-        var_data <- stringr::str_sub(lines_in_rec, start, end)
-        if (var_type == "numeric") {
-          var_data <- as.numeric(var_data)
-        }
-        out_rt[[var_name]] <<- var_data
-      })
-
-      out_rt <- set_ipums_var_attributes(out_rt, vars_in_rec)
-    })
-
     # If value labels for rectype are available use them to name data.frames
     rt_lbls <- rec_vinfo$val_labels[[1]]
-    matched_lbls <- match(rec_types_in_extract, rt_lbls$val)
+    matched_lbls <- match(names(out), rt_lbls$val)
     if (all(!is.na(matched_lbls))) {
       # Can use the value labels
       rt_lbls <- rt_lbls$lbl[matched_lbls]
@@ -294,8 +212,6 @@ read_ipums_hier <- function(ddi, vars, n_max, data_structure, data_file, verbose
       # and replace blank space with _
       rt_lbls <- stringr::str_replace_all(rt_lbls, "[:blank:]", "_")
       names(out) <- rt_lbls
-    } else {
-      names(out) <- rec_types_in_extract
     }
 
 
@@ -368,4 +284,81 @@ read_check_for_negative_bug <- function(readr_f, data_file, ...) {
     lines <- lines$result
   }
   lines
+}
+
+
+read_raw_to_df_long <- function(raw, rec_vinfo, all_vars, encoding) {
+  # Simplify structures before sending to C++
+  rt_info <- prep_rt_info_cpp(rec_vinfo)
+  var_names <- all_vars$var_name
+  vars_by_rt <- prep_all_var_info_cpp(all_vars)
+  encoding <- prep_encoding_cpp(encoding)
+
+  # Read in data, add names and convert to numeric
+  out <- raw_to_df_hier_long(raw, length(var_names), rt_info, vars_by_rt, encoding)
+  names(out) <- var_names
+  out <- tibble::as_tibble(out)
+
+  numeric_vars <- all_vars$var_name[all_vars$var_type == "numeric"]
+  out <- dplyr::mutate_at(out, numeric_vars, readr::parse_number)
+  out
+}
+
+read_raw_to_df_list <- function(raw, rec_vinfo, all_vars, encoding) {
+  # Simplify structures before sending to C++
+  rt_info <- prep_rt_info_cpp(rec_vinfo)
+  var_names <- all_vars$var_name
+  vars_by_rt <- prep_all_var_info_cpp(all_vars)
+  encoding <- prep_encoding_cpp(encoding)
+
+  # Read in data, add names and convert to numeric
+  out <- raw_to_df_hier_list(raw, rt_info, vars_by_rt, encoding)
+  names(out) <- names(vars_by_rt)
+
+  for (rt in names(vars_by_rt)) {
+    names(out[[rt]]) <- vars_by_rt[[rt]]$var_name
+    out[[rt]] <- tibble::as_tibble(out[[rt]])
+
+    numeric_vars <- vars_by_rt[[rt]]$var_name[vars_by_rt[[rt]]$var_type == "numeric"]
+    out[[rt]] <- dplyr::mutate_at(out[[rt]], numeric_vars, readr::parse_number)
+  }
+
+  out
+}
+
+prep_rt_info_cpp <- function(rec_vinfo) {
+  if (nrow(rec_vinfo) > 1) stop("Only one rectype variable allowed.")
+
+  list(
+    start = as.integer(rec_vinfo$start - 1),
+    width = as.integer(rec_vinfo$end - rec_vinfo$start + 1)
+  )
+}
+
+prep_all_var_info_cpp <- function(all_vars) {
+  out <- dplyr::mutate(
+    all_vars,
+    start = as.integer(.data$start - 1),
+    end = as.integer(.data$end),
+    width = as.integer(.data$end - .data$start),
+    var_pos = as.integer(seq_along(.data$width) - 1)
+  )
+  out <- dplyr::select(
+    out,
+    dplyr::one_of(c("var_name", "start", "width", "end", "var_pos", "var_type", "rectypes"))
+  )
+  out <- tidyr::unnest(out)
+  out <- dplyr::group_by(out, rectypes)
+  out <- dplyr::mutate(out, max_end = max(.data$end))
+  out <- tidyr::nest(out, -rectypes)
+  out <- tibble::deframe(out)
+  out
+}
+
+prep_encoding_cpp <- function(encoding) {
+  if (is.null(encoding) || encoding == "ISO-8859-1") {
+    "latin1"
+  } else {
+    encoding
+  }
 }
