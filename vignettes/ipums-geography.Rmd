@@ -29,6 +29,11 @@ if (!file.exists(ripumsexamples_file)) {
   ))
   knitr::opts_chunk$set(eval = FALSE)
 }
+
+if (!suppressPackageStartupMessages(require(sf))) {
+  message("Could not find sf package and so could not run vignette.")
+  knitr::opts_chunk$set(eval = FALSE)
+}
 ```
 IPUMS geographic data takes several different forms:
 
@@ -102,6 +107,13 @@ if (!require(devtools)) install.packages(devtools)
 devtools::install_github("mnpopcenter/ripums/ripumsexamples")
 ```
 
+```{r}
+# This function helps find the data from the ripumsexamples package for us
+ex_file <- function(x) {
+  system.file("extdata", x, package = "ripumsexamples")
+}
+```
+
 ### 1) Determine what geographic data you want to use (and is available) 
 From the data extract engine I see that the variable FUELCOOK is available
 in the three censuses from Colombia (1985, 1993 and 2005), and one each 
@@ -144,19 +156,14 @@ suppressPackageStartupMessages({
 })
 
 # Load data
-ipumsi_data_file <- system.file("extdata", "ipumsi_00011.xml", package = "ripumsexamples")
-ipumsi_ddi <- read_ipums_ddi(ipumsi_data_file)
-ipumsi_data <- read_ipums_micro(ipumsi_data_file, verbose = FALSE)
+ipumsi_ddi_file <- ex_file("ipumsi_00011.xml")
+ipumsi_ddi <- read_ipums_ddi(ipumsi_ddi_file)
+ipumsi_data <- read_ipums_micro(ipumsi_ddi_file, verbose = FALSE)
 
 # Load shape files
-colombia_shape_file <- system.file("extdata", "geo1_co1964_2005.zip", package = "ripumsexamples")
-colombia_shape <- read_ipums_sf(colombia_shape_file, verbose = FALSE)
-
-ecuador_shape_file <- system.file("extdata", "geo1_ec2010.zip", package = "ripumsexamples")
-ecuador_shape <- read_ipums_sf(ecuador_shape_file, verbose = FALSE)
-
-peru_shape_file <- system.file("extdata", "geo1_pe2007.zip", package = "ripumsexamples")
-peru_shape <- read_ipums_sf(peru_shape_file, verbose = FALSE)
+colombia_shape <- read_ipums_sf(ex_file("geo1_co1964_2005.zip"), verbose = FALSE)
+ecuador_shape <- read_ipums_sf(ex_file("geo1_ec2010.zip"), verbose = FALSE)
+peru_shape <- read_ipums_sf(ex_file("geo1_pe2007.zip"), verbose = FALSE)
 ```
 
 ### 4) Data processing
@@ -339,13 +346,10 @@ combine the shape files for us.
 
 So in our example, we run the following to load the data:
 ```{r}
-nhgis_block_csv_file <- system.file("extdata", "nhgis0024_csv.zip", package = "ripumsexamples")
-nhgis_block_shape_file <- system.file("extdata", "nhgis0024_shape_small.zip", package = "ripumsexamples")
-
-nhgis_ddi <- read_ipums_codebook(nhgis_block_csv_file) 
+nhgis_ddi <- read_ipums_codebook(ex_file("nhgis0024_csv.zip")) 
 nhgis <- read_nhgis_sf(
-  data_file = nhgis_block_csv_file,
-  shape_file = nhgis_block_shape_file,
+  data_file = ex_file("nhgis0024_csv.zip"),
+  shape_file = ex_file("nhgis0024_shape_small.zip"),
   verbose = FALSE
 )
 ```
