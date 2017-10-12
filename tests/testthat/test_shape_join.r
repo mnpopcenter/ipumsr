@@ -50,8 +50,7 @@ test_that("complicated by works (sf)", {
     data, shape, by = c("join_split1", "join_split2" = "join_split_xxx")
   )
 
-  joined$join_split1 <- NULL
-  joined$join_split2 <- NULL
+  joined <- dplyr::select(joined, -dplyr::one_of("join_split1", "join_split2"))
   expect_true(identical(joined, joined_regular))
 })
 
