@@ -62,6 +62,26 @@ test_that("error for missing a by variable (sf)", {
   expect_error(joined <- ipums_shape_inner_join(data, shape, by = "GISJOIN"))
 })
 
-# test_that("Join failures are mentioned", {
-#
-# })
+test_that("Join failures are mentioned", {
+  data <- read_nhgis(ripums_example("nhgis0008_csv.zip"), verbose = FALSE)
+  shape <- read_ipums_sf(ripums_example("nhgis0008_shape_small.zip"), verbose = FALSE)
+
+  joined_regular <- ipums_shape_inner_join(data, shape, by = "GISJOIN")
+
+  data$GISJOIN[data$GISJOIN == "G1120"] <- "ABC"
+  shape$GISJOIN[shape$GISJOIN == "G1120"] <- "XYZ"
+
+  capture.output(joined_fail <- ipums_shape_inner_join(data, shape, by = "GISJOIN"))
+
+  jf <- join_failures(joined_fail)
+  expect_equal(nrow(jf$data), 1)
+  expect_equivalent(jf$data$GISJOIN, "ABC")
+  expect_equal(nrow(jf$shape), 1)
+  expect_equivalent(jf$shape$GISJOIN, "XYZ")
+
+  filtered_regular <- dplyr::filter(joined_regular, .data$GISJOIN != "G1120")
+
+  expect_equal(joined_fail$GISJOIN, filtered_regular$GISJOIN)
+  expect_equal(joined_fail$D6Z001, filtered_regular$D6Z001)
+  expect_equal(joined_fail$GISJOIN2, filtered_regular$GISJOIN2)
+})
