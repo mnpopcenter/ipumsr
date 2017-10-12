@@ -17,7 +17,7 @@ knitr::opts_chunk$set(
 [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/ripums)](http://cran.r-project.org/web/packages/ripums) 
 [![Travis-CI Build Status](https://travis-ci.org/mnpopcenter/ripums.svg?branch=master)](https://travis-ci.org/mnpopcenter/ripums)
 [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/mnpopcenter/ripums?branch=master&svg=true)](https://ci.appveyor.com/project/mnpopcenter/ripums)
-
+[![Coverage Status](https://img.shields.io/codecov/c/github/mnpopcenter/ripums/master.svg)](https://codecov.io/github/mnpopcenter/ripums?branch=master)
 
 The ripums package helps import IPUMS extracts from the [IPUMS website](https://www.ipums.org) 
 into R. This project is early in its development, and so we expect there may be bugs and future

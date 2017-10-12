@@ -17,6 +17,7 @@ cache:
 
 build_script:
   - travis-tool.sh install_deps
+  - Rscript -e "devtools::install_github('mnpopcenter/ripums/ripumsexamples')"
 
 test_script:
   - travis-tool.sh run_tests

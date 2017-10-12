@@ -3,7 +3,7 @@
 ripums
 ======
 
-[![Project Status:Work-in-Progress](http://www.repostatus.org/badges/latest/wip.svg)](http://www.repostatus.org/#wip) [![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/ripums)](http://cran.r-project.org/web/packages/ripums) [![Travis-CI Build Status](https://travis-ci.org/mnpopcenter/ripums.svg?branch=master)](https://travis-ci.org/mnpopcenter/ripums) [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/mnpopcenter/ripums?branch=master&svg=true)](https://ci.appveyor.com/project/mnpopcenter/ripums)
+[![Project Status:Work-in-Progress](http://www.repostatus.org/badges/latest/wip.svg)](http://www.repostatus.org/#wip) [![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/ripums)](http://cran.r-project.org/web/packages/ripums) [![Travis-CI Build Status](https://travis-ci.org/mnpopcenter/ripums.svg?branch=master)](https://travis-ci.org/mnpopcenter/ripums) [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/mnpopcenter/ripums?branch=master&svg=true)](https://ci.appveyor.com/project/mnpopcenter/ripums) [![Coverage Status](https://img.shields.io/codecov/c/github/mnpopcenter/ripums/master.svg)](https://codecov.io/github/mnpopcenter/ripums?branch=master)
 
 The ripums package helps import IPUMS extracts from the [IPUMS website](https://www.ipums.org) into R. This project is early in its development, and so we expect there may be bugs and future API changes that break code. We hope to post a more stable version on CRAN soon.
 
@@ -103,35 +103,35 @@ table(as_factor(data$MONTH, levels = "both"))
 data <- read_ipums_micro_list(ddi, verbose = FALSE)
 # Household data
 data$HOUSEHOLD
-#> # A tibble: 3,385 x 5
-#>     YEAR SERIAL HWTSUPP  STATEFIP     MONTH
-#>    <dbl>  <dbl>   <dbl> <dbl+lbl> <dbl+lbl>
-#>  1  1962     80 1475.59        55         3
-#>  2  1962     82 1597.61        27         3
-#>  3  1962     83 1706.65        27         3
-#>  4  1962     84 1790.25        27         3
-#>  5  1962    107 4355.40        19         3
-#>  6  1962    108 1479.05        19         3
-#>  7  1962    122 3602.75        27         3
-#>  8  1962    124 4104.41        55         3
-#>  9  1962    125 2182.17        55         3
-#> 10  1962    126 1826.38        55         3
+#> # A tibble: 3,385 x 6
+#>      RECTYPE  YEAR SERIAL HWTSUPP  STATEFIP     MONTH
+#>    <chr+lbl> <dbl>  <dbl>   <dbl> <dbl+lbl> <dbl+lbl>
+#>  1         H  1962     80 1475.59        55         3
+#>  2         H  1962     82 1597.61        27         3
+#>  3         H  1962     83 1706.65        27         3
+#>  4         H  1962     84 1790.25        27         3
+#>  5         H  1962    107 4355.40        19         3
+#>  6         H  1962    108 1479.05        19         3
+#>  7         H  1962    122 3602.75        27         3
+#>  8         H  1962    124 4104.41        55         3
+#>  9         H  1962    125 2182.17        55         3
+#> 10         H  1962    126 1826.38        55         3
 #> # ... with 3,375 more rows
 # Person data
 data$PERSON
-#> # A tibble: 7,668 x 5
-#>     YEAR SERIAL PERNUM  WTSUPP    INCTOT
-#>    <dbl>  <dbl>  <dbl>   <dbl> <dbl+lbl>
-#>  1  1962     80      1 1475.59      4883
-#>  2  1962     80      2 1470.72      5800
-#>  3  1962     80      3 1578.75  99999998
-#>  4  1962     82      1 1597.61     14015
-#>  5  1962     83      1 1706.65     16552
-#>  6  1962     84      1 1790.25      6375
-#>  7  1962    107      1 4355.40  99999999
-#>  8  1962    107      2 1385.81         0
-#>  9  1962    107      3 1629.10       600
-#> 10  1962    107      4 1432.24  99999999
+#> # A tibble: 7,668 x 6
+#>      RECTYPE  YEAR SERIAL PERNUM  WTSUPP    INCTOT
+#>    <chr+lbl> <dbl>  <dbl>  <dbl>   <dbl> <dbl+lbl>
+#>  1         P  1962     80      1 1475.59      4883
+#>  2         P  1962     80      2 1470.72      5800
+#>  3         P  1962     80      3 1578.75  99999998
+#>  4         P  1962     82      1 1597.61     14015
+#>  5         P  1962     83      1 1706.65     16552
+#>  6         P  1962     84      1 1790.25      6375
+#>  7         P  1962    107      1 4355.40  99999999
+#>  8         P  1962    107      2 1385.81         0
+#>  9         P  1962    107      3 1629.10       600
+#> 10         P  1962    107      4 1432.24  99999999
 #> # ... with 7,658 more rows
 ```
 
