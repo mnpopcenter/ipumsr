@@ -128,7 +128,7 @@ read_terra_area <- function(
   var_attrs = c("val_labels", "var_label", "var_desc")
 ) {
   data_layer <- enquo(data_layer)
-  var_attrs <- match.arg(var_attrs, several.ok = TRUE)
+  if (!is.null(var_attrs)) var_attrs <- match.arg(var_attrs, several.ok = TRUE)
   data_is_zip <- stringr::str_sub(data_file, -4) == ".zip"
 
   # Try to read DDI for license info ----
@@ -307,7 +307,7 @@ read_terra_micro <- function(
   var_attrs = c("val_labels", "var_label", "var_desc")
 ) {
   data_layer <- enquo(data_layer)
-  var_attrs <- match.arg(var_attrs, several.ok = TRUE)
+  if (!is.null(var_attrs)) var_attrs <- match.arg(var_attrs, several.ok = TRUE)
 
   data_is_zip <- stringr::str_sub(data_file, -4) == ".zip"
 

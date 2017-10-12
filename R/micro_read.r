@@ -105,7 +105,7 @@ read_ipums_micro <- function(
   if (verbose) cat(ipums_conditions(ddi))
 
   vars <- enquo(vars)
-  var_attrs <- match.arg(var_attrs, several.ok = TRUE)
+  if (!is.null(var_attrs)) var_attrs <- match.arg(var_attrs, several.ok = TRUE)
 
   if (ddi$file_type == "hierarchical") {
     out <- read_ipums_hier(ddi, vars, n_max, "long", data_file, verbose, rectype_convert, var_attrs)
@@ -148,7 +148,7 @@ read_ipums_micro_list <- function(
   if (verbose) cat(ipums_conditions(ddi))
 
   vars <- enquo(vars)
-  var_attrs <- match.arg(var_attrs, several.ok = TRUE)
+  if (!is.null(var_attrs)) var_attrs <- match.arg(var_attrs, several.ok = TRUE)
 
   if (ddi$file_type == "hierarchical") {
     out <- read_ipums_hier(ddi, vars, n_max, "list", data_file, verbose, rectype_convert, var_attrs)
