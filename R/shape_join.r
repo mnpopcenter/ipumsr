@@ -123,8 +123,14 @@ ipums_shape_join.sf <- function(
   if (verbose) {
     join_fail_attributes <- check_for_join_failures(out, by, alligned$shape_data, alligned$data)
   }
-
-  out <- dplyr::select(out, dplyr::one_of(names(data)), dplyr::everything())
+  # Bring variables in data to front of data.frame (but need to get names
+  # after possibly renamed by suffix)
+  dvars <- names(data)
+  renamed <- dvars[dvars %in% names(shape_data) & !dvars %in% by]
+  if (length(renamed) > 0) {
+    dvars[dvars %in% renamed] <- paste0(renamed, suffix[2])
+  }
+  out <- dplyr::select(out, dplyr::one_of(dvars), dplyr::everything())
 
   if (verbose) attr(out, "join_failures") <- join_fail_attributes
   out
