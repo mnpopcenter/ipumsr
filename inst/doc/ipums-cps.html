@@ -387,6 +387,8 @@ avg_hrs_by_health
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(ggplot2)
 
 x_label &lt;-<span class="st"> </span><span class="kw">ipums_var_label</span>(cps_data, HEALTH)
+<span class="co">#&gt; Called from: eval(expr, p)</span>
+<span class="co">#&gt; debug at C:/Users/gfellis/Desktop/ripums/R/ipums_info.r#89: names(out) &lt;- names(object)</span>
 source_info &lt;-<span class="st"> </span><span class="kw">ipums_file_info</span>(cps_ddi, <span class="st">&quot;ipums_project&quot;</span>)
 
 <span class="kw">ggplot</span>(pct_emp_by_health, <span class="kw">aes</span>(<span class="dt">x =</span> HEALTH_factor, <span class="dt">y =</span> emp_pct)) <span class="op">+</span><span class="st"> </span>
@@ -421,6 +423,8 @@ pct_emp_by_health_age &lt;-<span class="st"> </span>cps_data <span class="op">%&
 <span class="st">  </span><span class="kw">summarize</span>(<span class="dt">emp_pct =</span> <span class="kw">weighted.mean</span>(EMPSTAT <span class="op">==</span><span class="st"> </span><span class="dv">10</span>, WTSUPP))
 
 x_label &lt;-<span class="st"> </span><span class="kw">ipums_var_label</span>(cps_data, HEALTH)
+<span class="co">#&gt; Called from: eval(expr, p)</span>
+<span class="co">#&gt; debug at C:/Users/gfellis/Desktop/ripums/R/ipums_info.r#89: names(out) &lt;- names(object)</span>
 source_info &lt;-<span class="st"> </span><span class="kw">ipums_file_info</span>(cps_ddi, <span class="st">&quot;ipums_project&quot;</span>)
 
 <span class="kw">ggplot</span>(pct_emp_by_health_age, <span class="kw">aes</span>(<span class="dt">x =</span> HEALTH_factor, <span class="dt">y =</span> emp_pct)) <span class="op">+</span><span class="st"> </span>

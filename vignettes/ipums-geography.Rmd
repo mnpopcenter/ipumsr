@@ -42,7 +42,7 @@ IPUMS geographic data takes several different forms:
 [IPUMS International](https://international.ipums.org/international/geography_gis.shtml) 
 and [IPUMS USA](https://usa.ipums.org/usa/volii/tgeotools.shtml) provide the shape 
 files on separate pages.
-- [NHGIS](https://nhgis.org) provides access to the shape files relevant to your
+- [NHGIS](https://www.nhgis.org) provides access to the shape files relevant to your
 current extract as part of the system to create the data extract.
 - [IPUMS Terra](https://www.terrapop.org/) provides shape files along with the extract
 and allows for aggregating microdata and raster data into the boundaries. 

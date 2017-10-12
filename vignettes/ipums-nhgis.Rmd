@@ -36,7 +36,7 @@ What was the state‐level distribution of slavery in 1830?
 
 ## Download Extract from IPUMS Website
 1) **Log in to NHGIS**
-- Go to <http://www.nhgis.org> and click on ‘Login’ in the top right.
+- Go to <https://www.nhgis.org> and click on ‘Login’ in the top right.
 - If you have already registered on any Minnesota Population Center website…
     - If you remember your password, log in now. Otherwise, click the "Forgot
       your password?" link on the right and follow the instructions.
