@@ -6,13 +6,16 @@
 \alias{read_nhgis_sp}
 \title{Read data from an NHGIS extract}
 \usage{
-read_nhgis(data_file, data_layer = NULL, verbose = TRUE)
+read_nhgis(data_file, data_layer = NULL, verbose = TRUE,
+  var_attrs = c("val_labels", "var_label", "var_desc"))
 
 read_nhgis_sf(data_file, shape_file, data_layer = NULL,
-  shape_layer = data_layer, verbose = TRUE)
+  shape_layer = data_layer, verbose = TRUE, var_attrs = c("val_labels",
+  "var_label", "var_desc"))
 
 read_nhgis_sp(data_file, shape_file, data_layer = NULL,
-  shape_layer = data_layer, verbose = TRUE)
+  shape_layer = data_layer, verbose = TRUE, var_attrs = c("val_labels",
+  "var_label", "var_desc"))
 }
 \arguments{
 \item{data_file}{Filepath to the data (either the .zip file directly
@@ -25,6 +28,10 @@ a dataset.}
 
 \item{verbose}{Logical, indicating whether to print progress information to
 console.}
+
+\item{var_attrs}{Variable attributes to add from the codebook, defaults to
+adding all (val_labels, var_label and var_desc). See
+\code{\link{set_ipums_var_attributes}} for more details.}
 
 \item{shape_file}{Filepath to the shape files (either the .zip
 file directly downloaded from the website, or the path to the unzipped

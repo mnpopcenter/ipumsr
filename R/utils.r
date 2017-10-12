@@ -48,21 +48,69 @@ find_files_in_zip <- function(
   unname(file_names)
 }
 
-set_ipums_var_attributes <- function(data, var_info) {
-  if (is.null(var_info)) return(data)
+#' Add IPUMS variable attributes to a data.frame
+#'
+#' Add variable attributes from an IPUMS DDI to the variables in a data.frame.
+#' This function is usually called automatically for you inside of the read_*
+#' functions (such as read_ipums_micro or read_ipums_nhgis), but they can
+#' be useful other times as well. For example, if you store the data in
+#' a database, you can store the data without attributes in the database
+#' and add them on after loading a subset into a data.frame.
+#'
+#' Attribute \code{val_labels} adds the haven::labelled class attributes and
+#' the corresponding value labels for variables that have value labels.
+#'
+#' Attribute \code{var_label} Adds a short summary of the variable's
+#' contents that to the attribute "label". This label is viewable in the
+#' Rstudio Viewer.
+#'
+#' Attribute \code{var_desc} Adds a longer summary of the variable's
+#' contents to the attribute "var_desc" when available.
+#'
+#' @param data A data.frame
+#' @param var_info An \code{ipums_ddi} object or a data.frame with the
+#'   variable information (equivalent to getting ipums_var_info on a DDI).
+#' @param var_attrs One or more of \code{val_labels}, \code{var_label} and
+#'   \code{var_desc} describing what kinds of attributes you want to add.
+#'   If NULL, will not add any attributes.
+#' @return A \code{tbl_df} data.frame with data and IPUMS attributes
+#' @examples
+#'   ddi_file <- ripums_example("cps_00006.xml")
+#'   ddi <- read_ipums_ddi(ddi_file)
+#'   cps <- read_ipums_micro(ddi, var_attrs = NULL) # Don't load with attributes
+#'
+#'   ipums_var_desc(cps$YEAR) # Not available
+#'
+#'   # But, we can add on attributes after loading
+#'   cps_with_attr <- set_ipums_var_attributes(cps, ddi)
+#'   ipums_var_desc(cps_with_attr$YEAR)
+#'
+#' @export
+set_ipums_var_attributes <- function(
+  data,
+  var_info,
+  var_attrs = c("val_labels", "var_label", "var_desc")
+) {
+  if (inherits(var_info, "ipums_ddi")) var_info <- var_info$var_info
+  if (is.null(var_info) || is.null(var_attrs)) return(data)
+
+  var_attrs <- match.arg(var_attrs, several.ok = TRUE)
+  add_val_labels <- "val_labels" %in% var_attrs
+  add_var_labels <- "var_label" %in% var_attrs
+  add_var_desc <- "var_desc" %in% var_attrs
 
   purrr::pwalk(var_info, function(var_name, ...) {
     x <- list(...)
     # Don't fail if we have a variable that doesn't match for some reason
     if (var_name %in% names(data)) {
-      if (!is.null(x$val_labels) && nrow(x$val_labels) > 0) {
+      if (add_val_labels && !is.null(x$val_labels) && nrow(x$val_labels) > 0) {
         lbls <- purrr::set_names(x$val_labels$val, x$val_labels$lbl)
         data[[var_name]] <<- haven::labelled(data[[var_name]], lbls)
       }
-      if (!is.null(x$var_label)) {
+      if (add_var_labels && !is.null(x$var_label)) {
         data[[var_name]] <<- rlang::set_attrs(data[[var_name]], label = x$var_label)
       }
-      if (!is.null(x$var_desc)) {
+      if (add_var_desc && !is.null(x$var_desc)) {
         data[[var_name]] <<- rlang::set_attrs(data[[var_name]], var_desc = x$var_desc)
       }
     }

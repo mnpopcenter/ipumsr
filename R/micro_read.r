@@ -47,6 +47,9 @@
 #' @param rectype_convert (Usually determined by project) A named vector
 #'   indicating a conversion from the rectype in data to DDI. Not usually
 #'   needed to be specified by the user.
+#' @param var_attrs Variable attributes to add from the DDI, defaults to
+#'   adding all (val_labels, var_label and var_desc). See
+#'   \code{\link{set_ipums_var_attributes}} for more details.
 #' @return \code{read_ipums_micro} returns a single tbl_df data frame, and
 #'   \code{read_ipums_micro_list} returns a list of data frames, named by
 #'   the Record Type. See 'Details' for more
@@ -80,7 +83,8 @@ read_ipums_micro <- function(
   n_max = -1,
   data_file = NULL,
   verbose = TRUE,
-  rectype_convert = NULL
+  rectype_convert = NULL,
+  var_attrs = c("val_labels", "var_label", "var_desc")
 ) {
   if (is.character(ddi)) ddi <- read_ipums_ddi(ddi)
   if (is.null(data_file)) data_file <- file.path(ddi$file_path, ddi$file_name)
@@ -101,11 +105,12 @@ read_ipums_micro <- function(
   if (verbose) cat(ipums_conditions(ddi))
 
   vars <- enquo(vars)
+  var_attrs <- match.arg(var_attrs, several.ok = TRUE)
 
   if (ddi$file_type == "hierarchical") {
-    out <- read_ipums_hier(ddi, vars, n_max, "long", data_file, verbose, rectype_convert)
+    out <- read_ipums_hier(ddi, vars, n_max, "long", data_file, verbose, rectype_convert, var_attrs)
   } else if (ddi$file_type == "rectangular") {
-    out <- read_ipums_rect(ddi, vars, n_max, data_file, verbose)
+    out <- read_ipums_rect(ddi, vars, n_max, data_file, verbose, var_attrs)
   } else {
     stop(paste0("Don't know how to read ", ddi$file_type, " type file."), call. = FALSE)
   }
@@ -121,7 +126,8 @@ read_ipums_micro_list <- function(
   n_max = -1,
   data_file = NULL,
   verbose = TRUE,
-  rectype_convert = NULL
+  rectype_convert = NULL,
+  var_attrs = c("val_labels", "var_label", "var_desc")
 ) {
   if (is.character(ddi)) ddi <- read_ipums_ddi(ddi)
   if (is.null(data_file)) data_file <- file.path(ddi$file_path, ddi$file_name)
@@ -142,11 +148,12 @@ read_ipums_micro_list <- function(
   if (verbose) cat(ipums_conditions(ddi))
 
   vars <- enquo(vars)
+  var_attrs <- match.arg(var_attrs, several.ok = TRUE)
 
   if (ddi$file_type == "hierarchical") {
-    out <- read_ipums_hier(ddi, vars, n_max, "list", data_file, verbose, rectype_convert)
+    out <- read_ipums_hier(ddi, vars, n_max, "list", data_file, verbose, rectype_convert, var_attrs)
   } else if (ddi$file_type == "rectangular") {
-    out <- read_ipums_rect(ddi, vars, n_max, data_file, verbose)
+    out <- read_ipums_rect(ddi, vars, n_max, data_file, verbose, var_attrs)
     warning("Assuming data rectangularized to 'P' record type")
     out <- list(P = out)
   } else {
@@ -157,7 +164,9 @@ read_ipums_micro_list <- function(
 }
 
 
-read_ipums_hier <- function(ddi, vars, n_max, data_structure, data_file, verbose, rectype_convert) {
+read_ipums_hier <- function(
+  ddi, vars, n_max, data_structure, data_file, verbose, rectype_convert, var_attrs
+) {
   if (ipums_file_ext(data_file) %in% c(".csv", ".csv.gz")) {
     stop("Hierarchical data cannot be read as csv.")
   }
@@ -189,14 +198,14 @@ read_ipums_hier <- function(ddi, vars, n_max, data_structure, data_file, verbose
     # TODO: Add back in fix for RT conversion?
     out <- read_raw_to_df_long(raw, rec_vinfo, all_vars, ddi$file_encoding)
 
-    out <- set_ipums_var_attributes(out, all_vars)
+    out <- set_ipums_var_attributes(out, all_vars, var_attrs)
     out <- set_imp_decim(out, all_vars)
   } else if (data_structure == "list") {
     # TODO: Add back in fix for RT conversion?
     out <- read_raw_to_df_list(raw, rec_vinfo, all_vars, ddi$file_encoding)
     for (rt in names(out)) {
       rt_vinfo <- all_vars[purrr::map_lgl(all_vars$rectypes, ~rt %in% .), ]
-      out[[rt]] <- set_ipums_var_attributes(out[[rt]], rt_vinfo)
+      out[[rt]] <- set_ipums_var_attributes(out[[rt]], rt_vinfo, var_attrs)
       out[[rt]] <- set_imp_decim(out[[rt]], rt_vinfo)
     }
     # If value labels for rectype are available use them to name data.frames
@@ -219,7 +228,7 @@ read_ipums_hier <- function(ddi, vars, n_max, data_structure, data_file, verbose
   out
 }
 
-read_ipums_rect <- function(ddi, vars, n_max, data_file, verbose) {
+read_ipums_rect <- function(ddi, vars, n_max, data_file, verbose, var_attrs) {
   all_vars <- select_var_rows(ddi$var_info, vars)
 
   col_types <- purrr::map(all_vars$var_type, function(x) {
@@ -261,7 +270,7 @@ read_ipums_rect <- function(ddi, vars, n_max, data_file, verbose) {
   } else {
     stop("Unrecognized file type.")
   }
-  out <- set_ipums_var_attributes(out, all_vars)
+  out <- set_ipums_var_attributes(out, all_vars, var_attrs)
   out <- set_imp_decim(out, all_vars)
 
   out

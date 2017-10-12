@@ -110,6 +110,9 @@ read_terra_raster_internal <- function(data_file, data_layer, verbose, multiple_
 #'   provides usage and citation information for extract.
 #' @param verbose Logical, indicating whether to print progress information
 #'   to console.
+#' @param var_attrs Variable attributes to add from the DDI, defaults to
+#'   adding all (val_labels, var_label and var_desc). See
+#'   \code{\link{set_ipums_var_attributes}} for more details.
 #' @examples
 #' \dontrun{
 #' data <- read_terra_area("2553_bundle.zip")
@@ -121,10 +124,11 @@ read_terra_area <- function(
   data_layer = NULL,
   ddi_file = NULL,
   cb_file = NULL,
-  verbose = TRUE
+  verbose = TRUE,
+  var_attrs = c("val_labels", "var_label", "var_desc")
 ) {
   data_layer <- enquo(data_layer)
-
+  var_attrs <- match.arg(var_attrs, several.ok = TRUE)
   data_is_zip <- stringr::str_sub(data_file, -4) == ".zip"
 
   # Try to read DDI for license info ----
@@ -173,7 +177,7 @@ read_terra_area <- function(
 
   # Add var labels and value labels from DDI, if available
   if (!is.null(ddi$var_info)) {
-    data <- set_ipums_var_attributes(data, ddi$var_info)
+    data <- set_ipums_var_attributes(data, ddi$var_info, var_attrs)
   }
 
   data
@@ -187,10 +191,11 @@ read_terra_area_sf <- function(
   shape_layer = data_layer,
   ddi_file = NULL,
   cb_file = NULL,
-  verbose = TRUE
+  verbose = TRUE,
+  var_attrs = c("val_labels", "var_label", "var_desc")
 ) {
   data_layer <- enquo(data_layer)
-  data <- read_terra_area(data_file, !!data_layer, ddi_file, cb_file, verbose)
+  data <- read_terra_area(data_file, !!data_layer, ddi_file, cb_file, verbose, var_attrs)
 
   shape_layer <- enquo(shape_layer)
   if (quo_text(shape_layer) == "data_layer") shape_layer <- data_layer
@@ -232,10 +237,11 @@ read_terra_area_sp <- function(
   shape_layer = data_layer,
   ddi_file = NULL,
   cb_file = NULL,
-  verbose = TRUE
+  verbose = TRUE,
+  var_attrs = c("val_labels", "var_label", "var_desc")
 ) {
   data_layer <- enquo(data_layer)
-  data <- read_terra_area(data_file, !!data_layer, ddi_file, cb_file, verbose)
+  data <- read_terra_area(data_file, !!data_layer, ddi_file, cb_file, verbose, var_attrs)
 
   shape_layer <- enquo(shape_layer)
   if (quo_text(shape_layer) == "data_layer") shape_layer <- data_layer
@@ -284,6 +290,9 @@ read_terra_area_sp <- function(
 #'   load multiple shape files, which will be combined.
 #' @param verbose Logical, indicating whether to print progress information
 #'   to console.
+#' @param var_attrs Variable attributes to add from the DDI, defaults to
+#'   adding all (val_labels, var_label and var_desc). See
+#'   \code{\link{set_ipums_var_attributes}} for more details.
 #' @examples
 #' \dontrun{
 #' data <- read_terra_micro("2553_bundle.zip")
@@ -294,9 +303,11 @@ read_terra_micro <- function(
   data_file,
   ddi_file = NULL,
   data_layer = NULL,
-  verbose = TRUE
+  verbose = TRUE,
+  var_attrs = c("val_labels", "var_label", "var_desc")
 ) {
   data_layer <- enquo(data_layer)
+  var_attrs <- match.arg(var_attrs, several.ok = TRUE)
 
   data_is_zip <- stringr::str_sub(data_file, -4) == ".zip"
 
@@ -353,7 +364,7 @@ read_terra_micro <- function(
   # Add var labels and value labels from DDI, if available
   if (!is.null(ddi$var_info)) {
     all_vars <- ddi$var_info
-    data <- set_ipums_var_attributes(data, ddi$var_info)
+    data <- set_ipums_var_attributes(data, ddi$var_info, var_attrs)
   }
 
   data
@@ -367,11 +378,12 @@ read_terra_micro_sf <- function(
   shape_file = NULL,
   data_layer = NULL,
   shape_layer = NULL,
-  verbose = TRUE
+  verbose = TRUE,
+  var_attrs = c("val_labels", "var_label", "var_desc")
 ) {
   shape_layer <- enquo(shape_layer)
 
-  data <- read_terra_micro(data_file, ddi_file, !!enquo(data_layer), verbose)
+  data <- read_terra_micro(data_file, ddi_file, !!enquo(data_layer), verbose, var_attrs)
 
   data_is_zip <- stringr::str_sub(data_file, -4) == ".zip"
   if (data_is_zip & is.null(shape_file)) shape_file <- data_file
@@ -395,11 +407,12 @@ read_terra_micro_sp <- function(
   shape_file = NULL,
   data_layer = NULL,
   shape_layer = NULL,
-  verbose = TRUE
+  verbose = TRUE,
+  var_attrs = c("val_labels", "var_label", "var_desc")
 ) {
   shape_layer <- enquo(shape_layer)
 
-  data <- read_terra_micro(data_file, ddi_file, !!enquo(data_layer), verbose)
+  data <- read_terra_micro(data_file, ddi_file, !!enquo(data_layer), verbose, var_attrs)
 
   data_is_zip <- stringr::str_sub(data_file, -4) == ".zip"
   if (data_is_zip & is.null(shape_file)) shape_file <- data_file

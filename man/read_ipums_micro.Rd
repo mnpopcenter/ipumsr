@@ -6,10 +6,12 @@
 \title{Read data from an IPUMS extract}
 \usage{
 read_ipums_micro(ddi, vars = NULL, n_max = -1, data_file = NULL,
-  verbose = TRUE, rectype_convert = NULL)
+  verbose = TRUE, rectype_convert = NULL, var_attrs = c("val_labels",
+  "var_label", "var_desc"))
 
 read_ipums_micro_list(ddi, vars = NULL, n_max = -1, data_file = NULL,
-  verbose = TRUE, rectype_convert = NULL)
+  verbose = TRUE, rectype_convert = NULL, var_attrs = c("val_labels",
+  "var_label", "var_desc"))
 }
 \arguments{
 \item{ddi}{Either a filepath to a DDI xml file downloaded from
@@ -30,6 +32,10 @@ to console.}
 \item{rectype_convert}{(Usually determined by project) A named vector
 indicating a conversion from the rectype in data to DDI. Not usually
 needed to be specified by the user.}
+
+\item{var_attrs}{Variable attributes to add from the DDI, defaults to
+adding all (val_labels, var_label and var_desc). See
+\code{\link{set_ipums_var_attributes}} for more details.}
 }
 \value{
 \code{read_ipums_micro} returns a single tbl_df data frame, and

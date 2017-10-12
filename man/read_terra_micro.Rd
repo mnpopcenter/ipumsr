@@ -7,13 +7,15 @@
 \title{Read data from an IPUMS Terra microdata extract}
 \usage{
 read_terra_micro(data_file, ddi_file = NULL, data_layer = NULL,
-  verbose = TRUE)
+  verbose = TRUE, var_attrs = c("val_labels", "var_label", "var_desc"))
 
 read_terra_micro_sf(data_file, ddi_file = NULL, shape_file = NULL,
-  data_layer = NULL, shape_layer = NULL, verbose = TRUE)
+  data_layer = NULL, shape_layer = NULL, verbose = TRUE,
+  var_attrs = c("val_labels", "var_label", "var_desc"))
 
 read_terra_micro_sp(data_file, ddi_file = NULL, shape_file = NULL,
-  data_layer = NULL, shape_layer = NULL, verbose = TRUE)
+  data_layer = NULL, shape_layer = NULL, verbose = TRUE,
+  var_attrs = c("val_labels", "var_label", "var_desc"))
 }
 \arguments{
 \item{data_file}{Path to the data file, which can either be the .zip file directly
@@ -29,6 +31,10 @@ a dataset.}
 
 \item{verbose}{Logical, indicating whether to print progress information
 to console.}
+
+\item{var_attrs}{Variable attributes to add from the DDI, defaults to
+adding all (val_labels, var_label and var_desc). See
+\code{\link{set_ipums_var_attributes}} for more details.}
 
 \item{shape_file}{(Optional) If the download is unzipped, path to the .zip or .shp file
 representing the the shape file. If only the data table is needed, can be set to FALSE

@@ -27,6 +27,9 @@
 #'   load multiple shape files, which will be combined.
 #' @param verbose Logical, indicating whether to print progress information to
 #'   console.
+#' @param var_attrs Variable attributes to add from the codebook, defaults to
+#'   adding all (val_labels, var_label and var_desc). See
+#'   \code{\link{set_ipums_var_attributes}} for more details.
 #' @examples
 #' csv_file <- ripums_example("nhgis0008_csv.zip")
 #' shape_file <- ripums_example("nhgis0008_shape_small.zip")
@@ -48,7 +51,8 @@
 read_nhgis <- function(
   data_file,
   data_layer = NULL,
-  verbose = TRUE
+  verbose = TRUE,
+  var_attrs = c("val_labels", "var_label", "var_desc")
 ) {
   data_layer <- enquo(data_layer)
 
@@ -101,7 +105,7 @@ read_nhgis <- function(
 
   data <- readr::type_convert(data, col_types = readr::cols())
 
-  data <- set_ipums_var_attributes(data, cb_ddi_info$var_info)
+  data <- set_ipums_var_attributes(data, cb_ddi_info$var_info, var_attrs)
   data
 }
 
@@ -112,7 +116,9 @@ read_nhgis_sf <- function(
   shape_file,
   data_layer = NULL,
   shape_layer = data_layer,
-  verbose = TRUE
+  verbose = TRUE,
+  var_attrs = c("val_labels", "var_label", "var_desc")
+
 ) {
   data <- read_nhgis(data_file, !!enquo(data_layer), verbose)
 
@@ -165,7 +171,8 @@ read_nhgis_sp <- function(
   shape_file,
   data_layer = NULL,
   shape_layer = data_layer,
-  verbose = TRUE
+  verbose = TRUE,
+  var_attrs = c("val_labels", "var_label", "var_desc")
 ) {
   data <- read_nhgis(data_file, !!enquo(data_layer), verbose)
 

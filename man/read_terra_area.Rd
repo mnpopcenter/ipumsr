@@ -7,15 +7,16 @@
 \title{EXPERIMENTAL - Read data from an IPUMS Terra area extract}
 \usage{
 read_terra_area(data_file, data_layer = NULL, ddi_file = NULL,
-  cb_file = NULL, verbose = TRUE)
+  cb_file = NULL, verbose = TRUE, var_attrs = c("val_labels", "var_label",
+  "var_desc"))
 
 read_terra_area_sf(data_file, shape_file = NULL, data_layer = NULL,
   shape_layer = data_layer, ddi_file = NULL, cb_file = NULL,
-  verbose = TRUE)
+  verbose = TRUE, var_attrs = c("val_labels", "var_label", "var_desc"))
 
 read_terra_area_sp(data_file, shape_file = NULL, data_layer = NULL,
   shape_layer = data_layer, ddi_file = NULL, cb_file = NULL,
-  verbose = TRUE)
+  verbose = TRUE, var_attrs = c("val_labels", "var_label", "var_desc"))
 }
 \arguments{
 \item{data_file}{Path to the data file, which can either be the .zip file directly
@@ -34,6 +35,10 @@ provides usage and citation information for extract.}
 
 \item{verbose}{Logical, indicating whether to print progress information
 to console.}
+
+\item{var_attrs}{Variable attributes to add from the DDI, defaults to
+adding all (val_labels, var_label and var_desc). See
+\code{\link{set_ipums_var_attributes}} for more details.}
 
 \item{shape_file}{(Optional) If the download is unzipped, path to the .zip or .shp file
 representing the the shape file. If only the data table is needed, can be set to FALSE
