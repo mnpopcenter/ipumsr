@@ -68,7 +68,7 @@ ipums_var_info.default <- function(object, vars = NULL) {
   }
 
   dplyr::data_frame(
-    var_label = if (is.null(obj_info$label)) NA_character_ else obj_info$label,
+    var_label = if (is.null(obj_info[["label"]])) NA_character_ else obj_info[["label"]],
     var_desc = if (is.null(obj_info$var_desc)) NA_character_ else obj_info$var_desc,
     val_labels = value_labels
   )
