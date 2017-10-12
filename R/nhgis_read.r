@@ -102,7 +102,6 @@ read_nhgis <- function(
   data <- readr::type_convert(data, col_types = readr::cols())
 
   data <- set_ipums_var_attributes(data, cb_ddi_info$var_info, FALSE)
-  data <- set_ipums_df_attributes(data, cb_ddi_info)
   data
 }
 

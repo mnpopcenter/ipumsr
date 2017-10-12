@@ -4,20 +4,22 @@
 \alias{ipums_file_info}
 \title{Get IPUMS file information}
 \usage{
-ipums_file_info(object)
+ipums_file_info(object, type = NULL)
 }
 \arguments{
-\item{object}{A DDI object (loaded with \code{\link{read_ipums_ddi}}), or a data.frame
-with ipums metadata attached.}
+\item{object}{An ipums_ddi object (loaded with \code{\link{read_ipums_ddi}}).}
+
+\item{type}{NULL to load all types, or one of "ipums_project", "extract_data",
+"extract_notes", "conditions" or "citation".}
 }
 \value{
-A list with the \code{ipums_project}, \code{extract_date}, \code{extract_notes},
-  \code{conditions}, and \code{citation}.
+If \code{type} is NULL, a list with the \code{ipums_project},
+  \code{extract_date}, \code{extract_notes}, \code{conditions}, and \code{citation}.
+  Otherwise astring with the type of information requested in \code{type}.
 }
 \description{
-Get IPUMS metadata information about the data file loaded into R. Will try to read
-the metadata from the loaded datasets, but it is more reliable to load the DDI
-into a separate object and use it instead.
+Get IPUMS metadata information about the data file loaded into R
+from an ipums_ddi
 }
 \examples{
 ddi <- read_ipums_ddi(ripums_example("cps_00006.xml"))

@@ -35,7 +35,7 @@ ex_file <- function(x) {
   system.file("extdata", x, package = "ripumsexamples")
 }
 
-## ------------------------------------------------------------------------------------
+## ------------------------------------------------------------------------
 suppressPackageStartupMessages({
   library(ripums)
   library(sf)
@@ -53,7 +53,7 @@ colombia_shape <- read_ipums_sf(ex_file("geo1_co1964_2005.zip"), verbose = FALSE
 ecuador_shape <- read_ipums_sf(ex_file("geo1_ec2010.zip"), verbose = FALSE)
 peru_shape <- read_ipums_sf(ex_file("geo1_pe2007.zip"), verbose = FALSE)
 
-## ------------------------------------------------------------------------------------
+## ------------------------------------------------------------------------
 # Convert labelled values to factors where useful (and zap elsewhere)
 # See the value-labels vignette for more on this process.
 fuel_labels <- ipums_val_labels(ipumsi_data$FUELCOOK)
@@ -77,7 +77,7 @@ ipumsi_data <- ipumsi_data %>%
     FUELCOOK = as_factor(FUELCOOK)
   )
 
-## ------------------------------------------------------------------------------------
+## ------------------------------------------------------------------------
 ipumsi_summary <- ipumsi_data %>% 
   mutate(GEOLEV1 = case_when(
     COUNTRY == "Colombia" ~ GEOLEV1,
@@ -87,7 +87,7 @@ ipumsi_summary <- ipumsi_data %>%
   group_by(YEAR, COUNTRY, GEOLEV1) %>%
   summarize(pct_solid = mean(SOLIDFUEL == "Solid Fuel", na.rm = TRUE))
 
-## ------------------------------------------------------------------------------------
+## ------------------------------------------------------------------------
 # Currently each shape file has different variable names
 names(colombia_shape)
 names(ecuador_shape)
@@ -107,17 +107,17 @@ peru_shape <- peru_shape %>%
 # Now we can rbind them together
 all_shapes <- rbind(colombia_shape, ecuador_shape, peru_shape)
 
-## ------------------------------------------------------------------------------------
+## ------------------------------------------------------------------------
 ipumsi <- ipums_shape_inner_join(
   ipumsi_summary, 
   all_shapes,
   by = c("COUNTRY" = "CNTRY_NAME", "GEOLEV1" = "GEOJOIN")
 )
 
-## ------------------------------------------------------------------------------------
+## ------------------------------------------------------------------------
 join_failures(ipumsi)
 
-## ---- fig.height = 4, fig.width = 7--------------------------------------------------
+## ---- fig.height = 4, fig.width = 7--------------------------------------
 # Note the function `geom_sf()` is a very new function, so you may need to update
 # ggplot2 to run.
 ipumsi <- ipumsi %>%
@@ -131,11 +131,11 @@ if ("geom_sf" %in% getNamespaceExports("ggplot2")) {
     labs(
       title = "Percent of Children 0-5 Who Live in a Home That Cooks Using Solid Fuel",
       subtitle = "Colombia (1985, 1993, 2005), Ecuador (2010) and Peru (2007) Census Data",
-      caption = paste0("Source: ", ipums_file_info(ipumsi_ddi)$ipums_project)
+      caption = paste0("Source: ", ipums_file_info(ipumsi_ddi, "ipums_project"))
     )
 }
 
-## ------------------------------------------------------------------------------------
+## ------------------------------------------------------------------------
 nhgis_ddi <- read_ipums_codebook(ex_file("nhgis0024_csv.zip")) 
 nhgis <- read_nhgis_sf(
   data_file = ex_file("nhgis0024_csv.zip"),
@@ -143,7 +143,7 @@ nhgis <- read_nhgis_sf(
   verbose = FALSE
 )
 
-## ---- fig.height = 4, fig.width = 7--------------------------------------------------
+## ---- fig.height = 4, fig.width = 7--------------------------------------
 # The median age is 0 for unpopulated counties, set them to NA
 nhgis <- nhgis %>%
   mutate(H77001 = ifelse(H77001 == 0, NA, H77001))
@@ -162,7 +162,7 @@ if ("geom_sf" %in% getNamespaceExports("ggplot2")) {
       title = "Median Age of Population By Census Block",
       subtitle = "2010 Census",
       caption = paste0(
-        "Source: ", ipums_file_info(nhgis_ddi)$ipums_project, "\n",
+        "Source: ", ipums_file_info(nhgis_ddi, "ipums_project"), "\n",
         "Simplified Census Block boundaries (1% of points retained)"
       )
     )

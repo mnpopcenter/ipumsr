@@ -148,13 +148,9 @@ ipums_val_labels.default <- function(object, var = NULL) {
 
 #' Get IPUMS citation and conditions
 #'
-#' Gets information about citation and conditions from objects with
-#' IPUMS metadata, like a DDI or a loaded extract. Because of how some
-#' R functions drop attributes, it is best to load a DDI object separately
-#' from the data and get the conditions and citation from this object.
+#' Gets information about citation and conditions from a DDI.
 #'
-#' @param object A DDI object (loaded with \code{\link{read_ipums_ddi}}), or a data.frame
-#'   with ipums metadata attached.
+#' @param object A DDI object (loaded with \code{\link{read_ipums_ddi}})
 #'
 #' @export
 ipums_conditions <- function(object) {
@@ -168,48 +164,38 @@ ipums_conditions.ipums_ddi <- function(object) {
   out
 }
 
-#' @export
-ipums_conditions.default <- function(object) {
-  atts <- attributes(object)
-  out <- atts$conditions
-  if (!is.null(atts$citation)) out <- paste0("\n\n", atts$citation, "\n\n")
-  out
-}
-
 
 #' Get IPUMS file information
 #'
-#' Get IPUMS metadata information about the data file loaded into R. Will try to read
-#' the metadata from the loaded datasets, but it is more reliable to load the DDI
-#' into a separate object and use it instead.
+#' Get IPUMS metadata information about the data file loaded into R
+#' from an ipums_ddi
 #'
-#' @param object A DDI object (loaded with \code{\link{read_ipums_ddi}}), or a data.frame
-#'   with ipums metadata attached.
-#' @return A list with the \code{ipums_project}, \code{extract_date}, \code{extract_notes},
-#'   \code{conditions}, and \code{citation}.
+#' @param object An ipums_ddi object (loaded with \code{\link{read_ipums_ddi}}).
+#' @param type NULL to load all types, or one of "ipums_project", "extract_data",
+#'   "extract_notes", "conditions" or "citation".
+#' @return If \code{type} is NULL, a list with the \code{ipums_project},
+#'   \code{extract_date}, \code{extract_notes}, \code{conditions}, and \code{citation}.
+#'   Otherwise astring with the type of information requested in \code{type}.
 #' @examples
 #' ddi <- read_ipums_ddi(ripums_example("cps_00006.xml"))
 #' ipums_file_info(ddi)
 #' @export
-ipums_file_info <- function(object) {
+ipums_file_info <- function(object, type = NULL) {
   UseMethod("ipums_file_info")
 }
 
 #' @export
-ipums_file_info.default <- function(object) {
-  obj_info <- attributes(object)
-  attributes_exist <- intersect(
-    c("ipums_project", "extract_date", "extract_notes", "conditions", "citation"),
-    names(obj_info)
-  )
-
-  out <- obj_info[attributes_exist]
-  out
+ipums_file_info.default <- function(object, type = NULL) {
+  return(NULL)
 }
 
 #' @export
-ipums_file_info.ipums_ddi <- function(object) {
-  out <- object[c("ipums_project", "extract_date", "extract_notes", "conditions", "citation")]
+ipums_file_info.ipums_ddi <- function(object, type = NULL) {
+  if (!is.null(type)) {
+    out <- object[[type]]
+  } else {
+    out <- object[c("ipums_project", "extract_date", "extract_notes", "conditions", "citation")]
+  }
   out
 }
 

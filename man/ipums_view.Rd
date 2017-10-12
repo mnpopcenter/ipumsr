@@ -7,7 +7,9 @@
 ipums_view(x, out_file = NULL, launch = TRUE)
 }
 \arguments{
-\item{x}{A DDI or other object with ipums attributes (such as data loaded from an extract)}
+\item{x}{A DDI or other object with ipums attributes (such as data loaded from an extract).
+Note that the file level information (like extract notes) are only available from
+the DDI.}
 
 \item{out_file}{Optionally specify a location to save HTML file. NULL the default
 makes a temporary file.}

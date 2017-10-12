@@ -7,12 +7,8 @@
 ipums_conditions(object)
 }
 \arguments{
-\item{object}{A DDI object (loaded with \code{\link{read_ipums_ddi}}), or a data.frame
-with ipums metadata attached.}
+\item{object}{A DDI object (loaded with \code{\link{read_ipums_ddi}})}
 }
 \description{
-Gets information about citation and conditions from objects with
-IPUMS metadata, like a DDI or a loaded extract. Because of how some
-R functions drop attributes, it is best to load a DDI object separately
-from the data and get the conditions and citation from this object.
+Gets information about citation and conditions from a DDI.
 }

@@ -110,7 +110,6 @@ read_ipums_micro <- function(
     stop(paste0("Don't know how to read ", ddi$file_type, " type file."), call. = FALSE)
   }
 
-  out <- set_ipums_df_attributes(out, ddi)
   out
 }
 
@@ -154,7 +153,6 @@ read_ipums_micro_list <- function(
     stop(paste0("Don't know how to read ", ddi$file_type, " type file."), call. = FALSE)
   }
 
-  out <- set_ipums_df_attributes(out, ddi)
   out
 }
 

@@ -132,7 +132,7 @@ nhgis %>%
 #        you know that some “free states” were home to substantial numbers of slaves?
 
 ## ------------------------------------------------------------------------
-cat(ipums_file_info(nhgis_ddi)$conditions)
+cat(ipums_file_info(nhgis_ddi, "conditions"))
 
 #     A: Minnesota Population Center. National Historical Geographic Information
 #        System: Version 11.0 [Database]. Minneapolis: University of Minnesota. 2016.
@@ -153,7 +153,7 @@ if ("geom_sf" %in% getNamespaceExports("ggplot2")) {
     labs(
       title = "Percent of Population that was Enslaved by State",
       subtitle = "1830 Census",
-      caption = paste0("Source: ", ipums_file_info(nhgis_ddi)$ipums_project)
+      caption = paste0("Source: ", ipums_file_info(nhgis_ddi, "ipums_project"))
     )
 }
 

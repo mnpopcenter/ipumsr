@@ -79,7 +79,6 @@ read_terra_raster_internal <- function(data_file, data_layer, verbose, multiple_
     }
 
     if (verbose) cat(ipums_conditions(terra_empty_ddi))
-    out <- set_ipums_df_attributes(out, terra_empty_ddi)
 
     out
   }
@@ -176,7 +175,7 @@ read_terra_area <- function(
   if (!is.null(ddi$var_info)) {
     data <- set_ipums_var_attributes(data, ddi$var_info, set_imp_decim = FALSE)
   }
-  data <- set_ipums_df_attributes(data, ddi)
+
   data
 }
 
@@ -357,9 +356,7 @@ read_terra_micro <- function(
     data <- set_ipums_var_attributes(data, ddi$var_info, set_imp_decim = FALSE)
   }
 
-
-  out <- set_ipums_df_attributes(out, ddi)
-  out
+  data
 }
 
 

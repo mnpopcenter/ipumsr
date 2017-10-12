@@ -12,7 +12,7 @@
 
 <meta name="author" content="Minnesota Population Center" />
 
-<meta name="date" content="2017-10-11" />
+<meta name="date" content="2017-10-12" />
 
 <title>ripums Example - CPS</title>
 
@@ -70,7 +70,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 <h1 class="title toc-ignore"><code>ripums</code> Example - CPS</h1>
 <h4 class="author"><em>Minnesota Population Center</em></h4>
-<h4 class="date"><em>2017-10-11</em></h4>
+<h4 class="date"><em>2017-10-12</em></h4>
 
 
 
@@ -387,7 +387,7 @@ avg_hrs_by_health
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(ggplot2)
 
 x_label &lt;-<span class="st"> </span><span class="kw">ipums_var_label</span>(cps_data, HEALTH)
-source_info &lt;-<span class="st"> </span><span class="kw">ipums_file_info</span>(cps_ddi)<span class="op">$</span>ipums_project
+source_info &lt;-<span class="st"> </span><span class="kw">ipums_file_info</span>(cps_ddi, <span class="st">&quot;ipums_project&quot;</span>)
 
 <span class="kw">ggplot</span>(pct_emp_by_health, <span class="kw">aes</span>(<span class="dt">x =</span> HEALTH_factor, <span class="dt">y =</span> emp_pct)) <span class="op">+</span><span class="st"> </span>
 <span class="st">  </span><span class="kw">geom_bar</span>(<span class="dt">stat =</span> <span class="st">&quot;identity&quot;</span>, <span class="dt">fill =</span> <span class="st">&quot;#00263a&quot;</span>) <span class="op">+</span><span class="st"> </span>
@@ -421,7 +421,7 @@ pct_emp_by_health_age &lt;-<span class="st"> </span>cps_data <span class="op">%&
 <span class="st">  </span><span class="kw">summarize</span>(<span class="dt">emp_pct =</span> <span class="kw">weighted.mean</span>(EMPSTAT <span class="op">==</span><span class="st"> </span><span class="dv">10</span>, WTSUPP))
 
 x_label &lt;-<span class="st"> </span><span class="kw">ipums_var_label</span>(cps_data, HEALTH)
-source_info &lt;-<span class="st"> </span><span class="kw">ipums_file_info</span>(cps_ddi)<span class="op">$</span>ipums_project
+source_info &lt;-<span class="st"> </span><span class="kw">ipums_file_info</span>(cps_ddi, <span class="st">&quot;ipums_project&quot;</span>)
 
 <span class="kw">ggplot</span>(pct_emp_by_health_age, <span class="kw">aes</span>(<span class="dt">x =</span> HEALTH_factor, <span class="dt">y =</span> emp_pct)) <span class="op">+</span><span class="st"> </span>
 <span class="st">  </span><span class="kw">geom_bar</span>(<span class="dt">stat =</span> <span class="st">&quot;identity&quot;</span>, <span class="dt">fill =</span> <span class="st">&quot;#00263a&quot;</span>) <span class="op">+</span><span class="st"> </span>

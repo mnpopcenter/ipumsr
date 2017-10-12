@@ -154,16 +154,20 @@ library(dplyr, warn.conflicts = FALSE)
 cps_ddi <- read_ipums_ddi(ripums_example("cps_00006.xml"))
 cps_data <- read_ipums_micro(cps_ddi, verbose = FALSE)
 
-# Currently file level metadata is on cps_data
-ipums_file_info(cps_data)$ipums_project
+# Currently variable description is available for year
+ipums_var_desc(cps_data$YEAR)
 
-# But after a mutate, it is lost
+# But after using ifelse it is gone
 cps_data <- cps_data %>%
-  mutate(MONTH = haven::as_factor(MONTH))
-ipums_file_info(cps_data)$ipums_project
+  mutate(YEAR = ifelse(YEAR == 1962, 62, NA))
+ipums_var_desc(cps_data$YEAR)
 
 # So you can use the DDI
-ipums_file_info(cps_ddi)$ipums_project
+ipums_var_desc(cps_ddi, "YEAR")
+
+# The DDI also has file level information that is not available from just
+# the data.
+ipums_file_info(cps_ddi, "extract_notes")
 ```
 
 ### "dplyr select-style" Syntax

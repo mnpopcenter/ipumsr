@@ -7,7 +7,9 @@
 #'
 #' Requires that htmltools, shiny and DT are installed.
 #'
-#' @param x A DDI or other object with ipums attributes (such as data loaded from an extract)
+#' @param x A DDI or other object with ipums attributes (such as data loaded from an extract).
+#'   Note that the file level information (like extract notes) are only available from
+#'   the DDI.
 #' @param out_file Optionally specify a location to save HTML file. NULL the default
 #'   makes a temporary file.
 #' @param launch Logical indicating whether to launch the website.
@@ -62,32 +64,39 @@ ipums_view <- function(x, out_file = NULL, launch = TRUE) {
 
 
 file_info_html <- function(file_info) {
-  htmltools::tags$div(
-    htmltools::tags$h2("Extract Information"),
-    htmltools::tags$p(htmltools::tags$b("Project: "), file_info$ipums_project),
-    htmltools::tags$p(htmltools::tags$b("Date Created: "), file_info$extract_date),
-    htmltools::tags$p(
-      htmltools::tags$b("Extract Notes: "),
-      convert_single_linebreak_to_brtags(file_info$extract_notes)
-    ),
-    htmltools::tags$p(
-      htmltools::tags$b("Conditions / Citation"),
-      htmltools::tags$a(
-        "(Click to expand)",
-        `data-toggle` = "collapse",
-        `href` = "#collapseConditions",
-        `aria-expanded` = "false"
+  if (is.null(file_info)) {
+    htmltools::tags$div(
+      htmltools::tags$h2("Extract Information"),
+      htmltools::tags$p("Not available")
+    )
+  } else {
+    htmltools::tags$div(
+      htmltools::tags$h2("Extract Information"),
+      htmltools::tags$p(htmltools::tags$b("Project: "), file_info$ipums_project),
+      htmltools::tags$p(htmltools::tags$b("Date Created: "), file_info$extract_date),
+      htmltools::tags$p(
+        htmltools::tags$b("Extract Notes: "),
+        convert_single_linebreak_to_brtags(file_info$extract_notes)
       ),
-      htmltools::tags$div(
-        split_double_linebreaks_to_ptags(file_info$conditions),
-        split_double_linebreaks_to_ptags(file_info$citation),
-        id = "collapseConditions",
-        class = "collapse"
-      )
-    ),
-    htmltools::tags$h2("Variable Information"),
-    htmltools::tags$p("Click variable name for more details")
-  )
+      htmltools::tags$p(
+        htmltools::tags$b("Conditions / Citation"),
+        htmltools::tags$a(
+          "(Click to expand)",
+          `data-toggle` = "collapse",
+          `href` = "#collapseConditions",
+          `aria-expanded` = "false"
+        ),
+        htmltools::tags$div(
+          split_double_linebreaks_to_ptags(file_info$conditions),
+          split_double_linebreaks_to_ptags(file_info$citation),
+          id = "collapseConditions",
+          class = "collapse"
+        )
+      ),
+      htmltools::tags$h2("Variable Information"),
+      htmltools::tags$p("Click variable name for more details")
+    )
+  }
 }
 
 display_ipums_var_row <- function(var_name, var_label, var_desc, val_labels, code_instr, project, ...) {

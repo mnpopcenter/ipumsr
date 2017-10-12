@@ -310,7 +310,7 @@ if ("geom_sf" %in% getNamespaceExports("ggplot2")) {
     labs(
       title = "Percent of Children 0-5 Who Live in a Home That Cooks Using Solid Fuel",
       subtitle = "Colombia (1985, 1993, 2005), Ecuador (2010) and Peru (2007) Census Data",
-      caption = paste0("Source: ", ipums_file_info(ipumsi_ddi)$ipums_project)
+      caption = paste0("Source: ", ipums_file_info(ipumsi_ddi, "ipums_project"))
     )
 }
 ```
@@ -383,7 +383,7 @@ if ("geom_sf" %in% getNamespaceExports("ggplot2")) {
       title = "Median Age of Population By Census Block",
       subtitle = "2010 Census",
       caption = paste0(
-        "Source: ", ipums_file_info(nhgis_ddi)$ipums_project, "\n",
+        "Source: ", ipums_file_info(nhgis_ddi, "ipums_project"), "\n",
         "Simplified Census Block boundaries (1% of points retained)"
       )
     )

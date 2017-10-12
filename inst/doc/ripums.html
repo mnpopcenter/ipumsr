@@ -12,7 +12,7 @@
 
 <meta name="author" content="Minnesota Population Center" />
 
-<meta name="date" content="2017-10-11" />
+<meta name="date" content="2017-10-12" />
 
 <title>Introduction to ripums - IPUMS Data in R</title>
 
@@ -70,7 +70,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 <h1 class="title toc-ignore">Introduction to <code>ripums</code> - IPUMS Data in R</h1>
 <h4 class="author"><em>Minnesota Population Center</em></h4>
-<h4 class="date"><em>2017-10-11</em></h4>
+<h4 class="date"><em>2017-10-12</em></h4>
 
 
 
@@ -134,7 +134,7 @@ cps_data <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw">select_if</span>(is.labelled)
 <span class="co">#&gt; # A tibble: 7,668 x 3</span>
 <span class="co">#&gt;     STATEFIP     MONTH    INCTOT</span>
-<span class="co">#&gt;  * &lt;dbl+lbl&gt; &lt;dbl+lbl&gt; &lt;dbl+lbl&gt;</span>
+<span class="co">#&gt;    &lt;dbl+lbl&gt; &lt;dbl+lbl&gt; &lt;dbl+lbl&gt;</span>
 <span class="co">#&gt;  1        55         3      4883</span>
 <span class="co">#&gt;  2        55         3      5800</span>
 <span class="co">#&gt;  3        55         3  99999998</span>
@@ -214,19 +214,24 @@ cps_data &lt;-<span class="st"> </span>cps_data <span class="op">%&gt;%</span>
 cps_ddi &lt;-<span class="st"> </span><span class="kw">read_ipums_ddi</span>(<span class="kw">ripums_example</span>(<span class="st">&quot;cps_00006.xml&quot;</span>))
 cps_data &lt;-<span class="st"> </span><span class="kw">read_ipums_micro</span>(cps_ddi, <span class="dt">verbose =</span> <span class="ot">FALSE</span>)
 
-<span class="co"># Currently file level metadata is on cps_data</span>
-<span class="kw">ipums_file_info</span>(cps_data)<span class="op">$</span>ipums_project
-<span class="co">#&gt; [1] &quot;IPUMS-CPS&quot;</span>
+<span class="co"># Currently variable description is available for year</span>
+<span class="kw">ipums_var_desc</span>(cps_data<span class="op">$</span>YEAR)
+<span class="co">#&gt; [1] &quot;YEAR reports the year in which the survey was conducted.  YEARP is repeated on person records.&quot;</span>
 
-<span class="co"># But after a mutate, it is lost</span>
+<span class="co"># But after using ifelse it is gone</span>
 cps_data &lt;-<span class="st"> </span>cps_data <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">MONTH =</span> haven<span class="op">::</span><span class="kw">as_factor</span>(MONTH))
-<span class="kw">ipums_file_info</span>(cps_data)<span class="op">$</span>ipums_project
-<span class="co">#&gt; NULL</span>
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">YEAR =</span> <span class="kw">ifelse</span>(YEAR <span class="op">==</span><span class="st"> </span><span class="dv">1962</span>, <span class="dv">62</span>, <span class="ot">NA</span>))
+<span class="kw">ipums_var_desc</span>(cps_data<span class="op">$</span>YEAR)
+<span class="co">#&gt; [1] NA</span>
 
 <span class="co"># So you can use the DDI</span>
-<span class="kw">ipums_file_info</span>(cps_ddi)<span class="op">$</span>ipums_project
-<span class="co">#&gt; [1] &quot;IPUMS-CPS&quot;</span></code></pre></div>
+<span class="kw">ipums_var_desc</span>(cps_ddi, <span class="st">&quot;YEAR&quot;</span>)
+<span class="co">#&gt; [1] &quot;YEAR reports the year in which the survey was conducted.  YEARP is repeated on person records.&quot;</span>
+
+<span class="co"># The DDI also has file level information that is not available from just</span>
+<span class="co"># the data.</span>
+<span class="kw">ipums_file_info</span>(cps_ddi, <span class="st">&quot;extract_notes&quot;</span>)
+<span class="co">#&gt; [1] &quot;User-provided description:  Minimal test extract\nSamples: 1962, 1963\nVariables: STATEFIP, INCTOT (automatically Year, SERIAL, HWTSUPP, MONTH, WTSUPP)\nSelect Cases: State - Minnesota, Iowa, Wisconsin, South Dakota, North Dakota&quot;</span></code></pre></div>
 </div>
 <div id="dplyr-select-style-syntax" class="section level3">
 <h3>“dplyr select-style” Syntax</h3>
@@ -286,35 +291,35 @@ cps &lt;-<span class="st"> </span><span class="kw">read_ipums_micro_list</span>(
 )
 
 cps<span class="op">$</span>PERSON
-<span class="co">#&gt; # A tibble: 7,668 x 5</span>
-<span class="co">#&gt;     YEAR SERIAL PERNUM  WTSUPP    INCTOT</span>
-<span class="co">#&gt;    &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl+lbl&gt;</span>
-<span class="co">#&gt;  1  1962     80      1 1475.59      4883</span>
-<span class="co">#&gt;  2  1962     80      2 1470.72      5800</span>
-<span class="co">#&gt;  3  1962     80      3 1578.75  99999998</span>
-<span class="co">#&gt;  4  1962     82      1 1597.61     14015</span>
-<span class="co">#&gt;  5  1962     83      1 1706.65     16552</span>
-<span class="co">#&gt;  6  1962     84      1 1790.25      6375</span>
-<span class="co">#&gt;  7  1962    107      1 4355.40  99999999</span>
-<span class="co">#&gt;  8  1962    107      2 1385.81         0</span>
-<span class="co">#&gt;  9  1962    107      3 1629.10       600</span>
-<span class="co">#&gt; 10  1962    107      4 1432.24  99999999</span>
+<span class="co">#&gt; # A tibble: 7,668 x 6</span>
+<span class="co">#&gt;      RECTYPE  YEAR SERIAL PERNUM  WTSUPP    INCTOT</span>
+<span class="co">#&gt;    &lt;chr+lbl&gt; &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl+lbl&gt;</span>
+<span class="co">#&gt;  1         P  1962     80      1 1475.59      4883</span>
+<span class="co">#&gt;  2         P  1962     80      2 1470.72      5800</span>
+<span class="co">#&gt;  3         P  1962     80      3 1578.75  99999998</span>
+<span class="co">#&gt;  4         P  1962     82      1 1597.61     14015</span>
+<span class="co">#&gt;  5         P  1962     83      1 1706.65     16552</span>
+<span class="co">#&gt;  6         P  1962     84      1 1790.25      6375</span>
+<span class="co">#&gt;  7         P  1962    107      1 4355.40  99999999</span>
+<span class="co">#&gt;  8         P  1962    107      2 1385.81         0</span>
+<span class="co">#&gt;  9         P  1962    107      3 1629.10       600</span>
+<span class="co">#&gt; 10         P  1962    107      4 1432.24  99999999</span>
 <span class="co">#&gt; # ... with 7,658 more rows</span>
 
 cps<span class="op">$</span>HOUSEHOLD
-<span class="co">#&gt; # A tibble: 3,385 x 5</span>
-<span class="co">#&gt;     YEAR SERIAL HWTSUPP  STATEFIP     MONTH</span>
-<span class="co">#&gt;    &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl+lbl&gt; &lt;dbl+lbl&gt;</span>
-<span class="co">#&gt;  1  1962     80 1475.59        55         3</span>
-<span class="co">#&gt;  2  1962     82 1597.61        27         3</span>
-<span class="co">#&gt;  3  1962     83 1706.65        27         3</span>
-<span class="co">#&gt;  4  1962     84 1790.25        27         3</span>
-<span class="co">#&gt;  5  1962    107 4355.40        19         3</span>
-<span class="co">#&gt;  6  1962    108 1479.05        19         3</span>
-<span class="co">#&gt;  7  1962    122 3602.75        27         3</span>
-<span class="co">#&gt;  8  1962    124 4104.41        55         3</span>
-<span class="co">#&gt;  9  1962    125 2182.17        55         3</span>
-<span class="co">#&gt; 10  1962    126 1826.38        55         3</span>
+<span class="co">#&gt; # A tibble: 3,385 x 6</span>
+<span class="co">#&gt;      RECTYPE  YEAR SERIAL HWTSUPP  STATEFIP     MONTH</span>
+<span class="co">#&gt;    &lt;chr+lbl&gt; &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl+lbl&gt; &lt;dbl+lbl&gt;</span>
+<span class="co">#&gt;  1         H  1962     80 1475.59        55         3</span>
+<span class="co">#&gt;  2         H  1962     82 1597.61        27         3</span>
+<span class="co">#&gt;  3         H  1962     83 1706.65        27         3</span>
+<span class="co">#&gt;  4         H  1962     84 1790.25        27         3</span>
+<span class="co">#&gt;  5         H  1962    107 4355.40        19         3</span>
+<span class="co">#&gt;  6         H  1962    108 1479.05        19         3</span>
+<span class="co">#&gt;  7         H  1962    122 3602.75        27         3</span>
+<span class="co">#&gt;  8         H  1962    124 4104.41        55         3</span>
+<span class="co">#&gt;  9         H  1962    125 2182.17        55         3</span>
+<span class="co">#&gt; 10         H  1962    126 1826.38        55         3</span>
 <span class="co">#&gt; # ... with 3,375 more rows</span>
 
 <span class="co"># Long data</span>
@@ -326,7 +331,7 @@ cps &lt;-<span class="st"> </span><span class="kw">read_ipums_micro</span>(
 cps
 <span class="co">#&gt; # A tibble: 11,053 x 9</span>
 <span class="co">#&gt;      RECTYPE  YEAR SERIAL HWTSUPP  STATEFIP     MONTH PERNUM  WTSUPP</span>
-<span class="co">#&gt;  * &lt;chr+lbl&gt; &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl+lbl&gt; &lt;dbl+lbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;</span>
+<span class="co">#&gt;    &lt;chr+lbl&gt; &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl+lbl&gt; &lt;dbl+lbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;</span>
 <span class="co">#&gt;  1         H  1962     80 1475.59        55         3     NA      NA</span>
 <span class="co">#&gt;  2         P  1962     80      NA        NA        NA      1 1475.59</span>
 <span class="co">#&gt;  3         P  1962     80      NA        NA        NA      2 1470.72</span>

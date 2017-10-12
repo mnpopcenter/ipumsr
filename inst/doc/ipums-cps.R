@@ -154,7 +154,7 @@ avg_hrs_by_health
 library(ggplot2)
 
 x_label <- ipums_var_label(cps_data, HEALTH)
-source_info <- ipums_file_info(cps_ddi)$ipums_project
+source_info <- ipums_file_info(cps_ddi, "ipums_project")
 
 ggplot(pct_emp_by_health, aes(x = HEALTH_factor, y = emp_pct)) + 
   geom_bar(stat = "identity", fill = "#00263a") + 
@@ -187,7 +187,7 @@ pct_emp_by_health_age <- cps_data %>%
   summarize(emp_pct = weighted.mean(EMPSTAT == 10, WTSUPP))
 
 x_label <- ipums_var_label(cps_data, HEALTH)
-source_info <- ipums_file_info(cps_ddi)$ipums_project
+source_info <- ipums_file_info(cps_ddi, "ipums_project")
 
 ggplot(pct_emp_by_health_age, aes(x = HEALTH_factor, y = emp_pct)) + 
   geom_bar(stat = "identity", fill = "#00263a") + 
