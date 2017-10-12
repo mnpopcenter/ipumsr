@@ -190,12 +190,14 @@ read_ipums_hier <- function(ddi, vars, n_max, data_structure, data_file, verbose
     out <- read_raw_to_df_long(raw, rec_vinfo, all_vars, ddi$file_encoding)
 
     out <- set_ipums_var_attributes(out, all_vars)
+    out <- set_imp_decim(out, all_vars)
   } else if (data_structure == "list") {
     # TODO: Add back in fix for RT conversion?
     out <- read_raw_to_df_list(raw, rec_vinfo, all_vars, ddi$file_encoding)
     for (rt in names(out)) {
       rt_vinfo <- all_vars[purrr::map_lgl(all_vars$rectypes, ~rt %in% .), ]
       out[[rt]] <- set_ipums_var_attributes(out[[rt]], rt_vinfo)
+      out[[rt]] <- set_imp_decim(out[[rt]], rt_vinfo)
     }
     # If value labels for rectype are available use them to name data.frames
     rt_lbls <- rec_vinfo$val_labels[[1]]
@@ -260,6 +262,7 @@ read_ipums_rect <- function(ddi, vars, n_max, data_file, verbose) {
     stop("Unrecognized file type.")
   }
   out <- set_ipums_var_attributes(out, all_vars)
+  out <- set_imp_decim(out, all_vars)
 
   out
 }

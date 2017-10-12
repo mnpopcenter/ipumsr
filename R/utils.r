@@ -48,11 +48,8 @@ find_files_in_zip <- function(
   unname(file_names)
 }
 
-set_ipums_var_attributes <- function(data, var_info, set_imp_decim = TRUE) {
-  # from csv decims are explicit but DDI might say otherwise, so
-  # wipe out that column if it exists
+set_ipums_var_attributes <- function(data, var_info) {
   if (is.null(var_info)) return(data)
-  if (!set_imp_decim) var_info$imp_decim <- NULL
 
   purrr::pwalk(var_info, function(var_name, ...) {
     x <- list(...)
@@ -68,9 +65,18 @@ set_ipums_var_attributes <- function(data, var_info, set_imp_decim = TRUE) {
       if (!is.null(x$var_desc)) {
         data[[var_name]] <<- rlang::set_attrs(data[[var_name]], var_desc = x$var_desc)
       }
-      if (!is.null(x$imp_decim) && is.numeric(data[[var_name]])) {
-        data[[var_name]] <<- data[[var_name]] / (10 ^ x$imp_decim)
-      }
+    }
+  })
+  data
+}
+
+set_imp_decim <- function(data, var_info) {
+  if (is.null(var_info)) return(data)
+
+  purrr::pwalk(var_info, function(var_name, ...) {
+    x <- list(...)
+    if (!is.null(x$imp_decim) && is.numeric(data[[var_name]])) {
+      data[[var_name]] <<- data[[var_name]] / (10 ^ x$imp_decim)
     }
   })
   data

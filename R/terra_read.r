@@ -173,7 +173,7 @@ read_terra_area <- function(
 
   # Add var labels and value labels from DDI, if available
   if (!is.null(ddi$var_info)) {
-    data <- set_ipums_var_attributes(data, ddi$var_info, set_imp_decim = FALSE)
+    data <- set_ipums_var_attributes(data, ddi$var_info)
   }
 
   data
@@ -353,7 +353,7 @@ read_terra_micro <- function(
   # Add var labels and value labels from DDI, if available
   if (!is.null(ddi$var_info)) {
     all_vars <- ddi$var_info
-    data <- set_ipums_var_attributes(data, ddi$var_info, set_imp_decim = FALSE)
+    data <- set_ipums_var_attributes(data, ddi$var_info)
   }
 
   data
