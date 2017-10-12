@@ -88,3 +88,17 @@ test_that(
     expect_equal(ncol(cps), 2)
   })
 
+
+
+test_that(
+  "Setting argument var_attrs to NULL works", {
+    cps <- read_ipums_micro(
+      ripums_example("cps_00006.xml"),
+      data_file = ripums_example("cps_00006.dat.gz"),
+      verbose = FALSE,
+      var_attrs = NULL
+    )
+
+    no_var_attrs <- purrr::map_lgl(cps, ~is.null(attributes(.)))
+    expect_true(all(no_var_attrs))
+  })
