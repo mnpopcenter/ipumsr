@@ -118,6 +118,7 @@ ipums_shape_join.sf <- function(
   alligned <- allign_id_vars(shape_data, data, by)
   merge_f <- utils::getFromNamespace(paste0(direction, "_join"), "dplyr")
   out <- merge_f(alligned$shape_data, alligned$data, by = by, suffix = suffix)
+  attr(out, "sf_column") <- attr(shape_data, "sf_column")
 
   # message for merge failures
   if (verbose) {

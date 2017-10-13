@@ -225,7 +225,7 @@ read_terra_area_sf <- function(
   }
 
   out <- dplyr::full_join(shape_data, data, by = c(LABEL = label_name, GEOID = id_name))
-  out <- sf::st_as_sf(tibble::as_tibble(out))
+  attr(out, "sf_column") <- attr(shape_data, "sf_column")
   out
 }
 
