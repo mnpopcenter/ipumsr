@@ -287,9 +287,10 @@ check_for_join_failures <- function(merged, by, shape_data, data) {
     } else if (d_num > 0) {
       count_message <- paste0(d_num, " observations in the data")
     }
-    cat(paste0(
-      "Some observations were lost in the join (", count_message, "). See `join_problems(...)` for more details."
-    ))
+    custom_cat(
+      "Some observations were lost in the join (", count_message,
+      "). See `join_failures(...)` for more details."
+    )
     merge_fail
   } else {
     return(NULL)
