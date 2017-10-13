@@ -8,6 +8,7 @@ test_that("Basic join works (sf)", {
 
   expect_null(join_failures(joined))
   expect_equal(nrow(data), nrow(joined))
+  expect_equal(attr(joined, "sf_column"), "geometry")
 })
 
 test_that("Basic join works (sp)", {

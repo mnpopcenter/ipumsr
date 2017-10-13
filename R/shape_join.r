@@ -118,6 +118,7 @@ ipums_shape_join.sf <- function(
   alligned <- allign_id_vars(shape_data, data, by)
   merge_f <- utils::getFromNamespace(paste0(direction, "_join"), "dplyr")
   out <- merge_f(alligned$shape_data, alligned$data, by = by, suffix = suffix)
+  attr(out, "sf_column") <- attr(shape_data, "sf_column")
 
   # message for merge failures
   if (verbose) {
@@ -206,7 +207,10 @@ ipums_shape_join.SpatialPolygonsDataFrame <- function(
 check_shape_join_names <- function(by_names, data_names, display) {
   not_avail <- dplyr::setdiff(by_names, data_names)
   if (length(not_avail) > 0) {
-    stop(paste0("Variables ", paste(not_avail, collapse = ", "), " are not in ", display, "."))
+    stop(custom_format_text(
+      "Variables ", paste(not_avail, collapse = ", "), " are not in ", display, ".",
+      indent = 2, exdent = 2
+    ))
   }
 }
 
@@ -284,9 +288,10 @@ check_for_join_failures <- function(merged, by, shape_data, data) {
     } else if (d_num > 0) {
       count_message <- paste0(d_num, " observations in the data")
     }
-    cat(paste0(
-      "Some observations were lost in the join (", count_message, "). See `join_problems(...)` for more details."
-    ))
+    custom_cat(
+      "Some observations were lost in the join (", count_message,
+      "). See `join_failures(...)` for more details."
+    )
     merge_fail
   } else {
     return(NULL)

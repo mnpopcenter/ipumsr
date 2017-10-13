@@ -78,7 +78,7 @@ read_terra_raster_internal <- function(data_file, data_layer, verbose, multiple_
       }
     }
 
-    if (verbose) cat(ipums_conditions(terra_empty_ddi))
+    if (verbose) custom_cat(ipums_conditions(terra_empty_ddi))
 
     out
   }
@@ -158,7 +158,7 @@ read_terra_area <- function(
   # Regardless of what DDI says, it appears that files are stored as UTF-8
   ddi$file_encoding <- "UTF-8"
 
-  if (verbose) cat(ipums_conditions(ddi))
+  if (verbose) custom_cat(ipums_conditions(ddi))
 
   # Read data file ----
   if (data_is_zip) {
@@ -225,7 +225,7 @@ read_terra_area_sf <- function(
   }
 
   out <- dplyr::full_join(shape_data, data, by = c(LABEL = label_name, GEOID = id_name))
-  out <- sf::st_as_sf(tibble::as_tibble(out))
+  attr(out, "sf_column") <- attr(shape_data, "sf_column")
   out
 }
 
@@ -320,7 +320,7 @@ read_terra_micro <- function(
     ddi <- terra_empty_ddi
   }
 
-  if (verbose) cat(ipums_conditions(ddi))
+  if (verbose) custom_cat(ipums_conditions(ddi))
 
   # Read data file ----
   if (data_is_zip) {

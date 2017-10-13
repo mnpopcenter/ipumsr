@@ -57,7 +57,7 @@ RObject raw_to_df_hier_list(
     Rbyte* row_raw = RAW(raw[i]);
 
     // Get rectype
-    char rt[rt_width + 1];
+    char *rt = new char[rt_width + 1];
     std::strncpy(rt, (const char *) row_raw + rt_start, rt_width);
     rt[rt_width] = 0;
 
@@ -68,6 +68,7 @@ RObject raw_to_df_hier_list(
         break;
       }
     }
+    delete [] rt;
     if (rt_index == -1) {
       break;
     }

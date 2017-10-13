@@ -299,7 +299,10 @@ read_ipums_codebook <- function(cb_file, data_layer = NULL) {
       this_file <- which(data_file_names == dplyr::select_vars(data_file_names, !!data_layer))
     }
     if (length(this_file) > 1) {
-      stop("Multiple codebooks found, please specify which to use with the `data_layer` argument")
+      stop(custom_format_text(
+        "Multiple codebooks found, please specify which to use with the",
+        "`data_layer` argument", indent = 2, exdent = 2
+      ))
     }
     var_info <- dd[data_file_sections[[this_file]]]
     var_info <- stringr::str_match(var_info, "([[:alnum:]|[:punct:]]+):[:blank:]+(.+)$")

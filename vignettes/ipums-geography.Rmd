@@ -40,9 +40,10 @@ IPUMS geographic data takes several different forms:
 - Microdata projects like 
 [IPUMS DHS](https://www.idhsdata.org/idhs/gis.shtml), 
 [IPUMS International](https://international.ipums.org/international/geography_gis.shtml) 
+
 and [IPUMS USA](https://usa.ipums.org/usa/volii/tgeotools.shtml) provide shape 
 files on dedicated geography pages that are separate from the microdata extract system.
-- [IPUMS NHGIS](https://nhgis.org) provides access to the shape files relevant to your
+- [IPUMS NHGIS](https://www.nhgis.org) provides access to the shape files relevant to your
 current extract as part of the system to create the data extract.
 - [IPUMS Terra](https://www.terrapop.org/) provides shape files along with the extract
 and allows for aggregating microdata and raster data into the boundaries. 

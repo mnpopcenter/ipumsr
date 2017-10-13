@@ -39,9 +39,15 @@ find_files_in_zip <- function(
 
   if (!multiple_ok && length(file_names) > 1) {
     arg_name <- deparse(substitute(name_select))
-    stop(paste0(
-      "Multiple files found, please use the `", arg_name, "` argument to ",
-      "specify which you want to load.\n", paste(file_names, collapse = ", ")
+    stop(paste(
+      custom_format_text(
+        "Multiple files found, please use the `", arg_name, "` argument to ",
+        "specify which you want to load.", indent = 2, exdent = 2
+      ),
+      custom_format_text(
+        paste(file_names, collapse = ", "), indent = 4, exdent = 4
+      ),
+      sep = "\n"
     ), call. = FALSE)
   }
 
@@ -132,18 +138,20 @@ set_imp_decim <- function(data, var_info) {
 
 load_sf_namespace <- function() {
   if (!requireNamespace("sf", quietly = TRUE)) {
-    stop(paste0(
+    stop(custom_format_text(
       "Package 'sf' must be installed to read boundary files as spacial objects.",
-      " Please run command `install.packages('sf')` to continue."
+      " Please run command `install.packages('sf')` to continue.",
+      indent = 2, exdent = 2
     ))
   }
 }
 
 load_rgdal_namespace <- function() {
   if (!requireNamespace("rgdal", quietly = TRUE)) {
-    stop(paste0(
+    stop(custom_format_text(
       "Package 'rgdal' must be installed to read boundary files as spacial objects.",
-      " Please run command `install.packages('rgdal')` to continue."
+      " Please run command `install.packages('rgdal')` to continue.",
+      indent = 2, exdent = 2
     ))
   }
 }
@@ -188,3 +196,15 @@ custom_parse_number <- function(x) {
   if (all(is.na(converted) == is.na(x))) return(converted) else return(x)
 }
 
+
+custom_format_text <- function(..., indent = 0, exdent = 0) {
+  text <- paste0(...)
+  text <- stringr::str_split(text, "\n")
+  text <- stringr::str_wrap(text[[1]], indent = indent, exdent = exdent)
+  text <- paste(text, collapse = "\n")
+  text
+}
+
+custom_cat <- function(..., indent = 0, exdent = 0) {
+  cat(custom_format_text(..., indent = indent, exdent = exdent))
+}

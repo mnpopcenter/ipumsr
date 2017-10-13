@@ -73,7 +73,7 @@ read_nhgis <- function(
   # be verified as ISO-8859-1)
   cb_ddi_info$encoding <- "ISO-8859-1"
 
-  if (verbose) cat(ipums_conditions(cb_ddi_info))
+  if (verbose) custom_cat(ipums_conditions(cb_ddi_info))
 
   # Read data
   if (verbose) cat("\n\nReading data file...\n")
@@ -152,12 +152,21 @@ read_nhgis_sf <- function(
     missing_in_shape <- purrr::map_lgl(data$geometry, is.null)
     if (any(missing_in_shape)) {
       gis_join_failures <- data$GISJOIN[missing_in_shape]
-      message(paste0(
-        "There are ", sum(missing_in_shape), " rows of data that ",
-        "have data but no geography. This can happen because:\n  Shape files ",
-        "do not include some census geographies such as 'Crews of Vessels' ",
-        "tracts that do not have a defined area\n  Shape files have been simplified ",
-        "which sometimes drops entire geographies (especially small ones)."
+      cat(paste(
+        custom_format_text(
+          "There are ", sum(missing_in_shape), " rows of data that ",
+          "have data but no geography. This can happen because:"
+        ),
+        custom_format_text(
+          "Shape files do not include some census geographies such ",
+          "as 'Crews of Vessels' tracts that do not have a defined area",
+          indent = 2, exdent = 2
+        ),
+        custom_format_text(
+          "Shape files have been simplified which sometimes drops ",
+          "entire geographies (especially small ones)."
+        ),
+        sep = "\n"
       ))
     }
   }

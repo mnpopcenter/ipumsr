@@ -185,7 +185,10 @@ lbl_relabel <- function(x, ...) {
     dup_labels <- names(dup_labels)[dup_labels > 1]
     if (length(dup_labels) > 0) {
       dup_labels <- paste(dup_labels, collapse = ", ")
-      stop(paste0("Some values have more than 1 label: ", dup_labels))
+      stop(paste0(
+        "Some values have more than 1 label:\n",
+        custom_format_text(dup_labels, indent = 2, exdent = 2)
+      ))
     }
 
     new_labels <- dplyr::arrange(new_labels, .data$value)
@@ -244,7 +247,10 @@ lbl_add <- function(x, ...) {
     dup_labels <- names(dup_labels)[dup_labels > 1]
     if (length(dup_labels) > 0) {
       dup_labels <- paste(dup_labels, collapse = ", ")
-      stop(paste0("Some values have more than 1 label: ", dup_labels))
+      stop(paste0(
+        "Some values have more than 1 label:\n",
+        custom_format_text(dup_labels, indent = 2, exdent = 2)
+      ))
     }
 
     new_labels <- dplyr::arrange(new_labels, .data$value)
@@ -387,13 +393,55 @@ fill_in_lbl <- function(lblval, orig_labels) {
   }
   if (is.null(lblval$.lbl)) {
     found_val <- unname(orig_labels) == lblval$.val
-    if (!any(found_val)) stop(paste0("Could not find value ", lblval$.val,  " in existing labels."))
+    if (!any(found_val)) {
+      stop(paste0("Could not find value ", lblval$.val,  " in existing labels."))
+    }
     lblval$.lbl <- names(orig_labels)[found_val]
   }
   if (is.null(lblval$.val)) {
     found_lbl <- names(orig_labels) == lblval$.lbl
-    if (!any(found_lbl)) stop(paste0("Could not find label ", lblval$.lbl,  " in existing labels."))
+    if (!any(found_lbl)) {
+      stop(paste0("Could not find label ", lblval$.lbl,  " in existing labels."))
+    }
     lblval$.val <- unname(orig_labels)[found_lbl]
   }
   lblval
+}
+
+#' Remove all IPUMS attributes from a variable (or all variables in a data.frame)
+#'
+#' Helper to remove ipums attributes (including value labels from the
+#' labelled class, the variable label and the variable description).
+#' These attributes can sometimes get in the way of functions like
+#' the dplyr join functions so you may want to remove them.
+#' @param x A variable or a whole data.frame to remove attributes from
+#' @return A variable or data.frame
+#' @examples
+#' cps <- read_ipums_micro(ripums_example("cps_00006.xml"))
+#' annual_unemployment <- data.frame(YEAR = c(1962, 1963), unemp = c(5.5, 5.7))
+#'
+#' # Avoids warning 'Column `YEAR` has different attributes on LHS and RHS of join'
+#' cps$YEAR <- zap_ipums_attributes(cps$YEAR)
+#' cps <- dplyr::left_join(cps, annual_unemployment, by = "YEAR")
+#'
+#' @family lbl_helpers
+#' @export
+zap_ipums_attributes <- function(x) {
+  UseMethod("zap_ipums_attributes")
+}
+
+#' @export
+zap_ipums_attributes.default <- function(x) {
+  x <- zap_labels(x)
+  attr(x, "label") <- NULL
+  attr(x, "var_desc") <- NULL
+  x
+}
+
+#' @export
+zap_ipums_attributes.data.frame <- function(x) {
+  for (iii in seq_len(ncol(x))) {
+    x[[iii]] <- zap_ipums_attributes(x[[iii]])
+  }
+  x
 }
