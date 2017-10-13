@@ -206,7 +206,10 @@ ipums_shape_join.SpatialPolygonsDataFrame <- function(
 check_shape_join_names <- function(by_names, data_names, display) {
   not_avail <- dplyr::setdiff(by_names, data_names)
   if (length(not_avail) > 0) {
-    stop(paste0("Variables ", paste(not_avail, collapse = ", "), " are not in ", display, "."))
+    stop(custom_format_text(
+      "Variables ", paste(not_avail, collapse = ", "), " are not in ", display, ".",
+      indent = 2, exdent = 2
+    ))
   }
 }
 

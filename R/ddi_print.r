@@ -11,9 +11,12 @@ print.ipums_ddi <- function(x, ...) {
   fdate <- ifelsenull(x$extract_date, "<missing date>")
   fnotes <- ifelsenull(x$extract_notes, "No user notes found.")
 
-  cat(paste0("An IPUMS DDI for ", fproject, " with ", fvarnum, " variables\n"))
-  cat(paste0("Extract '", fname, "' created on ", fdate, "\n"))
-  cat(paste0("User notes:\n", fnotes, "\n"))
+  custom_cat(
+    "An IPUMS DDI for ", fproject, " with ", fvarnum, " variables\n",
+    "Extract '", fname, "' created on ", fdate, "\n",
+    "User notes:\n"
+  )
+  custom_cat(fnotes, indent = 2, exdent = 2)
 }
 
 

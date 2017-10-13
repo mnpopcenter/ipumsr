@@ -87,16 +87,29 @@ ipums_website.default <- function(
 
 get_ipums_url <- function(var, project, verbose = TRUE, homepage_if_missing = FALSE) {
   if (is.null(project)) {
-    stop(paste0("Project not found. Please specify the project name using 'project' argument. ",
-                "Options include: ", paste(all_proj_names(), collapse = ", ")
+    stop(paste(
+      custom_format_text(
+        "Project not found. Please specify the project name using ",
+        "'project' argument. Options include: ", indent = 2, exdent = 2
+      ),
+      custom_format_text(
+        paste(all_proj_names(), collapse = ", "), indent = 4, exdent = 4
+      ),
+      sep = "\n"
     ))
   }
   config <- get_proj_config(project)
 
   if (is.null(config)) {
-    stop(paste0(
-      "Unexpected project '", project, "'. ",
-      "Options include: ", paste(all_proj_names(), collapse = ", ")
+    stop(paste(
+      custom_format_text(
+        "Unexpected project '", project, "'. ",
+        "Options include: ", indent = 2, exdent = 2
+      ),
+      custom_format_text(
+        paste(all_proj_names(), collapse = ", "), indent = 4, exdent = 4
+      ),
+      sep = "\n"
     ))
   }
 

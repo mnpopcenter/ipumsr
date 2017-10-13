@@ -45,10 +45,17 @@ read_ipums_sf <- function(shape_file, shape_layer = NULL, bind_multiple = TRUE, 
     shape_zips <- find_files_in_zip(shape_file, "zip", shape_layer, multiple_ok = TRUE)
 
     if (!bind_multiple && length(shape_zips) > 1) {
-      stop(paste0(
-        "Multiple shape files found, please set the `bind_multiple` argument to `TRUE`",
-        " to combine them together, or use the `shape_layer` argument to specify a",
-        " single layer.\n", paste(shape_zips, collapse = ", ")
+      stop(paste(
+        custom_format_text(
+          "Multiple shape files found, please set the `bind_multiple` ",
+          "argument to `TRUE` to combine them together, or use the ",
+          "`shape_layer` argument to specify a single layer.",
+          indent = 2, exdent = 2
+        ),
+        custom_format_text(
+          paste(shape_zips, collapse = ", "), indent = 4, exdent = 4
+        ),
+        sep = "\n"
       ))
     }
 
@@ -69,10 +76,17 @@ read_ipums_sf <- function(shape_file, shape_layer = NULL, bind_multiple = TRUE, 
       shape_shps <- find_files_in_zip(shape_file, "shp", shape_layer, multiple_ok = TRUE)
 
       if (!bind_multiple && length(shape_shps) > 1) {
-        stop(paste0(
-          "Multiple shape files found, please set the `bind_multiple` argument to `TRUE`",
-          " to combine them together, or use the `shape_layer` argument to specify a",
-          " single layer.\n", paste(shape_shps, collapse = ", ")
+        stop(paste(
+          custom_format_text(
+            "Multiple shape files found, please set the `bind_multiple` ",
+            "argument to `TRUE` to combine them together, or use the ",
+            "`shape_layer` argument to specify a single layer.",
+            indent = 2, exdent = 2
+          ),
+          custom_format_text(
+            paste(shape_shps, collapse = ", "), indent = 4, exdent = 4
+          ),
+          sep = "\n"
         ))
       }
 
@@ -102,9 +116,9 @@ read_ipums_sf <- function(shape_file, shape_layer = NULL, bind_multiple = TRUE, 
       }
 
       if (length(read_shape_files) == 0) {
-        stop(call. = FALSE, paste0(
+        stop(call. = FALSE, custom_format_text(
           "Zip file not formatted as expected. Please check your `shape_layer`",
-          "argument or unzip and try again."
+          "argument or unzip and try again.", indent = 2, exdent = 2
         ))
       }
     }
@@ -185,10 +199,17 @@ read_ipums_sp <- function(shape_file, shape_layer = NULL, bind_multiple = TRUE, 
     shape_zips <- find_files_in_zip(shape_file, "zip", shape_layer, multiple_ok = TRUE)
 
     if (!bind_multiple && length(shape_zips) > 1) {
-      stop(paste0(
-        "Multiple shape files found, please set the `bind_multiple` argument to `TRUE`",
-        " to combine them together, or use the `shape_layer` argument to specify a",
-        " single layer.\n", paste(shape_zips, collapse = ", ")
+      stop(paste(
+        custom_format_text(
+          "Multiple shape files found, please set the `bind_multiple` ",
+          "argument to `TRUE` to combine them together, or use the ",
+          "`shape_layer` argument to specify a single layer.",
+          indent = 2, exdent = 2
+        ),
+        custom_format_text(
+          paste(shape_zips, collapse = ", "), indent = 4, exdent = 4
+        ),
+        sep = "\n"
       ))
     }
 
@@ -209,10 +230,17 @@ read_ipums_sp <- function(shape_file, shape_layer = NULL, bind_multiple = TRUE, 
       shape_shps <- find_files_in_zip(shape_file, "shp", shape_layer, multiple_ok = TRUE)
 
       if (!bind_multiple && length(shape_shps) > 1) {
-        stop(paste0(
-          "Multiple shape files found, please set the `bind_multiple` argument to `TRUE`",
-          " to combine them together, or use the `shape_layer` argument to specify a",
-          " single layer.\n", paste(shape_shps, collapse = ", ")
+        stop(paste(
+          custom_format_text(
+            "Multiple shape files found, please set the `bind_multiple` ",
+            "argument to `TRUE` to combine them together, or use the ",
+            "`shape_layer` argument to specify a single layer.",
+            indent = 2, exdent = 2
+          ),
+          custom_format_text(
+            paste(shape_shps, collapse = ", "), indent = 4, exdent = 4
+          ),
+          sep = "\n"
         ))
       }
 

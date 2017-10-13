@@ -185,7 +185,10 @@ lbl_relabel <- function(x, ...) {
     dup_labels <- names(dup_labels)[dup_labels > 1]
     if (length(dup_labels) > 0) {
       dup_labels <- paste(dup_labels, collapse = ", ")
-      stop(paste0("Some values have more than 1 label: ", dup_labels))
+      stop(paste0(
+        "Some values have more than 1 label:\n",
+        custom_format_text(dup_labels, indent = 2, exdent = 2)
+      ))
     }
 
     new_labels <- dplyr::arrange(new_labels, .data$value)
@@ -244,7 +247,10 @@ lbl_add <- function(x, ...) {
     dup_labels <- names(dup_labels)[dup_labels > 1]
     if (length(dup_labels) > 0) {
       dup_labels <- paste(dup_labels, collapse = ", ")
-      stop(paste0("Some values have more than 1 label: ", dup_labels))
+      stop(paste0(
+        "Some values have more than 1 label:\n",
+        custom_format_text(dup_labels, indent = 2, exdent = 2)
+      ))
     }
 
     new_labels <- dplyr::arrange(new_labels, .data$value)
@@ -387,12 +393,16 @@ fill_in_lbl <- function(lblval, orig_labels) {
   }
   if (is.null(lblval$.lbl)) {
     found_val <- unname(orig_labels) == lblval$.val
-    if (!any(found_val)) stop(paste0("Could not find value ", lblval$.val,  " in existing labels."))
+    if (!any(found_val)) {
+      stop(paste0("Could not find value ", lblval$.val,  " in existing labels."))
+    }
     lblval$.lbl <- names(orig_labels)[found_val]
   }
   if (is.null(lblval$.val)) {
     found_lbl <- names(orig_labels) == lblval$.lbl
-    if (!any(found_lbl)) stop(paste0("Could not find label ", lblval$.lbl,  " in existing labels."))
+    if (!any(found_lbl)) {
+      stop(paste0("Could not find label ", lblval$.lbl,  " in existing labels."))
+    }
     lblval$.val <- unname(orig_labels)[found_lbl]
   }
   lblval

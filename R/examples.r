@@ -21,9 +21,13 @@ ripums_example <- function(path = NULL) {
     file <- system.file("extdata", path, package = "ripums")
     if (!file.exists(file)) {
       all_files <- paste(dir(system.file("extdata", package = "ripums")), collapse = ", ")
-      stop(paste0(
-        "Could not find file '", path, "' in examples. Available files are:\n",
-        all_files
+      stop(paste(
+        custom_format_text(
+          "Could not find file '", path, "' in examples. Available files are:",
+          indent = 2, exdent = 2
+        ),
+        custom_format_text(all_files, indent = 4, exdent = 4),
+        sep = "\n"
       ))
     }
   }

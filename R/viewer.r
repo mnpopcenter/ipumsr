@@ -27,9 +27,10 @@ ipums_view <- function(x, out_file = NULL, launch = TRUE) {
     !requireNamespace("shiny", quietly = TRUE) ||
     !requireNamespace("DT", quietly = TRUE)
   ) {
-    stop(paste0(
+    stop(custom_format_text(
       "Please install htmltools, shiny, and DT using ",
-      "`install.packages(c('htmltools', 'shiny', 'DT')"
+      "`install.packages(c('htmltools', 'shiny', 'DT')",
+      indent = 2, exdent = 2
     ))
   }
   if (is.null(out_file)) out_file <- paste0(tempfile(), ".html")

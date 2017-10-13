@@ -102,7 +102,7 @@ read_ipums_micro <- function(
       data_file <- file_csv_gz
     }
   }
-  if (verbose) cat(ipums_conditions(ddi))
+  if (verbose) custom_cat(ipums_conditions(ddi))
 
   vars <- enquo(vars)
   if (!is.null(var_attrs)) var_attrs <- match.arg(var_attrs, several.ok = TRUE)
@@ -145,7 +145,7 @@ read_ipums_micro_list <- function(
       data_file <- file_csv_gz
     }
   }
-  if (verbose) cat(ipums_conditions(ddi))
+  if (verbose) custom_cat(ipums_conditions(ddi))
 
   vars <- enquo(vars)
   if (!is.null(var_attrs)) var_attrs <- match.arg(var_attrs, several.ok = TRUE)
