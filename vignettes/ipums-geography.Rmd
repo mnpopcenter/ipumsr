@@ -332,10 +332,11 @@ and Rhode Island.
 
 ### 2) Load data and shape files into R
 For most uses you will be able to load the data and shape files at the same
-time using the `read_nhgis_sf()` (or `read_nhgis_sp()`) function. Additionally,
-when the geographic data is only divided because of size reasons (like 
+time using the `read_nhgis_sf()` (or `read_nhgis_sp()`) function. Even when 
+the geographic data is divided by the extract engine because of size reasons (like 
 how each census block file is for a single state), these functions will
-combine the shape files for us. **Derek comment: are there situations where these functions won't combine shape files? The current phrasing suggests that if the data are split across files for a reason other than size, the functions might not automatically combine them.**
+combine the shape files for us. However, if your analysis combines across years or
+geographic levels, you will need to load the data separately and then combine.
 
 So in our example, we run the following to load the data:
 ```{r}
