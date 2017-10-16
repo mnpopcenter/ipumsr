@@ -51,20 +51,29 @@ and allows for aggregating microdata and raster data into the boundaries.
 (Note: The ripums package does not yet support IPUMS Terra data. We hope to add
 support for IPUMS Terra soon.)
 
-This vignette offers an introduction to the types of geographies available through IPUMS, then uses example data to walk through two typical workflows for using boundary data with (1) IPUMS DHS, IPUMS International or IPUMS USA, and (2) IPUMS NHGIS. The vignette focuses on the specifics of working with IPUMS geographic data, and is by no means an overview of working with geographic data in R. In the examples, I show how to make static graphs using ggplot2, but there are many other R packages to help you
-do all sorts of things with geographic data, including making interactive maps and performing geospatial analysis. [At the end of
-this vignette](#resources), there are some resources for learning more.
+This vignette offers an introduction to the types of geographies available
+through IPUMS, then uses example data to walk through two typical workflows for
+using boundary data with (1) IPUMS DHS, IPUMS International or IPUMS USA, and
+(2) IPUMS NHGIS. The vignette focuses on the specifics of working with IPUMS
+geographic data, and is by no means an overview of working with geographic data
+in R. In the examples, I show how to make static graphs using ggplot2, but there
+are many other R packages to help you do all sorts of things with geographic
+data, including making interactive maps and performing geospatial analysis. [At
+the end of this vignette](#resources), there are some resources for learning
+more.
 
 ## Introduction to IPUMS Geographies
 IPUMS geographic data can be classified along two dimensions. 
 
 ### Harmonized vs. Non-Harmonized
-Changing boundaries complicate longitudinal analyses of geographic units. For many geographies
-IPUMS provides boundary files that have been made consistent by combining
-geographies that share area for different time periods (see the project specific
-geography webpages for more details).
-IPUMS geography pages refer to these as "harmonized", "integrated" or "consistent". 
-Boundaries that have not been made consistent over time are often referred to as "year-specific," or may simply be labelled with the year to which they pertain (eg "2010 PUMAs" for IPUMS USA).
+Changing boundaries complicate longitudinal analyses of geographic units. For
+many geographies IPUMS provides boundary files that have been made consistent by
+combining geographies that share area for different time periods (see the
+project specific geography webpages for more details). IPUMS geography pages
+refer to these as "harmonized", "integrated" or "consistent". Boundaries that
+have not been made consistent over time are often referred to as
+"year-specific," or may simply be labelled with the year to which they pertain
+(eg "2010 PUMAs" for IPUMS USA).
 
 ### Level
 The specificity of the geography (eg states and
@@ -85,12 +94,14 @@ is for making plots. See the [resources at the end of this vignette](#resources)
 some instructions on plotting with the sp package.
 
 ## Workflow for IPUMS DHS, IPUMS International, and IPUMS USA
-Every analysis will be slightly different, but in general the workflow for integrating geographic data and microdata from IPUMS DHS, IPUMS International or IPUMS USA can be divided into eight steps:
+Every analysis will be slightly different, but in general the workflow for
+integrating geographic data and microdata from IPUMS DHS, IPUMS International or
+IPUMS USA can be divided into eight steps:
 
 1. Determine what geographic data you want to use (and is available)
 2. Download microdata and shape files
 3. Load microdata and shape files into R
-4. Manipulate microdata as needed
+4. Transform microdata as needed
 5. Summarize microdata by geographic level
 6. Combine multiple shape files (if necessary)
 7. Merge microdata and boundary data
@@ -165,7 +176,7 @@ ecuador_shape <- read_ipums_sf(ex_file("geo1_ec2010.zip"), verbose = FALSE)
 peru_shape <- read_ipums_sf(ex_file("geo1_pe2007.zip"), verbose = FALSE)
 ```
 
-### 4) Manipulate microdata as needed
+### 4) Transform microdata as needed
 Though IPUMS microdata has been cleaned and formatted to be easy to use
 (as discussed in the value-labels vignette), generally there is at least
 some data processing we need to do. 
@@ -205,15 +216,16 @@ ipumsi_data <- ipumsi_data %>%
 
 
 ### 5) Summarize microdata by geographic level
-Microdata has one observation per person. To make a map
-we have to summarize across persons by geographic
-unit. Since we have data at three time points for Colombia, we will summarize by geographic unit and year.
+Microdata has one observation per person. To make a map we usually want to
+summarize the data by geographic unit. In this case, because we have data at 
+three time points for Colombia, we summarize by geographic unit and year.
 
-Because in this example we are using both harmonized and year-specific geographic units, the
-data currently has multiple variables representing the geographic ID.
-Now is a good chance to combine them into one.
+This example is further complicated because we are using both harmonized and
+year-specific geographic units, so the data currently has multiple variables
+representing the geographic ID. Now is a good chance to combine them into one.
 
-Here we calculate the percent of all children who live in a household
+Here we create a single variable that combines the geographic ID from the 3 countries
+and then calculate the percent of all children who live in a household
 that uses solid fuel for cooking.
 ```{r}
 ipumsi_summary <- ipumsi_data %>% 
@@ -275,7 +287,10 @@ file. Because we chose an inner join, all observations that were not in both the
 microdata and the shape data are dropped from the results. Join failures like this
 can happen for a variety of reasons. It can mean that something is wrong with
 your data, perhaps you merged the wrong shape file, or didn't load an entire
-file. However, this can also happen when there is a geographic unit in the shape files for which there are no microdata observations, or there is a geographic unit in the microdata for which no shape file is available, perhaps because it is too small.
+file. However, this can also happen when there is a geographic unit in the shape
+files for which there are no microdata observations, or there is a geographic
+unit in the microdata for which no shape file is available, perhaps because it
+is too small.
 
 We can investigate this join failure using the `join_failures` command.
 ```{r}
@@ -388,6 +403,9 @@ if ("geom_sf" %in% getNamespaceExports("ggplot2")) {
 There are so many great resources on working with geographic data in R, 
 it's hard to pick just a few. Here are a few places to start:
 
+- The [CRAN Task View for Spatial
+Analysis](https://cran.r-project.org/web/views/Spatial.html)
+describes many of the packages available for spatial analysis in R.
 - For general information about the sf and sp packages, I recommend reading the 
 vignettes for those packages(`vignette(package = "sf")` and 
 `vignette(packge = "sp")`). 
@@ -399,5 +417,3 @@ that focuses on visualizing data from the sp package.
 - The [R consortium proposal for the sf 
 package](https://github.com/r-spatial/sf/blob/master/PROPOSAL.md) 
 provides of the history behind the sf package.
-- The [CRAN Task View for Spatial Analysis](https://cran.r-project.org/web/views/Spatial.html) describes many of the packages available for spatial analysis in R.
-
