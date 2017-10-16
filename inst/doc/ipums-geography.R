@@ -48,10 +48,13 @@ ipumsi_ddi_file <- ex_file("ipumsi_00011.xml")
 ipumsi_ddi <- read_ipums_ddi(ipumsi_ddi_file)
 ipumsi_data <- read_ipums_micro(ipumsi_ddi_file, verbose = FALSE)
 
-# Load shape files
+# Note this data contains data from Ecuador and Peru for use later on
+# in the vignette. For now we will just filter it out of our data
+ipumsi_data <- ipumsi_data %>%
+  filter(COUNTRY == 170) # Labelled value 170 is Colombia
+
+# Load shape file
 colombia_shape <- read_ipums_sf(ex_file("geo1_co1964_2005.zip"), verbose = FALSE)
-ecuador_shape <- read_ipums_sf(ex_file("geo1_ec2010.zip"), verbose = FALSE)
-peru_shape <- read_ipums_sf(ex_file("geo1_pe2007.zip"), verbose = FALSE)
 
 ## ------------------------------------------------------------------------
 # Convert labelled values to factors where useful (and zap elsewhere)
@@ -79,39 +82,17 @@ ipumsi_data <- ipumsi_data %>%
 
 ## ------------------------------------------------------------------------
 ipumsi_summary <- ipumsi_data %>% 
-  mutate(GEOLEV1 = case_when(
-    COUNTRY == "Colombia" ~ GEOLEV1,
-    COUNTRY == "Ecuador" ~ GEO1_EC2010,
-    COUNTRY == "Peru" ~ GEO1_PE2007
-  )) %>%
   group_by(YEAR, COUNTRY, GEOLEV1) %>%
   summarize(pct_solid = mean(SOLIDFUEL == "Solid Fuel", na.rm = TRUE))
 
 ## ------------------------------------------------------------------------
-# Currently each shape file has different variable names
+names(ipumsi_summary)
 names(colombia_shape)
-names(ecuador_shape)
-names(peru_shape)
 
-# Keep CNTRY_NAME (because the year-specific geographies are not unique across
-# countries, so we need to merge using it), ADMIN_NAME (to get the name of 
-# geography), and rename GEOLEVEL1, IPUM2010 and IPUM2007 to the same variable
-# name (and geography, which contains the shape)
-colombia_shape <- colombia_shape %>%
-  select(CNTRY_NAME, ADMIN_NAME, GEOJOIN = GEOLEVEL1)
-ecuador_shape <- ecuador_shape %>%
-  select(CNTRY_NAME, ADMIN_NAME, GEOJOIN = IPUM2010)
-peru_shape <- peru_shape %>%
-  select(CNTRY_NAME, ADMIN_NAME, GEOJOIN = IPUM2007)
-
-# Now we can rbind them together
-all_shapes <- rbind(colombia_shape, ecuador_shape, peru_shape)
-
-## ------------------------------------------------------------------------
 ipumsi <- ipums_shape_inner_join(
   ipumsi_summary, 
-  all_shapes,
-  by = c("COUNTRY" = "CNTRY_NAME", "GEOLEV1" = "GEOJOIN")
+  colombia_shape,
+  by = c("GEOLEV1" = "GEOLEVEL1")
 )
 
 ## ------------------------------------------------------------------------
@@ -120,17 +101,14 @@ join_failures(ipumsi)
 ## ---- fig.height = 4, fig.width = 7--------------------------------------
 # Note the function `geom_sf()` is a very new function, so you may need to update
 # ggplot2 to run.
-ipumsi <- ipumsi %>%
-  mutate(census_round = cut(YEAR, c(1984, 1992, 2004, 2014), c("1985", "1993", "2005-2010")))
-
 if ("geom_sf" %in% getNamespaceExports("ggplot2")) {
   ggplot(data = ipumsi, aes(fill = pct_solid)) +
     geom_sf() + 
-    facet_wrap(~census_round) + 
+    facet_wrap(~YEAR) + 
     scale_fill_continuous("", labels = scales::percent) + 
     labs(
       title = "Percent of Children 0-5 Who Live in a Home That Cooks Using Solid Fuel",
-      subtitle = "Colombia (1985, 1993, 2005), Ecuador (2010) and Peru (2007) Census Data",
+      subtitle = "Colombia (1985, 1993, 2005) Census Data",
       caption = paste0("Source: ", ipums_file_info(ipumsi_ddi, "ipums_project"))
     )
 }
@@ -143,7 +121,7 @@ nhgis <- read_nhgis_sf(
   verbose = FALSE
 )
 
-## ---- fig.height = 4, fig.width = 7--------------------------------------
+## ---- fig.height = 4, fig.width = 7------------------------------------------------------------
 # The median age is 0 for unpopulated counties, set them to NA
 nhgis <- nhgis %>%
   mutate(H77001 = ifelse(H77001 == 0, NA, H77001))
@@ -165,6 +143,99 @@ if ("geom_sf" %in% getNamespaceExports("ggplot2")) {
         "Source: ", ipums_file_info(nhgis_ddi, "ipums_project"), "\n",
         "Simplified Census Block boundaries (1% of points retained)"
       )
+    )
+}
+
+## ----------------------------------------------------------------------------------------------
+# Load data
+ipumsi_ddi_file <- ex_file("ipumsi_00011.xml")
+ipumsi_ddi <- read_ipums_ddi(ipumsi_ddi_file)
+ipumsi_data <- read_ipums_micro(ipumsi_ddi_file, verbose = FALSE)
+
+# Load shape files
+colombia_shape <- read_ipums_sf(ex_file("geo1_co1964_2005.zip"), verbose = FALSE)
+ecuador_shape <- read_ipums_sf(ex_file("geo1_ec2010.zip"), verbose = FALSE)
+peru_shape <- read_ipums_sf(ex_file("geo1_pe2007.zip"), verbose = FALSE)
+
+# Convert labelled values to factors where useful (and zap elsewhere)
+# See the value-labels vignette for more on this process.
+fuel_labels <- ipums_val_labels(ipumsi_data$FUELCOOK)
+fuel_missing_lbls <- c(
+  "NIU (not in universe)", "Multiple fuels", "Other combinations", "Other", "Unknown/missing"
+)
+fuel_solid_vals <- c(50:56, 61, 73, 74, 75)
+
+ipumsi_data <- ipumsi_data %>%
+  mutate_at(vars(COUNTRY, SAMPLE, AGE2), ~as_factor(lbl_clean(.))) %>%
+  # We will get labels from shape file for geographic variables
+  mutate_at(vars(starts_with("GEO")), zap_labels) %>% 
+  mutate(
+    SOLIDFUEL = FUELCOOK %>% 
+      lbl_na_if(~.lbl %in% fuel_missing_lbls) %>%
+      lbl_relabel(
+        lbl(0, "Non-solid Fuel") ~ !.val %in% fuel_solid_vals,
+        lbl(1, "Solid Fuel") ~ .val %in% fuel_solid_vals
+      ) %>%
+      as_factor(),
+    FUELCOOK = as_factor(FUELCOOK)
+  )
+
+## ----------------------------------------------------------------------------------------------
+ipumsi_data <- ipumsi_data %>%
+  mutate(GEOLEV1 = case_when(
+    COUNTRY == "Colombia" ~ GEOLEV1,
+    COUNTRY == "Ecuador" ~ GEO1_EC2010,
+    COUNTRY == "Peru" ~ GEO1_PE2007
+  ))
+
+## ----------------------------------------------------------------------------------------------
+ipumsi_summary <- ipumsi_data %>% 
+  group_by(YEAR, COUNTRY, GEOLEV1) %>%
+  summarize(pct_solid = mean(SOLIDFUEL == "Solid Fuel", na.rm = TRUE))
+
+## ----------------------------------------------------------------------------------------------
+# Currently each shape file has different variable names
+names(colombia_shape)
+names(ecuador_shape)
+names(peru_shape)
+
+# Keep CNTRY_NAME (because the year-specific geography codes are not unique across
+# countries, so we need to merge using it), ADMIN_NAME (to get the name of 
+# geography), rename GEOLEVEL1, IPUM2010 and IPUM2007 to the same variable
+# name, and keep geography, which contains the shape)
+colombia_shape <- colombia_shape %>%
+  select(CNTRY_NAME, ADMIN_NAME, GEOJOIN = GEOLEVEL1)
+ecuador_shape <- ecuador_shape %>%
+  select(CNTRY_NAME, ADMIN_NAME, GEOJOIN = IPUM2010)
+peru_shape <- peru_shape %>%
+  select(CNTRY_NAME, ADMIN_NAME, GEOJOIN = IPUM2007)
+
+# Now we can rbind them together
+all_shapes <- rbind(colombia_shape, ecuador_shape, peru_shape)
+
+## ----------------------------------------------------------------------------------------------
+ipumsi <- ipums_shape_inner_join(
+  ipumsi_summary, 
+  colombia_shape,
+  by = c("COUNTRY" = "CNTRY_NAME", "GEOLEV1" = "GEOJOIN")
+)
+
+## ---- fig.height = 4, fig.width = 7------------------------------------------------------------
+# Convert the year to a round variable to display in facets
+ipumsi <- ipumsi %>%
+  mutate(census_round = cut(YEAR, c(1984, 1992, 2004, 2014), c("1985", "1993", "2005-2010")))
+
+# Note the function `geom_sf()` is a very new function, so you may need to update
+# ggplot2 to run.
+if ("geom_sf" %in% getNamespaceExports("ggplot2")) {
+  ggplot(data = ipumsi, aes(fill = pct_solid)) +
+    geom_sf() + 
+    facet_wrap(~census_round) + 
+    scale_fill_continuous("", labels = scales::percent) + 
+    labs(
+      title = "Percent of Children 0-5 Who Live in a Home That Cooks Using Solid Fuel",
+      subtitle = "Colombia (1985, 1993, 2005) Census Data",
+      caption = paste0("Source: ", ipums_file_info(ipumsi_ddi, "ipums_project"))
     )
 }
 
