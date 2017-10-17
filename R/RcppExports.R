@@ -9,3 +9,7 @@ raw_to_df_hier_long <- function(raw_, num_vars, rt_info_, var_info_, encoding_) 
     .Call('_ripums_raw_to_df_hier_long', PACKAGE = 'ripums', raw_, num_vars, rt_info_, var_info_, encoding_)
 }
 
+set_ipums_var_attributes_ <- function(x, var_info) {
+    .Call('_ripums_set_ipums_var_attributes_', PACKAGE = 'ripums', x, var_info)
+}
+

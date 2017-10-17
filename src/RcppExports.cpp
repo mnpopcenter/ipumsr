@@ -34,10 +34,23 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// set_ipums_var_attributes_
+DataFrame set_ipums_var_attributes_(DataFrame x, DataFrame var_info);
+RcppExport SEXP _ripums_set_ipums_var_attributes_(SEXP xSEXP, SEXP var_infoSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< DataFrame >::type x(xSEXP);
+    Rcpp::traits::input_parameter< DataFrame >::type var_info(var_infoSEXP);
+    rcpp_result_gen = Rcpp::wrap(set_ipums_var_attributes_(x, var_info));
+    return rcpp_result_gen;
+END_RCPP
+}
 
 static const R_CallMethodDef CallEntries[] = {
     {"_ripums_raw_to_df_hier_list", (DL_FUNC) &_ripums_raw_to_df_hier_list, 4},
     {"_ripums_raw_to_df_hier_long", (DL_FUNC) &_ripums_raw_to_df_hier_long, 5},
+    {"_ripums_set_ipums_var_attributes_", (DL_FUNC) &_ripums_set_ipums_var_attributes_, 2},
     {NULL, NULL, 0}
 };
 

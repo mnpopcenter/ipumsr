@@ -101,27 +101,50 @@ set_ipums_var_attributes <- function(
   if (is.null(var_info) || is.null(var_attrs)) return(data)
 
   var_attrs <- match.arg(var_attrs, several.ok = TRUE)
-  add_val_labels <- "val_labels" %in% var_attrs
-  add_var_labels <- "var_label" %in% var_attrs
-  add_var_desc <- "var_desc" %in% var_attrs
 
-  purrr::pwalk(var_info, function(var_name, ...) {
-    x <- list(...)
-    # Don't fail if we have a variable that doesn't match for some reason
-    if (var_name %in% names(data)) {
-      if (add_val_labels && !is.null(x$val_labels) && nrow(x$val_labels) > 0) {
-        lbls <- purrr::set_names(x$val_labels$val, x$val_labels$lbl)
-        data[[var_name]] <<- haven::labelled(data[[var_name]], lbls)
-      }
-      if (add_var_labels && !is.null(x$var_label)) {
-        data[[var_name]] <<- rlang::set_attrs(data[[var_name]], label = x$var_label)
-      }
-      if (add_var_desc && !is.null(x$var_desc)) {
-        data[[var_name]] <<- rlang::set_attrs(data[[var_name]], var_desc = x$var_desc)
-      }
-    }
+  if (!"val_labels" %in% var_attrs || is.null(var_info$val_labels)) {
+    var_info$val_labels <- vector(mode = "list", length = nrow(var_info))
+  }
+  if (!"var_label" %in% var_attrs || is.null(var_info$var_label)) {
+    var_info$var_label <- NA_character_
+  }
+  if (!"var_desc" %in% var_attrs || is.null(var_info$var_desc)) {
+    var_info$var_desc <- NA_character_
+  }
+
+  # Don't fail if we have a variable that doesn't match for some reason
+  var_info <- dplyr::filter(var_info, .data$var_name %in% names(data))
+
+  # Give error message if type doesn't match between value labels and variable
+  # as haven::labelled would
+  class_data <- dplyr::data_frame(
+    var_name = names(data),
+    data = purrr::map(data, class)
+  )
+  class_labels <- dplyr::data_frame(
+    var_name = var_info$var_name,
+    label = purrr::map(var_info$val_labels, function(.) {
+      if (nrow(.) == 0) NULL else class(.$val)
+    })
+  )
+  class_labels <- dplyr::filter(class_labels, !purrr::map_lgl(.data$label, is.null))
+  class_join <- dplyr::inner_join(class_data, class_labels, by = "var_name")
+  class_join$match <- purrr::map2_lgl(class_join$data, class_join$label, ~.x == .y)
+  class_join <- dplyr::filter(class_join, !.data$match)
+  if (nrow(class_join) > 0) {
+    stop(paste0(
+      custom_format_text("Data and labels are not of the same type for variables: "),
+      "\n",
+      custom_format_text(paste(class_join$var_name, collapse = ", "), indent = 4, exdent = 4)
+    ))
+  }
+
+  # Convert data frame of value labels to named vector as the labelled class expects
+  var_info$val_labels <- purrr::map(var_info$val_labels, function(x) {
+    if (length(x) == 0 || nrow(x) == 0) NULL else purrr::set_names(x$val, x$lbl)
   })
-  data
+
+  set_ipums_var_attributes_(data, var_info)
 }
 
 set_imp_decim <- function(data, var_info) {
