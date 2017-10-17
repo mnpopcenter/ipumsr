@@ -46,11 +46,24 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// set_imp_decim_
+DataFrame set_imp_decim_(DataFrame x, DataFrame var_info);
+RcppExport SEXP _ripums_set_imp_decim_(SEXP xSEXP, SEXP var_infoSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< DataFrame >::type x(xSEXP);
+    Rcpp::traits::input_parameter< DataFrame >::type var_info(var_infoSEXP);
+    rcpp_result_gen = Rcpp::wrap(set_imp_decim_(x, var_info));
+    return rcpp_result_gen;
+END_RCPP
+}
 
 static const R_CallMethodDef CallEntries[] = {
     {"_ripums_raw_to_df_hier_list", (DL_FUNC) &_ripums_raw_to_df_hier_list, 4},
     {"_ripums_raw_to_df_hier_long", (DL_FUNC) &_ripums_raw_to_df_hier_long, 5},
     {"_ripums_set_ipums_var_attributes_", (DL_FUNC) &_ripums_set_ipums_var_attributes_, 2},
+    {"_ripums_set_imp_decim_", (DL_FUNC) &_ripums_set_imp_decim_, 2},
     {NULL, NULL, 0}
 };
 

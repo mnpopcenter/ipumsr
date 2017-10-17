@@ -13,3 +13,7 @@ set_ipums_var_attributes_ <- function(x, var_info) {
     .Call('_ripums_set_ipums_var_attributes_', PACKAGE = 'ripums', x, var_info)
 }
 
+set_imp_decim_ <- function(x, var_info) {
+    .Call('_ripums_set_imp_decim_', PACKAGE = 'ripums', x, var_info)
+}
+
