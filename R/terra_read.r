@@ -343,7 +343,12 @@ read_terra_micro <- function(
     var_type_info <- var_type_info[, c("var_name", "var_type")]
     var_type_info <- dplyr::distinct(var_type_info)
     var_type_spec <- purrr::map(var_type_info$var_type, function(x) {
-      switch(x, "numeric" = readr::col_number(), "character" = readr::col_character())
+      switch(
+        x,
+        "numeric" = readr::col_number(),
+        "character" = readr::col_character(),
+        "integer" = readr::col_integer()
+      )
     })
     var_type_spec <- purrr::set_names(var_type_spec, var_type_info$var_name)
     var_types <- readr::cols(.defualt = readr::col_character())
