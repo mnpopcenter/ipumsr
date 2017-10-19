@@ -195,13 +195,11 @@ read_ipums_hier <- function(
 
   if (verbose) cat("Parsing data...\n")
   if (data_structure == "long") {
-    # TODO: Add back in fix for RT conversion?
     out <- read_raw_to_df_long(raw, rec_vinfo, all_vars, ddi$file_encoding)
 
     out <- set_ipums_var_attributes(out, all_vars, var_attrs)
     out <- set_imp_decim(out, all_vars)
   } else if (data_structure == "list") {
-    # TODO: Add back in fix for RT conversion?
     out <- read_raw_to_df_list(raw, rec_vinfo, all_vars, ddi$file_encoding)
     for (rt in names(out)) {
       rt_vinfo <- all_vars[purrr::map_lgl(all_vars$rectypes, ~rt %in% .), ]
@@ -234,6 +232,7 @@ read_ipums_rect <- function(ddi, vars, n_max, data_file, verbose, var_attrs) {
   col_types <- purrr::map(all_vars$var_type, function(x) {
     if (x == "numeric") out <- readr::col_double()
     else if(x == "character") out <- readr::col_character()
+    else if (x == "integer") out <- readr::col_integer()
     out
   })
   names(col_types) <- all_vars$var_name
