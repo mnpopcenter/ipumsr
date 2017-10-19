@@ -117,20 +117,27 @@ set_ipums_var_attributes <- function(
 
   # Give error message if type doesn't match between value labels and variable
   # as haven::labelled would
+
   class_data <- dplyr::data_frame(
     var_name = names(data),
-    data = purrr::map(data, class)
+    d_type = purrr::map(data, typeof),
+    d_is_num = purrr::map_lgl(data, is.numeric)
   )
   class_labels <- dplyr::data_frame(
     var_name = var_info$var_name,
-    label = purrr::map(var_info$val_labels, function(.) {
-      if (nrow(.) == 0) NULL else class(.$val)
-    })
+    l_type = purrr::map(var_info$val_labels, typeof),
+    l_is_num = purrr::map_lgl(
+      var_info$val_labels,
+      ~ifelse(nrow(.) == 0, NA, is.numeric(.$val))
+    )
   )
-  class_labels <- dplyr::filter(class_labels, !purrr::map_lgl(.data$label, is.null))
+  class_labels <- dplyr::filter(class_labels, !is.na(l_is_num))
   class_join <- dplyr::inner_join(class_data, class_labels, by = "var_name")
-  class_join$match <- purrr::map2_lgl(class_join$data, class_join$label, ~.x == .y)
-  class_join <- dplyr::filter(class_join, !.data$match)
+  class_join <- dplyr::mutate(
+    class_join,
+    coercible =  purrr::map2_lgl(d_type, l_type, ~.x == .y) | (d_is_num & l_is_num)
+  )
+  class_join <- dplyr::filter(class_join, !.data$coercible)
   if (nrow(class_join) > 0) {
     stop(paste0(
       custom_format_text("Data and labels are not of the same type for variables: "),
@@ -156,7 +163,7 @@ set_imp_decim <- function(data, var_info) {
   if (is.null(var_info$imp_decim)) var_info$imp_decim <- 0
   var_info$imp_decim[is.na(var_info$imp_decim)] <- 0
 
-  non_numeric_vars <- purrr::map_lgl(data, ~class(.) != "numeric")
+  non_numeric_vars <- purrr::map_lgl(data, ~!is.numeric(.))
   non_numeric_vars <- names(data)[non_numeric_vars]
   var_info$imp_decim[var_info$var_name %in% non_numeric_vars] <- 0
 
