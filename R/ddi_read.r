@@ -153,7 +153,19 @@ get_var_info_from_ddi <- function(ddi_xml, file_type, rt_idvar, rectype_labels) 
   var_name <- xml2::xml_attr(var_info_xml, "name")
   start <- as.numeric(xml_text_from_path_first(var_info_xml, "d1:location/@StartPos"))
   end <- as.numeric(xml_text_from_path_first(var_info_xml, "d1:location/@EndPos"))
+  var_label <- xml_text_from_path_first(var_info_xml, "d1:labl")
+  var_desc <- xml_text_from_path_first(var_info_xml, "d1:txt")
+  imp_decim <- as.numeric(xml2::xml_attr(var_info_xml, "dcml"))
+
   var_type <- xml_text_from_path_first(var_info_xml, "d1:varFormat/@type")
+  var_intrvl <- xml2::xml_attr(var_info_xml, "intrvl")
+  var_type <- dplyr::case_when(
+    var_type == "numeric" & var_intrvl == "discrete" ~ "integer",
+    var_type == "numeric" & var_intrvl != "discrete" ~ "numeric",
+    var_type == "character" ~ "character",
+    TRUE ~ "character" # Default to character if it's unexpected
+  )
+
   code_instr <- xml_text_from_path_first(var_info_xml, "d1:codInstr")
 
   if  (file_type == "hierarchical") {
@@ -170,7 +182,7 @@ get_var_info_from_ddi <- function(ddi_xml, file_type, rt_idvar, rectype_labels) 
   if (file_type == "hierarchical") {
     # If var is numeric, need to convert
     rt_type <- var_type[var_name == rt_idvar]
-    if (length(rt_type) == 1 && rt_type == "numeric") {
+    if (length(rt_type) == 1 && rt_type %in% c("numeric", "integer")) {
       rectype_labels$val <- suppressWarnings(as.numeric(rectype_labels$val))
     }
     rectype_labels <- dplyr::filter(rectype_labels, !is.na(.data$val))
@@ -192,11 +204,11 @@ get_var_info_from_ddi <- function(ddi_xml, file_type, rt_idvar, rectype_labels) 
         lbl = xml_text_from_path_all(lbls, "d1:labl")
       )
 
-      if (vtype == "numeric") lbls$val <- as.numeric(lbls$val)
+      if (vtype %in% c("numeric", "integer")) lbls$val <- as.numeric(lbls$val)
 
       # Drop labels that are the same as the value
       # But leading 0's can be ignored if numeric
-      if (vtype == "numeric") {
+      if (vtype %in% c("numeric", "integer")) {
         lnum <- suppressWarnings(as.numeric(lbls$lbl))
         lbls <- dplyr::filter(lbls, (is.na(lnum) | .data$val != lnum))
       } else {
@@ -209,13 +221,13 @@ get_var_info_from_ddi <- function(ddi_xml, file_type, rt_idvar, rectype_labels) 
 
   make_var_info_from_scratch(
     var_name = var_name,
-    var_label =  xml2::xml_text(xml2::xml_find_first(var_info_xml, "d1:labl")),
-    var_desc = xml2::xml_text(xml2::xml_find_first(var_info_xml, "d1:txt")),
+    var_label =  var_label,
+    var_desc = var_desc,
     val_labels = val_labels,
     code_instr = code_instr,
     start = start,
     end = end,
-    imp_decim = as.numeric(xml2::xml_attr(var_info_xml, "dcml")),
+    imp_decim = imp_decim,
     var_type = var_type,
     rectypes = rectype_by_var
   )
@@ -475,7 +487,7 @@ parse_labels_from_code_instr <- function(code, var_type) {
 }
 
 parse_code_regex <- function(x, vtype) {
-  if (vtype == "numeric") {
+  if (vtype %in% c("numeric", "integer")) {
     labels <- stringr::str_match(
       x,
       "^(-?[0-9.,]+)(([:blank:][:punct:]|[:punct:][:blank:]|[:blank:]|=)+)(.+?)$"
