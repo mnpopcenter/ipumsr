@@ -12,7 +12,7 @@
 
 <meta name="author" content="Minnesota Population Center" />
 
-<meta name="date" content="2017-10-16" />
+<meta name="date" content="2017-10-19" />
 
 <title>Geographic Data in ripums</title>
 
@@ -70,7 +70,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 <h1 class="title toc-ignore">Geographic Data in <code>ripums</code></h1>
 <h4 class="author"><em>Minnesota Population Center</em></h4>
-<h4 class="date"><em>2017-10-16</em></h4>
+<h4 class="date"><em>2017-10-19</em></h4>
 
 
 
@@ -313,7 +313,7 @@ ipumsi_data &lt;-<span class="st"> </span>ipumsi_data <span class="op">%&gt;%</s
 <p>Now that we are combining geographies we need to combine the geographic ID variables in the data (GEOLEV1 for Colombia, GEO1_EC2010 for Ecuador and GEO_PE2007 for Peru) into a single variable.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ipumsi_data &lt;-<span class="st"> </span>ipumsi_data <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw">mutate</span>(<span class="dt">GEOLEV1 =</span> <span class="kw">case_when</span>(
-    COUNTRY <span class="op">==</span><span class="st"> &quot;Colombia&quot;</span> <span class="op">~</span><span class="st"> </span>GEOLEV1,
+    COUNTRY <span class="op">==</span><span class="st"> &quot;Colombia&quot;</span> <span class="op">~</span><span class="st"> </span><span class="kw">as.integer</span>(GEOLEV1),
     COUNTRY <span class="op">==</span><span class="st"> &quot;Ecuador&quot;</span> <span class="op">~</span><span class="st"> </span>GEO1_EC2010,
     COUNTRY <span class="op">==</span><span class="st"> &quot;Peru&quot;</span> <span class="op">~</span><span class="st"> </span>GEO1_PE2007
   ))</code></pre></div>
@@ -324,11 +324,14 @@ ipumsi_data &lt;-<span class="st"> </span>ipumsi_data <span class="op">%&gt;%</s
 <p>Another new step when combining multiple geographies is to bind the shape files together. The command <code>rbind()</code> has been implemented for sf (and sp) spatial objects, but before we do that, we want to give each country’s shape data the same structure. When combining non-harmonized geographies or across different geographic levels, the variable names will not be the same. There is some guidance on the IPUMS website about how the variables are named, but some of it will require looking at your shape files.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Currently each shape file has different variable names</span>
 <span class="kw">names</span>(colombia_shape)
-<span class="co">#&gt; [1] &quot;CNTRY_NAME&quot; &quot;ADMIN_NAME&quot; &quot;CNTRY_CODE&quot; &quot;GEOLEVEL1&quot;  &quot;PARENT&quot;     &quot;geometry&quot;</span>
+<span class="co">#&gt; [1] &quot;CNTRY_NAME&quot; &quot;ADMIN_NAME&quot; &quot;CNTRY_CODE&quot; &quot;GEOLEVEL1&quot;  &quot;PARENT&quot;    </span>
+<span class="co">#&gt; [6] &quot;geometry&quot;</span>
 <span class="kw">names</span>(ecuador_shape)
-<span class="co">#&gt; [1] &quot;CNTRY_NAME&quot; &quot;ADMIN_NAME&quot; &quot;CNTRY_CODE&quot; &quot;IPUM2010&quot;   &quot;PROV2010&quot;   &quot;PARENT&quot;     &quot;geometry&quot;</span>
+<span class="co">#&gt; [1] &quot;CNTRY_NAME&quot; &quot;ADMIN_NAME&quot; &quot;CNTRY_CODE&quot; &quot;IPUM2010&quot;   &quot;PROV2010&quot;  </span>
+<span class="co">#&gt; [6] &quot;PARENT&quot;     &quot;geometry&quot;</span>
 <span class="kw">names</span>(peru_shape)
-<span class="co">#&gt; [1] &quot;CNTRY_NAME&quot; &quot;ADMIN_NAME&quot; &quot;CNTRY_CODE&quot; &quot;IPUM2007&quot;   &quot;DEPT2007&quot;   &quot;PARENT&quot;     &quot;geometry&quot;</span>
+<span class="co">#&gt; [1] &quot;CNTRY_NAME&quot; &quot;ADMIN_NAME&quot; &quot;CNTRY_CODE&quot; &quot;IPUM2007&quot;   &quot;DEPT2007&quot;  </span>
+<span class="co">#&gt; [6] &quot;PARENT&quot;     &quot;geometry&quot;</span>
 
 <span class="co"># Keep CNTRY_NAME (because the year-specific geography codes are not unique across</span>
 <span class="co"># countries, so we need to merge using it), ADMIN_NAME (to get the name of </span>

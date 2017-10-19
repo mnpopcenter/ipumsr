@@ -455,7 +455,7 @@ and GEO_PE2007 for Peru) into a single variable.
 ```{r}
 ipumsi_data <- ipumsi_data %>%
   mutate(GEOLEV1 = case_when(
-    COUNTRY == "Colombia" ~ GEOLEV1,
+    COUNTRY == "Colombia" ~ as.integer(GEOLEV1),
     COUNTRY == "Ecuador" ~ GEO1_EC2010,
     COUNTRY == "Peru" ~ GEO1_PE2007
   ))

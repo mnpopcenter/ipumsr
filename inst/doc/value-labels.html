@@ -12,7 +12,7 @@
 
 <meta name="author" content="Minnesota Population Center" />
 
-<meta name="date" content="2017-10-12" />
+<meta name="date" content="2017-10-19" />
 
 <title>Value Labels</title>
 
@@ -70,7 +70,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 <h1 class="title toc-ignore">Value Labels</h1>
 <h4 class="author"><em>Minnesota Population Center</em></h4>
-<h4 class="date"><em>2017-10-12</em></h4>
+<h4 class="date"><em>2017-10-19</em></h4>
 
 
 
@@ -84,7 +84,7 @@ cps &lt;-<span class="st"> </span><span class="kw">read_ipums_micro</span>(ddi, 
 cps
 <span class="co">#&gt; # A tibble: 10,883 x 13</span>
 <span class="co">#&gt;     YEAR SERIAL HWTSUPP  STATEFIP  ASECFLAG     MONTH PERNUM  WTSUPP</span>
-<span class="co">#&gt;    &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl+lbl&gt; &lt;dbl+lbl&gt; &lt;dbl+lbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;</span>
+<span class="co">#&gt;    &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt; &lt;int+lbl&gt; &lt;int+lbl&gt; &lt;int+lbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;</span>
 <span class="co">#&gt;  1  2016  24138 3249.07        55         1         3      1 3249.07</span>
 <span class="co">#&gt;  2  2016  24139 3154.25        55         1         3      1 3154.25</span>
 <span class="co">#&gt;  3  2016  24139 3154.25        55         1         3      2 3154.25</span>
@@ -95,8 +95,8 @@ cps
 <span class="co">#&gt;  8  2016  24142 1636.77        55         1         3      1 1636.77</span>
 <span class="co">#&gt;  9  2016  24142 1636.77        55         1         3      2 1636.77</span>
 <span class="co">#&gt; 10  2016  24142 1636.77        55         1         3      3 1887.04</span>
-<span class="co">#&gt; # ... with 10,873 more rows, and 5 more variables: AGE &lt;dbl+lbl&gt;,</span>
-<span class="co">#&gt; #   EDUC &lt;dbl+lbl&gt;, INCTOT &lt;dbl+lbl&gt;, HEALTH &lt;dbl+lbl&gt;, MIGRATE1 &lt;dbl+lbl&gt;</span></code></pre></div>
+<span class="co">#&gt; # ... with 10,873 more rows, and 5 more variables: AGE &lt;int+lbl&gt;,</span>
+<span class="co">#&gt; #   EDUC &lt;int+lbl&gt;, INCTOT &lt;dbl+lbl&gt;, HEALTH &lt;int+lbl&gt;, MIGRATE1 &lt;int+lbl&gt;</span></code></pre></div>
 <p>The first clue that some of the variables are labelled is the <code>&lt;dbl+lbl&gt;</code> that appear below <code>STATEFIP</code>, <code>ASECFLAG</code> and other variables. The tibble package prints the variable’s type information below the variable name, and this “+lbl” indicates that the variable uses the <code>labelled</code> type. You also can use the <code>is.labelled()</code> function to check if a variable is labelled.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">is.labelled</span>(cps<span class="op">$</span>STATEFIP)
 <span class="co">#&gt; [1] TRUE</span>
@@ -108,7 +108,7 @@ cps
 <p>There are a few options to see what the actual labels are:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Printing the variable directly (or a subset)</span>
 <span class="kw">head</span>(cps<span class="op">$</span>MONTH)
-<span class="co">#&gt; &lt;Labelled double&gt;</span>
+<span class="co">#&gt; &lt;Labelled integer&gt;</span>
 <span class="co">#&gt; [1] 3 3 3 3 3 3</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; Labels:</span>
@@ -152,7 +152,7 @@ cps
 <p>The usual way to connect numeric data to labels in R is in <code>factor</code> variables. Though this data type is more native to R, and more widely supported by R code, it was designed for efficient calculations in linear models, not as a general purpose value labeling system and so is missing important features that the value labels provided by IPUMS require.</p>
 <p>Factors only allow for integers to be mapped to a text label, and these integers have to be a count starting at 1. This doesn’t work for IPUMS data because often our variables have specific meanings for the codes. For example, the variable <code>AGE</code> uses the value to mean the actual age, but does have labels for age 0 and the top codes.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">head</span>(cps<span class="op">$</span>AGE)
-<span class="co">#&gt; &lt;Labelled double&gt;</span>
+<span class="co">#&gt; &lt;Labelled integer&gt;</span>
 <span class="co">#&gt; [1] 54 54 52 38 15 38</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; Labels:</span>

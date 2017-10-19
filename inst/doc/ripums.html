@@ -12,7 +12,7 @@
 
 <meta name="author" content="Minnesota Population Center" />
 
-<meta name="date" content="2017-10-12" />
+<meta name="date" content="2017-10-19" />
 
 <title>Introduction to ripums - IPUMS Data in R</title>
 
@@ -70,7 +70,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 <h1 class="title toc-ignore">Introduction to <code>ripums</code> - IPUMS Data in R</h1>
 <h4 class="author"><em>Minnesota Population Center</em></h4>
-<h4 class="date"><em>2017-10-12</em></h4>
+<h4 class="date"><em>2017-10-19</em></h4>
 
 
 
@@ -134,7 +134,7 @@ cps_data <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw">select_if</span>(is.labelled)
 <span class="co">#&gt; # A tibble: 7,668 x 3</span>
 <span class="co">#&gt;     STATEFIP     MONTH    INCTOT</span>
-<span class="co">#&gt;    &lt;dbl+lbl&gt; &lt;dbl+lbl&gt; &lt;dbl+lbl&gt;</span>
+<span class="co">#&gt;    &lt;int+lbl&gt; &lt;int+lbl&gt; &lt;dbl+lbl&gt;</span>
 <span class="co">#&gt;  1        55         3      4883</span>
 <span class="co">#&gt;  2        55         3      5800</span>
 <span class="co">#&gt;  3        55         3  99999998</span>
@@ -181,7 +181,7 @@ cps_data &lt;-<span class="st"> </span>cps_data <span class="op">%&gt;%</span>
 <span class="co"># Say we want to set Iowa (STATEFIP == 19) to missing</span>
 cps_data &lt;-<span class="st"> </span>cps_data <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw">mutate</span>(<span class="dt">STATE_factor2 =</span> <span class="kw">as_factor</span>(<span class="kw">ifelse</span>(STATEFIP <span class="op">==</span><span class="st"> </span><span class="dv">19</span>, <span class="ot">NA</span>, STATEFIP)))
-<span class="co">#&gt; Error in mutate_impl(.data, dots): Evaluation error: no applicable method for 'as_factor' applied to an object of class &quot;c('double', 'numeric')&quot;.</span></code></pre></div>
+<span class="co">#&gt; Error in mutate_impl(.data, dots): Evaluation error: no applicable method for 'as_factor' applied to an object of class &quot;c('integer', 'numeric')&quot;.</span></code></pre></div>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Currently the best solution is to convert to factor first, then manipulate using</span>
 <span class="co"># factor. We hope to improve this.</span>
 cps_data &lt;-<span class="st"> </span>cps_data <span class="op">%&gt;%</span>
@@ -309,7 +309,7 @@ cps<span class="op">$</span>PERSON
 cps<span class="op">$</span>HOUSEHOLD
 <span class="co">#&gt; # A tibble: 3,385 x 6</span>
 <span class="co">#&gt;      RECTYPE  YEAR SERIAL HWTSUPP  STATEFIP     MONTH</span>
-<span class="co">#&gt;    &lt;chr+lbl&gt; &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl+lbl&gt; &lt;dbl+lbl&gt;</span>
+<span class="co">#&gt;    &lt;chr+lbl&gt; &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt; &lt;int+lbl&gt; &lt;int+lbl&gt;</span>
 <span class="co">#&gt;  1         H  1962     80 1475.59        55         3</span>
 <span class="co">#&gt;  2         H  1962     82 1597.61        27         3</span>
 <span class="co">#&gt;  3         H  1962     83 1706.65        27         3</span>
@@ -331,7 +331,7 @@ cps &lt;-<span class="st"> </span><span class="kw">read_ipums_micro</span>(
 cps
 <span class="co">#&gt; # A tibble: 11,053 x 9</span>
 <span class="co">#&gt;      RECTYPE  YEAR SERIAL HWTSUPP  STATEFIP     MONTH PERNUM  WTSUPP</span>
-<span class="co">#&gt;    &lt;chr+lbl&gt; &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl+lbl&gt; &lt;dbl+lbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;</span>
+<span class="co">#&gt;    &lt;chr+lbl&gt; &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt; &lt;int+lbl&gt; &lt;int+lbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;</span>
 <span class="co">#&gt;  1         H  1962     80 1475.59        55         3     NA      NA</span>
 <span class="co">#&gt;  2         P  1962     80      NA        NA        NA      1 1475.59</span>
 <span class="co">#&gt;  3         P  1962     80      NA        NA        NA      2 1470.72</span>

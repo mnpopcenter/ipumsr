@@ -121,7 +121,7 @@ nhgis <- read_nhgis_sf(
   verbose = FALSE
 )
 
-## ---- fig.height = 4, fig.width = 7------------------------------------------------------------
+## ---- fig.height = 4, fig.width = 7--------------------------------------
 # The median age is 0 for unpopulated counties, set them to NA
 nhgis <- nhgis %>%
   mutate(H77001 = ifelse(H77001 == 0, NA, H77001))
@@ -146,7 +146,7 @@ if ("geom_sf" %in% getNamespaceExports("ggplot2")) {
     )
 }
 
-## ----------------------------------------------------------------------------------------------
+## ------------------------------------------------------------------------
 # Load data
 ipumsi_ddi_file <- ex_file("ipumsi_00011.xml")
 ipumsi_ddi <- read_ipums_ddi(ipumsi_ddi_file)
@@ -180,20 +180,20 @@ ipumsi_data <- ipumsi_data %>%
     FUELCOOK = as_factor(FUELCOOK)
   )
 
-## ----------------------------------------------------------------------------------------------
+## ------------------------------------------------------------------------
 ipumsi_data <- ipumsi_data %>%
   mutate(GEOLEV1 = case_when(
-    COUNTRY == "Colombia" ~ GEOLEV1,
+    COUNTRY == "Colombia" ~ as.integer(GEOLEV1),
     COUNTRY == "Ecuador" ~ GEO1_EC2010,
     COUNTRY == "Peru" ~ GEO1_PE2007
   ))
 
-## ----------------------------------------------------------------------------------------------
+## ------------------------------------------------------------------------
 ipumsi_summary <- ipumsi_data %>% 
   group_by(YEAR, COUNTRY, GEOLEV1) %>%
   summarize(pct_solid = mean(SOLIDFUEL == "Solid Fuel", na.rm = TRUE))
 
-## ----------------------------------------------------------------------------------------------
+## ------------------------------------------------------------------------
 # Currently each shape file has different variable names
 names(colombia_shape)
 names(ecuador_shape)
@@ -213,14 +213,14 @@ peru_shape <- peru_shape %>%
 # Now we can rbind them together
 all_shapes <- rbind(colombia_shape, ecuador_shape, peru_shape)
 
-## ----------------------------------------------------------------------------------------------
+## ------------------------------------------------------------------------
 ipumsi <- ipums_shape_inner_join(
   ipumsi_summary, 
   colombia_shape,
   by = c("COUNTRY" = "CNTRY_NAME", "GEOLEV1" = "GEOJOIN")
 )
 
-## ---- fig.height = 4, fig.width = 7------------------------------------------------------------
+## ---- fig.height = 4, fig.width = 7--------------------------------------
 # Convert the year to a round variable to display in facets
 ipumsi <- ipumsi %>%
   mutate(census_round = cut(YEAR, c(1984, 1992, 2004, 2014), c("1985", "1993", "2005-2010")))

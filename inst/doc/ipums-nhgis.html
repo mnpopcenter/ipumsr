@@ -12,7 +12,7 @@
 
 <meta name="author" content="Minnesota Population Center" />
 
-<meta name="date" content="2017-10-12" />
+<meta name="date" content="2017-10-19" />
 
 <title>ripums Example - NHGIS</title>
 
@@ -70,7 +70,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 <h1 class="title toc-ignore"><code>ripums</code> Example - NHGIS</h1>
 <h4 class="author"><em>Minnesota Population Center</em></h4>
-<h4 class="date"><em>2017-10-12</em></h4>
+<h4 class="date"><em>2017-10-19</em></h4>
 
 
 
@@ -202,45 +202,47 @@ nhgis &lt;-<span class="st"> </span><span class="kw">read_nhgis_sf</span>(
   <span class="dt">data_file =</span> nhgis_csv_file,
   <span class="dt">shape_file =</span> nhgis_shp_file
 )
-<span class="co">#&gt;  </span>
+<span class="co">#&gt; </span>
 <span class="co">#&gt; All persons are granted a limited license to use this documentation and the</span>
 <span class="co">#&gt; accompanying data, subject to the following conditions:</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; * Publications and research reports employing NHGIS data (either tabular or GIS)</span>
-<span class="co">#&gt;   must cite it appropriately. The citation should include the following:</span>
+<span class="co">#&gt; must cite it appropriately. The citation should include the following:</span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt;     Steven Manson, Jonathan Schroeder, David Van Riper, and Steven Ruggles. </span>
-<span class="co">#&gt;     IPUMS National Historical Geographic Information System: Version 12.0 [Database]. </span>
-<span class="co">#&gt;     Minneapolis: University of Minnesota. 2017. </span>
-<span class="co">#&gt;     http://doi.org/10.18128/D050.V12.0</span>
+<span class="co">#&gt; Steven Manson, Jonathan Schroeder, David Van Riper, and Steven Ruggles.</span>
+<span class="co">#&gt; IPUMS National Historical Geographic Information System: Version 12.0</span>
+<span class="co">#&gt; [Database].</span>
+<span class="co">#&gt; Minneapolis: University of Minnesota. 2017.</span>
+<span class="co">#&gt; http://doi.org/10.18128/D050.V12.0</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; * Publications and research reports employing school attendance areas data</span>
-<span class="co">#&gt;   (either tabular or GIS) must cite it appropriately. The citation should</span>
-<span class="co">#&gt;   include the following:</span>
+<span class="co">#&gt; (either tabular or GIS) must cite it appropriately. The citation should</span>
+<span class="co">#&gt; include the following:</span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt;     The College of William and Mary and the Minnesota Population Center.</span>
-<span class="co">#&gt;     School Attendance Boundary Information System (SABINS): Version 1.0.</span>
-<span class="co">#&gt;     Minneapolis, MN: University of Minnesota 2011.</span>
+<span class="co">#&gt; The College of William and Mary and the Minnesota Population Center.</span>
+<span class="co">#&gt; School Attendance Boundary Information System (SABINS): Version 1.0.</span>
+<span class="co">#&gt; Minneapolis, MN: University of Minnesota 2011.</span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt; * For policy briefs or articles in the popular press, we recommend that you cite the use of NHGIS data as follows:</span>
+<span class="co">#&gt; * For policy briefs or articles in the popular press, we recommend that you cite</span>
+<span class="co">#&gt; the use of NHGIS data as follows:</span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt;     IPUMS NHGIS, University of Minnesota, www.nhgis.org.</span>
+<span class="co">#&gt; IPUMS NHGIS, University of Minnesota, www.nhgis.org.</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; * If possible, citations involving school attendance areas should also include</span>
-<span class="co">#&gt;   the URL for the SABINS site:</span>
+<span class="co">#&gt; the URL for the SABINS site:</span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt;     http://www.sabinsdata.org/.</span>
+<span class="co">#&gt; http://www.sabinsdata.org/.</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; In addition, we request that users send us a copy of any publications, research</span>
 <span class="co">#&gt; reports, or educational material making use of the data or documentation.</span>
 <span class="co">#&gt; Printed matter should be sent to:</span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt;     NHGIS</span>
-<span class="co">#&gt;     Minnesota Population Center</span>
-<span class="co">#&gt;     University of Minnesota</span>
-<span class="co">#&gt;     50 Willey Hall</span>
-<span class="co">#&gt;     225 19th Ave S</span>
-<span class="co">#&gt;     Minneapolis, MN 55455</span>
+<span class="co">#&gt; NHGIS</span>
+<span class="co">#&gt; Minnesota Population Center</span>
+<span class="co">#&gt; University of Minnesota</span>
+<span class="co">#&gt; 50 Willey Hall</span>
+<span class="co">#&gt; 225 19th Ave S</span>
+<span class="co">#&gt; Minneapolis, MN 55455</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; </span>
@@ -248,7 +250,7 @@ nhgis &lt;-<span class="st"> </span><span class="kw">read_nhgis_sf</span>(
 <span class="co">#&gt; Reading data file...</span>
 <span class="co">#&gt; Reading geography...</span>
 <span class="co">#&gt; options:        ENCODING=latin1 </span>
-<span class="co">#&gt; Reading layer `US_state_1830' from data source `C:\Users\gfellis\AppData\Local\Temp\RtmpgFSGWj\file1d18721b1c4f\US_state_1830.shp' using driver `ESRI Shapefile'</span>
+<span class="co">#&gt; Reading layer `US_state_1830' from data source `C:\Users\gfellis\AppData\Local\Temp\RtmpgnMaud\file12a418d76c03\US_state_1830.shp' using driver `ESRI Shapefile'</span>
 <span class="co">#&gt; Simple feature collection with 29 features and 7 fields</span>
 <span class="co">#&gt; geometry type:  MULTIPOLYGON</span>
 <span class="co">#&gt; dimension:      XY</span>
