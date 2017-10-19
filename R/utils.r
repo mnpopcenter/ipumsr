@@ -131,7 +131,7 @@ set_ipums_var_attributes <- function(
       ~ifelse(nrow(.) == 0, NA, is.numeric(.$val))
     )
   )
-  class_labels <- dplyr::filter(class_labels, !is.na(l_is_num))
+  class_labels <- dplyr::filter(class_labels, !is.na(.data$l_is_num))
   class_join <- dplyr::inner_join(class_data, class_labels, by = "var_name")
   class_join <- dplyr::mutate(
     class_join,
