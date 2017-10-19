@@ -310,6 +310,8 @@ read_raw_to_df_long <- function(raw, rec_vinfo, all_vars, encoding) {
 
   numeric_vars <- all_vars$var_name[all_vars$var_type == "numeric"]
   out <- dplyr::mutate_at(out, numeric_vars, readr::parse_number)
+  integer_vars <- all_vars$var_name[all_vars$var_type == "integer"]
+  out <- dplyr::mutate_at(out, integer_vars, readr::parse_integer)
   out
 }
 
@@ -330,6 +332,9 @@ read_raw_to_df_list <- function(raw, rec_vinfo, all_vars, encoding) {
 
     numeric_vars <- vars_by_rt[[rt]]$var_name[vars_by_rt[[rt]]$var_type == "numeric"]
     out[[rt]] <- dplyr::mutate_at(out[[rt]], numeric_vars, readr::parse_number)
+
+    integer_vars <- vars_by_rt[[rt]]$var_name[vars_by_rt[[rt]]$var_type == "integer"]
+    out[[rt]] <- dplyr::mutate_at(out[[rt]], integer_vars, readr::parse_integer)
   }
 
   out
