@@ -135,7 +135,8 @@ set_ipums_var_attributes <- function(
   class_join <- dplyr::inner_join(class_data, class_labels, by = "var_name")
   class_join <- dplyr::mutate(
     class_join,
-    coercible =  purrr::map2_lgl(d_type, l_type, ~.x == .y) | (d_is_num & l_is_num)
+    coercible =  purrr::map2_lgl(.data$d_type, .data$l_type, ~.x == .y) |
+      (.data$d_is_num & .data$l_is_num)
   )
   class_join <- dplyr::filter(class_join, !.data$coercible)
   if (nrow(class_join) > 0) {
