@@ -125,7 +125,7 @@ set_ipums_var_attributes <- function(
   )
   class_labels <- dplyr::data_frame(
     var_name = var_info$var_name,
-    l_type = purrr::map(var_info$val_labels, typeof),
+    l_type = purrr::map(var_info$val_labels, ~typeof(.$val)),
     l_is_num = purrr::map_lgl(
       var_info$val_labels,
       ~ifelse(nrow(.) == 0, NA, is.numeric(.$val))
