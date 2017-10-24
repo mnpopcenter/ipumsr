@@ -80,7 +80,7 @@
 read_ipums_micro <- function(
   ddi,
   vars = NULL,
-  n_max = -1,
+  n_max = Inf,
   data_file = NULL,
   verbose = TRUE,
   rectype_convert = NULL,
@@ -123,7 +123,7 @@ read_ipums_micro <- function(
 read_ipums_micro_list <- function(
   ddi,
   vars = NULL,
-  n_max = -1,
+  n_max = Inf,
   data_file = NULL,
   verbose = TRUE,
   rectype_convert = NULL,
