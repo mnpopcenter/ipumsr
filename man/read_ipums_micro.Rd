@@ -5,11 +5,11 @@
 \alias{read_ipums_micro_list}
 \title{Read data from an IPUMS extract}
 \usage{
-read_ipums_micro(ddi, vars = NULL, n_max = -1, data_file = NULL,
+read_ipums_micro(ddi, vars = NULL, n_max = Inf, data_file = NULL,
   verbose = TRUE, rectype_convert = NULL, var_attrs = c("val_labels",
   "var_label", "var_desc"))
 
-read_ipums_micro_list(ddi, vars = NULL, n_max = -1, data_file = NULL,
+read_ipums_micro_list(ddi, vars = NULL, n_max = Inf, data_file = NULL,
   verbose = TRUE, rectype_convert = NULL, var_attrs = c("val_labels",
   "var_label", "var_desc"))
 }
