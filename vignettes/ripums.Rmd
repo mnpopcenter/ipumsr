@@ -22,16 +22,20 @@ is a great source of international census and survey data.
 > IPUMS provides census and survey data from around the world integrated across 
 > time and space. IPUMS integration and documentation makes it easy to study change, 
 > conduct comparative research, merge information across data types, and analyze 
-> individuals within family and community context. Data and services available free 
+> individuals within family and community context. Data and services are available free 
 > of charge. 
 
 Learn more here: <https://www.ipums.org/whatIsIPUMS.shtml>
 
 # Basics
 This vignette gives the basic outline of the `ripums` package. There are also
-vignettes that run through examples using CPS data and NHGIS data. 
+vignettes that show how to use the value labels and geographic data provided by IPUMS
+and others that run through examples using CPS data and NHGIS data. 
+
 To get to them run the following commands:
 ```{r, eval = FALSE}
+vignette("value-labels", package = "ripums")
+vignette("ipums-geography", package = "ripums")
 vignette("ipums-cps", package = "ripums")
 vignette("ipums-nhgis", package = "ripums")
 ```
@@ -39,10 +43,9 @@ vignette("ipums-nhgis", package = "ripums")
 ## Getting Data from the IPUMS website
 IPUMS data is downloaded from our website at <https://www.ipums.org>. 
 The website provides an interactive extract system that allows you to select
-only the sample and variables that are relevent to your research question.
+only the sample and variables that are relevant to your research question.
 
-Currently we do not support the TerraPop or DHS projects, but we hope to add
-support soon!
+Currently we do not support the TerraPop, but we hope to add support soon!
 
 **For microdata projects (all supported projects except NHGIS)**, once you 
 have created your extract, you should choose to download data as either 
@@ -76,6 +79,23 @@ Once the data is into R, you can learn information about the extract using the m
 - `ipums_var_info()`: Returns the variable-level metadata contained in `ipums_view()` but as a R data structure.
 
 ## Grab Bag
+### Survey Weights
+The data from most projects contain some form of weighting variable that should be used to 
+calculate estimates that are representative of the whole population. Many projects also provide 
+specifications to help estimate variance given the complex design of the survey, such as replicate
+weights or design variables like STRATUM and PSU. The 
+[survey package](https://cran.r-project.org/package=survey) provides functions that allow you to 
+estimate variance taking this into account, and the [srvyr package](https://cran.r-project.org/package=srvyr)
+implements dplyr-like syntax for survey analysis, using the survey package's functions. 
+
+For more information about what these variables mean and how to use them, see the 
+website for the project you are interested in.
+
+### Non-Extract Data
+Some projects have data that is not contained within the extract system and so no DDI is provided
+for this data. In this case, either use the csv if available, or the haven package to read one
+of the files intended for another statistical software (like Stata, SAS or SPSS). 
+
 ### Value Labels
 The way that IPUMS treats value labels does not align with factors (the main way that R is able
 to store values associated with labels). R's `factor` variables can only store
