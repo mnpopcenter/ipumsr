@@ -13,15 +13,14 @@ knitr::opts_chunk$set(
 ```
 
 # ripums #
-[![Project Status:Work-in-Progress](http://www.repostatus.org/badges/latest/wip.svg)](http://www.repostatus.org/#wip)
+[![Project Status:Active](http://www.repostatus.org/badges/latest/active.svg)](http://www.repostatus.org/#active)
 [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/ripums)](http://cran.r-project.org/web/packages/ripums) 
 [![Travis-CI Build Status](https://travis-ci.org/mnpopcenter/ripums.svg?branch=master)](https://travis-ci.org/mnpopcenter/ripums)
 [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/mnpopcenter/ripums?branch=master&svg=true)](https://ci.appveyor.com/project/mnpopcenter/ripums)
-[![Coverage Status](https://img.shields.io/codecov/c/github/mnpopcenter/ripums/master.svg)](https://codecov.io/github/mnpopcenter/ripums?branch=master)
+[![Coverage Status](https://codecov.io/gh/mnpopcenter/ripums/master.svg)](https://codecov.io/github/mnpopcenter/ripums?branch=master)
 
 The ripums package helps import IPUMS extracts from the [IPUMS website](https://www.ipums.org) 
-into R. This project is early in its development, and so we expect there may be bugs and future
-API changes that break code. We hope to post a more stable version on CRAN soon.
+into R. We hope to post a more stable version on CRAN soon.
 
 The ripums package can be installed by running the following commands:
 ```{r, eval=FALSE}
@@ -31,30 +30,24 @@ devtools::install_github("mnpopcenter/ripums")
 ```
 
 ## Vignettes ##
-Once you have the package installed, it should have included the vignettes,
-which you can access via the command:
+There are several vignettes included in the package:
+
+- **ripums** - Provides general information about using the ripums package
+- **value-labels** - Provides guidance for using the value labels provided by IPUMS
+- **ipums-geograph** - Provides guidance for using R as GIS tool with IPUMS data
+- **ripums-cps** - An example of using CPS data with the ripums package
+- **ripums-nghis** - An example of using NHGIS data with the ripums package
+
+You can access them with the `vignette()` command (eg `vignette("value-labels")`).
+
+If you are installing from github and want the vignettes, you'll need to run the following 
+commands first:
 ```{r, eval = FALSE}
-# To list them
-library(ripums)
-vignette(package = "ripums")
-
-vignette("ripums") # Some basic information about the ripums package
-vignette("ipums-cps") # Our CPS training example
-vignette("ipums-nhgis") # Our NHGIS training example
-```
-
-
-### ripumsexamples ###
-Example extracts for the CPS and NHGIS vignettes are too big to fit in the main
-package, but are included in the 'ripumsexamples' package, which can be
-installed using the following commands:
-
-```{r, eval=FALSE}
-devtools::install_github("mnpopcenter/ripums", subdir = "ripumsexamples")
+devtools::install_github("mnpopcenter/ripums/ripumsexamples")
+devtools::install_github("mnpopcenter/ripums", build_vignettes = TRUE)
 ```
 
 ## Examples ##
-These examples rely on extracts made small enough to fit in the package itself:
 ```{r}
 suppressPackageStartupMessages({
   library(ripums)

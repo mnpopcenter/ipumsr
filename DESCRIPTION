@@ -2,9 +2,12 @@ Package: ripums
 Title: Read IPUMS Extract Files into R
 Version: 0.0.1.9000
 Authors@R: person("Minnesota Population Center", email = "gfellis@umn.edu", role = c("aut", "cre"))
-URL: https://github.com/mnpopcenter/ripums
+URL: https://www.ipums.org, https://github.com/mnpopcenter/ripums
 BugReports: https://github.com/mnpopcenter/ripums/issues
-Description: Import 'IPUMS' data from website extracts.
+Description: An easy way to import census, survey and geographic data provided by IPUMS
+    into R and use the associated metadata to make analysis easier. IPUMS data is 
+    provided free of charge from our website and contains microdata describing 1.4 
+    billion individuals drawn from over 750 censuses and surveys.
 Depends: R (>= 3.2.0)
 License: Mozilla Public License 2.0
 Encoding: UTF-8

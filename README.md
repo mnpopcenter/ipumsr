@@ -3,9 +3,9 @@
 ripums
 ======
 
-[![Project Status:Work-in-Progress](http://www.repostatus.org/badges/latest/wip.svg)](http://www.repostatus.org/#wip) [![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/ripums)](http://cran.r-project.org/web/packages/ripums) [![Travis-CI Build Status](https://travis-ci.org/mnpopcenter/ripums.svg?branch=master)](https://travis-ci.org/mnpopcenter/ripums) [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/mnpopcenter/ripums?branch=master&svg=true)](https://ci.appveyor.com/project/mnpopcenter/ripums) [![Coverage Status](https://img.shields.io/codecov/c/github/mnpopcenter/ripums/master.svg)](https://codecov.io/github/mnpopcenter/ripums?branch=master)
+[![Project Status:Active](http://www.repostatus.org/badges/latest/active.svg)](http://www.repostatus.org/#active) [![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/ripums)](http://cran.r-project.org/web/packages/ripums) [![Travis-CI Build Status](https://travis-ci.org/mnpopcenter/ripums.svg?branch=master)](https://travis-ci.org/mnpopcenter/ripums) [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/mnpopcenter/ripums?branch=master&svg=true)](https://ci.appveyor.com/project/mnpopcenter/ripums) [![Coverage Status](https://codecov.io/gh/mnpopcenter/ripums/master.svg)](https://codecov.io/github/mnpopcenter/ripums?branch=master)
 
-The ripums package helps import IPUMS extracts from the [IPUMS website](https://www.ipums.org) into R. This project is early in its development, and so we expect there may be bugs and future API changes that break code. We hope to post a more stable version on CRAN soon.
+The ripums package helps import IPUMS extracts from the [IPUMS website](https://www.ipums.org) into R. We hope to post a more stable version on CRAN soon.
 
 The ripums package can be installed by running the following commands:
 
@@ -18,30 +18,25 @@ devtools::install_github("mnpopcenter/ripums")
 Vignettes
 ---------
 
-Once you have the package installed, it should have included the vignettes, which you can access via the command:
+There are several vignettes included in the package:
+
+-   **ripums** - Provides general information about using the ripums package
+-   **value-labels** - Provides guidance for using the value labels provided by IPUMS
+-   **ipums-geograph** - Provides guidance for using R as GIS tool with IPUMS data
+-   **ripums-cps** - An example of using CPS data with the ripums package
+-   **ripums-nghis** - An example of using NHGIS data with the ripums package
+
+You can access them with the `vignette()` command (eg `vignette("value-labels")`).
+
+If you are installing from github and want the vignettes, you'll need to run the following commands first:
 
 ``` r
-# To list them
-library(ripums)
-vignette(package = "ripums")
-
-vignette("ripums") # Some basic information about the ripums package
-vignette("ipums-cps") # Our CPS training example
-vignette("ipums-nhgis") # Our NHGIS training example
-```
-
-### ripumsexamples
-
-Example extracts for the CPS and NHGIS vignettes are too big to fit in the main package, but are included in the 'ripumsexamples' package, which can be installed using the following commands:
-
-``` r
-devtools::install_github("mnpopcenter/ripums", subdir = "ripumsexamples")
+devtools::install_github("mnpopcenter/ripums/ripumsexamples")
+devtools::install_github("mnpopcenter/ripums", build_vignettes = TRUE)
 ```
 
 Examples
 --------
-
-These examples rely on extracts made small enough to fit in the package itself:
 
 ``` r
 suppressPackageStartupMessages({
@@ -62,23 +57,40 @@ Relies on user downloading the .xml DDI file and the .dat/.dat.gz file (doesn't 
 cps_hier_file <- ripums_example("cps_00010.xml")
 ddi <- read_ipums_ddi(cps_hier_file)
 data <- read_ipums_micro(ddi)
-#> Users of IPUMS-CPS data must agree to abide by the conditions of use. A user's license is valid for one year and may be renewed.  Users must agree to the following conditions:
+#> Users of IPUMS-CPS data must agree to abide by the conditions of use. A user's
+#> license is valid for one year and may be renewed. Users must agree to the
+#> following conditions:
 #> 
-#> (1) No fees may be charged for use or distribution of the data.  All persons are granted a limited license to use these data, but you may not charge a fee for the data if you distribute it to others.
+#> (1) No fees may be charged for use or distribution of the data. All persons are
+#> granted a limited license to use these data, but you may not charge a fee for
+#> the data if you distribute it to others.
 #> 
-#> (2) Cite IPUMS appropriately.  For information on proper citation,  refer to the citation requirement section of this DDI document.
+#> (2) Cite IPUMS appropriately. For information on proper citation, refer to the
+#> citation requirement section of this DDI document.
 #> 
-#> (3) Tell us about any work you do using the IPUMS.  Publications, research  reports, or presentations making use of IPUMS-CPS should be added to our  Bibliography. Continued funding for the IPUMS depends on our ability to  show our sponsor agencies that researchers are using the data for productive  purposes.
+#> (3) Tell us about any work you do using the IPUMS. Publications, research
+#> reports, or presentations making use of IPUMS-CPS should be added to our
+#> Bibliography. Continued funding for the IPUMS depends on our ability to show our
+#> sponsor agencies that researchers are using the data for productive purposes.
 #> 
 #> (4) Use it for GOOD -- never for EVIL.
 #> 
-#> Publications and research reports based on the IPUMS-CPS database must cite it appropriately. The citation should include the following:
+#> Publications and research reports based on the IPUMS-CPS database must cite it
+#> appropriately. The citation should include the following:
 #> 
-#> Sarah Flood, Miriam King, Steven Ruggles, and J. Robert Warren. Integrated Public Use Microdata Series, Current Population Survey: Version 5.0 [dataset]. Minneapolis, MN: University of Minnesota, 2017. https://doi.org/10.18128/D030.V5.0
+#> Sarah Flood, Miriam King, Steven Ruggles, and J. Robert Warren. Integrated
+#> Public Use Microdata Series, Current Population Survey: Version 5.0 [dataset].
+#> Minneapolis, MN: University of Minnesota, 2017. https://doi.org/10.18128/
+#> D030.V5.0
 #> 
-#> The licensing agreement for use of IPUMS-CPS data requires that users supply us with the title and full citation for any publications, research reports, or educational materials making use of the data or documentation. Please add your citation to the IPUMS bibliography: http://bibliography.ipums.org/
+#> The licensing agreement for use of IPUMS-CPS data requires that users supply
+#> us with the title and full citation for any publications, research reports, or
+#> educational materials making use of the data or documentation. Please add your
+#> citation to the IPUMS bibliography: http://bibliography.ipums.org/
 #> 
 #> Reading data...
+#> Warning in read_lines_raw_(ds, n_max = n_max, progress = progress): NAs
+#> introduced by coercion to integer range
 #> Parsing data...
 
 # Variable description for the month variable
@@ -101,11 +113,13 @@ table(as_factor(data$MONTH, levels = "both"))
 
 # Can also load as a list by rectype
 data <- read_ipums_micro_list(ddi, verbose = FALSE)
+#> Warning in read_lines_raw_(ds, n_max = n_max, progress = progress): NAs
+#> introduced by coercion to integer range
 # Household data
 data$HOUSEHOLD
 #> # A tibble: 3,385 x 6
 #>      RECTYPE  YEAR SERIAL HWTSUPP  STATEFIP     MONTH
-#>    <chr+lbl> <dbl>  <dbl>   <dbl> <dbl+lbl> <dbl+lbl>
+#>    <chr+lbl> <dbl>  <dbl>   <dbl> <int+lbl> <int+lbl>
 #>  1         H  1962     80 1475.59        55         3
 #>  2         H  1962     82 1597.61        27         3
 #>  3         H  1962     83 1706.65        27         3
@@ -194,7 +208,7 @@ if ("geom_sf" %in% getNamespaceExports("ggplot2")) {
 }
 ```
 
-![](man/figures/README-unnamed-chunk-8-1.png)
+![](man/figures/README-unnamed-chunk-7-1.png)
 
 ### Terrapop
 
