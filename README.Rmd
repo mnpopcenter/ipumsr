@@ -35,8 +35,8 @@ There are several vignettes included in the package:
 - **ripums** - Provides general information about using the ripums package
 - **value-labels** - Provides guidance for using the value labels provided by IPUMS
 - **ipums-geograph** - Provides guidance for using R as GIS tool with IPUMS data
-- **ripums-cps** - An example of using CPS data with the ripums package
-- **ripums-nghis** - An example of using NHGIS data with the ripums package
+- **ipums-cps** - An example of using CPS data with the ripums package
+- **ipums-nghis** - An example of using NHGIS data with the ripums package
 
 You can access them with the `vignette()` command (eg `vignette("value-labels")`).
 
