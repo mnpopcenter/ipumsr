@@ -5,9 +5,9 @@ Authors@R: person("Minnesota Population Center", email = "gfellis@umn.edu", role
 URL: https://www.ipums.org, https://github.com/mnpopcenter/ripums
 BugReports: https://github.com/mnpopcenter/ripums/issues
 Description: An easy way to import census, survey and geographic data provided by IPUMS
-    into R and use the associated metadata to make analysis easier. IPUMS data is 
-    provided free of charge from our website and contains microdata describing 1.4 
-    billion individuals drawn from over 750 censuses and surveys.
+    into R plus tools to help use the associated metadata to make analysis easier. IPUMS 
+    data describing 1.4 billion individuals drawn from over 750 censuses and surveys is
+    available free of charge from our website.
 Depends: R (>= 3.2.0)
 License: Mozilla Public License 2.0
 Encoding: UTF-8
