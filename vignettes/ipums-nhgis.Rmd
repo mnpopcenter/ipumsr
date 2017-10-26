@@ -15,6 +15,14 @@ knitr::opts_chunk$set(
 )
 ```
 
+```{r, echo = FALSE}
+if (!suppressPackageStartupMessages(require(sf))) {
+  message("Could not find sf package and so could not run vignette.")
+  knitr::opts_chunk$set(eval = FALSE)
+}
+```
+
+
 # IPUMS - NHGIS Extraction and Analysis
 
 ## Exercise 1
