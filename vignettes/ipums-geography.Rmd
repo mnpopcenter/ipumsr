@@ -299,8 +299,9 @@ are not included in the boundary file.
 Now the data is ready for us to use. Here's a quick example of how to
 make a map with ggplot2.
 ```{r, fig.height = 4, fig.width = 7}
-# Note the function `geom_sf()` is a very new function, so you may need to update
-# ggplot2 to run.
+# Note the function `geom_sf()` is currently only in the development version, 
+# so you may need to update ggplot2 to run using 
+#   devtools::install_github("tidyverse/ggplot2")
 if ("geom_sf" %in% getNamespaceExports("ggplot2")) {
   ggplot(data = ipumsi, aes(fill = pct_solid)) +
     geom_sf() + 
@@ -517,8 +518,9 @@ Now we can make the map with all 3 countries:
 ipumsi <- ipumsi %>%
   mutate(census_round = cut(YEAR, c(1984, 1992, 2004, 2014), c("1985", "1993", "2005-2010")))
 
-# Note the function `geom_sf()` is a very new function, so you may need to update
-# ggplot2 to run.
+# Note the function `geom_sf()` is currently only in the development version, 
+# so you may need to update ggplot2 to run using 
+#   devtools::install_github("tidyverse/ggplot2")
 if ("geom_sf" %in% getNamespaceExports("ggplot2")) {
   ggplot(data = ipumsi, aes(fill = pct_solid)) +
     geom_sf() + 

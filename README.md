@@ -195,8 +195,9 @@ data <- data %>%
            (D6Z001 + D6Z002 + D6Z003 + D6Z004 + D6Z005 + D6Z006 + D6Z007 + D6Z008)
   )
 
-# Note the function `geom_sf()` is a very new function, so you may need to update
-# ggplot2 to run.
+# Note the function `geom_sf()` is currently only in the development version, 
+# so you may need to update ggplot2 to run using 
+#   devtools::install_github("tidyverse/ggplot2")
 if ("geom_sf" %in% getNamespaceExports("ggplot2")) {
   ggplot(data = data) + 
     geom_sf(aes(fill = pct_before_1950)) + 
