@@ -537,7 +537,7 @@ There are so many great resources on working with geographic data in R,
 it's hard to pick just a few. Here are a few places to start:
 
 - The [CRAN Task View for Spatial
-Analysis](https://cran.r-project.org/web/views/Spatial.html)
+Analysis](https://cran.r-project.org/view=Spatial)
 describes many of the packages available for spatial analysis in R.
 - For general information about the sf and sp packages, I recommend reading the 
 vignettes for those packages(`vignette(package = "sf")` and 
