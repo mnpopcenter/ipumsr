@@ -7,7 +7,6 @@ dist: trusty
 r_github_packages: mnpopcenter/ripums/ripumsexamples
 
 r:
-- 3.2
 - release
 - oldrel
 - devel

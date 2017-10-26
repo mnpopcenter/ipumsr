@@ -1,6 +1,7 @@
 context("ipums_shape_*_join work")
 
 test_that("Basic join works (sf)", {
+  skip_if_not_installed("sf")
   data <- read_nhgis(ripums_example("nhgis0008_csv.zip"), verbose = FALSE)
   shape <- read_ipums_sf(ripums_example("nhgis0008_shape_small.zip"), verbose = FALSE)
 
@@ -12,6 +13,7 @@ test_that("Basic join works (sf)", {
 })
 
 test_that("Basic join works (sp)", {
+  skip_if_not_installed("sp")
   data <- read_nhgis(ripums_example("nhgis0008_csv.zip"), verbose = FALSE)
   shape <- read_ipums_sp(ripums_example("nhgis0008_shape_small.zip"), verbose = FALSE)
 
@@ -22,6 +24,7 @@ test_that("Basic join works (sp)", {
 })
 
 test_that("suffix argument works (sf)", {
+  skip_if_not_installed("sf")
   data <- read_nhgis(ripums_example("nhgis0008_csv.zip"), verbose = FALSE)
   shape <- read_ipums_sf(ripums_example("nhgis0008_shape_small.zip"), verbose = FALSE)
 
@@ -35,6 +38,7 @@ test_that("suffix argument works (sf)", {
 
 
 test_that("complicated by works (sf)", {
+  skip_if_not_installed("sf")
   data <- read_nhgis(ripums_example("nhgis0008_csv.zip"), verbose = FALSE)
   shape <- read_ipums_sf(ripums_example("nhgis0008_shape_small.zip"), verbose = FALSE)
 
@@ -56,6 +60,7 @@ test_that("complicated by works (sf)", {
 })
 
 test_that("error for missing a by variable (sf)", {
+  skip_if_not_installed("sf")
   data <- read_nhgis(ripums_example("nhgis0008_csv.zip"), verbose = FALSE)
   shape <- read_ipums_sf(ripums_example("nhgis0008_shape_small.zip"), verbose = FALSE)
 
@@ -64,6 +69,7 @@ test_that("error for missing a by variable (sf)", {
 })
 
 test_that("Join failures are mentioned", {
+  skip_if_not_installed("sf")
   data <- read_nhgis(ripums_example("nhgis0008_csv.zip"), verbose = FALSE)
   shape <- read_ipums_sf(ripums_example("nhgis0008_shape_small.zip"), verbose = FALSE)
 
