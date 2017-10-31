@@ -187,7 +187,7 @@ read_ipums_hier <- function(
   nonrec_vinfo <- tidyr::unnest_(nonrec_vinfo, "rectypes", .drop = FALSE)
 
   if (verbose) cat("Reading data...\n")
-
+  if (n_max == Inf) n_max <- -1
   raw <- read_check_for_negative_bug(
     readr::read_lines_raw,
     data_file,
