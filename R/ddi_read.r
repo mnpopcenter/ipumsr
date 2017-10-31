@@ -153,6 +153,7 @@ get_var_info_from_ddi <- function(ddi_xml, file_type, rt_idvar, rectype_labels) 
   var_name <- xml2::xml_attr(var_info_xml, "name")
   start <- as.numeric(xml_text_from_path_first(var_info_xml, "d1:location/@StartPos"))
   end <- as.numeric(xml_text_from_path_first(var_info_xml, "d1:location/@EndPos"))
+  width <- as.numeric(xml_text_from_path_first(var_info_xml), "d1:location/@width")
   var_label <- xml_text_from_path_first(var_info_xml, "d1:labl")
   var_desc <- xml_text_from_path_first(var_info_xml, "d1:txt")
   imp_decim <- as.numeric(xml2::xml_attr(var_info_xml, "dcml"))
@@ -160,8 +161,8 @@ get_var_info_from_ddi <- function(ddi_xml, file_type, rt_idvar, rectype_labels) 
   var_type <- xml_text_from_path_first(var_info_xml, "d1:varFormat/@type")
   var_intrvl <- xml2::xml_attr(var_info_xml, "intrvl")
   var_type <- dplyr::case_when(
-    var_type == "numeric" & var_intrvl == "discrete" ~ "integer",
-    var_type == "numeric" & var_intrvl != "discrete" ~ "numeric",
+    var_type == "numeric" & var_intrvl == "discrete" & (width < 10) ~ "integer",
+    var_type == "numeric" ~ "numeric",
     var_type == "character" ~ "character",
     TRUE ~ "character" # Default to character if it's unexpected
   )
