@@ -177,7 +177,9 @@ read_ipums_hier <- function(
 
   all_vars <- select_var_rows(all_vars, vars)
   if (!rec_vinfo$var_name %in% all_vars$var_name) {
-    if (verbose) message(paste0("Adding rectype id var '", rec_vinfo$var_name, "' to data."))
+    if (verbose && data_structure == "long") {
+      cat(paste0("Adding rectype id var '", rec_vinfo$var_name, "' to data.\n"))
+    }
     all_vars <- dplyr::bind_rows(rec_vinfo, all_vars)
   }
 
