@@ -53,7 +53,7 @@ test_that(
     temp_dir_zip_test <- tempfile()
     dir.create(temp_dir_zip_test)
     file.create(file.path(temp_dir_zip_test, "test1.txt"))
-    test_zip <- zip(temp_dir_zip_test, temp_dir_zip_test, flags = "q")
+    test_zip <- zip(temp_dir_zip_test, temp_dir_zip_test, flags = "-q")
     if (test_zip != 0) skip("zip doesn't work")
 
     # Again it's kind of weird that it takes quosures, but
