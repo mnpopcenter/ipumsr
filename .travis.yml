@@ -10,7 +10,6 @@ r:
 - release
 - oldrel
 - devel
-- 3.2
 
 before_install:
     - sudo add-apt-repository ppa:ubuntugis/ubuntugis-unstable --yes
