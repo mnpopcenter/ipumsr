@@ -102,3 +102,10 @@ test_that(
     no_var_attrs <- purrr::map_lgl(cps, ~is.null(attributes(.)))
     expect_true(all(no_var_attrs))
   })
+
+
+test_that(
+  "Informative error when no ddi file", {
+    expect_error(read_ipums_micro("FAKE_FILE.xml"), "working directory")
+    expect_error(read_ipums_micro("C:/FAKE_FOLDER/FAKE_FILE.xml"), "check the path")
+  })

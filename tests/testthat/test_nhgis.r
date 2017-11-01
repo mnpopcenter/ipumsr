@@ -137,3 +137,10 @@ test_that(
     )
 
   })
+
+
+test_that(
+  "Informative error when no data file", {
+    expect_error(read_nhgis("FAKE_FILE.zip"), "working directory")
+    expect_error(read_nhgis("C:/FAKE_FOLDER/FAKE_FILE.zip"), "check the path")
+  })
