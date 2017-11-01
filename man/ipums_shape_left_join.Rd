@@ -55,7 +55,7 @@ if (require(sf)) {
   data_sf <- ipums_shape_inner_join(data, sf, by = "GISJOIN")
 }
 
-if (require(sp)) {
+if (require(sp) && require(rgdal)) {
   sp <- read_ipums_sp(ripums_example("nhgis0008_shape_small.zip"))
   data_sp <- ipums_shape_inner_join(data, sp, by = "GISJOIN")
 }
