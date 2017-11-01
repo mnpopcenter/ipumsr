@@ -1,7 +1,13 @@
 Package: ripums
 Title: Read IPUMS Extract Files into R
-Version: 0.0.1.9000
-Authors@R: person("Minnesota Population Center", email = "gfellis@umn.edu", role = c("aut", "cre"))
+Version: 0.1.0
+Authors@R: c(
+  person("Greg Freedman Ellis", email = "gfellis@umn.edu", role = c("aut", "cre")), 
+  person("Derek Burk", role = "ctb"),
+  person("Joe Grover", role = "ctb"),
+  person("Minnesota Population Center", email = "ipums@umn.org", role = "cph")
+  )
+Contact: ipums@umn.org
 URL: https://www.ipums.org, https://github.com/mnpopcenter/ripums
 BugReports: https://github.com/mnpopcenter/ripums/issues
 Description: An easy way to import census, survey and geographic data provided by IPUMS
