@@ -14,6 +14,7 @@ test_that("Basic join works (sf)", {
 
 test_that("Basic join works (sp)", {
   skip_if_not_installed("sp")
+  skip_if_not_installed("rgdal")
   data <- read_nhgis(ripums_example("nhgis0008_csv.zip"), verbose = FALSE)
   shape <- read_ipums_sp(ripums_example("nhgis0008_shape_small.zip"), verbose = FALSE)
 

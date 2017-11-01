@@ -48,6 +48,14 @@ test_that(
 test_that(
   "find_files_in_zip respects dplyr-select style syntax",
   {
+    # mpcstats doesn't have zip installed correctly...
+    # So check and skip this test if zip doesn't run
+    temp_dir_zip_test <- tempfile()
+    dir.create(temp_dir_zip_test)
+    file.create(file.path(temp_dir_zip_test, "test1.txt"))
+    test_zip <- zip(temp_dir_zip_test, temp_dir_zip_test, flags = "q")
+    if (test_zip != 0) skip("zip doesn't work")
+
     # Again it's kind of weird that it takes quosures, but
     # since it's internal I think it's okay.
 
