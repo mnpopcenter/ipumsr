@@ -40,7 +40,7 @@ if (require(sf)) {
 }
 
 # If sp package is available, can load as SpatialPolygonsDataFrame
-if (require(sp)) {
+if (require(sp) && require(rgdal)) {
   sp_data <- read_ipums_sp(shape_file)
 }
 
