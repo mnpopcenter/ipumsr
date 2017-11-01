@@ -56,6 +56,20 @@ read_nhgis <- function(
 ) {
   data_layer <- enquo(data_layer)
 
+  if (!file.exists(data_file)) {
+    if (dirname(data_file) == ".") {
+      stop(paste0(
+        "Could not find data file named '", data_file, "' in current working directory:\n  ",
+        getwd(), "\nDo you need to change the directory with `setwd()`?"
+      ))
+    } else {
+      stop(paste0(
+        "Could not find data file, check the path in argument 'data_file':\n  ",
+        data_file
+      ))
+    }
+  }
+
   # Read data files ----
   data_is_zip <- stringr::str_sub(data_file, -4) == ".zip"
   if (data_is_zip) {

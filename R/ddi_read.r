@@ -23,6 +23,21 @@
 #' @export
 read_ipums_ddi <- function(ddi_file, data_layer = NULL) {
   data_layer <- enquo(data_layer)
+
+  if (!file.exists(ddi_file)) {
+    if (dirname(ddi_file) == ".") {
+      stop(paste0(
+        "Could not find DDI file named '", ddi_file, "' in current working directory:\n  ",
+        getwd(), "\nDo you need to change the directory with `setwd()`?"
+      ))
+    } else {
+      stop(paste0(
+        "Could not find DDI file, check the path in argument 'ddi_file':\n  ",
+        ddi_file
+      ))
+    }
+  }
+
   if (stringr::str_sub(ddi_file, -4) == ".zip") {
     ddi_in_zip <- find_files_in_zip(ddi_file, "xml", data_layer)
     ddi_file_load <- unz(ddi_file, ddi_in_zip)
