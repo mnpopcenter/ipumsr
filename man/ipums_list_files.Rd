@@ -32,7 +32,7 @@ shape files to look for}
 raster files to look for}
 }
 \value{
-A \code{tbl_df} data.frame containing the files avilable
+A \code{tbl_df} data.frame containing the files available
 }
 \description{
 Find which files can be loaded from an IPUMS extract zip file.

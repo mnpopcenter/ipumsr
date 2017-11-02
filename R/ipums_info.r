@@ -175,7 +175,7 @@ ipums_conditions.ipums_ddi <- function(object) {
 #'   "extract_notes", "conditions" or "citation".
 #' @return If \code{type} is NULL, a list with the \code{ipums_project},
 #'   \code{extract_date}, \code{extract_notes}, \code{conditions}, and \code{citation}.
-#'   Otherwise astring with the type of information requested in \code{type}.
+#'   Otherwise a string with the type of information requested in \code{type}.
 #' @examples
 #' ddi <- read_ipums_ddi(ripums_example("cps_00006.xml"))
 #' ipums_file_info(ddi)

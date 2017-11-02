@@ -17,7 +17,7 @@
 #'   shape files to look for
 #' @param raster_layer dplyr \code{\link[dplyr]{select}}-style notation for the
 #'   raster files to look for
-#' @return A \code{tbl_df} data.frame containing the files avilable
+#' @return A \code{tbl_df} data.frame containing the files available
 #' @examples
 #' nhgis_file <- ripums_example("nhgis0008_csv.zip")
 #' ipums_list_files(nhgis_file) # Only one extract available

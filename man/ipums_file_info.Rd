@@ -15,7 +15,7 @@ ipums_file_info(object, type = NULL)
 \value{
 If \code{type} is NULL, a list with the \code{ipums_project},
   \code{extract_date}, \code{extract_notes}, \code{conditions}, and \code{citation}.
-  Otherwise astring with the type of information requested in \code{type}.
+  Otherwise a string with the type of information requested in \code{type}.
 }
 \description{
 Get IPUMS metadata information about the data file loaded into R

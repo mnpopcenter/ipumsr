@@ -7,7 +7,7 @@
 lbl(...)
 }
 \arguments{
-\item{...}{Either one or two arugments, possibly named .val and .lbl. If a
+\item{...}{Either one or two arguments, possibly named .val and .lbl. If a
 single unnamed value, represents the label, if 2 unnamed values, the first
 is the value and the second is the label.}
 }
