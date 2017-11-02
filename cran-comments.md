@@ -1,3 +1,10 @@
+## Resubmission
+This is a resubmission. In this version we have:
+
+* Removed redundant "into R" in title
+* Placed 'IPUMS' in quotes in title/description
+* Added IPUMS website link to description 
+
 ## Test environments
 * Windows R 3.4.2 (local), devel (win-builder)
 * ubuntu 12.04 R 3.4.2, 3.3.3 and devel (on travis-ci)
