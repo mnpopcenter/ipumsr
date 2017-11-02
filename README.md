@@ -89,8 +89,6 @@ data <- read_ipums_micro(ddi)
 #> citation to the IPUMS bibliography: http://bibliography.ipums.org/
 #> 
 #> Reading data...
-#> Warning in read_lines_raw_(ds, n_max = n_max, progress = progress): NAs
-#> introduced by coercion to integer range
 #> Parsing data...
 
 # Variable description for the month variable
@@ -113,8 +111,6 @@ table(as_factor(data$MONTH, levels = "both"))
 
 # Can also load as a list by rectype
 data <- read_ipums_micro_list(ddi, verbose = FALSE)
-#> Warning in read_lines_raw_(ds, n_max = n_max, progress = progress): NAs
-#> introduced by coercion to integer range
 # Household data
 data$HOUSEHOLD
 #> # A tibble: 3,385 x 6
