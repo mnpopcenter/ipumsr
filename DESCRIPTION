@@ -5,9 +5,9 @@ Authors@R: c(
   person("Greg Freedman Ellis", email = "gfellis@umn.edu", role = c("aut", "cre")), 
   person("Derek Burk", role = "ctb"),
   person("Joe Grover", role = "ctb"),
-  person("Minnesota Population Center", email = "ipums@umn.org", role = "cph")
+  person("Minnesota Population Center", email = "ipums@umn.edu", role = "cph")
   )
-Contact: ipums@umn.org
+Contact: ipums@umn.edu
 URL: https://www.ipums.org, https://github.com/mnpopcenter/ripums
 BugReports: https://github.com/mnpopcenter/ripums/issues
 Description: An easy way to import census, survey and geographic data provided by 'IPUMS'
