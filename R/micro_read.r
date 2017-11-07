@@ -1,4 +1,4 @@
-# This file is part of the Minnesota Population Center's ripums.
+# This file is part of the Minnesota Population Center's ipumsr.
 # For copyright and licensing information, see the NOTICE and LICENSE files
 # in this project's top-level directory, and also on-line at:
 #   https://github.com/mnpopcenter/ripums
@@ -11,7 +11,7 @@
 #' DDI codebook and a fixed-width file. Loads the data with
 #' value labels (using \code{\link[haven]{labelled}} format)
 #' and variable labels. See 'Details' for more information on
-#' how record types are handled by the ripums package.
+#' how record types are handled by the ipumsr package.
 #'
 #' Some IPUMS projects have data for multiple types of records
 #' (eg Household and Person). When downloading data from many of these
@@ -22,7 +22,7 @@
 #'
 #' There also is the option to download "hierarchical" extracts,
 #' which are a single file with record types mixed in the rows.
-#' The ripums package offers two methods for importing this data.
+#' The ipumsr package offers two methods for importing this data.
 #'
 #' \code{read_ipums_micro} loads this data into a "long" format
 #' where the record types are mixed in the rows, but the variables
@@ -56,7 +56,7 @@
 #'   information.
 #' @examples
 #'   # Rectangular example file
-#'   cps_rect_ddi_file <- ripums_example("cps_00006.xml")
+#'   cps_rect_ddi_file <- ipums_example("cps_00006.xml")
 #'
 #'   cps <- read_ipums_micro(cps_rect_ddi_file)
 #'   # Or load DDI separately to keep the metadata
@@ -64,7 +64,7 @@
 #'   cps <- read_ipums_micro(ddi)
 #'
 #'   # Hierarchical example file
-#'   cps_hier_ddi_file <- ripums_example("cps_00010.xml")
+#'   cps_hier_ddi_file <- ipums_example("cps_00010.xml")
 #'
 #'   # Read in "long" format and you get 1 data frame
 #'   cps_long <- read_ipums_micro(cps_hier_ddi_file)

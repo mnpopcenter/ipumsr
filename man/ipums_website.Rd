@@ -43,7 +43,7 @@ Because some variables are constructed during the extract
 creation process, the URL may not always work unfortunately.
 }
 \examples{
-ddi <- read_ipums_ddi(ripums_example("cps_00006.xml"))
+ddi <- read_ipums_ddi(ipums_example("cps_00006.xml"))
 ipums_website(ddi, "MONTH", launch = FALSE)
 
 \dontrun{

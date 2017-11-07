@@ -37,7 +37,7 @@ purrr::walk(layers, function(layer) {
   temp_dir_inner <- file.path(temp_dir, layer$inner_name)
   dir.create(temp_dir_inner)
 
-  shp_data <- ripums::read_ipums_sf(
+  shp_data <- ipumsr::read_ipums_sf(
     file.path("data-raw/nhgis0024_shape.zip"),
     shape_layer = dplyr::matches(layer$inner_name)
   )
@@ -66,7 +66,7 @@ purrr::walk(layers, function(layer) {
 setwd(temp_dir)
 files <- file.path("nhgis0024_shape", dir("nhgis0024_shape/", recursive = TRUE))
 zip(
-  file.path(old_wd, "ripumsexamples/inst/extdata/nhgis0024_shape_small.zip"),
+  file.path(old_wd, "ipumsexamples/inst/extdata/nhgis0024_shape_small.zip"),
   files
 )
 

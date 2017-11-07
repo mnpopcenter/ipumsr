@@ -1,9 +1,9 @@
-Package: ripumsexamples
-Title: Example data for the ripums package
+Package: ipumsexamples
+Title: Example data for the ipumsr package
 Version: 0.0.1.9000
 Authors@R: person("Minnesota Population Center", email = "gfellis@umn.edu", role = c("aut", "cre"))
 Description: Example data extracts from the ipums website for use as
-    examples and tests for the ripums package.
+    examples and tests for the ipumsr package.
 Depends: R (>= 3.2.0)
 License: Mozilla Public License 2.0
 Encoding: UTF-8

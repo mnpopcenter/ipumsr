@@ -1,4 +1,4 @@
 library(testthat)
-library(ripums)
+library(ipumsr)
 
-test_check("ripums")
+test_check("ipumsr")

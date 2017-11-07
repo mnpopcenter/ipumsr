@@ -1,5 +1,5 @@
 ---
-title: "`ripums` Example - CPS"
+title: "`ipumsr` Example - CPS"
 author: "Minnesota Population Center"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
@@ -79,19 +79,19 @@ You will need to change the filepaths noted below to the place where you have
 saved the extracts.
 
 ```{r}
-library(ripums)
+library(ipumsr)
 
 # Change these filepaths to the filepaths of your downloaded extract
 cps_ddi_file <- "cps_00001.xml"
 cps_data_file <- "cps_00001.dat"
 ```
 ```{r, echo = FALSE}
-# If files doesn't exist, check if ripumsexamples is installed
+# If files doesn't exist, check if ipumsexamples is installed
 if (!file.exists(cps_ddi_file) | !file.exists(cps_data_file)) {
-  ripumsexamples_ddi <- system.file("extdata", "cps_00011.xml", package = "ripumsexamples")
-  ripumsexamples_data <- system.file("extdata", "cps_00011.dat.gz", package = "ripumsexamples")
-  if (file.exists(ripumsexamples_ddi)) cps_ddi_file <- ripumsexamples_ddi
-  if (file.exists(ripumsexamples_data)) cps_data_file <- ripumsexamples_data
+  ipumsexamples_ddi <- system.file("extdata", "cps_00011.xml", package = "ipumsexamples")
+  ipumsexamples_data <- system.file("extdata", "cps_00011.dat.gz", package = "ipumsexamples")
+  if (file.exists(ipumsexamples_ddi)) cps_ddi_file <- ipumsexamples_ddi
+  if (file.exists(ipumsexamples_data)) cps_data_file <- ipumsexamples_data
 }
 
 # But if they still don't exist, give an error message
@@ -106,7 +106,7 @@ if (!file.exists(cps_ddi_file) | !file.exists(cps_data_file)) {
     "The data is also available on github. You can install it using the following ",
     "commands: \n",
     "  if (!require(devtools)) install.packages('devtools')\n",
-    "  devtools::install_github('mnpopcenter/ripums/ripumsexamples')\n",
+    "  devtools::install_github('mnpopcenter/ripums/ipumsexamples')\n",
     "After installation, the data should be available for this vignette.\n\n"
   ))
   knitr::opts_chunk$set(eval = FALSE)
@@ -292,7 +292,7 @@ avg_hrs_by_health
 ```
 
 ### Bonus ### 
-A) Use the `ripums` package metadata functions (like `ipums_var_label()` and 
+A) Use the `ipumsr` package metadata functions (like `ipums_var_label()` and 
 `ipums_file_info()`) and `ggplot2` to make a graph of the relationship between
 HEALTH and percent employed (from Part III above).
 ```{r, fig.height = 4, fig.width = 7}

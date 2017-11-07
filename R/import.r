@@ -1,10 +1,10 @@
-# This file is part of the Minnesota Population Center's ripums.
+# This file is part of the Minnesota Population Center's ipumsr.
 # For copyright and licensing information, see the NOTICE and LICENSE files
 # in this project's top-level directory, and also on-line at:
 #   https://github.com/mnpopcenter/ripums
 
 # Rcpp for reading hierarchical data
-#' @useDynLib ripums
+#' @useDynLib ipumsr
 #' @importFrom Rcpp sourceCpp
 NULL
 
@@ -29,7 +29,7 @@ haven::is.labelled
 
 #' Select-style helpers from dplyr
 #'
-#' Several arguments in \code{ripums} allow syntax for selecting variables
+#' Several arguments in \code{ipumsr} allow syntax for selecting variables
 #' based on dplyr's \code{\link[dplyr]{select}} function. See details for more information.
 #'
 #' There are 3 broad categories of methods for specifying arguments for these select-style
@@ -43,7 +43,7 @@ haven::is.labelled
 #' @examples
 #' # For microdata, use this syntax to load variables
 #' # Load 3 variables by name
-#' cps_file <- ripums_example("cps_00006.xml")
+#' cps_file <- ipums_example("cps_00006.xml")
 #' data <- read_ipums_micro(cps_file, vars = c("YEAR", "MONTH", "PERNUM"))
 #'
 #' # Load same 3 variables using bare names
@@ -58,7 +58,7 @@ haven::is.labelled
 #' # For geographic extracts, `data_layer` and `shape_layer` arguments use the same conventions
 #' # to select file names from within zip files.
 #' # (This extract only contains 1 type of file, but some have multiple)
-#' csv_file <- ripums_example("nhgis0008_csv.zip")
+#' csv_file <- ipums_example("nhgis0008_csv.zip")
 #' data <- read_nhgis(
 #'   csv_file,
 #'   data_layer = contains("pmsa")

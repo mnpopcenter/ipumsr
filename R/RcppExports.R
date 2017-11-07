@@ -2,18 +2,18 @@
 # Generator token: 10BE3573-1514-4C36-9D1C-5A225CD40393
 
 raw_to_df_hier_list <- function(raw_, rt_info_, var_info_, encoding_) {
-    .Call('_ripums_raw_to_df_hier_list', PACKAGE = 'ripums', raw_, rt_info_, var_info_, encoding_)
+    .Call('_ipumsr_raw_to_df_hier_list', PACKAGE = 'ipumsr', raw_, rt_info_, var_info_, encoding_)
 }
 
 raw_to_df_hier_long <- function(raw_, num_vars, rt_info_, var_info_, encoding_) {
-    .Call('_ripums_raw_to_df_hier_long', PACKAGE = 'ripums', raw_, num_vars, rt_info_, var_info_, encoding_)
+    .Call('_ipumsr_raw_to_df_hier_long', PACKAGE = 'ipumsr', raw_, num_vars, rt_info_, var_info_, encoding_)
 }
 
 set_ipums_var_attributes_ <- function(x, var_info) {
-    .Call('_ripums_set_ipums_var_attributes_', PACKAGE = 'ripums', x, var_info)
+    .Call('_ipumsr_set_ipums_var_attributes_', PACKAGE = 'ipumsr', x, var_info)
 }
 
 set_imp_decim_ <- function(x, var_info) {
-    .Call('_ripums_set_imp_decim_', PACKAGE = 'ripums', x, var_info)
+    .Call('_ipumsr_set_imp_decim_', PACKAGE = 'ipumsr', x, var_info)
 }
 

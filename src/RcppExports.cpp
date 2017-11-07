@@ -7,7 +7,7 @@ using namespace Rcpp;
 
 // raw_to_df_hier_list
 RObject raw_to_df_hier_list(List raw_, List rt_info_, List var_info_, CharacterVector encoding_);
-RcppExport SEXP _ripums_raw_to_df_hier_list(SEXP raw_SEXP, SEXP rt_info_SEXP, SEXP var_info_SEXP, SEXP encoding_SEXP) {
+RcppExport SEXP _ipumsr_raw_to_df_hier_list(SEXP raw_SEXP, SEXP rt_info_SEXP, SEXP var_info_SEXP, SEXP encoding_SEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -21,7 +21,7 @@ END_RCPP
 }
 // raw_to_df_hier_long
 RObject raw_to_df_hier_long(List raw_, int num_vars, List rt_info_, List var_info_, CharacterVector encoding_);
-RcppExport SEXP _ripums_raw_to_df_hier_long(SEXP raw_SEXP, SEXP num_varsSEXP, SEXP rt_info_SEXP, SEXP var_info_SEXP, SEXP encoding_SEXP) {
+RcppExport SEXP _ipumsr_raw_to_df_hier_long(SEXP raw_SEXP, SEXP num_varsSEXP, SEXP rt_info_SEXP, SEXP var_info_SEXP, SEXP encoding_SEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -36,7 +36,7 @@ END_RCPP
 }
 // set_ipums_var_attributes_
 DataFrame set_ipums_var_attributes_(DataFrame x, DataFrame var_info);
-RcppExport SEXP _ripums_set_ipums_var_attributes_(SEXP xSEXP, SEXP var_infoSEXP) {
+RcppExport SEXP _ipumsr_set_ipums_var_attributes_(SEXP xSEXP, SEXP var_infoSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -48,7 +48,7 @@ END_RCPP
 }
 // set_imp_decim_
 DataFrame set_imp_decim_(DataFrame x, DataFrame var_info);
-RcppExport SEXP _ripums_set_imp_decim_(SEXP xSEXP, SEXP var_infoSEXP) {
+RcppExport SEXP _ipumsr_set_imp_decim_(SEXP xSEXP, SEXP var_infoSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -60,14 +60,14 @@ END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
-    {"_ripums_raw_to_df_hier_list", (DL_FUNC) &_ripums_raw_to_df_hier_list, 4},
-    {"_ripums_raw_to_df_hier_long", (DL_FUNC) &_ripums_raw_to_df_hier_long, 5},
-    {"_ripums_set_ipums_var_attributes_", (DL_FUNC) &_ripums_set_ipums_var_attributes_, 2},
-    {"_ripums_set_imp_decim_", (DL_FUNC) &_ripums_set_imp_decim_, 2},
+    {"_ipumsr_raw_to_df_hier_list", (DL_FUNC) &_ipumsr_raw_to_df_hier_list, 4},
+    {"_ipumsr_raw_to_df_hier_long", (DL_FUNC) &_ipumsr_raw_to_df_hier_long, 5},
+    {"_ipumsr_set_ipums_var_attributes_", (DL_FUNC) &_ipumsr_set_ipums_var_attributes_, 2},
+    {"_ipumsr_set_imp_decim_", (DL_FUNC) &_ipumsr_set_imp_decim_, 2},
     {NULL, NULL, 0}
 };
 
-RcppExport void R_init_ripums(DllInfo *dll) {
+RcppExport void R_init_ipumsr(DllInfo *dll) {
     R_registerRoutines(dll, NULL, CallEntries, NULL, NULL);
     R_useDynamicSymbols(dll, FALSE);
 }

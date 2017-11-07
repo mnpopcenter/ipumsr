@@ -40,7 +40,7 @@ Attribute \code{var_desc} Adds a longer summary of the variable's
 contents to the attribute "var_desc" when available.
 }
 \examples{
-  ddi_file <- ripums_example("cps_00006.xml")
+  ddi_file <- ipums_example("cps_00006.xml")
   ddi <- read_ipums_ddi(ddi_file)
   cps <- read_ipums_micro(ddi, var_attrs = NULL) # Don't load with attributes
 

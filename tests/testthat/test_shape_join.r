@@ -2,8 +2,8 @@ context("ipums_shape_*_join work")
 
 test_that("Basic join works (sf)", {
   skip_if_not_installed("sf")
-  data <- read_nhgis(ripums_example("nhgis0008_csv.zip"), verbose = FALSE)
-  shape <- read_ipums_sf(ripums_example("nhgis0008_shape_small.zip"), verbose = FALSE)
+  data <- read_nhgis(ipums_example("nhgis0008_csv.zip"), verbose = FALSE)
+  shape <- read_ipums_sf(ipums_example("nhgis0008_shape_small.zip"), verbose = FALSE)
 
   joined <- ipums_shape_inner_join(data, shape, by = "GISJOIN")
 
@@ -15,8 +15,8 @@ test_that("Basic join works (sf)", {
 test_that("Basic join works (sp)", {
   skip_if_not_installed("sp")
   skip_if_not_installed("rgdal")
-  data <- read_nhgis(ripums_example("nhgis0008_csv.zip"), verbose = FALSE)
-  shape <- read_ipums_sp(ripums_example("nhgis0008_shape_small.zip"), verbose = FALSE)
+  data <- read_nhgis(ipums_example("nhgis0008_csv.zip"), verbose = FALSE)
+  shape <- read_ipums_sp(ipums_example("nhgis0008_shape_small.zip"), verbose = FALSE)
 
   joined <- ipums_shape_inner_join(data, shape, by = "GISJOIN")
 
@@ -26,8 +26,8 @@ test_that("Basic join works (sp)", {
 
 test_that("suffix argument works (sf)", {
   skip_if_not_installed("sf")
-  data <- read_nhgis(ripums_example("nhgis0008_csv.zip"), verbose = FALSE)
-  shape <- read_ipums_sf(ripums_example("nhgis0008_shape_small.zip"), verbose = FALSE)
+  data <- read_nhgis(ipums_example("nhgis0008_csv.zip"), verbose = FALSE)
+  shape <- read_ipums_sf(ipums_example("nhgis0008_shape_small.zip"), verbose = FALSE)
 
   data$test <- 1
   shape$test <- 2
@@ -40,8 +40,8 @@ test_that("suffix argument works (sf)", {
 
 test_that("complicated by works (sf)", {
   skip_if_not_installed("sf")
-  data <- read_nhgis(ripums_example("nhgis0008_csv.zip"), verbose = FALSE)
-  shape <- read_ipums_sf(ripums_example("nhgis0008_shape_small.zip"), verbose = FALSE)
+  data <- read_nhgis(ipums_example("nhgis0008_csv.zip"), verbose = FALSE)
+  shape <- read_ipums_sf(ipums_example("nhgis0008_shape_small.zip"), verbose = FALSE)
 
   joined_regular <- ipums_shape_inner_join(data, shape, by = "GISJOIN")
 
@@ -62,8 +62,8 @@ test_that("complicated by works (sf)", {
 
 test_that("error for missing a by variable (sf)", {
   skip_if_not_installed("sf")
-  data <- read_nhgis(ripums_example("nhgis0008_csv.zip"), verbose = FALSE)
-  shape <- read_ipums_sf(ripums_example("nhgis0008_shape_small.zip"), verbose = FALSE)
+  data <- read_nhgis(ipums_example("nhgis0008_csv.zip"), verbose = FALSE)
+  shape <- read_ipums_sf(ipums_example("nhgis0008_shape_small.zip"), verbose = FALSE)
 
   shape$GISJOIN <- NULL
   expect_error(joined <- ipums_shape_inner_join(data, shape, by = "GISJOIN"))
@@ -71,8 +71,8 @@ test_that("error for missing a by variable (sf)", {
 
 test_that("Join failures are mentioned", {
   skip_if_not_installed("sf")
-  data <- read_nhgis(ripums_example("nhgis0008_csv.zip"), verbose = FALSE)
-  shape <- read_ipums_sf(ripums_example("nhgis0008_shape_small.zip"), verbose = FALSE)
+  data <- read_nhgis(ipums_example("nhgis0008_csv.zip"), verbose = FALSE)
+  shape <- read_ipums_sf(ipums_example("nhgis0008_shape_small.zip"), verbose = FALSE)
 
   joined_regular <- ipums_shape_inner_join(data, shape, by = "GISJOIN")
 

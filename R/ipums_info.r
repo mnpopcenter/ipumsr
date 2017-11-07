@@ -1,4 +1,4 @@
-# This file is part of the Minnesota Population Center's ripums.
+# This file is part of the Minnesota Population Center's ipumsr.
 # For copyright and licensing information, see the NOTICE and LICENSE files
 # in this project's top-level directory, and also on-line at:
 #   https://github.com/mnpopcenter/ripums
@@ -39,7 +39,7 @@
 #'   \code{ipums_var_info} returns a \code{tbl_df} data frame with variable information, and
 #'   the other functions return a length 1 character vector.
 #' @examples
-#' ddi <- read_ipums_ddi(ripums_example("cps_00006.xml"))
+#' ddi <- read_ipums_ddi(ipums_example("cps_00006.xml"))
 #'
 #' ipums_var_info(ddi)
 #' ipums_var_desc(ddi, MONTH)
@@ -177,7 +177,7 @@ ipums_conditions.ipums_ddi <- function(object) {
 #'   \code{extract_date}, \code{extract_notes}, \code{conditions}, and \code{citation}.
 #'   Otherwise a string with the type of information requested in \code{type}.
 #' @examples
-#' ddi <- read_ipums_ddi(ripums_example("cps_00006.xml"))
+#' ddi <- read_ipums_ddi(ipums_example("cps_00006.xml"))
 #' ipums_file_info(ddi)
 #' @export
 ipums_file_info <- function(object, type = NULL) {

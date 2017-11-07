@@ -1,4 +1,4 @@
-Package: ripums
+Package: ipumsr
 Title: Read 'IPUMS' Extract Files
 Version: 0.1.0
 Authors@R: c(

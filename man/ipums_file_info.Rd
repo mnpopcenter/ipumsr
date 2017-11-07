@@ -22,6 +22,6 @@ Get IPUMS metadata information about the data file loaded into R
 from an ipums_ddi
 }
 \examples{
-ddi <- read_ipums_ddi(ripums_example("cps_00006.xml"))
+ddi <- read_ipums_ddi(ipums_example("cps_00006.xml"))
 ipums_file_info(ddi)
 }
