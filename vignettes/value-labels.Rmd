@@ -16,16 +16,16 @@ knitr::opts_chunk$set(
 )
 ```
 
-# Value labels in the ipumsr package
+# Value labels in the ripums package
 Integrated variables in IPUMS data often have value labels, which attach
 text labels to the values taken by a variable (for example the HEALTH variable 
-has value labels: 1 = "Excellent", 2 = "Very good", etc.). The `ipumsr` package
+has value labels: 1 = "Excellent", 2 = "Very good", etc.). The `ripums` package
 does import the labels, but not as factors, which may be how you were expecting them.
 The values can be hard to spot at first:
 
 ```{r}
-library(ipumsr)
-ddi <- read_ipums_ddi(ipums_example("cps_00015.xml"))
+library(ripums)
+ddi <- read_ipums_ddi(ripums_example("cps_00015.xml"))
 cps <- read_ipums_micro(ddi, verbose = FALSE)
 
 cps
@@ -120,7 +120,7 @@ to convert the labelled values to other data structures. The bad news is
 that there's no good automatic way to do this; a lot depends on how you plan to use
 the variables in your analysis and your preferences. 
 
-The good news is that the ipumsr package provides several functions to 
+The good news is that the ripums package provides several functions to 
 make this process easier.
 
 I think it is easiest to learn them by seeing them in action, so
@@ -135,7 +135,7 @@ For your reference, here is a list of the functions:
 - `lbl_add()`
 - `lbl_add_vals()`
 
-# Workflow example using ipumsr functions
+# Workflow example using ripums functions
 ## `as_factor()`
 The HEALTH variable is structured just like a factor and so can be converted directly.
 The `as_factor()` function is the easiest way to do so.
@@ -321,18 +321,18 @@ implementation of the labelled class. You can view it by running the command:
 
 The [labelled](http://larmarange.github.io/labelled/articles/intro_labelled.html) 
 package provides other methods for manipulating
-value labels. It is not installed by ipumsr, but is available on CRAN via the
+value labels. It is not installed by ripums, but is available on CRAN via the
 following command: `install.packages("labelled")`
 
 The [questionr](https://juba.github.io/questionr/) package includes great
 functions for exploring `labelled` variables. In particular, the functions
 `describe`, `freq` and `lookfor` all print out to console information about the
-variable using the value labels. It is also not installed by ipumsr, but can be
+variable using the value labels. It is also not installed by ripums, but can be
 installed from CRAN using: `install.packages("questionr")`
 
 Finally, the [foreign](https://cran.r-project.org/package=foreign) and 
 [prettyR](https://cran.r-project.org/package=prettyR) packages don't use the 
-`labelled` class data structure from haven (which ipumsr uses), but do have very
+`labelled` class data structure from haven (which ripums uses), but do have very
 similar concepts for attaching value labels. Code designed for these packages 
 could be adapted for use with the haven labelled class without too much 
 difficulty.

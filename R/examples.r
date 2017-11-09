@@ -1,9 +1,9 @@
-# This file is part of the Minnesota Population Center's ipumsr.
+# This file is part of the Minnesota Population Center's ripums.
 # For copyright and licensing information, see the NOTICE and LICENSE files
 # in this project's top-level directory, and also on-line at:
 #   https://github.com/mnpopcenter/ripums
 
-#' Get path to ipums example datasets
+#' Get path to ripums example datasets
 #'
 #' Get access to example extracts.
 #'
@@ -12,15 +12,15 @@
 #'   available files.
 #' @export
 #' @examples
-#' ipums_example() # Lists all available examples
-#' ipums_example("cps_00006.xml") # Gives filepath for a cps DDI
-ipums_example <- function(path = NULL) {
+#' ripums_example() # Lists all available examples
+#' ripums_example("cps_00006.xml") # Gives filepath for a cps DDI
+ripums_example <- function(path = NULL) {
   if (is.null(path)) {
-    file <- dir(system.file("extdata", package = "ipumsr"))
+    file <- dir(system.file("extdata", package = "ripums"))
   } else {
-    file <- system.file("extdata", path, package = "ipumsr")
+    file <- system.file("extdata", path, package = "ripums")
     if (!file.exists(file)) {
-      all_files <- paste(dir(system.file("extdata", package = "ipumsr")), collapse = ", ")
+      all_files <- paste(dir(system.file("extdata", package = "ripums")), collapse = ", ")
       stop(paste(
         custom_format_text(
           "Could not find file '", path, "' in examples. Available files are:",

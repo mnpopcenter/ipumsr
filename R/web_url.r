@@ -1,4 +1,4 @@
-# This file is part of the Minnesota Population Center's ipumsr.
+# This file is part of the Minnesota Population Center's ripums.
 # For copyright and licensing information, see the NOTICE and LICENSE files
 # in this project's top-level directory, and also on-line at:
 #   https://github.com/mnpopcenter/ripums
@@ -29,7 +29,7 @@
 #'   specific web pages.
 #' @return The url to the page on ipums.org (silently if launch is \code{TRUE})
 #' @examples
-#' ddi <- read_ipums_ddi(ipums_example("cps_00006.xml"))
+#' ddi <- read_ipums_ddi(ripums_example("cps_00006.xml"))
 #' ipums_website(ddi, "MONTH", launch = FALSE)
 #'
 #' \dontrun{

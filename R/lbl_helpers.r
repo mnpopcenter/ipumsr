@@ -1,4 +1,4 @@
-# This file is part of the Minnesota Population Center's ipumsr.
+# This file is part of the Minnesota Population Center's ripums.
 # For copyright and licensing information, see the NOTICE and LICENSE files
 # in this project's top-level directory, and also on-line at:
 #   https://github.com/mnpopcenter/ripums
@@ -417,7 +417,7 @@ fill_in_lbl <- function(lblval, orig_labels) {
 #' @param x A variable or a whole data.frame to remove attributes from
 #' @return A variable or data.frame
 #' @examples
-#' cps <- read_ipums_micro(ipums_example("cps_00006.xml"))
+#' cps <- read_ipums_micro(ripums_example("cps_00006.xml"))
 #' annual_unemployment <- data.frame(YEAR = c(1962, 1963), unemp = c(5.5, 5.7))
 #'
 #' # Avoids warning 'Column `YEAR` has different attributes on LHS and RHS of join'

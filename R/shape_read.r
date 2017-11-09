@@ -1,4 +1,4 @@
-# This file is part of the Minnesota Population Center's ipumsr.
+# This file is part of the Minnesota Population Center's ripums.
 # For copyright and licensing information, see the NOTICE and LICENSE files
 # in this project's top-level directory, and also on-line at:
 #   https://github.com/mnpopcenter/ripums
@@ -20,7 +20,7 @@
 #' @return \code{read_ipums_sf} returns a sf object and \code{read_ipums_sp} returns
 #'   a SpatialPolygonsDataFrame.
 #' @examples
-#' shape_file <- ipums_example("nhgis0008_shape_small.zip")
+#' shape_file <- ripums_example("nhgis0008_shape_small.zip")
 #' # If sf package is availble, can load as sf object
 #' if (require(sf)) {
 #'   sf_data <- read_ipums_sf(shape_file)

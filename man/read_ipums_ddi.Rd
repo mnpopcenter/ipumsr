@@ -23,7 +23,7 @@ usage for the data and positions for the fixed-width file.
 }
 \examples{
 # Example extract DDI
-ddi_file <- ipums_example("cps_00006.xml")
+ddi_file <- ripums_example("cps_00006.xml")
 ddi <- read_ipums_ddi(ddi_file)
 }
 \seealso{

@@ -4,7 +4,7 @@ language: R
 sudo: required
 cache: packages
 dist: trusty
-r_github_packages: mnpopcenter/ripums/ipumsexamples
+r_github_packages: mnpopcenter/ripums/ripumsexamples
 
 r:
 - release

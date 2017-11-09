@@ -1,4 +1,4 @@
-# This file is part of the Minnesota Population Center's ipumsr.
+# This file is part of the Minnesota Population Center's ripums.
 # For copyright and licensing information, see the NOTICE and LICENSE files
 # in this project's top-level directory, and also on-line at:
 #   https://github.com/mnpopcenter/ripums
@@ -31,8 +31,8 @@
 #'   adding all (val_labels, var_label and var_desc). See
 #'   \code{\link{set_ipums_var_attributes}} for more details.
 #' @examples
-#' csv_file <- ipums_example("nhgis0008_csv.zip")
-#' shape_file <- ipums_example("nhgis0008_shape_small.zip")
+#' csv_file <- ripums_example("nhgis0008_csv.zip")
+#' shape_file <- ripums_example("nhgis0008_shape_small.zip")
 #'
 #' data_only <- read_nhgis(csv_file)
 #'

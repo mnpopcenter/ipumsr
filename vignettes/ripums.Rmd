@@ -1,10 +1,10 @@
 ---
-title: "Introduction to `ipumsr` - IPUMS Data in R"
+title: "Introduction to `ripums` - IPUMS Data in R"
 author: "Minnesota Population Center"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{ipums}
+  %\VignetteIndexEntry{ripums}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -15,7 +15,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-The `ipumsr` package allows you to read in data from your extract into R along with 
+The `ripums` package allows you to read in data from your extract into R along with 
 the associated metadata like variable labels, value labels and more. IPUMS 
 is a great source of international census and survey data.
 
@@ -28,16 +28,16 @@ is a great source of international census and survey data.
 Learn more here: <https://www.ipums.org/whatIsIPUMS.shtml>
 
 # Basics
-This vignette gives the basic outline of the `ipumsr` package. There are also
+This vignette gives the basic outline of the `ripums` package. There are also
 vignettes that show how to use the value labels and geographic data provided by IPUMS
 and others that run through examples using CPS data and NHGIS data. 
 
 To get to them run the following commands:
 ```{r, eval = FALSE}
-vignette("value-labels", package = "ipumsr")
-vignette("ipums-geography", package = "ipumsr")
-vignette("ipums-cps", package = "ipumsr")
-vignette("ipums-nhgis", package = "ipumsr")
+vignette("value-labels", package = "ripums")
+vignette("ipums-geography", package = "ripums")
+vignette("ipums-cps", package = "ripums")
+vignette("ipums-nhgis", package = "ripums")
 ```
 
 ## Getting Data from the IPUMS website
@@ -63,7 +63,7 @@ the associated mapping data, the GIS data. NHGIS provides the option to download
 csvs with an extra header row, it does not matter which option you select.
 
 ## Import Functions
-Once your extract is downloaded, the `ipumsr` package functions `read_*()`
+Once your extract is downloaded, the `ripums` package functions `read_*()`
 help you load the data into R. 
 
 - `read_ipums_micro()` / `read_ipums_micro_list()`: Reads data from microdata projects (USA, CPS, International, DHS, Time Use, Health Surveys and Higher Ed)
@@ -102,7 +102,7 @@ to store values associated with labels). R's `factor` variables can only store
 values as an integer sequence (1, 2, 3, ...), but IPUMS conventions are to store 
 missing / not in universe codes as large numbers, to distinguish them from the normal values.
 
-Therefore, the `ipumsr` package uses the `labelled` class from the `haven` package to store
+Therefore, the `ripums` package uses the `labelled` class from the `haven` package to store
 labelled values. See the "value-labels" vignette for more information 
 (`vignette('value-labels')`).
 
@@ -113,11 +113,11 @@ function `as_factor()` is the main function to create factors from labels, but
 often you will need to do more manipulation before that.
 
 ```{r}
-library(ipumsr)
+library(ripums)
 library(dplyr, warn.conflicts = FALSE)
 
 # Note that you can pass in the loaded DDI into the `read_ipums_micro()`
-cps_ddi <- read_ipums_ddi(ipums_example("cps_00006.xml"))
+cps_ddi <- read_ipums_ddi(ripums_example("cps_00006.xml"))
 cps_data <- read_ipums_micro(cps_ddi, verbose = FALSE)
 
 # Show which variables have labels
@@ -160,18 +160,18 @@ table(cps_data$STATE_factor4, useNA = "always")
 ```
 
 ### Other IPUMS attributes
-Similarly, the other attributes that `ipumsr` stores about the data are often lost
+Similarly, the other attributes that `ripums` stores about the data are often lost
 during an analysis. One way to deal with this is to load the DDI or codebook in addition
 to the actual data using the functions `read_ipums_ddi()` and `read_ipums_codebook()`. This
 way, when you wish to refer to variable labels or other metadata, you can use the 
 DDI object, which does not get modified during your analysis.
 
 ```{r}
-library(ipumsr)
+library(ripums)
 library(dplyr, warn.conflicts = FALSE)
 
 # Note that you can pass in the loaded DDI into the `read_ipums_micro()`
-cps_ddi <- read_ipums_ddi(ipums_example("cps_00006.xml"))
+cps_ddi <- read_ipums_ddi(ripums_example("cps_00006.xml"))
 cps_data <- read_ipums_micro(cps_ddi, verbose = FALSE)
 
 # Currently variable description is available for year
@@ -191,18 +191,18 @@ ipums_file_info(cps_ddi, "extract_notes")
 ```
 
 ### "dplyr select-style" Syntax
-Several functions within the `ipumsr` package allow for "dplyr select-style" syntax.
+Several functions within the `ripums` package allow for "dplyr select-style" syntax.
 This means that they accept either a character vector of values (eg `c("YEAR", "AGE")`), 
 bare vectors of values (eg `c(YEAR, AGE)`) and the helper functions allowed in 
 `dplyr::select()` (eg `one_of(c("YEAR", "AGE"))`).
 
 ```{r}
-library(ipumsr)
+library(ripums)
 library(dplyr, warn.conflicts = FALSE)
 
 # The vars argument for `read_ipums_micro` uses this syntax
 # So these are all equivalent
-cf <- ipums_example("cps_00006.xml")
+cf <- ripums_example("cps_00006.xml")
 read_ipums_micro(cf, vars = c("YEAR", "INCTOT"), verbose = FALSE) %>%
   names()
 
@@ -215,7 +215,7 @@ read_ipums_micro(cf, vars = c(one_of("YEAR"), starts_with("INC")), verbose = FAL
 # `data_layer` and `shape_layer` arguments to `read_nhgis()` and terra functions
 # also use it.
 # (Sometimes extracts have multiple files, though all examples only have one)
-nf <- ipums_example("nhgis0008_csv.zip")
+nf <- ripums_example("nhgis0008_csv.zip")
 ipums_list_files(nf)
 
 ipums_list_files(nf, data_layer = "nhgis0008_csv/nhgis0008_ds135_1990_pmsa.csv")
@@ -226,7 +226,7 @@ ipums_list_files(nf, data_layer = contains("ds135"))
 ### Hierarchical data structures
 For certain IPUMS projects, the data is hierarchical, multiple people are 
 included in a single household, or multiple activities are performed by
-a single person. The `ipumsr` package provides two data structures for
+a single person. The `ripums` package provides two data structures for
 storing such data (for users who did not select the "rectangularize" option
 on the website). The data can be loaded as a `"list"` or `"long"`. 
 
@@ -240,12 +240,12 @@ Therefore, datasets loaded this way often contain variables with a large
 number of missings, for the variables that only apply to certain record types. 
 Use the function `read_ipums_micro()` to load the data this way.
 ```{r}
-library(ipumsr)
+library(ripums)
 library(dplyr, warn.conflicts = FALSE)
 
 # List data
 cps <- read_ipums_micro_list(
-  ipums_example("cps_00010.xml"),
+  ripums_example("cps_00010.xml"),
   verbose = FALSE
 )
 
@@ -255,7 +255,7 @@ cps$HOUSEHOLD
 
 # Long data
 cps <- read_ipums_micro(
-  ipums_example("cps_00010.xml"),
+  ripums_example("cps_00010.xml"),
   verbose = FALSE
 )
 
@@ -263,11 +263,11 @@ cps
 ```
 
 ### Geospatial Packages: `sf` vs `sp`
-The `ipumsr` package allows for loading geospatial data in two formats (sf for
+The `ripums` package allows for loading geospatial data in two formats (sf for
 Simple Features and sp for Spatial). The `sf` package is relatively new, and so 
 does not have as widespread support as the `sp` package. However, (in my opinion)
 it does allow for easier analysis, and so may be a better place to start if you
 have not used GIS data in R before.
 
-For more details about how to load geographic data using ipumsr, see the vignette
-"ipums-geography" (`vignette("ipums-geography", package = "ipumsr")`)
+For more details about how to load geographic data using ripums, see the vignette
+"ipums-geography" (`vignette("ipums-geography", package = "ripums")`)

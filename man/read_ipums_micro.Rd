@@ -49,7 +49,7 @@ For IPUMS projects with microdata, it relies on a downloaded
 DDI codebook and a fixed-width file. Loads the data with
 value labels (using \code{\link[haven]{labelled}} format)
 and variable labels. See 'Details' for more information on
-how record types are handled by the ipumsr package.
+how record types are handled by the ripums package.
 }
 \details{
 Some IPUMS projects have data for multiple types of records
@@ -61,7 +61,7 @@ type of record.
 
 There also is the option to download "hierarchical" extracts,
 which are a single file with record types mixed in the rows.
-The ipumsr package offers two methods for importing this data.
+The ripums package offers two methods for importing this data.
 
 \code{read_ipums_micro} loads this data into a "long" format
 where the record types are mixed in the rows, but the variables
@@ -75,7 +75,7 @@ are the text from the record type labels without 'Record'
 }
 \examples{
   # Rectangular example file
-  cps_rect_ddi_file <- ipums_example("cps_00006.xml")
+  cps_rect_ddi_file <- ripums_example("cps_00006.xml")
 
   cps <- read_ipums_micro(cps_rect_ddi_file)
   # Or load DDI separately to keep the metadata
@@ -83,7 +83,7 @@ are the text from the record type labels without 'Record'
   cps <- read_ipums_micro(ddi)
 
   # Hierarchical example file
-  cps_hier_ddi_file <- ipums_example("cps_00010.xml")
+  cps_hier_ddi_file <- ripums_example("cps_00010.xml")
 
   # Read in "long" format and you get 1 data frame
   cps_long <- read_ipums_micro(cps_hier_ddi_file)

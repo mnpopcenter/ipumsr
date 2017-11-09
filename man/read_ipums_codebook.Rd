@@ -25,7 +25,7 @@ available for other projects.
 }
 \examples{
 # Example NHGIS extract
-nhgis_file <- ipums_example("nhgis0008_csv.zip")
+nhgis_file <- ripums_example("nhgis0008_csv.zip")
 ddi <- read_ipums_codebook(nhgis_file)
 }
 \seealso{

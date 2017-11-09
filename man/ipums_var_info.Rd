@@ -53,7 +53,7 @@ the metadata from the loaded datasets, but it is more reliable to load the DDI
 into a separate object and use it instead.
 }
 \examples{
-ddi <- read_ipums_ddi(ipums_example("cps_00006.xml"))
+ddi <- read_ipums_ddi(ripums_example("cps_00006.xml"))
 
 ipums_var_info(ddi)
 ipums_var_desc(ddi, MONTH)

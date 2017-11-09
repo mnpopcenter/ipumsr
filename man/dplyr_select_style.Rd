@@ -4,7 +4,7 @@
 \alias{dplyr_select_style}
 \title{Select-style helpers from dplyr}
 \description{
-Several arguments in \code{ipumsr} allow syntax for selecting variables
+Several arguments in \code{ripums} allow syntax for selecting variables
 based on dplyr's \code{\link[dplyr]{select}} function. See details for more information.
 }
 \details{
@@ -20,7 +20,7 @@ parameters.
 \examples{
 # For microdata, use this syntax to load variables
 # Load 3 variables by name
-cps_file <- ipums_example("cps_00006.xml")
+cps_file <- ripums_example("cps_00006.xml")
 data <- read_ipums_micro(cps_file, vars = c("YEAR", "MONTH", "PERNUM"))
 
 # Load same 3 variables using bare names
@@ -35,7 +35,7 @@ data <- read_ipums_micro(cps_file, vars = c(YEAR, MONTH, contains("INC")))
 # For geographic extracts, `data_layer` and `shape_layer` arguments use the same conventions
 # to select file names from within zip files.
 # (This extract only contains 1 type of file, but some have multiple)
-csv_file <- ipums_example("nhgis0008_csv.zip")
+csv_file <- ripums_example("nhgis0008_csv.zip")
 data <- read_nhgis(
   csv_file,
   data_layer = contains("pmsa")

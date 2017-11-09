@@ -1,5 +1,5 @@
 ---
-title: "`ipumsr` Example - NHGIS"
+title: "`ripums` Example - NHGIS"
 author: "Minnesota Population Center"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
@@ -151,7 +151,7 @@ You will need to change the filepaths noted below to the place where you have
 saved the extracts.
 
 ```{r}
-library(ipumsr)
+library(ripums)
 library(sf)
 
 # Change these filepaths to the filepaths of your downloaded extract
@@ -159,12 +159,12 @@ nhgis_csv_file <- "nhgis0001_csv.zip"
 nhgis_shp_file <- "nhgis0001_shape.zip"
 ```
 ```{r, echo = FALSE}
-# If files doesn't exist, check if ipumsexamples is installed
+# If files doesn't exist, check if ripumsexamples is installed
 if (!file.exists(nhgis_csv_file) | !file.exists(nhgis_shp_file)) {
-  ipumsexamples_csv <- system.file("extdata", "nhgis0010_csv.zip", package = "ipumsexamples")
-  ipumsexamples_shp <- system.file("extdata", "nhgis0010_shape.zip", package = "ipumsexamples")
-  if (file.exists(ipumsexamples_csv)) nhgis_csv_file <- ipumsexamples_csv
-  if (file.exists(ipumsexamples_shp)) nhgis_shp_file <- ipumsexamples_shp
+  ripumsexamples_csv <- system.file("extdata", "nhgis0010_csv.zip", package = "ripumsexamples")
+  ripumsexamples_shp <- system.file("extdata", "nhgis0010_shape.zip", package = "ripumsexamples")
+  if (file.exists(ripumsexamples_csv)) nhgis_csv_file <- ripumsexamples_csv
+  if (file.exists(ripumsexamples_shp)) nhgis_shp_file <- ripumsexamples_shp
 }
 
 # But if they still don't exist, give an error message
@@ -179,7 +179,7 @@ if (!file.exists(nhgis_csv_file) | !file.exists(nhgis_shp_file)) {
     "The data is also available on github. You can install it using the following ",
     "commands: \n",
     "  if (!require(devtools)) install.packages('devtools')\n",
-    "  devtools::install_github('mnpopcenter/ripums/ipumsexamples')\n",
+    "  devtools::install_github('mnpopcenter/ripums/ripumsexamples')\n",
     "After installation, the data should be available for this vignette.\n\n"
   ))
   knitr::opts_chunk$set(eval = FALSE)

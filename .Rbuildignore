@@ -7,7 +7,7 @@
 ^CONDUCT.md$
 ^CONTRIBUTING.md$
 ^data-raw$
-^ipumsexamples$
+^ripumsexamples$
 ^appveyor\.yml$
 ^\.travis\.yml$
 ^codecov\.yml$

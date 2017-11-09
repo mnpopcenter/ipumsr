@@ -1,4 +1,4 @@
-# This file is part of the Minnesota Population Center's ipumsr.
+# This file is part of the Minnesota Population Center's ripums.
 # For copyright and licensing information, see the NOTICE and LICENSE files
 # in this project's top-level directory, and also on-line at:
 #   https://github.com/mnpopcenter/ripums
@@ -17,7 +17,7 @@
 #' @return An \code{ipums_ddi} object with metadata information.
 #' @examples
 #' # Example extract DDI
-#' ddi_file <- ipums_example("cps_00006.xml")
+#' ddi_file <- ripums_example("cps_00006.xml")
 #' ddi <- read_ipums_ddi(ddi_file)
 #' @family ipums_metadata
 #' @export
@@ -266,7 +266,7 @@ get_var_info_from_ddi <- function(ddi_xml, file_type, rt_idvar, rectype_labels) 
 #'    for extracts with multiple files.
 #' @examples
 #' # Example NHGIS extract
-#' nhgis_file <- ipums_example("nhgis0008_csv.zip")
+#' nhgis_file <- ripums_example("nhgis0008_csv.zip")
 #' ddi <- read_ipums_codebook(nhgis_file)
 #' @family ipums_metadata
 #' @export

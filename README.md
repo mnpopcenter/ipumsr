@@ -1,13 +1,13 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
-ipumsr
+ripums
 ======
 
-[![Project Status:Active](http://www.repostatus.org/badges/latest/active.svg)](http://www.repostatus.org/#active) [![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/ipumsr)](http://cran.r-project.org/web/packages/ipumsr) [![Travis-CI Build Status](https://travis-ci.org/mnpopcenter/ripums.svg?branch=master)](https://travis-ci.org/mnpopcenter/ripums) [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/mnpopcenter/ripums?branch=master&svg=true)](https://ci.appveyor.com/project/mnpopcenter/ripums) [![Coverage Status](https://codecov.io/gh/mnpopcenter/ripums/master.svg)](https://codecov.io/github/mnpopcenter/ripums?branch=master)
+[![Project Status:Active](http://www.repostatus.org/badges/latest/active.svg)](http://www.repostatus.org/#active) [![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/ripums)](http://cran.r-project.org/web/packages/ripums) [![Travis-CI Build Status](https://travis-ci.org/mnpopcenter/ripums.svg?branch=master)](https://travis-ci.org/mnpopcenter/ripums) [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/mnpopcenter/ripums?branch=master&svg=true)](https://ci.appveyor.com/project/mnpopcenter/ripums) [![Coverage Status](https://codecov.io/gh/mnpopcenter/ripums/master.svg)](https://codecov.io/github/mnpopcenter/ripums?branch=master)
 
-The ipumsr package helps import IPUMS extracts from the [IPUMS website](https://www.ipums.org) into R. We hope to post a more stable version on CRAN soon.
+The ripums package helps import IPUMS extracts from the [IPUMS website](https://www.ipums.org) into R. We hope to post a more stable version on CRAN soon.
 
-The ipumsr package can be installed by running the following commands:
+The ripums package can be installed by running the following commands:
 
 ``` r
 if (!require(devtools)) install.packages("devtools")
@@ -20,11 +20,11 @@ Vignettes
 
 There are several vignettes included in the package:
 
--   **ipums** - Provides general information about using the ipumsr package
+-   **ripums** - Provides general information about using the ripums package
 -   **value-labels** - Provides guidance for using the value labels provided by IPUMS
 -   **ipums-geograph** - Provides guidance for using R as GIS tool with IPUMS data
--   **ipums-cps** - An example of using CPS data with the ipumsr package
--   **ipums-nghis** - An example of using NHGIS data with the ipumsr package
+-   **ipums-cps** - An example of using CPS data with the ripums package
+-   **ipums-nghis** - An example of using NHGIS data with the ripums package
 
 You can access them with the `vignette()` command (eg `vignette("value-labels")`).
 
@@ -40,7 +40,7 @@ Examples
 
 ``` r
 suppressPackageStartupMessages({
-  library(ipumsr)
+  library(ripums)
   library(haven)
   library(ggplot2) # ggplot2 version > 2.2.1 (development version as of 8/15/2017)
   library(dplyr)
@@ -54,7 +54,7 @@ Relies on user downloading the .xml DDI file and the .dat/.dat.gz file (doesn't 
 
 ``` r
 # Use example file included with package:
-cps_hier_file <- ipums_example("cps_00010.xml")
+cps_hier_file <- ripums_example("cps_00010.xml")
 ddi <- read_ipums_ddi(cps_hier_file)
 data <- read_ipums_micro(ddi)
 #> Users of IPUMS-CPS data must agree to abide by the conditions of use. A user's
@@ -151,7 +151,7 @@ Relies on user downloading the .xml DDI file and the .dat/.dat.gz file (doesn't 
 
 ``` r
 # Use example file included with package
-cps_rect_file <- ipums_example("cps_00006.xml")
+cps_rect_file <- ripums_example("cps_00006.xml")
 data <- read_ipums_micro(cps_rect_file, verbose = FALSE)
 
 # While working interactively, can get convenient display of variable information
@@ -163,12 +163,12 @@ ipums_view(data)
 
 Relies on user downloading the csv file (with or without header row) and shape files (doesn't need to be unzipped).
 
-Note that to save space when including this data on CRAN, the shape file has been reduced to 1% of the points in the polygon of the PMSA. The original shape file can be found in the `ipumsexamples` package.
+Note that to save space when including this data on CRAN, the shape file has been reduced to 1% of the points in the polygon of the PMSA. The original shape file can be found in the `ripumsexamples` package.
 
 ``` r
 data <- read_nhgis_sf(
-  ipums_example("nhgis0008_csv.zip"),
-  shape_file = ipums_example("nhgis0008_shape_small.zip"),
+  ripums_example("nhgis0008_csv.zip"),
+  shape_file = ripums_example("nhgis0008_shape_small.zip"),
   verbose = FALSE
 )
 
@@ -213,20 +213,20 @@ There is experimental support for for loading terrapop data, but examples are to
 
 ``` r
 # Raster data
-data <- ipumsr:::read_terra_raster(
+data <- ripums:::read_terra_raster(
   "2552_bundle.zip",
   "CROPLAND2000ZM2013.tiff",
   verbose = FALSE
 )
 
 # Area data
-data <- ipumsr:::read_terra_area(
+data <- ripums:::read_terra_area(
   "2553_bundle.zip",
   verbose = FALSE
 )
 
 # Microdata
-data <- ipumsr:::read_terra_micro(
+data <- ripums:::read_terra_micro(
   "2554_bundle.zip",
   verbose = FALSE
 )
