@@ -20,9 +20,14 @@ knitr::opts_chunk$set(
 [![Coverage Status](https://codecov.io/gh/mnpopcenter/ripums/master.svg)](https://codecov.io/github/mnpopcenter/ripums?branch=master)
 
 The ripums package helps import IPUMS extracts from the [IPUMS website](https://www.ipums.org) 
-into R. We hope to post a more stable version on CRAN soon.
+into R.
 
-The ripums package can be installed by running the following commands:
+The ripums package can be installed by running the following command:
+```{r, eval=FALSE}
+install.packages("ripums")
+```
+
+Or, you can install the development version by:
 ```{r, eval=FALSE}
 if (!require(devtools)) install.packages("devtools")
 
@@ -103,7 +108,7 @@ Relies on user downloading the csv file (with or without header row) and shape f
 Note that to save space when including this data on CRAN, the shape file has
 been reduced to 1% of the points in the polygon of the PMSA. The original
 shape file can be found in the `ripumsexamples` package.
-```{r}
+```{r nhgisplot}
 data <- read_nhgis_sf(
   ripums_example("nhgis0008_csv.zip"),
   shape_file = ripums_example("nhgis0008_shape_small.zip"),
