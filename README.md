@@ -5,15 +5,9 @@ ripums
 
 [![Project Status:Active](http://www.repostatus.org/badges/latest/active.svg)](http://www.repostatus.org/#active) [![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/ripums)](http://cran.r-project.org/web/packages/ripums) [![Travis-CI Build Status](https://travis-ci.org/mnpopcenter/ripums.svg?branch=master)](https://travis-ci.org/mnpopcenter/ripums) [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/mnpopcenter/ripums?branch=master&svg=true)](https://ci.appveyor.com/project/mnpopcenter/ripums) [![Coverage Status](https://codecov.io/gh/mnpopcenter/ripums/master.svg)](https://codecov.io/github/mnpopcenter/ripums?branch=master)
 
-The ripums package helps import IPUMS extracts from the [IPUMS website](https://www.ipums.org) into R.
+The ripums package helps import IPUMS extracts from the [IPUMS website](https://www.ipums.org) into R. We hope to post a more stable version on CRAN soon.
 
-The ripums package can be installed by running the following command:
-
-``` r
-install.packages("ripums")
-```
-
-Or, you can install the development version by:
+The ripums package can be installed by running the following commands:
 
 ``` r
 if (!require(devtools)) install.packages("devtools")
@@ -211,7 +205,7 @@ if ("geom_sf" %in% getNamespaceExports("ggplot2")) {
 }
 ```
 
-![](man/figures/README-nhgisplot-1.png)
+![](man/figures/README-unnamed-chunk-7-1.png)
 
 ### Terrapop
 
