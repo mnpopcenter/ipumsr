@@ -8,7 +8,7 @@ year_var_desc <- "YEAR reports the year in which the survey was conducted.  YEAR
 file_info_types <- c("ipums_project", "extract_date", "extract_notes", "conditions", "citation")
 
 test_that("Var info/var desc/var label/value labels works on DDI", {
-  ddi <- read_ipums_ddi(ripums_example("cps_00006.xml"))
+  ddi <- read_ipums_ddi(ipums_example("cps_00006.xml"))
 
   expect_equal(nrow(ipums_var_info(ddi)), nvars)
   expect_equal(ipums_var_info(ddi)$var_name[1:3], first_three_vars)
@@ -21,7 +21,7 @@ test_that("Var info/var desc/var label/value labels works on DDI", {
 })
 
 test_that("Var info/var desc/var label/value labels works on data", {
-  data <- read_ipums_micro(ripums_example("cps_00006.xml"), verbose = FALSE)
+  data <- read_ipums_micro(ipums_example("cps_00006.xml"), verbose = FALSE)
 
   expect_equal(nrow(ipums_var_info(data)), nvars)
   expect_equal(ipums_var_info(data)$var_name[1:3], first_three_vars)
@@ -34,7 +34,7 @@ test_that("Var info/var desc/var label/value labels works on data", {
 })
 
 test_that("File info works on ddi", {
-  ddi <- read_ipums_ddi(ripums_example("cps_00006.xml"))
+  ddi <- read_ipums_ddi(ipums_example("cps_00006.xml"))
 
   expect_equal(names(ipums_file_info(ddi)), file_info_types)
   expect_equal(ipums_file_info(ddi, "ipums_project"), "IPUMS-CPS")

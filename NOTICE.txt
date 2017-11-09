@@ -1,4 +1,4 @@
-ripums
+ipumsr
 https://github.com/mnpopcenter/ripums
 
 Copyright 2017 Regents of the University of Minnesota

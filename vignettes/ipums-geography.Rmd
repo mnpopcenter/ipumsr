@@ -1,5 +1,5 @@
 ---
-title: "Geographic Data in `ripums`"
+title: "Geographic Data in `ipumsr`"
 author: "Minnesota Population Center"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
@@ -16,15 +16,15 @@ knitr::opts_chunk$set(
 
 # Don't give instructions about downloading data for yourself for geography data
 # because some of the files (like the small shape file) aren't available.
-ripumsexamples_file <- system.file("extdata", "nhgis0010_csv.zip", package = "ripumsexamples")
+ipumsexamples_file <- system.file("extdata", "nhgis0010_csv.zip", package = "ipumsexamples")
 
-if (!file.exists(ripumsexamples_file)) {
+if (!file.exists(ipumsexamples_file)) {
   message(paste0(
     "Could not find data and so could not run vignette.\n\n",
     "The data is available on github - you can install it using the following ",
     "commands: \n",
     "  if (!require(devtools)) install.packages('devtools')\n",
-    "  devtools::install_github('mnpopcenter/ripums/ripumsexamples')\n",
+    "  devtools::install_github('mnpopcenter/ripums/ipumsexamples')\n",
     "After installation, the data should be available for this vignette.\n\n"
   ))
   knitr::opts_chunk$set(eval = FALSE)
@@ -52,7 +52,7 @@ are a separate download, but are on the same page as the data.
 - [IPUMS Terra](https://www.terrapop.org/) provides shape files inside the extract
 bundle and allows for aggregating microdata and raster data into the boundaries. 
 
-(Note: The ripums package does not yet support IPUMS Terra data. We hope to add
+(Note: The ipumsr package does not yet support IPUMS Terra data. We hope to add
 support for IPUMS Terra soon.)
 
 This vignette offers an introduction to the types of geographies available
@@ -86,7 +86,7 @@ of counties within states) but sometimes not (eg zip codes in the US may not fit
 within county boundaries).
 
 ## A Note on R's Geospatial Packages: `sf` vs `sp`
-The `ripums` package allows for loading geospatial data in two formats (sf for
+The `ipumsr` package allows for loading geospatial data in two formats (sf for
 Simple Features and sp for Spatial). The `sf` package is relatively new, and so 
 does not have as widespread support as the `sp` package. However, (in my opinion)
 it does allow for easier analysis, and so may be a better place to start if you
@@ -113,18 +113,18 @@ children aged 0-5 in Colombia. Later on in the vignette, I show a more
 [complicated example](#complicated) that combines the data for Colombia, Ecuador
 and Peru.
 
-The data for this example is included in the package `ripumsexamples`,
+The data for this example is included in the package `ipumsexamples`,
 which is available on github. If you want to run the code from this 
 vignette you will need to install it by running the following commands:
 ```{r, eval = FALSE}
 if (!require(devtools)) install.packages(devtools)
-devtools::install_github("mnpopcenter/ripums/ripumsexamples")
+devtools::install_github("mnpopcenter/ripums/ipumsexamples")
 ```
 
 ```{r}
-# This function helps find the data from the ripumsexamples package for us
+# This function helps find the data from the ipumsexamples package for us
 ex_file <- function(x) {
-  system.file("extdata", x, package = "ripumsexamples")
+  system.file("extdata", x, package = "ipumsexamples")
 }
 ```
 
@@ -167,7 +167,7 @@ The `read_ipums_micro()` function loads the data and the `read_ipums_sf()`
 
 ```{r}
 suppressPackageStartupMessages({
-  library(ripums)
+  library(ipumsr)
   library(sf)
   library(dplyr)
   library(ggplot2)

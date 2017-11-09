@@ -1,4 +1,4 @@
-# This file is part of the Minnesota Population Center's ripums.
+# This file is part of the Minnesota Population Center's ipumsr.
 # For copyright and licensing information, see the NOTICE and LICENSE files
 # in this project's top-level directory, and also on-line at:
 #   https://github.com/mnpopcenter/ripums
@@ -81,7 +81,7 @@ find_files_in_zip <- function(
 #'   If NULL, will not add any attributes.
 #' @return A \code{tbl_df} data.frame with data and IPUMS attributes
 #' @examples
-#'   ddi_file <- ripums_example("cps_00006.xml")
+#'   ddi_file <- ipums_example("cps_00006.xml")
 #'   ddi <- read_ipums_ddi(ddi_file)
 #'   cps <- read_ipums_micro(ddi, var_attrs = NULL) # Don't load with attributes
 #'

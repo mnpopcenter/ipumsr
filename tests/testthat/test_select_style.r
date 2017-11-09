@@ -14,32 +14,32 @@ test_that(
 
     # Bare column names
     expect_equal(
-      ripums:::select_var_rows(test_df, rlang::quo(c(RECTYPE, SEX))),
+      ipumsr:::select_var_rows(test_df, rlang::quo(c(RECTYPE, SEX))),
       dplyr::filter(test_df, var_name %in% c("RECTYPE", "SEX"))
     )
 
     # String
     expect_equal(
-      ripums:::select_var_rows(test_df, rlang::quo(c("RECTYPE", "SEX"))),
+      ipumsr:::select_var_rows(test_df, rlang::quo(c("RECTYPE", "SEX"))),
       dplyr::filter(test_df, var_name %in% c("RECTYPE", "SEX"))
     )
 
     # variable from environment
     my_vars <- c("RECTYPE", "SEX")
     expect_equal(
-      ripums:::select_var_rows(test_df, rlang::quo(my_vars)),
+      ipumsr:::select_var_rows(test_df, rlang::quo(my_vars)),
       dplyr::filter(test_df, var_name %in% c("RECTYPE", "SEX"))
     )
 
     # dplyr::select helpers
     expect_equal(
-      ripums:::select_var_rows(test_df, rlang::quo(starts_with("REP"))),
+      ipumsr:::select_var_rows(test_df, rlang::quo(starts_with("REP"))),
       dplyr::filter(test_df, var_name %in% c("REPWT1", "REPWT2"))
     )
 
     # NULL returns full dataframe
     expect_equal(
-      ripums:::select_var_rows(test_df, rlang::quo(NULL)),
+      ipumsr:::select_var_rows(test_df, rlang::quo(NULL)),
       test_df
     )
   }
@@ -83,24 +83,24 @@ test_that(
 
     # Gets all files
     expect_equal(
-      ripums:::find_files_in_zip(zip_file, multiple_ok = TRUE),
+      ipumsr:::find_files_in_zip(zip_file, multiple_ok = TRUE),
       file_names
     )
 
     # Errors if multiple is not okay
     expect_error(
-      ripums:::find_files_in_zip(zip_file, multiple_ok = FALSE)
+      ipumsr:::find_files_in_zip(zip_file, multiple_ok = FALSE)
     )
 
     # Can filter on extension
     expect_equal(
-      ripums:::find_files_in_zip(zip_file, name_ext = "csv", multiple_ok = TRUE),
+      ipumsr:::find_files_in_zip(zip_file, name_ext = "csv", multiple_ok = TRUE),
       "test.csv"
     )
 
     # Bare file names
     expect_equal(
-      ripums:::find_files_in_zip(
+      ipumsr:::find_files_in_zip(
         zip_file,
         name_select = rlang::quo(c(test1.txt, test2.txt)),
         multiple_ok = TRUE
@@ -110,7 +110,7 @@ test_that(
 
     # String
     expect_equal(
-      ripums:::find_files_in_zip(
+      ipumsr:::find_files_in_zip(
         zip_file,
         name_select = rlang::quo(c("test1.txt", "test2.txt")),
         multiple_ok = TRUE
@@ -121,7 +121,7 @@ test_that(
     # variable from environment
     my_vars <- c("test1.txt", "test2.txt")
     expect_equal(
-      ripums:::find_files_in_zip(
+      ipumsr:::find_files_in_zip(
         zip_file,
         name_select = rlang::quo(my_vars),
         multiple_ok = TRUE
@@ -132,7 +132,7 @@ test_that(
 
     # dplyr::select helpers
     expect_equal(
-      ripums:::find_files_in_zip(
+      ipumsr:::find_files_in_zip(
         zip_file,
         name_select = rlang::quo(starts_with("test")),
         multiple_ok = TRUE

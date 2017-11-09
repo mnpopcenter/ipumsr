@@ -20,7 +20,7 @@ dir.create(temp_dir_inner)
 temp_dir_out <- file.path(temp_dir, "nhgis0008_shape")
 dir.create(temp_dir_out)
 
-shp_data <- ripums::read_ipums_sf(file.path("data-raw/nhgis0008_shape.zip"))
+shp_data <- ipumsr::read_ipums_sf(file.path("data-raw/nhgis0008_shape.zip"))
 shp_data <- rmapshaper::ms_simplify(shp_data, keep = 0.01)
 
 shp_data <- as(shp_data, "Spatial")

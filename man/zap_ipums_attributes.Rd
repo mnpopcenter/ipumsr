@@ -19,7 +19,7 @@ These attributes can sometimes get in the way of functions like
 the dplyr join functions so you may want to remove them.
 }
 \examples{
-cps <- read_ipums_micro(ripums_example("cps_00006.xml"))
+cps <- read_ipums_micro(ipums_example("cps_00006.xml"))
 annual_unemployment <- data.frame(YEAR = c(1962, 1963), unemp = c(5.5, 5.7))
 
 # Avoids warning 'Column `YEAR` has different attributes on LHS and RHS of join'

@@ -9,7 +9,7 @@ test_that("Numeric parsing works on examples", {
   )
 
   expect_equal(
-    ripums:::parse_code_regex(x, vt),
+    ipumsr:::parse_code_regex(x, vt),
     expected
   )
 })
@@ -23,7 +23,7 @@ test_that("Character parsing works on examples", {
   )
 
   expect_equal(
-    ripums:::parse_code_regex(x, vt),
+    ipumsr:::parse_code_regex(x, vt),
     expected
   )
 })

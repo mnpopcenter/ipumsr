@@ -1,4 +1,4 @@
-# This file is part of the Minnesota Population Center's ripums.
+# This file is part of the Minnesota Population Center's ipumsr.
 # For copyright and licensing information, see the NOTICE and LICENSE files
 # in this project's top-level directory, and also on-line at:
 #   https://github.com/mnpopcenter/ripums
@@ -26,15 +26,15 @@
 #' # Note that these examples use NHGIS data so that they use the example data provided,
 #' # but the functions read_nhgis_sf/read_nhgis_sp perform this merge for you.
 #'
-#' data <- read_nhgis(ripums_example("nhgis0008_csv.zip"))
+#' data <- read_nhgis(ipums_example("nhgis0008_csv.zip"))
 #'
 #' if (require(sf)) {
-#'   sf <- read_ipums_sf(ripums_example("nhgis0008_shape_small.zip"))
+#'   sf <- read_ipums_sf(ipums_example("nhgis0008_shape_small.zip"))
 #'   data_sf <- ipums_shape_inner_join(data, sf, by = "GISJOIN")
 #' }
 #'
 #' if (require(sp) && require(rgdal)) {
-#'   sp <- read_ipums_sp(ripums_example("nhgis0008_shape_small.zip"))
+#'   sp <- read_ipums_sp(ipums_example("nhgis0008_shape_small.zip"))
 #'   data_sp <- ipums_shape_inner_join(data, sp, by = "GISJOIN")
 #' }
 #'

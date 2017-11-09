@@ -12,7 +12,7 @@ pmsa_first2_sort <- c("Akron, OH PMSA", "Anaheim--Santa Ana, CA PMSA")
 test_that(
   "Can read NHGIS extract (data only)", {
     nhgis <- read_nhgis(
-      ripums_example("nhgis0008_csv.zip"),
+      ipums_example("nhgis0008_csv.zip"),
       verbose = FALSE
     )
 
@@ -29,8 +29,8 @@ test_that(
   "Can read NHGIS extract (with shape as sf)", {
     skip_if_not_installed("sf")
     nhgis <- read_nhgis_sf(
-      ripums_example("nhgis0008_csv.zip"),
-      ripums_example("nhgis0008_shape_small.zip"),
+      ipums_example("nhgis0008_csv.zip"),
+      ipums_example("nhgis0008_shape_small.zip"),
       verbose = FALSE
     )
 
@@ -48,8 +48,8 @@ test_that(
     skip_if_not_installed("sf")
     temp_dir <- tempfile()
     dir.create(temp_dir)
-    utils::unzip(ripums_example("nhgis0008_csv.zip"), exdir = temp_dir)
-    utils::unzip(ripums_example("nhgis0008_shape_small.zip"), exdir = temp_dir)
+    utils::unzip(ipums_example("nhgis0008_csv.zip"), exdir = temp_dir)
+    utils::unzip(ipums_example("nhgis0008_shape_small.zip"), exdir = temp_dir)
 
     nhgis <- read_nhgis_sf(
       file.path(temp_dir, "nhgis0008_csv/nhgis0008_ds135_1990_pmsa.csv"),
@@ -71,8 +71,8 @@ test_that(
     skip_if_not_installed("sf")
     temp_dir <- tempfile()
     dir.create(temp_dir)
-    utils::unzip(ripums_example("nhgis0008_csv.zip"), exdir = temp_dir)
-    utils::unzip(ripums_example("nhgis0008_shape_small.zip"), exdir = temp_dir)
+    utils::unzip(ipums_example("nhgis0008_csv.zip"), exdir = temp_dir)
+    utils::unzip(ipums_example("nhgis0008_shape_small.zip"), exdir = temp_dir)
     utils::unzip(
       file.path(temp_dir, "nhgis0008_shape/nhgis0008_shapefile_tl2000_us_pmsa_1990.zip"),
       exdir = temp_dir
@@ -98,8 +98,8 @@ test_that(
     skip_if_not_installed("rgdal")
     skip_if_not_installed("sp")
     nhgis <- read_nhgis_sp(
-      ripums_example("nhgis0008_csv.zip"),
-      ripums_example("nhgis0008_shape_small.zip"),
+      ipums_example("nhgis0008_csv.zip"),
+      ipums_example("nhgis0008_shape_small.zip"),
       verbose = FALSE
     )
 
@@ -119,14 +119,14 @@ test_that(
     skip_if_not_installed("sp")
 
     nhgis_sf <- read_nhgis_sf(
-      ripums_example("nhgis0008_csv.zip"),
-      ripums_example("nhgis0008_shape_small.zip"),
+      ipums_example("nhgis0008_csv.zip"),
+      ipums_example("nhgis0008_shape_small.zip"),
       verbose = FALSE
     )
 
     nhgis_sp <- read_nhgis_sp(
-      ripums_example("nhgis0008_csv.zip"),
-      ripums_example("nhgis0008_shape_small.zip"),
+      ipums_example("nhgis0008_csv.zip"),
+      ipums_example("nhgis0008_shape_small.zip"),
       verbose = FALSE
     )
 
