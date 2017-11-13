@@ -276,7 +276,7 @@ lbl_add_vals(x, ~paste0("$", .))
 ## Ready for analysis
 And now, after converting all those labels to factors, I'm ready for analysis! If you
 think of any other helper functions that would be useful for dealing with labels please
-let us know by filing an issue on [github](https://github.com/mnpopcenter/ripums/issues).
+let us know by filing an issue on [github](https://github.com/mnpopcenter/ipumsr/issues).
 
 # More detail on how the lbl_* functions work
 One implementation detail that may help you understand the lbl_* functions

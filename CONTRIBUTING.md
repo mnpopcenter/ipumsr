@@ -1,10 +1,10 @@
 # Contributing
 Thank you for considering improving this project! By participating, you
-agree to abide by the [code of conduct](https://github.com/mnpopcenter/ripums/blob/master/CONDUCT.md).
+agree to abide by the [code of conduct](https://github.com/mnpopcenter/ipumsr/blob/master/CONDUCT.md).
 
 # Issues (Reporting a problem or suggestion)
 If you've experience a problem with the package, or have a suggestion for it, 
-please post it on the [issues tab](https://github.com/mnpopcenter/ripums/issues).
+please post it on the [issues tab](https://github.com/mnpopcenter/ipumsr/issues).
 This space is meant for questions directly related to the R package, so questions
 related to your specific extract may be better answered via email to ipums@umn.edu
 (but don't worry about making a mistake, we know it is tough to tell the difference). 
@@ -43,13 +43,13 @@ contributing to this project using RStudio:
 2) Fork this repo (top right corner button on the github website).
 
 3) Clone the repo from RStudio's toolbar: 
-`File > New Project > From Verson Control > https://github.com/*YOUR_USER_NAME*/ripums/`.
+`File > New Project > From Verson Control > https://github.com/*YOUR_USER_NAME*/ipumsr/`.
 
 4) Make changes to your local copy. 
 
 5) Commit your changes and push them to the github webiste using RStudio's Git pane 
 (push using the green up arrow). 
 
-6) [Submit a pull request](https://github.com/mnpopcenter/ripums/compare/), selecting 
+6) [Submit a pull request](https://github.com/mnpopcenter/ipumsr/compare/), selecting 
 the "compare across forks" option. Please include a short message summarizing your
 changes.

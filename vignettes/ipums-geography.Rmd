@@ -24,7 +24,7 @@ if (!file.exists(ipumsexamples_file)) {
     "The data is available on github - you can install it using the following ",
     "commands: \n",
     "  if (!require(devtools)) install.packages('devtools')\n",
-    "  devtools::install_github('mnpopcenter/ripums/ipumsexamples')\n",
+    "  devtools::install_github('mnpopcenter/ipumsr/ipumsexamples')\n",
     "After installation, the data should be available for this vignette.\n\n"
   ))
   knitr::opts_chunk$set(eval = FALSE)
@@ -118,7 +118,7 @@ which is available on github. If you want to run the code from this
 vignette you will need to install it by running the following commands:
 ```{r, eval = FALSE}
 if (!require(devtools)) install.packages(devtools)
-devtools::install_github("mnpopcenter/ripums/ipumsexamples")
+devtools::install_github("mnpopcenter/ipumsr/ipumsexamples")
 ```
 
 ```{r}

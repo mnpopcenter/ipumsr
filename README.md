@@ -3,7 +3,7 @@
 ipumsr
 ======
 
-[![Project Status:Active](http://www.repostatus.org/badges/latest/active.svg)](http://www.repostatus.org/#active) [![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/ipumsr)](http://cran.r-project.org/web/packages/ipumsr) [![Travis-CI Build Status](https://travis-ci.org/mnpopcenter/ripums.svg?branch=master)](https://travis-ci.org/mnpopcenter/ripums) [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/mnpopcenter/ripums?branch=master&svg=true)](https://ci.appveyor.com/project/mnpopcenter/ripums) [![Coverage Status](https://codecov.io/gh/mnpopcenter/ripums/master.svg)](https://codecov.io/github/mnpopcenter/ripums?branch=master)
+[![Project Status:Active](http://www.repostatus.org/badges/latest/active.svg)](http://www.repostatus.org/#active) [![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/ipumsr)](http://cran.r-project.org/web/packages/ipumsr) [![Travis-CI Build Status](https://travis-ci.org/mnpopcenter/ipumsr.svg?branch=master)](https://travis-ci.org/mnpopcenter/ipumsr) [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/mnpopcenter/ipumsr?branch=master&svg=true)](https://ci.appveyor.com/project/mnpopcenter/ipumsr) [![Coverage Status](https://codecov.io/gh/mnpopcenter/ipumsr/master.svg)](https://codecov.io/github/mnpopcenter/ipumsr?branch=master)
 
 The ipumsr package helps import IPUMS extracts from the [IPUMS website](https://www.ipums.org) into R. We hope to post a more stable version on CRAN soon.
 
@@ -12,7 +12,7 @@ The ipumsr package can be installed by running the following commands:
 ``` r
 if (!require(devtools)) install.packages("devtools")
 
-devtools::install_github("mnpopcenter/ripums")
+devtools::install_github("mnpopcenter/ipumsr")
 ```
 
 Vignettes
@@ -31,8 +31,8 @@ You can access them with the `vignette()` command (eg `vignette("value-labels")`
 If you are installing from github and want the vignettes, you'll need to run the following commands first:
 
 ``` r
-devtools::install_github("mnpopcenter/ripums/ripumsexamples")
-devtools::install_github("mnpopcenter/ripums", build_vignettes = TRUE)
+devtools::install_github("mnpopcenter/ipumsr/ipumsexamples")
+devtools::install_github("mnpopcenter/ipumsr", build_vignettes = TRUE)
 ```
 
 Examples

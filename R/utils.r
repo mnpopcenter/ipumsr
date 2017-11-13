@@ -1,7 +1,7 @@
 # This file is part of the Minnesota Population Center's ipumsr.
 # For copyright and licensing information, see the NOTICE and LICENSE files
 # in this project's top-level directory, and also on-line at:
-#   https://github.com/mnpopcenter/ripums
+#   https://github.com/mnpopcenter/ipumsr
 
 # readr does not offer users the ability to override defaults, so we
 # only need to worry about encoding, which unfortunately, we are not
