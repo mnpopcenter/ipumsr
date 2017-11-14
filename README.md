@@ -7,7 +7,13 @@ ipumsr
 
 The ipumsr package helps import IPUMS extracts from the [IPUMS website](https://www.ipums.org) into R. We hope to post a more stable version on CRAN soon.
 
-The ipumsr package can be installed by running the following commands:
+The ipumsr package is now on CRAN can be installed by running the following command:
+
+``` r
+install.packages("ipumsr")
+```
+
+Or, you can install the development version using the following commands:
 
 ``` r
 if (!require(devtools)) install.packages("devtools")
@@ -22,7 +28,7 @@ There are several vignettes included in the package:
 
 -   **ipums** - Provides general information about using the ipumsr package
 -   **value-labels** - Provides guidance for using the value labels provided by IPUMS
--   **ipums-geograph** - Provides guidance for using R as GIS tool with IPUMS data
+-   **ipums-geography** - Provides guidance for using R as GIS tool with IPUMS data
 -   **ipums-cps** - An example of using CPS data with the ipumsr package
 -   **ipums-nghis** - An example of using NHGIS data with the ipumsr package
 
@@ -205,7 +211,7 @@ if ("geom_sf" %in% getNamespaceExports("ggplot2")) {
 }
 ```
 
-![](man/figures/README-unnamed-chunk-7-1.png)
+![](man/figures/README-nhgis_map-1.png)
 
 ### Terrapop
 
