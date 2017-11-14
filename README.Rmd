@@ -20,7 +20,7 @@ knitr::opts_chunk$set(
 [![Coverage Status](https://codecov.io/gh/mnpopcenter/ipumsr/master.svg)](https://codecov.io/github/mnpopcenter/ipumsr?branch=master)
 
 The ipumsr package helps import IPUMS extracts from the [IPUMS website](https://www.ipums.org) 
-into R. We hope to post a more stable version on CRAN soon.
+into R. 
 
 The ipumsr package is now on CRAN can be installed by running the following command:
 ```{r, eval=FALSE}
