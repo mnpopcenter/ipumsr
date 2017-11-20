@@ -38,7 +38,7 @@ if (!suppressPackageStartupMessages(require(sf))) {
 A lesser-known part of the IPUMS data catalog is our geographic boundary files.
 For many projects, our geographers have created shape files to
 complement the micro- and tabular data we provide. These boundaries are stored
-in shape files, which can be donloaded from our website (in slightly different
+in shape files, which can be downloaded from our website (in slightly different
 places depending on the project):
 
 - Microdata projects like 
