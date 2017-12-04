@@ -226,8 +226,13 @@ tbl_print_for_message <- function(x, n = 5) {
 #       Can't use it directly because parse_number ignores when there
 #       are letters and numbers, while readr::parse_guess thinks leading
 #       0's means it is string.
-custom_parse_number <- function(x) {
-  converted <- suppressWarnings(as.numeric(x))
+custom_parse_double <- function(x) {
+  converted <- suppressWarnings(as.double(x))
+  if (all(is.na(converted) == is.na(x))) return(converted) else return(x)
+}
+
+custom_parse_integer <- function(x) {
+  converted <- suppressWarnings(readr::parse_integer(x))
   if (all(is.na(converted) == is.na(x))) return(converted) else return(x)
 }
 

@@ -93,3 +93,20 @@ test_that("Join failures are mentioned", {
   expect_equal(joined_fail$D6Z001, filtered_regular$D6Z001)
   expect_equal(joined_fail$GISJOIN2, filtered_regular$GISJOIN2)
 })
+
+
+test_that("Character -> Integer conversion works (#16)", {
+  skip_if_not_installed("sf")
+  data <- read_nhgis(ipums_example("nhgis0008_csv.zip"), verbose = FALSE)
+  data$id <- as.integer(stringr::str_sub(data$GISJOIN, 2, -1))
+  attr(data$id, "vardesc") <- "Test ipums attribute"
+
+  shape <- read_ipums_sf(ipums_example("nhgis0008_shape_small.zip"), verbose = FALSE)
+  shape$id_shape <- stringr::str_sub(shape$GISJOIN, 2, -1)
+
+  joined <- ipums_shape_inner_join(data, shape, by = c("id" = "id_shape"))
+
+  expect_null(join_failures(joined))
+  expect_equal(nrow(data), nrow(joined))
+  expect_equal(attr(joined, "sf_column"), "geometry")
+})

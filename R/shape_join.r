@@ -187,7 +187,11 @@ ipums_shape_join.SpatialPolygonsDataFrame <- function(
   out <- merge_f(alligned$shape_data, alligned$data, by = by, suffix = suffix)
 
   if (verbose) {
-    join_fail_attributes <- check_for_join_failures(out, by, alligned$shape_data, alligned$data)
+    join_fail_attributes <- try(check_for_join_failures(out, by, alligned$shape_data, alligned$data))
+    if (inherits(join_fail_attributes, "try-error")) {
+      warning("Join failures not available.")
+      join_fail_attributes <- NULL
+    }
   } else {
     join_fail_attributes <- NULL
   }
@@ -217,35 +221,44 @@ check_shape_join_names <- function(by_names, data_names, display) {
 
 allign_id_vars <- function(shape_data, data, by) {
   shp_id_is_char <- purrr::map_lgl(by, ~is.character(shape_data[[.]]))
-  shp_id_is_num <- purrr::map_lgl(by, ~is.numeric(shape_data[[.]]))
+  shp_id_is_dbl <- purrr::map_lgl(by, ~is.double(shape_data[[.]]))
+  shp_id_is_int <- purrr::map_lgl(by, ~is.integer(shape_data[[.]]))
   shp_id_is_fact <- purrr::map_lgl(by, ~is.factor(shape_data[[.]]))
   data_id_is_char <- purrr::map_lgl(by, ~is.character(data[[.]]))
-  data_id_is_num <- purrr::map_lgl(by, ~is.numeric(data[[.]]))
+  data_id_is_dbl <- purrr::map_lgl(by, ~is.double(data[[.]]))
+  data_id_is_int <- purrr::map_lgl(by, ~is.integer(data[[.]]))
   data_id_is_fact <- purrr::map_lgl(by, ~is.factor(data[[.]]))
 
   convert_failures <- rep(FALSE, length(by))
   for (iii in seq_along(by)) {
-    # If one is character but other is numeric, convert if possible
+    # If one is character but other is double/integer, convert if possible
     # if one is factor and the other is character, convert to character
-    # If one is factor and the other is numeric, give error because I can't
+    # If one is factor and the other is integer/double, give error because I can't
     # really imagine how this happened.
     # TODO: It seems like a lot of people may convert the data from number -> factor
     #       (using the labels) and then try to merge on the "numeric" id (which
     #       is often stored as text in shape file). Consider trying to give
     #       better error in this situation.
-    if (shp_id_is_char[iii] && data_id_is_num[iii]) {
-      shape_data[[by[iii]]] <- custom_parse_number(shape_data[[by[iii]]])
+    # TODO: THIS IS UGLY, fix!
+    if (shp_id_is_char[iii] && data_id_is_dbl[iii]) {
+      shape_data[[by[iii]]] <- custom_parse_double(shape_data[[by[iii]]])
       if (is.character(shape_data[[by[iii]]])) convert_failures[iii] <- TRUE
-    } else if (shp_id_is_num[iii] && data_id_is_char[iii]) {
-      data[[by[iii]]] <- custom_parse_number(data[[by[iii]]])
+    } else if (shp_id_is_char[iii] && data_id_is_int[iii]) {
+      shape_data[[by[iii]]] <- custom_parse_integer(shape_data[[by[iii]]])
+      if (is.character(shape_data[[by[iii]]])) convert_failures[iii] <- TRUE
+    } else if (shp_id_is_dbl[iii] && data_id_is_char[iii]) {
+      data[[by[iii]]] <- custom_parse_double(data[[by[iii]]])
+      if (is.character(shape_data[[by[iii]]])) convert_failures[iii] <- TRUE
+    } else if (shp_id_is_int[iii] && data_id_is_char[iii]) {
+      data[[by[iii]]] <- custom_parse_integer(data[[by[iii]]])
       if (is.character(shape_data[[by[iii]]])) convert_failures[iii] <- TRUE
     } else if (shp_id_is_char[iii] && data_id_is_fact[iii]) {
       data[[by[iii]]] <- as.character(data[[by[iii]]])
     } else if (shp_id_is_fact[iii] && data_id_is_char[iii]) {
       shape_data[[by[iii]]] <- as.character(shape_data[[by[iii]]])
-    } else if (shp_id_is_fact[iii] && data_id_is_num[iii]) {
+    } else if (shp_id_is_fact[iii] && (data_id_is_dbl[iii] || data_id_is_int[iii])) {
       stop(paste0("Variable ", by[iii], "is factor in shape data but numeric in data."))
-    } else if (shp_id_is_num[iii] && data_id_is_fact[iii]) {
+    } else if ((shp_id_is_dbl[iii] || shp_id_is_int[iii]) && data_id_is_fact[iii]) {
       stop(paste0("Variable ", by[iii], "is factor in data but numeric in shape data."))
     }
 
@@ -276,7 +289,7 @@ allign_id_vars <- function(shape_data, data, by) {
 check_for_join_failures <- function(merged, by, shape_data, data) {
   merge_fail <- list(
     shape = dplyr::anti_join(shape_data, as.data.frame(merged), by = by),
-    data = dplyr::anti_join(data, merged, by = by)
+    data = dplyr::anti_join(data, as.data.frame(merged), by = by)
   )
   sh_num <- nrow(merge_fail$shape)
   d_num <- nrow(merge_fail$data)
