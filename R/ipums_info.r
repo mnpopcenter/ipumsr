@@ -150,20 +150,29 @@ ipums_val_labels.default <- function(object, var = NULL) {
 #'
 #' Gets information about citation and conditions from a DDI.
 #'
-#' @param object A DDI object (loaded with \code{\link{read_ipums_ddi}})
+#' @param object A DDI object (loaded with \code{\link{read_ipums_ddi}}).
+#'    If NULL (the default), will use the conditions from the dataset you
+#'    loaded most recently.
 #'
 #' @export
-ipums_conditions <- function(object) {
-  UseMethod("ipums_conditions")
-}
-
-#' @export
-ipums_conditions.ipums_ddi <- function(object) {
-  out <- paste0(object$conditions, "\n\n")
-  if (!is.null(object$citation)) out <- paste0(out, object$citation, "\n\n")
+ipums_conditions <- function(object = NULL) {
+  if (is.null(object)) {
+    out <- last_conditions_info$conditions
+    if (is.null(out)) out <- "No conditions available."
+  } else if (inherits(object, "ipums_ddi")) {
+    out <- paste0(object$conditions, "\n\n")
+    if (!is.null(object$citation)) out <- paste0(out, object$citation, "\n\n")
+  } else {
+    stop("Could not find ipums condition for object.")
+  }
+  class(out) <- "ipums_formatted_print"
   out
 }
 
+#' @export
+print.ipums_formatted_print <- function(x, ...) {
+  custom_cat(x)
+}
 
 #' Get IPUMS file information
 #'
@@ -199,3 +208,14 @@ ipums_file_info.ipums_ddi <- function(object, type = NULL) {
   out
 }
 
+last_conditions_info <- new.env()
+
+short_conditions_text <- function(ddi) {
+  last_conditions_info$conditions <- ipums_conditions(ddi)
+
+  paste0(
+    "Use of data from ", ipums_file_info(ddi, "ipums_project"), " is subject ",
+    "to conditions including that users should cite the data appropriately. ",
+    "Use command `ipums_conditions()` for more details.\n\n"
+  )
+}

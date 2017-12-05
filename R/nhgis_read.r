@@ -76,7 +76,7 @@ read_nhgis <- function(
   # be verified as ISO-8859-1)
   cb_ddi_info$encoding <- "ISO-8859-1"
 
-  if (verbose) custom_cat(ipums_conditions(cb_ddi_info))
+  if (verbose) custom_cat(short_conditions_text(cb_ddi_info))
 
   # Read data
   if (verbose) cat("\n\nReading data file...\n")

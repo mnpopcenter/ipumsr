@@ -4,10 +4,12 @@
 \alias{ipums_conditions}
 \title{Get IPUMS citation and conditions}
 \usage{
-ipums_conditions(object)
+ipums_conditions(object = NULL)
 }
 \arguments{
-\item{object}{A DDI object (loaded with \code{\link{read_ipums_ddi}})}
+\item{object}{A DDI object (loaded with \code{\link{read_ipums_ddi}}).
+If NULL (the default), will use the conditions from the dataset you
+loaded most recently.}
 }
 \description{
 Gets information about citation and conditions from a DDI.

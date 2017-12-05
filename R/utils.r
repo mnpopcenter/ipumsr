@@ -302,3 +302,4 @@ path_is_zip_or_dir <- function(file) {
   ext <- tools::file_ext(file)
   ext == "zip" || ext == ""
 }
+

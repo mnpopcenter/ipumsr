@@ -63,36 +63,8 @@ Relies on user downloading the .xml DDI file and the .dat/.dat.gz file (doesn't 
 cps_hier_file <- ipums_example("cps_00010.xml")
 ddi <- read_ipums_ddi(cps_hier_file)
 data <- read_ipums_micro(ddi)
-#> Users of IPUMS-CPS data must agree to abide by the conditions of use. A user's
-#> license is valid for one year and may be renewed. Users must agree to the
-#> following conditions:
-#> 
-#> (1) No fees may be charged for use or distribution of the data. All persons are
-#> granted a limited license to use these data, but you may not charge a fee for
-#> the data if you distribute it to others.
-#> 
-#> (2) Cite IPUMS appropriately. For information on proper citation, refer to the
-#> citation requirement section of this DDI document.
-#> 
-#> (3) Tell us about any work you do using the IPUMS. Publications, research
-#> reports, or presentations making use of IPUMS-CPS should be added to our
-#> Bibliography. Continued funding for the IPUMS depends on our ability to show our
-#> sponsor agencies that researchers are using the data for productive purposes.
-#> 
-#> (4) Use it for GOOD -- never for EVIL.
-#> 
-#> Publications and research reports based on the IPUMS-CPS database must cite it
-#> appropriately. The citation should include the following:
-#> 
-#> Sarah Flood, Miriam King, Steven Ruggles, and J. Robert Warren. Integrated
-#> Public Use Microdata Series, Current Population Survey: Version 5.0 [dataset].
-#> Minneapolis, MN: University of Minnesota, 2017. https://doi.org/10.18128/
-#> D030.V5.0
-#> 
-#> The licensing agreement for use of IPUMS-CPS data requires that users supply
-#> us with the title and full citation for any publications, research reports, or
-#> educational materials making use of the data or documentation. Please add your
-#> citation to the IPUMS bibliography: http://bibliography.ipums.org/
+#> Use of data from IPUMS-CPS is subject to conditions including that users should
+#> cite the data appropriately. Use command `ipums_conditions()` for more details.
 #> 
 #> Reading data...
 #> Parsing data...
