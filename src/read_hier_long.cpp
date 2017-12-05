@@ -55,6 +55,9 @@ RObject raw_to_df_hier_long(
 
   // Parse raw into list
   for (int i = 0; i < num_rows; i++) {
+    if (i % 1000000 == 0) {
+      Rcpp::checkUserInterrupt();
+    }
     Rbyte* row_raw = RAW(raw[i]);
 
     // Get rectype
