@@ -24,22 +24,10 @@
 read_ipums_ddi <- function(ddi_file, data_layer = NULL) {
   data_layer <- enquo(data_layer)
 
-  if (!file.exists(ddi_file)) {
-    if (dirname(ddi_file) == ".") {
-      stop(paste0(
-        "Could not find DDI file named '", ddi_file, "' in current working directory:\n  ",
-        getwd(), "\nDo you need to change the directory with `setwd()`?"
-      ))
-    } else {
-      stop(paste0(
-        "Could not find DDI file, check the path in argument 'ddi_file':\n  ",
-        ddi_file
-      ))
-    }
-  }
+  custom_check_file_exists(ddi_file)
 
   if (stringr::str_sub(ddi_file, -4) == ".zip") {
-    ddi_in_zip <- find_files_in_zip(ddi_file, "xml", data_layer)
+    ddi_in_zip <- find_files_in(ddi_file, "xml", data_layer)
     ddi_file_load <- unz(ddi_file, ddi_in_zip)
   } else {
     ddi_file_load <- ddi_file
@@ -272,8 +260,8 @@ get_var_info_from_ddi <- function(ddi_xml, file_type, rt_idvar, rectype_labels) 
 #' @export
 read_ipums_codebook <- function(cb_file, data_layer = NULL) {
   data_layer <- enquo(data_layer)
-  if (stringr::str_sub(cb_file, -4) == ".zip") {
-    cb_name <- find_files_in_zip(cb_file, "txt", multiple_ok = TRUE)
+  if (path_is_zip_or_dir(cb_file)) {
+    cb_name <- find_files_in(cb_file, "txt", multiple_ok = TRUE)
     # There are 2 formats for extracts, so we have to do some work here.
     # IPUMS Terra always(?) has 2 text files, one is a codebook for all files
     # in the extract and another with a name that ends in "info.txt" and
@@ -284,10 +272,14 @@ read_ipums_codebook <- function(cb_file, data_layer = NULL) {
 
       # If we still have multiple, then we should try to use the data_layer filter
       # because we're probably in a NHGIS extract
-      if (length(cb_name) > 1) cb_name <- find_files_in_zip(cb_file, "txt", data_layer)
+      if (length(cb_name) > 1) cb_name <- find_files_in(cb_file, "txt", data_layer)
     }
     if (length(cb_name) == 1) {
-      cb <- readr::read_lines(unz(cb_file, cb_name))
+      if (file_is_zip(cb_file)) {
+        cb <- readr::read_lines(unz(cb_file, cb_name))
+      } else {
+        cb <- readr::read_lines(file.path(cb_file, cb_name))
+      }
     } else {
       cb <- NULL
     }
@@ -421,6 +413,12 @@ find_cb_section <- function(cb_text, section, section_markers) {
 
   end <- min(c(length(cb_text), section_markers[section_markers > start])) - 1
   cb_text[seq(start, end)]
+}
+
+path_is_zip_or_dir <- function(file) {
+  ext <- tools::file_ext(file)
+
+  ext == "zip" || ext == ""
 }
 
 #' Create DDI structure (for internal use)

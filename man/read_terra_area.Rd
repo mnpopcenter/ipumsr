@@ -20,7 +20,8 @@ read_terra_area_sp(data_file, shape_file = NULL, data_layer = NULL,
 }
 \arguments{
 \item{data_file}{Path to the data file, which can either be the .zip file directly
-downloaded from the IPUMS Terra website, or to the csv unzipped from the download.}
+downloaded from the IPUMS Terra website, path to the unzipped folder, or to the
+csv unzipped from the download.}
 
 \item{data_layer}{For .zip extracts with multiple datasets, the name of the
  data to load. Accepts a character vector specifying the file name, or
@@ -40,9 +41,10 @@ to console.}
 adding all (val_labels, var_label and var_desc). See
 \code{\link{set_ipums_var_attributes}} for more details.}
 
-\item{shape_file}{(Optional) If the download is unzipped, path to the .zip or .shp file
-representing the the shape file. If only the data table is needed, can be set to FALSE
-to indicate not to load the shape file.}
+\item{shape_file}{(Optional) If the download is unzipped, path to the .zip,
+folder path or .shp file representing the the shape file. If only the data
+table is needed, can be set to FALSE to indicate not to load the shape
+file.}
 
 \item{shape_layer}{(Defaults to using the same value as data_layer) Specification
 of which shape files to load using the same semantics as \code{data_layer}. Can

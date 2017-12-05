@@ -12,7 +12,8 @@ read_ipums_sp(shape_file, shape_layer = NULL, bind_multiple = TRUE,
   verbose = TRUE)
 }
 \arguments{
-\item{shape_file}{Filepath to one or more .shp files or a .zip file from an IPUMS extract}
+\item{shape_file}{Filepath to one or more .shp files, a .zip file from an IPUMS extract
+or a path to an unzipped folder.}
 
 \item{shape_layer}{For .zip extracts with multiple datasets, the name of the
  shape files to load. Accepts a character vector specifying the file name, or

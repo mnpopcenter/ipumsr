@@ -26,13 +26,23 @@ select_var_rows <- function(df, vars, filter_var = "var_name") {
 }
 
 
-find_files_in_zip <- function(
+find_files_in <- function(
   file,
   name_ext = NULL,
   name_select = quo(NULL),
   multiple_ok = FALSE
 ) {
-  file_names <- utils::unzip(file, list = TRUE)$Name
+  if (file_is_zip(file)) {
+    file_names <- utils::unzip(file, list = TRUE)$Name
+  } else if (file_is_dir(file)) {
+    file_names <- dir(file)
+  } else {
+    stop(paste0(
+      "Expected a folder or a zip file to look for files in, but got:\n",
+      file
+    ))
+  }
+
 
   if (!is.null(name_ext)) file_names <- stringr::str_subset(file_names, paste0("\\.", name_ext, "$"))
   if (!quo_is_null(name_select)) file_names <- dplyr::select_vars(file_names, !!name_select)
@@ -195,13 +205,19 @@ file_is_zip <- function(file) {
   ipums_file_ext(file) == ".zip"
 }
 
+file_is_dir <- function(file) {
+  ipums_file_ext(file) == ""
+}
+
 # Treat .gz as an incomplete file extension
 ipums_file_ext <- function(file) {
-  ext <- paste0(".", tools::file_ext(file))
+  ext <- tools::file_ext(file)
+  if (ext != "") ext <- paste0(".", ext)
   if (ext == ".gz") {
     ext_part1 <- tools::file_ext(tools::file_path_sans_ext(file))
     if (ext_part1 != "") ext <- paste0(".", ext_part1, ext)
   }
+
   ext
 }
 
@@ -247,4 +263,42 @@ custom_format_text <- function(..., indent = 0, exdent = 0) {
 
 custom_cat <- function(..., indent = 0, exdent = 0) {
   cat(custom_format_text(..., indent = indent, exdent = exdent))
+}
+
+custom_check_file_exists <- function(file, extra_ext = NULL) {
+  if (length(file) == 0) stop("Expected filepath but got empty.")
+  if (length(file) != 1 && !is.null(extra_ext)) stop("Bad filename argument.")
+
+  # If a path is passed with a trailing "/", file.exists returns FALSE, so
+  # this is a way to remove that trailing /
+  file <- file.path(dirname(file), basename(file))
+
+  if (!is.null(extra_ext)) {
+    file <- purrr::map_chr(extra_ext, ~file_as_ext(file, .))
+  }
+
+  exists_check <- file.exists(file)
+
+  if (!any(exists_check)) {
+    file <- file[1]
+    if (dirname(file) == ".") {
+      stop(paste0(
+        "Could not find file named '", file, "' in current working directory:\n  ",
+        getwd(), "\nDo you need to change the directory with `setwd()`?"
+      ))
+    } else {
+      stop(paste0(
+        "Could not find file, check the path in argument 'file':\n  ",
+        file
+      ))
+    }
+  } else {
+    file[exists_check][1]
+  }
+}
+
+
+path_is_zip_or_dir <- function(file) {
+  ext <- tools::file_ext(file)
+  ext == "zip" || ext == ""
 }

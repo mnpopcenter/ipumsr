@@ -63,6 +63,18 @@ test_that(
     expect_equal(attr(nhgis[["D6Z001"]], "var_desc"), d6z001_var_desc)
     expect_equal(sort(nhgis$PMSA)[1:2], pmsa_first2_sort)
     expect_equal(class(nhgis), c("sf", "tbl_df", "tbl", "data.frame"))
+
+    nhgis2 <- read_nhgis_sf(
+      file.path(temp_dir, "nhgis0008_csv"),
+      file.path(temp_dir, "nhgis0008_shape"),
+      verbose = FALSE
+    )
+    expect_equal(nrow(nhgis), nrow(nhgis2))
+    expect_equal(ncol(nhgis), ncol(nhgis2))
+    expect_equal(attr(nhgis[["D6Z001"]], "label"), attr(nhgis2[["D6Z001"]], "label"))
+    expect_equal(attr(nhgis[["D6Z001"]], "var_desc"), attr(nhgis2[["D6Z001"]], "var_desc"))
+    expect_equal(sort(nhgis$PMSA)[1:2], sort(nhgis2$PMSA)[1:2])
+    expect_equal(class(nhgis), class(nhgis2))
   })
 
 

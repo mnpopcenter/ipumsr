@@ -14,10 +14,11 @@
 #' \code{read_nhgis_sp} returns a \code{SpatialPolygonsDataFrame} with data and
 #' shapes.
 #' @param data_file Filepath to the data (either the .zip file directly
-#'   downloaded from the website, or the path to the unzipped .csv file).
+#'   downloaded from the website, the path to the unzipped folder, or
+#'   the path to the unzipped .csv file directly).
 #' @param shape_file Filepath to the shape files (either the .zip
 #'   file directly downloaded from the website, or the path to the unzipped
-#'   files).
+#'   folder, or the unzipped .shp file directly).
 #' @param data_layer For .zip extracts with multiple datasets, the name of the
 #'   data to load. Accepts a character vector specifying the file name, or
 #'  \code{\link{dplyr_select_style}} conventions. Data layer must uniquely identify
@@ -56,24 +57,12 @@ read_nhgis <- function(
 ) {
   data_layer <- enquo(data_layer)
 
-  if (!file.exists(data_file)) {
-    if (dirname(data_file) == ".") {
-      stop(paste0(
-        "Could not find data file named '", data_file, "' in current working directory:\n  ",
-        getwd(), "\nDo you need to change the directory with `setwd()`?"
-      ))
-    } else {
-      stop(paste0(
-        "Could not find data file, check the path in argument 'data_file':\n  ",
-        data_file
-      ))
-    }
-  }
+  custom_check_file_exists(data_file)
 
   # Read data files ----
-  data_is_zip <- stringr::str_sub(data_file, -4) == ".zip"
-  if (data_is_zip) {
-    csv_name <- find_files_in_zip(data_file, "csv", data_layer)
+  data_is_zip_or_dir <- path_is_zip_or_dir(data_file)
+  if (data_is_zip_or_dir) {
+    csv_name <- find_files_in(data_file, "csv", data_layer)
     cb_ddi_info <- try(read_ipums_codebook(data_file, !!data_layer), silent = TRUE)
   } else {
     cb_name <- stringr::str_replace(data_file, "\\.csv$", "_codebook.txt")
@@ -93,14 +82,21 @@ read_nhgis <- function(
   if (verbose) cat("\n\nReading data file...\n")
   extract_locale <- ipums_locale(cb_ddi_info$file_encoding)
 
-  if (data_is_zip) {
+  if (file_is_zip(data_file)) {
     data <- readr::read_csv(
       unz(data_file, csv_name),
       col_types = readr::cols(.default = "c"),
       locale = extract_locale,
       progress = show_readr_progress(verbose)
     )
-  } else {
+  } else if (file_is_dir(data_file)) {
+    data <- readr::read_csv(
+      file.path(data_file, csv_name),
+      col_types = readr::cols(.default = "c"),
+      locale = extract_locale,
+      progress = show_readr_progress(verbose)
+    )
+  }else {
     data <- readr::read_csv(
       data_file,
       col_types = readr::cols(.default = "c"),

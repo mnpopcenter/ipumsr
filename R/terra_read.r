@@ -54,20 +54,25 @@ read_terra_raster_list <- function(
 # as raster, and the multi one always returns a list.
 read_terra_raster_internal <- function(data_file, data_layer, verbose, multiple_ok) {
   # Read data files ----
-    data_is_zip <- stringr::str_sub(data_file, -4) == ".zip"
-    if (data_is_zip) {
-      tiff_names <- find_files_in_zip(data_file, "tiff", data_layer, multiple_ok = multiple_ok)
+    if (path_is_zip_or_dir(data_file)) {
+      tiff_names <- find_files_in(data_file, "tiff", data_layer, multiple_ok = multiple_ok)
 
-      raster_temp <- tempfile()
-      dir.create(raster_temp)
-      # Don't delete raster temp files, because R reads from disk
-      utils::unzip(data_file, tiff_names, exdir = raster_temp)
+      if (file_is_zip(data_file)) {
+        raster_temp <- tempfile()
+        dir.create(raster_temp)
+        # Don't delete raster temp files, because R reads from disk
+        utils::unzip(data_file, tiff_names, exdir = raster_temp)
+
+        raster_paths <- file.path(raster_temp, tiff_names)
+      } else {
+        raster_paths <- file.path(data_file, tiff_names)
+      }
 
       if (!multiple_ok) {
-        out <- raster::raster(file.path(raster_temp, tiff_names))
+        out <- raster::raster(raster_paths)
       } else {
-        out <- purrr::map(tiff_names, ~raster::raster(file.path(raster_temp, .)))
-        out <- purrr::set_names(out, stringr::str_sub(tiff_names, 1, -6))
+        out <- purrr::map(raster_paths, ~raster::raster())
+        out <- purrr::set_names(out, stringr::str_sub(basename(raster_paths), 1, -6))
       }
     } else {
       if (!multiple_ok) {
@@ -93,10 +98,12 @@ read_terra_raster_internal <- function(data_file, data_layer, verbose, multiple_
 #'   and \code{read_terra_area_sp} returns a \code{SpatialPolygonsDataFrame} with
 #'   data and shapes.
 #' @param data_file Path to the data file, which can either be the .zip file directly
-#'   downloaded from the IPUMS Terra website, or to the csv unzipped from the download.
-#' @param shape_file (Optional) If the download is unzipped, path to the .zip or .shp file
-#'   representing the the shape file. If only the data table is needed, can be set to FALSE
-#'   to indicate not to load the shape file.
+#'   downloaded from the IPUMS Terra website, path to the unzipped folder, or to the
+#'   csv unzipped from the download.
+#' @param shape_file (Optional) If the download is unzipped, path to the .zip,
+#'   folder path or .shp file representing the the shape file. If only the data
+#'   table is needed, can be set to FALSE to indicate not to load the shape
+#'   file.
 #' @param data_layer For .zip extracts with multiple datasets, the name of the
 #'   data to load. Accepts a character vector specifying the file name, or
 #'  \code{\link{dplyr_select_style}} conventions. Data layer must uniquely identify
@@ -129,17 +136,17 @@ read_terra_area <- function(
 ) {
   data_layer <- enquo(data_layer)
   if (!is.null(var_attrs)) var_attrs <- match.arg(var_attrs, several.ok = TRUE)
-  data_is_zip <- stringr::str_sub(data_file, -4) == ".zip"
+  data_is_zip_or_path <- path_is_zip_or_dir(data_file)
 
   # Try to read DDI for license info ----
-  if (data_is_zip & is.null(ddi_file)) {
+  if (data_is_zip_or_path & is.null(ddi_file)) {
     ddi <- read_ipums_ddi(data_file) # Don't pass in `data_layer` bc only 1 ddi/area extract
   } else if (!is.null(ddi_file)) {
     ddi <- read_ipums_ddi(ddi_file)
   }
 
   # Try to read codebook for var info ----
-  if (data_is_zip & is.null(cb_file)) {
+  if (data_is_zip_or_path & is.null(cb_file)) {
     cb <- read_ipums_codebook(data_file, !!data_layer)
   } else if (!is.null(cb_file)) {
     cb <- read_ipums_codebook(cb_file)
@@ -161,9 +168,12 @@ read_terra_area <- function(
   if (verbose) custom_cat(ipums_conditions(ddi))
 
   # Read data file ----
-  if (data_is_zip) {
-    csv_name <- find_files_in_zip(data_file, "csv", data_layer)
+  if (file_is_zip(data_file)) {
+    csv_name <- find_files_in(data_file, "csv", data_layer)
     read_data <- unz(data_file, csv_name)
+  } else if (file_is_dir(data_file)) {
+    csv_name <- find_files_in(data_file, "csv", data_layer)
+    read_data <- file.path(data_file, csv_name)
   } else {
     read_data <- data_file
   }
@@ -275,12 +285,14 @@ read_terra_area_sp <- function(
 #'   and \code{read_terra_micro_sp} returns a \code{SpatialPolygonsDataFrame} with
 #'   data and shapes.
 #' @param data_file Path to the data file, which can either be the .zip file directly
-#'   downloaded from the IPUMS Terra website, or to the csv unzipped from the download.
+#'   downloaded from the IPUMS Terra website, a path to the unzipped version of that
+#'   folder, or to the csv unzipped from the download.
 #' @param ddi_file (Optional) If the download is unzipped, path to the .xml file which
 #'   provides usage and citation information for extract.
-#' @param shape_file (Optional) If the download is unzipped, path to the .zip or .shp file
-#'   representing the the shape file. If only the data table is needed, can be set to FALSE
-#'   to indicate not to load the shape file.
+#' @param shape_file (Optional) If the download is unzipped, path to the .zip
+#'   (unzipped path) or .shp file representing the the shape file. If only the
+#'   data table is needed, can be set to FALSE to indicate not to load the shape
+#'   file.
 #' @param data_layer For .zip extracts with multiple datasets, the name of the
 #'   data to load. Accepts a character vector specifying the file name, or
 #'  \code{\link{dplyr_select_style}} conventions. Data layer must uniquely identify
@@ -309,10 +321,10 @@ read_terra_micro <- function(
   data_layer <- enquo(data_layer)
   if (!is.null(var_attrs)) var_attrs <- match.arg(var_attrs, several.ok = TRUE)
 
-  data_is_zip <- stringr::str_sub(data_file, -4) == ".zip"
+  data_is_zip_or_path <- path_is_zip_or_dir(data_file)
 
   # Try to read DDI for license info ----
-  if (data_is_zip & is.null(ddi_file)) {
+  if (data_is_zip_or_path & is.null(ddi_file)) {
     ddi <- read_ipums_ddi(data_file)
   } else if (!is.null(ddi_file)) {
     ddi <- read_ipums_ddi(ddi_file)
@@ -323,12 +335,15 @@ read_terra_micro <- function(
   if (verbose) custom_cat(ipums_conditions(ddi))
 
   # Read data file ----
-  if (data_is_zip) {
-    csv_name <- find_files_in_zip(data_file, "(csv|gz)", data_layer)
+  if (file_is_zip(data_file)) {
+    csv_name <- find_files_in(data_file, "(csv|gz)", data_layer)
     read_data <- unz(data_file, csv_name)
     if (stringr::str_sub(csv_name, -3) == ".gz") {
       read_data <- gzcon(read_data)
     }
+  } else if (file_is_dir(data_file)) {
+    csv_name <- find_files_in(data_file, "(csv|gz)", data_layer)
+    read_data <- file.path(data_file, csv_name)
   } else {
     read_data <- data_file
   }
@@ -390,8 +405,8 @@ read_terra_micro_sf <- function(
 
   data <- read_terra_micro(data_file, ddi_file, !!enquo(data_layer), verbose, var_attrs)
 
-  data_is_zip <- stringr::str_sub(data_file, -4) == ".zip"
-  if (data_is_zip & is.null(shape_file)) shape_file <- data_file
+  data_is_zip_or_path <- path_is_zip_or_dir(data_file)
+  if (data_is_zip_or_path & is.null(shape_file)) shape_file <- data_file
 
   shape_data <- read_ipums_sf(shape_file, !!shape_layer, verbose = verbose)
 
@@ -419,8 +434,8 @@ read_terra_micro_sp <- function(
 
   data <- read_terra_micro(data_file, ddi_file, !!enquo(data_layer), verbose, var_attrs)
 
-  data_is_zip <- stringr::str_sub(data_file, -4) == ".zip"
-  if (data_is_zip & is.null(shape_file)) shape_file <- data_file
+  data_is_zip_or_path <- path_is_zip_or_dir(data_file)
+  if (data_is_zip_or_path & is.null(shape_file)) shape_file <- data_file
 
   shape_data <- read_ipums_sp(shape_file, !!shape_layer, verbose = verbose)
 

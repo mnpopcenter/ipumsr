@@ -46,7 +46,7 @@ test_that(
 )
 
 test_that(
-  "find_files_in_zip respects dplyr-select style syntax",
+  "find_files_in respects dplyr-select style syntax",
   {
     # mpcstats doesn't have zip installed correctly...
     # So check and skip this test if zip doesn't run
@@ -83,24 +83,24 @@ test_that(
 
     # Gets all files
     expect_equal(
-      ipumsr:::find_files_in_zip(zip_file, multiple_ok = TRUE),
+      ipumsr:::find_files_in(zip_file, multiple_ok = TRUE),
       file_names
     )
 
     # Errors if multiple is not okay
     expect_error(
-      ipumsr:::find_files_in_zip(zip_file, multiple_ok = FALSE)
+      ipumsr:::find_files_in(zip_file, multiple_ok = FALSE)
     )
 
     # Can filter on extension
     expect_equal(
-      ipumsr:::find_files_in_zip(zip_file, name_ext = "csv", multiple_ok = TRUE),
+      ipumsr:::find_files_in(zip_file, name_ext = "csv", multiple_ok = TRUE),
       "test.csv"
     )
 
     # Bare file names
     expect_equal(
-      ipumsr:::find_files_in_zip(
+      ipumsr:::find_files_in(
         zip_file,
         name_select = rlang::quo(c(test1.txt, test2.txt)),
         multiple_ok = TRUE
@@ -110,7 +110,7 @@ test_that(
 
     # String
     expect_equal(
-      ipumsr:::find_files_in_zip(
+      ipumsr:::find_files_in(
         zip_file,
         name_select = rlang::quo(c("test1.txt", "test2.txt")),
         multiple_ok = TRUE
@@ -121,7 +121,7 @@ test_that(
     # variable from environment
     my_vars <- c("test1.txt", "test2.txt")
     expect_equal(
-      ipumsr:::find_files_in_zip(
+      ipumsr:::find_files_in(
         zip_file,
         name_select = rlang::quo(my_vars),
         multiple_ok = TRUE
@@ -132,7 +132,7 @@ test_that(
 
     # dplyr::select helpers
     expect_equal(
-      ipumsr:::find_files_in_zip(
+      ipumsr:::find_files_in(
         zip_file,
         name_select = rlang::quo(starts_with("test")),
         multiple_ok = TRUE

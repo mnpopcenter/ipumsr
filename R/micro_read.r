@@ -88,20 +88,9 @@ read_ipums_micro <- function(
 ) {
   if (is.character(ddi)) ddi <- read_ipums_ddi(ddi)
   if (is.null(data_file)) data_file <- file.path(ddi$file_path, ddi$file_name)
-  # Look for zipped versions of the file or csv versions of the file if it doesn't exist
-  if (!file.exists(data_file)) {
-    file_dat_gz <- file_as_ext(data_file, ".dat.gz")
-    file_csv <- file_as_ext(data_file, ".csv")
-    file_csv_gz <- file_as_ext(data_file, ".csv.gz")
 
-    if (file.exists(file_dat_gz)) {
-      data_file <- file_dat_gz
-    } else if (file.exists(file_csv)) {
-      data_file <- file_csv
-    } else if (file.exists(file_csv_gz)) {
-      data_file <- file_csv_gz
-    }
-  }
+  data_file <- custom_check_file_exists(data_file, c(".dat.gz", ".csv", ".csv.gz"))
+
   if (verbose) custom_cat(ipums_conditions(ddi))
 
   vars <- enquo(vars)
@@ -131,20 +120,9 @@ read_ipums_micro_list <- function(
 ) {
   if (is.character(ddi)) ddi <- read_ipums_ddi(ddi)
   if (is.null(data_file)) data_file <- file.path(ddi$file_path, ddi$file_name)
-  # Look for zipped versions of the file or csv versions of the file if it doesn't exist
-  if (!file.exists(data_file)) {
-    file_dat_gz <- file_as_ext(data_file, ".dat.gz")
-    file_csv <- file_as_ext(data_file, ".csv")
-    file_csv_gz <- file_as_ext(data_file, ".csv.gz")
 
-    if (file.exists(file_dat_gz)) {
-      data_file <- file_dat_gz
-    } else if (file.exists(file_csv)) {
-      data_file <- file_csv
-    } else if (file.exists(file_csv_gz)) {
-      data_file <- file_csv_gz
-    }
-  }
+  data_file <- custom_check_file_exists(data_file, c(".dat.gz", ".csv", ".csv.gz"))
+
   if (verbose) custom_cat(ipums_conditions(ddi))
 
   vars <- enquo(vars)

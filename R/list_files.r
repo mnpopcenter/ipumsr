@@ -50,7 +50,7 @@ ipums_list_files <- function(file, types = NULL, data_layer = NULL,
 ipums_list_data <- function(file, data_layer = NULL) {
   if (!file_is_zip(file)) stop("File must be a .zip file")
   tibble::data_frame(
-    file = find_files_in_zip(file, "(dat|csv)(\\.gz)?", data_layer, multiple_ok = TRUE)
+    file = find_files_in(file, "(dat|csv)(\\.gz)?", data_layer, multiple_ok = TRUE)
   )
 }
 
@@ -59,7 +59,7 @@ ipums_list_data <- function(file, data_layer = NULL) {
 ipums_list_shape <- function(file, shape_layer = NULL) {
   if (!file_is_zip(file)) stop("File must be a .zip file")
   tibble::data_frame(
-    file = find_files_in_zip(file, "(zip|shp)", shape_layer, multiple_ok = TRUE)
+    file = find_files_in(file, "(zip|shp)", shape_layer, multiple_ok = TRUE)
   )
 }
 
@@ -68,7 +68,7 @@ ipums_list_shape <- function(file, shape_layer = NULL) {
 ipums_list_raster <- function(file, raster_layer = NULL) {
   if (!file_is_zip(file)) stop("File must be a .zip file")
   tibble::data_frame(
-    file = find_files_in_zip(file, "tiff", raster_layer, multiple_ok = TRUE)
+    file = find_files_in(file, "tiff", raster_layer, multiple_ok = TRUE)
   )
 }
 

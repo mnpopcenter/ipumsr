@@ -19,7 +19,8 @@ read_terra_micro_sp(data_file, ddi_file = NULL, shape_file = NULL,
 }
 \arguments{
 \item{data_file}{Path to the data file, which can either be the .zip file directly
-downloaded from the IPUMS Terra website, or to the csv unzipped from the download.}
+downloaded from the IPUMS Terra website, a path to the unzipped version of that
+folder, or to the csv unzipped from the download.}
 
 \item{ddi_file}{(Optional) If the download is unzipped, path to the .xml file which
 provides usage and citation information for extract.}
@@ -36,9 +37,10 @@ to console.}
 adding all (val_labels, var_label and var_desc). See
 \code{\link{set_ipums_var_attributes}} for more details.}
 
-\item{shape_file}{(Optional) If the download is unzipped, path to the .zip or .shp file
-representing the the shape file. If only the data table is needed, can be set to FALSE
-to indicate not to load the shape file.}
+\item{shape_file}{(Optional) If the download is unzipped, path to the .zip
+(unzipped path) or .shp file representing the the shape file. If only the
+data table is needed, can be set to FALSE to indicate not to load the shape
+file.}
 
 \item{shape_layer}{Specification
 of which shape files to load using the same semantics as \code{data_layer}. Can
