@@ -274,7 +274,7 @@ custom_check_file_exists <- function(file, extra_ext = NULL) {
   file <- file.path(dirname(file), basename(file))
 
   if (!is.null(extra_ext)) {
-    file <- purrr::map_chr(extra_ext, ~file_as_ext(file, .))
+    file <- c(file, purrr::map_chr(extra_ext, ~file_as_ext(file, .)))
   }
 
   exists_check <- file.exists(file)
