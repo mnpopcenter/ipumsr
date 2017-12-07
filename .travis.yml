@@ -19,7 +19,7 @@ before_install:
     - Rscript -e 'if(R.version$major == "3" && substr(R.version$minor, 1, 1) == "2") install.packages("jsonlite")'
 
 after_success:
-  - Rscript -e 'covr::codecov()'
+  - Rscript -e 'if (!(R.version$major == "3" && substr(R.version$minor, 1, 1) == "2")) covr::codecov()'
 
 env:
   global:
