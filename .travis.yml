@@ -2,7 +2,7 @@
 
 language: R
 sudo: required
-cache: packages
+cache: false
 dist: trusty
 r_github_packages: mnpopcenter/ipumsr/ipumsexamples
 
