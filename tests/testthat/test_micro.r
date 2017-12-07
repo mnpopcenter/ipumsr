@@ -29,6 +29,27 @@ test_that(
   })
 
 test_that(
+  "Can read Rectangular .dat", {
+    temp_file <- paste0(tempfile(), ".dat")
+
+    temp <- readr::read_lines(ipums_example("cps_00006.dat.gz"))
+    readr::write_lines(temp, temp_file)
+    on.exit(unlink(temp_file))
+
+    cps <- read_ipums_micro(
+      ipums_example("cps_00006.xml"),
+      data_file = temp_file,
+      verbose = FALSE
+    )
+
+    expect_equal(nrow(cps), rows_p)
+    expect_equal(ncol(cps), vars_rect)
+    expect_equal(attr(cps[["YEAR"]], "label"), YEAR_label)
+    expect_equal(attr(cps[["YEAR"]], "var_desc"), YEAR_var_desc)
+    expect_equal(attr(cps[["STATEFIP"]], "labels")[1:2], STATEFIP_val_labels)
+  })
+
+test_that(
   "Can read Rectangular .csv.gz", {
     cps <- read_ipums_micro(
       ipums_example("cps_00006.xml"),
