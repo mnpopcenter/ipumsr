@@ -2,15 +2,20 @@
 
 language: R
 sudo: required
-cache: false
+cache: packages
 dist: trusty
 r_github_packages: mnpopcenter/ipumsr/ipumsexamples
 
-r:
-- release
-- oldrel
-- devel
-- 3.2
+matrix:
+  include:
+    - r: release
+      env: cache_type=v1
+    - r: oldrel
+      env: cache_type=v1
+    - r: devel
+      env: cache_type=v1
+    - r: 3.2
+      env: cache_type=v2
 
 before_install:
     - sudo add-apt-repository ppa:ubuntugis/ubuntugis-unstable --yes
