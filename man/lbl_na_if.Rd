@@ -12,7 +12,7 @@ lbl_na_if(x, .predicate)
 \item{.predicate}{A function that takes .val and .lbl (the values and
 labels) and returns TRUE or FALSE. It is passed to a function similar
 to \code{\link[rlang]{as_function}}, so also accepts quosure-style lambda
-functions (that use values .val and .lbl).}
+functions (that use values .val and .lbl). See examples for more information.}
 }
 \value{
 A haven::labeled vector

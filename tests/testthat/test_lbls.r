@@ -24,6 +24,12 @@ x_unused <- haven::labelled(
 )
 attr(x_unused, "label") <- "Test label"
 
+x_flipped <- haven::labelled(
+  c(11, 11, 10, 20, 30, 99, 30, 11),
+  c(`Yes - Logically Assigned` = 10, Yes = 11, No = 20, Maybe = 30, NIU = 99)
+)
+attr(x_flipped, "label") <- "Test label"
+
 test_that("lbl_na_if: Simple example with both .lbl and .val keywords", {
   expect_equal(
     lbl_na_if(x, ~.val >= 90 | .lbl %in% c("Maybe")),
@@ -158,6 +164,13 @@ test_that("lbl_relabel: error when to nonexisting by single unnamed argument", {
 test_that("lbl_relabel: error when to existing value with new label", {
   expect_error(
     lbl_relabel(x, lbl(10, "Yes also") ~ .val == 11)
+  )
+})
+
+test_that("lbl_relabel: can flip labels", {
+  expect_equal(
+    lbl_relabel(x, lbl(10, "Yes - Logically Assigned") ~ .val == 11, lbl(11, "Yes") ~ .val == 10),
+    x_flipped
   )
 })
 

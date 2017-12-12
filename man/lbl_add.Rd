@@ -16,7 +16,7 @@ lbl_add_vals(x, labeller = as.character, vals = NULL)
 
 \item{labeller}{A function that takes a single argument of the values and returns the
 labels. Defaults to \code{as.character}. \code{\link[rlang]{as_function}}, so
-also accepts quosure-style lambda functions.}
+also accepts quosure-style lambda functions. See examples for more details.}
 
 \item{vals}{Vector of values to be labelled. NULL, the default labels all values
 that are in the data, but aren't already labelled.}

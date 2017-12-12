@@ -14,7 +14,8 @@ lbl_relabel(x, ...)
 in the data and the right hand side is a function that returns a logical
 vector that indicates which labels should be relabeled. The right hand side
 is passed to a function similar to \code{\link[rlang]{as_function}}, so
-also accepts quosure-style lambda functions (that use values .val and .lbl).}
+also accepts quosure-style lambda functions (that use values .val and .lbl).
+See examples for more information.}
 }
 \value{
 A haven::labeled vector

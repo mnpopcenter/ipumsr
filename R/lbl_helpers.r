@@ -13,7 +13,7 @@
 #' @param .predicate A function that takes .val and .lbl (the values and
 #'    labels) and returns TRUE or FALSE. It is passed to a function similar
 #'    to \code{\link[rlang]{as_function}}, so also accepts quosure-style lambda
-#'    functions (that use values .val and .lbl).
+#'    functions (that use values .val and .lbl). See examples for more information.
 #' @return A haven::labeled vector
 #' @examples
 #' x <- haven::labelled(
@@ -66,6 +66,7 @@ lbl_na_if <- function(x, .predicate) {
 #'    labels) and returns the values of the label you want to change it to.
 #'    It is passed to a function similar to \code{\link[rlang]{as_function}}, so
 #'    also accepts quosure-style lambda functions (that use values .val and .lbl).
+#'    See examples for more information.
 #' @return A haven::labeled vector
 #' @examples
 #' x <- haven::labelled(
@@ -84,7 +85,7 @@ lbl_na_if <- function(x, .predicate) {
 #'
 #' # Or even the name of a function
 #' collapse_function <- function(.val, .lbl) (.val %/% 10) * 10
-#' lbl_na_if(x, "collapse_function")
+#' lbl_collapse(x, "collapse_function")
 #'
 #' @family lbl_helpers
 #' @export
@@ -130,6 +131,7 @@ lbl_collapse <- function(x, .fun) {
 #'   vector that indicates which labels should be relabeled. The right hand side
 #'   is passed to a function similar to \code{\link[rlang]{as_function}}, so
 #'   also accepts quosure-style lambda functions (that use values .val and .lbl).
+#'   See examples for more information.
 #' @return A haven::labeled vector
 #' @examples
 #' x <- haven::labelled(
@@ -157,46 +159,51 @@ lbl_collapse <- function(x, .fun) {
 lbl_relabel <- function(x, ...) {
   dots <- list(...)
 
-  purrr::reduce(dots, .init = x, function(.x, .y) {
-    old_labels <- attr(.x, "labels")
-    # Figure out which values we're changing
-    ddd <- .y
-    rlang::f_lhs(ddd) <- NULL
-    to_change <- as_lbl_function(ddd)(.val = unname(old_labels), .lbl = names(old_labels))
+  transformation <- ipums_val_labels(x)
+  transformation$new_val <- transformation$val
+  transformation$new_lbl <- transformation$lbl
+  old_labels <- attr(x, "labels")
 
-    # Figure out which label we're changing to
-    ddd <- .y
-    rlang::f_rhs(ddd) <- rlang::f_lhs(ddd)
-    rlang::f_lhs(ddd) <- NULL
-    lblval <- rlang::eval_tidy(rlang::as_quosure(ddd))
+  for (ddd in dots) {
+    # Figure out which values we're changing from rhs
+    ddd_rhs <- ddd
+    rlang::f_lhs(ddd_rhs) <- NULL
+    to_change <- as_lbl_function(ddd_rhs)(.val = transformation$val, .lbl = transformation$lbl)
+
+    # Figure out which label we're changing to from lhs
+    ddd_lhs <- ddd
+    rlang::f_rhs(ddd_lhs) <- NULL
+    lblval <- rlang::eval_tidy(rlang::as_quosure(ddd_lhs))
     lblval <- fill_in_lbl(lblval, old_labels)
 
-    # Make changes to vector
-    out <- .x
-    out[out %in% old_labels[to_change]] <- lblval$.val
+    transformation$new_val[to_change] <- lblval$.val
+    transformation$new_lbl[to_change] <- lblval$.lbl
+  }
 
-    new_labels <- dplyr::data_frame(
-      label <- c(names(old_labels[!to_change]), lblval$.lbl),
-      value = c(unname(old_labels[!to_change]), lblval$.val)
-    )
-    new_labels <- dplyr::distinct(new_labels)
+  new_lbls <- dplyr::distinct(transformation, val = .data$new_val, lbl = .data$new_lbl)
+  lbl_count <- table(new_lbls$val)
 
-    dup_labels <- table(new_labels$value)
-    dup_labels <- names(dup_labels)[dup_labels > 1]
-    if (length(dup_labels) > 0) {
-      dup_labels <- paste(dup_labels, collapse = ", ")
-      stop(paste0(
-        "Some values have more than 1 label:\n",
-        custom_format_text(dup_labels, indent = 2, exdent = 2)
-      ))
-    }
+  if (any(lbl_count > 1)) {
+    dup_lbls <- new_lbls[new_lbls$val %in% names(lbl_count)[lbl_count > 1], ]
+    dup_lbls <- dplyr::group_by(dup_lbls, .data$val)
+    dup_lbls <- dplyr::summarize(dup_lbls, all_lbls = paste0("'", lbl, "'", collapse = ", "))
 
-    new_labels <- dplyr::arrange(new_labels, .data$value)
-    new_labels <- tibble::deframe(new_labels)
+    stop(paste0(
+      "Some values have more than 1 label:\n",
+      custom_format_text(
+        paste(dup_lbls$val, "->", dup_lbls$all_lbls, collapse = "\n"),
+        indent = 2, exdent = 2
+      )
+    ), call. = FALSE)
+  }
 
-    attr(out, "labels") <- new_labels
-    out
-  })
+  new_lbls <- dplyr::arrange(new_lbls, .data$val)
+  new_lbls <- purrr::set_names(new_lbls$val, new_lbls$lbl)
+
+  out <- transformation$new_val[match(x, transformation$val)]
+  attributes(out) <- attributes(x)
+  attr(out, "labels") <- new_lbls
+  out
 }
 
 #' Add labels for unlabelled values
@@ -209,7 +216,7 @@ lbl_relabel <- function(x, ...) {
 #'   that are in the data, but aren't already labelled.
 #' @param labeller A function that takes a single argument of the values and returns the
 #'   labels. Defaults to \code{as.character}. \code{\link[rlang]{as_function}}, so
-#'   also accepts quosure-style lambda functions.
+#'   also accepts quosure-style lambda functions. See examples for more details.
 #' @return A haven::labeled vector
 #' @examples
 #' x <- haven::labelled(

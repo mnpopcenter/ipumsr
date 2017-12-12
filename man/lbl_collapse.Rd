@@ -12,7 +12,8 @@ lbl_collapse(x, .fun)
 \item{.fun}{A function that takes .val and .lbl (the values and
 labels) and returns the values of the label you want to change it to.
 It is passed to a function similar to \code{\link[rlang]{as_function}}, so
-also accepts quosure-style lambda functions (that use values .val and .lbl).}
+also accepts quosure-style lambda functions (that use values .val and .lbl).
+See examples for more information.}
 }
 \value{
 A haven::labeled vector
@@ -40,7 +41,7 @@ lbl_collapse(x, function(.val, .lbl) (.val \%/\% 10) * 10)
 
 # Or even the name of a function
 collapse_function <- function(.val, .lbl) (.val \%/\% 10) * 10
-lbl_na_if(x, "collapse_function")
+lbl_collapse(x, "collapse_function")
 
 }
 \seealso{
