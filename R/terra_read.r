@@ -156,6 +156,7 @@ read_terra_area <- function(
   # codebook has better variable information
   if (!is.null(ddi) & !is.null(cb)) {
     ddi$var_info <- cb$var_info
+    ddi$ipums_project <- cb$ipums_project
   } else if (is.null(ddi) & !is.null(cb)) {
     ddi <- cb
   } else if (is.null(ddi)) {
