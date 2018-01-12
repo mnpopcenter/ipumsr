@@ -452,6 +452,7 @@ read_terra_micro_sp <- function(
 
 # Fills in a default condition if we can't find ddi for terra
 terra_empty_ddi <- make_ddi_from_scratch(
+  ipums_project = "IPUMS Terra",
   file_type = "rectangular",
   conditions = paste0(
     "Use of IPUMS Terra data is subject to conditions, including that ",

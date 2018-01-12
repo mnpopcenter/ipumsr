@@ -237,6 +237,7 @@ read_nhgis_sp <- function(
 
 # Fills in a default condition if we can't find codebook for nhgis
 nhgis_empty_ddi <- make_ddi_from_scratch(
+  ipums_project = "NHGIS",
   file_type = "rectangular",
   conditions = paste0(
     "Use of NHGIS data is subject to conditions, including that ",
