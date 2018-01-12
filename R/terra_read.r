@@ -332,6 +332,7 @@ read_terra_micro <- function(
   } else {
     ddi <- terra_empty_ddi
   }
+  if (is.na(ddi$ipums_project)) ddi$ipums_project <- "IPUMS Terra"
 
   if (verbose) custom_cat(short_conditions_text(ddi))
 
