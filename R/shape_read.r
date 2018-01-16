@@ -15,6 +15,14 @@
 #'   shape files to load. Accepts a character vector specifying the file name, or
 #'  \code{\link{dplyr_select_style}} conventions. Can load multiple shape files,
 #'    which will be combined.
+#' @param encoding The text encoding to use when reading the shape file. Typically
+#'   the defaults should read the data correctly, but for some extracts you may need
+#'   to set them manually, but if funny characters appear in your data, you may need
+#'   to. For microdata projects, the default NULL will look for a
+#'   .cpg file to determine the encoding and if none is available, it will default
+#'   to latin1. \code{\link{read_ipums_nhgis}} and the IPUMS Terra
+#'   functions specify the encoding for those projects (latin1 and UTF-8
+#'   respectively).
 #' @param bind_multiple If \code{TRUE}, will combine multiple shape files found into
 #'   a single object.
 #' @param verbose I \code{TRUE}, will report progress information
@@ -34,7 +42,10 @@
 #'
 #' @family ipums_read
 #' @export
-read_ipums_sf <- function(shape_file, shape_layer = NULL, bind_multiple = TRUE, verbose = TRUE) {
+read_ipums_sf <- function(
+  shape_file, shape_layer = NULL, encoding = NULL, bind_multiple = TRUE,
+  verbose = TRUE
+) {
   shape_layer <- enquo(shape_layer)
   load_sf_namespace()
 
@@ -45,7 +56,7 @@ read_ipums_sf <- function(shape_file, shape_layer = NULL, bind_multiple = TRUE, 
 
   read_shape_files <- shape_file_prep(shape_file, shape_layer, bind_multiple, shape_temp)
 
-  encoding <- get_encoding_from_cpg(read_shape_files)
+  encoding <- determine_encoding(read_shape_files, encoding)
 
   out <- purrr::map2(
     read_shape_files,
@@ -98,7 +109,10 @@ careful_sf_rbind <- function(sf_list) {
 
 #' @rdname read_ipums_sf
 #' @export
-read_ipums_sp <- function(shape_file, shape_layer = NULL, bind_multiple = TRUE, verbose = TRUE) {
+read_ipums_sp <- function(
+  shape_file, shape_layer = NULL, bind_multiple = TRUE, verbose = TRUE,
+  encoding = NULL
+) {
   shape_layer <- enquo(shape_layer)
   load_rgdal_namespace()
 
@@ -109,7 +123,7 @@ read_ipums_sp <- function(shape_file, shape_layer = NULL, bind_multiple = TRUE, 
 
   read_shape_files <- shape_file_prep(shape_file, shape_layer, bind_multiple, shape_temp)
 
-  encoding <- get_encoding_from_cpg(read_shape_files)
+  encoding <- determine_encoding(read_shape_files, encoding)
 
   out <- purrr::map2(
     read_shape_files,
@@ -175,10 +189,14 @@ careful_sp_rbind <- function(sp_list) {
 ## IPUMSI: Brazil has a cpg file indicating the encoding is ANSI 1252,
 ##         while China has UTF-8 (but only english characters)
 ## USA:   Also have cpg files.
-## Terrapop Brazil has multi-byte error characters for the data.
-# Current solution: Assume latin1, unless I find a CPG file and
-# with encoding I recognize and then use that.
-get_encoding_from_cpg <- function(shape_file_vector) {
+## Terrapop: Always UTF-8 (and sometimes has been ruined if the
+##           shape file comes from IPUMS International and wasn't
+##           UTF-8 to begin with.)
+# Current solution: If user specified encoding (or possibly came from
+# defaults of functions eg read_terra says UTF-8, but read_nghis says latin1),
+# then use that. If not, and a cpg file exists, use that. Else, assume latin1.
+determine_encoding <- function(shape_file_vector, encoding = NULL) {
+  if (!is.null(encoding)) return(encoding)
   out <- purrr::map_chr(shape_file_vector, function(x) {
     cpg_file <- dir(dirname(x), pattern = "\\.cpg$", ignore.case = TRUE, full.names = TRUE)
 

@@ -111,6 +111,10 @@ read_terra_raster_internal <- function(data_file, data_layer, verbose, multiple_
 #' @param shape_layer (Defaults to using the same value as data_layer) Specification
 #'   of which shape files to load using the same semantics as \code{data_layer}. Can
 #'   load multiple shape files, which will be combined.
+#' @param encoding The text encoding to use when reading the shape file. Typically
+#'   the defaults should read the data correctly, but for some extracts you may need
+#'   to set them manually, but if funny characters appear in your data, you may need
+#'   to. Defaults to "UTF-8" for IPUMS Terra.
 #' @param ddi_file (Optional) If the download is unzipped, path to the .xml file which
 #'   provides usage and citation information for extract.
 #' @param cb_file (Optional) If the download is unzipped, path to the .txt file which
@@ -200,6 +204,7 @@ read_terra_area_sf <- function(
   shape_file = NULL,
   data_layer = NULL,
   shape_layer = data_layer,
+  shape_encoding = "UTF-8",
   ddi_file = NULL,
   cb_file = NULL,
   verbose = TRUE,
@@ -246,6 +251,7 @@ read_terra_area_sp <- function(
   shape_file = NULL,
   data_layer = NULL,
   shape_layer = data_layer,
+  shape_encoding = "UTF-8",
   ddi_file = NULL,
   cb_file = NULL,
   verbose = TRUE,
@@ -301,6 +307,10 @@ read_terra_area_sp <- function(
 #' @param shape_layer Specification
 #'   of which shape files to load using the same semantics as \code{data_layer}. Can
 #'   load multiple shape files, which will be combined.
+#' @param encoding The text encoding to use when reading the shape file. Typically
+#'   the defaults should read the data correctly, but for some extracts you may need
+#'   to set them manually, but if funny characters appear in your data, you may need
+#'   to. Defaults to "UTF-8" for IPUMS Terra.
 #' @param verbose Logical, indicating whether to print progress information
 #'   to console.
 #' @param var_attrs Variable attributes to add from the DDI, defaults to
@@ -400,6 +410,7 @@ read_terra_micro_sf <- function(
   shape_file = NULL,
   data_layer = NULL,
   shape_layer = NULL,
+  shape_encoding = "UTF-8",
   verbose = TRUE,
   var_attrs = c("val_labels", "var_label", "var_desc")
 ) {
@@ -429,6 +440,7 @@ read_terra_micro_sp <- function(
   shape_file = NULL,
   data_layer = NULL,
   shape_layer = NULL,
+  shape_encoding = "UTF-8",
   verbose = TRUE,
   var_attrs = c("val_labels", "var_label", "var_desc")
 ) {

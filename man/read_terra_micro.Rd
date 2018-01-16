@@ -10,12 +10,12 @@ read_terra_micro(data_file, ddi_file = NULL, data_layer = NULL,
   verbose = TRUE, var_attrs = c("val_labels", "var_label", "var_desc"))
 
 read_terra_micro_sf(data_file, ddi_file = NULL, shape_file = NULL,
-  data_layer = NULL, shape_layer = NULL, verbose = TRUE,
-  var_attrs = c("val_labels", "var_label", "var_desc"))
+  data_layer = NULL, shape_layer = NULL, shape_encoding = "UTF-8",
+  verbose = TRUE, var_attrs = c("val_labels", "var_label", "var_desc"))
 
 read_terra_micro_sp(data_file, ddi_file = NULL, shape_file = NULL,
-  data_layer = NULL, shape_layer = NULL, verbose = TRUE,
-  var_attrs = c("val_labels", "var_label", "var_desc"))
+  data_layer = NULL, shape_layer = NULL, shape_encoding = "UTF-8",
+  verbose = TRUE, var_attrs = c("val_labels", "var_label", "var_desc"))
 }
 \arguments{
 \item{data_file}{Path to the data file, which can either be the .zip file directly
@@ -45,6 +45,11 @@ file.}
 \item{shape_layer}{Specification
 of which shape files to load using the same semantics as \code{data_layer}. Can
 load multiple shape files, which will be combined.}
+
+\item{encoding}{The text encoding to use when reading the shape file. Typically
+the defaults should read the data correctly, but for some extracts you may need
+to set them manually, but if funny characters appear in your data, you may need
+to. Defaults to "UTF-8" for IPUMS Terra.}
 }
 \value{
 \code{read_terra_micro} returns a \code{tbl_df} with the tabular data,
