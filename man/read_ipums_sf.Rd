@@ -21,13 +21,12 @@ or a path to an unzipped folder.}
   which will be combined.}
 
 \item{encoding}{The text encoding to use when reading the shape file. Typically
-the defaults should read the data correctly, but for some extracts you may need
-to set them manually, but if funny characters appear in your data, you may need
-to. For microdata projects, the default NULL will look for a
-.cpg file to determine the encoding and if none is available, it will default
-to latin1. \code{\link{read_ipums_nhgis}} and the IPUMS Terra
-functions specify the encoding for those projects (latin1 and UTF-8
-respectively).}
+the defaults should read the data correctly, but for some extracts you may
+need to set them manually, but if funny characters appear in your data, you
+may need to. For microdata projects, the default NULL will look for a .cpg
+file to determine the encoding and if none is available, it will default to
+latin1. The NHGIS and the IPUMS Terra functions specify the encoding for
+those projects (latin1 and UTF-8 respectively).}
 
 \item{bind_multiple}{If \code{TRUE}, will combine multiple shape files found into
 a single object.}

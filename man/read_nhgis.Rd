@@ -42,7 +42,7 @@ folder, or the unzipped .shp file directly).}
 of which shape files to load using the same semantics as \code{data_layer}. Can
 load multiple shape files, which will be combined.}
 
-\item{encoding}{The text encoding to use when reading the shape file. Typically
+\item{shape_encoding}{The text encoding to use when reading the shape file. Typically
 the defaults should read the data correctly, but for some extracts you may need
 to set them manually, but if funny characters appear in your data, you may need
 to. Defaults to "latin1" for NHGIS.}

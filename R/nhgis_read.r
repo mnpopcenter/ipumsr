@@ -26,7 +26,7 @@
 #' @param shape_layer (Defaults to using the same value as data_layer) Specification
 #'   of which shape files to load using the same semantics as \code{data_layer}. Can
 #'   load multiple shape files, which will be combined.
-#' @param encoding The text encoding to use when reading the shape file. Typically
+#' @param shape_encoding The text encoding to use when reading the shape file. Typically
 #'   the defaults should read the data correctly, but for some extracts you may need
 #'   to set them manually, but if funny characters appear in your data, you may need
 #'   to. Defaults to "latin1" for NHGIS.
@@ -141,7 +141,9 @@ read_nhgis_sf <- function(
   if (quo_text(shape_layer) == "data_layer") shape_layer <- data_layer
   if (verbose) cat("Reading geography...\n")
 
-  sf_data <- read_ipums_sf(shape_file, !!shape_layer, verbose = verbose)
+  sf_data <- read_ipums_sf(
+    shape_file, !!shape_layer, verbose = verbose, encoding = shape_encoding
+  )
 
   # Only join on vars that are in both and are called "GISJOIN*"
   join_vars <- intersect(names(data), names(sf_data))
@@ -205,7 +207,9 @@ read_nhgis_sp <- function(
   if (quo_text(shape_layer) == "data_layer") shape_layer <- data_layer
   if (verbose) cat("Reading geography...\n")
 
-  sp_data <- read_ipums_sp(shape_file, !!shape_layer, verbose = verbose)
+  sp_data <- read_ipums_sp(
+    shape_file, !!shape_layer, verbose = verbose, encoding = shape_encoding
+  )
 
   # Only join on vars that are in both and are called "GISJOIN*"
   join_vars <- intersect(names(data), names(sp_data@data))

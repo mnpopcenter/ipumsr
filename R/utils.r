@@ -68,7 +68,7 @@ find_files_in <- function(
 #'
 #' Add variable attributes from an IPUMS DDI to the variables in a data.frame.
 #' This function is usually called automatically for you inside of the read_*
-#' functions (such as read_ipums_micro or read_ipums_nhgis), but they can
+#' functions (such as read_ipums_micro or read_nhgis), but they can
 #' be useful other times as well. For example, if you store the data in
 #' a database, you can store the data without attributes in the database
 #' and add them on after loading a subset into a data.frame.
