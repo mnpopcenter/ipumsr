@@ -220,61 +220,66 @@ check_shape_join_names <- function(by_names, data_names, display) {
 
 
 allign_id_vars <- function(shape_data, data, by) {
-  shp_id_is_char <- purrr::map_lgl(by, ~is.character(shape_data[[.]]))
-  shp_id_is_dbl <- purrr::map_lgl(by, ~is.double(shape_data[[.]]))
-  shp_id_is_int <- purrr::map_lgl(by, ~is.integer(shape_data[[.]]))
-  shp_id_is_fact <- purrr::map_lgl(by, ~is.factor(shape_data[[.]]))
-  data_id_is_char <- purrr::map_lgl(by, ~is.character(data[[.]]))
-  data_id_is_dbl <- purrr::map_lgl(by, ~is.double(data[[.]]))
-  data_id_is_int <- purrr::map_lgl(by, ~is.integer(data[[.]]))
-  data_id_is_fact <- purrr::map_lgl(by, ~is.factor(data[[.]]))
+  shape_type <- dplyr::case_when(
+    purrr::map_lgl(by, ~is.character(shape_data[[.]])) ~ "character",
+    purrr::map_lgl(by, ~is.factor(shape_data[[.]]))    ~ "factor",
+    purrr::map_lgl(by, ~is.double(shape_data[[.]]))    ~ "double",
+    purrr::map_lgl(by, ~is.integer(shape_data[[.]]))   ~ "integer"
+  )
+
+  data_type <- dplyr::case_when(
+    purrr::map_lgl(by, ~is.character(data[[.]])) ~ "character",
+    purrr::map_lgl(by, ~is.factor(data[[.]]))    ~ "factor",
+    purrr::map_lgl(by, ~is.double(data[[.]]))    ~ "double",
+    purrr::map_lgl(by, ~is.integer(data[[.]]))   ~ "integer"
+  )
 
   convert_failures <- rep(FALSE, length(by))
 
+  # If one is character but other is double/integer, convert if possible
+  # if one is factor and the other is character, convert to character
+  # If one is factor and the other is integer/double, give error because I can't
+  # really imagine how this happened.
+  # TODO: It seems like a lot of people may convert the data from number -> factor
+  #       (using the labels) and then try to merge on the "numeric" id (which
+  #       is often stored as text in shape file). Consider trying to give
+  #       better error in this situation.
   for (iii in seq_along(by)) {
-    # If one is character but other is double/integer, convert if possible
-    # if one is factor and the other is character, convert to character
-    # If one is factor and the other is integer/double, give error because I can't
-    # really imagine how this happened.
-    # TODO: It seems like a lot of people may convert the data from number -> factor
-    #       (using the labels) and then try to merge on the "numeric" id (which
-    #       is often stored as text in shape file). Consider trying to give
-    #       better error in this situation.
-    # TODO: THIS IS UGLY, fix!
-    if (shp_id_is_char[iii] && data_id_is_dbl[iii]) {
-      shape_data[[by[iii]]] <- custom_parse_double(shape_data[[by[iii]]])
-      if (is.character(shape_data[[by[iii]]])) convert_failures[iii] <- TRUE
-    } else if (shp_id_is_char[iii] && data_id_is_int[iii]) {
-      shape_data[[by[iii]]] <- custom_parse_integer(shape_data[[by[iii]]])
-      if (is.character(shape_data[[by[iii]]])) convert_failures[iii] <- TRUE
-    } else if (shp_id_is_dbl[iii] && data_id_is_char[iii]) {
-      data[[by[iii]]] <- custom_parse_double(data[[by[iii]]])
-      if (is.character(shape_data[[by[iii]]])) convert_failures[iii] <- TRUE
-    } else if (shp_id_is_int[iii] && data_id_is_char[iii]) {
-      data[[by[iii]]] <- custom_parse_integer(data[[by[iii]]])
-      if (is.character(shape_data[[by[iii]]])) convert_failures[iii] <- TRUE
-    } else if (shp_id_is_int[iii] && data_id_is_dbl[iii]) {
-      data[[by[iii]]] <- rlang::as_integer(data[[by[iii]]])
-    } else if (shp_id_is_dbl[iii] && data_id_is_int[iii]) {
-      shape_data[[by[iii]]] <- rlang::as_integer(shape_data[[by[iii]]])
-    } else if (shp_id_is_char[iii] && data_id_is_fact[iii]) {
-      data[[by[iii]]] <- as.character(data[[by[iii]]])
-    } else if (shp_id_is_fact[iii] && data_id_is_char[iii]) {
-      shape_data[[by[iii]]] <- as.character(shape_data[[by[iii]]])
-    } else if (shp_id_is_fact[iii] && (data_id_is_dbl[iii] || data_id_is_int[iii])) {
-      stop(paste0("Variable ", by[iii], "is factor in shape data but numeric in data."))
-    } else if ((shp_id_is_dbl[iii] || shp_id_is_int[iii]) && data_id_is_fact[iii]) {
-      stop(paste0("Variable ", by[iii], "is factor in data but numeric in shape data."))
-    }
-
-    if (any(convert_failures)) {
-      bad_shape <- by[convert_failures]
-      bad_data <- by[convert_failures]
-      text <- ifelse(bad_shape != bad_data, paste0(bad_shape, " -> ", bad_data), bad_shape)
-      stop(paste0(
-        "Variables were numeric in one object but character in the other and ",
-        "could not be converted:\n", paste(text, collapse = ", ")
-      ))
+    if (shape_type[iii] == "character") {
+      switch(
+        data_type[iii],
+        "character" = NULL,
+        "factor" = {data[[by[iii]]] <- as.character(data[[by[iii]]])},
+        "double" = {shape_data[[by[iii]]] <- custom_parse_double(shape_data[[by[iii]]])},
+        "integer" = {shape_data[[by[iii]]] <- custom_parse_integer(shape_data[[by[iii]]])}
+      )
+    } else if (shape_type[iii] == "factor") {
+      switch(
+        data_type[iii],
+        "character" = {shape_data[[by[iii]]] <- as.character(shape_data[[by[iii]]])},
+        "factor" = {
+          data[[by[iii]]] <- as.character(data[[by[iii]]])
+          shape_data[[by[iii]]] <- as.character(shape_data[[by[iii]]])
+        },
+        "double" = {stop("Shape data has factor id var, but data has numeric id var")},
+        "integer" = {stop("Shape data has factor id var, but data has integer id var")}
+      )
+    } else if (shape_type[iii] == "double") {
+      switch(
+        data_type[iii],
+        "character" = {data <- custom_parse_double(data[[by[iii]]])},
+        "factor" = {stop("Shape data has numeric id var, but data has factor id var")},
+        "double" = NULL,
+        "integer" = {data[[by[iii]]] <- as.double(data[[by[iii]]])}
+      )
+    } else if (shape_type[iii] == "integer") {
+      switch(
+        data_type[iii],
+        "character" = {data <- custom_parse_integer(data[[by[iii]]])},
+        "factor" = {stop("Shape data has integer id var, but data has factor id var")},
+        "double" = {shape_data[[by[iii]]] <- as.double(shape_data[[by[iii]]])},
+        "integer" = NULL
+      )
     }
 
     #Combine attributes (prioritzing data attributes because the DDI has more info)
