@@ -217,18 +217,20 @@ read_terra_area_sf <- function(
   if (quo_text(shape_layer) == "data_layer") shape_layer <- data_layer
 
   if (is.null(shape_file)) shape_file <- data_file
-  shape_data <- read_ipums_sf(shape_file, !!shape_layer, verbose = verbose)
+  shape_data <- read_ipums_sf(
+    shape_file, !!shape_layer, encoding = shape_encoding, verbose = verbose
+  )
 
   # TODO: This join seems like it is fragile. Is there a better way?
   geo_vars <- unname(dplyr::select_vars(names(data), starts_with("GEO")))
   label_name <- unname(dplyr::select_vars(geo_vars, ends_with("LABEL")))
   id_name <- dplyr::setdiff(geo_vars, label_name)[1]
 
+  # Shape data's label column is not reliable. Sometimes it is cut short
+  # for length, etc. Rely only on the code because it is easier.
+  shape_data$LABEL <- NULL
+
   # Set attributes to be identical to avoid a warning
-  shape_data$LABEL <- rlang::set_attrs(
-    shape_data$LABEL,
-    rlang::splice(attributes(data[[label_name]]))
-  )
   shape_data$GEOID <- rlang::set_attrs(
     shape_data$GEOID,
     rlang::splice(attributes(data[[id_name]]))
@@ -240,7 +242,7 @@ read_terra_area_sf <- function(
     attributes(data[[id_name]]) <- att_temp
   }
 
-  out <- dplyr::full_join(shape_data, data, by = c(LABEL = label_name, GEOID = id_name))
+  out <- dplyr::full_join(shape_data, data, by = c(GEOID = id_name))
   attr(out, "sf_column") <- attr(shape_data, "sf_column")
   out
 }

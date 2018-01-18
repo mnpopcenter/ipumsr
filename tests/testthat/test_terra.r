@@ -40,7 +40,7 @@ test_that("Terra area works", {
   skip_if_not_installed("sf")
 
   area <- ipumsr:::read_terra_area_sf(area_file, verbose = FALSE)
-  expect_equal(attr(area$LABEL, "label"), "Name of geographic instances")
+  expect_equal(attr(area$GEOG_CODE_LABEL, "label"), "Name of geographic instances")
   expect_s3_class(area, "sf")
   expect_equal(attr(area, "sf_column"), "geometry")
 })
