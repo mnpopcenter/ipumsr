@@ -230,6 +230,7 @@ allign_id_vars <- function(shape_data, data, by) {
   data_id_is_fact <- purrr::map_lgl(by, ~is.factor(data[[.]]))
 
   convert_failures <- rep(FALSE, length(by))
+
   for (iii in seq_along(by)) {
     # If one is character but other is double/integer, convert if possible
     # if one is factor and the other is character, convert to character
@@ -252,6 +253,10 @@ allign_id_vars <- function(shape_data, data, by) {
     } else if (shp_id_is_int[iii] && data_id_is_char[iii]) {
       data[[by[iii]]] <- custom_parse_integer(data[[by[iii]]])
       if (is.character(shape_data[[by[iii]]])) convert_failures[iii] <- TRUE
+    } else if (shp_id_is_int[iii] && data_id_is_dbl[iii]) {
+      data[[by[iii]]] <- rlang::as_integer(data[[by[iii]]])
+    } else if (shp_id_is_dbl[iii] && data_id_is_int[iii]) {
+      shape_data[[by[iii]]] <- rlang::as_integer(shape_data[[by[iii]]])
     } else if (shp_id_is_char[iii] && data_id_is_fact[iii]) {
       data[[by[iii]]] <- as.character(data[[by[iii]]])
     } else if (shp_id_is_fact[iii] && data_id_is_char[iii]) {

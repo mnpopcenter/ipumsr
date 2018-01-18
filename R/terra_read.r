@@ -221,30 +221,16 @@ read_terra_area_sf <- function(
     shape_file, !!shape_layer, encoding = shape_encoding, verbose = verbose
   )
 
-  # TODO: This join seems like it is fragile. Is there a better way?
   geo_vars <- unname(dplyr::select_vars(names(data), starts_with("GEO")))
   label_name <- unname(dplyr::select_vars(geo_vars, ends_with("LABEL")))
   id_name <- dplyr::setdiff(geo_vars, label_name)[1]
+  by_vars <- rlang::set_names("GEOID", id_name)
 
   # Shape data's label column is not reliable. Sometimes it is cut short
   # for length, etc. Rely only on the code because it is easier.
   shape_data$LABEL <- NULL
 
-  # Set attributes to be identical to avoid a warning
-  shape_data$GEOID <- rlang::set_attrs(
-    shape_data$GEOID,
-    rlang::splice(attributes(data[[id_name]]))
-  )
-
-  if (is.numeric(shape_data$GEOID) & is.integer(data[[id_name]])) {
-    att_temp <- attributes(data[[id_name]])
-    data[[id_name]] <- as.numeric(data[[id_name]])
-    attributes(data[[id_name]]) <- att_temp
-  }
-
-  out <- dplyr::full_join(shape_data, data, by = c(GEOID = id_name))
-  attr(out, "sf_column") <- attr(shape_data, "sf_column")
-  out
+  ipums_shape_inner_join(data, shape_data, by = by_vars)
 }
 
 #' @rdname read_terra_area
@@ -272,19 +258,12 @@ read_terra_area_sp <- function(
   # for length, etc. Rely only on the code because it is easier.
   shape_data$LABEL <- NULL
 
-  # TODO: This join seems like it is fragile. Is there a better way?
   geo_vars <- unname(dplyr::select_vars(names(data), starts_with("GEO")))
   label_name <- unname(dplyr::select_vars(geo_vars, ends_with("LABEL")))
   id_name <- dplyr::setdiff(geo_vars, label_name)[1]
+  by_vars <- rlang::set_names("GEOID", id_name)
 
-  out <- sp::merge(
-    shape_data,
-    data,
-    by.x = c("GEOID"),
-    by.y = c(id_name)
-  )
-
-  out
+  ipums_shape_inner_join(data, shape_data, by = by_vars)
 }
 
 #' Read data from an IPUMS Terra microdata extract
