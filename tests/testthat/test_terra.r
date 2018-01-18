@@ -32,7 +32,7 @@ test_that("Terra micro works", {
   expect_s3_class(micro$shape, "sf")
 })
 
-test_that("Terra area works", {
+test_that("Terra area works (sf)", {
   area_file <- ex_file("3485_bundle.zip")
   if (!file.exists(area_file)) {
     skip("Couldn't find area example file. ipumsexamples likely not installed.")
@@ -43,4 +43,16 @@ test_that("Terra area works", {
   expect_equal(attr(area$GEOG_CODE_LABEL, "label"), "Name of geographic instances")
   expect_s3_class(area, "sf")
   expect_equal(attr(area, "sf_column"), "geometry")
+})
+
+test_that("Terra area works (sp)", {
+  area_file <- ex_file("3485_bundle.zip")
+  if (!file.exists(area_file)) {
+    skip("Couldn't find area example file. ipumsexamples likely not installed.")
+  }
+  skip_if_not_installed("rgdal")
+  skip_if_not_installed("sp")
+
+  area <- ipumsr:::read_terra_area_sp(area_file, verbose = FALSE)
+  expect_equal(class(area), rlang::set_attrs("SpatialPolygonsDataFrame", package = "sp"))
 })

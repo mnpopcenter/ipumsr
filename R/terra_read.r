@@ -268,17 +268,20 @@ read_terra_area_sp <- function(
   if (is.null(shape_file)) shape_file <- data_file
   shape_data <- read_ipums_sp(shape_file, !!shape_layer, verbose = verbose)
 
+  # Shape data's label column is not reliable. Sometimes it is cut short
+  # for length, etc. Rely only on the code because it is easier.
+  shape_data$LABEL <- NULL
+
   # TODO: This join seems like it is fragile. Is there a better way?
   geo_vars <- unname(dplyr::select_vars(names(data), starts_with("GEO")))
   label_name <- unname(dplyr::select_vars(geo_vars, ends_with("LABEL")))
   id_name <- dplyr::setdiff(geo_vars, label_name)[1]
 
-
   out <- sp::merge(
     shape_data,
     data,
-    by.x = c("LABEL", "GEOID"),
-    by.y = c(label_name, id_name)
+    by.x = c("GEOID"),
+    by.y = c(id_name)
   )
 
   out
