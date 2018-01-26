@@ -3,11 +3,7 @@
 # in this project's top-level directory, and also on-line at:
 #   https://github.com/mnpopcenter/ipumsr
 
-# NOTE: These functions are not exported intentionally. They are considered
-# experimental until we work with the TerraPop group to get a more final
-# extract engine.
-
-#' EXPERIMENTAL - Read data from an IPUMS Terra raster extract
+#' Read data from an IPUMS Terra raster extract
 #'
 #' Read a single raster datasets downloaded from the IPUMS Terra extract system using
 #' \code{read_terra_raster}, or read multiple into a list using \code{read_terra_raster_list}.
@@ -22,13 +18,13 @@
 #'  \code{\link{dplyr_select_style}} conventions.
 #' @param verbose Logical, indicating whether to print progress information
 #'   to console.
+#' @export
 #' @examples
 #' \dontrun{
 #' data <- read_terra_raster("2552_bundle.zip", "LCDECIDOPZM2013.tiff")
 #' data <- read_terra_raster_list("2552_bundle.zip", "ZM")
 #' }
 #' @family ipums_read
-#' @keywords internal
 read_terra_raster <- function(
   data_file,
   data_layer = NULL,
@@ -88,7 +84,7 @@ read_terra_raster_internal <- function(data_file, data_layer, verbose, multiple_
     out
   }
 
-#' EXPERIMENTAL - Read data from an IPUMS Terra area extract
+#' Read data from an IPUMS Terra area extract
 #'
 #' Reads a area-level dataset downloaded from the IPUMS Terra extract system.
 #'
@@ -124,12 +120,12 @@ read_terra_raster_internal <- function(data_file, data_layer, verbose, multiple_
 #' @param var_attrs Variable attributes to add from the DDI, defaults to
 #'   adding all (val_labels, var_label and var_desc). See
 #'   \code{\link{set_ipums_var_attributes}} for more details.
+#' @export
 #' @examples
 #' \dontrun{
 #' data <- read_terra_area("2553_bundle.zip")
 #' }
 #' @family ipums_read
-#' @keywords internal
 read_terra_area <- function(
   data_file,
   data_layer = NULL,
@@ -300,12 +296,12 @@ read_terra_area_sp <- function(
 #' @param var_attrs Variable attributes to add from the DDI, defaults to
 #'   adding all (val_labels, var_label and var_desc). See
 #'   \code{\link{set_ipums_var_attributes}} for more details.
+#' @export
 #' @examples
 #' \dontrun{
 #' data <- read_terra_micro("2553_bundle.zip")
 #' }
 #' @family ipums_read
-#' @keywords internal
 read_terra_micro <- function(
   data_file,
   ddi_file = NULL,

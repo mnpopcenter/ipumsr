@@ -71,4 +71,3 @@ Other ipums_read: \code{\link{read_ipums_micro}},
   \code{\link{read_terra_area}},
   \code{\link{read_terra_raster}}
 }
-\keyword{internal}
