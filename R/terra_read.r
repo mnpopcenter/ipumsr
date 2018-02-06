@@ -267,26 +267,17 @@ read_terra_area_sp <- function(
 #' Reads a microdata dataset downloaded from the IPUMS Terra extract system.
 #'
 #' @return
-#'   \code{read_terra_micro} returns a \code{tbl_df} with the tabular data,
-#'   \code{read_terra_micro_sf} returns a \code{sf} object with tabular data and shapes,
-#'   and \code{read_terra_micro_sp} returns a \code{SpatialPolygonsDataFrame} with
-#'   data and shapes.
+#'   \code{read_terra_micro} returns a \code{tbl_df} with the tabular data. Use
+#'   \code{\link{read_ipums_shape}} to read shape data out of a Terra extract.
 #' @param data_file Path to the data file, which can either be the .zip file directly
 #'   downloaded from the IPUMS Terra website, a path to the unzipped version of that
 #'   folder, or to the csv unzipped from the download.
 #' @param ddi_file (Optional) If the download is unzipped, path to the .xml file which
 #'   provides usage and citation information for extract.
-#' @param shape_file (Optional) If the download is unzipped, path to the .zip
-#'   (unzipped path) or .shp file representing the the shape file. If only the
-#'   data table is needed, can be set to FALSE to indicate not to load the shape
-#'   file.
 #' @param data_layer For .zip extracts with multiple datasets, the name of the
 #'   data to load. Accepts a character vector specifying the file name, or
 #'  \code{\link{dplyr_select_style}} conventions. Data layer must uniquely identify
 #'  a dataset.
-#' @param shape_layer Specification
-#'   of which shape files to load using the same semantics as \code{data_layer}. Can
-#'   load multiple shape files, which will be combined.
 #' @param encoding The text encoding to use when reading the shape file. Typically
 #'   the defaults should read the data correctly, but for some extracts you may need
 #'   to set them manually, but if funny characters appear in your data, you may need
@@ -306,6 +297,7 @@ read_terra_micro <- function(
   data_file,
   ddi_file = NULL,
   data_layer = NULL,
+  n_max = Inf,
   verbose = TRUE,
   var_attrs = c("val_labels", "var_label", "var_desc")
 ) {
@@ -365,6 +357,7 @@ read_terra_micro <- function(
   data <- readr::read_csv(
     read_data,
     col_types = var_types,
+    n_max = n_max,
     na = "null",
     locale = ipums_locale(ddi$file_encoding),
     progress = show_readr_progress(verbose)
@@ -382,66 +375,6 @@ read_terra_micro <- function(
   data
 }
 
-
-#' @rdname read_terra_micro
-read_terra_micro_sf <- function(
-  data_file,
-  ddi_file = NULL,
-  shape_file = NULL,
-  data_layer = NULL,
-  shape_layer = NULL,
-  shape_encoding = "UTF-8",
-  verbose = TRUE,
-  var_attrs = c("val_labels", "var_label", "var_desc")
-) {
-  shape_layer <- enquo(shape_layer)
-
-  data <- read_terra_micro(data_file, ddi_file, !!enquo(data_layer), verbose, var_attrs)
-
-  data_is_zip_or_path <- path_is_zip_or_dir(data_file)
-  if (data_is_zip_or_path & is.null(shape_file)) shape_file <- data_file
-
-  shape_data <- read_ipums_sf(shape_file, !!shape_layer, verbose = verbose)
-
-  geo_var <- unname(dplyr::select_vars(names(data), starts_with("GEO")))[1]
-  shape_data[[geo_var]] <- shape_data$GEOID
-
-  out <- list(
-    data = data,
-    shape = shape_data
-  )
-  out
-}
-
-#' @rdname read_terra_micro
-read_terra_micro_sp <- function(
-  data_file,
-  ddi_file = NULL,
-  shape_file = NULL,
-  data_layer = NULL,
-  shape_layer = NULL,
-  shape_encoding = "UTF-8",
-  verbose = TRUE,
-  var_attrs = c("val_labels", "var_label", "var_desc")
-) {
-  shape_layer <- enquo(shape_layer)
-
-  data <- read_terra_micro(data_file, ddi_file, !!enquo(data_layer), verbose, var_attrs)
-
-  data_is_zip_or_path <- path_is_zip_or_dir(data_file)
-  if (data_is_zip_or_path & is.null(shape_file)) shape_file <- data_file
-
-  shape_data <- read_ipums_sp(shape_file, !!shape_layer, verbose = verbose)
-
-  geo_var <- unname(dplyr::select_vars(names(data), starts_with("GEO")))[1]
-  shape_data@data[[geo_var]] <- shape_data@data$GEOID
-
-  out <- list(
-    data = data,
-    shape = shape_data
-  )
-  out
-}
 
 # Fills in a default condition if we can't find ddi for terra
 terra_empty_ddi <- make_ddi_from_scratch(

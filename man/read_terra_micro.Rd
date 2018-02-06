@@ -2,20 +2,11 @@
 % Please edit documentation in R/terra_read.r
 \name{read_terra_micro}
 \alias{read_terra_micro}
-\alias{read_terra_micro_sf}
-\alias{read_terra_micro_sp}
 \title{Read data from an IPUMS Terra microdata extract}
 \usage{
 read_terra_micro(data_file, ddi_file = NULL, data_layer = NULL,
-  verbose = TRUE, var_attrs = c("val_labels", "var_label", "var_desc"))
-
-read_terra_micro_sf(data_file, ddi_file = NULL, shape_file = NULL,
-  data_layer = NULL, shape_layer = NULL, shape_encoding = "UTF-8",
-  verbose = TRUE, var_attrs = c("val_labels", "var_label", "var_desc"))
-
-read_terra_micro_sp(data_file, ddi_file = NULL, shape_file = NULL,
-  data_layer = NULL, shape_layer = NULL, shape_encoding = "UTF-8",
-  verbose = TRUE, var_attrs = c("val_labels", "var_label", "var_desc"))
+  n_max = Inf, verbose = TRUE, var_attrs = c("val_labels", "var_label",
+  "var_desc"))
 }
 \arguments{
 \item{data_file}{Path to the data file, which can either be the .zip file directly
@@ -37,25 +28,14 @@ to console.}
 adding all (val_labels, var_label and var_desc). See
 \code{\link{set_ipums_var_attributes}} for more details.}
 
-\item{shape_file}{(Optional) If the download is unzipped, path to the .zip
-(unzipped path) or .shp file representing the the shape file. If only the
-data table is needed, can be set to FALSE to indicate not to load the shape
-file.}
-
-\item{shape_layer}{Specification
-of which shape files to load using the same semantics as \code{data_layer}. Can
-load multiple shape files, which will be combined.}
-
 \item{encoding}{The text encoding to use when reading the shape file. Typically
 the defaults should read the data correctly, but for some extracts you may need
 to set them manually, but if funny characters appear in your data, you may need
 to. Defaults to "UTF-8" for IPUMS Terra.}
 }
 \value{
-\code{read_terra_micro} returns a \code{tbl_df} with the tabular data,
-  \code{read_terra_micro_sf} returns a \code{sf} object with tabular data and shapes,
-  and \code{read_terra_micro_sp} returns a \code{SpatialPolygonsDataFrame} with
-  data and shapes.
+\code{read_terra_micro} returns a \code{tbl_df} with the tabular data. Use
+  \code{\link{read_ipums_shape}} to read shape data out of a Terra extract.
 }
 \description{
 Reads a microdata dataset downloaded from the IPUMS Terra extract system.
