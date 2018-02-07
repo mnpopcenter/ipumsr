@@ -21,21 +21,19 @@ provides usage and citation information for extract.}
 \code{\link{dplyr_select_style}} conventions. Data layer must uniquely identify
 a dataset.}
 
+\item{n_max}{Maximum number of observations to read from the data}
+
 \item{verbose}{Logical, indicating whether to print progress information
 to console.}
 
 \item{var_attrs}{Variable attributes to add from the DDI, defaults to
 adding all (val_labels, var_label and var_desc). See
 \code{\link{set_ipums_var_attributes}} for more details.}
-
-\item{encoding}{The text encoding to use when reading the shape file. Typically
-the defaults should read the data correctly, but for some extracts you may need
-to set them manually, but if funny characters appear in your data, you may need
-to. Defaults to "UTF-8" for IPUMS Terra.}
 }
 \value{
 \code{read_terra_micro} returns a \code{tbl_df} with the tabular data. Use
-  \code{\link{read_ipums_shape}} to read shape data out of a Terra extract.
+  \code{\link{read_ipums_sf}} or \code{\link{read_ipums_sp}} to read shape
+  data out of a microdata Terra extract.
 }
 \description{
 Reads a microdata dataset downloaded from the IPUMS Terra extract system.

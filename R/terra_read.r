@@ -107,7 +107,7 @@ read_terra_raster_internal <- function(data_file, data_layer, verbose, multiple_
 #' @param shape_layer (Defaults to using the same value as data_layer) Specification
 #'   of which shape files to load using the same semantics as \code{data_layer}. Can
 #'   load multiple shape files, which will be combined.
-#' @param encoding The text encoding to use when reading the shape file. Typically
+#' @param shape_encoding The text encoding to use when reading the shape file. Typically
 #'   the defaults should read the data correctly, but for some extracts you may need
 #'   to set them manually, but if funny characters appear in your data, you may need
 #'   to. Defaults to "UTF-8" for IPUMS Terra.
@@ -268,7 +268,8 @@ read_terra_area_sp <- function(
 #'
 #' @return
 #'   \code{read_terra_micro} returns a \code{tbl_df} with the tabular data. Use
-#'   \code{\link{read_ipums_shape}} to read shape data out of a Terra extract.
+#'   \code{\link{read_ipums_sf}} or \code{\link{read_ipums_sp}} to read shape
+#'   data out of a microdata Terra extract.
 #' @param data_file Path to the data file, which can either be the .zip file directly
 #'   downloaded from the IPUMS Terra website, a path to the unzipped version of that
 #'   folder, or to the csv unzipped from the download.
@@ -278,10 +279,7 @@ read_terra_area_sp <- function(
 #'   data to load. Accepts a character vector specifying the file name, or
 #'  \code{\link{dplyr_select_style}} conventions. Data layer must uniquely identify
 #'  a dataset.
-#' @param encoding The text encoding to use when reading the shape file. Typically
-#'   the defaults should read the data correctly, but for some extracts you may need
-#'   to set them manually, but if funny characters appear in your data, you may need
-#'   to. Defaults to "UTF-8" for IPUMS Terra.
+#' @param n_max Maximum number of observations to read from the data
 #' @param verbose Logical, indicating whether to print progress information
 #'   to console.
 #' @param var_attrs Variable attributes to add from the DDI, defaults to
