@@ -25,8 +25,9 @@ DataFrame set_ipums_var_attributes_(DataFrame x, DataFrame var_info) {
     UNPROTECT(1);
 
     if (!Rf_isNull(val_labels[i])) {
-      SEXP new_class = PROTECT(Rf_allocVector(STRSXP, 1));
-      SET_STRING_ELT(new_class, 0, Rf_mkChar("labelled"));
+      SEXP new_class = PROTECT(Rf_allocVector(STRSXP, 2));
+      SET_STRING_ELT(new_class, 0, Rf_mkChar("ipums_labelled"));
+      SET_STRING_ELT(new_class, 1, Rf_mkChar("labelled"));
       Rf_setAttrib(col, Rf_install("class"), new_class);
       UNPROTECT(1);
 

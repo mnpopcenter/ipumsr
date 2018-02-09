@@ -18,8 +18,11 @@ License: Mozilla Public License 2.0
 Encoding: UTF-8
 LazyData: true
 Imports:
+    cli,
+    crayon,
     dplyr (>= 0.7.0),
     haven,
+    pillar,
     purrr,
     raster,
     readr,
