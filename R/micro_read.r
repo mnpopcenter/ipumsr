@@ -307,8 +307,9 @@ read_raw_to_df_list <- function(raw, rec_vinfo, all_vars, encoding) {
   names(out) <- names(vars_by_rt)
 
   for (rt in names(vars_by_rt)) {
-    names(out[[rt]]) <- vars_by_rt[[rt]]$var_name
+    names(out[[rt]]) <- c ("ID", vars_by_rt[[rt]]$var_name)
     out[[rt]] <- tibble::as_tibble(out[[rt]])
+    out[[rt]]$ID <- as.integer (out[[rt]]$ID)
 
     numeric_vars <- vars_by_rt[[rt]]$var_name[vars_by_rt[[rt]]$var_type == "numeric"]
     out[[rt]] <- dplyr::mutate_at(out[[rt]], numeric_vars, readr::parse_number)
