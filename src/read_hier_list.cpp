@@ -1,3 +1,4 @@
+#include <string>
 #include <Rcpp.h>
 using namespace Rcpp;
 
