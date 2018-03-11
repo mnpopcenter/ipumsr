@@ -47,5 +47,7 @@ Suggests:
     shiny,
     testthat,
     covr
+SystemRequirements:
+    C++11,
 VignetteBuilder: knitr
 LinkingTo: Rcpp

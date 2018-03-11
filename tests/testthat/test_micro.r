@@ -87,8 +87,8 @@ test_that(
 
     expect_equal(nrow(cps$HOUSEHOLD), rows_h)
     expect_equal(nrow(cps$PERSON), rows_p)
-    expect_equal(ncol(cps$HOUSEHOLD), vars_h)
-    expect_equal(ncol(cps$PERSON), vars_p)
+    expect_equal(ncol(cps$HOUSEHOLD), vars_h + 1) # + 1 for cross-record ID
+    expect_equal(ncol(cps$PERSON), vars_p + 1) # ditto
     expect_equal(attr(cps$HOUSEHOLD[["YEAR"]], "label"), YEAR_label)
     expect_equal(attr(cps$PERSON[["YEAR"]], "label"), YEAR_label)
     expect_equal(attr(cps$HOUSEHOLD[["YEAR"]], "var_desc"), YEAR_var_desc)

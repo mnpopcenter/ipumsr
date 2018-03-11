@@ -1,3 +1,4 @@
+#include <string>
 #include <Rcpp.h>
 using namespace Rcpp;
 
@@ -48,10 +49,12 @@ RObject raw_to_df_hier_list(
   std::vector<std::vector <std::vector <std::string> > > out;
   out.resize(num_rt);
   for (int i = 0; i < num_rt; i++) {
-    out[i].resize(num_vars_rectype[i]);
+    out[i].resize(num_vars_rectype[i] + 1); // Add cross-record ID
   }
 
   // Parse raw into list
+  size_t id = 1; // 1-based for R
+  int rt_index_first = -1;
   for (int i = 0; i < num_rows; i++) {
     if (i % 1000000 == 0) {
       Rcpp::checkUserInterrupt();
@@ -76,18 +79,26 @@ RObject raw_to_df_hier_list(
       break;
     }
 
+    if (i == 0) {
+        rt_index_first = rt_index;
+    } else if (rt_index == rt_index_first) {
+      id++;
+    }
+
     // Check if raw line is long enough
     if (Rf_length(raw[i]) < max_ends[rt_index]) {
       Rcpp::stop("Line is too short for rectype.");
     }
 
+    // Add ID to out
+    out[rt_index][0].push_back (std::to_string (id));
     // Loop through vars in rectype and add to out
     for (int j = 0; j < num_vars_rectype[rt_index]; j++) {
       Rbyte* cur_text_pos = row_raw + starts[rt_index][j];
       int cur_var_width = widths[rt_index][j];
       std::string cur_text = as<std::string>(Rf_mkCharLenCE((const char*)cur_text_pos, cur_var_width, encoding_ce));
 
-      out[rt_index][j].push_back(cur_text);
+      out[rt_index][j + 1].push_back(cur_text);
     }
   }
 
