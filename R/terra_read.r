@@ -68,7 +68,7 @@ read_terra_raster_internal <- function(data_file, data_layer, verbose, multiple_
       if (!multiple_ok) {
         out <- raster::raster(raster_paths)
       } else {
-        out <- purrr::map(raster_paths, ~raster::raster())
+        out <- purrr::map(raster_paths, ~raster::raster(.))
         out <- purrr::set_names(out, stringr::str_sub(basename(raster_paths), 1, -6))
       }
     } else {
