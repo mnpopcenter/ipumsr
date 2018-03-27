@@ -35,6 +35,7 @@ read_terra_raster <- function(
 }
 
 #' @rdname read_terra_raster
+#' @export
 read_terra_raster_list <- function(
   data_file,
   data_layer = NULL,
