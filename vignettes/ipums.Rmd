@@ -38,6 +38,7 @@ vignette("value-labels", package = "ipumsr")
 vignette("ipums-geography", package = "ipumsr")
 vignette("ipums-cps", package = "ipumsr")
 vignette("ipums-nhgis", package = "ipumsr")
+vignette("ipums-terra", package = "ipumsr")
 ```
 
 ## Getting Data from the IPUMS website
@@ -47,27 +48,37 @@ only the sample and variables that are relevant to your research question.
 
 Currently we do not support the TerraPop, but we hope to add support soon!
 
-**For microdata projects (all supported projects except NHGIS)**, once you 
+**For microdata projects (all supported projects except NHGIS and IPUMS Terra)**, once you 
 have created your extract, you should choose to download data as either 
 fixed-width-files or comma separated ones. 
 
-Once your extract is complete, download the data file (.dat or .csv) and the DDI, by
-right-clicking on the file and selecting "Save As...". Note that there is no
-R-specific syntax file, as there is for the other statistical packages like SAS,
-Stata and SPSS.
+Once your extract is complete, download the data file (.dat or .csv) and the
+DDI. Downloading the DDI is a little bit different depending on your computer.
+On most browsers you should right-click the file and select "Save As...".
+If this saves a ".xml" file, then you should be ready. However, Safari users
+must select "Download Linked File" instead of "Download Linked File **As**". On
+Safari, selecting the wrong version of these two will download an ".html" file
+instead of a ".xml" one.
 
-![Annotated screenshot for downloading microdata](microdata_annotated_screenshot.png){ width=700px }
+![Annotated screenshot for downloading microdata (may look different on your computer)](microdata_annotated_screenshot.png){ width=700px }
 
 **For NHGIS**, download the table data as a csv, and, if you want 
 the associated mapping data, the GIS data. NHGIS provides the option to download 
 csvs with an extra header row, it does not matter which option you select.
+
+**For IPUMS Terra**, download the .zip extract "bundles". If you want the associated 
+mapping data, select the "include boundary files" option. You do not need to unzip
+the data.
 
 ## Import Functions
 Once your extract is downloaded, the `ipumsr` package functions `read_*()`
 help you load the data into R. 
 
 - `read_ipums_micro()` / `read_ipums_micro_list()`: Reads data from microdata projects (USA, CPS, International, DHS, Time Use, Health Surveys and Higher Ed)
-- `read_nhgis()`/`read_nhgis_sf()`/`read_nhgis_sp()`: Reads data from the NHGIS project. `read_nhgis` loads only tabular data, whereas `read_nhgis_sf()` and `read_nhgis_sp()` load tabular data and shapefiles.
+- `read_nhgis()` / `read_nhgis_sf()` / `read_nhgis_sp()`: Reads data from the NHGIS project. `read_nhgis` loads only tabular data, whereas `read_nhgis_sf()` and `read_nhgis_sp()` load tabular data and shapefiles.
+- `read_terra_micro()`, `read_terra_micro_sf()`, `read_terra_micro_sp()`, `read_terra_area()` and `read_terra_raster()` load
+data form the IPUMS Terra project.
+- `read_ipums_sf()` and `read_ipums_sp()` load boundary files.
 - `read_ipums_ddi()`: Reads DDI files with metadata that are included alongside some extracts (mainly microdata)
 - `read_ipums_codebook()`: Reads the text codebook included alongside some extracts (mainly NHGIS and some TerraPop extracts)
 
@@ -131,7 +142,7 @@ ipums_val_labels(cps_data$STATEFIP)
 
 # Convert the labels to factors (and drop the unused levels)
 cps_data <- cps_data %>%
-  mutate(STATE_factor = droplevels(as_factor(STATEFIP)))
+  mutate(STATE_factor = as_factor(lbl_clean(STATEFIP)))
 
 table(cps_data$STATE_factor, useNA = "always")
 ```
@@ -143,12 +154,10 @@ cps_data <- cps_data %>%
   mutate(STATE_factor2 = as_factor(ifelse(STATEFIP == 19, NA, STATEFIP)))
 ```
 ```{r}
-# Currently the best solution is to convert to factor first, then manipulate using
-# factor. We hope to improve this.
+# ipumsr provides helpers for these kinds of tasks, like lbl_na_if().
+# See the value-labels vignette for more information
 cps_data <- cps_data %>%
-  mutate(STATE_factor3 = droplevels(as_factor(STATEFIP), "Iowa"))
-
-table(cps_data$STATE_factor3, useNA = "always")
+  mutate(STATE_factor3 = as_factor(lbl_na_if(STATEFIP, ~.val == 19)))
 
 # The as_factor function also has a "levels" argument that can 
 # put both the labels and values into the factor

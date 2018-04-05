@@ -1,4 +1,5 @@
 # ipumsr 0.1.1.9000
+* Improved main vignette instructions for Safari users (#27)
 
 # ipumsr 0.1.1
 
