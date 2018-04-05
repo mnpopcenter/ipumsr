@@ -1,0 +1,335 @@
+---
+title: "`ipumsr` Example - Terra"
+author: "Minnesota Population Center"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{ipums-terra}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+```{r, echo = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+
+
+
+knitr::opts_chunk$set(eval = FALSE)
+
+```
+
+```{r, echo = FALSE}
+if (!suppressPackageStartupMessages(require(sf))) {
+  message("Could not find sf package and so could not run vignette.")
+  knitr::opts_chunk$set(eval = FALSE)
+}
+
+raster_extract <- system.file("extdata", "4540_bundle.zip", package = "terraexample")
+area_extract <- system.file("extdata", "4618_bundle.zip", package = "terraexample")
+micro_extract <- system.file("extdata", "4621_bundle.zip", package = "terraexample")
+if (!file.exists(micro_extract) | !file.exists(area_extra) | !file.exists(micro_extract)) {
+  message("Could not find terra data and so could not run vignette.")
+  knitr::opts_chunk$set(eval = FALSE)
+}
+```
+
+
+# IPUMS Terra: Integrated Population and Environment Data
+The IPUMS Terra project allows you to create datasets for your research that 
+seamlessly combine area-level data, raster data and microdata and use whichever
+of these data formats is best for your analysis.
+
+Microdata is...
+
+Area level data is...
+
+Raster data is...
+
+Learn more about the kinds of data in IPUMS Terra here: 
+https://data.terrapop.org
+
+`ipumsr` helps you read this data into R so you can continue your analysis.
+
+```{r}
+library(ipumsr)
+library(ggplot2)
+library(dplyr)
+library(sf)
+```
+
+# Learning more about spatial data in R
+This vignette focuses on the mechanics of getting spatial data from IPUMS Terra into
+R, but it glosses over the details about what you can do after you've loaded it. To learn
+more about these, here are some resources:
+
+- **[http://rspatial.org/](http://rspatial.org/)** has a great set of tutorials and
+  other documentation about spatial tools.
+- The **[sf package github page](https://github.com/r-spatial/sf)** has links to 
+  documentation about the sf package, which is great for working with the area
+  level files.
+- The **[Spatial Task View on CRAN](https://cran.r-project.org/view=Spatial)**
+  organizes the packages that provide tools for spatial analysis.
+
+# Example: Age and migration patterns by temperature in the US
+On this cold February day in Minnesota, I wonder how migration between areas of
+the US is affected by the teperature and whether I see any evidence of my
+preconception that older people retire to warmer climates. As a quick aside -
+this analysis might be better served by data from the IPUMS NHGIS project (see
+`vigntette("ipums-nhgis")`), because it often has more granular geographic areas
+than our IPUMS Terra, which which pulls from our microdata projects, but I use
+Terra to show off the way it helps moving between data types.
+
+## Raster data
+IPUMS Terra includes raster data on the average temperature 1950-2000 by month
+from the WorldClim dataset. It also converts area-level summaries of some
+variables from the US census microdata to raster grid, so we can get the total
+population and population by age on a grid. You can learn more about making
+extracts here: 
+[IPUMS Terra Raster Extract Guide](https://www.terrapop.org/sites/www.terrapop.org/files/raster_tutorial_jan2017_final.pdf).
+
+For the example in this vignette, I use the sample 2010 US Census and variables: 
+
+- Area Level: POPTOT, POP6569, POP7074, POP7579, POP80 
+  (year-specific and at the lowest geographic level available)
+- Raster: TEMPAVGFEB (mean, also year-specific and at lowest geogrpahic level available)
+
+Once we've made the extract and downloaded it, let's check what's available
+in it using the function `ipums_list_files()`.
+
+```{r}
+ipums_list_files(raster_extract)
+```
+
+To load the data, ipumsr provides two functions: `read_terra_raster()` and 
+`read_terra_raster_list()`. The first reads a single raster, and the second
+loads 1 or more and puts them into a list.
+
+### Reading a single raster
+Let's first look at loading a single layer, by making a map of the `TEMPAVGFEB` 
+layer (called `TEMPAVGFEBUS2013.tiff` in the file, but we can refer to it 
+with the `matches()` function).
+
+```{r}
+febtemp <- read_terra_raster(raster_extract, matches("TEMPAVGFEB"))
+```
+
+The details of making good maps with raster data are beyond this tutorial, (see below
+for some pointers on where to learn more), but just to prove that we got the data, we 
+can use the raster pacakge's built in `plot()` method.
+
+```{r}
+# Crop map a bit
+zoomed_extent <- raster::extent(c(-180, -64, 16.5, 72.5))
+
+raster::plot(febtemp / 10, ext = zoomed_extent)
+title("Average temp (deg C) in Feb, 1950-2010 (US raster)")
+```
+
+### Reading multiple rasters
+We can also read multiple rasters and put them into a list object. 
+```{r}
+all_rasters <- read_terra_raster_list(raster_extract)
+```
+
+Now we can make a map as before; this would be identical to the one above.
+```{r, eval = FALSE}
+raster::plot(all_rasters[["TEMPAVGFEBUS2013"]] / 10, ext = zoomed_extent)
+title("Average temp (deg C) in Feb, 1950-2010 (US raster)")
+```
+
+Again the details of spatial analysis of raster data in R are beyond
+the scope of this document (see below for some resources), but it one
+thing to keep in mind is that IPUMS Terra data, especially data from
+different sources (like rasterized microdata vs. the temperature data)
+may not have the same spatial extent (coverage area) or resolution, so
+you may need to do some conversion.
+
+For example, to get the percent of the total population that is
+between ages 65-69, we can do this (because the data for total 
+population and age-specific population have the same extent and 
+resolution):
+
+```{r}
+pop_pct65 <- all_rasters[["UnitedStatesStates-2010-POP6569"]] / 
+  all_rasters[["UnitedStatesStates-2010-TOTPOP"]]
+
+raster::plot(pop_pct65, ext = zoomed_extent)
+title("Percent of population ages 65-69 in 2010 (raseterized area)")
+```
+
+We can kind of see that the percent of population that is aged 65-69 is highest
+in a few places in warm places (in Arizona and Florida). To make this code run
+faster, I've only looked at 65-69 year olds, but really it'd be better to look
+at the percentage of the population that is 65+ by adding together all of the
+age categories. We leave that as an exercise for the reader
+
+Also, comparing the population to the temperature on a grid level is more difficult. 
+One solution is touse the `resample()` function from the raster package, which will use 
+interpolation to put the rasters on the same grid. This is beyond the scope of 
+this vignette.
+
+## Area level data
+IPUMS Terra includes data from both the raster datasets and microdata that have
+been aggregated up to a geographic boundary. To learn more about making these
+kind of extracts, see the guide here:
+[IPUMS Terra Area Extract Guide](https://www.terrapop.org/sites/www.terrapop.org/files/arealevel_tutorial_jan2017_final.pdf). 
+
+For the example in this vignette, I use the sample 2010 US Census and variables: 
+
+- Area Level: POPTOT, POP6569, POP7074, POP7579, POP80
+- Raster: TEMPAVGFEB (Mean)
+
+Also, be sure to include the boundary files in the extract.
+
+Once we've made the extract and downloaded it, let's check what's available
+in it using the function `ipums_list_files()`.
+```{r}
+ipums_list_files(area_extract)
+```
+
+### Reading area-level data
+We can load the data and geogrpahy together using the functions:
+`read_terra_area_sf()` or `read_terra_area_sp()`
+
+(The first loads as an `sf` object, while the second loads them as the older 
+`SpatialPolygonsDataFrame` object)
+
+Or we could load the mseparately using the functions:
+`read_terra_area()` and `read_ipums_sf()`/`read_ipums_sp()` 
+
+For now, we focus on reading them together as an `sf` object, but the general
+idea of loading them is similar across all of these functions.
+
+```{r}
+terra_area <- read_terra_area_sf(area_extract)
+
+# Better projection for US Maps
+terra_area <- st_transform(
+  terra_area, 
+  paste0(
+    "+proj=aea +lat_1=29.5 +lat_2=45.5 +lat_0=37.5 +lon_0=-96 ",
+    "+x_0=0 +y_0=0 +ellps=GRS80 +datum=NAD83 +units=m +no_defs"
+  )
+)
+```
+
+With the (currently) still in-development version of ggplot2, we can use the function `geom_sf()` to 
+make maps of the sf object.
+
+Here's a map of the average temperature in February, averaged over all rasters in a given geographic
+boundary:
+```{r}
+terra_area <- terra_area %>% 
+  mutate(feb_temp_c = TEMPAVGFEB_mean_GEO2_US2010_WORLDCLIM / 10)
+
+
+ggplot(terra_area, aes(fill = feb_temp_c)) + 
+  geom_sf(linetype = "blank")
+```
+
+Or we can look at a scatter comparing percentage of population older than 65
+compared to average temperature in February.
+
+```{r}
+terra_area <- terra_area %>%
+  mutate(
+    pct_pop_65 =
+      (POP6569_GEO2_US2010_US2010A + POP7074_GEO2_US2010_US2010A +
+         POP7579_GEO2_US2010_US2010A + POP80_GEO2_US2010_US2010A) /
+      (TOTPOP_GEO2_US2010_US2010A)
+  )
+
+ggplot(terra_area, aes(x = pct_pop_65, y = feb_temp_c)) + 
+  geom_point(alpha = 0.2)
+
+```
+
+Here we again see those retirement havens are in the warmer climates, though in general
+it doesn't seem to be an incredibly strong relationship.
+
+## Microdata
+Finally, IPUMS Terra includes microdata with the area-level and raster data attached to it. 
+To learn more about making these kind of extracts, see the guide here:
+[IPUMS Terra Microdata Extract Guide](https://www.terrapop.org/sites/www.terrapop.org/files/microdata_tutorial_oct2017.pdf). 
+
+For the example in this vignette, I use the sample 2010 US Census and variables: 
+- Microdata:
+  - Household: GEO2_US2010, GEO1_US21010
+  - Person: AGE, MIGUS2
+- Area Level: (None)
+- Raster: TEMPAVGFEB  (mean, also year-specific and at lowest geogrpahic level available)
+
+Also, be sure to include the boundary files in the extract.
+
+Once we've made the extract and downloaded it, let's check what's available
+in it using the function `ipums_list_files()`.
+```{r}
+ipums_list_files(micro_extract)
+```
+
+### Using ipumsr to load the microdata
+For microdata, we should read the microdata using `read_terra_micro()` and
+the boundary files using either `read_ipums_sf()` or `read_ipums_sp()`. 
+We don't want to merge these two right away, because this would create
+a copy of each polygon for every observation in the microdata. Instead,
+generally we create area level summaries from the microdata and then
+merge them together using the `ipums_shape_*_join()` functions.
+
+```{r}
+terra_micro <- read_terra_micro(micro_extract)
+terra_micro_shapes <- read_ipums_sf(micro_extract)
+
+terra_micro_shapes <- st_transform(
+  terra_micro_shapes, 
+  paste0(
+    "+proj=aea +lat_1=29.5 +lat_2=45.5 +lat_0=37.5 +lon_0=-96 ",
+    "+x_0=0 +y_0=0 +ellps=GRS80 +datum=NAD83 +units=m +no_defs"
+  )
+)
+```
+
+Now we'll create area level summaries (faceted by Age over 65)
+of what percent of the population has moved states in the
+past year.
+
+```{r}
+graph_data <- terra_micro %>%
+  mutate(moved_states = MIGUS2 != GEO1_US2010) %>%
+  group_by(GEO2_US2010, age65plus = ifelse(AGE >= 65, "65 and older", "Under 65")) %>%
+  summarize(
+    moved_states = weighted.mean(moved_states, PERWT),
+    feb_temp_c = TEMPAVGFEB_mean_GEO2_US2010_WORLDCLIM[1] / 10
+  )
+
+# ipums_shape_inner_join() will join the 2 datasets together, and keep
+# only observations that are in both files. In this case, we only
+# lose one observation that turns out to be the Great lakes.
+graph_data <- ipums_shape_inner_join(
+  graph_data, 
+  terra_micro_shapes,
+  by = c("GEO2_US2010" = "GEOID")
+)
+
+# A true facet doesn't work well here because  the color scale
+# is so different between the age groups so make 2 separate  
+# maps instead
+ggplot(
+  graph_data %>% filter(age65plus == "65 and older"), 
+  aes(fill = moved_states)
+) + 
+  geom_sf(linetype = "blank") + 
+  ggtitle("65 and older: percent moved from another state in last year")
+
+ggplot(
+  graph_data %>% filter(age65plus = "Under 65"), 
+  aes(fill = moved_states)
+) + 
+  geom_sf(linetype = "blank") + 
+  ggtitle("Under 65: percent moved from another state in last year")
+```
+
+Looks like Some parts of Florida and Arizona might be sticking out again, but 
+it's hard to say. Again, there's lots more we could look at here, but I'll leave that 
+up to you!
