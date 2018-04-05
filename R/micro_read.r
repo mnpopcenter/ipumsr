@@ -216,7 +216,7 @@ read_ipums_rect <- function(ddi, vars, n_max, data_file, verbose, var_attrs) {
     out
   })
   names(col_types) <- all_vars$var_name
-  col_types <- do.call(readr::cols, col_types)
+  col_types <- do.call(readr::cols_only, col_types)
 
   col_positions <- readr::fwf_positions(
     start = all_vars$start,

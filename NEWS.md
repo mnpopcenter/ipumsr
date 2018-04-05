@@ -1,6 +1,8 @@
 # ipumsr 0.1.1.9000
 * Improved main vignette instructions for Safari users (#27)
 
+* Fix for selecting columns from csv extracts (#26 - thanks forum user JCambon_OIS!)
+
 # ipumsr 0.1.1
 
 * Fixed a bug in ipums_shape_*_join functions when using integer ID columns. (#16)

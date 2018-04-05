@@ -109,7 +109,18 @@ test_that(
     expect_equal(ncol(cps), 2)
   })
 
-
+test_that(
+  "Arguments n_max and vars work for csv files (#26)", {
+    cps <- read_ipums_micro(
+      ipums_example("cps_00006.xml"),
+      ipums_example("cps_00006.csv.gz"),
+      n_max = 100,
+      vars = c(YEAR, SERIAL),
+      verbose = FALSE
+    )
+    expect_equal(nrow(cps), 100)
+    expect_equal(ncol(cps), 2)
+  })
 
 test_that(
   "Setting argument var_attrs to NULL works", {
