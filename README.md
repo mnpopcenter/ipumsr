@@ -92,34 +92,34 @@ data <- read_ipums_micro_list(ddi, verbose = FALSE)
 # Household data
 data$HOUSEHOLD
 #> # A tibble: 3,385 x 6
-#>    RECTYPE               YEAR SERIAL HWTSUPP STATEFIP       MONTH     
-#>    <chr+lbl>            <dbl>  <dbl>   <dbl> <int+lbl>      <int+lbl> 
-#>  1 H [Household Record] 1962.    80.   1476. 55 [Wisconsin]  3 [March]
-#>  2 H [Household Record] 1962.    82.   1598. 27 [Minnesota]  3 [March]
-#>  3 H [Household Record] 1962.    83.   1707. 27 [Minnesota]  3 [March]
-#>  4 H [Household Record] 1962.    84.   1790. 27 [Minnesota]  3 [March]
-#>  5 H [Household Record] 1962.   107.   4355. 19 [Iowa]       3 [March]
-#>  6 H [Household Record] 1962.   108.   1479. 19 [Iowa]       3 [March]
-#>  7 H [Household Record] 1962.   122.   3603. 27 [Minnesota]  3 [March]
-#>  8 H [Household Record] 1962.   124.   4104. 55 [Wisconsin]  3 [March]
-#>  9 H [Household Record] 1962.   125.   2182. 55 [Wisconsin]  3 [March]
-#> 10 H [Household Record] 1962.   126.   1826. 55 [Wisconsin]  3 [March]
+#>      RECTYPE  YEAR SERIAL HWTSUPP  STATEFIP     MONTH
+#>    <chr+lbl> <dbl>  <dbl>   <dbl> <int+lbl> <int+lbl>
+#>  1         H  1962     80 1475.59        55         3
+#>  2         H  1962     82 1597.61        27         3
+#>  3         H  1962     83 1706.65        27         3
+#>  4         H  1962     84 1790.25        27         3
+#>  5         H  1962    107 4355.40        19         3
+#>  6         H  1962    108 1479.05        19         3
+#>  7         H  1962    122 3602.75        27         3
+#>  8         H  1962    124 4104.41        55         3
+#>  9         H  1962    125 2182.17        55         3
+#> 10         H  1962    126 1826.38        55         3
 #> # ... with 3,375 more rows
 # Person data
 data$PERSON
 #> # A tibble: 7,668 x 6
-#>    RECTYPE            YEAR SERIAL PERNUM WTSUPP INCTOT                    
-#>    <chr+lbl>         <dbl>  <dbl>  <dbl>  <dbl> <dbl+lbl>                 
-#>  1 P [Person Record] 1962.    80.     1.  1476.     4883                  
-#>  2 P [Person Record] 1962.    80.     2.  1471.     5800                  
-#>  3 P [Person Record] 1962.    80.     3.  1579. 99999998 [Missing.]       
-#>  4 P [Person Record] 1962.    82.     1.  1598.    14015                  
-#>  5 P [Person Record] 1962.    83.     1.  1707.    16552                  
-#>  6 P [Person Record] 1962.    84.     1.  1790.     6375                  
-#>  7 P [Person Record] 1962.   107.     1.  4355. 99999999 [N.I.U. (Not in …
-#>  8 P [Person Record] 1962.   107.     2.  1386.        0                  
-#>  9 P [Person Record] 1962.   107.     3.  1629.      600                  
-#> 10 P [Person Record] 1962.   107.     4.  1432. 99999999 [N.I.U. (Not in …
+#>      RECTYPE  YEAR SERIAL PERNUM  WTSUPP    INCTOT
+#>    <chr+lbl> <dbl>  <dbl>  <dbl>   <dbl> <dbl+lbl>
+#>  1         P  1962     80      1 1475.59      4883
+#>  2         P  1962     80      2 1470.72      5800
+#>  3         P  1962     80      3 1578.75  99999998
+#>  4         P  1962     82      1 1597.61     14015
+#>  5         P  1962     83      1 1706.65     16552
+#>  6         P  1962     84      1 1790.25      6375
+#>  7         P  1962    107      1 4355.40  99999999
+#>  8         P  1962    107      2 1385.81         0
+#>  9         P  1962    107      3 1629.10       600
+#> 10         P  1962    107      4 1432.24  99999999
 #> # ... with 7,658 more rows
 ```
 
@@ -152,16 +152,16 @@ data <- read_nhgis_sf(
 
 ipums_var_info(data, starts_with("D6Z"))
 #> # A tibble: 8 x 4
-#>   var_name var_label          var_desc                   val_labels      
-#>   <chr>    <chr>              <chr>                      <list>          
-#> 1 D6Z001   1989 to March 1990 Year Structure Built (D6Z) <tibble [0 × 2]>
-#> 2 D6Z002   1985 to 1988       Year Structure Built (D6Z) <tibble [0 × 2]>
-#> 3 D6Z003   1980 to 1984       Year Structure Built (D6Z) <tibble [0 × 2]>
-#> 4 D6Z004   1970 to 1979       Year Structure Built (D6Z) <tibble [0 × 2]>
-#> 5 D6Z005   1960 to 1969       Year Structure Built (D6Z) <tibble [0 × 2]>
-#> 6 D6Z006   1950 to 1959       Year Structure Built (D6Z) <tibble [0 × 2]>
-#> 7 D6Z007   1940 to 1949       Year Structure Built (D6Z) <tibble [0 × 2]>
-#> 8 D6Z008   1939 or earlier    Year Structure Built (D6Z) <tibble [0 × 2]>
+#>   var_name          var_label                   var_desc       val_labels
+#>      <chr>              <chr>                      <chr>           <list>
+#> 1   D6Z001 1989 to March 1990 Year Structure Built (D6Z) <tibble [0 x 2]>
+#> 2   D6Z002       1985 to 1988 Year Structure Built (D6Z) <tibble [0 x 2]>
+#> 3   D6Z003       1980 to 1984 Year Structure Built (D6Z) <tibble [0 x 2]>
+#> 4   D6Z004       1970 to 1979 Year Structure Built (D6Z) <tibble [0 x 2]>
+#> 5   D6Z005       1960 to 1969 Year Structure Built (D6Z) <tibble [0 x 2]>
+#> 6   D6Z006       1950 to 1959 Year Structure Built (D6Z) <tibble [0 x 2]>
+#> 7   D6Z007       1940 to 1949 Year Structure Built (D6Z) <tibble [0 x 2]>
+#> 8   D6Z008    1939 or earlier Year Structure Built (D6Z) <tibble [0 x 2]>
 
 data <- data %>%
   mutate(
@@ -182,6 +182,8 @@ if ("geom_sf" %in% getNamespaceExports("ggplot2")) {
     )
 }
 ```
+
+![](man/figures/README-nhgis_map-1.png)
 
 ### Terrapop
 
