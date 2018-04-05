@@ -196,6 +196,7 @@ read_terra_area <- function(
 }
 
 #' @rdname read_terra_area
+#' @export
 read_terra_area_sf <- function(
   data_file,
   shape_file = NULL,
@@ -231,6 +232,7 @@ read_terra_area_sf <- function(
 }
 
 #' @rdname read_terra_area
+#' @export
 read_terra_area_sp <- function(
   data_file,
   shape_file = NULL,
