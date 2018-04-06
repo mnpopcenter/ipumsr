@@ -381,7 +381,7 @@ if ("geom_sf" %in% getNamespaceExports("ggplot2")) {
   ggplot(data = nhgis_subset, aes(fill = H77001)) +
     geom_sf(linetype = "blank") + 
     scale_fill_continuous("") + 
-    facet_wrap(~place_name, scales = "free") + 
+    facet_wrap(~place_name) + 
     labs(
       title = "Median Age of Population By Census Block",
       subtitle = "2010 Census",
