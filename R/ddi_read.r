@@ -93,13 +93,20 @@ read_ipums_ddi <- function(ddi_file, data_layer = NULL) {
       ddi_xml,
       "/d1:codeBook/d1:fileDscr/d1:fileTxt/d1:fileStrc/d1:recGrp/@recidvar"
     )
-
-    # TODO: Figure out system for rectype vars
-    # For cps, the last one is the actual one. The first one has a "P" at the end
-    # for Person level rectype var...
-    # UPDATE: Seems like new extract system has them all as RECTYPE (at least for atus)
-    # so we may be okay
     rectype_idvar <- rectype_idvar[length(rectype_idvar)]
+
+    rectypes_keyvars <- xml2::xml_text(
+      xml2::xml_find_first(
+        xml2::xml_find_all(ddi_xml, "/d1:codeBook/d1:fileDscr/d1:fileTxt/d1:fileStrc/d1:recGrp"),
+        "@keyvar"
+      )
+    )
+    rectypes_keyvars <- stringr::str_split(rectypes_keyvars, "[:blank:]+")
+    rectypes_keyvars <- purrr::map(rectypes_keyvars, ~.[!is.na(.)])
+    rectypes_keyvars <- dplyr::data_frame(
+      rectype = rectypes,
+      keyvars = rectypes_keyvars
+    )
 
     # For some reason our extract engine can't provide value labels for rec types
     # So get it from file structure area
@@ -115,6 +122,7 @@ read_ipums_ddi <- function(ddi_file, data_layer = NULL) {
     rectypes <- NULL
     rectype_idvar <- NULL
     rectype_labels <- NULL
+    rectypes_keyvars <- NULL
   }
 
   # Get variable specific information
@@ -129,6 +137,7 @@ read_ipums_ddi <- function(ddi_file, data_layer = NULL) {
     extract_notes = extract_notes,
     rectypes = rectypes,
     rectype_idvar = rectype_idvar,
+    rectypes_keyvars = rectypes_keyvars,
     var_info = var_info,
     conditions = conditions,
     citation = citation,
@@ -436,6 +445,7 @@ make_ddi_from_scratch <- function(
   extract_notes = NULL,
   rectypes = NULL,
   rectype_idvar = NULL,
+  rectypes_keyvars = NULL,
   var_info = NULL,
   conditions = NULL,
   citation = NULL,
@@ -450,6 +460,7 @@ make_ddi_from_scratch <- function(
     extract_notes = extract_notes,
     rectypes = rectypes,
     rectype_idvar = rectype_idvar,
+    rectypes_keyvars = rectypes_keyvars,
     var_info = var_info,
     conditions = conditions,
     citation = citation,
