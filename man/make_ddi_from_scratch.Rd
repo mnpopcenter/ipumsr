@@ -7,8 +7,8 @@
 make_ddi_from_scratch(file_name = NULL, file_path = NULL,
   file_type = NULL, ipums_project = NULL, extract_date = NULL,
   extract_notes = NULL, rectypes = NULL, rectype_idvar = NULL,
-  var_info = NULL, conditions = NULL, citation = NULL,
-  file_encoding = NULL)
+  rectypes_keyvars = NULL, var_info = NULL, conditions = NULL,
+  citation = NULL, file_encoding = NULL)
 }
 \description{
 Helper to make a new DDI structure (not very useful for end-users).
