@@ -11,13 +11,10 @@ vignette: >
 ```{r, echo = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
-  comment = "#>"
+  comment = "#>",
+  fig.height = 4, 
+  fig.width = 6
 )
-
-
-
-knitr::opts_chunk$set(eval = FALSE)
-
 ```
 
 ```{r, echo = FALSE}
@@ -29,7 +26,7 @@ if (!suppressPackageStartupMessages(require(sf))) {
 raster_extract <- system.file("extdata", "4540_bundle.zip", package = "terraexample")
 area_extract <- system.file("extdata", "4618_bundle.zip", package = "terraexample")
 micro_extract <- system.file("extdata", "4621_bundle.zip", package = "terraexample")
-if (!file.exists(micro_extract) | !file.exists(area_extra) | !file.exists(micro_extract)) {
+if (!file.exists(micro_extract) | !file.exists(area_extract) | !file.exists(micro_extract)) {
   message("Could not find terra data and so could not run vignette.")
   knitr::opts_chunk$set(eval = FALSE)
 }
@@ -41,11 +38,19 @@ The IPUMS Terra project allows you to create datasets for your research that
 seamlessly combine area-level data, raster data and microdata and use whichever
 of these data formats is best for your analysis.
 
-Microdata is...
+Raster data is data that describes the world on a grid - each cell in the
+grid gets its own value. Temperature is an example of data available in
+raster form from IPUMS Terra - satellite imagery allows geographers to 
+create estimates of average temperature for approximately 1 km squre
+grids across the globe.
 
-Area level data is...
+Area level data is data that represents a particular area. In IPUMS
+Terra, the areas are political boundaries, like countries, states or
+provinces. 
 
-Raster data is...
+Microdata is data that describe each person separately. In IPUMS Terra,
+this data generally comes from census data from the IPUMS International
+project.
 
 Learn more about the kinds of data in IPUMS Terra here: 
 https://data.terrapop.org
@@ -78,7 +83,7 @@ the US is affected by the teperature and whether I see any evidence of my
 preconception that older people retire to warmer climates. As a quick aside -
 this analysis might be better served by data from the IPUMS NHGIS project (see
 `vigntette("ipums-nhgis")`), because it often has more granular geographic areas
-than our IPUMS Terra, which which pulls from our microdata projects, but I use
+than IPUMS Terra, which which pulls from our microdata projects, but I use
 Terra to show off the way it helps moving between data types.
 
 ## Raster data
@@ -124,7 +129,7 @@ can use the raster pacakge's built in `plot()` method.
 zoomed_extent <- raster::extent(c(-180, -64, 16.5, 72.5))
 
 raster::plot(febtemp / 10, ext = zoomed_extent)
-title("Average temp (deg C) in Feb, 1950-2010 (US raster)")
+title("Average temp (deg C) in Feb\n1950-2010 (US raster)")
 ```
 
 ### Reading multiple rasters
@@ -136,7 +141,7 @@ all_rasters <- read_terra_raster_list(raster_extract)
 Now we can make a map as before; this would be identical to the one above.
 ```{r, eval = FALSE}
 raster::plot(all_rasters[["TEMPAVGFEBUS2013"]] / 10, ext = zoomed_extent)
-title("Average temp (deg C) in Feb, 1950-2010 (US raster)")
+title("Average temp (deg C) in Feb\n1950-2010 (US raster)")
 ```
 
 Again the details of spatial analysis of raster data in R are beyond
@@ -156,7 +161,7 @@ pop_pct65 <- all_rasters[["UnitedStatesStates-2010-POP6569"]] /
   all_rasters[["UnitedStatesStates-2010-TOTPOP"]]
 
 raster::plot(pop_pct65, ext = zoomed_extent)
-title("Percent of population ages 65-69 in 2010 (raseterized area)")
+title("Percent of population ages 65-69 in 2010\n(raseterized area)")
 ```
 
 We can kind of see that the percent of population that is aged 65-69 is highest
@@ -226,7 +231,8 @@ terra_area <- terra_area %>%
 
 
 ggplot(terra_area, aes(fill = feb_temp_c)) + 
-  geom_sf(linetype = "blank")
+  geom_sf(linetype = "blank") + 
+  ggtitle("Average temp (deg C) in Feb\n1950-2010 (US Geo2)")
 ```
 
 Or we can look at a scatter comparing percentage of population older than 65
@@ -242,7 +248,8 @@ terra_area <- terra_area %>%
   )
 
 ggplot(terra_area, aes(x = pct_pop_65, y = feb_temp_c)) + 
-  geom_point(alpha = 0.2)
+  geom_point(alpha = 0.2) + 
+  ggtitle("Average temperature against percent of\npopulation over 65 by US Geo 2")
 
 ```
 
@@ -290,7 +297,7 @@ terra_micro_shapes <- st_transform(
 )
 ```
 
-Now we'll create area level summaries (faceted by Age over 65)
+Now we'll create area level summaries for people older than 65
 of what percent of the population has moved states in the
 past year.
 
@@ -312,24 +319,15 @@ graph_data <- ipums_shape_inner_join(
   by = c("GEO2_US2010" = "GEOID")
 )
 
-# A true facet doesn't work well here because  the color scale
-# is so different between the age groups so make 2 separate  
-# maps instead
+# Look at percent of population 65 and older who have moved in last year
 ggplot(
   graph_data %>% filter(age65plus == "65 and older"), 
   aes(fill = moved_states)
 ) + 
   geom_sf(linetype = "blank") + 
-  ggtitle("65 and older: percent moved from another state in last year")
-
-ggplot(
-  graph_data %>% filter(age65plus = "Under 65"), 
-  aes(fill = moved_states)
-) + 
-  geom_sf(linetype = "blank") + 
-  ggtitle("Under 65: percent moved from another state in last year")
+  ggtitle("65 and older: percent moved from another\nstate in last year")
 ```
 
-Looks like Some parts of Florida and Arizona might be sticking out again, but 
+Looks like some parts of Florida and Arizona might be sticking out again, but 
 it's hard to say. Again, there's lots more we could look at here, but I'll leave that 
 up to you!
