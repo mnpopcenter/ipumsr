@@ -154,8 +154,8 @@ read_ipums_hier <- function(
   if (nrow(rec_vinfo) > 1) stop("Cannot support multiple rectype id variables.", call. = FALSE)
 
   all_vars <- select_var_rows(all_vars, vars)
-  if (!rec_vinfo$var_name %in% all_vars$var_name) {
-    if (verbose && data_structure == "long") {
+  if (!rec_vinfo$var_name %in% all_vars$var_name && data_structure == "long") {
+    if (verbose) {
       cat(paste0("Adding rectype id var '", rec_vinfo$var_name, "' to data.\n"))
     }
     all_vars <- dplyr::bind_rows(rec_vinfo, all_vars)
