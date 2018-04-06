@@ -75,6 +75,11 @@
 #'   head(cps_list$PERSON)
 #'   head(cps_list$HOUSEHOLD)
 #'
+#'   # Or you can use the \code{%<-%} operator from zeallot to unpack
+#'   c(household, person) %<-% read_ipums_micro_list(cps_hier_ddi_file)
+#'   head(person)
+#'   head(household)
+#'
 #' @family ipums_read
 #' @export
 read_ipums_micro <- function(

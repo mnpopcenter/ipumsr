@@ -94,6 +94,11 @@ are the text from the record type labels without 'Record'
   head(cps_list$PERSON)
   head(cps_list$HOUSEHOLD)
 
+  # Or you can use the \\code{\%<-\%} operator from zeallot to unpack
+  c(household, person) \%<-\% read_ipums_micro_list(cps_hier_ddi_file)
+  head(person)
+  head(household)
+
 }
 \seealso{
 Other ipums_read: \code{\link{read_ipums_sf}},

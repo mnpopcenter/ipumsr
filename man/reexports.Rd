@@ -9,6 +9,8 @@
 \alias{reexports}
 \alias{is.labelled}
 \alias{reexports}
+\alias{\%<-\%}
+\alias{reexports}
 \alias{starts_with}
 \alias{reexports}
 \alias{ends_with}
@@ -34,5 +36,7 @@ below to see their documentation.
   \item{dplyr}{\code{\link[dplyr]{starts_with}}, \code{\link[dplyr]{ends_with}}, \code{\link[dplyr]{contains}}, \code{\link[dplyr]{matches}}, \code{\link[dplyr]{num_range}}, \code{\link[dplyr]{starts_with}}, \code{\link[dplyr]{one_of}}, \code{\link[dplyr]{everything}}}
 
   \item{haven}{\code{\link[haven]{as_factor}}, \code{\link[haven]{zap_labels}}, \code{\link[haven]{is.labelled}}}
+
+  \item{zeallot}{\code{\link[zeallot]{\%<-\%}}}
 }}
 

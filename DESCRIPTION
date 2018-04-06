@@ -28,7 +28,8 @@ Imports:
     tibble,
     tidyr,
     xml2,
-    Rcpp
+    Rcpp,
+    zeallot
 RoxygenNote: 6.0.1
 Suggests:
     DT,

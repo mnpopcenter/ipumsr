@@ -25,6 +25,10 @@ haven::zap_labels
 #' @export
 haven::is.labelled
 
+#' @importFrom zeallot %<-%
+#' @export
+zeallot::`%<-%`
+
 # ---- Select Helpers ----
 
 #' Select-style helpers from dplyr
