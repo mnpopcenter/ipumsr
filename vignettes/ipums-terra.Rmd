@@ -41,7 +41,7 @@ of these data formats is best for your analysis.
 Raster data is data that describes the world on a grid - each cell in the
 grid gets its own value. Temperature is an example of data available in
 raster form from IPUMS Terra - satellite imagery allows geographers to 
-create estimates of average temperature for approximately 1 km squre
+create estimates of average temperature for approximately 1 km square
 grids across the globe.
 
 Area level data is data that represents a particular area. In IPUMS
@@ -79,7 +79,7 @@ more about these, here are some resources:
 
 # Example: Age and migration patterns by temperature in the US
 On this cold February day in Minnesota, I wonder how migration between areas of
-the US is affected by the teperature and whether I see any evidence of my
+the US is affected by the temperature and whether I see any evidence of my
 preconception that older people retire to warmer climates. As a quick aside -
 this analysis might be better served by data from the IPUMS NHGIS project (see
 `vigntette("ipums-nhgis")`), because it often has more granular geographic areas
@@ -98,7 +98,7 @@ For the example in this vignette, I use the sample 2010 US Census and variables:
 
 - Area Level: POPTOT, POP6569, POP7074, POP7579, POP80 
   (year-specific and at the lowest geographic level available)
-- Raster: TEMPAVGFEB (mean, also year-specific and at lowest geogrpahic level available)
+- Raster: TEMPAVGFEB (mean, also year-specific and at lowest geographic level available)
 
 Once we've made the extract and downloaded it, let's check what's available
 in it using the function `ipums_list_files()`.
@@ -122,7 +122,7 @@ febtemp <- read_terra_raster(raster_extract, matches("TEMPAVGFEB"))
 
 The details of making good maps with raster data are beyond this tutorial, (see below
 for some pointers on where to learn more), but just to prove that we got the data, we 
-can use the raster pacakge's built in `plot()` method.
+can use the raster package's built in `plot()` method.
 
 ```{r}
 # Crop map a bit
@@ -147,7 +147,7 @@ title("Average temp (deg C) in Feb\n1950-2010 (US raster)")
 Again the details of spatial analysis of raster data in R are beyond
 the scope of this document (see below for some resources), but it one
 thing to keep in mind is that IPUMS Terra data, especially data from
-different sources (like rasterized microdata vs. the temperature data)
+different sources (like rasterized area level data vs. the temperature data)
 may not have the same spatial extent (coverage area) or resolution, so
 you may need to do some conversion.
 
@@ -171,7 +171,7 @@ at the percentage of the population that is 65+ by adding together all of the
 age categories. We leave that as an exercise for the reader
 
 Also, comparing the population to the temperature on a grid level is more difficult. 
-One solution is touse the `resample()` function from the raster package, which will use 
+One solution is to use the `resample()` function from the raster package, which will use 
 interpolation to put the rasters on the same grid. This is beyond the scope of 
 this vignette.
 
@@ -195,13 +195,13 @@ ipums_list_files(area_extract)
 ```
 
 ### Reading area-level data
-We can load the data and geogrpahy together using the functions:
+We can load the data and geography together using the functions:
 `read_terra_area_sf()` or `read_terra_area_sp()`
 
 (The first loads as an `sf` object, while the second loads them as the older 
 `SpatialPolygonsDataFrame` object)
 
-Or we could load the mseparately using the functions:
+Or we could load them separately using the functions:
 `read_terra_area()` and `read_ipums_sf()`/`read_ipums_sp()` 
 
 For now, we focus on reading them together as an `sf` object, but the general
@@ -209,15 +209,6 @@ idea of loading them is similar across all of these functions.
 
 ```{r}
 terra_area <- read_terra_area_sf(area_extract)
-
-# Better projection for US Maps
-terra_area <- st_transform(
-  terra_area, 
-  paste0(
-    "+proj=aea +lat_1=29.5 +lat_2=45.5 +lat_0=37.5 +lon_0=-96 ",
-    "+x_0=0 +y_0=0 +ellps=GRS80 +datum=NAD83 +units=m +no_defs"
-  )
-)
 ```
 
 With the (currently) still in-development version of ggplot2, we can use the function `geom_sf()` to 
@@ -232,6 +223,7 @@ terra_area <- terra_area %>%
 
 ggplot(terra_area, aes(fill = feb_temp_c)) + 
   geom_sf(linetype = "blank") + 
+  coord_sf(xlim = c(-180, -64), ylim = c(16.5, 72.5)) + # Crop out Alaska's East Hemisphere tail
   ggtitle("Average temp (deg C) in Feb\n1950-2010 (US Geo2)")
 ```
 
@@ -266,7 +258,7 @@ For the example in this vignette, I use the sample 2010 US Census and variables:
   - Household: GEO2_US2010, GEO1_US21010
   - Person: AGE, MIGUS2
 - Area Level: (None)
-- Raster: TEMPAVGFEB  (mean, also year-specific and at lowest geogrpahic level available)
+- Raster: TEMPAVGFEB  (mean, also year-specific and at lowest geographic level available)
 
 Also, be sure to include the boundary files in the extract.
 
@@ -287,14 +279,6 @@ merge them together using the `ipums_shape_*_join()` functions.
 ```{r}
 terra_micro <- read_terra_micro(micro_extract)
 terra_micro_shapes <- read_ipums_sf(micro_extract)
-
-terra_micro_shapes <- st_transform(
-  terra_micro_shapes, 
-  paste0(
-    "+proj=aea +lat_1=29.5 +lat_2=45.5 +lat_0=37.5 +lon_0=-96 ",
-    "+x_0=0 +y_0=0 +ellps=GRS80 +datum=NAD83 +units=m +no_defs"
-  )
-)
 ```
 
 Now we'll create area level summaries for people older than 65
@@ -325,6 +309,7 @@ ggplot(
   aes(fill = moved_states)
 ) + 
   geom_sf(linetype = "blank") + 
+  coord_sf(xlim = c(-180, -64), ylim = c(16.5, 72.5)) + # Crop out Alaska's East Hemisphere tail
   ggtitle("65 and older: percent moved from another\nstate in last year")
 ```
 
