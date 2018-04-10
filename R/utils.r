@@ -311,3 +311,17 @@ path_is_zip_or_dir <- function(file) {
   ext == "zip" || ext == ""
 }
 
+
+release_questions <- function() {
+  c(
+    paste0(
+      "Do you have the ipumsexample installed? Install using ",
+      "devtools::install_github('mnpopcenter/ipumsr/ipumsexample')"
+    ),
+    paste0(
+      "Do you have the IPUMS Terra examples installed? From MPC, install ",
+      "using devtools::install_local('/pkg/ipums/personal/gfellis/ipumsr-misc/terraexample"
+    ),
+    "Have you spellchecked the whole package using spelling::spell_check_package()"
+  )
+}
