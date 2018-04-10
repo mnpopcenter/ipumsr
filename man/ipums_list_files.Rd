@@ -5,7 +5,7 @@
 \alias{ipums_list_data}
 \alias{ipums_list_shape}
 \alias{ipums_list_raster}
-\title{List files available for analysis in an IPUMS extract zip file}
+\title{List files available for analysis in an IPUMS extract}
 \usage{
 ipums_list_files(file, types = NULL, data_layer = NULL,
   shape_layer = NULL, raster_layer = NULL)
@@ -17,7 +17,7 @@ ipums_list_shape(file, shape_layer = NULL)
 ipums_list_raster(file, raster_layer = NULL)
 }
 \arguments{
-\item{file}{An IPUMS extract zip file}
+\item{file}{An IPUMS extract zip file or directory}
 
 \item{types}{One or more of "data", "shape", or "raster" indicating
 what type of files to look for.}
@@ -35,7 +35,10 @@ raster files to look for}
 A \code{tbl_df} data.frame containing the files available
 }
 \description{
-Find which files can be loaded from an IPUMS extract zip file.
+Find which files can be loaded from an IPUMS extract. On Windows,
+this is generally a zip file (which you can optionally unzip). On
+macOS, they are generally unzipped for you, so there will be a
+directory.
 }
 \examples{
 nhgis_file <- ipums_example("nhgis0008_csv.zip")

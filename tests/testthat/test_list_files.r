@@ -105,3 +105,26 @@ test_that("Listing files from terra micro zip works", {
   raster_files <- ipums_list_raster(terra_micro)
   expect_equal(nrow(raster_files), 0)
 })
+
+# macOS unzips when you download, so we should support this
+test_that("Can list files from unzipped folder works (terra micro)", {
+  if (!file.exists(terra_micro)) {
+    skip("Couldn't find terra micro. ipumsexamples likely not installed.")
+  }
+
+  temp_dir <- tempdir()
+  unzip(terra_micro, exdir = temp_dir)
+
+  all_files <- ipums_list_files(temp_dir)
+  expect_equal(all_files$type, c("data", "shape"))
+  expect_equal(all_files$file, c("terrapop_extract_3484.csv.gz", "boundaries_3484_IPUMS_SL_FLAD_2004.zip"))
+
+  data_files <- ipums_list_data(temp_dir)
+  expect_equal(data_files$file, c("terrapop_extract_3484.csv.gz"))
+
+  shape_files <- ipums_list_shape(temp_dir)
+  expect_equal(shape_files$file, c("boundaries_3484_IPUMS_SL_FLAD_2004.zip"))
+
+  raster_files <- ipums_list_raster(temp_dir)
+  expect_equal(nrow(raster_files), 0)
+})

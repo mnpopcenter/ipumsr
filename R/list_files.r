@@ -4,11 +4,14 @@
 #   https://github.com/mnpopcenter/ipumsr
 
 
-#' List files available for analysis in an IPUMS extract zip file
+#' List files available for analysis in an IPUMS extract
 #'
-#' Find which files can be loaded from an IPUMS extract zip file.
+#' Find which files can be loaded from an IPUMS extract. On Windows,
+#' this is generally a zip file (which you can optionally unzip). On
+#' macOS, they are generally unzipped for you, so there will be a
+#' directory.
 #'
-#' @param file An IPUMS extract zip file
+#' @param file An IPUMS extract zip file or directory
 #' @param types One or more of "data", "shape", or "raster" indicating
 #'   what type of files to look for.
 #' @param data_layer dplyr \code{\link[dplyr]{select}}-style notation for the data
@@ -25,7 +28,6 @@
 #' @export
 ipums_list_files <- function(file, types = NULL, data_layer = NULL,
                           shape_layer = NULL, raster_layer = NULL) {
-  if (!file_is_zip(file)) stop("File must be a .zip file")
   data_layer <- enquo(data_layer)
   shape_layer <- enquo(shape_layer)
   raster_layer <- enquo(raster_layer)
@@ -49,7 +51,6 @@ ipums_list_files <- function(file, types = NULL, data_layer = NULL,
 #' @export
 ipums_list_data <- function(file, data_layer = NULL) {
   data_layer <- enquo(data_layer)
-  if (!file_is_zip(file)) stop("File must be a .zip file")
   tibble::data_frame(
     file = find_files_in(file, "(dat|csv)(\\.gz)?", data_layer, multiple_ok = TRUE)
   )
@@ -59,7 +60,6 @@ ipums_list_data <- function(file, data_layer = NULL) {
 #' @export
 ipums_list_shape <- function(file, shape_layer = NULL) {
   shape_layer <- enquo(shape_layer)
-  if (!file_is_zip(file)) stop("File must be a .zip file")
   tibble::data_frame(
     file = find_files_in(file, "(zip|shp)", shape_layer, multiple_ok = TRUE)
   )
@@ -69,7 +69,6 @@ ipums_list_shape <- function(file, shape_layer = NULL) {
 #' @export
 ipums_list_raster <- function(file, raster_layer = NULL) {
   raster_layer <- enquo(raster_layer)
-  if (!file_is_zip(file)) stop("File must be a .zip file")
   tibble::data_frame(
     file = find_files_in(file, "tiff", raster_layer, multiple_ok = TRUE)
   )
