@@ -31,15 +31,15 @@ ipums_list_files <- function(file, types = NULL, data_layer = NULL,
   raster_layer <- enquo(raster_layer)
 
   if (is.null(types) | "data" %in% types) {
-    data_files <- ipums_list_data(file, data_layer)
+    data_files <- ipums_list_data(file, !!data_layer)
   }
 
   if (is.null(types) | "shape" %in% types) {
-    shape_files <- ipums_list_shape(file, shape_layer)
+    shape_files <- ipums_list_shape(file, !!shape_layer)
   }
 
   if (is.null(types) | "raster" %in% types) {
-    raster_files <- ipums_list_raster(file, raster_layer)
+    raster_files <- ipums_list_raster(file, !!raster_layer)
   }
 
   dplyr::bind_rows(data = data_files, shape = shape_files, raster = raster_files, .id = "type")
@@ -48,6 +48,7 @@ ipums_list_files <- function(file, types = NULL, data_layer = NULL,
 #' @rdname ipums_list_files
 #' @export
 ipums_list_data <- function(file, data_layer = NULL) {
+  data_layer <- enquo(data_layer)
   if (!file_is_zip(file)) stop("File must be a .zip file")
   tibble::data_frame(
     file = find_files_in(file, "(dat|csv)(\\.gz)?", data_layer, multiple_ok = TRUE)
@@ -57,6 +58,7 @@ ipums_list_data <- function(file, data_layer = NULL) {
 #' @rdname ipums_list_files
 #' @export
 ipums_list_shape <- function(file, shape_layer = NULL) {
+  shape_layer <- enquo(shape_layer)
   if (!file_is_zip(file)) stop("File must be a .zip file")
   tibble::data_frame(
     file = find_files_in(file, "(zip|shp)", shape_layer, multiple_ok = TRUE)
@@ -66,6 +68,7 @@ ipums_list_shape <- function(file, shape_layer = NULL) {
 #' @rdname ipums_list_files
 #' @export
 ipums_list_raster <- function(file, raster_layer = NULL) {
+  raster_layer <- enquo(raster_layer)
   if (!file_is_zip(file)) stop("File must be a .zip file")
   tibble::data_frame(
     file = find_files_in(file, "tiff", raster_layer, multiple_ok = TRUE)
