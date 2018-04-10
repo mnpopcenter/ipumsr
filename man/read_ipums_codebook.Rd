@@ -20,7 +20,7 @@ A \code{ipums_ddi} object with information on the variables included in the
 }
 \description{
 Read text formatted codebooks provided by some IPUMS extract systems such as
-NHGIS and Terra Area-level extracts in a format analogous to the DDI's
+NHGIS and Terra Area-level extracts in a format analogous to the DDIs
 available for other projects.
 }
 \examples{

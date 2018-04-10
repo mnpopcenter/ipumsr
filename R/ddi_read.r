@@ -241,7 +241,7 @@ get_var_info_from_ddi <- function(ddi_xml, file_type, rt_idvar, rectype_labels) 
 #' Read metadata from a text codebook in a NHGIS or Terra area-level extract
 #'
 #' Read text formatted codebooks provided by some IPUMS extract systems such as
-#' NHGIS and Terra Area-level extracts in a format analogous to the DDI's
+#' NHGIS and Terra Area-level extracts in a format analogous to the DDIs
 #' available for other projects.
 #'
 #' @return

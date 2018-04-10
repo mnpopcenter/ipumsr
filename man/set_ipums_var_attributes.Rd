@@ -34,7 +34,7 @@ the corresponding value labels for variables that have value labels.
 
 Attribute \code{var_label} Adds a short summary of the variable's
 contents that to the attribute "label". This label is viewable in the
-Rstudio Viewer.
+RStudio Viewer.
 
 Attribute \code{var_desc} Adds a longer summary of the variable's
 contents to the attribute "var_desc" when available.

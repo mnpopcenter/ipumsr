@@ -144,7 +144,7 @@ The decision to use harmonized or year-specific geographic variables depends on
 how you want to analyze change over time. If I want to be able to compare how
 the data has changed over time for particular geographies, I need to use the
 harmonized version of the Colombian geography so that the geographic units are
-the same. In this case, I will use the harmonized vesrion, but other analyses
+the same. In this case, I will use the harmonized version, but other analyses
 could use the non-harmonized versions (like if I cared about showing the most
 up-to-date boundaries more than being able to compare across years). Similarly,
 the level of the geographic variables you choose depends on your research
@@ -402,7 +402,7 @@ but add the data from Ecuador and Peru.
 In this example, I have added the Ecuador 2010 and Peru 2007 censuses, to the
 IPUMS international example above. These samples also have data for the FUELCOOK
 variable. Rather than use the harmonized geography, for these countries I chose
-to usethe non-harmonized data for these 2 countries. Because the FUELCOOK variable
+to use the non-harmonized data for these 2 countries. Because the FUELCOOK variable
 is only available in one census for these countries, the benefits of the
 harmonized version are less important (but once again, this decision depends
 on the analysis).

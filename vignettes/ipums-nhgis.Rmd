@@ -44,7 +44,7 @@ What was the state‐level distribution of slavery in 1830?
 
 ## Download Extract from IPUMS Website
 1) **Log in to NHGIS**
-- Go to <https://www.nhgis.org> and click on ‘Login’ in the top right.
+- Go to <https://www.nhgis.org> and click on 'Login' in the top right.
 - If you have already registered on any Minnesota Population Center website…
     - If you remember your password, log in now. Otherwise, click the "Forgot
       your password?" link on the right and follow the instructions.
@@ -79,7 +79,7 @@ Q2) Other than slave status, what are some other topics could we learn about for
         - Let's focus in on the slavery topic. To narrow the results, apply the Topics Filter of
           'Slavery'. (You can find it at the bottom of the list of POPULATION topics.)
         - The Select Data grid now lists all the tables related to the topic of Slavery. If you
-          don’t also have the Years Filter on, scroll down to find the 1830 tables, or utilize
+          don't also have the Years Filter on, scroll down to find the 1830 tables, or utilize
           additional filters to further limit the available tables.
         - Locate this 1830 table and answer the questions that follow: "NT12. Race/Slave Status by Sex"
       
@@ -117,7 +117,7 @@ level, and select the data layout structure...
 - Click on the "GIS Boundary Files" Tab
 - Click on the plus sign to the left of the State Geographic Level Table
 - Click the green Continue button in your Data Cart.
-- On the Data Options screen, select the geographic level of ‘State’.
+- On the Data Options screen, select the geographic level of 'State'.
 - Click the green Continue button in your Data Cart.
 - On the Review and Submit screen, select the "Comma delimited (best for GIS)"
   option (it doesn't matter if you include the descriptive header rows or not), 
@@ -129,13 +129,13 @@ it has finished processing, typically within a few minutes. You may leave this p
 and return once you have received the email alerting you to your finished extract.
 
 If you refresh your browser window (click on the loop icon at top, or press F5), you
-will see the extract status change from ‘queued’ to ‘in progress’ to ‘complete’, at
-which time you will be able to click the ‘tables’ link to download the data.
+will see the extract status change from 'queued' to 'in progress' to 'complete', at
+which time you will be able to click the 'tables' link to download the data.
 
 - Return to the Extracts History page if not currently there.
-- Right‐click on the ‘tables’ link for the extract you created.
+- Right‐click on the 'tables' link for the extract you created.
 - Choose 'Save Target As...' (or 'Save link as...').
-- Save the zip file into ‘Documents’.
+- Save the zip file into 'Documents'.
 - Repeat the process for the GIS data (right-click, choose 'Save Target As...', ...)
 - The R package can read the extracts as zip files, or if you wish to open in
   other programs, you can unzip them, by: Right‐clicking on the 'nhgis0001_csv.zip' 
@@ -281,7 +281,7 @@ nhgis %>%
 ### Inspect the Codebook
 Open the .txt codebook file that is in the same folder as the comma delimited file you
 have already analyzed. The codebook file is a valuable reference containing
-information about the table or tables you’ve downloaded.
+information about the table or tables you've downloaded.
 
 Some of the information provided in the codebook can be read into R, using the function
 `read_ipums_codebook()`.
@@ -297,9 +297,9 @@ cat(ipums_file_info(nhgis_ddi, "conditions"))
 ```
 
 Q15) What is the email address for NHGIS to share any research you have published?
-(You can also send questions you may have about the site. We’re happy to help!)
+(You can also send questions you may have about the site. We're happy to help!)
 ```{r}
-#     A: (You can also send questions you may have about the site. We’re happy to help!)
+#     A: (You can also send questions you may have about the site. We're happy to help!)
 #     nhgis@umn.edu
 ```
 

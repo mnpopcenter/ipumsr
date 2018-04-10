@@ -63,7 +63,7 @@ statuses related?
 3) **Request the Data**
   - Click the orange VIEW CART button under your data cart
   - Review variable selection. Click the orange Create Data Extract button
-  - Review the ‘Extract Request Summary’ screen, describe your extract and click Submit Extract
+  - Review the 'Extract Request Summary' screen, describe your extract and click Submit Extract
   - You will get an email when the data is available to download
   - To get to the page to download the data, follow the link in the email, or follow the Download and Revise Extracts link on the homepage
 
@@ -220,7 +220,7 @@ ipums_val_labels(cps_ddi, HEALTH)
 #    A: 1 = Excellent, 2 = Very Good, 3 = Good, 4 = Fair, 5 = Poor
 ```
 
-C) What percent of people with ‘poor’ self-reported health are at
+C) What percent of people with 'poor' self-reported health are at
 work?
 ```{r}
 cps_data %>%
@@ -230,7 +230,7 @@ cps_data %>%
 #    A: 11.6%
 ```
 
-D) What percent of people with ‘very good’ self-reported health
+D) What percent of people with 'very good' self-reported health
 are at work?
 ```{r}
 cps_data %>%
@@ -242,7 +242,7 @@ cps_data %>%
 
 E) In the EMPSTAT universe, what percent of people:
 
-i. self-report ‘poor’ health and are at work? 
+i. self-report 'poor' health and are at work? 
 ```{r}
 ipums_val_labels(cps_ddi, EMPSTAT)
 
@@ -259,7 +259,7 @@ pct_emp_by_health
 #    A: 11.8%
 ```
 
-ii. self-report ‘very good’ health and are at work?
+ii. self-report 'very good' health and are at work?
 ```{r}
 #    A: 64.0% (found in code from previous question)
 ```
