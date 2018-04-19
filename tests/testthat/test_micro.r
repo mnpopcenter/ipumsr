@@ -141,3 +141,13 @@ test_that(
     expect_error(read_ipums_micro("FAKE_FILE.xml"), "working directory")
     expect_error(read_ipums_micro("C:/FAKE_FOLDER/FAKE_FILE.xml"), "check the path")
   })
+
+test_that("keyvar is loaded regardless of selection in hierarchical", {
+  cps <- read_ipums_micro_list(
+    ipums_example("cps_00010.xml"),
+    verbose = FALSE,
+    vars = c(STATEFIP, INCTOT)
+  )
+  expect_true("SERIAL" %in% names(cps$HOUSEHOLD))
+  expect_true("SERIAL" %in% names(cps$PERSON))
+})
