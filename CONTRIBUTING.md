@@ -25,8 +25,7 @@ though it is not followed strictly (yet).
 
 3) Please add you name and affiliation to the NOTICE.txt file.
 
-4) ~~Summarize your changes in the NEWS.md file~~ (after the 
-first version is released).
+4) Summarize your changes in the NEWS.md file.
 
 ## Basics of Pull Requests
 If you've never worked on an R package before, the book 
