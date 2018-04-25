@@ -11,14 +11,14 @@ matrix:
     - r: release
       env: cache_type=v1
     - r: oldrel
-      env: cache_type=v1
+      env: cache_type=v2
     - r: devel
       env: cache_type=v3
     - r: 3.2
-      env: cache_type=v2
+      env: cache_type=v4
 
 before_install:
-    - Rscript -e 'if (Sys.getenv("TRAVIS_R_VERSION_STRING") == "devel") install.packages("devtools")'
+    - Rscript -e 'if (R.version$major == "3" & as.numeric(R.version$minor) >= 5) install.packages("devtools")'
     - sudo add-apt-repository ppa:ubuntugis/ubuntugis-unstable --yes
     - sudo apt-get --yes --force-yes update -qq
     - sudo apt-get install --yes libproj-dev libgeos-dev libgdal-dev libudunits2-dev
