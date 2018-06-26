@@ -20,6 +20,7 @@ LazyData: true
 Imports:
     dplyr (>= 0.7.0),
     haven,
+    hipread, 
     purrr,
     raster,
     readr,
@@ -47,3 +48,4 @@ Suggests:
     covr
 VignetteBuilder: knitr
 LinkingTo: Rcpp
+Remotes: mnpopcenter/hipread

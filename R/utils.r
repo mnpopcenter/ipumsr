@@ -325,3 +325,24 @@ release_questions <- function() {
     "Have you spellchecked the whole package using spelling::spell_check_package()"
   )
 }
+
+
+readr_to_hipread_specs <- function(positions, types) {
+  hip_types <- purrr::map_chr(types$cols, function(x) {
+    if (identical(x, readr::col_double())) out <- "double"
+    else if (identical(x, readr::col_character())) out <- "character"
+    else if (identical(x, readr::col_integer())) out <- "integer"
+    out
+  })
+
+  hipread::hip_fwf_positions(
+    positions$begin + 1,
+    positions$end + 1,
+    positions$col_names,
+    hip_types
+  )
+}
+
+hipread_type_name_convert <- function(x) {
+  ifelse(x == "numeric", "double", x)
+}
