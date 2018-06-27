@@ -337,7 +337,7 @@ readr_to_hipread_specs <- function(positions, types) {
 
   hipread::hip_fwf_positions(
     positions$begin + 1,
-    positions$end + 1,
+    positions$end,
     positions$col_names,
     hip_types
   )
