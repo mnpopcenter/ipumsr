@@ -22,6 +22,7 @@ Imports:
     haven,
     hipread, 
     purrr,
+    R6,
     raster,
     readr,
     rlang,
@@ -45,7 +46,8 @@ Suggests:
     sp,
     shiny,
     testthat,
-    covr
+    covr,
+    biglm
 VignetteBuilder: knitr
 LinkingTo: Rcpp
 Remotes: mnpopcenter/hipread

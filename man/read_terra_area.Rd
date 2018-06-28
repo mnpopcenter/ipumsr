@@ -72,7 +72,8 @@ data <- read_terra_area("2553_bundle.zip")
 }
 }
 \seealso{
-Other ipums_read: \code{\link{read_ipums_micro}},
+Other ipums_read: \code{\link{read_ipums_micro_chunked}},
+  \code{\link{read_ipums_micro}},
   \code{\link{read_ipums_sf}}, \code{\link{read_nhgis}},
   \code{\link{read_terra_micro}},
   \code{\link{read_terra_raster}}
