@@ -17,10 +17,10 @@
 #'    and an integer that indicates the position of the first observation in the chunk.
 #'    If the function returns \code{FALSE}, no more chunks will be read.
 #'  }
-#'  \item{
-#'    IpumsDataFrameCallback}{Callback function that combines each result together
-#'    into a data.frame at the end. Initalize the same was as IpumsSideEffectCallback,
-#'    and the results from the function will be fed into a data.frame.
+#'  \item{IpumsDataFrameCallback}{
+#'  Callback function that combines each result together into a data.frame at the end.
+#'    Initalize the same was as IpumsSideEffectCallback, and the results from the
+#'    function will be fed into a data.frame.
 #'  }
 #'  \item{IpumsListCallback}{
 #'    Callback function that returns a list, where each item is the result from a chunk.
@@ -31,8 +31,8 @@
 #'    at a time using the biglm package. Initialize with arguments \code{model} (A
 #'    formula of your model and \code{prep} a function like the other callback arguments
 #'    that prepares the data before running the regression. Arguments \code{type}
-#'    can be either \code{\link[biglm]{"biglm"}} (the default) and
-#'    \code{\link[biglm]{"bigglm"}}. Other arguments are passed to biglm/bigglm.
+#'    can be either "\code{\link[biglm]{biglm}}" (the default) and
+#'    "\code{\link[biglm]{bigglm}}". Other arguments are passed to biglm/bigglm.
 #'  }
 #'  \item{IpumsChunkCallback}{
 #'    (Only needed for advanced usage) Callback interface definition, all
