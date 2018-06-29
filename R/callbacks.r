@@ -112,7 +112,7 @@ IpumsDataFrameCallback <- R6::R6Class(
       private$results <- c(private$results, list(result))
     },
     result = function() {
-      dplyr::bind_rows(private$results)
+      ipums_bind_rows(private$results)
     },
     finally = function() {
       private$results <- list()

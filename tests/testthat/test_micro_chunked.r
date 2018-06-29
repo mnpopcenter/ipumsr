@@ -55,10 +55,10 @@ test_that(
     )
 
     cps_chunked_combined <- list(
-      HOUSEHOLD = dplyr::bind_rows(
+      HOUSEHOLD = ipums_bind_rows(
         lapply(cps_chunked, function(x) x$HOUSEHOLD)
       ),
-      PERSON = dplyr::bind_rows(
+      PERSON = ipums_bind_rows(
         lapply(cps_chunked, function(x) x$PERSON)
       )
     )
