@@ -141,7 +141,7 @@ IpumsListCallback <- R6::R6Class(
       private$results
     },
     finally = function() {
-      private$result <- list()
+      private$results <- list()
     }
   )
 )
