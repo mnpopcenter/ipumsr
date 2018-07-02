@@ -32,7 +32,7 @@ ipums_bind_rows <- function(..., .id = NULL) {
   })
   names(attrs_by_var) <- unique_var_names
 
-  purrr::iwalk(purrr::keep(attrs_by_var, ~!isFALSE(.)), function(attr, vname) {
+  purrr::iwalk(purrr::keep(attrs_by_var, ~!is_FALSE(.)), function(attr, vname) {
     for (iii in seq_along(d_list)) {
       if (vname %in% names(d_list[[iii]])) {
         d_list[[iii]][[vname]] <<- zap_ipums_attributes(d_list[[iii]][[vname]])
@@ -42,8 +42,10 @@ ipums_bind_rows <- function(..., .id = NULL) {
 
   out <- dplyr::bind_rows(d_list, .id = .id)
 
-  purrr::iwalk(purrr::keep(attrs_by_var, ~!isFALSE(.)), function(attr, vname) {
+  purrr::iwalk(purrr::keep(attrs_by_var, ~!is_FALSE(.)), function(attr, vname) {
     attributes(out[[vname]]) <<- attr
   })
   out
 }
+
+is_FALSE <- function(x) identical(x, FALSE)
