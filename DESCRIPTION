@@ -47,7 +47,9 @@ Suggests:
     shiny,
     testthat,
     covr,
-    biglm
+    biglm,
+    DBI,
+    RSQLite
 VignetteBuilder: knitr
 LinkingTo: Rcpp
 Remotes: mnpopcenter/hipread

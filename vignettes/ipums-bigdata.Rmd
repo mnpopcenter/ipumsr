@@ -61,6 +61,10 @@ if (!file.exists(cps_ddi_file) | !file.exists(cps_data_file)) {
     "  devtools::install_github('mnpopcenter/ipumsr/ipumsexamples')\n",
     "After installation, the data should be available for this vignette.\n\n"
   ))
+  
+  installed_biglm <- FALSE
+  installed_db_pkgs <- FALSE
+  
   knitr::opts_chunk$set(eval = FALSE)
 }
 ```
