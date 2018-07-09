@@ -15,17 +15,17 @@ knitr::opts_chunk$set(
   comment = "#>"
 )
 ```
-They say you should never go to a grocery store when you're hungry; unfortunately
-IPUMS users are always hungry for more data, so every visit to our website can
-lead to an overly full data cart. Here are some tips for how to handle IPUMS
-extracts that are too large to fit on your computer (well the first two are
-how to avoid this problem, so skip ahead if you're sure you have it). 
+They say you should never go to a grocery store when you're hungry. The bad new
+is that many IPUMS users are always hungry for more data, so every visit to our
+website can lead to an overly full data cart. Here are some tips for how to
+handle IPUMS extracts that are too large to fit on your computer (or avoid
+them altogether).
 
 The examples in this vignette will rely on the ipumsr, dplyr and biglm
 packages, and the example CPS extract used in the `ipums-cps` vignette.
 If you want to follow along, you should follow the instructions in that vignette
 to make an extract.
-```{r, messages = FALSE}
+```{r, message = FALSE}
 library(ipumsr)
 library(dplyr)
 
@@ -90,23 +90,24 @@ a random sample. This feature is also available on the "Create Extract"
 page, as the last step before you submit the extract.
 
 # Option 2: Trade money for convenience
-You can save a lot of time and effort dealing with big data if you're able 
-to spend money to buy your way out of a "big data" problem. You can do this
-by buying your own computer with enough RAM to store the dataset, or by using 
-a cloud service like Amazon or Microsoft Azure (or one of the many other 
-similar services). Here are guides for using R on
-[Amazon](https://aws.amazon.com/blogs/big-data/statistical-analysis-with-open-source-r-and-rstudio-on-amazon-emr/) 
-and [Microsoft Azure](https://blog.jumpingrivers.com/posts/2017/rstudio_azure_cloud_1/).
+You can save a lot of time and effort dealing with big data if you can buy your
+way out of a "big data" problem by buying a computer with more RAM or using 
+a cloud service like Amazon or Microsoft Azure (or one of the many other similar services). 
+Here are guides for using R on
+[Amazon](https://aws.amazon.com/blogs/big-data/statistical-analysis-with-open-source-r-and-rstudio-on-amazon-emr/)
+and 
+[Microsoft Azure](https://blog.jumpingrivers.com/posts/2017/rstudio_azure_cloud_1/).
 
 
 # Option 3: Work one chunk at a time
-ipumsr now has "chunked" versions of the microdata reading functions 
-(`read_ipums_micro_chunked()` and `read_ipums_micro_list_chunked()`). 
-These "chunked" versions of the function allow you to specify a function
-that will be applied to each chunk, and then also control how the results 
-from these chunks are combined. This functionality is based on the 
-chunked functionality introduced by `readr` and so is quite flexible. Here
-are three common use-cases for IPUMS data:
+Starting with version 0.3, ipumsr has "chunked" versions of the microdata
+reading functions (`read_ipums_micro_chunked()` and
+`read_ipums_micro_list_chunked()`). These "chunked" versions of the function
+allow you to specify a function that will be applied to each chunk, and then
+also control how the results from these chunks are combined. This functionality
+is based on the chunked functionality introduced by `readr` and so is quite
+flexible. Below, we'll outline solutions to three common use-cases for IPUMS data:
+tabulation, regression and selecting cases.
 
 ## Chunked tabulation example 
 Let's say you want to find the percent of people in the workforce by
@@ -203,7 +204,7 @@ data <- read_ipums_micro(
 )
 
 # Prepare data for model
-# (Note that age has been capped at 99, which we assume is high enough to not
+# (age has been capped at 99, which we assume is high enough to not
 #  cause any problems so we leave it.)
 data <- data %>%
    mutate(
@@ -230,8 +231,8 @@ First we make the `IpumsBiglmCallback` callback object that specifies both the
 model and a function to prepare the data.
 ```{r, eval = installed_biglm}
 biglm_cb <- IpumsBiglmCallback$new(
-  AHRSWORKT ~ AGE + I(AGE^2) + HEALTH,
-  function(x, pos) {
+  model = AHRSWORKT ~ AGE + I(AGE^2) + HEALTH,
+  prep = function(x, pos) {
     x %>% 
       mutate(
         HEALTH = as_factor(HEALTH),
@@ -280,23 +281,28 @@ chunked_subset <- read_ipums_micro_chunked(
 
 # Option 4: Use a database
 Databases are another option for data that cannot fit in memory as an R
-data.frame. Even if the database is stored locally, many databases have more
-efficient objects (or the data is stored on disk instead of in memory) so the
-full dataset can be in a database and you can pull the data as needed into 
-your R session.
+data.frame. If you have access to a database on a remote machine, then
+you can easily pull in parts of the data for your analysis. Even if you'll
+need to store the database on your machine, it may have more efficient
+storage of data so your data fits in your memory, or it may use your
+hard drive.
 
-R's tools for integrating with databases have advanced greatly in the past few
-years. The DBI package has been updated, dplyr (through dbplyr) provides a
+R's tools for integrating with databases are improving quickly. The DBI 
+package has been updated, dplyr (through dbplyr) provides a
 frontend that allows you to write the same code for data in a database as you
 would in a local data.frame, and packages like sparklyr, sparkR, bigrquery and
 others provide access to the latest and greatest.
 
-There are many different kinds of databases, with various benefits, weakness and
-tradeoffs that they've made. As such, it's hard to give concrete advice. In
-general, though, there will be two steps to putting IPUMS data in a database
-(after the database already exists): Importing the data to the database and then
-connecting it to R. As an example, we'll use the RSQLite package to
-load the data into a local database.
+There are many different kinds of databases, each with their own benefits, 
+weaknesses and tradeoffs. As such, it's hard to give concrete advice without
+knowing your specific use-case. However, once you've chosen a database, in
+general, there will be two steps: Importing the data to the database and then
+connecting it to R. 
+
+As an example, we'll use the RSQLite package to load the data into an in-memory 
+database. RSQLite is great because it is easy to set up, but it is probably
+not efficient enough to help you if you need to use a database because your
+data doesn't fit in memory.
 
 ## Importing data into a database
 When using rectangular extracts, your best bet to import IPUMS data into
@@ -307,9 +313,6 @@ since this is a common file format.
 However, if you need a hierarchical extract, or your database software
 doesn't support the csv format, then you can use the chunking functions 
 to load the data into a database without storing the full data in R.
-
-Here's an example of how to import hierarchical data into a SQLite 
-database:
 
 ```{r, eval = installed_db_pkgs}
 # Connect to database
@@ -353,18 +356,30 @@ Though dbplyr shows us a nice preview of the first rows of the result of our
 query, the data still lives in the database. When using a regular database,
 in general you'd use the function `dplyr::collect()` to load in the full
 results of the query to your R session. However, the database has no
-concept of IPUMS attributes, so if you want to have variable and value
-labels, you can use `ipums_collect()` like so:
+concept of IPUMS attributes like value and variable lables, so if you 
+want them, you can use `ipums_collect()` like so:
 
 ```{r, eval = installed_db_pkgs}
 example %>%
   filter('AGE' > 25) %>%
-  ipumsr:::ipums_collect(ddi)
+  ipums_collect(ddi)
 ```
 
 # Learning more
 Big data is a problem for lots of R users, not just IPUMS users, so there
 are a lot of resources to help you out! These are just a few that I found
-useful while compling this document: 
-- https://community.rstudio.com/t/best-practice-to-handle-out-of-memory-data/734
-- http://www.columbia.edu/~sjm2186/EPIC_R/EPIC_R_BigData.pdf
+useful while compling this document:
+
+- *Best practice to handle out-of-memory data* - RStudio Community Thread
+[link](https://community.rstudio.com/t/best-practice-to-handle-out-of-memory-data/734)
+- *Big Data in R* - Part of Stephen Mooney's EPIC: Epidemiologic Analysis Using R, June 2015 class [link](http://www.columbia.edu/~sjm2186/EPIC_R/EPIC_R_BigData.pdf)
+- *Statistical Analysis with Open-Source R and RStudio on Amazon EMR* - Markus Schmidberger on
+  the AWS Big Data Blog [link](https://aws.amazon.com/blogs/big-data/statistical-analysis-with-open-source-r-and-rstudio-on-amazon-emr/)
+- *Hosting RStudio Server on Azure* - Colin Gillespie's blog post on using Rstudion on Azure
+[link](https://blog.jumpingrivers.com/posts/2017/rstudio_azure_cloud_1/)
+- *Improving DBI: A Retrospect* - Kirill Müller's report on the R Consortium 
+  grant to improve database support in R 
+  [link](https://www.r-consortium.org/blog/2017/05/15/improving-dbi-a-retrospect)
+- *R6* - a chapter of Hadley Wickham's upcoming revision to his Advanced R book 
+  (Relevant if you're curious about how readr/ipumsr callback objects work 
+  [link](https://github.com/hadley/adv-r/blob/master/R6.Rmd) (in progress)
