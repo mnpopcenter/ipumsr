@@ -2,7 +2,7 @@
 % Please edit documentation in R/utils.r
 \name{ipums_collect}
 \alias{ipums_collect}
-\title{Title}
+\title{Collect data into R session with IPUMS attributes}
 \usage{
 ipums_collect(data, ddi, var_attrs = c("val_labels", "var_label", "var_desc"))
 }
@@ -20,5 +20,6 @@ If NULL, will not add any attributes.}
 A local \code{tbl_df} data.frame with IPUMS attributes attached
 }
 \description{
-Title
+Convenience wrapper around dplyr \code{\link[dplyr]{collect}} and
+\code{\link{set_ipums_var_attributes}}.
 }

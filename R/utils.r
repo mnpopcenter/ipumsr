@@ -165,7 +165,10 @@ set_ipums_var_attributes <- function(
   set_ipums_var_attributes_(data, var_info)
 }
 
-#' Title
+#' Collect data into R session with IPUMS attributes
+#'
+#' Convenience wrapper around dplyr \code{\link[dplyr]{collect}} and
+#' \code{\link{set_ipums_var_attributes}}.
 #'
 #' @param data A dplyr \code{tbl} object (generally a \code{tbl_lazy}
 #'   object stored in a database.
