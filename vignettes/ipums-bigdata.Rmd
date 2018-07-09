@@ -31,7 +31,9 @@ library(dplyr)
 
 # To run the full vignette you'll also need the following packages:
 installed_biglm <- requireNamespace("biglm")
-installed_db_pkgs <- requireNamespace("DBI") & requireNamespace("RSQLite")
+installed_db_pkgs <- requireNamespace("DBI") & 
+  requireNamespace("RSQLite") & 
+  requireNamespace("dbplyr")
 
 # Change these filepaths to the filepaths of your downloaded extract
 cps_ddi_file <- "cps_00001.xml"

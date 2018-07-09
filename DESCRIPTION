@@ -49,7 +49,8 @@ Suggests:
     covr,
     biglm,
     DBI,
-    RSQLite
+    RSQLite,
+    dbplyr
 VignetteBuilder: knitr
 LinkingTo: Rcpp
 Remotes: mnpopcenter/hipread
