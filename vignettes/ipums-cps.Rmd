@@ -53,12 +53,12 @@ statuses related?
   - Go back to homepage and go to Select Data
   - Click the Select Samples box, check the box for the 2011 ASEC sample, click the Submit sample selections box
   - Using the drop down menu or search feature, select the following variables:
-    - PERNUM: Person number in sample unit (under Person > Technical in the drop down)
-    - FOODSTMP: Food stamp receipt (under Household > Economic Characteristics; note that we do not want "FOODSTAMP: Family market value of food stamps")
-    - AGE: Age (under Person > Core Demographic)
-    - EMPSTAT: Employment status (under Person > Work)
-    - AHRSWORKT: Hours worked last week (under Person > Work)
-    - HEALTH: Health status (under Person > Disability)
+    - PERNUM: Person number in sample unit (under Person > Core > Technical in the drop down)
+    - FOODSTMP: Food stamp receipt (under Household > Core > Economic Characteristics; note that we do not want "FOODSTAMP: Family market value of food stamps")
+    - AGE: Age (under Person > Core > Demographics)
+    - EMPSTAT: Employment status (under Person > Core > Work)
+    - AHRSWORKT: Hours worked last week (under Person > Core > Work)
+    - HEALTH: Health status (under Person > Annual Social & Economic Supplement (ASEC) > Disability)
 
 3) **Request the Data**
   - Click the orange VIEW CART button under your data cart
