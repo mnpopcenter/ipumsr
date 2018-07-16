@@ -15,11 +15,22 @@ knitr::opts_chunk$set(
   comment = "#>"
 )
 ```
-They say you should never go to a grocery store when you're hungry. The bad new
-is that many IPUMS users are always hungry for more data, so every visit to our
-website can lead to an overly full data cart. Here are some tips for how to
-handle IPUMS extracts that are too large to fit on your computer (or avoid
-them altogether).
+Browsing data on the IPUMS website can be a little like grocery shopping when
+you're hungry — you show up to grab a couple things, but everything looks so
+good, and you end up with an overflowing cart[^1]. When you do this with IPUMS
+data, unfortunately, sometimes your extract may get so large that it doesn't fit
+in your computer's memory. 
+
+If this you've got an extract that's too big, both the IPUMS website
+and the ipumsr package have tools to help. There are four basic strategies:
+
+1. Get more memory.
+2. Reduce the size of your dataset.
+3. Use "chunked" reading.
+4. Use a database.
+
+The IPUMS website has features to help with option 2, and the ipumsr package can 
+help you with options 3 and 4 (option 1 depends on your wallet).
 
 The examples in this vignette will rely on the ipumsr, dplyr and biglm
 packages, and the example CPS extract used in the `ipums-cps` vignette.
@@ -71,43 +82,47 @@ if (!file.exists(cps_ddi_file) | !file.exists(cps_data_file)) {
 }
 ```
 
-# Option 1: Do you really need all of that?
-The IPUMS website has many features that will let you reduce the size of your
-extract. The easiest thing to do is to review your sample and variable
-selections to see if you can drop some. 
-
-If you do need every sample and variable, but your analysis is on some other
-subset of the data, the IPUMS extract engine has a feature called "Select
-Cases", where you can subset on an included variable (for example you could
-subset on AGE so that your extract only includes those older than 65, or subset
-on EDUCATION to look at only college graduates). In most IPUMS microdata 
-projects, the select cases feature is on the "Create Extract" page, as the
-last step before you submit the extract.
-
-Or, if you would be happy with a random subsample of the data, the IPUMS
-extract engine has an option to "Customize Sample Size" that will take
-a random sample. This feature is also available on the "Create Extract"
-page, as the last step before you submit the extract.
-
-# Option 2: Trade money for convenience
-You can save a lot of time and effort dealing with big data if you can buy your
-way out of a "big data" problem by buying a computer with more RAM or using 
-a cloud service like Amazon or Microsoft Azure (or one of the many other similar services). 
-Here are guides for using R on
+# Option 1: Trade money for convenience 
+If you've got a dataset that's too big for your RAM, you could always get more.
+You could accomplish this by upgrading your current computer, getting a new
+one, or paying a cloud service like Amazon or Microsoft Azure (or one of the
+many other similar services). Here are guides for using R on
 [Amazon](https://aws.amazon.com/blogs/big-data/statistical-analysis-with-open-source-r-and-rstudio-on-amazon-emr/)
 and 
 [Microsoft Azure](https://blog.jumpingrivers.com/posts/2017/rstudio_azure_cloud_1/).
 
+# Option 2: Do you really need all of that?
+The IPUMS website has many features that will let you reduce the size of your
+extract. The easiest thing to do is to review your sample and variable
+selections to see if you can drop some. 
+
+If you do need every sample and variable, but your analysis is on a specific
+subset of the data, the IPUMS extract engine has a feature called "Select
+Cases", where you can subset on an included variable (for example you could
+subset on AGE so that your extract only includes those older than 65, or subset
+on EDUCATION to look at only college graduates). In most IPUMS microdata
+projects, the select cases feature is on the "Create Extract" page, as the last
+step before you submit the extract. If you've already submitted the extract, you
+can click the "revise" link on the "Download or Revise Extracts" page to access
+the "Select Cases" feature.
+
+Or, if you would be happy with a random subsample of the data, the IPUMS extract
+engine has an option to "Customize Sample Size" that will take a random sample.
+This feature is also available on the "Create Extract" page, as the last step
+before you submit the extract. Again, if you've already submitted your extract,
+you can access this feature by clicking the "revise" link on the "Download or
+Revise Extracts" page.
+
 
 # Option 3: Work one chunk at a time
-Starting with version 0.3, ipumsr has "chunked" versions of the microdata
-reading functions (`read_ipums_micro_chunked()` and
-`read_ipums_micro_list_chunked()`). These "chunked" versions of the function
-allow you to specify a function that will be applied to each chunk, and then
-also control how the results from these chunks are combined. This functionality
-is based on the chunked functionality introduced by `readr` and so is quite
-flexible. Below, we'll outline solutions to three common use-cases for IPUMS data:
-tabulation, regression and selecting cases.
+ipumsr has "chunked" versions of the microdata reading functions
+ (`read_ipums_micro_chunked()` and `read_ipums_micro_list_chunked()`). 
+These chunked versions of the functions allow you to specify a function that
+will be applied to each chunk, and then also control how the results from these
+chunks are combined. This functionality is based on the chunked functionality
+introduced by `readr` and so is quite flexible. Below, we'll outline solutions
+to three common use-cases for IPUMS data: tabulation, regression and selecting
+cases.
 
 ## Chunked tabulation example 
 Let's say you want to find the percent of people in the workforce by
@@ -132,12 +147,13 @@ read_ipums_micro(
 
 But let's pretend like we can only store 1,000 rows at a time.
 In this case, we need to use a chunked function, tabulate for
-each chunk, and then calculate the percentage across all of the
+each chunk, and then calculate the counts across all of the
 chunks. 
 
 First we'll make the callback function, which will take two arguments: 
-x (the data from a chunk) and pos (the position of the chunk). We'll
-only use x, but the callback function must always take both these arguments.
+x (the data from a chunk) and pos (the position of the chunk, expressed as 
+the line in the input file at which the chunk starts). We'll only use x, but 
+the callback function must always take both these arguments.
 
 ```{r}
 cb_function <- function(x, pos) {
@@ -155,21 +171,25 @@ cb_function <- function(x, pos) {
 }
 ```
 
-Next we need to create a callback object. In this case, we want to have
-the IPUMS metadata applied to the data (so we have value labels) and
-the resulting data.frames from `cb_function()` to be combined together,
-we'll use `IpumsDataFrameCallback`. If we didn't care about the 
-value labels, we could use `readr::DataFrameCallback` instead. Callback
-objects are a little unusual compared to R objects you are used to because 
-they are R6 objects. For now, all we really need to know is that to create 
-a callback we can use, we use `$new()` syntax.
+Next we need to create a callback object. The choice of a callback object
+depends mainly on how we want to combine the results from applying our callback
+function to each chunk. In this case, we want to row-bind the data.frames
+returned by `cb_function()`. If we didn't care about attaching IPUMS value
+labels and other metadata, we could use `readr::DataFrameCallback`, but ipumsr
+includes the `IpumsDataFrameCallback` object that allows you to preserve this
+metadata. 
+
+Callback objects are [R6](https://cran.r-project.org/web/packages/R6/index.html) 
+objects, but you don't need to be familiar with R6 to use them[^2]. For now, all
+we really need to know is that to create a callback we can use, we use `$new()`
+syntax.
 
 ```{r}
 cb <- IpumsDataFrameCallback$new(cb_function)
 ```
 
 Next we read in the data with the `read_ipums_micro_chunked()` function,
-specifying the callback and that we want 1000 to be the chunk_size.
+specifying the callback and that we want the `chunk_size` to be 1000.
 ```{r}
 chunked_tabulations <- read_ipums_micro_chunked(
   cps_ddi_file, data_file = cps_data_file, verbose = FALSE,
@@ -177,8 +197,9 @@ chunked_tabulations <- read_ipums_micro_chunked(
 )
 ```
 
-Now we have a data.frame with tabulations for each chunk, we need to
-tabulate once again across all chunks to get our final results.
+Now we have a data.frame with the counts by health and work status within each
+chunk. To get the full table, we just need to sum by health and work status one
+more time.
 
 ```{r}
 chunked_tabulations %>%
@@ -189,10 +210,10 @@ chunked_tabulations %>%
 ## Chunked regression example
 With the biglm package, it is possible to use R to perform a regression 
 on data that is too large to store in memory all at once. The ipumsr
-package provides a callback designed to make this simple `IpumsBiglmCallback`.
+package provides a callback designed to make this simple: `IpumsBiglmCallback`.
 
 Again we'll use the CPS example, which is small enough that we can keep it in
-memory. Here's an example of a regression looking at how hours work,
+memory. Here's an example of a regression looking at how hours worked,
 self-reported health and age are related among those who are currently working.
 This is meant as a simple example, and ignores many of the complexities in this
 relationship, so please use caution when interpreting.
@@ -262,11 +283,11 @@ summary(chunked_model)
 ## Chunked "select cases" example
 Sometimes you may want to select a subset of the data before reading it in. The
 IPUMS website has this functionality built in, which can be a faster way to do
-this (this "select cases" functionality is described in the first section
-above). Also, linux commands like `awk` and `sed` will generally be much faster
+this (this "select cases" functionality is described in the second section
+above). Also, Unix commands like `awk` and `sed` will generally be much faster
 than these R based solutions. However, it is possible to use the chunked functions 
 to create a subset, which can be convenient if you want to subset on some complex
-logic that would be hard to code into the IPUMS extract system or linux tools.
+logic that would be hard to code into the IPUMS extract system or Unix tools.
 
 ```{r}
 # Subset only those in "Poor" health
@@ -290,13 +311,13 @@ hard drive.
 R's tools for integrating with databases are improving quickly. The DBI 
 package has been updated, dplyr (through dbplyr) provides a
 frontend that allows you to write the same code for data in a database as you
-would in a local data.frame, and packages like sparklyr, sparkR, bigrquery and
+would for a local data.frame, and packages like sparklyr, sparkR, bigrquery and
 others provide access to the latest and greatest.
 
 There are many different kinds of databases, each with their own benefits, 
 weaknesses and tradeoffs. As such, it's hard to give concrete advice without
 knowing your specific use-case. However, once you've chosen a database, in
-general, there will be two steps: Importing the data to the database and then
+general, there will be two steps: Importing the data into the database and then
 connecting it to R. 
 
 As an example, we'll use the RSQLite package to load the data into an in-memory 
@@ -321,16 +342,15 @@ library(RSQLite)
 con <- dbConnect(SQLite(), path = ":memory:")
 
 # Add data to tables in chunks
-ddi <- read_ipums_ddi(ipums_example("cps_00010.xml"))
-read_ipums_micro_list_chunked(
+ddi <- read_ipums_ddi(cps_ddi_file)
+read_ipums_micro_chunked(
   ddi,
+  data_file = cps_data_file,
   readr::SideEffectChunkCallback$new(function(x, pos) {
     if (pos == 1) {
-      dbWriteTable(con, "person", x$P)
-      dbWriteTable(con, "household", x$H)
+      dbWriteTable(con, "cps", x)
     } else {
-      dbWriteTable(con, "person", x$P, row.names = FALSE, append = TRUE)
-      dbWriteTable(con, "household", x$H, row.names = FALSE, append = TRUE)
+      dbWriteTable(con, "cps", x, row.names = FALSE, append = TRUE)
     }
   }),
   chunk_size = 1000,
@@ -346,7 +366,7 @@ learning about how to connect to a database. Here I'll just briefly show
 some examples.
 
 ```{r, eval = installed_db_pkgs}
-example <- tbl(con, "person")
+example <- tbl(con, "cps")
 
 example %>%
   filter('AGE' > 25)
@@ -356,7 +376,7 @@ Though dbplyr shows us a nice preview of the first rows of the result of our
 query, the data still lives in the database. When using a regular database,
 in general you'd use the function `dplyr::collect()` to load in the full
 results of the query to your R session. However, the database has no
-concept of IPUMS attributes like value and variable lables, so if you 
+concept of IPUMS attributes like value and variable labels, so if you 
 want them, you can use `ipums_collect()` like so:
 
 ```{r, eval = installed_db_pkgs}
@@ -368,7 +388,7 @@ example %>%
 # Learning more
 Big data is a problem for lots of R users, not just IPUMS users, so there
 are a lot of resources to help you out! These are just a few that I found
-useful while compling this document:
+useful while writing this document:
 
 - *Best practice to handle out-of-memory data* - RStudio Community Thread
 [link](https://community.rstudio.com/t/best-practice-to-handle-out-of-memory-data/734)
@@ -380,6 +400,7 @@ useful while compling this document:
 - *Improving DBI: A Retrospect* - Kirill Müller's report on the R Consortium 
   grant to improve database support in R 
   [link](https://www.r-consortium.org/blog/2017/05/15/improving-dbi-a-retrospect)
-- *R6* - a chapter of Hadley Wickham's upcoming revision to his Advanced R book 
-  (Relevant if you're curious about how readr/ipumsr callback objects work 
-  [link](https://github.com/hadley/adv-r/blob/master/R6.Rmd) (in progress)
+
+
+[^1]: Bonus joke: Why is the IPUMS website better than any grocery store? Answer: More free samples.)
+[^2]: If you're interested in learning more about R6, the upcoming revision to Hadley Wickham's Advanced R book includes a chapter on R6 [available for free here](https://github.com/hadley/adv-r/blob/master/R6.Rmd) 
