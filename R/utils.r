@@ -165,6 +165,25 @@ set_ipums_var_attributes <- function(
   set_ipums_var_attributes_(data, var_info)
 }
 
+#' Collect data into R session with IPUMS attributes
+#'
+#' Convenience wrapper around dplyr \code{\link[dplyr]{collect}} and
+#' \code{\link{set_ipums_var_attributes}}.
+#'
+#' @param data A dplyr \code{tbl} object (generally a \code{tbl_lazy}
+#'   object stored in a database.
+#' @param ddi A DDI object, read with \code{\link{read_ipums_ddi}}.
+#' @param var_attrs One or more of \code{val_labels}, \code{var_label} and
+#'   \code{var_desc} describing what kinds of attributes you want to add.
+#'   If NULL, will not add any attributes.
+#'
+#' @return A local \code{tbl_df} data.frame with IPUMS attributes attached
+#' @export
+ipums_collect <- function(data, ddi, var_attrs = c("val_labels", "var_label", "var_desc")) {
+  var_attrs <- match.arg(var_attrs, several.ok = TRUE)
+  set_ipums_var_attributes(dplyr::collect(data), ddi, var_attrs)
+}
+
 set_imp_decim <- function(data, var_info) {
   if (is.null(var_info)) return(data)
 
@@ -324,4 +343,25 @@ release_questions <- function() {
     ),
     "Have you spellchecked the whole package using spelling::spell_check_package()"
   )
+}
+
+
+readr_to_hipread_specs <- function(positions, types) {
+  hip_types <- purrr::map_chr(types$cols, function(x) {
+    if (identical(x, readr::col_double())) out <- "double"
+    else if (identical(x, readr::col_character())) out <- "character"
+    else if (identical(x, readr::col_integer())) out <- "integer"
+    out
+  })
+
+  hipread::hip_fwf_positions(
+    positions$begin + 1,
+    positions$end,
+    positions$col_names,
+    hip_types
+  )
+}
+
+hipread_type_name_convert <- function(x) {
+  ifelse(x == "numeric", "double", x)
 }

@@ -1,4 +1,19 @@
 # ipumsr 0.2.0.9000
+* Lots of improvements for users who wish to use "big data" sized IPUMS extracts. See 
+  the vignette using command `vignette("ipums-bigdata", package = "ipusmr")` for
+  the full details. 
+  
+  * There are now chunked versions of the microdata reading functions 
+    which let you perform functions on subsets of the data as you read
+    it in (`read_ipums_micro_chunked()` & `ipumsr::read_ipums_micro_list_chunked()`)
+    
+  * There is a new function `ipums_collect()` which combined `dplyr::collect()` with
+    `set_ipums_attributes()` to add value and variable labels to data collected from
+    a database.
+    
+  * When reading gzipped files, ipumsr no longer has to store the full text in memory.
+    
+* The approach to reading hierarchical data files is much faster.
 
 # ipumsr 0.2.0
 * IPUMS Terra is now officially supported! Read raster, area or microdata extracts

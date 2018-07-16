@@ -157,6 +157,7 @@ read_ipums_hier <- function(
 
   rec_vinfo <- dplyr::filter(all_vars, .data$var_name == ddi$rectype_idvar)
   if (nrow(rec_vinfo) > 1) stop("Cannot support multiple rectype id variables.", call. = FALSE)
+  hip_rec_vinfo <- hipread::hip_rt(rec_vinfo$start, rec_vinfo$end - rec_vinfo$start + 1)
 
   all_vars <- select_var_rows(all_vars, vars)
   if (!rec_vinfo$var_name %in% all_vars$var_name && data_structure == "long") {
@@ -183,27 +184,38 @@ read_ipums_hier <- function(
     }
   }
 
+  col_info <- tidyr::unnest_(all_vars, "rectypes", .drop = FALSE)
+  rts <- unique(col_info$rectypes)
+  col_info <- purrr::map(rts, function(rt) {
+    rt_cinfo <- col_info[col_info$rectypes == rt, ]
+    hipread::hip_fwf_positions(
+      rt_cinfo$start,
+      rt_cinfo$end,
+      rt_cinfo$var_name,
+      hipread_type_name_convert(rt_cinfo$var_type)
+    )
+  })
+  names(col_info) <- rts
 
-  nonrec_vinfo <- dplyr::filter(all_vars, .data$var_name != ddi$rectype_idvar)
-  nonrec_vinfo <- tidyr::unnest_(nonrec_vinfo, "rectypes", .drop = FALSE)
-
-  if (verbose) cat("Reading data...\n")
-  if (n_max == Inf) n_max <- -1
-  raw <- read_check_for_negative_bug(
-    readr::read_lines_raw,
-    data_file,
-    progress = show_readr_progress(verbose),
-    n_max = n_max
-  )
-
-  if (verbose) cat("Parsing data...\n")
   if (data_structure == "long") {
-    out <- read_raw_to_df_long(raw, rec_vinfo, all_vars, ddi$file_encoding)
+    out <- hipread::hipread_long(
+      data_file,
+      col_info,
+      hip_rec_vinfo,
+      progress = show_readr_progress(verbose),
+      n_max = n_max
+    )
 
     out <- set_ipums_var_attributes(out, all_vars, var_attrs)
     out <- set_imp_decim(out, all_vars)
   } else if (data_structure == "list") {
-    out <- read_raw_to_df_list(raw, rec_vinfo, all_vars, ddi$file_encoding)
+    out <- hipread::hipread_list(
+      data_file,
+      col_info,
+      hip_rec_vinfo,
+      progress = show_readr_progress(verbose),
+      n_max = n_max
+    )
     for (rt in names(out)) {
       rt_vinfo <- all_vars[purrr::map_lgl(all_vars$rectypes, ~rt %in% .), ]
       out[[rt]] <- set_ipums_var_attributes(out[[rt]], rt_vinfo, var_attrs)
@@ -223,8 +235,6 @@ read_ipums_hier <- function(
       rt_lbls <- stringr::str_replace_all(rt_lbls, "[:blank:]", "_")
       names(out) <- rt_lbls
     }
-
-
   }
   out
 }
@@ -251,13 +261,11 @@ read_ipums_rect <- function(ddi, vars, n_max, data_file, verbose, var_attrs) {
   is_csv <- ipums_file_ext(data_file) %in% c(".csv", ".csv.gz")
 
   if (is_fwf) {
-    out <- read_check_for_negative_bug(
-      readr::read_fwf,
+    out <- hipread::hipread_long(
       data_file,
-      col_positions,
-      col_types,
+      readr_to_hipread_specs(col_positions, col_types),
       n_max = n_max,
-      locale = ipums_locale(ddi$file_encoding),
+      encoding = ddi$file_encoding,
       progress = show_readr_progress(verbose)
     )
   } else if (is_csv) {
