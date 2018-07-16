@@ -109,8 +109,8 @@ careful_sf_rbind <- function(sf_list) {
 #' @rdname read_ipums_sf
 #' @export
 read_ipums_sp <- function(
-  shape_file, shape_layer = NULL, bind_multiple = TRUE, verbose = TRUE,
-  encoding = NULL
+  shape_file, shape_layer = NULL, encoding = NULL, bind_multiple = TRUE,
+  verbose = TRUE
 ) {
   shape_layer <- enquo(shape_layer)
   load_rgdal_namespace()

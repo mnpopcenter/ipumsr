@@ -15,6 +15,8 @@
     
 * The approach to reading hierarchical data files is much faster.
 
+* Arguments to `read_ipums_sp()` are now in the same order as `read_ipums_sf()`
+
 # ipumsr 0.2.0
 * IPUMS Terra is now officially supported! Read raster, area or microdata extracts
   using functions `read_terra_raster()`, `read_terra_raster_list()`, 
