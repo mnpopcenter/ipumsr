@@ -5,11 +5,13 @@
 \alias{read_ipums_sp}
 \title{Read boundary files from an IPUMS extract}
 \usage{
-read_ipums_sf(shape_file, shape_layer = NULL, encoding = NULL,
-  bind_multiple = TRUE, verbose = TRUE)
+read_ipums_sf(shape_file, shape_layer = NULL, vars = NULL,
+  encoding = NULL, bind_multiple = TRUE, add_layer_var = NULL,
+  verbose = TRUE)
 
-read_ipums_sp(shape_file, shape_layer = NULL, bind_multiple = TRUE,
-  verbose = TRUE, encoding = NULL)
+read_ipums_sp(shape_file, shape_layer = NULL, vars = NULL,
+  encoding = NULL, bind_multiple = TRUE, add_layer_var = NULL,
+  verbose = TRUE)
 }
 \arguments{
 \item{shape_file}{Filepath to one or more .shp files, a .zip file from an IPUMS extract
@@ -19,6 +21,9 @@ or a path to an unzipped folder.}
  shape files to load. Accepts a character vector specifying the file name, or
 \code{\link{dplyr_select_style}} conventions. Can load multiple shape files,
   which will be combined.}
+
+\item{vars}{Which variables in the shape file's data to keep (NULL the default
+keeps all)}
 
 \item{encoding}{The text encoding to use when reading the shape file. Typically
 the defaults should read the data correctly, but for some extracts you may
@@ -30,6 +35,10 @@ those projects (latin1 and UTF-8 respectively).}
 
 \item{bind_multiple}{If \code{TRUE}, will combine multiple shape files found into
 a single object.}
+
+\item{add_layer_var}{Whether to add a variable named \code{layer} that indicates
+which shape_layer the data came from. NULL, the default, uses TRUE if more than
+1 layer is found, and FALSE otherwise.}
 
 \item{verbose}{I \code{TRUE}, will report progress information}
 }

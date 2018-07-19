@@ -15,6 +15,8 @@
 #'   shape files to load. Accepts a character vector specifying the file name, or
 #'  \code{\link{dplyr_select_style}} conventions. Can load multiple shape files,
 #'    which will be combined.
+#' @param vars Which variables in the shape file's data to keep (NULL the default
+#'   keeps all)
 #' @param encoding The text encoding to use when reading the shape file. Typically
 #'   the defaults should read the data correctly, but for some extracts you may
 #'   need to set them manually, but if funny characters appear in your data, you
@@ -24,6 +26,9 @@
 #'   those projects (latin1 and UTF-8 respectively).
 #' @param bind_multiple If \code{TRUE}, will combine multiple shape files found into
 #'   a single object.
+#' @param add_layer_var Whether to add a variable named \code{layer} that indicates
+#'   which shape_layer the data came from. NULL, the default, uses TRUE if more than
+#'   1 layer is found, and FALSE otherwise.
 #' @param verbose I \code{TRUE}, will report progress information
 #' @return \code{read_ipums_sf} returns a sf object and \code{read_ipums_sp} returns
 #'   a SpatialPolygonsDataFrame.
@@ -42,10 +47,11 @@
 #' @family ipums_read
 #' @export
 read_ipums_sf <- function(
-  shape_file, shape_layer = NULL, encoding = NULL, bind_multiple = TRUE,
-  verbose = TRUE
+  shape_file, shape_layer = NULL, vars = NULL, encoding = NULL,
+  bind_multiple = TRUE, add_layer_var = NULL, verbose = TRUE
 ) {
   shape_layer <- enquo(shape_layer)
+  vars <- enquo(vars)
   load_sf_namespace()
 
   # For zipped files, make a temp folder that will be cleaned
@@ -60,16 +66,26 @@ read_ipums_sf <- function(
   out <- purrr::map2(
     read_shape_files,
     encoding,
-    ~sf::read_sf(.x, quiet = !verbose, options = paste0("ENCODING=", .y))
+    function(.x, .y) {
+      this_sf <- sf::read_sf(.x, quiet = !verbose, options = paste0("ENCODING=", .y))
+      if (!rlang::quo_is_null(vars)) this_sf <- dplyr::select(this_sf, !!vars)
+      this_sf
+    }
   )
-  out <- careful_sf_rbind(out)
+  names(out) <- stringr::str_sub(basename(read_shape_files), 1, -5)
+  out <- careful_sf_rbind(out, add_layer_var)
 
   out
 }
 
 # Takes a list of sf's, fills in empty columns for you and binds them together.
 # Throws error if types don't match
-careful_sf_rbind <- function(sf_list) {
+careful_sf_rbind <- function(sf_list, add_layer_var) {
+  if (is.null(add_layer_var)) add_layer_var <- length(sf_list) > 1
+  if (add_layer_var) {
+    sf_list <- purrr::imap(sf_list, ~dplyr::mutate(.x, layer = .y))
+  }
+
   if (length(sf_list) == 1) {
     return(sf_list[[1]])
   } else {
@@ -78,14 +94,14 @@ careful_sf_rbind <- function(sf_list) {
       tibble::data_frame(name = names(x), type = purrr::map(x, ~class(.)))
     })
 
-    var_type_check <- dplyr::group_by(all_var_info, .data$name)
-    var_type_check <- dplyr::summarize(var_type_check, check = length(unique(.data$type)))
+    all_var_info <- dplyr::group_by(all_var_info, .data$name)
+    var_type_check <- dplyr::summarize(all_var_info, check = length(unique(.data$type)))
     if (any(var_type_check$check != 1)) {
       stop("Cannot combine shape files because variable types don't match.")
     }
-
+    all_var_info <- dplyr::slice(all_var_info, 1)
+    all_var_info <- dplyr::ungroup(all_var_info)
     all_var_info$id <- NULL
-    all_var_info <- dplyr::distinct(all_var_info)
 
     out <- purrr::map(sf_list, function(x) {
       missing_vars <- dplyr::setdiff(all_var_info$name, names(x))
@@ -109,10 +125,11 @@ careful_sf_rbind <- function(sf_list) {
 #' @rdname read_ipums_sf
 #' @export
 read_ipums_sp <- function(
-  shape_file, shape_layer = NULL, encoding = NULL, bind_multiple = TRUE,
-  verbose = TRUE
+  shape_file, shape_layer = NULL, vars = NULL, encoding = NULL,
+  bind_multiple = TRUE, add_layer_var = NULL, verbose = TRUE
 ) {
   shape_layer <- enquo(shape_layer)
+  vars <- enquo(vars)
   load_rgdal_namespace()
 
   # For zipped files, make a temp folder that will be cleaned
@@ -127,16 +144,20 @@ read_ipums_sp <- function(
   out <- purrr::map2(
     read_shape_files,
     encoding,
-    ~rgdal::readOGR(
-      dsn = dirname(.x),
-      layer = stringr::str_sub(basename(.x), 1, -5),
-      verbose = verbose,
-      stringsAsFactors = FALSE,
-      encoding = .y,
-      use_iconv = TRUE
-    )
-  )
-  out <- careful_sp_rbind(out)
+    function(.x, .y) {
+      this_sp <- rgdal::readOGR(
+        dsn = dirname(.x),
+        layer = stringr::str_sub(basename(.x), 1, -5),
+        verbose = verbose,
+        stringsAsFactors = FALSE,
+        encoding = .y,
+        use_iconv = TRUE
+      )
+      if (!rlang::quo_is_null(vars)) this_sp@data <- dplyr::select(this_sp@data, !!vars)
+      this_sp
+    })
+  names(out) <- stringr::str_sub(basename(read_shape_files), 1, -5)
+  out <- careful_sp_rbind(out, add_layer_var)
 
   out
 }
@@ -145,7 +166,15 @@ read_ipums_sp <- function(
 # Takes a list of SpatialPolygonsDataFrames, fills in empty columns for you and binds
 # them together.
 # Throws error if types don't match
-careful_sp_rbind <- function(sp_list) {
+careful_sp_rbind <- function(sp_list, add_layer_var) {
+  if (is.null(add_layer_var)) add_layer_var <- length(sp_list) > 1
+  if (add_layer_var) {
+    sp_list <- purrr::imap(sp_list, function(.x, .y) {
+      .x@data[["layer"]] <- .y
+      .x
+    })
+  }
+
   if (length(sp_list) == 1) {
     return(sp_list[[1]])
   } else {
@@ -154,14 +183,14 @@ careful_sp_rbind <- function(sp_list) {
       tibble::data_frame(name = names(x@data), type = purrr::map(x@data, ~class(.)))
     })
 
-    var_type_check <- dplyr::group_by(all_var_info, .data$name)
-    var_type_check <- dplyr::summarize(var_type_check, check = length(unique(.data$type)))
+    all_var_info <- dplyr::group_by(all_var_info, .data$name)
+    var_type_check <- dplyr::summarize(all_var_info, check = length(unique(.data$type)))
     if (any(var_type_check$check != 1)) {
       stop("Cannot combine shape files because variable types don't match.")
     }
-
+    all_var_info <- dplyr::slice(all_var_info, 1)
+    all_var_info <- dplyr::ungroup(all_var_info)
     all_var_info$id <- NULL
-    all_var_info <- dplyr::distinct(all_var_info)
 
     out <- purrr::map(sp_list, function(x) {
       missing_vars <- dplyr::setdiff(all_var_info$name, names(x))

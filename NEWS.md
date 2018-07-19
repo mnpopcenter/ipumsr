@@ -17,6 +17,10 @@
 
 * Arguments to `read_ipums_sp()` are now in the same order as `read_ipums_sf()`
 
+* `read_ipums_sf()` and `read_ipums_sp()` gain 2 new arguments `vars` which 
+  allows you to pick a subset of variables, and `add_layer_var` which lets 
+  you add a variable indicating which layer it came from.
+
 # ipumsr 0.2.0
 * IPUMS Terra is now officially supported! Read raster, area or microdata extracts
   using functions `read_terra_raster()`, `read_terra_raster_list()`, 
