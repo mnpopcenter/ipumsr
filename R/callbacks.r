@@ -47,7 +47,7 @@
 #' @keywords internal
 #' @export
 IpumsChunkCallback <- R6::R6Class(
-  "IpumsChunkCallback", inherit = readr::ChunkCallback,
+  "IpumsChunkCallback", inherit = hipread::HipChunkCallback,
   private = list(
     data_structure = NULL,
     all_vars = NULL,

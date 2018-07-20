@@ -24,6 +24,7 @@ test_that(
 
 test_that(
   "basic chunk reading - long .csv.gz", {
+    skip_on_cran() # Don't want to lock readr into hipread's callback API
     cps_full <- read_ipums_micro(
       ipums_example("cps_00006.xml"),
       data_file = ipums_example("cps_00006.csv.gz"),
