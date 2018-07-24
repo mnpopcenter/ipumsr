@@ -203,7 +203,8 @@ read_ipums_hier <- function(
       col_info,
       hip_rec_vinfo,
       progress = show_readr_progress(verbose),
-      n_max = n_max
+      n_max = n_max,
+      encoding = ddi$file_encoding
     )
 
     out <- set_ipums_var_attributes(out, all_vars, var_attrs)
@@ -214,7 +215,8 @@ read_ipums_hier <- function(
       col_info,
       hip_rec_vinfo,
       progress = show_readr_progress(verbose),
-      n_max = n_max
+      n_max = n_max,
+      encoding = ddi$file_encoding
     )
     for (rt in names(out)) {
       rt_vinfo <- all_vars[purrr::map_lgl(all_vars$rectypes, ~rt %in% .), ]
