@@ -30,9 +30,8 @@
 #'    Callback function that performs a regression on the full dataset, one chunk
 #'    at a time using the biglm package. Initialize with arguments \code{model} (A
 #'    formula of your model and \code{prep} a function like the other callback arguments
-#'    that prepares the data before running the regression. Arguments \code{type}
-#'    can be either "\code{\link[biglm]{biglm}}" (the default) and
-#'    "\code{\link[biglm]{bigglm}}". Other arguments are passed to biglm/bigglm.
+#'    that prepares the data before running the regression. Other arguments are
+#'    passed to biglm.
 #'  }
 #'  \item{IpumsChunkCallback}{
 #'    (Only needed for advanced usage) Callback interface definition, all
@@ -159,7 +158,7 @@ IpumsBiglmCallback <-  R6::R6Class(
     biglm_f = NULL
   ),
   public = list(
-    initialize = function(model, prep = function(x, pos) x, type = c("biglm", "bigglm"), ...) {
+    initialize = function(model, prep = function(x, pos) x, ...) {
       if (!requireNamespace("biglm")) {
         stop(paste0(
           "'biglm' package required for IpumsBiglmCallback, ",
@@ -168,17 +167,10 @@ IpumsBiglmCallback <-  R6::R6Class(
       }
       private$prep <- prep
       private$model <- model
-      type <- match.arg(type)
       # Some hacks to improve printing of biglm sys.call
-      private$biglm_f <- if (type == "biglm") {
-        function(model, data) {
-          biglm <- biglm::biglm
-          eval(bquote(biglm(.(model), data, ...)))
-        }
-      } else {
-        bigglm <- biglm::bigglm
-        eval(bquote(biglm::biglm(.(model), data, ...)))
-        bigglm(data = data, model = model, ...)
+      private$biglm_f <- function(model, data) {
+        biglm <- biglm::biglm
+        eval(bquote(biglm(.(model), data, ...)))
       }
     },
     receive = function(data, index) {

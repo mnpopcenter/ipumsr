@@ -91,7 +91,7 @@ read_ipums_micro_list_chunked(
   chunk_size = 1000 # Generally you want this larger, but this example is a small file
 )
 
-# Using the bigglm package, you can even run a regression without storing
+# Using the biglm package, you can even run a regression without storing
 # the full dataset in memory
 library(dplyr)
 if (require(biglm)) {

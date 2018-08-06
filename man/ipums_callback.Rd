@@ -36,9 +36,8 @@ or add value/variable labels to the data.
    Callback function that performs a regression on the full dataset, one chunk
    at a time using the biglm package. Initialize with arguments \code{model} (A
    formula of your model and \code{prep} a function like the other callback arguments
-   that prepares the data before running the regression. Arguments \code{type}
-   can be either "\code{\link[biglm]{biglm}}" (the default) and
-   "\code{\link[biglm]{bigglm}}". Other arguments are passed to biglm/bigglm.
+   that prepares the data before running the regression. Other arguments are
+   passed to biglm.
  }
  \item{IpumsChunkCallback}{
    (Only needed for advanced usage) Callback interface definition, all
