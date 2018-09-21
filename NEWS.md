@@ -25,6 +25,9 @@
   `lower_vars` for `read_ipums_ddi()` and `read_ipums_micro()` family of functions
   so that the variable names are lower case.
 
+* ipumsr is compatible with versions of haven newer than 2.0 (while maintaining 
+  compatibility with earlier versions). (#31)
+
 # ipumsr 0.2.0
 * IPUMS Terra is now officially supported! Read raster, area or microdata extracts
   using functions `read_terra_raster()`, `read_terra_raster_list()`, 

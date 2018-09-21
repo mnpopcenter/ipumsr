@@ -162,7 +162,7 @@ set_ipums_var_attributes <- function(
     if (length(x) == 0 || nrow(x) == 0) NULL else purrr::set_names(x$val, x$lbl)
   })
 
-  set_ipums_var_attributes_(data, var_info)
+  set_ipums_var_attributes_(data, var_info, is_haven_v2())
 }
 
 #' Collect data into R session with IPUMS attributes
@@ -364,4 +364,11 @@ readr_to_hipread_specs <- function(positions, types) {
 
 hipread_type_name_convert <- function(x) {
   ifelse(x == "numeric", "double", x)
+}
+
+
+# haven 2.0 compatibility
+is_haven_v2 <- function() {
+  version <- packageVersion("haven")
+  version$major >= 2 | identical(version, package_version("1.1.2.9000"))
 }
