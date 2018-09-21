@@ -33,3 +33,4 @@ Other lbl_helpers: \code{\link{lbl_add}},
   \code{\link{lbl_na_if}}, \code{\link{lbl_relabel}},
   \code{\link{lbl}}
 }
+\concept{lbl_helpers}

@@ -4,7 +4,7 @@
 \alias{read_ipums_ddi}
 \title{Read metadata about an IPUMS extract from a DDI (.xml) file}
 \usage{
-read_ipums_ddi(ddi_file, data_layer = NULL)
+read_ipums_ddi(ddi_file, data_layer = NULL, lower_vars = FALSE)
 }
 \arguments{
 \item{ddi_file}{Filepath to DDI xml file}
@@ -12,6 +12,9 @@ read_ipums_ddi(ddi_file, data_layer = NULL)
 \item{data_layer}{If ddi_file is an extract with multiple DDIs, dplyr
 \code{\link[dplyr]{select}}-style notation indicating which .xml data
 layer to load.}
+
+\item{lower_vars}{Logical indicating whether to convert variable names
+to lowercase (default is FALSE due to tradition)}
 }
 \value{
 An \code{ipums_ddi} object with metadata information.
@@ -29,3 +32,4 @@ ddi <- read_ipums_ddi(ddi_file)
 \seealso{
 Other ipums_metadata: \code{\link{read_ipums_codebook}}
 }
+\concept{ipums_metadata}

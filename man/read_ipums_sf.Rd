@@ -70,3 +70,4 @@ Other ipums_read: \code{\link{read_ipums_micro_chunked}},
   \code{\link{read_terra_micro}},
   \code{\link{read_terra_raster}}
 }
+\concept{ipums_read}

@@ -4,27 +4,15 @@
 \name{reexports}
 \alias{reexports}
 \alias{as_factor}
-\alias{reexports}
 \alias{zap_labels}
-\alias{reexports}
 \alias{is.labelled}
-\alias{reexports}
 \alias{\%<-\%}
-\alias{reexports}
 \alias{starts_with}
-\alias{reexports}
 \alias{ends_with}
-\alias{reexports}
 \alias{contains}
-\alias{reexports}
 \alias{matches}
-\alias{reexports}
 \alias{num_range}
-\alias{reexports}
-\alias{starts_with}
-\alias{reexports}
 \alias{one_of}
-\alias{reexports}
 \alias{everything}
 \title{Objects exported from other packages}
 \keyword{internal}

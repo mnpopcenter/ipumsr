@@ -31,3 +31,4 @@ ddi <- read_ipums_codebook(nhgis_file)
 \seealso{
 Other ipums_metadata: \code{\link{read_ipums_ddi}}
 }
+\concept{ipums_metadata}

@@ -10,12 +10,12 @@ read_nhgis(data_file, data_layer = NULL, verbose = TRUE,
   var_attrs = c("val_labels", "var_label", "var_desc"))
 
 read_nhgis_sf(data_file, shape_file, data_layer = NULL,
-  shape_layer = data_layer, shape_encoding = "latin1", verbose = TRUE,
-  var_attrs = c("val_labels", "var_label", "var_desc"))
+  shape_layer = data_layer, shape_encoding = "latin1",
+  verbose = TRUE, var_attrs = c("val_labels", "var_label", "var_desc"))
 
 read_nhgis_sp(data_file, shape_file, data_layer = NULL,
-  shape_layer = data_layer, shape_encoding = "latin1", verbose = TRUE,
-  var_attrs = c("val_labels", "var_label", "var_desc"))
+  shape_layer = data_layer, shape_encoding = "latin1",
+  verbose = TRUE, var_attrs = c("val_labels", "var_label", "var_desc"))
 }
 \arguments{
 \item{data_file}{Filepath to the data (either the .zip file directly
@@ -82,3 +82,4 @@ Other ipums_read: \code{\link{read_ipums_micro_chunked}},
   \code{\link{read_terra_micro}},
   \code{\link{read_terra_raster}}
 }
+\concept{ipums_read}

@@ -5,8 +5,8 @@
 \title{Read data from an IPUMS Terra microdata extract}
 \usage{
 read_terra_micro(data_file, ddi_file = NULL, data_layer = NULL,
-  n_max = Inf, verbose = TRUE, var_attrs = c("val_labels", "var_label",
-  "var_desc"))
+  n_max = Inf, verbose = TRUE, var_attrs = c("val_labels",
+  "var_label", "var_desc"))
 }
 \arguments{
 \item{data_file}{Path to the data file, which can either be the .zip file directly
@@ -50,3 +50,4 @@ Other ipums_read: \code{\link{read_ipums_micro_chunked}},
   \code{\link{read_terra_area}},
   \code{\link{read_terra_raster}}
 }
+\concept{ipums_read}

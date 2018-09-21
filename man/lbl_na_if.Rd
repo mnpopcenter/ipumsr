@@ -46,3 +46,4 @@ Other lbl_helpers: \code{\link{lbl_add}},
   \code{\link{lbl_relabel}}, \code{\link{lbl}},
   \code{\link{zap_ipums_attributes}}
 }
+\concept{lbl_helpers}
