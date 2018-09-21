@@ -20,10 +20,14 @@ knitr::opts_chunk$set(
 [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/mnpopcenter/ipumsr?branch=master&svg=true)](https://ci.appveyor.com/project/mnpopcenter/ipumsr)
 [![Coverage Status](https://codecov.io/gh/mnpopcenter/ipumsr/master.svg)](https://codecov.io/github/mnpopcenter/ipumsr?branch=master)
 
-The ipumsr package helps import IPUMS extracts from the [IPUMS website](https://www.ipums.org) 
-into R. 
+The ipumsr package helps import IPUMS extracts from the 
+[IPUMS website](https://www.ipums.org) into R. IPUMS provides census and 
+survey data from around the world integrated across time and space. IPUMS
+integration and documentation makes it easy to study change, conduct comparative
+research, merge information across data types, and analyze individuals within
+family and community context. Data and services are available free of charge.
 
-The ipumsr package is now on CRAN can be installed by running the following command:
+The ipumsr package can be installed by running the following command:
 ```{r, eval=FALSE}
 install.packages("ipumsr")
 ```
@@ -35,14 +39,34 @@ if (!require(devtools)) install.packages("devtools")
 devtools::install_github("mnpopcenter/ipumsr")
 ```
 
-## Vignettes ##
-There are several vignettes included in the package:
+## Learning More ##
+The vignettes are a great place to learn more about ipumsr and IPUMS data:
 
-- **ipums** - Provides general information about using the ipumsr package
-- **value-labels** - Provides guidance for using the value labels provided by IPUMS
-- **ipums-geography** - Provides guidance for using R as GIS tool with IPUMS data
-- **ipums-cps** - An example of using CPS data with the ipumsr package
-- **ipums-nghis** - An example of using NHGIS data with the ipumsr package
+- For a general introduction see the
+  [**ipums**](https://cran.r-project.org/package=ipumsr/vignettes/ipums.html)
+  vignette.
+
+
+- For a more detailed look at some of the features, see these vignettes:
+  - [**value-labels**](https://cran.r-project.org/package=ipumsr/vignettes/value-labels.html) 
+    - Provides guidance for using the value labels provided by IPUMS
+  - [**ipums-geography**](https://cran.r-project.org/package=ipumsr/vignettes/ipums-geography.html) 
+    - Provides guidance for using R as GIS tool with IPUMS data
+  - **ipums-bigdata** 
+    - How to handle large IPUMS data extracts and
+      examples of using the chunked versions of microdata reading functions.
+
+
+- Or to see examples of how to work through data from particular projects, 
+  see these vignettes:
+  - [**ipums-cps**](https://cran.r-project.org/package=ipumsr/vignettes/ipums-cps.html)
+    - An example of using CPS data with the ipumsr package
+  - [**ipums-nhgis**](https://cran.r-project.org/package=ipumsr/vignettes/ipums-nhgis.html)
+    - An example of using NHGIS data with the ipumsr package
+  - [**ipums-terra**](https://cran.r-project.org/package=ipumsr/vignettes/ipums-terra.html) 
+    - An example of using IPUMS Terra Data with the ipumsr package
+  - And more project-specific examples are available on the Data Training Exercises
+    section of the [IPUMS website](https://www.ipums.org/exercises.shtml).
 
 You can access them with the `vignette()` command (eg `vignette("value-labels")`).
 
@@ -53,111 +77,10 @@ devtools::install_github("mnpopcenter/ipumsr/ipumsexamples")
 devtools::install_github("mnpopcenter/ipumsr", build_vignettes = TRUE)
 ```
 
-## Examples ##
-```{r}
-suppressPackageStartupMessages({
-  library(ipumsr)
-  library(haven)
-  library(ggplot2) # ggplot2 version > 2.2.1 (development version as of 8/15/2017)
-  library(dplyr)
-  library(sf)
-})
-```
+## Development ##
+We greatly appreciate bug reports, suggestions or pull requests. They can
+be submitted via github, or by email to ipums@umn.edu
 
-### CPS - Hierarchical Data ###
-Relies on user downloading the .xml DDI file and the .dat/.dat.gz file (doesn't need to be unzipped).
-```{r}
-# Use example file included with package:
-cps_hier_file <- ipums_example("cps_00010.xml")
-ddi <- read_ipums_ddi(cps_hier_file)
-data <- read_ipums_micro(ddi)
-
-# Variable description for the month variable
-cat(ipums_var_desc(ddi, MONTH))
-
-# Hierarachical data loaded as a data frame
-
-
-# Value labels loaded as haven::labelled class
-# Convert to factors with `as_factor`
-table(as_factor(data$MONTH, levels = "both"))
-
-# Can also load as a list by rectype
-data <- read_ipums_micro_list(ddi, verbose = FALSE)
-# Household data
-data$HOUSEHOLD
-# Person data
-data$PERSON
-```
-
-
-### CPS - Rectangular Data ###
-Relies on user downloading the .xml DDI file and the .dat/.dat.gz file (doesn't need to be unzipped).
-```{r, eval = FALSE}
-# Use example file included with package
-cps_rect_file <- ipums_example("cps_00006.xml")
-data <- read_ipums_micro(cps_rect_file, verbose = FALSE)
-
-# While working interactively, can get convenient display of variable information
-# in RStudio's viewer
-ipums_view(data)
-```
-
-### NHGIS ###
-Relies on user downloading the csv file (with or without header row) and shape files (doesn't need to be unzipped).
-
-Note that to save space when including this data on CRAN, the shape file has
-been reduced to 1% of the points in the polygon of the PMSA. The original
-shape file can be found in the `ipumsexamples` package.
-```{r nhgis_map}
-data <- read_nhgis_sf(
-  ipums_example("nhgis0008_csv.zip"),
-  shape_file = ipums_example("nhgis0008_shape_small.zip"),
-  verbose = FALSE
-)
-
-ipums_var_info(data, starts_with("D6Z"))
-
-data <- data %>%
-  mutate(
-    pct_before_1950 = (D6Z007 + D6Z008) / 
-           (D6Z001 + D6Z002 + D6Z003 + D6Z004 + D6Z005 + D6Z006 + D6Z007 + D6Z008)
-  )
-
-# Note the function `geom_sf()` is currently only in the development version, 
-# so you may need to update ggplot2 to run using 
-#   devtools::install_github("tidyverse/ggplot2")
-if ("geom_sf" %in% getNamespaceExports("ggplot2")) {
-  ggplot(data = data) + 
-    geom_sf(aes(fill = pct_before_1950)) + 
-    labs(
-      title = "Percent of homes built before 1950", 
-      subtitle = "By Primary Metropolitan Statistical Area in 1990 Census", 
-      caption = "Simplified PMSA boundaries (1% of polygon points retained)"
-    )
-}
-```
-
-### Terrapop ###
-There is experimental support for for loading terrapop data, but examples are too large to include in the package.
-```{r, eval=FALSE}
-# Raster data
-data <- ipumsr:::read_terra_raster(
-  "2552_bundle.zip",
-  "CROPLAND2000ZM2013.tiff",
-  verbose = FALSE
-)
-
-# Area data
-data <- ipumsr:::read_terra_area(
-  "2553_bundle.zip",
-  verbose = FALSE
-)
-
-# Microdata
-data <- ipumsr:::read_terra_micro(
-  "2554_bundle.zip",
-  verbose = FALSE
-)
-
-```
+Before contributing, please be sure to read the 
+[Contributing Guidelines](https://github.com/mnpopcenter/ipumsr/blob/master/CONTRIBUTING.md) 
+and the [Code of Conduct](https://github.com/mnpopcenter/ipumsr/blob/master/CONDUCT.md).
