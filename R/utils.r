@@ -369,6 +369,5 @@ hipread_type_name_convert <- function(x) {
 
 # haven 2.0 compatibility
 is_haven_v2 <- function() {
-  version <- utils::packageVersion("haven")
-  version$major >= 2 | identical(version, package_version("1.1.2.9000"))
+  utils::packageVersion("haven") >= "1.1.2.900"
 }
