@@ -50,6 +50,9 @@
 #' @param var_attrs Variable attributes to add from the DDI, defaults to
 #'   adding all (val_labels, var_label and var_desc). See
 #'   \code{\link{set_ipums_var_attributes}} for more details.
+#' @param lower_vars If reading a DDI from a file, a logical indicating
+#'   whether to convert variable names to lowercase (default is FALSE due
+#'   to tradition)
 #' @return \code{read_ipums_micro} returns a single tbl_df data frame, and
 #'   \code{read_ipums_micro_list} returns a list of data frames, named by
 #'   the Record Type. See 'Details' for more
@@ -89,9 +92,10 @@ read_ipums_micro <- function(
   data_file = NULL,
   verbose = TRUE,
   rectype_convert = NULL,
-  var_attrs = c("val_labels", "var_label", "var_desc")
+  var_attrs = c("val_labels", "var_label", "var_desc"),
+  lower_vars = FALSE
 ) {
-  if (is.character(ddi)) ddi <- read_ipums_ddi(ddi)
+  if (is.character(ddi)) ddi <- read_ipums_ddi(ddi, lower_vars = lower_vars)
   if (is.null(data_file)) data_file <- file.path(ddi$file_path, ddi$file_name)
 
   data_file <- custom_check_file_exists(data_file, c(".dat.gz", ".csv", ".csv.gz"))
@@ -121,9 +125,10 @@ read_ipums_micro_list <- function(
   data_file = NULL,
   verbose = TRUE,
   rectype_convert = NULL,
-  var_attrs = c("val_labels", "var_label", "var_desc")
+  var_attrs = c("val_labels", "var_label", "var_desc"),
+  lower_vars = FALSE
 ) {
-  if (is.character(ddi)) ddi <- read_ipums_ddi(ddi)
+  if (is.character(ddi)) ddi <- read_ipums_ddi(ddi, lower_vars = lower_vars)
   if (is.null(data_file)) data_file <- file.path(ddi$file_path, ddi$file_name)
 
   data_file <- custom_check_file_exists(data_file, c(".dat.gz", ".csv", ".csv.gz"))

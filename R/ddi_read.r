@@ -14,6 +14,8 @@
 #' @param data_layer If ddi_file is an extract with multiple DDIs, dplyr
 #'   \code{\link[dplyr]{select}}-style notation indicating which .xml data
 #'   layer to load.
+#' @param lower_vars Logical indicating whether to convert variable names
+#'   to lowercase (default is FALSE due to tradition)
 #' @return An \code{ipums_ddi} object with metadata information.
 #' @examples
 #' # Example extract DDI
@@ -21,7 +23,7 @@
 #' ddi <- read_ipums_ddi(ddi_file)
 #' @family ipums_metadata
 #' @export
-read_ipums_ddi <- function(ddi_file, data_layer = NULL) {
+read_ipums_ddi <- function(ddi_file, data_layer = NULL, lower_vars = FALSE) {
   data_layer <- enquo(data_layer)
 
   custom_check_file_exists(ddi_file)
@@ -127,6 +129,12 @@ read_ipums_ddi <- function(ddi_file, data_layer = NULL) {
 
   # Get variable specific information
   var_info <- get_var_info_from_ddi(ddi_xml, file_type, rectype_idvar, rectype_labels)
+
+  if (lower_vars) {
+    var_info$var_name <- tolower(var_info$var_name)
+    rectype_idvar <- tolower(rectype_idvar)
+    rectypes_keyvars$keyvars <- purrr::map(rectypes_keyvars$keyvars, tolower)
+  }
 
   make_ddi_from_scratch(
     file_name = file_name,
