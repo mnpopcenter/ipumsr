@@ -69,6 +69,7 @@ test_that(
 
 test_that(
   "biglm is equivalent to lm", {
+    skip_if_not_installed("biglm")
     biglm_results <- read_ipums_micro_chunked(
       ipums_example("cps_00015.xml"),
       IpumsBiglmCallback$new(
