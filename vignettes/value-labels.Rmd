@@ -21,7 +21,6 @@ Integrated variables in IPUMS data often have value labels, which attach
 text labels to the values taken by a variable (for example the HEALTH variable 
 has value labels: 1 = "Excellent", 2 = "Very good", etc.). The `ipumsr` package
 does import the labels, but not as factors, which may be how you were expecting them.
-The values can be hard to spot at first:
 
 ```{r}
 library(ipumsr)
@@ -42,7 +41,14 @@ is.labelled(cps$STATEFIP)
 sapply(cps, is.labelled)
 ```
 
-There are a few options to see what the actual labels are:
+By default the ipumsr package now will attempt to show the value labels when
+printing out a data.frame (like the "[Wisc~" on STATEFIP below, which stands for
+Wisconsin). If your console supports colorful output, then the labels will be in 
+a lighter grey than the values. (As a quick aside, you can turn off this printing
+behavior by setting the option `options("ipumsr.show_pillar_labels" = FALSE)`)
+
+However, as you can see, there often isn't enough space to see the labels when printing
+out a full data.frame. So, there are a few options to see the labels:
 ```{r}
 # Printing the variable directly (or a subset)
 head(cps$MONTH)
