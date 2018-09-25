@@ -31,7 +31,7 @@
 * Added pillar printing for labelled classes in tibbles. This means that the 
   label will print the labels alongside the values when printed in a tibble 
   (in a subtle grey color when the terminal supports it). To turn this feature off,
-  use command `options("ipumsr.show_pillar_labels" = FALSE)`.
+  use command `options("ipumsr.show_pillar_labels" = FALSE).
 
 # ipumsr 0.2.0
 * IPUMS Terra is now officially supported! Read raster, area or microdata extracts
