@@ -56,4 +56,3 @@ Suggests:
     dbplyr
 VignetteBuilder: knitr
 LinkingTo: Rcpp
-Remotes: tidyverse/haven
