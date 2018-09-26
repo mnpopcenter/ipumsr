@@ -179,7 +179,7 @@ labels and other metadata, we could use `readr::DataFrameCallback`, but ipumsr
 includes the `IpumsDataFrameCallback` object that allows you to preserve this
 metadata. 
 
-Callback objects are [R6]( https://CRAN.R-project.org/package=pkgname) 
+Callback objects are [R6]( https://CRAN.R-project.org/package=R6) 
 objects, but you don't need to be familiar with R6 to use them[^2]. For now, all
 we really need to know is that to create a callback we can use, we use `$new()`
 syntax.
