@@ -33,22 +33,18 @@ cps
 The first clue that some of the variables are labelled is the `<dbl+lbl>`
 that appear below `STATEFIP`, `ASECFLAG` and other variables. The tibble package 
 prints the variable's type information below the variable name, and this "+lbl" indicates
-that the variable uses the `labelled` type. You also can use
-the `is.labelled()` function to check if a variable is labelled.
-
-```{r}
-is.labelled(cps$STATEFIP)
-sapply(cps, is.labelled)
-```
+that the variable uses the `labelled` type. The function `is.labelled()` will also
+tell you if a variable is labelled.
 
 By default the ipumsr package now will attempt to show the value labels when
-printing out a data.frame (like the "[Wisc~" on STATEFIP below, which stands for
-Wisconsin). If your console supports colorful output, then the labels will be in 
-a lighter grey than the values. (As a quick aside, you can turn off this printing
-behavior by setting the option `options("ipumsr.show_pillar_labels" = FALSE)`)
+printing out a data.frame (like the `"[Wis~"` on STATEFIP above, for Wisconsin). 
+If your console supports colorful output, then the labels will be in 
+a lighter grey than the values. You can turn off this printing behavior by 
+setting the option `options("ipumsr.show_pillar_labels" = FALSE)`)
 
-However, as you can see, there often isn't enough space to see the labels when printing
-out a full data.frame. So, there are a few options to see the labels:
+However, as you can see, there often isn't enough space to see the labels 
+when printing out a full data.frame. So, there are a few options to see the 
+labels directly:
 ```{r}
 # Printing the variable directly (or a subset)
 head(cps$MONTH)

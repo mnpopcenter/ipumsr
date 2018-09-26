@@ -402,5 +402,5 @@ useful while writing this document:
   [link](https://www.r-consortium.org/blog/2017/05/15/improving-dbi-a-retrospect)
 
 
-[^1]: Bonus joke: Why is the IPUMS website better than any grocery store? Answer: More free samples.)
+[^1]: Bonus joke: Why is the IPUMS website better than any grocery store? Answer: More free samples.
 [^2]: If you're interested in learning more about R6, the upcoming revision to Hadley Wickham's Advanced R book includes a chapter on R6 [available for free here](https://github.com/hadley/adv-r/blob/master/R6.Rmd) 
