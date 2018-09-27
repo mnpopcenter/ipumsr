@@ -52,8 +52,9 @@ data:
           - Provides guidance for using the value labels provided by
             IPUMS
       - [**ipums-geography**](https://cran.r-project.org/package=ipumsr/vignettes/ipums-geography.html)
-          - Provides guidance for using R as GIS tool with IPUMS data
-      - **ipums-bigdata**
+          - Provides guidance for using R as GIS tool with IPUMS
+        data
+      - [**ipums-bigdata**](https://cran.r-project.org/package=ipumsr/vignettes/ipums-bigdata.html)
           - How to handle large IPUMS data extracts and examples of
             using the chunked versions of microdata reading functions.
 
