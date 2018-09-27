@@ -39,7 +39,7 @@ tell you if a variable is labelled.
 By default the ipumsr package now will attempt to show the value labels when
 printing out a data.frame (like the `"[Wis~"` on STATEFIP above, for Wisconsin). 
 If your console supports colorful output, then the labels will be in 
-a lighter grey than the values. You can turn off this printing behavior by 
+a lighter gray than the values. You can turn off this printing behavior by 
 setting the option `options("ipumsr.show_pillar_labels" = FALSE)`)
 
 However, as you can see, there often isn't enough space to see the labels 

@@ -395,7 +395,7 @@ useful while writing this document:
 - *Big Data in R* - Part of Stephen Mooney's EPIC: Epidemiologic Analysis Using R, June 2015 class [link](http://www.columbia.edu/~sjm2186/EPIC_R/EPIC_R_BigData.pdf)
 - *Statistical Analysis with Open-Source R and RStudio on Amazon EMR* - Markus Schmidberger on
   the AWS Big Data Blog [link](https://aws.amazon.com/blogs/big-data/statistical-analysis-with-open-source-r-and-rstudio-on-amazon-emr/)
-- *Hosting RStudio Server on Azure* - Colin Gillespie's blog post on using Rstudion on Azure
+- *Hosting RStudio Server on Azure* - Colin Gillespie's blog post on using Rstudio on Azure
 [link](https://blog.jumpingrivers.com/posts/2017/rstudio_azure_cloud_1/)
 - *Improving DBI: A Retrospect* - Kirill Müller's report on the R Consortium 
   grant to improve database support in R 

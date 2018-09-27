@@ -25,7 +25,7 @@ or add value/variable labels to the data.
  }
  \item{IpumsDataFrameCallback}{
  Callback function that combines each result together into a data.frame at the end.
-   Initalize the same was as IpumsSideEffectCallback, and the results from the
+   Initialize the same was as IpumsSideEffectCallback, and the results from the
    function will be fed into a data.frame.
  }
  \item{IpumsListCallback}{
