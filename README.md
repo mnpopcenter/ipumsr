@@ -9,7 +9,7 @@ Status:Active](http://www.repostatus.org/badges/latest/active.svg)](http://www.r
 [![Travis-CI Build
 Status](https://travis-ci.org/mnpopcenter/ipumsr.svg?branch=master)](https://travis-ci.org/mnpopcenter/ipumsr)
 [![AppVeyor Build
-Status](https://ci.appveyor.com/api/projects/status/github/mnpopcenter/ipumsr?branch=master&svg=true)](https://ci.appveyor.com/project/mnpopcenter/ipumsr)
+Status](https://ci.appveyor.com/api/projects/status/github/mpcit/ipumsr?branch=master&svg=true)](https://ci.appveyor.com/project/mpcit/ipumsr)
 [![Coverage
 Status](https://codecov.io/gh/mnpopcenter/ipumsr/master.svg)](https://codecov.io/github/mnpopcenter/ipumsr?branch=master)
 
