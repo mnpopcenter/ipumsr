@@ -138,7 +138,7 @@ set_ipums_var_attributes <- function(
     l_type = purrr::map(var_info$val_labels, ~typeof(.$val)),
     l_is_num = purrr::map_lgl(
       var_info$val_labels,
-      ~ifelse(nrow(.) == 0, NA, is.numeric(.$val))
+      function(x) {if (is.null(x) || nrow(x) == 0) NA else is.numeric(x$val)}
     )
   )
   class_labels <- dplyr::filter(class_labels, !is.na(.data$l_is_num))

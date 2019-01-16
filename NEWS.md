@@ -1,4 +1,5 @@
 # ipumsr 0.3.0.9000
+* Fixed a bug when trying to set variable attributes but not value labels (#34).
 
 # ipumsr 0.3.0
 * Lots of improvements for users who wish to use "big data" sized IPUMS extracts. See 
