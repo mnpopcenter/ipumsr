@@ -49,23 +49,23 @@ IpumsChunkCallback <- R6::R6Class(
   "IpumsChunkCallback", inherit = hipread::HipChunkCallback,
   private = list(
     data_structure = NULL,
-    all_vars = NULL,
+    ddi = NULL,
     var_attrs = NULL,
-    rec_vinfo = NULL,
+    rt_ddi = NULL,
     ipumsify = function(data) {
       if (is.null(private$data_structure)) return(data)
       ipumsify_data(
-        data, private$data_structure, private$all_vars,
-        private$var_attrs, private$rec_vinfo
+        data, private$data_structure, private$ddi,
+        private$var_attrs, private$rt_ddi
       )
     }
   ),
   public = list(
-    set_ipums_fields = function(data_structure, all_vars, var_attrs, rec_vinfo = NULL) {
+    set_ipums_fields = function(data_structure, ddi, var_attrs, rt_ddi = NULL) {
       private$data_structure <- data_structure
-      private$all_vars <- all_vars
+      private$ddi <- ddi
       private$var_attrs <- var_attrs
-      private$rec_vinfo <- rec_vinfo
+      private$rt_ddi <- rt_ddi
     }
   )
 )

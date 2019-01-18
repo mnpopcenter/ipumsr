@@ -158,7 +158,9 @@ read_ipums_micro_list <- function(
   vars <- enquo(vars)
   if (!is.null(var_attrs)) var_attrs <- match.arg(var_attrs, several.ok = TRUE)
 
-  full_ddi <- ddi # useful in case we filter out rec type and need it later
+  # rectype can be removed from ddi, so keep it for use later
+  rt_ddi <- ddi
+  rt_ddi$var_info <- dplyr::filter(rt_ddi$var_info, .data$var_name == rt_ddi$rectype_idvar)
   ddi <- ddi_filter_vars(ddi, vars, "list", verbose)
 
   if (ipums_file_ext(data_file) %in% c(".csv", ".csv.gz")) {
@@ -175,7 +177,7 @@ read_ipums_micro_list <- function(
     if (verbose) cat("Assuming data rectangularized to 'P' record type")
     out <- list("P" = out)
   } else {
-    rt_info <- ddi_to_rtinfo(full_ddi) # full_ddi in case rectype is filtered out
+    rt_info <- ddi_to_rtinfo(rt_ddi)
     col_spec <- ddi_to_colspec(ddi, "list", verbose)
     out <- hipread::hipread_list(
       data_file,
@@ -185,7 +187,7 @@ read_ipums_micro_list <- function(
       n_max = n_max,
       encoding = ddi$file_encoding
     )
-    names(out) <- rectype_label_names(names(out), full_ddi) # full_ddi
+    names(out) <- rectype_label_names(names(out), rt_ddi)
   }
 
   for (rt in names(out)) {
