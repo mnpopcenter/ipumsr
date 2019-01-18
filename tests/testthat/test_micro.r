@@ -12,6 +12,8 @@ vars_rect <- 8
 YEAR_label <- "Survey year"
 YEAR_var_desc <- "YEAR reports the year in which the survey was conducted.  YEARP is repeated on person records."
 STATEFIP_val_labels <- c(Alabama = 1, Alaska = 2)
+YEAR_first5_values <- rep(1962, 5)
+HWTSUPP_first5_values <- c(1475.59, 1475.59, 1475.59, 1597.61, 1706.65) #imp_dec
 
 test_that(
   "Can read Rectangular .dat.gz", {
@@ -26,6 +28,8 @@ test_that(
     expect_equal(attr(cps[["YEAR"]], "label"), YEAR_label)
     expect_equal(attr(cps[["YEAR"]], "var_desc"), YEAR_var_desc)
     expect_equal(attr(cps[["STATEFIP"]], "labels")[1:2], STATEFIP_val_labels)
+    expect_equal(cps$YEAR[1:5], YEAR_first5_values)
+    expect_equal(cps$HWTSUPP[1:5], HWTSUPP_first5_values)
   })
 
 test_that(
@@ -47,6 +51,8 @@ test_that(
     expect_equal(attr(cps[["YEAR"]], "label"), YEAR_label)
     expect_equal(attr(cps[["YEAR"]], "var_desc"), YEAR_var_desc)
     expect_equal(attr(cps[["STATEFIP"]], "labels")[1:2], STATEFIP_val_labels)
+    expect_equal(cps$YEAR[1:5], YEAR_first5_values)
+    expect_equal(cps$HWTSUPP[1:5], HWTSUPP_first5_values)
   })
 
 test_that(
@@ -62,6 +68,8 @@ test_that(
     expect_equal(attr(cps[["YEAR"]], "label"), YEAR_label)
     expect_equal(attr(cps[["YEAR"]], "var_desc"), YEAR_var_desc)
     expect_equal(attr(cps[["STATEFIP"]], "labels")[1:2], STATEFIP_val_labels)
+    expect_equal(cps$YEAR[1:5], YEAR_first5_values)
+    expect_equal(cps$HWTSUPP[1:5], HWTSUPP_first5_values)
   })
 
 test_that(
@@ -76,6 +84,8 @@ test_that(
     expect_equal(attr(cps[["YEAR"]], "label"), YEAR_label)
     expect_equal(attr(cps[["YEAR"]], "var_desc"), YEAR_var_desc)
     expect_equal(attr(cps[["STATEFIP"]], "labels")[1:2], STATEFIP_val_labels)
+    expect_equal(cps$YEAR[1], YEAR_first5_values[1])
+    expect_equal(cps$HWTSUPP[1], HWTSUPP_first5_values[1])
   })
 
 test_that(
@@ -94,6 +104,8 @@ test_that(
     expect_equal(attr(cps$HOUSEHOLD[["YEAR"]], "var_desc"), YEAR_var_desc)
     expect_equal(attr(cps$PERSON[["YEAR"]], "var_desc"), YEAR_var_desc)
     expect_equal(attr(cps$HOUSEHOLD[["STATEFIP"]], "labels")[1:2], STATEFIP_val_labels)
+    expect_equal(cps$HOUSEHOLD$YEAR[1], YEAR_first5_values[1])
+    expect_equal(cps$HOUSEHOLD$HWTSUPP[1], HWTSUPP_first5_values[1])
   })
 
 

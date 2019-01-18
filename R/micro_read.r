@@ -105,13 +105,33 @@ read_ipums_micro <- function(
   vars <- enquo(vars)
   if (!is.null(var_attrs)) var_attrs <- match.arg(var_attrs, several.ok = TRUE)
 
-  if (ddi$file_type == "hierarchical") {
-    out <- read_ipums_hier(ddi, vars, n_max, "long", data_file, verbose, rectype_convert, var_attrs)
-  } else if (ddi$file_type == "rectangular") {
-    out <- read_ipums_rect(ddi, vars, n_max, data_file, verbose, var_attrs)
+  ddi <- ddi_filter_vars(ddi, vars, "long", verbose)
+
+  if (ipums_file_ext(data_file) %in% c(".csv", ".csv.gz")) {
+    if (ddi$file_type == "hierarchical") stop("Hierarchical data cannot be read as csv.")
+    col_types <- ddi_to_readr_colspec(ddi)
+    out <- read_check_for_negative_bug(
+      readr::read_csv,
+      data_file,
+      col_types = col_types,
+      n_max = n_max,
+      locale = ipums_locale(ddi$file_encoding),
+      progress = show_readr_progress(verbose)
+    )
   } else {
-    stop(paste0("Don't know how to read ", ddi$file_type, " type file."), call. = FALSE)
+    rt_info <- ddi_to_rtinfo(ddi)
+    col_spec <- ddi_to_colspec(ddi, "long", verbose)
+    out <- hipread::hipread_long(
+      data_file,
+      col_spec,
+      rt_info,
+      progress = show_readr_progress(verbose),
+      n_max = n_max,
+      encoding = ddi$file_encoding
+    )
   }
+
+  out <- set_ipums_var_attributes(out, ddi, var_attrs)
 
   out
 }
@@ -138,144 +158,12 @@ read_ipums_micro_list <- function(
   vars <- enquo(vars)
   if (!is.null(var_attrs)) var_attrs <- match.arg(var_attrs, several.ok = TRUE)
 
-  if (ddi$file_type == "hierarchical") {
-    out <- read_ipums_hier(ddi, vars, n_max, "list", data_file, verbose, rectype_convert, var_attrs)
-  } else if (ddi$file_type == "rectangular") {
-    out <- read_ipums_rect(ddi, vars, n_max, data_file, verbose, var_attrs)
-    warning("Assuming data rectangularized to 'P' record type")
-    out <- list(P = out)
-  } else {
-    stop(paste0("Don't know how to read ", ddi$file_type, " type file."), call. = FALSE)
-  }
+  full_ddi <- ddi # useful in case we filter out rec type and need it later
+  ddi <- ddi_filter_vars(ddi, vars, "list", verbose)
 
-  out
-}
-
-
-read_ipums_hier <- function(
-  ddi, vars, n_max, data_structure, data_file, verbose, rectype_convert, var_attrs
-) {
   if (ipums_file_ext(data_file) %in% c(".csv", ".csv.gz")) {
-    stop("Hierarchical data cannot be read as csv.")
-  }
-  all_vars <- ddi$var_info
-
-  rec_vinfo <- dplyr::filter(all_vars, .data$var_name == ddi$rectype_idvar)
-  if (nrow(rec_vinfo) > 1) stop("Cannot support multiple rectype id variables.", call. = FALSE)
-  hip_rec_vinfo <- hipread::hip_rt(rec_vinfo$start, rec_vinfo$end - rec_vinfo$start + 1)
-
-  all_vars <- select_var_rows(all_vars, vars)
-  if (!rec_vinfo$var_name %in% all_vars$var_name && data_structure == "long") {
-    if (verbose) {
-      cat(paste0("Adding rectype id var '", rec_vinfo$var_name, "' to data.\n\n"))
-    }
-    all_vars <- dplyr::bind_rows(rec_vinfo, all_vars)
-  }
-
-  if (data_structure == "list") {
-    key_vars <- purrr::flatten_chr(ddi$rectypes_keyvars$keyvars)
-    missing_kv <- dplyr::setdiff(key_vars, all_vars$var_name)
-    if (length(missing_kv) > 0) {
-      kv_rows <- select_var_rows(ddi$var_info, rlang::as_quosure(missing_kv))
-
-      if (verbose) {
-        cat(paste0(
-          "Adding cross rectype linking vars ('",
-          paste(missing_kv, collapse = "', '"),
-          "') to data.\n\n"
-        ))
-      }
-      all_vars <- dplyr::bind_rows(kv_rows, all_vars)
-    }
-  }
-
-  col_info <- tidyr::unnest_(all_vars, "rectypes", .drop = FALSE)
-  rts <- unique(col_info$rectypes)
-  col_info <- purrr::map(rts, function(rt) {
-    rt_cinfo <- col_info[col_info$rectypes == rt, ]
-    hipread::hip_fwf_positions(
-      rt_cinfo$start,
-      rt_cinfo$end,
-      rt_cinfo$var_name,
-      hipread_type_name_convert(rt_cinfo$var_type)
-    )
-  })
-  names(col_info) <- rts
-
-  if (data_structure == "long") {
-    out <- hipread::hipread_long(
-      data_file,
-      col_info,
-      hip_rec_vinfo,
-      progress = show_readr_progress(verbose),
-      n_max = n_max,
-      encoding = ddi$file_encoding
-    )
-
-    out <- set_ipums_var_attributes(out, all_vars, var_attrs)
-    out <- set_imp_decim(out, all_vars)
-  } else if (data_structure == "list") {
-    out <- hipread::hipread_list(
-      data_file,
-      col_info,
-      hip_rec_vinfo,
-      progress = show_readr_progress(verbose),
-      n_max = n_max,
-      encoding = ddi$file_encoding
-    )
-    for (rt in names(out)) {
-      rt_vinfo <- all_vars[purrr::map_lgl(all_vars$rectypes, ~rt %in% .), ]
-      out[[rt]] <- set_ipums_var_attributes(out[[rt]], rt_vinfo, var_attrs)
-      out[[rt]] <- set_imp_decim(out[[rt]], rt_vinfo)
-    }
-    # If value labels for rectype are available use them to name data.frames
-    rt_lbls <- rec_vinfo$val_labels[[1]]
-    matched_lbls <- match(names(out), rt_lbls$val)
-    if (all(!is.na(matched_lbls))) {
-      # Can use the value labels
-      rt_lbls <- rt_lbls$lbl[matched_lbls]
-      # Clean it up a bit though: all upper case
-      rt_lbls <- toupper(rt_lbls)
-      # drop trailing 'record'
-      rt_lbls <- stringr::str_replace_all(rt_lbls, " RECORD$", "")
-      # and replace blank space with _
-      rt_lbls <- stringr::str_replace_all(rt_lbls, "[:blank:]", "_")
-      names(out) <- rt_lbls
-    }
-  }
-  out
-}
-
-read_ipums_rect <- function(ddi, vars, n_max, data_file, verbose, var_attrs) {
-  all_vars <- select_var_rows(ddi$var_info, vars)
-
-  col_types <- purrr::map(all_vars$var_type, function(x) {
-    if (x == "numeric") out <- readr::col_double()
-    else if(x == "character") out <- readr::col_character()
-    else if (x == "integer") out <- readr::col_integer()
-    out
-  })
-  names(col_types) <- all_vars$var_name
-  col_types <- do.call(readr::cols_only, col_types)
-
-  col_positions <- readr::fwf_positions(
-    start = all_vars$start,
-    end = all_vars$end,
-    col_names = all_vars$var_name
-  )
-
-  is_fwf <- ipums_file_ext(data_file) %in% c(".dat", ".dat.gz")
-  is_csv <- ipums_file_ext(data_file) %in% c(".csv", ".csv.gz")
-
-  if (is_fwf) {
-    out <- hipread::hipread_long(
-      data_file,
-      readr_to_hipread_specs(col_positions, col_types),
-      n_max = n_max,
-      encoding = ddi$file_encoding,
-      progress = show_readr_progress(verbose)
-    )
-  } else if (is_csv) {
+    if (ddi$file_type == "hierarchical") stop("Hierarchical data cannot be read as csv.")
+    col_types <- ddi_to_readr_colspec(ddi)
     out <- read_check_for_negative_bug(
       readr::read_csv,
       data_file,
@@ -284,11 +172,25 @@ read_ipums_rect <- function(ddi, vars, n_max, data_file, verbose, var_attrs) {
       locale = ipums_locale(ddi$file_encoding),
       progress = show_readr_progress(verbose)
     )
+    if (verbose) cat("Assuming data rectangularized to 'P' record type")
+    out <- list("P" = out)
   } else {
-    stop("Unrecognized file type.")
+    rt_info <- ddi_to_rtinfo(full_ddi) # full_ddi in case rectype is filtered out
+    col_spec <- ddi_to_colspec(ddi, "list", verbose)
+    out <- hipread::hipread_list(
+      data_file,
+      col_spec,
+      rt_info,
+      progress = show_readr_progress(verbose),
+      n_max = n_max,
+      encoding = ddi$file_encoding
+    )
+    names(out) <- rectype_label_names(names(out), full_ddi) # full_ddi
   }
-  out <- set_ipums_var_attributes(out, all_vars, var_attrs)
-  out <- set_imp_decim(out, all_vars)
+
+  for (rt in names(out)) {
+    out[[rt]] <- set_ipums_var_attributes(out[[rt]], ddi, var_attrs)
+  }
 
   out
 }

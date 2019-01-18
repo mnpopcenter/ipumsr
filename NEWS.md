@@ -1,6 +1,8 @@
 # ipumsr 0.3.0.9000
 * Fixed a bug when trying to set variable attributes but not value labels (#34).
 
+* Fixed a bug where implicit decimals would be double counted for csv files.
+
 # ipumsr 0.3.0
 * Lots of improvements for users who wish to use "big data" sized IPUMS extracts. See 
   the vignette using command `vignette("ipums-bigdata", package = "ipusmr")` for
