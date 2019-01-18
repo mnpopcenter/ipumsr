@@ -159,8 +159,7 @@ read_ipums_micro_list <- function(
   if (!is.null(var_attrs)) var_attrs <- match.arg(var_attrs, several.ok = TRUE)
 
   # rectype can be removed from ddi, so keep it for use later
-  rt_ddi <- ddi
-  rt_ddi$var_info <- dplyr::filter(rt_ddi$var_info, .data$var_name == rt_ddi$rectype_idvar)
+  rt_ddi <- get_rt_ddi(ddi)
   ddi <- ddi_filter_vars(ddi, vars, "list", verbose)
 
   if (ipums_file_ext(data_file) %in% c(".csv", ".csv.gz")) {

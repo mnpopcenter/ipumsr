@@ -107,6 +107,7 @@ are the text from the record type labels without 'Record'
 }
 \seealso{
 Other ipums_read: \code{\link{read_ipums_micro_chunked}},
+  \code{\link{read_ipums_micro_yield}},
   \code{\link{read_ipums_sf}}, \code{\link{read_nhgis}},
   \code{\link{read_terra_area}},
   \code{\link{read_terra_micro}},

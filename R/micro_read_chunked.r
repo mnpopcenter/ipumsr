@@ -168,12 +168,10 @@ read_ipums_micro_list_chunked <- function(
   if (is.function(callback)) callback <- IpumsSideEffectCallback$new(callback)
 
   # rectype can be removed from ddi, so keep it for use later
-  rt_ddi <- ddi
-  rt_ddi$var_info <- dplyr::filter(rt_ddi$var_info, .data$var_name == rt_ddi$rectype_idvar)
+  rt_ddi <- get_rt_ddi(ddi)
   ddi <- ddi_filter_vars(ddi, vars, "list", verbose)
 
   if (!is.null(callback$set_ipums_fields)) {
-    rec_vinfo <- dplyr::filter(rt_ddi$var_info, .data$var_name == ddi$rectype_idvar)
     callback$set_ipums_fields("list", ddi, var_attrs, rt_ddi)
   }
 

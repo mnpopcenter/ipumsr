@@ -36,8 +36,16 @@ ddi_filter_vars <- function(ddi, vars, out_type, verbose) {
   ddi
 }
 
+get_rt_ddi <- function(ddi) {
+  out <- ddi
+  if (is.null(out$rectype_idvar)) return(NULL)
+
+  out$var_info <- dplyr::filter(out$var_info, .data$var_name == out$rectype_idvar)
+  out
+}
+
 ddi_to_rtinfo <- function(ddi) {
-  if (ddi$file_type == "rectangular") {
+  if (is.null(ddi) || ddi$file_type == "rectangular") {
     out <- hipread::hip_rt(1, 0)
   } else if (ddi$file_type == "hierarchical") {
     rec_vinfo <- dplyr::filter(ddi$var_info, .data$var_name == ddi$rectype_idvar)
