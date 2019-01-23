@@ -46,8 +46,6 @@ IPUMS data is downloaded from our website at <https://www.ipums.org>.
 The website provides an interactive extract system that allows you to select
 only the sample and variables that are relevant to your research question.
 
-Currently we do not support the TerraPop, but we hope to add support soon!
-
 **For microdata projects (all supported projects except NHGIS and IPUMS Terra)**, once you 
 have created your extract, you should choose to download data as either 
 fixed-width-files or comma separated ones. 
