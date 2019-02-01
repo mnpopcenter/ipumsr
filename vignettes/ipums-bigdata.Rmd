@@ -21,7 +21,7 @@ good, and you end up with an overflowing cart[^1]. When you do this with IPUMS
 data, unfortunately, sometimes your extract may get so large that it doesn't fit
 in your computer's memory. 
 
-If this you've got an extract that's too big, both the IPUMS website
+If you've got an extract that's too big, both the IPUMS website
 and the ipumsr package have tools to help. There are four basic strategies:
 
 1. Get more memory.
