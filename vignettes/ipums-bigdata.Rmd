@@ -26,7 +26,7 @@ and the ipumsr package have tools to help. There are four basic strategies:
 
 1. Get more memory.
 2. Reduce the size of your dataset.
-3. Use "chunked" reading.
+3. Use "chunked"/"yield" reading.
 4. Use a database.
 
 The IPUMS website has features to help with option 2, and the ipumsr package can 
@@ -114,7 +114,7 @@ you can access this feature by clicking the "revise" link on the "Download or
 Revise Extracts" page.
 
 
-# Option 3: Work one chunk at a time
+# Option 3A: Work one chunk at a time
 ipumsr has "chunked" versions of the microdata reading functions
  (`read_ipums_micro_chunked()` and `read_ipums_micro_list_chunked()`). 
 These chunked versions of the functions allow you to specify a function that
@@ -297,6 +297,130 @@ chunked_subset <- read_ipums_micro_chunked(
     filter(x, HEALTH == 5)
   }), 
   chunk_size = 1000
+)
+```
+
+
+# Option 3B: Work one 'yield' at  atime
+ipumsr now has a second form of chunked reading called 'yields' which 
+accomplish a similar goal as chunks, but are more flexible. They
+grant you more freedom in what R code you run between reading chunks, 
+including the ability to have multiple files open at once. Additionally,
+yields are compatible with the bigglm function which allows you to run 
+glm models on data larger than memory (as oposed to plain old lm's that 
+you can run with chunks). The downside to this greater control is that 
+yields have an API that is unique to IPUMS data and the way they work
+is unusual for R code.
+
+## Chunked tabulation example 
+To see how the yield functions work as compared to the chunked functions,
+here's the same chunked tabulation example that was shown earlier in
+this document, but using yields rather than chunks. We want to calculate 
+the percent of people in the workforce by their self-reported health status. 
+
+First we create the yield object with the function 
+`read_ipums_micro_yield()` -- the arguments are similar to 
+`read_ipums_micro()`.
+
+```{r}
+data <- read_ipums_micro_yield(
+  cps_ddi_file, 
+  data_file = cps_data_file, 
+  verbose = FALSE
+)
+```
+
+This function returns an R6 object (like the callbacks for the chunked data) which
+contains methods for reading the data. The most important method is the `yield(n)` 
+function which will return n rows of the data.frame. In this example, we'll also use
+`is_done()`, which tells us whether we've finished reading the data yet.
+
+```{r}
+yield_results <- tibble(
+  HEALTH = factor(levels = c("Excellent", "Very good", "Good", "Fair", "Poor")), 
+  AT_WORK = factor(levels = c("No", "Yes")),
+  n = integer(0)
+)
+while (!data$is_done()) {
+  new <- data$yield(n = 1000) %>% 
+    mutate(
+      HEALTH = as_factor(HEALTH),
+      AT_WORK = EMPSTAT %>% 
+        lbl_relabel(
+          lbl(1, "Yes") ~ .lbl == "At work", 
+          lbl(0, "No") ~ .lbl != "At work"
+        ) %>% 
+        as_factor()
+    ) %>%
+    group_by(HEALTH, AT_WORK) %>%
+    summarize(n = n())
+  
+  yield_results <- bind_rows(yield_results, new) %>%
+    group_by(HEALTH, AT_WORK) %>%
+    summarize(n = sum(n))
+}
+
+yield_results
+```
+
+
+## GLM yield regression example
+One of the major benefits of the yield-style reading over chunks is that
+it is compatible with the GLM functions from biglm, allowing more complicated
+models than just linear models. Logistic models are one such model that
+requires GLM methods. The same caution as the chunked example applies -
+this is meant as a simple example model, please interpret with caution.
+
+To run a logistic model we start by loading the data in the same way as 
+the frequency example above:
+
+```{r}
+data <- read_ipums_micro_yield(
+  cps_ddi_file, 
+  data_file = cps_data_file, 
+  verbose = FALSE
+)
+```
+
+Next we make a function that takes a single argument `reset`. When it is
+`FALSE`, it returns the next chunk of data (and formats it for our model). 
+When reset is `TRUE`, it resets the data to the beginning. To create this 
+function, we use the the `reset()` method from the yield object.
+
+```{r}
+get_model_data <- function(reset) {
+  if (reset) {
+    data$reset()
+  } else {
+    yield <- data$yield(n = 1000) # Set n pretty low for example
+    if (is.null(yield)) return(yield)
+    out <- yield %>%
+      mutate(
+        HEALTH = as_factor(HEALTH),
+        WORK30PLUS = lbl_na_if(AHRSWORKT, ~.lbl == "NIU (Not in universe)") %>%
+          {. >= 30},
+        AT_WORK = EMPSTAT %>% 
+          lbl_relabel(
+            lbl(1, "Yes") ~ .lbl == "At work", 
+            lbl(0, "No") ~ .lbl != "At work"
+          ) %>% 
+          as_factor()
+      ) %>%
+      filter(AT_WORK == "Yes")
+    return(out)
+  }
+}
+```
+
+Finally we feed this function and a model specification to the `bigglm()`
+function:
+
+```{r}
+library(biglm)
+bigglm(
+  WORK30PLUS ~ AGE + I(AGE^2) + HEALTH,
+  family = binomial(link = "logit"),
+  data = get_model_data
 )
 ```
 
