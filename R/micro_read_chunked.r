@@ -90,7 +90,6 @@ read_ipums_micro_chunked <- function(
   vars = NULL,
   data_file = NULL,
   verbose = TRUE,
-  rectype_convert = NULL,
   var_attrs = c("val_labels", "var_label", "var_desc")
 ) {
   if (is.character(ddi)) ddi <- read_ipums_ddi(ddi)
@@ -152,7 +151,6 @@ read_ipums_micro_list_chunked <- function(
   vars = NULL,
   data_file = NULL,
   verbose = TRUE,
-  rectype_convert = NULL,
   var_attrs = c("val_labels", "var_label", "var_desc")
 ) {
   if (is.character(ddi)) ddi <- read_ipums_ddi(ddi)

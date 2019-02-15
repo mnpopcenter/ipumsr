@@ -10,12 +10,12 @@
 \format{An object of class \code{R6ClassGenerator} of length 24.}
 \usage{
 read_ipums_micro_yield(ddi, vars = NULL, data_file = NULL,
-  verbose = TRUE, rectype_convert = NULL, var_attrs = c("val_labels",
-  "var_label", "var_desc"), lower_vars = FALSE)
+  verbose = TRUE, var_attrs = c("val_labels", "var_label", "var_desc"),
+  lower_vars = FALSE)
 
 read_ipums_micro_list_yield(ddi, vars = NULL, data_file = NULL,
-  verbose = TRUE, rectype_convert = NULL, var_attrs = c("val_labels",
-  "var_label", "var_desc"), lower_vars = FALSE)
+  verbose = TRUE, var_attrs = c("val_labels", "var_label", "var_desc"),
+  lower_vars = FALSE)
 
 IpumsLongYield
 
@@ -34,10 +34,6 @@ If left empty, it will look in the same directory as the DDI file.}
 
 \item{verbose}{Logical, indicating whether to print progress information
 to console.}
-
-\item{rectype_convert}{(Usually determined by project) A named vector
-indicating a conversion from the rectype in data to DDI. Not usually
-needed to be specified by the user.}
 
 \item{var_attrs}{Variable attributes to add from the DDI, defaults to
 adding all (val_labels, var_label and var_desc). See

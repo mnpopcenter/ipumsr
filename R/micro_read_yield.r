@@ -60,7 +60,6 @@ read_ipums_micro_yield <- function(
   vars = NULL,
   data_file = NULL,
   verbose = TRUE,
-  rectype_convert = NULL,
   var_attrs = c("val_labels", "var_label", "var_desc"),
   lower_vars = FALSE
 ) {
@@ -72,7 +71,6 @@ read_ipums_micro_yield <- function(
     vars = !!vars,
     data_file = data_file,
     verbose = verbose,
-    rectype_convert = rectype_convert,
     var_attrs = var_attrs,
     lower_vars = lower_vars
   )
@@ -85,7 +83,6 @@ read_ipums_micro_list_yield <- function(
   vars = NULL,
   data_file = NULL,
   verbose = TRUE,
-  rectype_convert = NULL,
   var_attrs = c("val_labels", "var_label", "var_desc"),
   lower_vars = FALSE
 ) {
@@ -97,7 +94,6 @@ read_ipums_micro_list_yield <- function(
     vars = !!vars,
     data_file = data_file,
     verbose = verbose,
-    rectype_convert = rectype_convert,
     var_attrs = var_attrs,
     lower_vars = lower_vars
   )
@@ -116,7 +112,6 @@ IpumsLongYield <- R6::R6Class(
       vars = NULL,
       data_file = NULL,
       verbose = TRUE,
-      rectype_convert = NULL,
       var_attrs = c("val_labels", "var_label", "var_desc"),
       lower_vars = FALSE
     ) {
@@ -166,7 +161,6 @@ IpumsListYield <- R6::R6Class(
       vars = NULL,
       data_file = NULL,
       verbose = TRUE,
-      rectype_convert = NULL,
       var_attrs = c("val_labels", "var_label", "var_desc"),
       lower_vars = FALSE
     ) {

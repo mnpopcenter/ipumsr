@@ -3,6 +3,8 @@
 
 * Fixed a bug where implicit decimals would be double counted for csv files.
 
+* Argument `rectype_convert` has been removed because it no longer did anything.
+
 # ipumsr 0.3.0
 * Lots of improvements for users who wish to use "big data" sized IPUMS extracts. See 
   the vignette using command `vignette("ipums-bigdata", package = "ipusmr")` for

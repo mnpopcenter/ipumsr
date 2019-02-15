@@ -44,9 +44,6 @@
 #'   If left empty, it will look in the same directory as the DDI file.
 #' @param verbose Logical, indicating whether to print progress information
 #'   to console.
-#' @param rectype_convert (Usually determined by project) A named vector
-#'   indicating a conversion from the rectype in data to DDI. Not usually
-#'   needed to be specified by the user.
 #' @param var_attrs Variable attributes to add from the DDI, defaults to
 #'   adding all (val_labels, var_label and var_desc). See
 #'   \code{\link{set_ipums_var_attributes}} for more details.
@@ -91,7 +88,6 @@ read_ipums_micro <- function(
   n_max = Inf,
   data_file = NULL,
   verbose = TRUE,
-  rectype_convert = NULL,
   var_attrs = c("val_labels", "var_label", "var_desc"),
   lower_vars = FALSE
 ) {
@@ -143,7 +139,6 @@ read_ipums_micro_list <- function(
   n_max = Inf,
   data_file = NULL,
   verbose = TRUE,
-  rectype_convert = NULL,
   var_attrs = c("val_labels", "var_label", "var_desc"),
   lower_vars = FALSE
 ) {

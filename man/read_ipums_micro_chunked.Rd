@@ -7,13 +7,11 @@
 \usage{
 read_ipums_micro_chunked(ddi, callback, chunk_size = 10000,
   vars = NULL, data_file = NULL, verbose = TRUE,
-  rectype_convert = NULL, var_attrs = c("val_labels", "var_label",
-  "var_desc"))
+  var_attrs = c("val_labels", "var_label", "var_desc"))
 
 read_ipums_micro_list_chunked(ddi, callback, chunk_size = 10000,
   vars = NULL, data_file = NULL, verbose = TRUE,
-  rectype_convert = NULL, var_attrs = c("val_labels", "var_label",
-  "var_desc"))
+  var_attrs = c("val_labels", "var_label", "var_desc"))
 }
 \arguments{
 \item{ddi}{Either a filepath to a DDI xml file downloaded from
@@ -35,10 +33,6 @@ If left empty, it will look in the same directory as the DDI file.}
 
 \item{verbose}{Logical, indicating whether to print progress information
 to console.}
-
-\item{rectype_convert}{(Usually determined by project) A named vector
-indicating a conversion from the rectype in data to DDI. Not usually
-needed to be specified by the user.}
 
 \item{var_attrs}{Variable attributes to add from the DDI, defaults to
 adding all (val_labels, var_label and var_desc). See
