@@ -7,7 +7,7 @@ test_that(
     # is a little weird.
 
     vars <- c("RECTYPE", "SEX", "REPWT1", "REPWT2")
-    test_df <- dplyr::data_frame(
+    test_df <- tibble::tibble(
       var_name = vars,
       x = seq_along(vars)
     )

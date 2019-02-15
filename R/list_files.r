@@ -51,7 +51,7 @@ ipums_list_files <- function(file, types = NULL, data_layer = NULL,
 #' @export
 ipums_list_data <- function(file, data_layer = NULL) {
   data_layer <- enquo(data_layer)
-  tibble::data_frame(
+  tibble::tibble(
     file = find_files_in(file, "(dat|csv)(\\.gz)?", data_layer, multiple_ok = TRUE)
   )
 }
@@ -60,7 +60,7 @@ ipums_list_data <- function(file, data_layer = NULL) {
 #' @export
 ipums_list_shape <- function(file, shape_layer = NULL) {
   shape_layer <- enquo(shape_layer)
-  tibble::data_frame(
+  tibble::tibble(
     file = find_files_in(file, "(zip|shp)", shape_layer, multiple_ok = TRUE)
   )
 }
@@ -69,7 +69,7 @@ ipums_list_shape <- function(file, shape_layer = NULL) {
 #' @export
 ipums_list_raster <- function(file, raster_layer = NULL) {
   raster_layer <- enquo(raster_layer)
-  tibble::data_frame(
+  tibble::tibble(
     file = find_files_in(file, "tiff", raster_layer, multiple_ok = TRUE)
   )
 }

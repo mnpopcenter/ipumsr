@@ -105,7 +105,7 @@ read_ipums_ddi <- function(ddi_file, data_layer = NULL, lower_vars = FALSE) {
     )
     rectypes_keyvars <- stringr::str_split(rectypes_keyvars, "[:blank:]+")
     rectypes_keyvars <- purrr::map(rectypes_keyvars, ~.[!is.na(.)])
-    rectypes_keyvars <- dplyr::data_frame(
+    rectypes_keyvars <- tibble::tibble(
       rectype = rectypes,
       keyvars = rectypes_keyvars
     )
@@ -116,7 +116,7 @@ read_ipums_ddi <- function(ddi_file, data_layer = NULL, lower_vars = FALSE) {
       ddi_xml,
       "/d1:codeBook/d1:fileDscr/d1:fileTxt/d1:fileStrc/d1:recGrp/d1:labl"
     )
-    rectype_labels <- dplyr::data_frame(
+    rectype_labels <- tibble::tibble(
       val = rectypes,
       lbl = rt_lbls
     )
@@ -220,7 +220,7 @@ get_var_info_from_ddi <- function(ddi_xml, file_type, rt_idvar, rectype_labels) 
       lbls <- xml2::xml_find_all(vvv, "d1:catgry")
       if (length(lbls) == 0) return(extra_labels)
 
-      lbls <- dplyr::data_frame(
+      lbls <- tibble::tibble(
         val = xml_text_from_path_all(lbls, "d1:catValu"),
         lbl = xml_text_from_path_all(lbls, "d1:labl")
       )
@@ -366,7 +366,7 @@ read_ipums_codebook <- function(cb_file, data_layer = NULL) {
 
     context_vars <- dd[context_rows]
     context_vars <- stringr::str_match(context_vars, "([[:alnum:]|[:punct:]]+):[:blank:]+(.+)$")
-    context_vars <- tibble::data_frame(
+    context_vars <- tibble::tibble(
       var_name = context_vars[, 2],
       var_label = context_vars[, 3],
       var_desc = ""
@@ -394,7 +394,7 @@ read_ipums_codebook <- function(cb_file, data_layer = NULL) {
         vars <- stringr::str_match(dd[rows[-1:-4]], "([[:alnum:]|[:punct:]]+):[:blank:]+(.+)$")
         vars <- vars[!is.na(vars[, 2]), , drop = FALSE]
       }
-      dplyr::data_frame(
+      tibble::tibble(
         var_name = vars[, 2],
         var_label = vars[, 3],
         var_desc = paste0(table_name, " (", nhgis_table_code, ")")
@@ -483,7 +483,7 @@ make_var_info_from_scratch <- function(
   var_name = "",
   var_label = "",
   var_desc = "",
-  val_labels = list(dplyr::data_frame(val = numeric(0), lbl = character(0))),
+  val_labels = list(tibble::tibble(val = numeric(0), lbl = character(0))),
   code_instr = "",
   start = NA,
   end = NA,
@@ -491,7 +491,7 @@ make_var_info_from_scratch <- function(
   var_type = "",
   rectypes = NA
 ) {
-  dplyr::data_frame(
+  tibble::tibble(
     var_name = var_name,
     var_label = var_label,
     var_desc = var_desc,
@@ -506,7 +506,7 @@ make_var_info_from_scratch <- function(
 }
 
 make_empty_labels <- function() {
-  dplyr::data_frame(val = numeric(0), lbl = character(0))
+  tibble::tibble(val = numeric(0), lbl = character(0))
 }
 
 # Helper to get labels out of free text from codInstr in xml
@@ -526,7 +526,7 @@ parse_code_regex <- function(x, vtype) {
       "^(-?[0-9.,]+)(([:blank:][:punct:]|[:punct:][:blank:]|[:blank:]|=)+)(.+?)$"
     )
 
-    labels <- dplyr::data_frame(val = labels[, 2], lbl = labels[, 5])
+    labels <- tibble::tibble(val = labels[, 2], lbl = labels[, 5])
     labels <- dplyr::filter(labels, !is.na(.data$val))
     labels$val <- as.numeric(stringr::str_replace_all(labels$val, ",", ""))
   } else {
@@ -534,7 +534,7 @@ parse_code_regex <- function(x, vtype) {
       x, "^([:graph:]+)([:blank:]+[[:punct:]|=]+[:blank:]+)(.+)$"
     )
 
-    labels <- dplyr::data_frame(val = labels[, 2], lbl = labels[, 4])
+    labels <- tibble::tibble(val = labels[, 2], lbl = labels[, 4])
     labels <- dplyr::filter(labels, !is.na(.data$val))
   }
   labels

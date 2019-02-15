@@ -94,7 +94,7 @@ lbl_collapse <- function(x, .fun) {
 
   old_attributes <- attributes(x)
 
-  label_info <- dplyr::data_frame(
+  label_info <- tibble::tibble(
     old_val = unname(old_attributes$labels),
     old_label = names(old_attributes$labels),
     new_val = pred_f(.val = .data$old_val, .lbl = .data$old_label),
@@ -244,7 +244,7 @@ lbl_add <- function(x, ...) {
     # Make changes to vector
     out <- .x
 
-    new_labels <- dplyr::data_frame(
+    new_labels <- tibble::tibble(
       label <- c(names(old_labels), lblval$.lbl),
       value = c(unname(old_labels), lblval$.val)
     )
@@ -272,7 +272,7 @@ lbl_add <- function(x, ...) {
 #' @rdname lbl_add
 lbl_add_vals <- function(x, labeller = as.character, vals = NULL) {
   old_labels <- attr(x, "labels")
-  old_labels <- dplyr::data_frame(val = unname(old_labels), lbl = names(old_labels))
+  old_labels <- tibble::tibble(val = unname(old_labels), lbl = names(old_labels))
 
   if (is.null(vals)) {
     vals <- dplyr::setdiff(unique(x), old_labels$val)
@@ -281,7 +281,7 @@ lbl_add_vals <- function(x, labeller = as.character, vals = NULL) {
       stop(paste0("Some values have more than 1 label."))
     }
   }
-  new_labels <- dplyr::data_frame(
+  new_labels <- tibble::tibble(
     val = vals,
     lbl = purrr::map_chr(vals, rlang::as_function(labeller))
   )

@@ -128,12 +128,12 @@ set_ipums_var_attributes <- function(
   # Give error message if type doesn't match between value labels and variable
   # as haven::labelled would
 
-  class_data <- dplyr::data_frame(
+  class_data <- tibble::tibble(
     var_name = names(data),
     d_type = purrr::map(data, typeof),
     d_is_num = purrr::map_lgl(data, is.numeric)
   )
-  class_labels <- dplyr::data_frame(
+  class_labels <- tibble::tibble(
     var_name = var_info$var_name,
     l_type = purrr::map(var_info$val_labels, ~typeof(.$val)),
     l_is_num = purrr::map_lgl(
@@ -251,7 +251,7 @@ show_readr_progress <- function(verbose) {
 }
 
 tbl_print_for_message <- function(x, n = 5) {
-  x <- dplyr::as_data_frame(x)
+  x <- tibble::as_tibble(x)
   out <- utils::capture.output(print(x, n = n))
   out <- paste(out[-1], collapse = "\n")
   out

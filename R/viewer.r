@@ -214,7 +214,7 @@ add_jquery_dependency <- function(page) {
 }
 
 empty_var_info_df <- function() {
-  dplyr::data_frame(
+  tibble::tibble(
     var_name = character(0),
     var_label = character(0),
     var_desc = character(0),

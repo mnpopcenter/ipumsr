@@ -56,18 +56,18 @@ ipums_var_info.default <- function(object, vars = NULL) {
   obj_info <- attributes(object)
 
   if (length(obj_info$labels) > 0) {
-  value_labels <- list(dplyr::data_frame(
+  value_labels <- list(tibble::tibble(
     val = unname(obj_info$labels),
     lbl = names(obj_info$labels)
   ))
   } else {
-    value_labels <- list(dplyr::data_frame(
+    value_labels <- list(tibble::tibble(
       val = numeric(0),
       lbl = character(0)
     ))
   }
 
-  dplyr::data_frame(
+  tibble::tibble(
     var_label = if (is.null(obj_info[["label"]])) NA_character_ else obj_info[["label"]],
     var_desc = if (is.null(obj_info$var_desc)) NA_character_ else obj_info$var_desc,
     val_labels = value_labels

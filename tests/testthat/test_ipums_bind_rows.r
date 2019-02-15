@@ -2,13 +2,13 @@ context("ipums_bind_rows")
 
 test_that(
   "simple bind rows example", {
-    test1 <- dplyr::data_frame(
+    test1 <- tibble::tibble(
       x = haven::labelled(c(1, 2, 3), c("xyz" = 1)),
       y = 2:4
     )
     attr(test1$x, "label") <- "A var label"
 
-    test2 <- dplyr::data_frame(
+    test2 <- tibble::tibble(
       x = haven::labelled(c(1), c("xyz" = 1)),
       z = "a"
     )
@@ -24,13 +24,13 @@ test_that(
 
 test_that(
   "mismatched attributes in bind rows", {
-    test1 <- dplyr::data_frame(
+    test1 <- tibble::tibble(
       x = haven::labelled(c(1, 2, 3), c("xyz" = 1)),
       y = 2:4
     )
     attr(test1$x, "label") <- "A var label"
 
-    test2 <- dplyr::data_frame(
+    test2 <- tibble::tibble(
       x = haven::labelled(c(1), c("xyz" = 1)),
       z = "a"
     )

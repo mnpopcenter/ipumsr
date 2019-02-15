@@ -91,7 +91,7 @@ careful_sf_rbind <- function(sf_list, add_layer_var) {
   } else {
     # Get var info for all columns
     all_var_info <- purrr::map_df(sf_list, .id = "id", function(x) {
-      tibble::data_frame(name = names(x), type = purrr::map(x, ~class(.)))
+      tibble::tibble(name = names(x), type = purrr::map(x, ~class(.)))
     })
 
     all_var_info <- dplyr::group_by(all_var_info, .data$name)
@@ -180,7 +180,7 @@ careful_sp_rbind <- function(sp_list, add_layer_var) {
   } else {
     # Get var info for all columns
     all_var_info <- purrr::map_df(sp_list, .id = "id", function(x) {
-      tibble::data_frame(name = names(x@data), type = purrr::map(x@data, ~class(.)))
+      tibble::tibble(name = names(x@data), type = purrr::map(x@data, ~class(.)))
     })
 
     all_var_info <- dplyr::group_by(all_var_info, .data$name)
