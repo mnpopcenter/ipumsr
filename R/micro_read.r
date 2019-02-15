@@ -110,8 +110,7 @@ read_ipums_micro <- function(
   if (ipums_file_ext(data_file) %in% c(".csv", ".csv.gz")) {
     if (ddi$file_type == "hierarchical") stop("Hierarchical data cannot be read as csv.")
     col_types <- ddi_to_readr_colspec(ddi)
-    out <- read_check_for_negative_bug(
-      readr::read_csv,
+    out <- readr::read_csv(
       data_file,
       col_types = col_types,
       n_max = n_max,
@@ -165,8 +164,7 @@ read_ipums_micro_list <- function(
   if (ipums_file_ext(data_file) %in% c(".csv", ".csv.gz")) {
     if (ddi$file_type == "hierarchical") stop("Hierarchical data cannot be read as csv.")
     col_types <- ddi_to_readr_colspec(ddi)
-    out <- read_check_for_negative_bug(
-      readr::read_csv,
+    out <- readr::read_csv(
       data_file,
       col_types = col_types,
       n_max = n_max,
@@ -194,25 +192,5 @@ read_ipums_micro_list <- function(
   }
 
   out
-}
-
-# Check for https://github.com/tidyverse/readr/issues/663
-read_check_for_negative_bug <- function(readr_f, data_file, ...) {
-  lines <- purrr::safely(readr_f)(data_file, ...)
-  if (!is.null(lines$error)) {
-    error_message <- as.character(lines$error)
-    if (tools::file_ext(data_file) %in% c("gz", "zip") &&
-        stringr::str_detect(error_message, "negative length")) {
-      stop(call. = FALSE, paste0(
-        "Could not read data file, possibly because of a bug in readr when loading ",
-        "large zip files. Try unzipping the .gz file and reading the data again."
-      ))
-    } else {
-      stop(error_message, call. = FALSE)
-    }
-  } else {
-    lines <- lines$result
-  }
-  lines
 }
 

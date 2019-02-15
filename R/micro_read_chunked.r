@@ -118,8 +118,7 @@ read_ipums_micro_chunked <- function(
   if (ipums_file_ext(data_file) %in% c(".csv", ".csv.gz")) {
     if (ddi$file_type == "hierarchical") stop("Hierarchical data cannot be read as csv.")
     col_types <- ddi_to_readr_colspec(ddi)
-    out <- read_check_for_negative_bug(
-      readr::read_csv_chunked,
+    out <- readr::read_csv_chunked(
       data_file,
       callback,
       chunk_size,
@@ -178,8 +177,7 @@ read_ipums_micro_list_chunked <- function(
   if (ipums_file_ext(data_file) %in% c(".csv", ".csv.gz")) {
     if (ddi$file_type == "hierarchical") stop("Hierarchical data cannot be read as csv.")
     col_types <- ddi_to_readr_colspec(ddi)
-    out <- read_check_for_negative_bug(
-      readr::read_csv_chunked,
+    out <- readr::read_csv_chunked(
       data_file,
       callback,
       chunk_size,
