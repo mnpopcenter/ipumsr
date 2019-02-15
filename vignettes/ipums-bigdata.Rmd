@@ -113,8 +113,15 @@ before you submit the extract. Again, if you've already submitted your extract,
 you can access this feature by clicking the "revise" link on the "Download or
 Revise Extracts" page.
 
+# Option 3: work one "chunk"/"yield" at a time
+ipumsr has two closely related concepts for reading parts of a function at a time.
+The "chunk" API inherits directly from the readr framework for reading chunks of
+data. These functions allow you to specify a function that will be called on each
+chunk and then how you'd like to combine them at the end. The "yield" API is unique
+to ipumsr (and fixed-width data), but allows a little more flexibility because 
+control is returned to you between each piece of data.
 
-# Option 3A: Work one chunk at a time
+## Option 3A: Work one chunk at a time
 ipumsr has "chunked" versions of the microdata reading functions
  (`read_ipums_micro_chunked()` and `read_ipums_micro_list_chunked()`). 
 These chunked versions of the functions allow you to specify a function that
@@ -124,7 +131,7 @@ introduced by `readr` and so is quite flexible. Below, we'll outline solutions
 to three common use-cases for IPUMS data: tabulation, regression and selecting
 cases.
 
-## Chunked tabulation example 
+### Chunked tabulation example 
 Let's say you want to find the percent of people in the workforce by
 their self-reported health. Since this extract is small enough to fit
 in memory, we could just do the following:
@@ -173,16 +180,26 @@ cb_function <- function(x, pos) {
 
 Next we need to create a callback object. The choice of a callback object
 depends mainly on how we want to combine the results from applying our callback
-function to each chunk. In this case, we want to row-bind the data.frames
-returned by `cb_function()`. If we didn't care about attaching IPUMS value
-labels and other metadata, we could use `readr::DataFrameCallback`, but ipumsr
-includes the `IpumsDataFrameCallback` object that allows you to preserve this
-metadata. 
+function to each chunk. The tree main types of callbacks that apply IPUMS variable
+metadta are:
+
+- `IpumsDataFrameCallback` - Combine the results from each chunk together by 
+row binding them together.
+- `IpumsListCallback` - Use when you don't want to (or can't) immediately combine
+the resuts, so it returns a list with one item per chunk containing the results.
+- `IpumsSideEffectCallback` - Use when you are calling the function primarily for
+side effects, and do not need the results at all (for example if you are saving
+each chunk to disk).
+
+(The fourth, which is used for running lm regression is discussed later in this 
+document).
+
+In this case, we want to row-bind the data.frames returned by `cb_function()`,
+so we use `IpumsDataFrameCallback`.
 
 Callback objects are [R6]( https://CRAN.R-project.org/package=R6) 
 objects, but you don't need to be familiar with R6 to use them[^2]. For now, all
-we really need to know is that to create a callback we can use, we use `$new()`
-syntax.
+we really need to know is that to create a callback, we use `$new()` syntax.
 
 ```{r}
 cb <- IpumsDataFrameCallback$new(cb_function)
@@ -207,7 +224,7 @@ chunked_tabulations %>%
   summarize(n = sum(n))
 ```
 
-## Chunked regression example
+### Chunked regression example
 With the biglm package, it is possible to use R to perform a regression 
 on data that is too large to store in memory all at once. The ipumsr
 package provides a callback designed to make this simple: `IpumsBiglmCallback`.
@@ -280,7 +297,7 @@ chunked_model <- read_ipums_micro_chunked(
 summary(chunked_model)
 ```
 
-## Chunked "select cases" example
+### Chunked "select cases" example
 Sometimes you may want to select a subset of the data before reading it in. The
 IPUMS website has this functionality built in, which can be a faster way to do
 this (this "select cases" functionality is described in the second section
@@ -301,7 +318,7 @@ chunked_subset <- read_ipums_micro_chunked(
 ```
 
 
-# Option 3B: Work one 'yield' at  atime
+## Option 3B: Work one 'yield' at  atime
 ipumsr now has a second form of chunked reading called 'yields' which 
 accomplish a similar goal as chunks, but are more flexible. They
 grant you more freedom in what R code you run between reading chunks, 
@@ -312,7 +329,7 @@ you can run with chunks). The downside to this greater control is that
 yields have an API that is unique to IPUMS data and the way they work
 is unusual for R code.
 
-## Chunked tabulation example 
+### Chunked tabulation example 
 To see how the yield functions work as compared to the chunked functions,
 here's the same chunked tabulation example that was shown earlier in
 this document, but using yields rather than chunks. We want to calculate 
@@ -364,7 +381,7 @@ yield_results
 ```
 
 
-## GLM yield regression example
+### GLM yield regression example
 One of the major benefits of the yield-style reading over chunks is that
 it is compatible with the GLM functions from biglm, allowing more complicated
 models than just linear models. Logistic models are one such model that
@@ -417,11 +434,13 @@ function:
 
 ```{r}
 library(biglm)
-bigglm(
+results <- bigglm(
   WORK30PLUS ~ AGE + I(AGE^2) + HEALTH,
   family = binomial(link = "logit"),
   data = get_model_data
 )
+
+summary(results)
 ```
 
 # Option 4: Use a database
