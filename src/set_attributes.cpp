@@ -3,20 +3,12 @@ using namespace Rcpp;
 
 
 // [[Rcpp::export]]
-DataFrame set_ipums_var_attributes_(DataFrame x, DataFrame var_info, bool haven_v2) {
+DataFrame set_ipums_var_attributes_(DataFrame x, DataFrame var_info) {
   int num_vars = var_info.nrows();
   CharacterVector var_names = var_info["var_name"];
   CharacterVector var_labels = var_info["var_label"];
   CharacterVector var_descs = var_info["var_desc"];
   List val_labels = var_info["val_labels"];
-
-  // haven v2 compatibility
-  std::string label_class;
-  if (haven_v2) {
-    label_class = "haven_labelled";
-  } else {
-    label_class = "labelled";
-  }
 
   for (int i = 0; i < num_vars; i++) {
     const char* vn = var_names[i];
@@ -34,7 +26,7 @@ DataFrame set_ipums_var_attributes_(DataFrame x, DataFrame var_info, bool haven_
 
     if (!Rf_isNull(val_labels[i])) {
       SEXP new_class = PROTECT(Rf_allocVector(STRSXP, 1));
-      SET_STRING_ELT(new_class, 0, Rf_mkChar(label_class.c_str()));
+      SET_STRING_ELT(new_class, 0, Rf_mkChar("haven_labelled"));
       Rf_setAttrib(col, Rf_install("class"), new_class);
       UNPROTECT(1);
 

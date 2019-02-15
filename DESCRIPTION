@@ -21,7 +21,7 @@ Imports:
     cli,
     crayon,
     dplyr (>= 0.7.0),
-    haven,
+    haven (>= 2.0.0),
     hipread (>= 0.1.1.9000),
     pillar,
     purrr,

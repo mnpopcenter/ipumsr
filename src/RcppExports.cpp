@@ -6,15 +6,14 @@
 using namespace Rcpp;
 
 // set_ipums_var_attributes_
-DataFrame set_ipums_var_attributes_(DataFrame x, DataFrame var_info, bool haven_v2);
-RcppExport SEXP _ipumsr_set_ipums_var_attributes_(SEXP xSEXP, SEXP var_infoSEXP, SEXP haven_v2SEXP) {
+DataFrame set_ipums_var_attributes_(DataFrame x, DataFrame var_info);
+RcppExport SEXP _ipumsr_set_ipums_var_attributes_(SEXP xSEXP, SEXP var_infoSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< DataFrame >::type x(xSEXP);
     Rcpp::traits::input_parameter< DataFrame >::type var_info(var_infoSEXP);
-    Rcpp::traits::input_parameter< bool >::type haven_v2(haven_v2SEXP);
-    rcpp_result_gen = Rcpp::wrap(set_ipums_var_attributes_(x, var_info, haven_v2));
+    rcpp_result_gen = Rcpp::wrap(set_ipums_var_attributes_(x, var_info));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -32,7 +31,7 @@ END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
-    {"_ipumsr_set_ipums_var_attributes_", (DL_FUNC) &_ipumsr_set_ipums_var_attributes_, 3},
+    {"_ipumsr_set_ipums_var_attributes_", (DL_FUNC) &_ipumsr_set_ipums_var_attributes_, 2},
     {"_ipumsr_set_imp_decim_", (DL_FUNC) &_ipumsr_set_imp_decim_, 2},
     {NULL, NULL, 0}
 };
