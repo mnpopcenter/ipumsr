@@ -5,6 +5,8 @@
 
 * Argument `rectype_convert` has been removed because it no longer did anything.
 
+* Fixed a typo in vignette "ipums-geography".
+
 # ipumsr 0.3.0
 * Lots of improvements for users who wish to use "big data" sized IPUMS extracts. See 
   the vignette using command `vignette("ipums-bigdata", package = "ipusmr")` for

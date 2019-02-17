@@ -7,7 +7,7 @@ Contributors:
   Greg Freedman Ellis, Minnesota Population Center, University of Minnesota
   Joe Grover, Minnesota Population Center, University of Minnesota
   Derek Burk, Minnesota Population Center, University of Minnesota
-
+  Jacob Kaplan, University of Pennsylvania
 
 This project is licensed under the Mozilla Public License, version 2.0 (the
 "License"). A copy of the License is in the project file "LICENSE.txt",

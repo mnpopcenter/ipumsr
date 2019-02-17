@@ -543,7 +543,7 @@ Analysis](https://cran.r-project.org/view=Spatial)
 describes many of the packages available for spatial analysis in R.
 - For general information about the sf and sp packages, I recommend reading the 
 vignettes for those packages(`vignette(package = "sf")` and 
-`vignette(packge = "sp")`). 
+`vignette(package = "sp")`). 
 - The [leaflet](https://rstudio.github.io/leaflet/) package is great for interactive 
 web-technology based maps. 
 - The CRAN website has a great tutorial called ["Introduction to visualizing 
