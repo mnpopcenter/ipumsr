@@ -34,6 +34,8 @@
 
 <meta property="og:description" content="Reads the boundary files from an IPUMS extract into R as simple features (sf) objects or
 SpatialPolygonsDataFrame (sp) objects." />
+
+<meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -221,7 +223,7 @@ which shape_layer the data came from. NULL, the default, uses TRUE if more than
 <span class='kw'>if</span> (<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>require</a></span>(<span class='no'>sf</span>)) {
   <span class='no'>sf_data</span> <span class='kw'>&lt;-</span> <span class='fu'>read_ipums_sf</span>(<span class='no'>shape_file</span>)
 }</div><div class='output co'>#&gt; options:        ENCODING=latin1 
-#&gt; Reading layer `US_pmsa_1990' from data source `C:\Users\user\AppData\Local\Temp\RtmpE5IFnx\file56c4ff64695\US_pmsa_1990.shp' using driver `ESRI Shapefile'
+#&gt; Reading layer `US_pmsa_1990' from data source `C:\Users\gfellis\AppData\Local\Temp\Rtmp2LPkHC\file42d02a18b5d\US_pmsa_1990.shp' using driver `ESRI Shapefile'
 #&gt; Simple feature collection with 71 features and 8 fields
 #&gt; geometry type:  MULTIPOLYGON
 #&gt; dimension:      XY
@@ -231,7 +233,10 @@ which shape_layer the data came from. NULL, the default, uses TRUE if more than
 <span class='co'># If sp package is available, can load as SpatialPolygonsDataFrame</span>
 <span class='kw'>if</span> (<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>require</a></span>(<span class='no'>sp</span>) <span class='kw'>&amp;&amp;</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>require</a></span>(<span class='no'>rgdal</span>)) {
   <span class='no'>sp_data</span> <span class='kw'>&lt;-</span> <span class='fu'>read_ipums_sp</span>(<span class='no'>shape_file</span>)
-}</div><div class='output co'>#&gt; <span class='message'>Loading required package: rgdal</span></div><div class='output co'>#&gt; <span class='warning'>Warning: there is no package called 'rgdal'</span></div><div class='input'>
+}</div><div class='output co'>#&gt; OGR data source with driver: ESRI Shapefile 
+#&gt; Source: "C:\Users\gfellis\AppData\Local\Temp\Rtmp2LPkHC\file42d02ea34241", layer: "US_pmsa_1990"
+#&gt; with 71 features
+#&gt; It has 8 fields</div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# ipumsr <img src="tools/logo.png" align="right" height="149" width="128.5"/>
+# ipumsr <img src="man/figures/logo.png" align="right" height="149" width="128.5"/>
 
 [![Project
 Status:Active](http://www.repostatus.org/badges/latest/active.svg)](http://www.repostatus.org/#active)
