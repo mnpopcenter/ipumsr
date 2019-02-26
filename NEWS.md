@@ -7,6 +7,8 @@
 
 * Fixed a typo in vignette "ipums-geography".
 
+* Creates a pkgdown site.
+
 # ipumsr 0.3.0
 * Lots of improvements for users who wish to use "big data" sized IPUMS extracts. See 
   the vignette using command `vignette("ipums-bigdata", package = "ipusmr")` for

@@ -1,0 +1,12 @@
+pandoc: 2.3.1
+pkgdown: 1.3.0
+pkgdown_sha: ~
+articles:
+  ipums-bigdata: ipums-bigdata.html
+  ipums-cps: ipums-cps.html
+  ipums-geography: ipums-geography.html
+  ipums-nhgis: ipums-nhgis.html
+  ipums-terra: ipums-terra.html
+  ipums: ipums.html
+  value-labels: value-labels.html
+
