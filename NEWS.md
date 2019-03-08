@@ -1,13 +1,18 @@
-# ipumsr 0.3.0.9000
+# ipumsr 0.4.0
+* Add `read_ipums_micro_yield()` and `read_ipums_micro_list_yield()` that 
+  read data in 'yields', a concept similar to 'chunks', but with a little
+  more flexibility. See the big data vignette 
+  (`vignette("ipums-bigdata", package = "ipumsr")`) for more details.
+
 * Fixed a bug when trying to set variable attributes but not value labels (#34).
 
 * Fixed a bug where implicit decimals would be double counted for csv files.
 
 * Argument `rectype_convert` has been removed because it no longer did anything.
 
-* Fixed a typo in vignette "ipums-geography".
+* Fixed a typo in vignette "ipums-geography" (#37, @jacobkap).
 
-* Creates a pkgdown site.
+* Creates a pkgdown site (#38, @jacobkap).
 
 # ipumsr 0.3.0
 * Lots of improvements for users who wish to use "big data" sized IPUMS extracts. See 
