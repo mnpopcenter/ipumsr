@@ -309,18 +309,13 @@ GIS capabilities available for free in R.
 
 Q16) Make a map of the percent of the population that are slaves.
 ```{r, fig.height = 4, fig.width = 6}
-# Note the function `geom_sf()` is currently only in the development version, 
-# so you may need to update ggplot2 to run using 
-#   devtools::install_github("tidyverse/ggplot2")
 library(ggplot2)
-if ("geom_sf" %in% getNamespaceExports("ggplot2")) {
-  ggplot(data = nhgis, aes(fill = pct_slave)) +
-    geom_sf() + 
-    scale_fill_continuous("", labels = scales::percent) + 
-    labs(
-      title = "Percent of Population that was Enslaved by State",
-      subtitle = "1830 Census",
-      caption = paste0("Source: ", ipums_file_info(nhgis_ddi, "ipums_project"))
-    )
-}
+ggplot(data = nhgis, aes(fill = pct_slave)) +
+  geom_sf() + 
+  scale_fill_continuous("", labels = scales::percent) + 
+  labs(
+    title = "Percent of Population that was Enslaved by State",
+    subtitle = "1830 Census",
+    caption = paste0("Source: ", ipums_file_info(nhgis_ddi, "ipums_project"))
+  )
 ```

@@ -50,10 +50,8 @@ files on dedicated geography pages that are separate from the microdata extract 
 current extract as part of the system to create the data extract. The shape files
 are a separate download, but are on the same page as the data.
 - [IPUMS Terra](https://www.terrapop.org/) provides shape files inside the extract
-bundle and allows for aggregating microdata and raster data into the boundaries. 
+bundle and allows for aggregating microdata and raster data into the boundaries. For more about using the geographic data in IPUMS Terra, see the Terra vignette (using command `vignette("ipums-terra", package = "ipumsr")`)
 
-(Note: The ipumsr package does not yet support IPUMS Terra data. We hope to add
-support for IPUMS Terra soon.)
 
 This vignette offers an introduction to the types of geographies available
 through IPUMS, then uses example data to walk through two typical workflows for
@@ -97,7 +95,7 @@ is generally similar. The only place where the code is noticeably different
 is for making plots. See the [resources at the end of this vignette](#resources) for
 some instructions on plotting with the sp package.
 
-## Basic workflow for IPUMS DHS, IPUMS International, and IPUMS USA
+## Basic workflow for microdata projects (IPUMS DHS, IPUMS International, and IPUMS USA)
 Every analysis will be slightly different, but in general the workflow for
 integrating geographic data and microdata from IPUMS DHS, IPUMS International or
 IPUMS USA can be divided into four steps before we're ready to analyze the data:
@@ -189,7 +187,7 @@ colombia_shape <- read_ipums_sf(ex_file("geo1_co1964_2005.zip"), verbose = FALSE
 
 ### 3) Transform data
 Our first data transformation is a step that most analyses will need regardless
-of whether they use geographic data or not.Though IPUMS microdata has been
+of whether they use geographic data or not. Though IPUMS microdata has been
 cleaned and formatted to be easy to use, generally there is at least some data
 processing we need to do (as discussed in the value-labels vignette).
 
@@ -244,7 +242,9 @@ The function `ipums_shape_inner_join()` allows us to combine the data and shape
 file while smoothing out some of the complications because the data and shape
 files are provided in slightly different formats (eg, the geography ID variable
 is numeric in the microdata, but stored as character in the shape file). It also
-gives a message when some of the data has been dropped by the join. 
+gives a message when some of the data has been dropped by the join (though in
+this example there are no mismatches - see the [complicated example](#complicated) 
+below for an example where this does happen). 
 
 Before we are able to join the data, we need to determine what the geographic ID
 is called in each file. Unfortunately, for microdata projects, the name of the
@@ -264,55 +264,20 @@ ipumsi <- ipums_shape_inner_join(
 )
 ```
 
-Notice that the join warned us about one observation dropping out of the shape
-file. Because we chose an inner join, all observations that were not in both the
-microdata and the shape data are dropped from the results. Join failures like
-this can happen for a variety of reasons. 
-
-We can investigate this join failure using the `join_failures` command.
-```{r}
-join_failures(ipumsi)
-```
-
-In this case, it appears that the shape file includes Lake Titicaca for mapping
-purposes, even though no one lives in the lake. We will just leave this boundary
-out of our dataset.
-
-In general, these kinds of join failures can sometimes indicate that something 
-is wrong with your data. Perhaps:
-- The wrong shape file was used
-- The data was not completely loaded 
-- The wrong ID variable was used in the `by` parameter
-
-But others may not be relevant to your analysis:
-- There is no population inside of a geography and so it exists in the shape
-file but not the data (as happened in this case)
-- A geography was listed in the census, but it's boundaries are so small that they
-were not put in the shape file (can happen when shape files are simplified so
-that they don't take as much computer resources)
--  A geography doesn't actually refer to a place with real boundaries. This
-happens in some US censuses which have census blocks that refer to "Crews of
-Vessels" for crews of naval ships. Since ships don't have a fixed location, they
-are not included in the boundary file.
-
 ### Ready to analyze data!
 Now the data is ready for us to use. Here's a quick example of how to
 make a map with ggplot2.
 ```{r, fig.height = 4, fig.width = 7}
-# Note the function `geom_sf()` is currently only in the development version, 
-# so you may need to update ggplot2 to run using 
-#   devtools::install_github("tidyverse/ggplot2")
-if ("geom_sf" %in% getNamespaceExports("ggplot2")) {
-  ggplot(data = ipumsi, aes(fill = pct_solid)) +
-    geom_sf() + 
-    facet_wrap(~YEAR) + 
-    scale_fill_continuous("", labels = scales::percent) + 
-    labs(
-      title = "Percent of Children 0-5 Who Live in a Home That Cooks Using Solid Fuel",
-      subtitle = "Colombia (1985, 1993, 2005) Census Data",
-      caption = paste0("Source: ", ipums_file_info(ipumsi_ddi, "ipums_project"))
-    )
-}
+ggplot(data = ipumsi, aes(fill = pct_solid)) +
+  geom_sf() + 
+  facet_wrap(~YEAR) + 
+  scale_fill_continuous("", labels = scales::percent) + 
+  labs(
+    title = "% of Children 0-5 Who Live in a Home That Cooks Using Solid Fuel",
+    subtitle = "Colombia (1985, 1993, 2005) Census Data",
+    caption = paste0("Source: ", ipums_file_info(ipumsi_ddi, "ipums_project"))
+  )
+
 ```
 
 ## Basic workflow for IPUMS NHGIS
@@ -377,20 +342,19 @@ nhgis_subset <- nhgis %>%
   filter(COUNTY %in% c("Hartford County", "Providence County")) %>%
   mutate(place_name = paste0(COUNTY, ", ", STATE))
 
-if ("geom_sf" %in% getNamespaceExports("ggplot2")) {
-  ggplot(data = nhgis_subset, aes(fill = H77001)) +
-    geom_sf(linetype = "blank") + 
-    scale_fill_continuous("") + 
-    facet_wrap(~place_name) + 
-    labs(
-      title = "Median Age of Population By Census Block",
-      subtitle = "2010 Census",
-      caption = paste0(
-        "Source: ", ipums_file_info(nhgis_ddi, "ipums_project"), "\n",
-        "Simplified Census Block boundaries (1% of points retained)"
-      )
+ggplot(data = nhgis_subset, aes(fill = H77001)) +
+  geom_sf(linetype = "blank") + 
+  scale_fill_continuous("") + 
+  facet_wrap(~place_name) + 
+  labs(
+    title = "Median Age of Population By Census Block",
+    subtitle = "2010 Census",
+    caption = paste0(
+      "Source: ", ipums_file_info(nhgis_ddi, "ipums_project"), "\n",
+      "Simplified Census Block boundaries (1% of points retained)"
     )
-}
+  )
+
 ```
 
 ## Combining multiple shape files {#complicated}
@@ -507,31 +471,58 @@ country's name to join as well.
 ```{r}
 ipumsi <- ipums_shape_inner_join(
   ipumsi_summary, 
-  colombia_shape,
+  all_shapes,
   by = c("COUNTRY" = "CNTRY_NAME", "GEOLEV1" = "GEOJOIN")
 )
 ```
 
-Now we can make the map with all 3 countries:
+Notice that the join warned us about one observation dropping out of the shape
+file. Because we chose an inner join, all observations that were not in both the
+microdata and the shape data are dropped from the results. Join failures like
+this can happen for a variety of reasons. 
+
+We can investigate this join failure using the `join_failures` command.
+```{r}
+join_failures(ipumsi)
+```
+In this case, it appears that the shape file includes Lake Titicaca for mapping
+purposes, even though no one lives in the lake. We will just leave this boundary
+out of our dataset.
+
+In general, these kinds of join failures can sometimes indicate that something 
+is wrong with your data. Perhaps:
+- The wrong shape file was used
+- The data was not completely loaded 
+- The wrong ID variable was used in the `by` parameter
+
+But others may not be relevant to your analysis:
+- There is no population inside of a geography and so it exists in the shape
+file but not the data (as happened in this case)
+- A geography was listed in the census, but it's boundaries are so small that they
+were not put in the shape file (can happen when shape files are simplified so
+that they don't take as much computer resources)
+-  A geography doesn't actually refer to a place with real boundaries. This
+happens in some US censuses which have census blocks that refer to "Crews of
+Vessels" for crews of naval ships. Since ships don't have a fixed location, they
+are not included in the boundary file.
+
+
+After confirming that join was successful, we can make the map with all 3 countries:
 ```{r, fig.height = 4, fig.width = 7}
 # Convert the year to a round variable to display in facets
 ipumsi <- ipumsi %>%
   mutate(census_round = cut(YEAR, c(1984, 1992, 2004, 2014), c("1985", "1993", "2005-2010")))
 
-# Note the function `geom_sf()` is currently only in the development version, 
-# so you may need to update ggplot2 to run using 
-#   devtools::install_github("tidyverse/ggplot2")
-if ("geom_sf" %in% getNamespaceExports("ggplot2")) {
-  ggplot(data = ipumsi, aes(fill = pct_solid)) +
-    geom_sf() + 
-    facet_wrap(~census_round) + 
-    scale_fill_continuous("", labels = scales::percent) + 
-    labs(
-      title = "Percent of Children 0-5 Who Live in a Home That Cooks Using Solid Fuel",
-      subtitle = "Colombia (1985, 1993, 2005) Census Data",
-      caption = paste0("Source: ", ipums_file_info(ipumsi_ddi, "ipums_project"))
-    )
-}
+
+ggplot(data = ipumsi, aes(fill = pct_solid)) +
+  geom_sf() + 
+  facet_wrap(~census_round) + 
+  scale_fill_continuous("", labels = scales::percent) + 
+  labs(
+    title = "% of Children 0-5 Who Live in a Home That Cooks Using Solid Fuel",
+    subtitle = "Colombia, Ecuador and Peru Census Data",
+    caption = paste0("Source: ", ipums_file_info(ipumsi_ddi, "ipums_project"))
+  )
 ```
 
 ## Resources for Geographic Analysis in R {#resources}

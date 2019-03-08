@@ -26,7 +26,7 @@ and the ipumsr package have tools to help. There are four basic strategies:
 
 1. Get more memory.
 2. Reduce the size of your dataset.
-3. Use "chunked"/"yield" reading.
+3. Use "chunked"/"yield" reading to work one piece at a time.
 4. Use a database.
 
 The IPUMS website has features to help with option 2, and the ipumsr package can 
