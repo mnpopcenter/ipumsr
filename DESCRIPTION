@@ -22,7 +22,7 @@ Imports:
     crayon,
     dplyr (>= 0.7.0),
     haven (>= 2.0.0),
-    hipread (>= 0.1.1.9000),
+    hipread (>= 0.2.0),
     pillar,
     purrr,
     R6,
@@ -56,5 +56,3 @@ Suggests:
     dbplyr
 VignetteBuilder: knitr
 LinkingTo: Rcpp
-Remotes: 
-    mnpopcenter/hipread
