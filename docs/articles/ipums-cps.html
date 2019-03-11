@@ -7,12 +7,18 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>
 <code>ipumsr</code> Example - CPS • ipumsr</title>
+<!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
+<link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png">
+<link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png">
+<link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png">
+<link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png">
 <!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous">
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- sticky kit --><script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
 <script src="../pkgdown.js"></script><meta property="og:title" content="&lt;code&gt;ipumsr&lt;/code&gt; Example - CPS">
 <meta property="og:description" content="">
-<meta property="og:image" content="/logo.png">
+<meta property="og:image" content="http://tech.popdata.org/ipumsr/logo.png">
 <meta name="twitter:card" content="summary">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
@@ -21,7 +27,7 @@
 </head>
 <body>
     <div class="container template-article">
-      <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
+      <header><div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
   <div class="container">
     <div class="navbar-header">
       <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false">
@@ -32,7 +38,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ipumsr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.0</span>
       </span>
     </div>
 
@@ -40,9 +46,12 @@
       <ul class="nav navbar-nav">
 <li>
   <a href="../index.html">
-    <span class="fa fa-home fa-lg"></span>
+    <span class="fa fa-home"></span>
      
   </a>
+</li>
+<li>
+  <a href="../articles/ipums.html">Intro</a>
 </li>
 <li>
   <a href="../reference/index.html">Reference</a>
@@ -55,25 +64,29 @@
   </a>
   <ul class="dropdown-menu" role="menu">
 <li>
+      <a href="../articles/ipums.html">Introduction</a>
+    </li>
+    <li>
+      <a href="../articles/value-labels.html">Value labels</a>
+    </li>
+    <li>
+      <a href="../articles/ipums-geography.html">Geographic data in ipumsr</a>
+    </li>
+    <li>
       <a href="../articles/ipums-bigdata.html">Big IPUMS data</a>
     </li>
+    <li class="divider">
     <li>
-      <a href="../articles/ipums-cps.html">`ipumsr` Example - CPS</a>
+      <a href="../articles/ipums-cps.html">CPS exercise</a>
     </li>
     <li>
-      <a href="../articles/ipums-geography.html">Geographic Data in `ipumsr`</a>
+      <a href="../articles/ipums-nhgis.html">NHGIS exercise</a>
     </li>
     <li>
-      <a href="../articles/ipums-nhgis.html">`ipumsr` Example - NHGIS</a>
+      <a href="../articles/ipums-terra.html">IPUMS Terra exercise</a>
     </li>
     <li>
-      <a href="../articles/ipums-terra.html">`ipumsr` Example - Terra</a>
-    </li>
-    <li>
-      <a href="../articles/ipums.html">Introduction to `ipumsr` - IPUMS Data in R</a>
-    </li>
-    <li>
-      <a href="../articles/value-labels.html">Value Labels</a>
+      <a href="https://ipums.org/exercises.shtml">More project exercises</a>
     </li>
   </ul>
 </li>
@@ -84,7 +97,19 @@
 <ul class="nav navbar-nav navbar-right">
 <li>
   <a href="https://github.com/mnpopcenter/ipumsr">
-    <span class="fa fa-github fa-lg"></span>
+    <span class="fa fa-github"></span>
+     
+  </a>
+</li>
+<li>
+  <a href="https://forum.ipums.org">
+    <span class="fa fa-users"></span>
+     
+  </a>
+</li>
+<li>
+  <a href="https://www.ipums.org/">
+    <span class="fa fa-globe"></span>
      
   </a>
 </li>
@@ -104,7 +129,7 @@
 <code>ipumsr</code> Example - CPS</h1>
                         <h4 class="author">Minnesota Population Center</h4>
             
-            <h4 class="date">2019-02-26</h4>
+            <h4 class="date">2019-03-11</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/mnpopcenter/ipumsr/blob/master/vignettes/ipums-cps.Rmd"><code>vignettes/ipums-cps.Rmd</code></a></small>
       <div class="hidden name"><code>ipums-cps.Rmd</code></div>
@@ -154,7 +179,7 @@
 <a href="#download-extract-from-ipums-website" class="anchor"></a>Download Extract from IPUMS Website</h2>
 <ol style="list-style-type: decimal">
 <li><p><strong>Register with IPUMS</strong> - Go to <a href="http://cps.ipums.org" class="uri">http://cps.ipums.org</a>, click on CPS Registration and apply for access. On login screen, enter email address and password and submit it!</p></li>
-<li><strong>Make an Extract</strong></li>
+<li><p><strong>Make an Extract</strong></p></li>
 </ol>
 <ul>
 <li>Go to <a href="http://cps.ipums.org" class="uri">http://cps.ipums.org</a>, click on CPS Registration and Apply for access</li>
@@ -211,9 +236,8 @@
 <div id="exercises" class="section level2">
 <h2 class="hasAnchor">
 <a href="#exercises" class="anchor"></a>Exercises</h2>
-<p>These exercises include example code written in the “tidyverse” style, meaning that they use the dplyr package. This package provides easy to use functions for data analysis, including <code>mutate()</code>, <code>select()</code>, <code>arrange()</code>, <code>slice()</code> and the pipe (<code>%&gt;%</code>). There a numerous other ways you could solve these answers, including using the base R, the <code>data.table</code> package and others.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" title="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(dplyr, <span class="dt">warn.conflicts =</span> <span class="ot">FALSE</span>)</a>
-<a class="sourceLine" id="cb3-2" title="2"><span class="co">#&gt; Warning: package 'dplyr' was built under R version 3.5.2</span></a></code></pre></div>
+<p>These exercises include example code written in the “tidyverse” style, meaning that they use the dplyr package. This package provides easy to use functions for data analysis, including <code><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate()</a></code>, <code><a href="https://dplyr.tidyverse.org/reference/select.html">select()</a></code>, <code><a href="https://dplyr.tidyverse.org/reference/arrange.html">arrange()</a></code>, <code><a href="https://dplyr.tidyverse.org/reference/slice.html">slice()</a></code> and the pipe (<code>%&gt;%</code>). There a numerous other ways you could solve these answers, including using the base R, the <code>data.table</code> package and others.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" title="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(dplyr, <span class="dt">warn.conflicts =</span> <span class="ot">FALSE</span>)</a></code></pre></div>
 <div id="analyze-the-sample-part-i-frequencies-of-foodstmp" class="section level3">
 <h3 class="hasAnchor">
 <a href="#analyze-the-sample-part-i-frequencies-of-foodstmp" class="anchor"></a>Analyze the Sample – Part I Frequencies of FOODSTMP</h3>
@@ -245,12 +269,12 @@
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" title="1"><span class="co"># We will be working with the FOODSTMP variable a lot, so </span></a>
 <a class="sourceLine" id="cb6-2" title="2"><span class="co"># let's turn it into a factor</span></a>
 <a class="sourceLine" id="cb6-3" title="3">cps_data &lt;-<span class="st"> </span>cps_data <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb6-4" title="4"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">FOODSTMP_factor =</span> <span class="kw"><a href="https://forcats.tidyverse.org/reference/as_factor.html">as_factor</a></span>(FOODSTMP))</a>
+<a class="sourceLine" id="cb6-4" title="4"><span class="st">  </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span>(<span class="dt">FOODSTMP_factor =</span> <span class="kw"><a href="https://forcats.tidyverse.org/reference/as_factor.html">as_factor</a></span>(FOODSTMP))</a>
 <a class="sourceLine" id="cb6-5" title="5"></a>
 <a class="sourceLine" id="cb6-6" title="6">cps_data <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb6-7" title="7"><span class="st">  </span><span class="kw">group_by</span>(FOODSTMP_factor) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb6-8" title="8"><span class="st">  </span><span class="kw">summarize</span>(<span class="dt">n_foodstmp =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/sum">sum</a></span>(WTSUPP)) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb6-9" title="9"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">pct_foodstmp =</span> n_foodstmp <span class="op">/</span><span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/sum">sum</a></span>(n_foodstmp))</a>
+<a class="sourceLine" id="cb6-7" title="7"><span class="st">  </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span>(FOODSTMP_factor) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb6-8" title="8"><span class="st">  </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarize</a></span>(<span class="dt">n_foodstmp =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/sum">sum</a></span>(WTSUPP)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb6-9" title="9"><span class="st">  </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span>(<span class="dt">pct_foodstmp =</span> n_foodstmp <span class="op">/</span><span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/sum">sum</a></span>(n_foodstmp))</a>
 <a class="sourceLine" id="cb6-10" title="10"><span class="co">#&gt; # A tibble: 2 x 3</span></a>
 <a class="sourceLine" id="cb6-11" title="11"><span class="co">#&gt;   FOODSTMP_factor n_foodstmp pct_foodstmp</span></a>
 <a class="sourceLine" id="cb6-12" title="12"><span class="co">#&gt;   &lt;fct&gt;                &lt;dbl&gt;        &lt;dbl&gt;</span></a>
@@ -272,11 +296,11 @@
 <li>How many households received food stamps in 2011?</li>
 </ol>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" title="1">cps_data <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb8-2" title="2"><span class="st">  </span><span class="kw">group_by</span>(SERIAL) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb8-3" title="3"><span class="st">  </span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/filter">filter</a></span>(<span class="kw">row_number</span>() <span class="op">==</span><span class="st"> </span><span class="dv">1</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb8-4" title="4"><span class="st">  </span><span class="kw">group_by</span>(FOODSTMP_factor) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb8-5" title="5"><span class="st">  </span><span class="kw">summarize</span>(<span class="dt">n_foodstmp =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/sum">sum</a></span>(HWTSUPP)) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb8-6" title="6"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">pct_foodstmp =</span> n_foodstmp <span class="op">/</span><span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/sum">sum</a></span>(n_foodstmp))</a>
+<a class="sourceLine" id="cb8-2" title="2"><span class="st">  </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span>(SERIAL) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb8-3" title="3"><span class="st">  </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span>(<span class="kw"><a href="https://dplyr.tidyverse.org/reference/ranking.html">row_number</a></span>() <span class="op">==</span><span class="st"> </span><span class="dv">1</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb8-4" title="4"><span class="st">  </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span>(FOODSTMP_factor) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb8-5" title="5"><span class="st">  </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarize</a></span>(<span class="dt">n_foodstmp =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/sum">sum</a></span>(HWTSUPP)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb8-6" title="6"><span class="st">  </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span>(<span class="dt">pct_foodstmp =</span> n_foodstmp <span class="op">/</span><span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/sum">sum</a></span>(n_foodstmp))</a>
 <a class="sourceLine" id="cb8-7" title="7"><span class="co">#&gt; # A tibble: 2 x 3</span></a>
 <a class="sourceLine" id="cb8-8" title="8"><span class="co">#&gt;   FOODSTMP_factor n_foodstmp pct_foodstmp</span></a>
 <a class="sourceLine" id="cb8-9" title="9"><span class="co">#&gt;   &lt;fct&gt;                &lt;dbl&gt;        &lt;dbl&gt;</span></a>
@@ -316,8 +340,8 @@
 <li>What percent of people with ‘poor’ self-reported health are at work?</li>
 </ol>
 <div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" title="1">cps_data <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb12-2" title="2"><span class="st">  </span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/filter">filter</a></span>(HEALTH <span class="op">==</span><span class="st"> </span><span class="dv">5</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb12-3" title="3"><span class="st">  </span><span class="kw">summarize</span>(<span class="dt">emp_pct =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/weighted.mean">weighted.mean</a></span>(EMPSTAT <span class="op">==</span><span class="st"> </span><span class="dv">10</span>, WTSUPP))</a>
+<a class="sourceLine" id="cb12-2" title="2"><span class="st">  </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span>(HEALTH <span class="op">==</span><span class="st"> </span><span class="dv">5</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb12-3" title="3"><span class="st">  </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarize</a></span>(<span class="dt">emp_pct =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/weighted.mean">weighted.mean</a></span>(EMPSTAT <span class="op">==</span><span class="st"> </span><span class="dv">10</span>, WTSUPP))</a>
 <a class="sourceLine" id="cb12-4" title="4"><span class="co">#&gt; # A tibble: 1 x 1</span></a>
 <a class="sourceLine" id="cb12-5" title="5"><span class="co">#&gt;   emp_pct</span></a>
 <a class="sourceLine" id="cb12-6" title="6"><span class="co">#&gt;     &lt;dbl&gt;</span></a>
@@ -328,8 +352,8 @@
 <li>What percent of people with ‘very good’ self-reported health are at work?</li>
 </ol>
 <div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" title="1">cps_data <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb13-2" title="2"><span class="st">  </span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/filter">filter</a></span>(HEALTH <span class="op">==</span><span class="st"> </span><span class="dv">2</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb13-3" title="3"><span class="st">  </span><span class="kw">summarize</span>(<span class="dt">emp_pct =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/weighted.mean">weighted.mean</a></span>(EMPSTAT <span class="op">==</span><span class="st"> </span><span class="dv">10</span>, WTSUPP))</a>
+<a class="sourceLine" id="cb13-2" title="2"><span class="st">  </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span>(HEALTH <span class="op">==</span><span class="st"> </span><span class="dv">2</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb13-3" title="3"><span class="st">  </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarize</a></span>(<span class="dt">emp_pct =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/weighted.mean">weighted.mean</a></span>(EMPSTAT <span class="op">==</span><span class="st"> </span><span class="dv">10</span>, WTSUPP))</a>
 <a class="sourceLine" id="cb13-4" title="4"><span class="co">#&gt; # A tibble: 1 x 1</span></a>
 <a class="sourceLine" id="cb13-5" title="5"><span class="co">#&gt;   emp_pct</span></a>
 <a class="sourceLine" id="cb13-6" title="6"><span class="co">#&gt;     &lt;dbl&gt;</span></a>
@@ -364,10 +388,10 @@
 <a class="sourceLine" id="cb14-20" title="20"><span class="co"># 10 is the code for "At work"</span></a>
 <a class="sourceLine" id="cb14-21" title="21"></a>
 <a class="sourceLine" id="cb14-22" title="22">pct_emp_by_health &lt;-<span class="st"> </span>cps_data <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb14-23" title="23"><span class="st">  </span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/filter">filter</a></span>(AGE <span class="op">&gt;=</span><span class="st"> </span><span class="dv">15</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb14-24" title="24"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">HEALTH_factor =</span> <span class="kw"><a href="https://forcats.tidyverse.org/reference/as_factor.html">as_factor</a></span>(HEALTH)) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb14-25" title="25"><span class="st">  </span><span class="kw">group_by</span>(HEALTH_factor) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb14-26" title="26"><span class="st">  </span><span class="kw">summarize</span>(<span class="dt">emp_pct =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/weighted.mean">weighted.mean</a></span>(EMPSTAT <span class="op">==</span><span class="st"> </span><span class="dv">10</span>, WTSUPP))</a>
+<a class="sourceLine" id="cb14-23" title="23"><span class="st">  </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span>(AGE <span class="op">&gt;=</span><span class="st"> </span><span class="dv">15</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb14-24" title="24"><span class="st">  </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span>(<span class="dt">HEALTH_factor =</span> <span class="kw"><a href="https://forcats.tidyverse.org/reference/as_factor.html">as_factor</a></span>(HEALTH)) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb14-25" title="25"><span class="st">  </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span>(HEALTH_factor) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb14-26" title="26"><span class="st">  </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarize</a></span>(<span class="dt">emp_pct =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/weighted.mean">weighted.mean</a></span>(EMPSTAT <span class="op">==</span><span class="st"> </span><span class="dv">10</span>, WTSUPP))</a>
 <a class="sourceLine" id="cb14-27" title="27"></a>
 <a class="sourceLine" id="cb14-28" title="28">pct_emp_by_health</a>
 <a class="sourceLine" id="cb14-29" title="29"><span class="co">#&gt; # A tibble: 5 x 2</span></a>
@@ -398,10 +422,10 @@
 <li>What are the average hours of work for each self-reported health category?</li>
 </ol>
 <div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb17-1" title="1">avg_hrs_by_health &lt;-<span class="st"> </span>cps_data <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb17-2" title="2"><span class="st">  </span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/filter">filter</a></span>(AGE <span class="op">&gt;=</span><span class="st"> </span><span class="dv">15</span> <span class="op">&amp;</span><span class="st"> </span>AHRSWORKT <span class="op">&lt;</span><span class="st"> </span><span class="dv">999</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb17-3" title="3"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">HEALTH_factor =</span> <span class="kw"><a href="https://forcats.tidyverse.org/reference/as_factor.html">as_factor</a></span>(HEALTH)) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb17-4" title="4"><span class="st">  </span><span class="kw">group_by</span>(HEALTH_factor) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb17-5" title="5"><span class="st">  </span><span class="kw">summarize</span>(<span class="dt">mean_hours_worked =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/weighted.mean">weighted.mean</a></span>(AHRSWORKT, WTSUPP))</a>
+<a class="sourceLine" id="cb17-2" title="2"><span class="st">  </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span>(AGE <span class="op">&gt;=</span><span class="st"> </span><span class="dv">15</span> <span class="op">&amp;</span><span class="st"> </span>AHRSWORKT <span class="op">&lt;</span><span class="st"> </span><span class="dv">999</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb17-3" title="3"><span class="st">  </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span>(<span class="dt">HEALTH_factor =</span> <span class="kw"><a href="https://forcats.tidyverse.org/reference/as_factor.html">as_factor</a></span>(HEALTH)) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb17-4" title="4"><span class="st">  </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span>(HEALTH_factor) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb17-5" title="5"><span class="st">  </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarize</a></span>(<span class="dt">mean_hours_worked =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/weighted.mean">weighted.mean</a></span>(AHRSWORKT, WTSUPP))</a>
 <a class="sourceLine" id="cb17-6" title="6"></a>
 <a class="sourceLine" id="cb17-7" title="7">avg_hrs_by_health </a>
 <a class="sourceLine" id="cb17-8" title="8"><span class="co">#&gt; # A tibble: 5 x 2</span></a>
@@ -448,8 +472,8 @@
 <a class="sourceLine" id="cb19-3" title="3"></a>
 <a class="sourceLine" id="cb19-4" title="4"><span class="co"># One way to do so graphically is to make faceted plots by age group</span></a>
 <a class="sourceLine" id="cb19-5" title="5">pct_emp_by_health_age &lt;-<span class="st"> </span>cps_data <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb19-6" title="6"><span class="st">  </span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/filter">filter</a></span>(AGE <span class="op">&gt;=</span><span class="st"> </span><span class="dv">15</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb19-7" title="7"><span class="st">  </span><span class="kw">mutate</span>(</a>
+<a class="sourceLine" id="cb19-6" title="6"><span class="st">  </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span>(AGE <span class="op">&gt;=</span><span class="st"> </span><span class="dv">15</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb19-7" title="7"><span class="st">  </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span>(</a>
 <a class="sourceLine" id="cb19-8" title="8">    <span class="dt">AGE_factor =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/cut">cut</a></span>(</a>
 <a class="sourceLine" id="cb19-9" title="9">      AGE, </a>
 <a class="sourceLine" id="cb19-10" title="10">      <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">15</span>, <span class="dv">25</span>, <span class="dv">35</span>, <span class="dv">45</span>, <span class="dv">55</span>, <span class="dv">65</span>, <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Extremes">max</a></span>(AGE)), </a>
@@ -458,8 +482,8 @@
 <a class="sourceLine" id="cb19-13" title="13">    ),</a>
 <a class="sourceLine" id="cb19-14" title="14">    <span class="dt">HEALTH_factor =</span> <span class="kw"><a href="https://forcats.tidyverse.org/reference/as_factor.html">as_factor</a></span>(HEALTH)</a>
 <a class="sourceLine" id="cb19-15" title="15">  ) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb19-16" title="16"><span class="st">  </span><span class="kw">group_by</span>(HEALTH_factor, AGE_factor) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb19-17" title="17"><span class="st">  </span><span class="kw">summarize</span>(<span class="dt">emp_pct =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/weighted.mean">weighted.mean</a></span>(EMPSTAT <span class="op">==</span><span class="st"> </span><span class="dv">10</span>, WTSUPP))</a>
+<a class="sourceLine" id="cb19-16" title="16"><span class="st">  </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span>(HEALTH_factor, AGE_factor) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb19-17" title="17"><span class="st">  </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarize</a></span>(<span class="dt">emp_pct =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/weighted.mean">weighted.mean</a></span>(EMPSTAT <span class="op">==</span><span class="st"> </span><span class="dv">10</span>, WTSUPP))</a>
 <a class="sourceLine" id="cb19-18" title="18"></a>
 <a class="sourceLine" id="cb19-19" title="19">x_label &lt;-<span class="st"> </span><span class="kw"><a href="../reference/ipums_var_info.html">ipums_var_label</a></span>(cps_data, HEALTH)</a>
 <a class="sourceLine" id="cb19-20" title="20">source_info &lt;-<span class="st"> </span><span class="kw"><a href="../reference/ipums_file_info.html">ipums_file_info</a></span>(cps_ddi, <span class="st">"ipums_project"</span>)</a>
@@ -501,7 +525,7 @@
 
 
       <footer><div class="copyright">
-  <p>Developed by Greg Freedman Ellis.</p>
+  <p>Developed by <a href="https://www.ipums.org">IPUMS</a> at the University of Minnesota.</p>
 </div>
 
 <div class="pkgdown">

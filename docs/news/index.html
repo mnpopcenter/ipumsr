@@ -8,6 +8,13 @@
 
 <title>Changelog • ipumsr</title>
 
+<!-- favicons -->
+<link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
+<link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png" />
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
@@ -32,7 +39,7 @@
 
 <meta property="og:title" content="Changelog" />
 
-<meta property="og:image" content="/logo.png" />
+<meta property="og:image" content="http://tech.popdata.org/ipumsr/logo.png" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -52,7 +59,7 @@
   <body>
     <div class="container template-news">
       <header>
-      <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+      <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
   <div class="container">
     <div class="navbar-header">
       <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false">
@@ -63,7 +70,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ipumsr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.0</span>
       </span>
     </div>
 
@@ -71,9 +78,12 @@
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fa fa-home fa-lg"></span>
+    <span class="fa fa-home"></span>
      
   </a>
+</li>
+<li>
+  <a href="../articles/ipums.html">Intro</a>
 </li>
 <li>
   <a href="../reference/index.html">Reference</a>
@@ -86,25 +96,29 @@
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
+      <a href="../articles/ipums.html">Introduction</a>
+    </li>
+    <li>
+      <a href="../articles/value-labels.html">Value labels</a>
+    </li>
+    <li>
+      <a href="../articles/ipums-geography.html">Geographic data in ipumsr</a>
+    </li>
+    <li>
       <a href="../articles/ipums-bigdata.html">Big IPUMS data</a>
     </li>
+    <li class="divider"></li>
     <li>
-      <a href="../articles/ipums-cps.html">`ipumsr` Example - CPS</a>
+      <a href="../articles/ipums-cps.html">CPS exercise</a>
     </li>
     <li>
-      <a href="../articles/ipums-geography.html">Geographic Data in `ipumsr`</a>
+      <a href="../articles/ipums-nhgis.html">NHGIS exercise</a>
     </li>
     <li>
-      <a href="../articles/ipums-nhgis.html">`ipumsr` Example - NHGIS</a>
+      <a href="../articles/ipums-terra.html">IPUMS Terra exercise</a>
     </li>
     <li>
-      <a href="../articles/ipums-terra.html">`ipumsr` Example - Terra</a>
-    </li>
-    <li>
-      <a href="../articles/ipums.html">Introduction to `ipumsr` - IPUMS Data in R</a>
-    </li>
-    <li>
-      <a href="../articles/value-labels.html">Value Labels</a>
+      <a href="https://ipums.org/exercises.shtml">More project exercises</a>
     </li>
   </ul>
 </li>
@@ -116,7 +130,19 @@
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/mnpopcenter/ipumsr">
-    <span class="fa fa-github fa-lg"></span>
+    <span class="fa fa-github"></span>
+     
+  </a>
+</li>
+<li>
+  <a href="https://forum.ipums.org">
+    <span class="fa fa-users"></span>
+     
+  </a>
+</li>
+<li>
+  <a href="https://www.ipums.org/">
+    <span class="fa fa-globe"></span>
      
   </a>
 </li>
@@ -136,16 +162,17 @@
       <small>Source: <a href='https://github.com/mnpopcenter/ipumsr/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
     </div>
 
-    <div id="ipumsr-0309000" class="section level1">
+    <div id="ipumsr-040" class="section level1">
 <h1 class="page-header">
-<a href="#ipumsr-0309000" class="anchor"></a>ipumsr 0.3.0.9000<small> Unreleased </small>
+<a href="#ipumsr-040" class="anchor"></a>ipumsr 0.4.0<small> 2019-03-08 </small>
 </h1>
 <ul>
+<li><p>Add <code><a href="../reference/read_ipums_micro_yield.html">read_ipums_micro_yield()</a></code> and <code><a href="../reference/read_ipums_micro_yield.html">read_ipums_micro_list_yield()</a></code> that read data in ‘yields’, a concept similar to ‘chunks’, but with a little more flexibility. See the big data vignette (<code><a href="../articles/ipums-bigdata.html">vignette("ipums-bigdata", package = "ipumsr")</a></code>) for more details.</p></li>
 <li><p>Fixed a bug when trying to set variable attributes but not value labels (<a href='https://github.com/mnpopcenter/ipumsr/issues/34'>#34</a>).</p></li>
 <li><p>Fixed a bug where implicit decimals would be double counted for csv files.</p></li>
 <li><p>Argument <code>rectype_convert</code> has been removed because it no longer did anything.</p></li>
-<li><p>Fixed a typo in vignette “ipums-geography”.</p></li>
-<li><p>Creates a pkgdown site.</p></li>
+<li><p>Fixed a typo in vignette “ipums-geography” (<a href='https://github.com/mnpopcenter/ipumsr/issues/37'>#37</a>, <a href='https://github.com/jacobkap'>@jacobkap</a>).</p></li>
+<li><p>Creates a pkgdown site (<a href='https://github.com/mnpopcenter/ipumsr/issues/38'>#38</a>, <a href='https://github.com/jacobkap'>@jacobkap</a>).</p></li>
 </ul>
 </div>
     <div id="ipumsr-030" class="section level1">
@@ -197,7 +224,7 @@
     <div id="tocnav">
       <h2>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
-        <li><a href="#ipumsr-0309000">0.3.0.9000</a></li>
+        <li><a href="#ipumsr-040">0.4.0</a></li>
         <li><a href="#ipumsr-030">0.3.0</a></li>
         <li><a href="#ipumsr-020">0.2.0</a></li>
         <li><a href="#ipumsr-011">0.1.1</a></li>
@@ -209,7 +236,7 @@
 
       <footer>
       <div class="copyright">
-  <p>Developed by Greg Freedman Ellis.</p>
+  <p>Developed by <a href="https://www.ipums.org">IPUMS</a> at the University of Minnesota.</p>
 </div>
 
 <div class="pkgdown">

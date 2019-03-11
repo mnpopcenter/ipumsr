@@ -5,7 +5,7 @@
 
 [![Project
 Status:Active](http://www.repostatus.org/badges/latest/active.svg)](http://www.repostatus.org/#active)
-[![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/ipumsr)](http://cran.r-project.org/web/packages/ipumsr)
+[![CRAN\_Status\_Badge](https://www.r-pkg.org/badges/version/ipumsr)](https://cran.r-project.org/web/packages/ipumsr)
 [![Travis-CI Build
 Status](https://travis-ci.org/mnpopcenter/ipumsr.svg?branch=master)](https://travis-ci.org/mnpopcenter/ipumsr)
 [![AppVeyor Build
@@ -41,20 +41,19 @@ devtools::install_github("mnpopcenter/ipumsr")
 The vignettes are a great place to learn more about ipumsr and IPUMS
 data:
 
-  - For a general introduction see the
-    [**ipums**](https://cran.r-project.org/package=ipumsr/vignettes/ipums.html)
-    vignette.
+  - [See the **ipums** vignette for a general
+    introduction](http://tech.popdata.org/ipumsr/articles/ipums.html)
 
   - For a more detailed look at some of the features, see these
     vignettes:
     
-      - [**value-labels**](https://cran.r-project.org/package=ipumsr/vignettes/value-labels.html)
+      - [**value-labels**](http://tech.popdata.org/ipumsr/articles/value-labels.html)
           - Provides guidance for using the value labels provided by
             IPUMS
-      - [**ipums-geography**](https://cran.r-project.org/package=ipumsr/vignettes/ipums-geography.html)
+      - [**ipums-geography**](http://tech.popdata.org/ipumsr/articles/ipums-geography.html)
           - Provides guidance for using R as GIS tool with IPUMS
         data
-      - [**ipums-bigdata**](https://cran.r-project.org/package=ipumsr/vignettes/ipums-bigdata.html)
+      - [**ipums-bigdata**](http://tech.popdata.org/ipumsr/articles/ipums-bigdata.html)
           - How to handle large IPUMS data extracts and examples of
             using the chunked versions of microdata reading functions.
 
@@ -62,19 +61,18 @@ data:
     projects, see these
         vignettes:
     
-      - [**ipums-cps**](https://cran.r-project.org/package=ipumsr/vignettes/ipums-cps.html)
+      - [**ipums-cps**](http://tech.popdata.org/ipumsr/articles/ipums-cps.html)
           - An example of using CPS data with the ipumsr
         package
-      - [**ipums-nhgis**](https://cran.r-project.org/package=ipumsr/vignettes/ipums-nhgis.html)
+      - [**ipums-nhgis**](http://tech.popdata.org/ipumsr/articles/ipums-nhgis.html)
           - An example of using NHGIS data with the ipumsr
         package
-      - [**ipums-terra**](https://cran.r-project.org/package=ipumsr/vignettes/ipums-terra.html)
-          - An example of using IPUMS Terra Data with the ipumsr package
-      - And more project-specific examples are available on the Data
-        Training Exercises section of the [IPUMS
-        website](https://www.ipums.org/exercises.shtml).
+      - [**ipums-terra**](http://tech.popdata.org/ipumsr/articles/ipums-terra.html)
+          - An example of using IPUMS Terra data with the ipumsr package
+      - [The IPUMS website](https://www.ipums.org/exercises.shtml)
+          - For more project specific exercises
 
-You can access them with the `vignette()` command (eg
+You can access them from R with the `vignette()` command (eg
 `vignette("value-labels")`).
 
 If you are installing from github and want the vignettes, you’ll need to
@@ -88,7 +86,8 @@ devtools::install_github("mnpopcenter/ipumsr", build_vignettes = TRUE)
 ## Development
 
 We greatly appreciate bug reports, suggestions or pull requests. They
-can be submitted via github, or by email to <ipums@umn.edu>
+can be submitted via github, on our [user
+forum](https://forum.ipums.org) or by email to <ipums@umn.edu>
 
 Before contributing, please be sure to read the [Contributing
 Guidelines](https://github.com/mnpopcenter/ipumsr/blob/master/CONTRIBUTING.md)

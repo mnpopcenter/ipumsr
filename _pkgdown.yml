@@ -1,0 +1,94 @@
+url: http://tech.popdata.org/ipumsr/
+template:
+  path: "pkgdown/templates"
+navbar:
+  title: "ipumsr"
+  type: inverse
+  left:
+    - icon: "fa-home"
+      href: index.html
+    - text: "Intro"
+      href: "articles/ipums.html"
+    - text: "Reference"
+      href: "reference/index.html"
+    - text: "Articles"
+      menu:
+      - text: "Introduction"
+        href: "articles/ipums.html"
+      - text: "Value labels"
+        href: "articles/value-labels.html"
+      - text: "Geographic data in ipumsr"
+        href: "articles/ipums-geography.html"
+      - text: "Big IPUMS data"
+        href: "articles/ipums-bigdata.html"
+      - text: "------------------"
+      - text: "CPS exercise"
+        href: "articles/ipums-cps.html"
+      - text: "NHGIS exercise"
+        href: "articles/ipums-nhgis.html"
+      - text: "IPUMS Terra exercise"
+        href: "articles/ipums-terra.html"
+      - text: "More project exercises"
+        href: "https://ipums.org/exercises.shtml"
+    - text: "Changelog"
+      href: "news/index.html"
+  right:
+    - icon: fa-github
+      href: https://github.com/mnpopcenter/ipumsr
+    - icon: fa-users
+      href: https://forum.ipums.org
+    - icon: fa-globe
+      href: https://www.ipums.org/
+home:
+  links:
+  - text: Ask a question
+    href: http://forum.ipums.org
+reference:
+  - title: "Read IPUMS data"
+    contents:
+      - read_ipums_micro
+      - read_ipums_micro_list
+      - starts_with("read_nhgis")
+      - starts_with("read_terra")
+      - read_ipums_sf
+      - read_ipums_sp
+      - read_ipums_ddi
+      - read_ipums_codebook
+      - read_ipums_micro_chunked
+      - read_ipums_micro_list_chunked
+      - read_ipums_micro_yield
+      - read_ipums_micro_list_yield
+      - IpumsLongYield
+      - IpumsListYield
+  - title: "Explore IPUMS metadata"
+    contents:
+      - ipums_view
+      - ipums_var_info
+      - ipums_var_desc
+      - ipums_var_label
+      - ipums_val_labels
+      - ipums_website
+      - ipums_conditions
+      - ipums_file_info
+      - starts_with("ipums_list")
+  - title: "Work with value labels"
+    desc: "Translate IPUMS value labels to standard R data structures"
+    contents:
+      - lbl_na_if
+      - lbl_relabel
+      - lbl_collapse
+      - zap_ipums_attributes
+      - lbl_clean
+      - lbl_add
+      - lbl_add_vals
+      - lbl
+  - title: "Other helpers"
+    desc: "Miscellaneous other helper functions for working with IPUMS data"
+    contents:
+      - ipums_bind_rows
+      - ipums_collect
+      - ipums_example
+      - starts_with("ipums_shape")
+      - join_failures
+      - set_ipums_var_attributes
+      - dplyr_select_style

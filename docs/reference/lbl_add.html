@@ -8,6 +8,13 @@
 
 <title>Add labels for unlabelled values — lbl_add • ipumsr</title>
 
+<!-- favicons -->
+<link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
+<link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png" />
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
@@ -34,7 +41,7 @@
 
 <meta property="og:description" content="Add labels for values that don't already have them." />
 
-<meta property="og:image" content="/logo.png" />
+<meta property="og:image" content="http://tech.popdata.org/ipumsr/logo.png" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -54,7 +61,7 @@
   <body>
     <div class="container template-reference-topic">
       <header>
-      <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+      <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
   <div class="container">
     <div class="navbar-header">
       <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false">
@@ -65,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ipumsr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.0</span>
       </span>
     </div>
 
@@ -73,9 +80,12 @@
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fa fa-home fa-lg"></span>
+    <span class="fa fa-home"></span>
      
   </a>
+</li>
+<li>
+  <a href="../articles/ipums.html">Intro</a>
 </li>
 <li>
   <a href="../reference/index.html">Reference</a>
@@ -88,25 +98,29 @@
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
+      <a href="../articles/ipums.html">Introduction</a>
+    </li>
+    <li>
+      <a href="../articles/value-labels.html">Value labels</a>
+    </li>
+    <li>
+      <a href="../articles/ipums-geography.html">Geographic data in ipumsr</a>
+    </li>
+    <li>
       <a href="../articles/ipums-bigdata.html">Big IPUMS data</a>
     </li>
+    <li class="divider"></li>
     <li>
-      <a href="../articles/ipums-cps.html">`ipumsr` Example - CPS</a>
+      <a href="../articles/ipums-cps.html">CPS exercise</a>
     </li>
     <li>
-      <a href="../articles/ipums-geography.html">Geographic Data in `ipumsr`</a>
+      <a href="../articles/ipums-nhgis.html">NHGIS exercise</a>
     </li>
     <li>
-      <a href="../articles/ipums-nhgis.html">`ipumsr` Example - NHGIS</a>
+      <a href="../articles/ipums-terra.html">IPUMS Terra exercise</a>
     </li>
     <li>
-      <a href="../articles/ipums-terra.html">`ipumsr` Example - Terra</a>
-    </li>
-    <li>
-      <a href="../articles/ipums.html">Introduction to `ipumsr` - IPUMS Data in R</a>
-    </li>
-    <li>
-      <a href="../articles/value-labels.html">Value Labels</a>
+      <a href="https://ipums.org/exercises.shtml">More project exercises</a>
     </li>
   </ul>
 </li>
@@ -118,7 +132,19 @@
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/mnpopcenter/ipumsr">
-    <span class="fa fa-github fa-lg"></span>
+    <span class="fa fa-github"></span>
+     
+  </a>
+</li>
+<li>
+  <a href="https://forum.ipums.org">
+    <span class="fa fa-users"></span>
+     
+  </a>
+</li>
+<li>
+  <a href="https://www.ipums.org/">
+    <span class="fa fa-globe"></span>
      
   </a>
 </li>
@@ -250,7 +276,7 @@ that are in the data, but aren't already labelled.</p></td>
 
       <footer>
       <div class="copyright">
-  <p>Developed by Greg Freedman Ellis.</p>
+  <p>Developed by <a href="https://www.ipums.org">IPUMS</a> at the University of Minnesota.</p>
 </div>
 
 <div class="pkgdown">
