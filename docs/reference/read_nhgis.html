@@ -36,6 +36,12 @@
 <script src="../pkgdown.js"></script>
 
 
+<!-- docsearch -->
+<script src="../docsearch.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/docsearch.js/2.6.1/docsearch.min.css" integrity="sha256-QOSRU/ra9ActyXkIBbiIB144aDBdtvXBcNc3OTNuX/Q=" crossorigin="anonymous" />
+<link href="../docsearch.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js" integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin="anonymous"></script>
+
 
 <meta property="og:title" content="Read data from an NHGIS extract — read_nhgis" />
 
@@ -150,6 +156,12 @@
   </a>
 </li>
       </ul>
+      
+      <form class="navbar-form navbar-right" role="search">
+        <div class="form-group">
+          <input type="search" class="form-control" name="search-input" id="search-input" placeholder="Search..." aria-label="Search for..." autocomplete="off">
+        </div>
+      </form>
       
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
@@ -271,7 +283,7 @@ shapes.</p>
 #&gt; Reading data file...
 #&gt; Reading geography...
 #&gt; options:        ENCODING=latin1 
-#&gt; Reading layer `US_pmsa_1990' from data source `C:\Users\gfellis\AppData\Local\Temp\Rtmp04b0oL\file20e85f706883\US_pmsa_1990.shp' using driver `ESRI Shapefile'
+#&gt; Reading layer `US_pmsa_1990' from data source `C:\Users\gfellis\AppData\Local\Temp\Rtmpodxly0\file330c31d97ca6\US_pmsa_1990.shp' using driver `ESRI Shapefile'
 #&gt; Simple feature collection with 71 features and 8 fields
 #&gt; geometry type:  MULTIPOLYGON
 #&gt; dimension:      XY
@@ -289,7 +301,7 @@ shapes.</p>
 #&gt; Reading data file...
 #&gt; Reading geography...
 #&gt; OGR data source with driver: ESRI Shapefile 
-#&gt; Source: "C:\Users\gfellis\AppData\Local\Temp\Rtmp04b0oL\file20e87b5e399b", layer: "US_pmsa_1990"
+#&gt; Source: "C:\Users\gfellis\AppData\Local\Temp\Rtmpodxly0\file330c367624b", layer: "US_pmsa_1990"
 #&gt; with 71 features
 #&gt; It has 8 fields</div><div class='output co'>#&gt; <span class='warning'>Warning: Column `GISJOIN` has different attributes on LHS and RHS of join</span></div><div class='input'>
 </div></pre>
@@ -321,6 +333,23 @@ shapes.</p>
    </div>
 
   
+<script src="https://cdnjs.cloudflare.com/ajax/libs/docsearch.js/2.6.1/docsearch.min.js" integrity="sha256-GKvGqXDznoRYHCwKXGnuchvKSwmx9SRMrZOTh2g4Sb0=" crossorigin="anonymous"></script>
+<script>
+  docsearch({
+    
+    
+    apiKey: '4ffa912ace97d2493f6ed39f20e94316',
+    indexName: 'ipumsr',
+    inputSelector: 'input#search-input.form-control',
+    transformData: function(hits) {
+      return hits.map(function (hit) {
+        hit.url = updateHitURL(hit);
+        return hit;
+      });
+    }
+  });
+</script>
+
 
   </body>
 </html>
