@@ -16,7 +16,9 @@
 <!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous">
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- sticky kit --><script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
-<script src="../pkgdown.js"></script><meta property="og:title" content="&lt;code&gt;ipumsr&lt;/code&gt; Example - Terra">
+<script src="../pkgdown.js"></script><!-- docsearch --><script src="../docsearch.js"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/docsearch.js/2.6.1/docsearch.min.css" integrity="sha256-QOSRU/ra9ActyXkIBbiIB144aDBdtvXBcNc3OTNuX/Q=" crossorigin="anonymous">
+<link href="../docsearch.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js" integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin="anonymous"></script><meta property="og:title" content="&lt;code&gt;ipumsr&lt;/code&gt; Example - Terra">
 <meta property="og:description" content="">
 <meta property="og:image" content="http://tech.popdata.org/ipumsr/logo.png">
 <meta name="twitter:card" content="summary">
@@ -114,7 +116,13 @@
   </a>
 </li>
       </ul>
+<form class="navbar-form navbar-right" role="search">
+        <div class="form-group">
+          <input type="search" class="form-control" name="search-input" id="search-input" placeholder="Search..." aria-label="Search for..." autocomplete="off">
 </div>
+      </form>
+      
+    </div>
 <!--/.nav-collapse -->
   </div>
 <!--/.container -->
@@ -129,7 +137,7 @@
 <code>ipumsr</code> Example - Terra</h1>
                         <h4 class="author">Minnesota Population Center</h4>
             
-            <h4 class="date">2019-03-11</h4>
+            <h4 class="date">2019-03-20</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/mnpopcenter/ipumsr/blob/master/vignettes/ipums-terra.Rmd"><code>vignettes/ipums-terra.Rmd</code></a></small>
       <div class="hidden name"><code>ipums-terra.Rmd</code></div>
@@ -266,7 +274,7 @@
 <a class="sourceLine" id="cb9-4" title="4"><span class="co">#&gt; details.</span></a>
 <a class="sourceLine" id="cb9-5" title="5"><span class="co">#&gt; </span></a>
 <a class="sourceLine" id="cb9-6" title="6"><span class="co">#&gt; options:        ENCODING=UTF-8 </span></a>
-<a class="sourceLine" id="cb9-7" title="7"><span class="co">#&gt; Reading layer `boundaries_4618_IPUMS_US_SLAD_2010' from data source `C:\Users\gfellis\AppData\Local\Temp\Rtmp44qMza\file1ee86d46584f\boundaries_4618_IPUMS_US_SLAD_2010.shp' using driver `ESRI Shapefile'</span></a>
+<a class="sourceLine" id="cb9-7" title="7"><span class="co">#&gt; Reading layer `boundaries_4618_IPUMS_US_SLAD_2010' from data source `C:\Users\gfellis\AppData\Local\Temp\RtmpYTJDTy\file1f8c2af3399c\boundaries_4618_IPUMS_US_SLAD_2010.shp' using driver `ESRI Shapefile'</span></a>
 <a class="sourceLine" id="cb9-8" title="8"><span class="co">#&gt; Simple feature collection with 2070 features and 2 fields</span></a>
 <a class="sourceLine" id="cb9-9" title="9"><span class="co">#&gt; geometry type:  MULTIPOLYGON</span></a>
 <a class="sourceLine" id="cb9-10" title="10"><span class="co">#&gt; dimension:      XY</span></a>
@@ -324,7 +332,7 @@
 <a class="sourceLine" id="cb13-4" title="4"><span class="co">#&gt; details.</span></a>
 <a class="sourceLine" id="cb13-5" title="5">terra_micro_shapes &lt;-<span class="st"> </span><span class="kw"><a href="../reference/read_ipums_sf.html">read_ipums_sf</a></span>(micro_extract)</a>
 <a class="sourceLine" id="cb13-6" title="6"><span class="co">#&gt; options:        ENCODING=latin1 </span></a>
-<a class="sourceLine" id="cb13-7" title="7"><span class="co">#&gt; Reading layer `boundaries_4621_IPUMS_US_SLAD_2010' from data source `C:\Users\gfellis\AppData\Local\Temp\Rtmp44qMza\file1ee87fe3272e\boundaries_4621_IPUMS_US_SLAD_2010.shp' using driver `ESRI Shapefile'</span></a>
+<a class="sourceLine" id="cb13-7" title="7"><span class="co">#&gt; Reading layer `boundaries_4621_IPUMS_US_SLAD_2010' from data source `C:\Users\gfellis\AppData\Local\Temp\RtmpYTJDTy\file1f8c3ad25d0\boundaries_4621_IPUMS_US_SLAD_2010.shp' using driver `ESRI Shapefile'</span></a>
 <a class="sourceLine" id="cb13-8" title="8"><span class="co">#&gt; Simple feature collection with 2070 features and 2 fields</span></a>
 <a class="sourceLine" id="cb13-9" title="9"><span class="co">#&gt; geometry type:  MULTIPOLYGON</span></a>
 <a class="sourceLine" id="cb13-10" title="10"><span class="co">#&gt; dimension:      XY</span></a>
@@ -398,6 +406,20 @@
 </div>
 
   
-
-  </body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/docsearch.js/2.6.1/docsearch.min.js" integrity="sha256-GKvGqXDznoRYHCwKXGnuchvKSwmx9SRMrZOTh2g4Sb0=" crossorigin="anonymous"></script><script>
+  docsearch({
+    
+    
+    apiKey: '4ffa912ace97d2493f6ed39f20e94316',
+    indexName: 'ipumsr',
+    inputSelector: 'input#search-input.form-control',
+    transformData: function(hits) {
+      return hits.map(function (hit) {
+        hit.url = updateHitURL(hit);
+        return hit;
+      });
+    }
+  });
+</script>
+</body>
 </html>

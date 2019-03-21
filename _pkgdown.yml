@@ -1,6 +1,10 @@
 url: http://tech.popdata.org/ipumsr/
 template:
   path: "pkgdown/templates"
+  params:
+    docsearch:
+      api_key: 4ffa912ace97d2493f6ed39f20e94316
+      index_name: ipumsr
 navbar:
   title: "ipumsr"
   type: inverse
