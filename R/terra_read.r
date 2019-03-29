@@ -69,14 +69,14 @@ read_terra_raster_internal <- function(data_file, data_layer, verbose, multiple_
         out <- raster::raster(raster_paths)
       } else {
         out <- purrr::map(raster_paths, ~raster::raster(.))
-        out <- purrr::set_names(out, stringr::str_sub(basename(raster_paths), 1, -6))
+        out <- purrr::set_names(out, fostr_sub(basename(raster_paths), 1, -6))
       }
     } else {
       if (!multiple_ok) {
         out <- raster::raster(data_file)
       } else {
         out <- purrr::map(data_file, raster::raster)
-        out <- purrr::set_names(out, stringr::str_sub(data_file, 1, -6))
+        out <- purrr::set_names(out, fostr_sub(data_file, 1, -6))
       }
     }
 
@@ -323,7 +323,7 @@ read_terra_micro <- function(
   if (file_is_zip(data_file)) {
     csv_name <- find_files_in(data_file, "(csv|gz)", data_layer)
     read_data <- unz(data_file, csv_name)
-    if (stringr::str_sub(csv_name, -3) == ".gz") {
+    if (fostr_sub(csv_name, -3) == ".gz") {
       read_data <- gzcon(read_data)
     }
   } else if (file_is_dir(data_file)) {

@@ -115,8 +115,8 @@ rectype_label_names <- function(cur_names, ddi) {
   rt_lbls <- rt_lbls$lbl[matched_lbls]
   # Clean up value labels a bit though:
   rt_lbls <- toupper(rt_lbls)
-  rt_lbls <- stringr::str_replace_all(rt_lbls, " RECORD$", "")
-  rt_lbls <- stringr::str_replace_all(rt_lbls, "[:blank:]", "_")
+  rt_lbls <- fostr_replace_all(rt_lbls, " RECORD$", "")
+  rt_lbls <- fostr_replace_all(rt_lbls, "[[:blank:]]", "_")
 
   rt_lbls
 }

@@ -131,10 +131,10 @@ fix_for_detailed_var <- function(object, var, var_label) {
 
   if (is.null(var_label)) return(var)
 
-  is_det <- stringr::str_detect(tolower(var_label), stringr::coll("[detailed version]"))
+  is_det <- grepl("detailed version", tolower(var_label), fixed = TRUE)
 
-  if (is_det && stringr::str_sub(var, -1) == "D") {
-    var <- stringr::str_sub(var, 1, -2)
+  if (is_det && fostr_sub(var, -1) == "D") {
+    var <- fostr_sub(var, 1, -2)
   }
   var
 }

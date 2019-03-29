@@ -69,7 +69,7 @@ read_nhgis <- function(
     csv_name <- find_files_in(data_file, "csv", data_layer)
     cb_ddi_info <- try(read_ipums_codebook(data_file, !!data_layer), silent = TRUE)
   } else {
-    cb_name <- stringr::str_replace(data_file, "\\.csv$", "_codebook.txt")
+    cb_name <- fostr_replace(data_file, "\\.csv$", "_codebook.txt")
     cb_ddi_info <- try(read_ipums_codebook(cb_name), silent = TRUE)
   }
 
@@ -147,7 +147,7 @@ read_nhgis_sf <- function(
 
   # Only join on vars that are in both and are called "GISJOIN*"
   join_vars <- intersect(names(data), names(sf_data))
-  join_vars <- stringr::str_subset(join_vars, "GISJOIN.*")
+  join_vars <- fostr_subset(join_vars, "GISJOIN.*")
 
   # Drop overlapping vars besides join var from shape file
   drop_vars <- dplyr::intersect(names(data), names(sf_data))
@@ -213,7 +213,7 @@ read_nhgis_sp <- function(
 
   # Only join on vars that are in both and are called "GISJOIN*"
   join_vars <- intersect(names(data), names(sp_data@data))
-  join_vars <- stringr::str_subset(join_vars, "GISJOIN.*")
+  join_vars <- fostr_subset(join_vars, "GISJOIN.*")
 
   # Drop overlapping vars besides join var from shape file
   drop_vars <- dplyr::intersect(names(data), names(sp_data@data))

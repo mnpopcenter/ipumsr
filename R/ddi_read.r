@@ -28,7 +28,7 @@ read_ipums_ddi <- function(ddi_file, data_layer = NULL, lower_vars = FALSE) {
 
   custom_check_file_exists(ddi_file)
 
-  if (stringr::str_sub(ddi_file, -4) == ".zip") {
+  if (fostr_sub(ddi_file, -4) == ".zip") {
     ddi_in_zip <- find_files_in(ddi_file, "xml", data_layer)
     ddi_file_load <- unz(ddi_file, ddi_in_zip)
   } else {
@@ -103,7 +103,7 @@ read_ipums_ddi <- function(ddi_file, data_layer = NULL, lower_vars = FALSE) {
         "@keyvar"
       )
     )
-    rectypes_keyvars <- stringr::str_split(rectypes_keyvars, "[:blank:]+")
+    rectypes_keyvars <- fostr_split(rectypes_keyvars, "[[:blank:]]+")
     rectypes_keyvars <- purrr::map(rectypes_keyvars, ~.[!is.na(.)])
     rectypes_keyvars <- tibble::tibble(
       rectype = rectypes,
@@ -190,7 +190,7 @@ get_var_info_from_ddi <- function(ddi_xml, file_type, rt_idvar, rectype_labels) 
   code_instr <- xml_text_from_path_first(var_info_xml, "d1:codInstr")
 
   if  (file_type == "hierarchical") {
-    rectype_by_var <- stringr::str_split(xml2::xml_attr(var_info_xml, "rectype"), " ")
+    rectype_by_var <- fostr_split(xml2::xml_attr(var_info_xml, "rectype"), " ")
   } else {
     rectype_by_var <- NA
   }
@@ -285,7 +285,7 @@ read_ipums_codebook <- function(cb_file, data_layer = NULL) {
     # isn't useful
     if (length(cb_name) > 1) {
       # First try to get rid of the "info" txt
-      cb_name <- cb_name[!stringr::str_detect(cb_name, "info\\.txt$")]
+      cb_name <- cb_name[!fostr_detect(cb_name, "info\\.txt$")]
 
       # If we still have multiple, then we should try to use the data_layer filter
       # because we're probably in a NHGIS extract
@@ -313,11 +313,11 @@ read_ipums_codebook <- function(cb_file, data_layer = NULL) {
     stop("Could not find text codebook.")
   }
   # Section markers are a line full of dashes (setting to 5+ to eliminate false positives)
-  section_markers <- which(stringr::str_detect(cb, "^[-]{5,}+$"))
+  section_markers <- which(fostr_detect(cb, "^[-]{5,}$"))
 
   # Second line tells if it is NHGIS or IPUMS Terra codebook
-  if (stringr::str_detect(cb[2], "IPUMS Terra")) type <- "IPUMS Terra"
-  else if (stringr::str_detect(cb[2], "NHGIS")) type <- "NHGIS"
+  if (fostr_detect(cb[2], "IPUMS Terra")) type <- "IPUMS Terra"
+  else if (fostr_detect(cb[2], "NHGIS")) type <- "NHGIS"
   else stop("Unknown codebook format.")
 
   # Get table names (var_desc) and variable labels (var_label)
@@ -325,9 +325,12 @@ read_ipums_codebook <- function(cb_file, data_layer = NULL) {
   dd <- find_cb_section(cb, "^Data Dictionary$", section_markers)
 
   if (type == "IPUMS Terra") {
-    data_file_rows <- which(stringr::str_detect(dd, "^Data File:"))
+    data_file_rows <- which(fostr_detect(dd, "^Data File:"))
     data_file_sections <- purrr::map2(data_file_rows, c(data_file_rows[-1], length(dd)), ~seq(.x + 1, .y - 1))
-    data_file_names <- stringr::str_match(dd[data_file_rows], "Data File: (.+)")[, 2]
+    data_file_names <- fostr_named_capture_single(
+      dd[data_file_rows],
+      "Data File: (?<data_file>.+)"
+    )
 
     # Only get var info from file you're downloading (specfied in data_layer)
     if (quo_is_null(data_layer)) {
@@ -342,17 +345,24 @@ read_ipums_codebook <- function(cb_file, data_layer = NULL) {
       ))
     }
     var_info <- dd[data_file_sections[[this_file]]]
-    var_info <- stringr::str_match(var_info, "([[:alnum:]|[:punct:]]+):[:blank:]+(.+)$")
+    var_info <- fostr_named_capture(
+      var_info,
+      "(?<var_name>[[:alnum:]|[:punct:]]+):[[:blank:]]+(?<var_label>.+)$",
+      only_matches = TRUE
+    )
+
     var_info <- make_var_info_from_scratch(
-      var_name = var_info[, 2],
-      var_label = var_info[, 3],
+      var_name = var_info$var_name,
+      var_label = var_info$var_label,
       var_desc = ""
     )
-    var_info <- var_info[!is.na(var_info$var_name), ]
   } else if (type == "NHGIS") {
     # Check if file is a time series file
-    time_series_type <- stringr::str_match(cb, "^Time series layout:[:blank:]+(.+)$")[, 2]
-    time_series_type <- time_series_type[!is.na(time_series_type)]
+    time_series_type <- fostr_named_capture_single(
+      cb,
+      "^Time series layout:[[:blank:]]+(?<ts_type>.+)$",
+      only_matches = TRUE
+    )
     if (length(time_series_type) > 0) {
       is_time_series <- TRUE
     } else {
@@ -360,45 +370,56 @@ read_ipums_codebook <- function(cb_file, data_layer = NULL) {
     }
 
     context_start <- which(dd == "Context Fields ") + 1
-    context_end <- which(stringr::str_detect(dd, "^[:blank:]$")) - 1
+    context_end <- which(fostr_detect(dd, "^[[:blank:]]$")) - 1
     context_end <- min(context_end[context_end > context_start])
     context_rows <- seq(context_start, context_end)
 
     context_vars <- dd[context_rows]
-    context_vars <- stringr::str_match(context_vars, "([[:alnum:]|[:punct:]]+):[:blank:]+(.+)$")
-    context_vars <- tibble::tibble(
-      var_name = context_vars[, 2],
-      var_label = context_vars[, 3],
-      var_desc = ""
+    context_vars <- fostr_named_capture(
+      context_vars,
+      "(?<var_name>[[:alnum:]|[:punct:]]+):[[:blank:]]+(?<var_label>.+)$"
     )
+    context_vars$var_desc <- ""
     context_vars <- context_vars[!is.na(context_vars$var_name), ]
 
-    table_name_rows <- which(stringr::str_detect(dd, "^[:blank:]*Table [0-9]+:"))
+    table_name_rows <- which(fostr_detect(dd, "^[[:blank:]]*Table [0-9]+:"))
     table_sections <- purrr::map2(table_name_rows, c(table_name_rows[-1], length(dd)), ~seq(.x, .y - 1))
 
     table_vars <- purrr::map_df(table_sections, function(rows) {
-
       if (is_time_series) {
-        table_name_and_code <- stringr::str_match(dd[rows[1]], "^[:blank:]*Table .+?:[:blank:]+\\((.+?)\\)[:blank:]+(.+)$")
-        table_name <- table_name_and_code[, 3]
-        nhgis_table_code <- table_name_and_code[, 2]
+        table_name_and_code <- fostr_named_capture(
+          dd[rows[1]],
+          "^[[:blank:]]*Table .+?:[[:blank:]]+\\((?<table_code>.+?)\\)[[:blank:]]+(?<table_name>.+)$"
+        )
+        nhgis_table_code <- table_name_and_code$table_code
+        table_name <- table_name_and_code$table_name
 
-        time_series_headers <- stringr::str_detect(dd[rows], "^[:blank:]+Time series")
+        time_series_headers <- fostr_detect(dd[rows], "^[[:blank:]]+Time series")
         vars <- dd[rows][!time_series_headers]
         vars <- vars[-1] # First row was table name/code
-        vars <- stringr::str_match(vars, "([[:alnum:]|[:punct:]]+):[:blank:]+(.+)$")
-        vars <- vars[!is.na(vars[, 2]), , drop = FALSE]
+        vars <- fostr_named_capture(
+          vars,
+          "(?<var_name>[[:alnum:]|[:punct:]]+):[[:blank:]]+(?<var_label>.+)$",
+          only_matches = TRUE
+        )
+        vars$var_desc <- paste0(table_name, " (", nhgis_table_code, ")")
       } else {
-        table_name <- stringr::str_match(dd[rows[1]], "^[:blank:]*Table .+?:[:blank:]+(.+)$")[, 2]
-        nhgis_table_code <- stringr::str_match(dd[rows[4]], "^[:blank:]*NHGIS code:[:blank:]+(.+)$")[, 2]
-        vars <- stringr::str_match(dd[rows[-1:-4]], "([[:alnum:]|[:punct:]]+):[:blank:]+(.+)$")
-        vars <- vars[!is.na(vars[, 2]), , drop = FALSE]
+        table_name <- fostr_named_capture_single(
+          dd[rows[1]],
+          "^[[:blank:]]*Table .+?:[[:blank:]]+(?<table_name>.+)$"
+        )
+        nhgis_table_code <- fostr_named_capture_single(
+          dd[rows[4]],
+          "^[[:blank:]]*NHGIS code:[[:blank:]]+(?<table_code>.+)$"
+        )
+        vars <- fostr_named_capture(
+          dd[rows[-1:-4]],
+          "(?<var_name>[[:alnum:]|[:punct:]]+):[[:blank:]]+(?<var_label>.+)$",
+          only_matches = TRUE
+        )
+        vars$var_desc <- paste0(table_name, " (", nhgis_table_code, ")")
       }
-      tibble::tibble(
-        var_name = vars[, 2],
-        var_label = vars[, 3],
-        var_desc = paste0(table_name, " (", nhgis_table_code, ")")
-      )
+      vars
     })
     var_info <- make_var_info_from_scratch(
       var_name = c(context_vars$var_name, table_vars$var_name),
@@ -425,7 +446,7 @@ read_ipums_codebook <- function(cb_file, data_layer = NULL) {
 
 
 find_cb_section <- function(cb_text, section, section_markers) {
-  start <- which(stringr::str_detect(cb_text, section))
+  start <- which(fostr_detect(cb_text, section))
   start <- start[start - 1 %in% section_markers & start + 1 %in% section_markers] + 2
 
   end <- min(c(length(cb_text), section_markers[section_markers > start])) - 1
@@ -513,7 +534,7 @@ make_empty_labels <- function() {
 parse_labels_from_code_instr <- function(code, var_type) {
   purrr::map2(code, var_type, function(x, vt) {
     if (is.na(x)) return(make_empty_labels())
-    lines <- stringr::str_split(x, "\n")[[1]]
+    lines <- fostr_split(x, "\n")[[1]]
     labels <- parse_code_regex(lines, vt)
     dplyr::arrange(labels, .data$val)
   })
@@ -521,21 +542,20 @@ parse_labels_from_code_instr <- function(code, var_type) {
 
 parse_code_regex <- function(x, vtype) {
   if (vtype %in% c("numeric", "integer")) {
-    labels <- stringr::str_match(
+    labels <- fostr_named_capture(
       x,
-      "^(-?[0-9.,]+)(([:blank:][:punct:]|[:punct:][:blank:]|[:blank:]|=)+)(.+?)$"
+      "^(?<val>-?[0-9.,]+)(([[:blank:]][[:punct:]]|[[:punct:]][[:blank:]]|[[:blank:]]|=)+)(?<lbl>.+?)$",
+      only_matches = TRUE
     )
 
-    labels <- tibble::tibble(val = labels[, 2], lbl = labels[, 5])
-    labels <- dplyr::filter(labels, !is.na(.data$val))
-    labels$val <- as.numeric(stringr::str_replace_all(labels$val, ",", ""))
+    labels$val <- as.numeric(fostr_replace_all(labels$val, ",", ""))
   } else {
-    labels <- stringr::str_match(
-      x, "^([:graph:]+)([:blank:]+[[:punct:]|=]+[:blank:]+)(.+)$"
+    labels <- fostr_named_capture(
+      x,
+      "^(?<val>[[:graph:]]+)(([[:blank:]]+[[:punct:]|=]+[[:blank:]])+)(?<lbl>.+)$",
+      only_matches = TRUE
     )
 
-    labels <- tibble::tibble(val = labels[, 2], lbl = labels[, 4])
-    labels <- dplyr::filter(labels, !is.na(.data$val))
   }
   labels
 }
