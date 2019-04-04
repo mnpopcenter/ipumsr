@@ -160,9 +160,10 @@ test_that(
 
 test_that(
   "Can read time series tables", {
-    nhgis_timeseries <- ipumsexamples::ipums_extra_example("nhgis0043_csv.zip")
+
+    nhgis_timeseries <-  system.file("extdata", "nhgis0043_csv.zip", package = "ipumsexamples")
     if (!file.exists(nhgis_timeseries)) {
-      skip("Couldn't find terra raster. ipumsexamples likely not installed.")
+      skip("Couldn't find nhgis time series. ipumsexamples likely not installed.")
     }
 
     data <- read_nhgis(nhgis_timeseries, verbose = FALSE)
