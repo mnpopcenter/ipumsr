@@ -392,7 +392,8 @@ fostr_subset <- function(string, pattern, negate = FALSE) {
 }
 
 fostr_wrap <- function(string, width = 80, indent = 0, exdent = 0) {
-  strwrap(string, width, indent = indent, exdent = exdent)
+  out <- strwrap(string, width, indent = indent, exdent = exdent)
+  paste(out, collapse = "\n")
 }
 
 fostr_split <- function(string, pattern) {
