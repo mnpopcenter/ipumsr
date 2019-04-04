@@ -30,7 +30,6 @@ Imports:
     readr,
     rlang,
     tibble,
-    tidyr,
     xml2,
     Rcpp,
     zeallot
