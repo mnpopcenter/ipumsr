@@ -46,7 +46,7 @@ test_that("complicated by works (sf)", {
   joined_regular <- ipums_shape_inner_join(data, shape, by = "GISJOIN")
 
   data$join_split1 <- fostr_sub(data$GISJOIN, 1, 1)
-  data$join_split2 <- as.numeric(stringr::str_sub(data$GISJOIN, 2, -1))
+  data$join_split2 <- as.numeric(fostr_sub(data$GISJOIN, 2, -1))
 
   shape$join_split1 <- fostr_sub(shape$GISJOIN, 1, 1)
   shape$join_split_xxx <- fostr_sub(shape$GISJOIN, 2, -1)
