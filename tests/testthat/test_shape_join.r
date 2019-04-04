@@ -45,11 +45,11 @@ test_that("complicated by works (sf)", {
 
   joined_regular <- ipums_shape_inner_join(data, shape, by = "GISJOIN")
 
-  data$join_split1 <- stringr::str_sub(data$GISJOIN, 1, 1)
+  data$join_split1 <- fostr_sub(data$GISJOIN, 1, 1)
   data$join_split2 <- as.numeric(stringr::str_sub(data$GISJOIN, 2, -1))
 
-  shape$join_split1 <- stringr::str_sub(shape$GISJOIN, 1, 1)
-  shape$join_split_xxx <- stringr::str_sub(shape$GISJOIN, 2, -1)
+  shape$join_split1 <- fostr_sub(shape$GISJOIN, 1, 1)
+  shape$join_split_xxx <- fostr_sub(shape$GISJOIN, 2, -1)
   shape$GISJOIN <- NULL
 
   joined <- ipums_shape_inner_join(
@@ -98,11 +98,11 @@ test_that("Join failures are mentioned", {
 test_that("Character -> Integer conversion works (#16)", {
   skip_if_not_installed("sf")
   data <- read_nhgis(ipums_example("nhgis0008_csv.zip"), verbose = FALSE)
-  data$id <- as.integer(stringr::str_sub(data$GISJOIN, 2, -1))
+  data$id <- as.integer(fostr_sub(data$GISJOIN, 2, -1))
   attr(data$id, "vardesc") <- "Test ipums attribute"
 
   shape <- read_ipums_sf(ipums_example("nhgis0008_shape_small.zip"), verbose = FALSE)
-  shape$id_shape <- stringr::str_sub(shape$GISJOIN, 2, -1)
+  shape$id_shape <- fostr_sub(shape$GISJOIN, 2, -1)
 
   joined <- ipums_shape_inner_join(data, shape, by = c("id" = "id_shape"))
 
