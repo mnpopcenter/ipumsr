@@ -29,9 +29,7 @@ Imports:
     raster,
     readr,
     rlang,
-    stringr,
     tibble,
-    tidyr,
     xml2,
     Rcpp,
     zeallot

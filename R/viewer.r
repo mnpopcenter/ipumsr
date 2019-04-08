@@ -180,13 +180,13 @@ expandable_div <- function(title, subtitle, content) {
 
 split_double_linebreaks_to_ptags <- function(x) {
   if (is.null(x)) return("")
-  out <- stringr::str_split(x, "\n\n")[[1]]
+  out <- fostr_split(x, "\n\n")[[1]]
   purrr::map(out, htmltools::tags$p)
 }
 
 convert_single_linebreak_to_brtags <- function(x) {
   if (is.null(x)) return(NULL)
-  split <- stringr::str_split(x, "\n")[[1]]
+  split <- fostr_split(x, "\n")[[1]]
   if (length(split) == 1) return(x)
   out <- vector(mode = "list", length = (length(split) - 1) * 2 - 1)
 

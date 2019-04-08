@@ -72,7 +72,17 @@ ddi_to_colspec <- function(ddi, out_type, verbose) {
       out <- list("P" = out)
     }
   } else if (ddi$file_type == "hierarchical") {
-    col_info <- tidyr::unnest_(ddi$var_info, "rectypes", .drop = FALSE)
+    col_info_rts <- ddi$var_info$rectypes
+    col_info <- ddi$var_info[rep(seq_along(col_info_rts), lengths(col_info_rts)), ]
+    if (is.character(col_info_rts[[1]][1])) {
+      col_info$rectypes <- purrr::flatten_chr(col_info_rts)
+    } else if (is.integer(col_info_rts[[1]][1])){
+      col_info$rectypes <- purrr::flatten_int(col_info_rts)
+    } else if (is.numeric(col_info_rts[[1]][1])){
+      col_info$rectypes <- purrr::flatten_dbl(col_info_rts)
+    } else {
+      stop("Unexpected rectype variable type.")
+    }
 
     rts <- unique(col_info$rectypes)
     out <- purrr::map(rts, function(rt) {
@@ -115,8 +125,8 @@ rectype_label_names <- function(cur_names, ddi) {
   rt_lbls <- rt_lbls$lbl[matched_lbls]
   # Clean up value labels a bit though:
   rt_lbls <- toupper(rt_lbls)
-  rt_lbls <- stringr::str_replace_all(rt_lbls, " RECORD$", "")
-  rt_lbls <- stringr::str_replace_all(rt_lbls, "[:blank:]", "_")
+  rt_lbls <- fostr_replace_all(rt_lbls, " RECORD$", "")
+  rt_lbls <- fostr_replace_all(rt_lbls, "[[:blank:]]", "_")
 
   rt_lbls
 }

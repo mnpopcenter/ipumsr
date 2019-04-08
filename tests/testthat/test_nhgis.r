@@ -156,3 +156,23 @@ test_that(
     expect_error(read_nhgis("FAKE_FILE.zip"), "working directory")
     expect_error(read_nhgis("C:/FAKE_FOLDER/FAKE_FILE.zip"), "check the path")
   })
+
+
+test_that(
+  "Can read time series tables", {
+
+    nhgis_timeseries <-  system.file("extdata", "nhgis0043_csv.zip", package = "ipumsexamples")
+    if (!file.exists(nhgis_timeseries)) {
+      skip("Couldn't find nhgis time series. ipumsexamples likely not installed.")
+    }
+
+    data <- read_nhgis(nhgis_timeseries, verbose = FALSE)
+
+    expect_equal(nrow(data), 1L)
+    expect_equal(data$GISJOIN[[1]], "G1")
+    expect_equal(data$NATION[[1]], "United States")
+    expect_equal(data$B78AA1980[[1]], 226545805)
+    expect_equal(attr(data$B78AA125, "label"), "2008-2012: Persons: Total")
+    expect_equal(attr(data$B78AA125, "var_desc"), "Total Population (B78)")
+  }
+)

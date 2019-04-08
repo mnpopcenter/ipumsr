@@ -72,7 +72,7 @@ read_ipums_sf <- function(
       this_sf
     }
   )
-  names(out) <- stringr::str_sub(basename(read_shape_files), 1, -5)
+  names(out) <- fostr_sub(basename(read_shape_files), 1, -5)
   out <- careful_sf_rbind(out, add_layer_var)
 
   out
@@ -147,7 +147,7 @@ read_ipums_sp <- function(
     function(.x, .y) {
       this_sp <- rgdal::readOGR(
         dsn = dirname(.x),
-        layer = stringr::str_sub(basename(.x), 1, -5),
+        layer = fostr_sub(basename(.x), 1, -5),
         verbose = verbose,
         stringsAsFactors = FALSE,
         encoding = .y,
@@ -156,7 +156,7 @@ read_ipums_sp <- function(
       if (!rlang::quo_is_null(vars)) this_sp@data <- dplyr::select(this_sp@data, !!vars)
       this_sp
     })
-  names(out) <- stringr::str_sub(basename(read_shape_files), 1, -5)
+  names(out) <- fostr_sub(basename(read_shape_files), 1, -5)
   out <- careful_sp_rbind(out, add_layer_var)
 
   out
@@ -231,8 +231,8 @@ determine_encoding <- function(shape_file_vector, encoding = NULL) {
     if (length(cpg_file) == 0) return("latin1")
 
     cpg_text <- readr::read_lines(cpg_file)[1]
-    if (stringr::str_detect(cpg_text, "ANSI 1252")) return("CP1252")
-    else if (stringr::str_detect(cpg_text, "UTF[[-][|:blank:]]?8")) return("UTF-8")
+    if (fostr_detect(cpg_text, "ANSI 1252")) return("CP1252")
+    else if (fostr_detect(cpg_text, "UTF[[-][|:blank:]]?8")) return("UTF-8")
     else return("latin1")
   })
   out
@@ -301,7 +301,7 @@ shape_file_prep <- function(shape_file, shape_layer, bind_multiple, shape_temp) 
       if (length(shape_shps) >= 1) {
         read_shape_files <- purrr::map_chr(shape_shps, function(x) {
           shape_shp_files <- paste0(
-            stringr::str_sub(x, 1, -4),
+            fostr_sub(x, 1, -4),
             # ignore "sbn", "sbx" because R doesn't use them
             c("shp", "dbf", "prj", "shx")
           )
