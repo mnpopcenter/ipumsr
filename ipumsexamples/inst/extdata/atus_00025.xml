@@ -1,0 +1,3805 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="ipums-ddi-xslt.xsl"?>
+<codeBook xmlns="ddi:codebook:2_5" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ddi:codebook:2_5 http://www.ddialliance.org/Specification/DDI-Codebook/2.5/XMLSchema/codebook.xsd" version="2.5" ID="ddi2-138596_atus_00025.dat-www.atusdata.org">
+  <docDscr>
+    <citation>
+      <titlStmt>
+        <titl>Codebook for an ATUS Data Extract</titl>
+        <subTitl>DDI 2.5 metadata describing the extract file  'atus_00025.dat'</subTitl>
+        <IDNo>ddi2-138596_atus_00025.dat-www.atusdata.org</IDNo>
+      </titlStmt>
+      <rspStmt>
+        <AuthEnty affiliation="University of Minnesota">Minnesota Population Center</AuthEnty>
+      </rspStmt>
+      <prodStmt>
+        <producer abbr="MPC" affiliation="University of Minnesota" role="Documentation">Minnesota Population Center</producer>
+        <prodDate date="2019-03-28">March 28, 2019</prodDate>
+        <prodPlac>Minnesota Population Center, 50 Willey Hall, 225 - 19th Avenue South, Minneapolis, MN 55455</prodPlac>
+      </prodStmt>
+      <distStmt>
+        <contact affiliation="University of Minnesota" URI="http://pop.umn.edu">Minnesota Population Center</contact>
+      </distStmt>
+    </citation>
+  </docDscr>
+  <stdyDscr>
+    <citation>
+      <titlStmt>
+        <titl>User Extract atus_00025.dat</titl>
+      </titlStmt>
+      <rspStmt>
+        <AuthEnty affiliation="University of Minnesota">Minnesota Population Center</AuthEnty>
+      </rspStmt>
+      <prodStmt>
+        <producer abbr="MPC" affiliation="University of Minnesota" role="Documentation">Minnesota Population Center</producer>
+        <prodDate date="2019-03-28">March 28, 2019</prodDate>
+        <prodPlac>Minnesota Population Center, 50 Willey Hall, 225 - 19th Avenue South, Minneapolis, MN 55455</prodPlac>
+      </prodStmt>
+      <distStmt>
+        <contact affiliation="University of Minnesota" URI="http://pop.umn.edu">Minnesota Population Center</contact>
+      </distStmt>
+      <serStmt>
+        <serName abbr="atus">ATUS-X</serName>
+        <serInfo>DOI:10.18128/D060.V2.7</serInfo>
+      </serStmt>
+      <verStmt>
+        <version date="2019-03-28"/>
+      </verStmt>
+    </citation>
+    <stdyInfo>
+      <subject>
+        <topcClas vocab="IPUMS">Technical Household Variables -- HOUSEHOLD</topcClas>
+        <topcClas vocab="IPUMS">Geographic Variables -- HOUSEHOLD</topcClas>
+        <topcClas vocab="IPUMS">Constructed Household Composition Variables -- HOUSEHOLD</topcClas>
+        <topcClas vocab="IPUMS">Technical Person Variables -- PERSON</topcClas>
+        <topcClas vocab="IPUMS">Weights Variables -- PERSON</topcClas>
+        <topcClas vocab="IPUMS">Core Demographic Variables -- PERSON</topcClas>
+        <topcClas vocab="IPUMS">Education Variables -- PERSON</topcClas>
+        <topcClas vocab="IPUMS">Hours and Earnings Variables -- PERSON</topcClas>
+        <topcClas vocab="IPUMS">Spouse Characteristic Variables -- PERSON</topcClas>
+        <topcClas vocab="IPUMS">Constructed Child Variables -- PERSON</topcClas>
+        <topcClas vocab="IPUMS">Technical Activity Variables -- ACTIVITY</topcClas>
+      </subject>
+      <sumDscr ID="sdatref-1">
+        <timePrd event="single" date="2003">2003</timePrd>
+        <nation abbr="us">United States</nation>
+      </sumDscr>
+      <sumDscr ID="sdatref-2">
+        <timePrd event="single" date="2004">2004</timePrd>
+        <nation abbr="us">United States</nation>
+      </sumDscr>
+      <sumDscr ID="sdatref-3">
+        <timePrd event="single" date="2005">2005</timePrd>
+        <nation abbr="us">United States</nation>
+      </sumDscr>
+      <sumDscr ID="sdatref-4">
+        <timePrd event="single" date="2006">2006</timePrd>
+        <nation abbr="us">United States</nation>
+      </sumDscr>
+      <sumDscr ID="sdatref-5">
+        <timePrd event="single" date="2007">2007</timePrd>
+        <nation abbr="us">United States</nation>
+      </sumDscr>
+      <sumDscr ID="sdatref-6">
+        <timePrd event="single" date="2008">2008</timePrd>
+        <nation abbr="us">United States</nation>
+      </sumDscr>
+      <sumDscr ID="sdatref-7">
+        <timePrd event="single" date="2009">2009</timePrd>
+        <nation abbr="us">United States</nation>
+      </sumDscr>
+      <sumDscr ID="sdatref-8">
+        <timePrd event="single" date="2010">2010</timePrd>
+        <nation abbr="us">United States</nation>
+      </sumDscr>
+      <sumDscr ID="sdatref-9">
+        <timePrd event="single" date="2011">2011</timePrd>
+        <nation abbr="us">United States</nation>
+      </sumDscr>
+      <sumDscr ID="sdatref-10">
+        <timePrd event="single" date="2012">2012</timePrd>
+        <nation abbr="us">United States</nation>
+      </sumDscr>
+      <sumDscr ID="sdatref-35">
+        <timePrd event="single" date="2013">2013</timePrd>
+        <nation abbr="us">United States</nation>
+      </sumDscr>
+      <sumDscr ID="sdatref-36">
+        <timePrd event="single" date="2014">2014</timePrd>
+        <nation abbr="us">United States</nation>
+      </sumDscr>
+      <sumDscr ID="sdatref-37">
+        <timePrd event="single" date="2015">2015</timePrd>
+        <nation abbr="us">United States</nation>
+      </sumDscr>
+      <sumDscr ID="sdatref-38">
+        <timePrd event="single" date="2016">2016</timePrd>
+        <nation abbr="us">United States</nation>
+      </sumDscr>
+      <sumDscr ID="sdatref-39">
+        <timePrd event="single" date="2017">2017</timePrd>
+        <nation abbr="us">United States</nation>
+      </sumDscr>
+      <notes><![CDATA[Additional notes on a sample that is part of this study:  ; regular size
+]]></notes>
+      <notes><![CDATA[Additional notes on a sample that is part of this study:  ; regular size
+]]></notes>
+      <notes><![CDATA[Additional notes on a sample that is part of this study:  ; regular size
+]]></notes>
+      <notes><![CDATA[Additional notes on a sample that is part of this study:  ; regular size
+]]></notes>
+      <notes><![CDATA[Additional notes on a sample that is part of this study:  ; regular size
+]]></notes>
+      <notes><![CDATA[Additional notes on a sample that is part of this study:  ; regular size
+]]></notes>
+      <notes><![CDATA[Additional notes on a sample that is part of this study:  ; regular size
+]]></notes>
+      <notes><![CDATA[Additional notes on a sample that is part of this study:  ; regular size
+]]></notes>
+      <notes><![CDATA[Additional notes on a sample that is part of this study:  ; regular size
+]]></notes>
+      <notes><![CDATA[Additional notes on a sample that is part of this study:  ; regular size
+]]></notes>
+      <notes><![CDATA[Additional notes on a sample that is part of this study:  ; regular size
+]]></notes>
+      <notes><![CDATA[Additional notes on a sample that is part of this study:  ; regular size
+]]></notes>
+      <notes><![CDATA[Additional notes on a sample that is part of this study:  ; regular size
+]]></notes>
+      <notes><![CDATA[Additional notes on a sample that is part of this study:  ; regular size
+]]></notes>
+      <notes><![CDATA[Additional notes on a sample that is part of this study:  ; regular size
+]]></notes>
+    </stdyInfo>
+    <dataAccs>
+      <useStmt>
+        <confDec required="no"><![CDATA[None]]></confDec>
+        <contact affiliation="Minnesota Population Center" URI="http://atusdata.org/">ATUS</contact>
+        <citReq><![CDATA[Publications and research reports based on the ATUS database must cite it appropriately. The citation should include the following:
+
+Sandra L. Hofferth, Sarah M. Flood, and Matthew Sobek. American Time Use Survey Data Extract Builder: Version 2.7 [dataset]. College Park, MD: University of Maryland and Minneapolis, MN: IPUMS, 2018. https://doi.org/10.18128/D060.V2.7
+
+The licensing agreement for use of ATUS data requires that users supply us with the title and full citation for any publications, research reports, or educational materials making use of the data or documentation. Please add your citation to the IPUMS bibliography: http://bibliography.ipums.org/]]></citReq>
+        <conditions><![CDATA[Users of ATUS data must agree to abide by the conditions of use. A user's license is valid for one year and may be renewed.  Users must agree to the following conditions:
+
+(1) No fees may be charged for use or distribution of the data.  All persons are granted a limited license to use these data, but you may not charge a fee for the data if you distribute it to others.
+
+(2) Cite IPUMS appropriately.  For information on proper citation, refer to the citation requirement section of this DDI document.
+
+(3) Tell us about any work you do using the IPUMS.  Publications, research reports, or presentations making use of ATUS should be added to our Bibliography. Continued funding for the IPUMS depends on our ability to show our sponsor agencies that researchers are using the data for productive purposes.
+
+(4) Use it for GOOD -- never for EVIL.]]></conditions>
+        <disclaimer>The user of the data acknowledges that the original collector of the data, the authorized distributor of the data, and the relevant funding agency bear no responsibility for use of the data or for interpretations or inferences based upon such uses.</disclaimer>
+      </useStmt>
+    </dataAccs>
+    <notes><![CDATA[User-provided description:  replication of joanna pepin]]></notes>
+  </stdyDscr>
+  <fileDscr ID="ExtractData">
+    <fileTxt>
+      <fileName>atus_00025.dat</fileName>
+      <fileCont>Microdata records</fileCont>
+      <fileStrc type="hierarchical">
+        <recGrp rectype="5" recidvar="RECTYPE" keyvar="CASEID">
+          <labl>Elder Care Record</labl>
+        </recGrp>
+        <recGrp rectype="4" recidvar="RECTYPE" keyvar="CASEID">
+          <labl>Who Record</labl>
+        </recGrp>
+        <recGrp rectype="3" recidvar="RECTYPE" keyvar="CASEID">
+          <labl>Activity Record</labl>
+        </recGrp>
+        <recGrp rectype="2" recidvar="RECTYPE" keyvar="CASEID">
+          <labl>Person Record</labl>
+        </recGrp>
+        <recGrp rectype="1" recidvar="RECTYPE">
+          <labl>Household Record</labl>
+        </recGrp>
+      </fileStrc>
+      <fileType charset="ISO-8859-1">ISO-8859-1 data file</fileType>
+      <format>fixed length fields</format>
+      <filePlac>Minnesota Population Center, 50 Willey Hall, 225 - 19th Avenue South, Minneapolis, MN 55455</filePlac>
+    </fileTxt>
+  </fileDscr>
+  <dataDscr>
+    <var ID="RECTYPE" files="ExtractData" name="RECTYPE" intrvl="discrete" dcml="0" rectype="1 2 3 4 5">
+      <location StartPos="1" width="1" EndPos="1"/>
+      <labl>Record Type</labl>
+      <txt><![CDATA[RECTYPE assigns all household records the value "1"; person records are assigned "2"; activity records are assigned "3"; who records are assigned "4"; and eldercare records are assigned "5". This allows users to discriminate between different types of records in the data. Each household record is followed by one or more person records. ATUS respondents (LINENO=1) are followed by many activity records, which comprise the main time diary component of the data. Respondents may report many people with whom the activity was done; accordingly these records follow the activities to which they correspond. Finally, in 2011 forward, eldercare records include information about the individuals to whom the ATUS respondent has provided care.]]></txt>
+      <catgry>
+        <catValu>1</catValu>
+        <labl>H</labl>
+      </catgry>
+      <catgry>
+        <catValu>2</catValu>
+        <labl>P</labl>
+      </catgry>
+      <catgry>
+        <catValu>3</catValu>
+        <labl>A</labl>
+      </catgry>
+      <catgry>
+        <catValu>4</catValu>
+        <labl>W</labl>
+      </catgry>
+      <catgry>
+        <catValu>5</catValu>
+        <labl>R</labl>
+      </catgry>
+      <concept vocab="IPUMS">Technical Household Variables -- HOUSEHOLD</concept>
+      <varFormat schema="other" type="numeric"/>
+    </var>
+    <var ID="YEAR" files="ExtractData" name="YEAR" intrvl="contin" dcml="0" rectype="1 2 3 4 5">
+      <location StartPos="2" width="5" EndPos="6"/>
+      <labl>Survey year</labl>
+      <txt><![CDATA[YEAR reports the survey year.
+
+There are several other variables that report date information on the diary day.  See DATE for the date of the diary day, DAY for the day of the diary day, and MONTH for the month of the diary day.
+
+The ATUS interview took place 2-5 months after the final CPS interview.  Date information is also available for the final CPS interview.  See MONTH_CPS8 for the month of the final CPS interview and YEAR_CPS8 for the year of the final CPS interview.]]></txt>
+      <codInstr><![CDATA[YEAR is a four-digit numeric variable reporting the survey year.]]></codInstr>
+      <concept vocab="IPUMS">Technical Household Variables -- HOUSEHOLD</concept>
+      <varFormat schema="other" type="numeric"/>
+    </var>
+    <var ID="CASEID" files="ExtractData" name="CASEID" intrvl="contin" dcml="0" rectype="1 2 3 4 5">
+      <location StartPos="7" width="14" EndPos="20"/>
+      <labl>ATUS Case ID</labl>
+      <txt><![CDATA[CASEID is an identifying number unique to each household. 
+
+CASEID is the same as TUCASEID which is on the public use ATUS files. For user convenience CASEID has been converted to a numeric variable. Users who are trying to match ATUS-X files with public use ATUS files must be sure that CASEID and TUCASEID are of the same type.]]></txt>
+      <codInstr><![CDATA[
+CASEID is a 14-digit numeric variable uniquely identifying each household.]]></codInstr>
+      <concept vocab="IPUMS">Technical Household Variables -- HOUSEHOLD</concept>
+      <varFormat schema="other" type="numeric"/>
+    </var>
+    <var ID="REGION" files="ExtractData" name="REGION" intrvl="discrete" dcml="0" rectype="1">
+      <location StartPos="21" width="1" EndPos="21"/>
+      <labl>Region</labl>
+      <txt><![CDATA[REGION reports the geographical region in which the respondent household is located.
+
+Northeast region: CT, MA, ME, NH, NJ, NY, PA, RI, and VT
+Midwest region: IA, IL IN, KS, MI, MN, MO, ND, NE, OH, SD, and WI
+South region: AL, AR, DC, DE, FL, GA, KY, LA, MD, MS, NC, OK, SC, TN, TX, VA, and WV
+West region: AK, AZ, CA, CO, HI, ID, MT, NM, NC, OR, UT, WA, and WY
+
+REGION was added to the data by the Census Bureau, not collected from respondents.]]></txt>
+      <catgry>
+        <catValu>1</catValu>
+        <labl>Northeast</labl>
+      </catgry>
+      <catgry>
+        <catValu>2</catValu>
+        <labl>Midwest</labl>
+      </catgry>
+      <catgry>
+        <catValu>3</catValu>
+        <labl>South</labl>
+      </catgry>
+      <catgry>
+        <catValu>4</catValu>
+        <labl>West</labl>
+      </catgry>
+      <concept vocab="IPUMS">Geographic Variables -- HOUSEHOLD</concept>
+      <varFormat schema="other" type="numeric"/>
+    </var>
+    <var ID="HH_SIZE" files="ExtractData" name="HH_SIZE" intrvl="discrete" dcml="0" rectype="1">
+      <location StartPos="22" width="3" EndPos="24"/>
+      <labl>Number of people in household</labl>
+      <txt><![CDATA[HH_ SIZE reports the number of people living in the respondent's household.
+
+The number of adults living in the household is also available (see HH_NUMADULTS), as is the number of children living in the household (see HH_NUMKIDS).
+
+HH_SIZE was collected at the time of the ATUS interview.  Household size was also collected at the time of the final CPS interview, 2-5 months before the ATUS interview.  See HH_SIZE_CPS8.]]></txt>
+      <catgry>
+        <catValu>001</catValu>
+        <labl>1</labl>
+      </catgry>
+      <catgry>
+        <catValu>002</catValu>
+        <labl>2</labl>
+      </catgry>
+      <catgry>
+        <catValu>003</catValu>
+        <labl>3</labl>
+      </catgry>
+      <catgry>
+        <catValu>004</catValu>
+        <labl>4</labl>
+      </catgry>
+      <catgry>
+        <catValu>005</catValu>
+        <labl>5</labl>
+      </catgry>
+      <catgry>
+        <catValu>006</catValu>
+        <labl>6</labl>
+      </catgry>
+      <catgry>
+        <catValu>007</catValu>
+        <labl>7</labl>
+      </catgry>
+      <catgry>
+        <catValu>008</catValu>
+        <labl>8</labl>
+      </catgry>
+      <catgry>
+        <catValu>009</catValu>
+        <labl>9</labl>
+      </catgry>
+      <catgry>
+        <catValu>010</catValu>
+        <labl>10</labl>
+      </catgry>
+      <catgry>
+        <catValu>011</catValu>
+        <labl>11</labl>
+      </catgry>
+      <catgry>
+        <catValu>012</catValu>
+        <labl>12</labl>
+      </catgry>
+      <catgry>
+        <catValu>013</catValu>
+        <labl>13</labl>
+      </catgry>
+      <catgry>
+        <catValu>014</catValu>
+        <labl>14</labl>
+      </catgry>
+      <catgry>
+        <catValu>015</catValu>
+        <labl>15</labl>
+      </catgry>
+      <catgry>
+        <catValu>016</catValu>
+        <labl>16</labl>
+      </catgry>
+      <catgry>
+        <catValu>999</catValu>
+        <labl>NIU (Not in universe)</labl>
+      </catgry>
+      <concept vocab="IPUMS">Constructed Household Composition Variables -- HOUSEHOLD</concept>
+      <varFormat schema="other" type="numeric"/>
+    </var>
+    <var ID="HH_CHILD" files="ExtractData" name="HH_CHILD" intrvl="discrete" dcml="0" rectype="1">
+      <location StartPos="25" width="2" EndPos="26"/>
+      <labl>Children under 18 in household</labl>
+      <txt><![CDATA[HH_CHILD reports whether there is a child under the age of 18 living in the household.
+
+There are a number of other household composition variables that may be useful.  HH_NUMKIDS reports the total number of children in the household, and HH_NUMOWNKIDS reports the total number of the respondent's own children in the household.  Also, HH_SIZE reports the total number of people living in the household.
+
+HH_CHILD was collected at the time of the ATUS interview.  Information on the presence of children in the household was also collected at the time of the final CPS interview, 2-5 months before the ATUS interview.  See HH_CHILD_CPS8.]]></txt>
+      <catgry>
+        <catValu>00</catValu>
+        <labl>No</labl>
+      </catgry>
+      <catgry>
+        <catValu>01</catValu>
+        <labl>Yes</labl>
+      </catgry>
+      <catgry>
+        <catValu>99</catValu>
+        <labl>NIU (Not in universe)</labl>
+      </catgry>
+      <concept vocab="IPUMS">Constructed Household Composition Variables -- HOUSEHOLD</concept>
+      <varFormat schema="other" type="numeric"/>
+    </var>
+    <var ID="HH_NUMKIDS" files="ExtractData" name="HH_NUMKIDS" intrvl="discrete" dcml="0" rectype="1">
+      <location StartPos="27" width="2" EndPos="28"/>
+      <labl>Number of children under 18 in household</labl>
+      <txt><![CDATA[HH_NUMKIDS reports the number of children under the age of 18 who live in the household.
+
+Total household size is also available (see HH_SIZE) as is the presence of a child in the household (see HH_CHILD).
+
+The number of children in the household was collected at the time of the ATUS interview, 2-5 months after the final CPS interview.]]></txt>
+      <catgry>
+        <catValu>00</catValu>
+        <labl>0</labl>
+      </catgry>
+      <catgry>
+        <catValu>01</catValu>
+        <labl>1</labl>
+      </catgry>
+      <catgry>
+        <catValu>02</catValu>
+        <labl>2</labl>
+      </catgry>
+      <catgry>
+        <catValu>03</catValu>
+        <labl>3</labl>
+      </catgry>
+      <catgry>
+        <catValu>04</catValu>
+        <labl>4</labl>
+      </catgry>
+      <catgry>
+        <catValu>05</catValu>
+        <labl>5</labl>
+      </catgry>
+      <catgry>
+        <catValu>06</catValu>
+        <labl>6</labl>
+      </catgry>
+      <catgry>
+        <catValu>07</catValu>
+        <labl>7</labl>
+      </catgry>
+      <catgry>
+        <catValu>08</catValu>
+        <labl>8</labl>
+      </catgry>
+      <catgry>
+        <catValu>09</catValu>
+        <labl>9</labl>
+      </catgry>
+      <catgry>
+        <catValu>10</catValu>
+        <labl>10</labl>
+      </catgry>
+      <catgry>
+        <catValu>11</catValu>
+        <labl>11</labl>
+      </catgry>
+      <catgry>
+        <catValu>12</catValu>
+        <labl>12</labl>
+      </catgry>
+      <catgry>
+        <catValu>99</catValu>
+        <labl>NIU (Not in universe)</labl>
+      </catgry>
+      <concept vocab="IPUMS">Constructed Household Composition Variables -- HOUSEHOLD</concept>
+      <varFormat schema="other" type="numeric"/>
+    </var>
+    <var ID="AGEYCHILD" files="ExtractData" name="AGEYCHILD" intrvl="discrete" dcml="0" rectype="1">
+      <location StartPos="29" width="3" EndPos="31"/>
+      <labl>Age of youngest household child</labl>
+      <txt><![CDATA[AGEYCHILD reports the age of the youngest household child.
+
+AGEYCHILD was collected at the time of the ATUS interview.  The age of the youngest household child was also collected at the time of the final CPS interview, 2-5 months before the ATUS interview.  See AGEYCHILD_CPS8.]]></txt>
+      <catgry>
+        <catValu>000</catValu>
+        <labl>0</labl>
+      </catgry>
+      <catgry>
+        <catValu>001</catValu>
+        <labl>1</labl>
+      </catgry>
+      <catgry>
+        <catValu>002</catValu>
+        <labl>2</labl>
+      </catgry>
+      <catgry>
+        <catValu>003</catValu>
+        <labl>3</labl>
+      </catgry>
+      <catgry>
+        <catValu>004</catValu>
+        <labl>4</labl>
+      </catgry>
+      <catgry>
+        <catValu>005</catValu>
+        <labl>5</labl>
+      </catgry>
+      <catgry>
+        <catValu>006</catValu>
+        <labl>6</labl>
+      </catgry>
+      <catgry>
+        <catValu>007</catValu>
+        <labl>7</labl>
+      </catgry>
+      <catgry>
+        <catValu>008</catValu>
+        <labl>8</labl>
+      </catgry>
+      <catgry>
+        <catValu>009</catValu>
+        <labl>9</labl>
+      </catgry>
+      <catgry>
+        <catValu>010</catValu>
+        <labl>10</labl>
+      </catgry>
+      <catgry>
+        <catValu>011</catValu>
+        <labl>11</labl>
+      </catgry>
+      <catgry>
+        <catValu>012</catValu>
+        <labl>12</labl>
+      </catgry>
+      <catgry>
+        <catValu>013</catValu>
+        <labl>13</labl>
+      </catgry>
+      <catgry>
+        <catValu>014</catValu>
+        <labl>14</labl>
+      </catgry>
+      <catgry>
+        <catValu>015</catValu>
+        <labl>15</labl>
+      </catgry>
+      <catgry>
+        <catValu>016</catValu>
+        <labl>16</labl>
+      </catgry>
+      <catgry>
+        <catValu>017</catValu>
+        <labl>17</labl>
+      </catgry>
+      <catgry>
+        <catValu>999</catValu>
+        <labl>NIU (Not in universe)</labl>
+      </catgry>
+      <concept vocab="IPUMS">Constructed Household Composition Variables -- HOUSEHOLD</concept>
+      <varFormat schema="other" type="numeric"/>
+    </var>
+    <var ID="HH_NUMADULTS" files="ExtractData" name="HH_NUMADULTS" intrvl="discrete" dcml="0" rectype="1">
+      <location StartPos="32" width="2" EndPos="33"/>
+      <labl>Number of adults in household</labl>
+      <txt><![CDATA[HH_ NUMADULTS reports the number of persons aged 18 and older living in the respondent's household.
+
+Total household size is also available (see HH_SIZE).  The total number of children in the household is available as well (see HH_NUMKIDS).
+
+HH_NUMADULTS was collected at the time of the ATUS interview, 2-5 months after the final CPS interview.]]></txt>
+      <catgry>
+        <catValu>00</catValu>
+        <labl>0</labl>
+      </catgry>
+      <catgry>
+        <catValu>01</catValu>
+        <labl>1</labl>
+      </catgry>
+      <catgry>
+        <catValu>02</catValu>
+        <labl>2</labl>
+      </catgry>
+      <catgry>
+        <catValu>03</catValu>
+        <labl>3</labl>
+      </catgry>
+      <catgry>
+        <catValu>04</catValu>
+        <labl>4</labl>
+      </catgry>
+      <catgry>
+        <catValu>05</catValu>
+        <labl>5</labl>
+      </catgry>
+      <catgry>
+        <catValu>06</catValu>
+        <labl>6</labl>
+      </catgry>
+      <catgry>
+        <catValu>07</catValu>
+        <labl>7</labl>
+      </catgry>
+      <catgry>
+        <catValu>08</catValu>
+        <labl>8</labl>
+      </catgry>
+      <catgry>
+        <catValu>09</catValu>
+        <labl>9</labl>
+      </catgry>
+      <catgry>
+        <catValu>99</catValu>
+        <labl>NIU (Not in universe)</labl>
+      </catgry>
+      <concept vocab="IPUMS">Constructed Household Composition Variables -- HOUSEHOLD</concept>
+      <varFormat schema="other" type="numeric"/>
+    </var>
+    <var ID="PERNUM" files="ExtractData" name="PERNUM" intrvl="discrete" dcml="0" rectype="2">
+      <location StartPos="21" width="2" EndPos="22"/>
+      <labl>Person number (general)</labl>
+      <txt><![CDATA[PERNUM is constructed to uniquely identify each person within a given household. It is available for all household members whether they were present in the household at the time of the ATUS, CPS, or both. This is the only line number variable available for each person in every household. 
+
+LINENO was assigned to all household members present at the time of the ATUS interview. LINENO_CPS8 was assigned to all household members present at the time of the final CPS interview, 2-5 months before the ATUS interview. Because household composition could change, PERNUM, LINENO, and LINENO_CPS8 may not match.]]></txt>
+      <catgry>
+        <catValu>01</catValu>
+        <labl>1</labl>
+      </catgry>
+      <catgry>
+        <catValu>02</catValu>
+        <labl>2</labl>
+      </catgry>
+      <catgry>
+        <catValu>03</catValu>
+        <labl>3</labl>
+      </catgry>
+      <catgry>
+        <catValu>04</catValu>
+        <labl>4</labl>
+      </catgry>
+      <catgry>
+        <catValu>05</catValu>
+        <labl>5</labl>
+      </catgry>
+      <catgry>
+        <catValu>06</catValu>
+        <labl>6</labl>
+      </catgry>
+      <catgry>
+        <catValu>07</catValu>
+        <labl>7</labl>
+      </catgry>
+      <catgry>
+        <catValu>08</catValu>
+        <labl>8</labl>
+      </catgry>
+      <catgry>
+        <catValu>09</catValu>
+        <labl>9</labl>
+      </catgry>
+      <catgry>
+        <catValu>10</catValu>
+        <labl>10</labl>
+      </catgry>
+      <catgry>
+        <catValu>11</catValu>
+        <labl>11</labl>
+      </catgry>
+      <catgry>
+        <catValu>12</catValu>
+        <labl>12</labl>
+      </catgry>
+      <catgry>
+        <catValu>13</catValu>
+        <labl>13</labl>
+      </catgry>
+      <catgry>
+        <catValu>14</catValu>
+        <labl>14</labl>
+      </catgry>
+      <catgry>
+        <catValu>15</catValu>
+        <labl>15</labl>
+      </catgry>
+      <catgry>
+        <catValu>16</catValu>
+        <labl>16</labl>
+      </catgry>
+      <concept vocab="IPUMS">Technical Person Variables -- PERSON</concept>
+      <varFormat schema="other" type="numeric"/>
+    </var>
+    <var ID="LINENO" files="ExtractData" name="LINENO" intrvl="discrete" dcml="0" rectype="2">
+      <location StartPos="23" width="3" EndPos="25"/>
+      <labl>Person line number</labl>
+      <txt><![CDATA[LINENO identifies each person within a given ATUS respondent household.  It is only available for individuals who were in an ATUS respondent household at the time of the ATUS interview. ATUS respondents always have a LINENO value of 1. 
+
+LINENO_CPS8 is a person identifier that was assigned at the time of the final CPS interview, 2-5 months before the ATUS interview.  Because household composition may have changed between the dates of the CPS and ATUS interviews, LINENO and LINENO_CPS8 may not match. 
+
+PERNUM is an additional person identifier that is available for all person records in the dataset.]]></txt>
+      <catgry>
+        <catValu>001</catValu>
+        <labl>1</labl>
+      </catgry>
+      <catgry>
+        <catValu>002</catValu>
+        <labl>2</labl>
+      </catgry>
+      <catgry>
+        <catValu>003</catValu>
+        <labl>3</labl>
+      </catgry>
+      <catgry>
+        <catValu>004</catValu>
+        <labl>4</labl>
+      </catgry>
+      <catgry>
+        <catValu>005</catValu>
+        <labl>5</labl>
+      </catgry>
+      <catgry>
+        <catValu>006</catValu>
+        <labl>6</labl>
+      </catgry>
+      <catgry>
+        <catValu>007</catValu>
+        <labl>7</labl>
+      </catgry>
+      <catgry>
+        <catValu>008</catValu>
+        <labl>8</labl>
+      </catgry>
+      <catgry>
+        <catValu>009</catValu>
+        <labl>9</labl>
+      </catgry>
+      <catgry>
+        <catValu>010</catValu>
+        <labl>10</labl>
+      </catgry>
+      <catgry>
+        <catValu>011</catValu>
+        <labl>11</labl>
+      </catgry>
+      <catgry>
+        <catValu>012</catValu>
+        <labl>12</labl>
+      </catgry>
+      <catgry>
+        <catValu>013</catValu>
+        <labl>13</labl>
+      </catgry>
+      <catgry>
+        <catValu>014</catValu>
+        <labl>14</labl>
+      </catgry>
+      <catgry>
+        <catValu>015</catValu>
+        <labl>15</labl>
+      </catgry>
+      <catgry>
+        <catValu>016</catValu>
+        <labl>16</labl>
+      </catgry>
+      <catgry>
+        <catValu>017</catValu>
+        <labl>17</labl>
+      </catgry>
+      <catgry>
+        <catValu>018</catValu>
+        <labl>18</labl>
+      </catgry>
+      <catgry>
+        <catValu>019</catValu>
+        <labl>19</labl>
+      </catgry>
+      <catgry>
+        <catValu>999</catValu>
+        <labl>NIU (Not in universe)</labl>
+      </catgry>
+      <concept vocab="IPUMS">Technical Person Variables -- PERSON</concept>
+      <varFormat schema="other" type="numeric"/>
+    </var>
+    <var ID="DAY" files="ExtractData" name="DAY" intrvl="discrete" dcml="0" rectype="2">
+      <location StartPos="26" width="2" EndPos="27"/>
+      <labl>ATUS interview day of the week</labl>
+      <txt><![CDATA[DAY reports the day of the week of the diary day; that is, the day about which the respondent is reporting his/her activities.  Days are recorded Sunday (1) through Saturday (7).
+
+There are several other variables that report date information on the diary day.  See DATE for the date of the diary day, MONTH for the month of the diary day, and YEAR for the year of the diary day.
+
+The ATUS interview took place 2-5 months after the final CPS interview.  Date information is also available for the final CPS interview.  See MONTH_CPS8 for the month of the final CPS interview and YEAR_CPS8 for the year of the final CPS interview.]]></txt>
+      <catgry>
+        <catValu>01</catValu>
+        <labl>Sunday</labl>
+      </catgry>
+      <catgry>
+        <catValu>02</catValu>
+        <labl>Monday</labl>
+      </catgry>
+      <catgry>
+        <catValu>03</catValu>
+        <labl>Tuesday</labl>
+      </catgry>
+      <catgry>
+        <catValu>04</catValu>
+        <labl>Wednesday</labl>
+      </catgry>
+      <catgry>
+        <catValu>05</catValu>
+        <labl>Thursday</labl>
+      </catgry>
+      <catgry>
+        <catValu>06</catValu>
+        <labl>Friday</labl>
+      </catgry>
+      <catgry>
+        <catValu>07</catValu>
+        <labl>Saturday</labl>
+      </catgry>
+      <catgry>
+        <catValu>99</catValu>
+        <labl>NIU (Not in universe)</labl>
+      </catgry>
+      <concept vocab="IPUMS">Technical Person Variables -- PERSON</concept>
+      <varFormat schema="other" type="numeric"/>
+    </var>
+    <var ID="WT06" files="ExtractData" name="WT06" intrvl="contin" dcml="0" rectype="2">
+      <location StartPos="28" width="17" EndPos="44"/>
+      <labl>Person weight, 2006 methodology</labl>
+      <txt><![CDATA[WT06 provides ATUS respondent weights based on the weighting methodology introduced in 2006. WT06 is available for all years and is the preferred weighting variable to use for most analyses.  It is the only weighting variable that is suitable for use in analyses that combine time use data from 2006 and later with data for earlier years.  The methodology used to construct WT06 ensures that the sums of the respondent weights add up to the appropriate number of weekday person-days and weekend person-days over the quarter, both for the population as a whole and for selected subpopulations. 
+
+All ATUS weights are probability weights. Users should take care to specify them properly in their statistical packages.
+
+Because the ATUS sample is not a simple random sample, standard errors calculated using the default options in most statistical packages will not be correct.  Calculation of correct standard errors requires the use of replicate weights.  RWT06 may be used in conjunction with WT06 for this purpose; for further details, see the description of RWT06.]]></txt>
+      <codInstr><![CDATA[
+WT06 is a 16-digit numeric variable reporting the ATUS respondent probability weights. This variable can be used in all years.]]></codInstr>
+      <concept vocab="IPUMS">Weights Variables -- PERSON</concept>
+      <varFormat schema="other" type="numeric"/>
+    </var>
+    <var ID="AGE" files="ExtractData" name="AGE" intrvl="contin" dcml="0" rectype="2">
+      <location StartPos="45" width="3" EndPos="47"/>
+      <labl>Age</labl>
+      <txt><![CDATA[AGE reports the person's age in years as of his/her last birthday.
+
+AGE was collected during the ATUS interview, 2-5 months after the final CPS interview.  Age is also available for the final CPS interview (see AGE_CPS8).
+
+AGE is available for respondents who are aged 15 or over.]]></txt>
+      <codInstr><![CDATA[
+
+Age is a 3 digit numeric variable reporting the person's age in years. This variable ranges from 0 to 85 except for 81 - 84 (see top codes).  
+
+996 = Refused to answer
+997 = Don't know
+999 = NIU (Not in universe)
+
+		
+2003-2004:  80 years.
+2005 onward:  85 years.  Persons aged 80-84 are assigned a code of 80 and persons age 85+ are assigned a code of 85.]]></codInstr>
+      <concept vocab="IPUMS">Core Demographic Variables -- PERSON</concept>
+      <varFormat schema="other" type="numeric"/>
+    </var>
+    <var ID="SEX" files="ExtractData" name="SEX" intrvl="discrete" dcml="0" rectype="2">
+      <location StartPos="48" width="2" EndPos="49"/>
+      <labl>Sex</labl>
+      <txt><![CDATA[SEX reports whether the individual is male or female.
+
+SEX was collected at the time of the ATUS interview.  SEX_CPS8 was also collected at the time of the final CPS interview, 2-5 months before the ATUS interview.]]></txt>
+      <catgry>
+        <catValu>01</catValu>
+        <labl>Male</labl>
+      </catgry>
+      <catgry>
+        <catValu>02</catValu>
+        <labl>Female</labl>
+      </catgry>
+      <catgry>
+        <catValu>99</catValu>
+        <labl>NIU (Not in universe)</labl>
+      </catgry>
+      <concept vocab="IPUMS">Core Demographic Variables -- PERSON</concept>
+      <varFormat schema="other" type="numeric"/>
+    </var>
+    <var ID="RACE" files="ExtractData" name="RACE" intrvl="discrete" dcml="0" rectype="2">
+      <location StartPos="50" width="4" EndPos="53"/>
+      <labl>Race</labl>
+      <txt><![CDATA[RACE reports the racial category of all household members. Beginning in 2003, respondents could report more than one race. 
+
+RACE was drawn from the final CPS interview, conducted 2-5 months before the ATUS interview.]]></txt>
+      <catgry>
+        <catValu>0404</catValu>
+        <labl>White-American Indian-Asian-Hawaiian</labl>
+      </catgry>
+      <catgry>
+        <catValu>0398</catValu>
+        <labl>Other 3 race combinations</labl>
+      </catgry>
+      <catgry>
+        <catValu>0100</catValu>
+        <labl>White only</labl>
+      </catgry>
+      <catgry>
+        <catValu>0110</catValu>
+        <labl>Black only</labl>
+      </catgry>
+      <catgry>
+        <catValu>0120</catValu>
+        <labl>American Indian, Alaskan Native</labl>
+      </catgry>
+      <catgry>
+        <catValu>0130</catValu>
+        <labl>Asian or Pacific Islander</labl>
+      </catgry>
+      <catgry>
+        <catValu>0131</catValu>
+        <labl>Asian only</labl>
+      </catgry>
+      <catgry>
+        <catValu>0132</catValu>
+        <labl>Hawaiian Pacific Islander only</labl>
+      </catgry>
+      <catgry>
+        <catValu>0200</catValu>
+        <labl>White-Black</labl>
+      </catgry>
+      <catgry>
+        <catValu>0201</catValu>
+        <labl>White-American Indian</labl>
+      </catgry>
+      <catgry>
+        <catValu>0202</catValu>
+        <labl>White-Asian</labl>
+      </catgry>
+      <catgry>
+        <catValu>0203</catValu>
+        <labl>White-Hawaiian</labl>
+      </catgry>
+      <catgry>
+        <catValu>0210</catValu>
+        <labl>Black-American Indian</labl>
+      </catgry>
+      <catgry>
+        <catValu>0211</catValu>
+        <labl>Black-Asian</labl>
+      </catgry>
+      <catgry>
+        <catValu>0212</catValu>
+        <labl>Black-Hawaiian</labl>
+      </catgry>
+      <catgry>
+        <catValu>0220</catValu>
+        <labl>American Indian-Asian</labl>
+      </catgry>
+      <catgry>
+        <catValu>0221</catValu>
+        <labl>American Indian-Hawaiian</labl>
+      </catgry>
+      <catgry>
+        <catValu>0230</catValu>
+        <labl>Asian-Hawaiian</labl>
+      </catgry>
+      <catgry>
+        <catValu>0300</catValu>
+        <labl>White-Black-American Indian</labl>
+      </catgry>
+      <catgry>
+        <catValu>0301</catValu>
+        <labl>White-Black-Asian</labl>
+      </catgry>
+      <catgry>
+        <catValu>0302</catValu>
+        <labl>White-Black-Hawaiian</labl>
+      </catgry>
+      <catgry>
+        <catValu>0310</catValu>
+        <labl>White-American Indian-Asian</labl>
+      </catgry>
+      <catgry>
+        <catValu>0311</catValu>
+        <labl>White-American Indian-Hawaiian</labl>
+      </catgry>
+      <catgry>
+        <catValu>0320</catValu>
+        <labl>White-Asian-Hawaiian</labl>
+      </catgry>
+      <catgry>
+        <catValu>0330</catValu>
+        <labl>Black-American Indian-Asian</labl>
+      </catgry>
+      <catgry>
+        <catValu>0331</catValu>
+        <labl>Black-American Indian-Hawaiian</labl>
+      </catgry>
+      <catgry>
+        <catValu>0340</catValu>
+        <labl>Black-Asian-Hawaiian</labl>
+      </catgry>
+      <catgry>
+        <catValu>0350</catValu>
+        <labl>American Indian-Asian-Hawaiian</labl>
+      </catgry>
+      <catgry>
+        <catValu>0399</catValu>
+        <labl>2 or 3 races, unspecified</labl>
+      </catgry>
+      <catgry>
+        <catValu>0400</catValu>
+        <labl>White-Black-American Indian-Asian</labl>
+      </catgry>
+      <catgry>
+        <catValu>0401</catValu>
+        <labl>White-Black-American Indian-Hawaiian</labl>
+      </catgry>
+      <catgry>
+        <catValu>0402</catValu>
+        <labl>White-Black-Asian-Hawaiian</labl>
+      </catgry>
+      <catgry>
+        <catValu>0403</catValu>
+        <labl>Black-American Indian-Asian-Hawaiian</labl>
+      </catgry>
+      <catgry>
+        <catValu>0500</catValu>
+        <labl>White-Black-American Indian-Asian-Hawaiian</labl>
+      </catgry>
+      <catgry>
+        <catValu>0599</catValu>
+        <labl>4 or 5 races, unspecified</labl>
+      </catgry>
+      <catgry>
+        <catValu>9999</catValu>
+        <labl>NIU (Not in universe)</labl>
+      </catgry>
+      <concept vocab="IPUMS">Core Demographic Variables -- PERSON</concept>
+      <varFormat schema="other" type="numeric"/>
+    </var>
+    <var ID="HISPAN" files="ExtractData" name="HISPAN" intrvl="discrete" dcml="0" rectype="2">
+      <location StartPos="54" width="4" EndPos="57"/>
+      <labl>Hispanic origin</labl>
+      <txt><![CDATA[HISPAN identifies and classifies persons of Hispanic/Spanish/Latino origin.  Respondents were asked, "Are you Spanish, Hispanic, or Latino?"  Information about country of origin was collected from those who answered "yes" to this initial question.
+
+HISPAN was drawn from the final CPS interview, conducted 2-5 months before the ATUS interview.]]></txt>
+      <catgry>
+        <catValu>0244</catValu>
+        <labl>South American</labl>
+      </catgry>
+      <catgry>
+        <catValu>0243</catValu>
+        <labl>Other Central American</labl>
+      </catgry>
+      <catgry>
+        <catValu>0242</catValu>
+        <labl>Salvadoran</labl>
+      </catgry>
+      <catgry>
+        <catValu>0241</catValu>
+        <labl>Dominican</labl>
+      </catgry>
+      <catgry>
+        <catValu>0100</catValu>
+        <labl>Not Hispanic</labl>
+      </catgry>
+      <catgry>
+        <catValu>0210</catValu>
+        <labl>Mexican</labl>
+      </catgry>
+      <catgry>
+        <catValu>0211</catValu>
+        <labl>Mexican American</labl>
+      </catgry>
+      <catgry>
+        <catValu>0212</catValu>
+        <labl>Chicano</labl>
+      </catgry>
+      <catgry>
+        <catValu>0213</catValu>
+        <labl>Mexican (Mexicano)</labl>
+      </catgry>
+      <catgry>
+        <catValu>0220</catValu>
+        <labl>Puerto Rican</labl>
+      </catgry>
+      <catgry>
+        <catValu>0230</catValu>
+        <labl>Cuban</labl>
+      </catgry>
+      <catgry>
+        <catValu>0240</catValu>
+        <labl>Central-South American</labl>
+      </catgry>
+      <catgry>
+        <catValu>0250</catValu>
+        <labl>Other Spanish</labl>
+      </catgry>
+      <catgry>
+        <catValu>9999</catValu>
+        <labl>NIU (Not in universe)</labl>
+      </catgry>
+      <concept vocab="IPUMS">Core Demographic Variables -- PERSON</concept>
+      <varFormat schema="other" type="numeric"/>
+    </var>
+    <var ID="MARST" files="ExtractData" name="MARST" intrvl="discrete" dcml="0" rectype="2">
+      <location StartPos="58" width="2" EndPos="59"/>
+      <labl>Marital status</labl>
+      <txt><![CDATA[MARST gives each person's marital status.
+
+MARST was drawn from the final CPS interview, conducted 2-5 months before the ATUS interview. Marital status was not collected at the time of the ATUS interview.]]></txt>
+      <catgry>
+        <catValu>01</catValu>
+        <labl>Married - spouse present</labl>
+      </catgry>
+      <catgry>
+        <catValu>02</catValu>
+        <labl>Married - spouse absent</labl>
+      </catgry>
+      <catgry>
+        <catValu>03</catValu>
+        <labl>Widowed</labl>
+      </catgry>
+      <catgry>
+        <catValu>04</catValu>
+        <labl>Divorced</labl>
+      </catgry>
+      <catgry>
+        <catValu>05</catValu>
+        <labl>Separated</labl>
+      </catgry>
+      <catgry>
+        <catValu>06</catValu>
+        <labl>Never married</labl>
+      </catgry>
+      <catgry>
+        <catValu>99</catValu>
+        <labl>NIU (Not in universe)</labl>
+      </catgry>
+      <concept vocab="IPUMS">Core Demographic Variables -- PERSON</concept>
+      <varFormat schema="other" type="numeric"/>
+    </var>
+    <var ID="EDUC" files="ExtractData" name="EDUC" intrvl="discrete" dcml="0" rectype="2">
+      <location StartPos="60" width="3" EndPos="62"/>
+      <labl>Highest level of school completed</labl>
+      <txt><![CDATA[EDUC reports the respondent's highest completed level of education.
+
+EDUCYRS reports the number of years the respondent spent in educational programs.
+
+EDUC was drawn from the final CPS interview, conducted 2-5 months before the ATUS interview. Education was not updated at the time of the ATUS interview.]]></txt>
+      <catgry>
+        <catValu>010</catValu>
+        <labl>Less than 1st grade</labl>
+      </catgry>
+      <catgry>
+        <catValu>011</catValu>
+        <labl>1st, 2nd, 3rd, or 4th grade</labl>
+      </catgry>
+      <catgry>
+        <catValu>012</catValu>
+        <labl>5th or 6th grade</labl>
+      </catgry>
+      <catgry>
+        <catValu>013</catValu>
+        <labl>7th or 8th grade</labl>
+      </catgry>
+      <catgry>
+        <catValu>014</catValu>
+        <labl>9th grade</labl>
+      </catgry>
+      <catgry>
+        <catValu>015</catValu>
+        <labl>10th grade</labl>
+      </catgry>
+      <catgry>
+        <catValu>016</catValu>
+        <labl>11th grade</labl>
+      </catgry>
+      <catgry>
+        <catValu>017</catValu>
+        <labl>12th grade - no diploma</labl>
+      </catgry>
+      <catgry>
+        <catValu>020</catValu>
+        <labl>High school graduate - GED</labl>
+      </catgry>
+      <catgry>
+        <catValu>021</catValu>
+        <labl>High school graduate - diploma</labl>
+      </catgry>
+      <catgry>
+        <catValu>030</catValu>
+        <labl>Some college but no degree</labl>
+      </catgry>
+      <catgry>
+        <catValu>031</catValu>
+        <labl>Associate degree - occupational vocational</labl>
+      </catgry>
+      <catgry>
+        <catValu>032</catValu>
+        <labl>Associate degree - academic program</labl>
+      </catgry>
+      <catgry>
+        <catValu>040</catValu>
+        <labl>Bachelor's degree (BA, AB, BS, etc.)</labl>
+      </catgry>
+      <catgry>
+        <catValu>041</catValu>
+        <labl>Master's degree (MA, MS, MEng, MEd, MSW, etc.)</labl>
+      </catgry>
+      <catgry>
+        <catValu>042</catValu>
+        <labl>Professional school degree (MD, DDS, DVM, etc.)</labl>
+      </catgry>
+      <catgry>
+        <catValu>043</catValu>
+        <labl>Doctoral degree (PhD, EdD, etc.)</labl>
+      </catgry>
+      <catgry>
+        <catValu>999</catValu>
+        <labl>NIU (Not in universe)</labl>
+      </catgry>
+      <concept vocab="IPUMS">Education Variables -- PERSON</concept>
+      <varFormat schema="other" type="numeric"/>
+    </var>
+    <var ID="FULLPART" files="ExtractData" name="FULLPART" intrvl="discrete" dcml="0" rectype="2">
+      <location StartPos="63" width="2" EndPos="64"/>
+      <labl>Full time/part time employment status</labl>
+      <txt><![CDATA[FULLPART indicates whether the individual usually works full time or part time.  Full time employment is considered to be 35 or more hours per week.
+
+Other variables also capture working hours.  UHRSWORKT reports the total number of hours the individual usually works per week.
+
+FULLPART was collected at the time of the ATUS interview.  However, information on hours worked was only collected at that time for respondents who changed jobs or employers since the final CPS interview, or whose earnings were allocated in the final CPS interview. For other respondents, information on hours worked was carried forward from the final CPS interview.  CPSUPDATE may be useful as an indication that this information may be out of date.
+
+Full time/part time status was also collected at the time of the final CPS interview, 2-5 months before the ATUS interview.  See FULLPART_CPS8.  Other hours variables collected during the final CPS interview include the total number of hours usually worked (see UHRSWORKT_CPS8) and the total number of hours actually worked last week (see HRSWORKT_CPS8).]]></txt>
+      <catgry>
+        <catValu>01</catValu>
+        <labl>Full time</labl>
+      </catgry>
+      <catgry>
+        <catValu>02</catValu>
+        <labl>Part time</labl>
+      </catgry>
+      <catgry>
+        <catValu>99</catValu>
+        <labl>NIU (Not in universe)</labl>
+      </catgry>
+      <concept vocab="IPUMS">Hours and Earnings Variables -- PERSON</concept>
+      <varFormat schema="other" type="numeric"/>
+    </var>
+    <var ID="SPOUSEPRES" files="ExtractData" name="SPOUSEPRES" intrvl="discrete" dcml="0" rectype="2">
+      <location StartPos="65" width="2" EndPos="66"/>
+      <labl>Spouse or unmarried partner in household</labl>
+      <txt><![CDATA[SPOUSEPRES reports whether the ATUS respondent has a spouse or unmarried partner living in the household.
+
+SPOUSEPRES was collected at the time of the ATUS interview.]]></txt>
+      <catgry>
+        <catValu>01</catValu>
+        <labl>Spouse present</labl>
+      </catgry>
+      <catgry>
+        <catValu>02</catValu>
+        <labl>Unmarried partner present</labl>
+      </catgry>
+      <catgry>
+        <catValu>03</catValu>
+        <labl>No spouse or unmarried partner present</labl>
+      </catgry>
+      <catgry>
+        <catValu>99</catValu>
+        <labl>NIU (Not in universe)</labl>
+      </catgry>
+      <concept vocab="IPUMS">Spouse Characteristic Variables -- PERSON</concept>
+      <varFormat schema="other" type="numeric"/>
+    </var>
+    <var ID="HH_NUMOWNKIDS" files="ExtractData" name="HH_NUMOWNKIDS" intrvl="discrete" dcml="0" rectype="2">
+      <location StartPos="67" width="2" EndPos="68"/>
+      <labl>Number of own children under 18 in household</labl>
+      <txt><![CDATA[HH_ NUMOWNKIDS reports the number of the respondent's own children under the age of 18 who live in the household.
+
+The total number of people in the household is also available (see HH_SIZE).  The total number of children in the household is available as well (see HH_NUMKIDS).  Other variables simply indicate the presence of a child in the household (see HH_CHILD) or the presence of the respondent's own child under the age of 18 in the household (see KIDUND18).
+
+The number of respondent's own children was collected at the time of the ATUS interview, 2-5 months after the final CPS interview.]]></txt>
+      <catgry>
+        <catValu>00</catValu>
+        <labl>0</labl>
+      </catgry>
+      <catgry>
+        <catValu>01</catValu>
+        <labl>1</labl>
+      </catgry>
+      <catgry>
+        <catValu>02</catValu>
+        <labl>2</labl>
+      </catgry>
+      <catgry>
+        <catValu>03</catValu>
+        <labl>3</labl>
+      </catgry>
+      <catgry>
+        <catValu>04</catValu>
+        <labl>4</labl>
+      </catgry>
+      <catgry>
+        <catValu>05</catValu>
+        <labl>5</labl>
+      </catgry>
+      <catgry>
+        <catValu>06</catValu>
+        <labl>6</labl>
+      </catgry>
+      <catgry>
+        <catValu>07</catValu>
+        <labl>7</labl>
+      </catgry>
+      <catgry>
+        <catValu>08</catValu>
+        <labl>8</labl>
+      </catgry>
+      <catgry>
+        <catValu>09</catValu>
+        <labl>9</labl>
+      </catgry>
+      <catgry>
+        <catValu>10</catValu>
+        <labl>10</labl>
+      </catgry>
+      <catgry>
+        <catValu>99</catValu>
+        <labl>NIU (Not in universe)</labl>
+      </catgry>
+      <concept vocab="IPUMS">Constructed Child Variables -- PERSON</concept>
+      <varFormat schema="other" type="numeric"/>
+    </var>
+    <var ID="KIDUND13" files="ExtractData" name="KIDUND13" intrvl="discrete" dcml="0" rectype="2">
+      <location StartPos="69" width="2" EndPos="70"/>
+      <labl>Own child under 13 in household</labl>
+      <txt><![CDATA[KIDUND13 reports whether the respondent has an own child under the age of 13 living in the household.
+
+KIDUND13 is constructed from the household roster at the time of the ATUS interview.]]></txt>
+      <catgry>
+        <catValu>00</catValu>
+        <labl>No</labl>
+      </catgry>
+      <catgry>
+        <catValu>01</catValu>
+        <labl>Yes</labl>
+      </catgry>
+      <catgry>
+        <catValu>99</catValu>
+        <labl>NIU (Not in universe)</labl>
+      </catgry>
+      <concept vocab="IPUMS">Constructed Child Variables -- PERSON</concept>
+      <varFormat schema="other" type="numeric"/>
+    </var>
+    <var ID="ACTLINE" files="ExtractData" name="ACTLINE" intrvl="contin" dcml="0" rectype="3">
+      <location StartPos="21" width="2" EndPos="22"/>
+      <labl>Activity line number</labl>
+      <txt><![CDATA[ACTLINE is an identifying number for each activity record. Activity records can be uniquely identified using CASEID and ACTLINE.
+
+ACTLINE is also used with ACTLINEW to link who records to activity records.
+
+This variable is available via extracts that are hierarchical or rectangular (activity) (more info on extract formats [URL omitted from DDI.]). If you request a hierarchical extract and plan to construct time use variables in your statistics package, this variable may be useful to you. If you request a rectangular extract and plan to construct time use variables through the extract system, ACTLINE will not be included in your extract, as persons are the unit of observation for rectangular extracts rather than activity or who records.]]></txt>
+      <codInstr><![CDATA[
+ACTLINE is a 2-digit numeric variable identifying each activity record.]]></codInstr>
+      <concept vocab="IPUMS">Technical Activity Variables -- ACTIVITY</concept>
+      <varFormat schema="other" type="numeric"/>
+    </var>
+    <var ID="ACTIVITY" files="ExtractData" name="ACTIVITY" intrvl="discrete" dcml="0" rectype="3">
+      <location StartPos="23" width="6" EndPos="28"/>
+      <labl>Activity</labl>
+      <txt><![CDATA[ACTIVITY reports the respondent's activity.  
+
+The activity is recorded as a six digit number.  The first two digits correspond to a broad category, the middle two to a more detailed subcategory, and the final two to a specific activity within those categories.  For example, broad category 02 refers to "Household Activities."  Within "Household Activities," subcategory 01 refers to "Housework."  Within that subcategory, 02 refers to "Doing laundry."  The full six digit code for "Doing laundry" is therefore 020102.  Analyses can be done using the first two, the first four, or all six digits of ACTIVITY.
+
+There are a number of variables that may be used in conjunction with ACTIVITY.  START and STOP record the start and stop times of the activity, respectively.  DURATION records the number of minutes the activity lasted. DURATION_EXT also records the number of minutes the activity lasted, but does not truncate the last activity at 4:00 a.m. when the diary day ends.  WHERE records the location of activities. Finally, the variable RELATEW records who was with the respondent during the activity.  Users should note that "who" information is not collected for all activities (see WHO_ASK).
+
+There are a number of secondary activity variables [URL omitted from DDI.] that may be used in conjunction with activity. See more information on secondary childcare [URL omitted from DDI.] and secondary eating and drinking [URL omitted from DDI.]. 
+
+Users analyzing travel should be aware of how travel activities are coded in the ATUS. More information is available elsewhere [URL omitted from DDI.].
+
+ACTIVITY is available via extracts that are hierarchical or rectangular (activity) (more info on extract formats [URL omitted from DDI.]). If you request a hierarchical extract and plan to construct time use variables in your statistics package, this variable may be useful to you. If you request a rectangular extract and plan to construct time use variables through the extract system, ACTIVITY will not be included in your extract, as persons are the unit of observation for rectangular extracts rather than activity or who records.]]></txt>
+      <catgry>
+        <catValu>010000</catValu>
+        <labl>Personal Care</labl>
+      </catgry>
+      <catgry>
+        <catValu>010100</catValu>
+        <labl>Sleeping</labl>
+      </catgry>
+      <catgry>
+        <catValu>010101</catValu>
+        <labl>Sleeping</labl>
+      </catgry>
+      <catgry>
+        <catValu>010102</catValu>
+        <labl>Sleeplessness</labl>
+      </catgry>
+      <catgry>
+        <catValu>010199</catValu>
+        <labl>Sleeping, n.e.c.</labl>
+      </catgry>
+      <catgry>
+        <catValu>010200</catValu>
+        <labl>Grooming</labl>
+      </catgry>
+      <catgry>
+        <catValu>010201</catValu>
+        <labl>Washing, dressing and grooming oneself</labl>
+      </catgry>
+      <catgry>
+        <catValu>010299</catValu>
+        <labl>Grooming, n.e.c.</labl>
+      </catgry>
+      <catgry>
+        <catValu>010300</catValu>
+        <labl>Health-Related Self Care</labl>
+      </catgry>
+      <catgry>
+        <catValu>010301</catValu>
+        <labl>Health-related self care</labl>
+      </catgry>
+      <catgry>
+        <catValu>010399</catValu>
+        <labl>Self care, n.e.c.</labl>
+      </catgry>
+      <catgry>
+        <catValu>010400</catValu>
+        <labl>Personal Activities</labl>
+      </catgry>
+      <catgry>
+        <catValu>010401</catValu>
+        <labl>Personal/Private activities</labl>
+      </catgry>
+      <catgry>
+        <catValu>010499</catValu>
+        <labl>Personal activities, n.e.c.</labl>
+      </catgry>
+      <catgry>
+        <catValu>010500</catValu>
+        <labl>Personal Care Emergencies</labl>
+      </catgry>
+      <catgry>
+        <catValu>010501</catValu>
+        <labl>Personal emergencies</labl>
+      </catgry>
+      <catgry>
+        <catValu>010599</catValu>
+        <labl>Personal care emergencies, n.e.c.</labl>
+      </catgry>
+      <catgry>
+        <catValu>019900</catValu>
+        <labl>Personal Care, n.e.c.</labl>
+      </catgry>
+      <catgry>
+        <catValu>019999</catValu>
+        <labl>Personal care, n.e.c.</labl>
+      </catgry>
+      <catgry>
+        <catValu>020000</catValu>
+        <labl>Household Activities</labl>
+      </catgry>
+      <catgry>
+        <catValu>020100</catValu>
+        <labl>Housework</labl>
+      </catgry>
+      <catgry>
+        <catValu>020101</catValu>
+        <labl>Interior cleaning</labl>
+      </catgry>
+      <catgry>
+        <catValu>020102</catValu>
+        <labl>Laundry</labl>
+      </catgry>
+      <catgry>
+        <catValu>020103</catValu>
+        <labl>Sewing, repairing, and maintaining textiles</labl>
+      </catgry>
+      <catgry>
+        <catValu>020104</catValu>
+        <labl>Storing interior hh items, inc. food</labl>
+      </catgry>
+      <catgry>
+        <catValu>020199</catValu>
+        <labl>Housework, n.e.c.</labl>
+      </catgry>
+      <catgry>
+        <catValu>020200</catValu>
+        <labl>Food and Drink Preparation, Presentation, and Clean-up</labl>
+      </catgry>
+      <catgry>
+        <catValu>020201</catValu>
+        <labl>Food and drink preparation</labl>
+      </catgry>
+      <catgry>
+        <catValu>020202</catValu>
+        <labl>Food presentation</labl>
+      </catgry>
+      <catgry>
+        <catValu>020203</catValu>
+        <labl>Kitchen and food clean-up</labl>
+      </catgry>
+      <catgry>
+        <catValu>020299</catValu>
+        <labl>Food and drink prep, serving and clean-up, n.e.c.</labl>
+      </catgry>
+      <catgry>
+        <catValu>020300</catValu>
+        <labl>Interior Maintenance, Repair, and Decoration</labl>
+      </catgry>
+      <catgry>
+        <catValu>020301</catValu>
+        <labl>Interior arrangement, decoration, and repairs</labl>
+      </catgry>
+      <catgry>
+        <catValu>020302</catValu>
+        <labl>Building and repairing furniture</labl>
+      </catgry>
+      <catgry>
+        <catValu>020303</catValu>
+        <labl>Heating and cooling</labl>
+      </catgry>
+      <catgry>
+        <catValu>020399</catValu>
+        <labl>Interior maintenance, repair, and decoration, n.e.c.</labl>
+      </catgry>
+      <catgry>
+        <catValu>020400</catValu>
+        <labl>Exterior Maintenance, Repair, and Decoration</labl>
+      </catgry>
+      <catgry>
+        <catValu>020401</catValu>
+        <labl>Exterior cleaning</labl>
+      </catgry>
+      <catgry>
+        <catValu>020402</catValu>
+        <labl>Exterior repair, improvements, and decoration</labl>
+      </catgry>
+      <catgry>
+        <catValu>020499</catValu>
+        <labl>Exterior maintenance, repair and decoration, n.e.c.</labl>
+      </catgry>
+      <catgry>
+        <catValu>020500</catValu>
+        <labl>Lawn, Garden, and Houseplants</labl>
+      </catgry>
+      <catgry>
+        <catValu>020501</catValu>
+        <labl>Lawn, garden, and houseplant care</labl>
+      </catgry>
+      <catgry>
+        <catValu>020502</catValu>
+        <labl>Ponds, pools, and hot tubs</labl>
+      </catgry>
+      <catgry>
+        <catValu>020599</catValu>
+        <labl>Lawn and garden, n.e.c.</labl>
+      </catgry>
+      <catgry>
+        <catValu>020600</catValu>
+        <labl>Animals and Pets</labl>
+      </catgry>
+      <catgry>
+        <catValu>020601</catValu>
+        <labl>Care for animals and pets (not veterinary care)</labl>
+      </catgry>
+      <catgry>
+        <catValu>020602</catValu>
+        <labl>Care for animals and pets (not veterinary care) (2008+)</labl>
+      </catgry>
+      <catgry>
+        <catValu>020603</catValu>
+        <labl>Walking, exercising, playing with animals (2008+)</labl>
+      </catgry>
+      <catgry>
+        <catValu>020699</catValu>
+        <labl>Pet and animal care, n.e.c.</labl>
+      </catgry>
+      <catgry>
+        <catValu>020700</catValu>
+        <labl>Vehicles</labl>
+      </catgry>
+      <catgry>
+        <catValu>020701</catValu>
+        <labl>Vehicle repair and maintenance (by self)</labl>
+      </catgry>
+      <catgry>
+        <catValu>020799</catValu>
+        <labl>Vehicles, n.e.c.</labl>
+      </catgry>
+      <catgry>
+        <catValu>020800</catValu>
+        <labl>Appliances, Tools, and Toys</labl>
+      </catgry>
+      <catgry>
+        <catValu>020801</catValu>
+        <labl>App, tool, toy set-up, repair, and maint (by self)</labl>
+      </catgry>
+      <catgry>
+        <catValu>020899</catValu>
+        <labl>Appliances and tools, n.e.c.</labl>
+      </catgry>
+      <catgry>
+        <catValu>020900</catValu>
+        <labl>Household Management</labl>
+      </catgry>
+      <catgry>
+        <catValu>020901</catValu>
+        <labl>Financial management</labl>
+      </catgry>
+      <catgry>
+        <catValu>020902</catValu>
+        <labl>Household and personal organization and planning</labl>
+      </catgry>
+      <catgry>
+        <catValu>020903</catValu>
+        <labl>HH and personal mail and messages (except e-mail)</labl>
+      </catgry>
+      <catgry>
+        <catValu>020904</catValu>
+        <labl>HH and personal e-mail and messages</labl>
+      </catgry>
+      <catgry>
+        <catValu>020905</catValu>
+        <labl>Home security</labl>
+      </catgry>
+      <catgry>
+        <catValu>020999</catValu>
+        <labl>Household management, n.e.c.</labl>
+      </catgry>
+      <catgry>
+        <catValu>029900</catValu>
+        <labl>Household Activities, n.e.c.</labl>
+      </catgry>
+      <catgry>
+        <catValu>029999</catValu>
+        <labl>Household activities, n.e.c.</labl>
+      </catgry>
+      <catgry>
+        <catValu>030000</catValu>
+        <labl>Caring for and Helping Household Members</labl>
+      </catgry>
+      <catgry>
+        <catValu>030100</catValu>
+        <labl>Caring for and Helping Household Children</labl>
+      </catgry>
+      <catgry>
+        <catValu>030101</catValu>
+        <labl>Physical care for hh children</labl>
+      </catgry>
+      <catgry>
+        <catValu>030102</catValu>
+        <labl>Reading to/with hh children</labl>
+      </catgry>
+      <catgry>
+        <catValu>030103</catValu>
+        <labl>Playing with hh children, not sports</labl>
+      </catgry>
+      <catgry>
+        <catValu>030104</catValu>
+        <labl>Arts and crafts with hh children</labl>
+      </catgry>
+      <catgry>
+        <catValu>030105</catValu>
+        <labl>Playing sports with hh children</labl>
+      </catgry>
+      <catgry>
+        <catValu>030106</catValu>
+        <labl>Talking with/listening to hh children</labl>
+      </catgry>
+      <catgry>
+        <catValu>030107</catValu>
+        <labl>Helping or teaching hh children</labl>
+      </catgry>
+      <catgry>
+        <catValu>030108</catValu>
+        <labl>Organization and planning for hh children</labl>
+      </catgry>
+      <catgry>
+        <catValu>030109</catValu>
+        <labl>Looking after hh children (as a primary activity)</labl>
+      </catgry>
+      <catgry>
+        <catValu>030110</catValu>
+        <labl>Attending hh children's events</labl>
+      </catgry>
+      <catgry>
+        <catValu>030111</catValu>
+        <labl>Waiting for/with hh children</labl>
+      </catgry>
+      <catgry>
+        <catValu>030112</catValu>
+        <labl>Picking up/dropping off hh children</labl>
+      </catgry>
+      <catgry>
+        <catValu>030199</catValu>
+        <labl>Caring for and helping hh children, n.e.c.</labl>
+      </catgry>
+      <catgry>
+        <catValu>030200</catValu>
+        <labl>Activities Related to Household Children's Education</labl>
+      </catgry>
+      <catgry>
+        <catValu>030201</catValu>
+        <labl>Homework (hh children)</labl>
+      </catgry>
+      <catgry>
+        <catValu>030202</catValu>
+        <labl>Meetings and school conferences (hh children)</labl>
+      </catgry>
+      <catgry>
+        <catValu>030203</catValu>
+        <labl>Home schooling of hh children</labl>
+      </catgry>
+      <catgry>
+        <catValu>030204</catValu>
+        <labl>Waiting associated with hh children's education</labl>
+      </catgry>
+      <catgry>
+        <catValu>030299</catValu>
+        <labl>Activities related to hh child's education, n.e.c.</labl>
+      </catgry>
+      <catgry>
+        <catValu>030300</catValu>
+        <labl>Activities Related to Household Children's Health</labl>
+      </catgry>
+      <catgry>
+        <catValu>030301</catValu>
+        <labl>Providing medical care to hh children</labl>
+      </catgry>
+      <catgry>
+        <catValu>030302</catValu>
+        <labl>Obtaining medical care for hh children</labl>
+      </catgry>
+      <catgry>
+        <catValu>030303</catValu>
+        <labl>Waiting associated with hh children's health</labl>
+      </catgry>
+      <catgry>
+        <catValu>030399</catValu>
+        <labl>Activities related to hh child's health, n.e.c.</labl>
+      </catgry>
+      <catgry>
+        <catValu>030400</catValu>
+        <labl>Caring for Household Adults</labl>
+      </catgry>
+      <catgry>
+        <catValu>030401</catValu>
+        <labl>Physical care for hh adults</labl>
+      </catgry>
+      <catgry>
+        <catValu>030402</catValu>
+        <labl>Looking after hh adult (as a primary activity)</labl>
+      </catgry>
+      <catgry>
+        <catValu>030403</catValu>
+        <labl>Providing medical care to hh adult</labl>
+      </catgry>
+      <catgry>
+        <catValu>030404</catValu>
+        <labl>Obtaining medical and care services for hh adult</labl>
+      </catgry>
+      <catgry>
+        <catValu>030405</catValu>
+        <labl>Waiting associated with caring for hh adults</labl>
+      </catgry>
+      <catgry>
+        <catValu>030499</catValu>
+        <labl>Caring for household adults, n.e.c.</labl>
+      </catgry>
+      <catgry>
+        <catValu>030500</catValu>
+        <labl>Helping Household Adults</labl>
+      </catgry>
+      <catgry>
+        <catValu>030501</catValu>
+        <labl>Helping hh adults</labl>
+      </catgry>
+      <catgry>
+        <catValu>030502</catValu>
+        <labl>Organization and planning for hh adults</labl>
+      </catgry>
+      <catgry>
+        <catValu>030503</catValu>
+        <labl>Picking up/dropping off hh adult</labl>
+      </catgry>
+      <catgry>
+        <catValu>030504</catValu>
+        <labl>Waiting associated with helping hh adults</labl>
+      </catgry>
+      <catgry>
+        <catValu>030599</catValu>
+        <labl>Helping household adults, n.e.c.</labl>
+      </catgry>
+      <catgry>
+        <catValu>039900</catValu>
+        <labl>Caring for and Helping Household Members, n.e.c.</labl>
+      </catgry>
+      <catgry>
+        <catValu>039999</catValu>
+        <labl>Caring for and helping hh members, n.e.c.</labl>
+      </catgry>
+      <catgry>
+        <catValu>040000</catValu>
+        <labl>Caring for and Helping Non-Household Members</labl>
+      </catgry>
+      <catgry>
+        <catValu>040100</catValu>
+        <labl>Caring for and Helping Non-Household Children</labl>
+      </catgry>
+      <catgry>
+        <catValu>040101</catValu>
+        <labl>Physical care for nonhh children</labl>
+      </catgry>
+      <catgry>
+        <catValu>040102</catValu>
+        <labl>Reading to/with nonhh children</labl>
+      </catgry>
+      <catgry>
+        <catValu>040103</catValu>
+        <labl>Playing with nonhh children, not sports</labl>
+      </catgry>
+      <catgry>
+        <catValu>040104</catValu>
+        <labl>Arts and crafts with nonhh children</labl>
+      </catgry>
+      <catgry>
+        <catValu>040105</catValu>
+        <labl>Playing sports with nonhh children</labl>
+      </catgry>
+      <catgry>
+        <catValu>040106</catValu>
+        <labl>Talking with/listening to nonhh children</labl>
+      </catgry>
+      <catgry>
+        <catValu>040107</catValu>
+        <labl>Helping or teaching nonhh children</labl>
+      </catgry>
+      <catgry>
+        <catValu>040108</catValu>
+        <labl>Organization and planning for nonhh children</labl>
+      </catgry>
+      <catgry>
+        <catValu>040109</catValu>
+        <labl>Looking after nonhh children (as primary activity)</labl>
+      </catgry>
+      <catgry>
+        <catValu>040110</catValu>
+        <labl>Attending nonhh children's events</labl>
+      </catgry>
+      <catgry>
+        <catValu>040111</catValu>
+        <labl>Waiting for/with nonhh children</labl>
+      </catgry>
+      <catgry>
+        <catValu>040112</catValu>
+        <labl>Dropping off/picking up nonhh children</labl>
+      </catgry>
+      <catgry>
+        <catValu>040199</catValu>
+        <labl>Caring for and helping nonhh children, n.e.c.</labl>
+      </catgry>
+      <catgry>
+        <catValu>040200</catValu>
+        <labl>Activities Related to Non-Household Children's Education</labl>
+      </catgry>
+      <catgry>
+        <catValu>040201</catValu>
+        <labl>Homework (nonhh children)</labl>
+      </catgry>
+      <catgry>
+        <catValu>040202</catValu>
+        <labl>Mtgs and school conferences (nonhh children)</labl>
+      </catgry>
+      <catgry>
+        <catValu>040203</catValu>
+        <labl>Home schooling of nonhh children</labl>
+      </catgry>
+      <catgry>
+        <catValu>040204</catValu>
+        <labl>Waiting assoc w/ nonhh children's education</labl>
+      </catgry>
+      <catgry>
+        <catValu>040299</catValu>
+        <labl>Activities related to nonhh child's educ., n.e.c.</labl>
+      </catgry>
+      <catgry>
+        <catValu>040300</catValu>
+        <labl>Activities Related to Non-Household Children's Health</labl>
+      </catgry>
+      <catgry>
+        <catValu>040301</catValu>
+        <labl>Providing medical care to nonhh children</labl>
+      </catgry>
+      <catgry>
+        <catValu>040302</catValu>
+        <labl>Obtaining medical care for nonhh children</labl>
+      </catgry>
+      <catgry>
+        <catValu>040303</catValu>
+        <labl>Waiting associated with nonhh children's health</labl>
+      </catgry>
+      <catgry>
+        <catValu>040399</catValu>
+        <labl>Activities related to nonhh child's health, n.e.c.</labl>
+      </catgry>
+      <catgry>
+        <catValu>040400</catValu>
+        <labl>Caring for Non-Household Adults</labl>
+      </catgry>
+      <catgry>
+        <catValu>040401</catValu>
+        <labl>Physical care for nonhh adults</labl>
+      </catgry>
+      <catgry>
+        <catValu>040402</catValu>
+        <labl>Looking after nonhh adult (as a primary activity)</labl>
+      </catgry>
+      <catgry>
+        <catValu>040403</catValu>
+        <labl>Providing medical care to nonhh adult</labl>
+      </catgry>
+      <catgry>
+        <catValu>040404</catValu>
+        <labl>Obtaining medical and care svcs for nonhh adult</labl>
+      </catgry>
+      <catgry>
+        <catValu>040405</catValu>
+        <labl>Waiting associated with caring for nonhh adults</labl>
+      </catgry>
+      <catgry>
+        <catValu>040499</catValu>
+        <labl>Caring for nonhh adults, n.e.c.</labl>
+      </catgry>
+      <catgry>
+        <catValu>040500</catValu>
+        <labl>Helping Non-Household Adults</labl>
+      </catgry>
+      <catgry>
+        <catValu>040501</catValu>
+        <labl>Hswrk, cooking, and shopping asst, nonhh adults</labl>
+      </catgry>
+      <catgry>
+        <catValu>040502</catValu>
+        <labl>House and lawn maint and repair asst, nonhh adults</labl>
+      </catgry>
+      <catgry>
+        <catValu>040503</catValu>
+        <labl>Animal and pet care assistance for nonhh adults</labl>
+      </catgry>
+      <catgry>
+        <catValu>040504</catValu>
+        <labl>Vehicle/appliance maint/repair asst, nonhh adults</labl>
+      </catgry>
+      <catgry>
+        <catValu>040505</catValu>
+        <labl>Financial mgmt asst for nonhh adults</labl>
+      </catgry>
+      <catgry>
+        <catValu>040506</catValu>
+        <labl>HH mgmt and paperwork asst, nonhh adults</labl>
+      </catgry>
+      <catgry>
+        <catValu>040507</catValu>
+        <labl>Picking up/dropping off nonhh adult</labl>
+      </catgry>
+      <catgry>
+        <catValu>040508</catValu>
+        <labl>Waiting associated with helping nonhh adults</labl>
+      </catgry>
+      <catgry>
+        <catValu>040599</catValu>
+        <labl>Helping nonhh adults, n.e.c.</labl>
+      </catgry>
+      <catgry>
+        <catValu>049900</catValu>
+        <labl>Caring for and Helping Non-Household Members, n.e.c.</labl>
+      </catgry>
+      <catgry>
+        <catValu>049999</catValu>
+        <labl>Caring for and helping nonhh members, n.e.c.</labl>
+      </catgry>
+      <catgry>
+        <catValu>050000</catValu>
+        <labl>Work and Work-Related Activities</labl>
+      </catgry>
+      <catgry>
+        <catValu>050100</catValu>
+        <labl>Working</labl>
+      </catgry>
+      <catgry>
+        <catValu>050101</catValu>
+        <labl>Work, main job</labl>
+      </catgry>
+      <catgry>
+        <catValu>050102</catValu>
+        <labl>Work, other job(s)</labl>
+      </catgry>
+      <catgry>
+        <catValu>050103</catValu>
+        <labl>Security procedures related to work</labl>
+      </catgry>
+      <catgry>
+        <catValu>050104</catValu>
+        <labl>Waiting associated with working</labl>
+      </catgry>
+      <catgry>
+        <catValu>050199</catValu>
+        <labl>Working, n.e.c.</labl>
+      </catgry>
+      <catgry>
+        <catValu>050200</catValu>
+        <labl>Work-Related Activities</labl>
+      </catgry>
+      <catgry>
+        <catValu>050201</catValu>
+        <labl>Socializing, relaxing, and leisure as part of job</labl>
+      </catgry>
+      <catgry>
+        <catValu>050202</catValu>
+        <labl>Eating and drinking as part of job</labl>
+      </catgry>
+      <catgry>
+        <catValu>050203</catValu>
+        <labl>Sports and exercise as part of job</labl>
+      </catgry>
+      <catgry>
+        <catValu>050204</catValu>
+        <labl>Security procedures as part of job</labl>
+      </catgry>
+      <catgry>
+        <catValu>050205</catValu>
+        <labl>Waiting associated with work-related activities</labl>
+      </catgry>
+      <catgry>
+        <catValu>050299</catValu>
+        <labl>Work-related activities, n.e.c.</labl>
+      </catgry>
+      <catgry>
+        <catValu>050300</catValu>
+        <labl>Other Income-Generating Activities</labl>
+      </catgry>
+      <catgry>
+        <catValu>050301</catValu>
+        <labl>Income-generating hobbies, crafts, and food</labl>
+      </catgry>
+      <catgry>
+        <catValu>050302</catValu>
+        <labl>Income-generating performances</labl>
+      </catgry>
+      <catgry>
+        <catValu>050303</catValu>
+        <labl>Income-generating services</labl>
+      </catgry>
+      <catgry>
+        <catValu>050304</catValu>
+        <labl>Income-generating rental property activities</labl>
+      </catgry>
+      <catgry>
+        <catValu>050305</catValu>
+        <labl>Waiting assoc w/other income-generating acts</labl>
+      </catgry>
+      <catgry>
+        <catValu>050399</catValu>
+        <labl>Other income-generating activities, n.e.c.</labl>
+      </catgry>
+      <catgry>
+        <catValu>050400</catValu>
+        <labl>Job Search and Interviewing</labl>
+      </catgry>
+      <catgry>
+        <catValu>050401</catValu>
+        <labl>Job search activities</labl>
+      </catgry>
+      <catgry>
+        <catValu>050403</catValu>
+        <labl>Job interviewing</labl>
+      </catgry>
+      <catgry>
+        <catValu>050404</catValu>
+        <labl>Waiting associated with job search or interview</labl>
+      </catgry>
+      <catgry>
+        <catValu>050405</catValu>
+        <labl>Sec. procedures rel. to job search/interviewing</labl>
+      </catgry>
+      <catgry>
+        <catValu>050499</catValu>
+        <labl>Job search and Interviewing, n.e.c.</labl>
+      </catgry>
+      <catgry>
+        <catValu>059900</catValu>
+        <labl>Work and Work-Related Activities, n.e.c.</labl>
+      </catgry>
+      <catgry>
+        <catValu>059999</catValu>
+        <labl>Work and work-related activities, n.e.c.</labl>
+      </catgry>
+      <catgry>
+        <catValu>060000</catValu>
+        <labl>Education</labl>
+      </catgry>
+      <catgry>
+        <catValu>060100</catValu>
+        <labl>Taking Class</labl>
+      </catgry>
+      <catgry>
+        <catValu>060101</catValu>
+        <labl>Taking class for degree, certification, or lic</labl>
+      </catgry>
+      <catgry>
+        <catValu>060102</catValu>
+        <labl>Taking class for personal interest</labl>
+      </catgry>
+      <catgry>
+        <catValu>060103</catValu>
+        <labl>Waiting associated with taking classes</labl>
+      </catgry>
+      <catgry>
+        <catValu>060104</catValu>
+        <labl>Security procedures rel. to taking classes</labl>
+      </catgry>
+      <catgry>
+        <catValu>060199</catValu>
+        <labl>Taking class, n.e.c.</labl>
+      </catgry>
+      <catgry>
+        <catValu>060200</catValu>
+        <labl>Extracurricular School Activities (except sports)</labl>
+      </catgry>
+      <catgry>
+        <catValu>060201</catValu>
+        <labl>Extracurricular club activities</labl>
+      </catgry>
+      <catgry>
+        <catValu>060202</catValu>
+        <labl>Extracurricular music and performance activities</labl>
+      </catgry>
+      <catgry>
+        <catValu>060203</catValu>
+        <labl>Extracurricular student government activities</labl>
+      </catgry>
+      <catgry>
+        <catValu>060204</catValu>
+        <labl>Waiting associated with extracurricular activities</labl>
+      </catgry>
+      <catgry>
+        <catValu>060299</catValu>
+        <labl>Education-related extracurricular activities, n.e.c.</labl>
+      </catgry>
+      <catgry>
+        <catValu>060300</catValu>
+        <labl>Research or Homework</labl>
+      </catgry>
+      <catgry>
+        <catValu>060301</catValu>
+        <labl>Rsrch/HW for class for degree, cert, or lic</labl>
+      </catgry>
+      <catgry>
+        <catValu>060302</catValu>
+        <labl>Research/homework for class for pers. interest</labl>
+      </catgry>
+      <catgry>
+        <catValu>060303</catValu>
+        <labl>Waiting associated with research/homework</labl>
+      </catgry>
+      <catgry>
+        <catValu>060399</catValu>
+        <labl>Research/homework n.e.c.</labl>
+      </catgry>
+      <catgry>
+        <catValu>060400</catValu>
+        <labl>Registration or Administrative Activities</labl>
+      </catgry>
+      <catgry>
+        <catValu>060401</catValu>
+        <labl>Admin activities: class for degree, cert, or lic</labl>
+      </catgry>
+      <catgry>
+        <catValu>060402</catValu>
+        <labl>Admin activities: class for personal interest</labl>
+      </catgry>
+      <catgry>
+        <catValu>060403</catValu>
+        <labl>Waiting assoc w/admin. activities (education)</labl>
+      </catgry>
+      <catgry>
+        <catValu>060499</catValu>
+        <labl>Administrative for education, n.e.c.</labl>
+      </catgry>
+      <catgry>
+        <catValu>069900</catValu>
+        <labl>Education, n.e.c.</labl>
+      </catgry>
+      <catgry>
+        <catValu>069999</catValu>
+        <labl>Education, n.e.c.</labl>
+      </catgry>
+      <catgry>
+        <catValu>070000</catValu>
+        <labl>Consumer Purchases</labl>
+      </catgry>
+      <catgry>
+        <catValu>070100</catValu>
+        <labl>Shopping (store, telephone, internet)</labl>
+      </catgry>
+      <catgry>
+        <catValu>070101</catValu>
+        <labl>Grocery shopping</labl>
+      </catgry>
+      <catgry>
+        <catValu>070102</catValu>
+        <labl>Purchasing gas</labl>
+      </catgry>
+      <catgry>
+        <catValu>070103</catValu>
+        <labl>Purchasing food (not groceries)</labl>
+      </catgry>
+      <catgry>
+        <catValu>070104</catValu>
+        <labl>Shopping, except groceries, food and gas</labl>
+      </catgry>
+      <catgry>
+        <catValu>070105</catValu>
+        <labl>Waiting associated with shopping</labl>
+      </catgry>
+      <catgry>
+        <catValu>070199</catValu>
+        <labl>Shopping, n.e.c.</labl>
+      </catgry>
+      <catgry>
+        <catValu>070200</catValu>
+        <labl>Researching Purchases</labl>
+      </catgry>
+      <catgry>
+        <catValu>070201</catValu>
+        <labl>Comparison shopping</labl>
+      </catgry>
+      <catgry>
+        <catValu>070299</catValu>
+        <labl>Researching purchases, n.e.c.</labl>
+      </catgry>
+      <catgry>
+        <catValu>070300</catValu>
+        <labl>Security Procedures Related to Consumer Purchases</labl>
+      </catgry>
+      <catgry>
+        <catValu>070301</catValu>
+        <labl>Security procedures rel. to consumer purchases</labl>
+      </catgry>
+      <catgry>
+        <catValu>070399</catValu>
+        <labl>Sec procedures rel. to cons purchases, n.e.c.</labl>
+      </catgry>
+      <catgry>
+        <catValu>079900</catValu>
+        <labl>Consumer Purchases, n.e.c.</labl>
+      </catgry>
+      <catgry>
+        <catValu>079999</catValu>
+        <labl>Consumer purchases, n.e.c.</labl>
+      </catgry>
+      <catgry>
+        <catValu>080000</catValu>
+        <labl>Professional and Personal Care Services</labl>
+      </catgry>
+      <catgry>
+        <catValu>080100</catValu>
+        <labl>Childcare Services</labl>
+      </catgry>
+      <catgry>
+        <catValu>080101</catValu>
+        <labl>Using paid childcare services</labl>
+      </catgry>
+      <catgry>
+        <catValu>080102</catValu>
+        <labl>Waiting associated w/purchasing childcare svcs</labl>
+      </catgry>
+      <catgry>
+        <catValu>080199</catValu>
+        <labl>Using paid childcare services, n.e.c.</labl>
+      </catgry>
+      <catgry>
+        <catValu>080200</catValu>
+        <labl>Financial Services and Banking</labl>
+      </catgry>
+      <catgry>
+        <catValu>080201</catValu>
+        <labl>Banking</labl>
+      </catgry>
+      <catgry>
+        <catValu>080202</catValu>
+        <labl>Using other financial services</labl>
+      </catgry>
+      <catgry>
+        <catValu>080203</catValu>
+        <labl>Waiting associated w/banking/financial services</labl>
+      </catgry>
+      <catgry>
+        <catValu>080299</catValu>
+        <labl>Using financial services and banking, n.e.c.</labl>
+      </catgry>
+      <catgry>
+        <catValu>080300</catValu>
+        <labl>Legal Services</labl>
+      </catgry>
+      <catgry>
+        <catValu>080301</catValu>
+        <labl>Using legal services</labl>
+      </catgry>
+      <catgry>
+        <catValu>080302</catValu>
+        <labl>Waiting associated with legal services</labl>
+      </catgry>
+      <catgry>
+        <catValu>080399</catValu>
+        <labl>Using legal services, n.e.c.</labl>
+      </catgry>
+      <catgry>
+        <catValu>080400</catValu>
+        <labl>Medical and Care Services</labl>
+      </catgry>
+      <catgry>
+        <catValu>080401</catValu>
+        <labl>Using health and care services outside the home</labl>
+      </catgry>
+      <catgry>
+        <catValu>080402</catValu>
+        <labl>Using in-home health and care services</labl>
+      </catgry>
+      <catgry>
+        <catValu>080403</catValu>
+        <labl>Waiting associated with medical services</labl>
+      </catgry>
+      <catgry>
+        <catValu>080499</catValu>
+        <labl>Using medical services, n.e.c.</labl>
+      </catgry>
+      <catgry>
+        <catValu>080500</catValu>
+        <labl>Personal Care Services</labl>
+      </catgry>
+      <catgry>
+        <catValu>080501</catValu>
+        <labl>Using personal care services</labl>
+      </catgry>
+      <catgry>
+        <catValu>080502</catValu>
+        <labl>Waiting associated w/personal care services</labl>
+      </catgry>
+      <catgry>
+        <catValu>080599</catValu>
+        <labl>Using personal care services, n.e.c.</labl>
+      </catgry>
+      <catgry>
+        <catValu>080600</catValu>
+        <labl>Real Estate</labl>
+      </catgry>
+      <catgry>
+        <catValu>080601</catValu>
+        <labl>Activities rel. to purchasing/selling real estate</labl>
+      </catgry>
+      <catgry>
+        <catValu>080602</catValu>
+        <labl>Waiting assoc w/purchasing/selling real estate</labl>
+      </catgry>
+      <catgry>
+        <catValu>080699</catValu>
+        <labl>Using real estate services, n.e.c.</labl>
+      </catgry>
+      <catgry>
+        <catValu>080700</catValu>
+        <labl>Veterinary Services (excluding grooming)</labl>
+      </catgry>
+      <catgry>
+        <catValu>080701</catValu>
+        <labl>Using veterinary services</labl>
+      </catgry>
+      <catgry>
+        <catValu>080702</catValu>
+        <labl>Waiting associated with veterinary services</labl>
+      </catgry>
+      <catgry>
+        <catValu>080799</catValu>
+        <labl>Using veterinary services, n.e.c.</labl>
+      </catgry>
+      <catgry>
+        <catValu>080800</catValu>
+        <labl>Security Procedures Related to Professional or Personal Services</labl>
+      </catgry>
+      <catgry>
+        <catValu>080801</catValu>
+        <labl>Security procedures rel. to prof/personal svcs.</labl>
+      </catgry>
+      <catgry>
+        <catValu>080899</catValu>
+        <labl>Sec procedures rel. to prof/personal svcs n.e.c.</labl>
+      </catgry>
+      <catgry>
+        <catValu>089900</catValu>
+        <labl>Professional and Personal Services, n.e.c.</labl>
+      </catgry>
+      <catgry>
+        <catValu>089999</catValu>
+        <labl>Professional and personal services, n.e.c.</labl>
+      </catgry>
+      <catgry>
+        <catValu>090000</catValu>
+        <labl>Household Services</labl>
+      </catgry>
+      <catgry>
+        <catValu>090100</catValu>
+        <labl>Household Services (not done by self)</labl>
+      </catgry>
+      <catgry>
+        <catValu>090101</catValu>
+        <labl>Using interior cleaning services</labl>
+      </catgry>
+      <catgry>
+        <catValu>090102</catValu>
+        <labl>Using meal preparation services</labl>
+      </catgry>
+      <catgry>
+        <catValu>090103</catValu>
+        <labl>Using clothing repair and cleaning services</labl>
+      </catgry>
+      <catgry>
+        <catValu>090104</catValu>
+        <labl>Waiting associated with using household services</labl>
+      </catgry>
+      <catgry>
+        <catValu>090199</catValu>
+        <labl>Using household services, n.e.c.</labl>
+      </catgry>
+      <catgry>
+        <catValu>090200</catValu>
+        <labl>Home Maintenance, Repair, Decoration, and Construction (not done by self)</labl>
+      </catgry>
+      <catgry>
+        <catValu>090201</catValu>
+        <labl>Using home maint/repair/décor/construction svcs</labl>
+      </catgry>
+      <catgry>
+        <catValu>090202</catValu>
+        <labl>Wtg assoc w/ home main/repair/décor/constr</labl>
+      </catgry>
+      <catgry>
+        <catValu>090299</catValu>
+        <labl>Using home maint/repair/décor/constr svcs n.e.c.</labl>
+      </catgry>
+      <catgry>
+        <catValu>090300</catValu>
+        <labl>Pet Services (not done by self and not veterinary care)</labl>
+      </catgry>
+      <catgry>
+        <catValu>090301</catValu>
+        <labl>Using pet services</labl>
+      </catgry>
+      <catgry>
+        <catValu>090302</catValu>
+        <labl>Waiting associated with pet services</labl>
+      </catgry>
+      <catgry>
+        <catValu>090399</catValu>
+        <labl>Using pet services, n.e.c.</labl>
+      </catgry>
+      <catgry>
+        <catValu>090400</catValu>
+        <labl>Lawn and Garden Services (not done by self)</labl>
+      </catgry>
+      <catgry>
+        <catValu>090401</catValu>
+        <labl>Using lawn and garden services</labl>
+      </catgry>
+      <catgry>
+        <catValu>090402</catValu>
+        <labl>Waiting assoc with using lawn and garden svcs</labl>
+      </catgry>
+      <catgry>
+        <catValu>090499</catValu>
+        <labl>Using lawn and garden services, n.e.c.</labl>
+      </catgry>
+      <catgry>
+        <catValu>090500</catValu>
+        <labl>Vehicle Maintenance and Repair Services (not done by self)</labl>
+      </catgry>
+      <catgry>
+        <catValu>090501</catValu>
+        <labl>Using vehicle maintenance or repair services</labl>
+      </catgry>
+      <catgry>
+        <catValu>090502</catValu>
+        <labl>Waiting assoc with vehicle main. or repair svcs</labl>
+      </catgry>
+      <catgry>
+        <catValu>090599</catValu>
+        <labl>Using vehicle maint. and repair svcs, n.e.c.</labl>
+      </catgry>
+      <catgry>
+        <catValu>099900</catValu>
+        <labl>Household Services, n.e.c.</labl>
+      </catgry>
+      <catgry>
+        <catValu>099999</catValu>
+        <labl>Using household services, n.e.c.</labl>
+      </catgry>
+      <catgry>
+        <catValu>100000</catValu>
+        <labl>Government Services and Civic Obligations</labl>
+      </catgry>
+      <catgry>
+        <catValu>100100</catValu>
+        <labl>Using Government Services</labl>
+      </catgry>
+      <catgry>
+        <catValu>100101</catValu>
+        <labl>Using police and fire services</labl>
+      </catgry>
+      <catgry>
+        <catValu>100102</catValu>
+        <labl>Using social services</labl>
+      </catgry>
+      <catgry>
+        <catValu>100103</catValu>
+        <labl>Obtaining licenses and paying fines, fees, taxes</labl>
+      </catgry>
+      <catgry>
+        <catValu>100199</catValu>
+        <labl>Using government services, n.e.c.</labl>
+      </catgry>
+      <catgry>
+        <catValu>100200</catValu>
+        <labl>Civic Obligations and Participation</labl>
+      </catgry>
+      <catgry>
+        <catValu>100201</catValu>
+        <labl>Civic obligations and participation</labl>
+      </catgry>
+      <catgry>
+        <catValu>100299</catValu>
+        <labl>Civic obligations and participation, n.e.c.</labl>
+      </catgry>
+      <catgry>
+        <catValu>100300</catValu>
+        <labl>Waiting Associated with Government Services or Civic Obligations</labl>
+      </catgry>
+      <catgry>
+        <catValu>100303</catValu>
+        <labl>Waiting assoc w/civic obligations and participation</labl>
+      </catgry>
+      <catgry>
+        <catValu>100304</catValu>
+        <labl>Waiting associated with using government services</labl>
+      </catgry>
+      <catgry>
+        <catValu>100399</catValu>
+        <labl>Wtg assoc w/govt svcs or civic obligations, n.e.c.</labl>
+      </catgry>
+      <catgry>
+        <catValu>100400</catValu>
+        <labl>Security Procedures Related to Government Services or Civic Obligations</labl>
+      </catgry>
+      <catgry>
+        <catValu>100401</catValu>
+        <labl>Sec procedures rel. to govt svcs/civic obligations</labl>
+      </catgry>
+      <catgry>
+        <catValu>100499</catValu>
+        <labl>Sec procs rel. to govt svcs/civic obligations, n.e.c.</labl>
+      </catgry>
+      <catgry>
+        <catValu>109900</catValu>
+        <labl>Government Services, n.e.c.</labl>
+      </catgry>
+      <catgry>
+        <catValu>109999</catValu>
+        <labl>Government services, n.e.c.</labl>
+      </catgry>
+      <catgry>
+        <catValu>110000</catValu>
+        <labl>Eating and Drinking</labl>
+      </catgry>
+      <catgry>
+        <catValu>110100</catValu>
+        <labl>Eating and Drinking</labl>
+      </catgry>
+      <catgry>
+        <catValu>110101</catValu>
+        <labl>Eating and drinking</labl>
+      </catgry>
+      <catgry>
+        <catValu>110199</catValu>
+        <labl>Eating and drinking, n.e.c.</labl>
+      </catgry>
+      <catgry>
+        <catValu>110200</catValu>
+        <labl>Waiting Associated with Eating and Drinking</labl>
+      </catgry>
+      <catgry>
+        <catValu>110201</catValu>
+        <labl>Waiting associated w/eating and drinking</labl>
+      </catgry>
+      <catgry>
+        <catValu>110299</catValu>
+        <labl>Waiting associated with eating and drinking, n.e.c.</labl>
+      </catgry>
+      <catgry>
+        <catValu>119900</catValu>
+        <labl>Eating and Drinking, n.e.c.</labl>
+      </catgry>
+      <catgry>
+        <catValu>119999</catValu>
+        <labl>Eating and drinking, n.e.c.</labl>
+      </catgry>
+      <catgry>
+        <catValu>120000</catValu>
+        <labl>Socializing, Relaxing, and Leisure</labl>
+      </catgry>
+      <catgry>
+        <catValu>120100</catValu>
+        <labl>Socializing and Communicating</labl>
+      </catgry>
+      <catgry>
+        <catValu>120101</catValu>
+        <labl>Socializing and communicating with others</labl>
+      </catgry>
+      <catgry>
+        <catValu>120199</catValu>
+        <labl>Socializing and communicating, n.e.c.</labl>
+      </catgry>
+      <catgry>
+        <catValu>120200</catValu>
+        <labl>Attending or Hosting Social Events</labl>
+      </catgry>
+      <catgry>
+        <catValu>120201</catValu>
+        <labl>Attending or hosting parties/receptions/ceremonies</labl>
+      </catgry>
+      <catgry>
+        <catValu>120202</catValu>
+        <labl>Attending meetings for personal interest (not volunteering)</labl>
+      </catgry>
+      <catgry>
+        <catValu>120299</catValu>
+        <labl>Attending/hosting social events, n.e.c.</labl>
+      </catgry>
+      <catgry>
+        <catValu>120300</catValu>
+        <labl>Relaxing and Leisure</labl>
+      </catgry>
+      <catgry>
+        <catValu>120301</catValu>
+        <labl>Relaxing, thinking</labl>
+      </catgry>
+      <catgry>
+        <catValu>120302</catValu>
+        <labl>Tobacco and drug use</labl>
+      </catgry>
+      <catgry>
+        <catValu>120303</catValu>
+        <labl>Television and movies (not religious)</labl>
+      </catgry>
+      <catgry>
+        <catValu>120304</catValu>
+        <labl>Television (religious)</labl>
+      </catgry>
+      <catgry>
+        <catValu>120305</catValu>
+        <labl>Listening to the radio</labl>
+      </catgry>
+      <catgry>
+        <catValu>120306</catValu>
+        <labl>Listening to/playing music (not radio)</labl>
+      </catgry>
+      <catgry>
+        <catValu>120307</catValu>
+        <labl>Playing games</labl>
+      </catgry>
+      <catgry>
+        <catValu>120308</catValu>
+        <labl>Computer use for leisure (exc. Games)</labl>
+      </catgry>
+      <catgry>
+        <catValu>120309</catValu>
+        <labl>Arts and crafts as a hobby</labl>
+      </catgry>
+      <catgry>
+        <catValu>120310</catValu>
+        <labl>Collecting as a hobby</labl>
+      </catgry>
+      <catgry>
+        <catValu>120311</catValu>
+        <labl>Hobbies, except arts and crafts and collecting</labl>
+      </catgry>
+      <catgry>
+        <catValu>120312</catValu>
+        <labl>Reading for personal interest</labl>
+      </catgry>
+      <catgry>
+        <catValu>120313</catValu>
+        <labl>Writing for personal interest</labl>
+      </catgry>
+      <catgry>
+        <catValu>120399</catValu>
+        <labl>Relaxing and leisure, n.e.c.</labl>
+      </catgry>
+      <catgry>
+        <catValu>120400</catValu>
+        <labl>Arts and Entertainment (other than sports)</labl>
+      </catgry>
+      <catgry>
+        <catValu>120401</catValu>
+        <labl>Attending performing arts</labl>
+      </catgry>
+      <catgry>
+        <catValu>120402</catValu>
+        <labl>Attending museums</labl>
+      </catgry>
+      <catgry>
+        <catValu>120403</catValu>
+        <labl>Attending movies/film</labl>
+      </catgry>
+      <catgry>
+        <catValu>120404</catValu>
+        <labl>Attending gambling establishments</labl>
+      </catgry>
+      <catgry>
+        <catValu>120405</catValu>
+        <labl>Security procedures rel. to arts and entertainment</labl>
+      </catgry>
+      <catgry>
+        <catValu>120499</catValu>
+        <labl>Arts and entertainment, n.e.c.</labl>
+      </catgry>
+      <catgry>
+        <catValu>120500</catValu>
+        <labl>Waiting Associated with Socializing, Relaxing, and Leisure</labl>
+      </catgry>
+      <catgry>
+        <catValu>120501</catValu>
+        <labl>Waiting assoc. w/socializing and communicating</labl>
+      </catgry>
+      <catgry>
+        <catValu>120502</catValu>
+        <labl>Waiting assoc. w/attending/hosting social events</labl>
+      </catgry>
+      <catgry>
+        <catValu>120503</catValu>
+        <labl>Waiting associated with relaxing/leisure</labl>
+      </catgry>
+      <catgry>
+        <catValu>120504</catValu>
+        <labl>Waiting associated with arts and entertainment</labl>
+      </catgry>
+      <catgry>
+        <catValu>120599</catValu>
+        <labl>Waiting associated with socializing, n.e.c.</labl>
+      </catgry>
+      <catgry>
+        <catValu>129900</catValu>
+        <labl>Socializing, Relaxing, and Leisure, n.e.c.</labl>
+      </catgry>
+      <catgry>
+        <catValu>129999</catValu>
+        <labl>Socializing, relaxing, and leisure, n.e.c.</labl>
+      </catgry>
+      <catgry>
+        <catValu>130000</catValu>
+        <labl>Sports, Exercise, and Recreation</labl>
+      </catgry>
+      <catgry>
+        <catValu>130100</catValu>
+        <labl>Participating in Sports, Exercise, or Recreation</labl>
+      </catgry>
+      <catgry>
+        <catValu>130101</catValu>
+        <labl>Doing aerobics</labl>
+      </catgry>
+      <catgry>
+        <catValu>130102</catValu>
+        <labl>Playing baseball</labl>
+      </catgry>
+      <catgry>
+        <catValu>130103</catValu>
+        <labl>Playing basketball</labl>
+      </catgry>
+      <catgry>
+        <catValu>130104</catValu>
+        <labl>Biking</labl>
+      </catgry>
+      <catgry>
+        <catValu>130105</catValu>
+        <labl>Playing billiards</labl>
+      </catgry>
+      <catgry>
+        <catValu>130106</catValu>
+        <labl>Boating</labl>
+      </catgry>
+      <catgry>
+        <catValu>130107</catValu>
+        <labl>Bowling</labl>
+      </catgry>
+      <catgry>
+        <catValu>130108</catValu>
+        <labl>Climbing, spelunking, caving</labl>
+      </catgry>
+      <catgry>
+        <catValu>130109</catValu>
+        <labl>Dancing</labl>
+      </catgry>
+      <catgry>
+        <catValu>130110</catValu>
+        <labl>Participating in equestrian sports</labl>
+      </catgry>
+      <catgry>
+        <catValu>130111</catValu>
+        <labl>Fencing</labl>
+      </catgry>
+      <catgry>
+        <catValu>130112</catValu>
+        <labl>Fishing</labl>
+      </catgry>
+      <catgry>
+        <catValu>130113</catValu>
+        <labl>Playing football</labl>
+      </catgry>
+      <catgry>
+        <catValu>130114</catValu>
+        <labl>Golfing</labl>
+      </catgry>
+      <catgry>
+        <catValu>130115</catValu>
+        <labl>Doing gymnastics</labl>
+      </catgry>
+      <catgry>
+        <catValu>130116</catValu>
+        <labl>Hiking</labl>
+      </catgry>
+      <catgry>
+        <catValu>130117</catValu>
+        <labl>Playing hockey</labl>
+      </catgry>
+      <catgry>
+        <catValu>130118</catValu>
+        <labl>Hunting</labl>
+      </catgry>
+      <catgry>
+        <catValu>130119</catValu>
+        <labl>Participating in martial arts</labl>
+      </catgry>
+      <catgry>
+        <catValu>130120</catValu>
+        <labl>Playing racquet sports</labl>
+      </catgry>
+      <catgry>
+        <catValu>130121</catValu>
+        <labl>Participating in rodeo competitions</labl>
+      </catgry>
+      <catgry>
+        <catValu>130122</catValu>
+        <labl>Rollerblading</labl>
+      </catgry>
+      <catgry>
+        <catValu>130123</catValu>
+        <labl>Playing rugby</labl>
+      </catgry>
+      <catgry>
+        <catValu>130124</catValu>
+        <labl>Running</labl>
+      </catgry>
+      <catgry>
+        <catValu>130125</catValu>
+        <labl>Skiing, ice skating, snowboarding</labl>
+      </catgry>
+      <catgry>
+        <catValu>130126</catValu>
+        <labl>Playing soccer</labl>
+      </catgry>
+      <catgry>
+        <catValu>130127</catValu>
+        <labl>Playing softball</labl>
+      </catgry>
+      <catgry>
+        <catValu>130128</catValu>
+        <labl>Using cardiovascular equipment</labl>
+      </catgry>
+      <catgry>
+        <catValu>130129</catValu>
+        <labl>Vehicle touring/racing</labl>
+      </catgry>
+      <catgry>
+        <catValu>130130</catValu>
+        <labl>Playing volleyball</labl>
+      </catgry>
+      <catgry>
+        <catValu>130131</catValu>
+        <labl>Walking</labl>
+      </catgry>
+      <catgry>
+        <catValu>130132</catValu>
+        <labl>Participating in water sports</labl>
+      </catgry>
+      <catgry>
+        <catValu>130133</catValu>
+        <labl>Weightlifting/strength training</labl>
+      </catgry>
+      <catgry>
+        <catValu>130134</catValu>
+        <labl>Working out, unspecified</labl>
+      </catgry>
+      <catgry>
+        <catValu>130135</catValu>
+        <labl>Wrestling</labl>
+      </catgry>
+      <catgry>
+        <catValu>130136</catValu>
+        <labl>Doing yoga</labl>
+      </catgry>
+      <catgry>
+        <catValu>130199</catValu>
+        <labl>Playing sports n.e.c.</labl>
+      </catgry>
+      <catgry>
+        <catValu>130200</catValu>
+        <labl>Attending Sports or Recreational Events</labl>
+      </catgry>
+      <catgry>
+        <catValu>130201</catValu>
+        <labl>Watching aerobics</labl>
+      </catgry>
+      <catgry>
+        <catValu>130202</catValu>
+        <labl>Watching baseball</labl>
+      </catgry>
+      <catgry>
+        <catValu>130203</catValu>
+        <labl>Watching basketball</labl>
+      </catgry>
+      <catgry>
+        <catValu>130204</catValu>
+        <labl>Watching biking</labl>
+      </catgry>
+      <catgry>
+        <catValu>130205</catValu>
+        <labl>Watching billiards</labl>
+      </catgry>
+      <catgry>
+        <catValu>130206</catValu>
+        <labl>Watching boating</labl>
+      </catgry>
+      <catgry>
+        <catValu>130207</catValu>
+        <labl>Watching bowling</labl>
+      </catgry>
+      <catgry>
+        <catValu>130208</catValu>
+        <labl>Watching climbing, spelunking, caving</labl>
+      </catgry>
+      <catgry>
+        <catValu>130209</catValu>
+        <labl>Watching dancing</labl>
+      </catgry>
+      <catgry>
+        <catValu>130210</catValu>
+        <labl>Watching equestrian sports</labl>
+      </catgry>
+      <catgry>
+        <catValu>130211</catValu>
+        <labl>Watching fencing</labl>
+      </catgry>
+      <catgry>
+        <catValu>130212</catValu>
+        <labl>Watching fishing</labl>
+      </catgry>
+      <catgry>
+        <catValu>130213</catValu>
+        <labl>Watching football</labl>
+      </catgry>
+      <catgry>
+        <catValu>130214</catValu>
+        <labl>Watching golfing</labl>
+      </catgry>
+      <catgry>
+        <catValu>130215</catValu>
+        <labl>Watching gymnastics</labl>
+      </catgry>
+      <catgry>
+        <catValu>130216</catValu>
+        <labl>Watching hockey</labl>
+      </catgry>
+      <catgry>
+        <catValu>130217</catValu>
+        <labl>Watching martial arts</labl>
+      </catgry>
+      <catgry>
+        <catValu>130218</catValu>
+        <labl>Watching racquet sports</labl>
+      </catgry>
+      <catgry>
+        <catValu>130219</catValu>
+        <labl>Watching rodeo competitions</labl>
+      </catgry>
+      <catgry>
+        <catValu>130220</catValu>
+        <labl>Watching rollerblading</labl>
+      </catgry>
+      <catgry>
+        <catValu>130221</catValu>
+        <labl>Watching rugby</labl>
+      </catgry>
+      <catgry>
+        <catValu>130222</catValu>
+        <labl>Watching running</labl>
+      </catgry>
+      <catgry>
+        <catValu>130223</catValu>
+        <labl>Watching skiing, ice skating, snowboarding</labl>
+      </catgry>
+      <catgry>
+        <catValu>130224</catValu>
+        <labl>Watching soccer</labl>
+      </catgry>
+      <catgry>
+        <catValu>130225</catValu>
+        <labl>Watching softball</labl>
+      </catgry>
+      <catgry>
+        <catValu>130226</catValu>
+        <labl>Watching vehicle touring/racing</labl>
+      </catgry>
+      <catgry>
+        <catValu>130227</catValu>
+        <labl>Watching volleyball</labl>
+      </catgry>
+      <catgry>
+        <catValu>130228</catValu>
+        <labl>Watching walking</labl>
+      </catgry>
+      <catgry>
+        <catValu>130229</catValu>
+        <labl>Watching water sports</labl>
+      </catgry>
+      <catgry>
+        <catValu>130230</catValu>
+        <labl>Watching weightlifting/strength training</labl>
+      </catgry>
+      <catgry>
+        <catValu>130231</catValu>
+        <labl>Watching people working out, unspecified</labl>
+      </catgry>
+      <catgry>
+        <catValu>130232</catValu>
+        <labl>Watching wrestling</labl>
+      </catgry>
+      <catgry>
+        <catValu>130299</catValu>
+        <labl>Attending sporting events, n.e.c.</labl>
+      </catgry>
+      <catgry>
+        <catValu>130300</catValu>
+        <labl>Waiting Associated with Sports, Exercise, and Recreation</labl>
+      </catgry>
+      <catgry>
+        <catValu>130301</catValu>
+        <labl>Waiting related to playing sports or exercising</labl>
+      </catgry>
+      <catgry>
+        <catValu>130302</catValu>
+        <labl>Waiting related to attending sporting events</labl>
+      </catgry>
+      <catgry>
+        <catValu>130399</catValu>
+        <labl>Wtg assoc with sports, exercise, and rec, n.e.c.</labl>
+      </catgry>
+      <catgry>
+        <catValu>130400</catValu>
+        <labl>Security Procedures Related to Sports, Exercise, and Recreation</labl>
+      </catgry>
+      <catgry>
+        <catValu>130401</catValu>
+        <labl>Security related to playing sports or exercising</labl>
+      </catgry>
+      <catgry>
+        <catValu>130402</catValu>
+        <labl>Security related to attending sporting events</labl>
+      </catgry>
+      <catgry>
+        <catValu>130499</catValu>
+        <labl>Sec related to sports, exercise, and rec, n.e.c.</labl>
+      </catgry>
+      <catgry>
+        <catValu>139900</catValu>
+        <labl>Sports, Exercise, and Recreation, n.e.c.</labl>
+      </catgry>
+      <catgry>
+        <catValu>139999</catValu>
+        <labl>Sports, exercise, and recreation, n.e.c.</labl>
+      </catgry>
+      <catgry>
+        <catValu>140000</catValu>
+        <labl>Religious and Spiritual Activities</labl>
+      </catgry>
+      <catgry>
+        <catValu>140100</catValu>
+        <labl>Religious or Spiritual Practices</labl>
+      </catgry>
+      <catgry>
+        <catValu>140101</catValu>
+        <labl>Attending religious services</labl>
+      </catgry>
+      <catgry>
+        <catValu>140102</catValu>
+        <labl>Participation in religious practices</labl>
+      </catgry>
+      <catgry>
+        <catValu>140103</catValu>
+        <labl>Waiting assoc w/religious and spiritual activities</labl>
+      </catgry>
+      <catgry>
+        <catValu>140104</catValu>
+        <labl>Sec procedures rel. to relig and spiritual activities</labl>
+      </catgry>
+      <catgry>
+        <catValu>140105</catValu>
+        <labl>Religious education activities (2007+)</labl>
+      </catgry>
+      <catgry>
+        <catValu>149900</catValu>
+        <labl>Religious and Spiritual Activities, n.e.c.</labl>
+      </catgry>
+      <catgry>
+        <catValu>149999</catValu>
+        <labl>Religious and spiritual activities, n.e.c.</labl>
+      </catgry>
+      <catgry>
+        <catValu>150000</catValu>
+        <labl>Volunteer Activities</labl>
+      </catgry>
+      <catgry>
+        <catValu>150100</catValu>
+        <labl>Administrative and Support Activities</labl>
+      </catgry>
+      <catgry>
+        <catValu>150101</catValu>
+        <labl>Computer use</labl>
+      </catgry>
+      <catgry>
+        <catValu>150102</catValu>
+        <labl>Organizing and preparing</labl>
+      </catgry>
+      <catgry>
+        <catValu>150103</catValu>
+        <labl>Reading</labl>
+      </catgry>
+      <catgry>
+        <catValu>150104</catValu>
+        <labl>Telephone calls (except hotline counseling)</labl>
+      </catgry>
+      <catgry>
+        <catValu>150105</catValu>
+        <labl>Writing</labl>
+      </catgry>
+      <catgry>
+        <catValu>150106</catValu>
+        <labl>Fundraising</labl>
+      </catgry>
+      <catgry>
+        <catValu>150199</catValu>
+        <labl>Administrative and support activities, n.e.c.</labl>
+      </catgry>
+      <catgry>
+        <catValu>150200</catValu>
+        <labl>Social Service and Care Activities (except medical)</labl>
+      </catgry>
+      <catgry>
+        <catValu>150201</catValu>
+        <labl>Food preparation, presentation, clean-up</labl>
+      </catgry>
+      <catgry>
+        <catValu>150202</catValu>
+        <labl>Collecting and delivering clothing and other goods</labl>
+      </catgry>
+      <catgry>
+        <catValu>150203</catValu>
+        <labl>Providing care</labl>
+      </catgry>
+      <catgry>
+        <catValu>150204</catValu>
+        <labl>Teaching, leading, counseling, mentoring</labl>
+      </catgry>
+      <catgry>
+        <catValu>150299</catValu>
+        <labl>Social service and care activities, n.e.c.</labl>
+      </catgry>
+      <catgry>
+        <catValu>150300</catValu>
+        <labl>Indoor and Outdoor Maintenance, Building, and Clean-Up Activities</labl>
+      </catgry>
+      <catgry>
+        <catValu>150301</catValu>
+        <labl>Building houses, wildlife sites, and other structures</labl>
+      </catgry>
+      <catgry>
+        <catValu>150302</catValu>
+        <labl>Indoor and outdoor maintenance, repair, and clean-up</labl>
+      </catgry>
+      <catgry>
+        <catValu>150399</catValu>
+        <labl>Indoor and outdoor maint, bldg and clean-up, n.e.c.</labl>
+      </catgry>
+      <catgry>
+        <catValu>150400</catValu>
+        <labl>Participating in Performance and Cultural Activities</labl>
+      </catgry>
+      <catgry>
+        <catValu>150401</catValu>
+        <labl>Performing</labl>
+      </catgry>
+      <catgry>
+        <catValu>150402</catValu>
+        <labl>Serving at volunteer events and cultural activities</labl>
+      </catgry>
+      <catgry>
+        <catValu>150499</catValu>
+        <labl>Participating performance, cultural act., n.e.c.</labl>
+      </catgry>
+      <catgry>
+        <catValu>150500</catValu>
+        <labl>Attending Meetings, Conferences, and Training</labl>
+      </catgry>
+      <catgry>
+        <catValu>150501</catValu>
+        <labl>Attending meetings, conferences, and training</labl>
+      </catgry>
+      <catgry>
+        <catValu>150599</catValu>
+        <labl>Attending mtgs conferences, and training, n.e.c.</labl>
+      </catgry>
+      <catgry>
+        <catValu>150600</catValu>
+        <labl>Public Health and Safety Activities</labl>
+      </catgry>
+      <catgry>
+        <catValu>150601</catValu>
+        <labl>Public health activities</labl>
+      </catgry>
+      <catgry>
+        <catValu>150602</catValu>
+        <labl>Public safety activities</labl>
+      </catgry>
+      <catgry>
+        <catValu>150699</catValu>
+        <labl>Public health and safety activities, n.e.c.</labl>
+      </catgry>
+      <catgry>
+        <catValu>150700</catValu>
+        <labl>Waiting Associated with Volunteer Activities</labl>
+      </catgry>
+      <catgry>
+        <catValu>150701</catValu>
+        <labl>Waiting associated with volunteer activities</labl>
+      </catgry>
+      <catgry>
+        <catValu>150799</catValu>
+        <labl>Waiting assoc with volunteer activities, n.e.c.</labl>
+      </catgry>
+      <catgry>
+        <catValu>150800</catValu>
+        <labl>Security Procedures Related to Volunteer Activities</labl>
+      </catgry>
+      <catgry>
+        <catValu>150801</catValu>
+        <labl>Security procedures related to volunteer activities (2007+)</labl>
+      </catgry>
+      <catgry>
+        <catValu>150899</catValu>
+        <labl>Security proecdures related to voluteer activities, n.e.c. (2007+)</labl>
+      </catgry>
+      <catgry>
+        <catValu>159900</catValu>
+        <labl>Volunteer Activities, n.e.c.</labl>
+      </catgry>
+      <catgry>
+        <catValu>159999</catValu>
+        <labl>Volunteer activities, n.e.c.</labl>
+      </catgry>
+      <catgry>
+        <catValu>160000</catValu>
+        <labl>Telephone Calls</labl>
+      </catgry>
+      <catgry>
+        <catValu>160100</catValu>
+        <labl>Telephone Calls (to or from)</labl>
+      </catgry>
+      <catgry>
+        <catValu>160101</catValu>
+        <labl>Telephone calls to/from family members</labl>
+      </catgry>
+      <catgry>
+        <catValu>160102</catValu>
+        <labl>Phone calls to/from friends, neighbors</labl>
+      </catgry>
+      <catgry>
+        <catValu>160103</catValu>
+        <labl>Telephone calls to/from education svcs providers</labl>
+      </catgry>
+      <catgry>
+        <catValu>160104</catValu>
+        <labl>Telephone calls to/from salespeople</labl>
+      </catgry>
+      <catgry>
+        <catValu>160105</catValu>
+        <labl>Phone calls to/from prof, personal svcs providers</labl>
+      </catgry>
+      <catgry>
+        <catValu>160106</catValu>
+        <labl>Phone calls to/from household services providers</labl>
+      </catgry>
+      <catgry>
+        <catValu>160107</catValu>
+        <labl>Phone calls to/from child or adult care providers</labl>
+      </catgry>
+      <catgry>
+        <catValu>160108</catValu>
+        <labl>Telephone calls to/from government officials</labl>
+      </catgry>
+      <catgry>
+        <catValu>160199</catValu>
+        <labl>Telephone calls (to or from), n.e.c.</labl>
+      </catgry>
+      <catgry>
+        <catValu>160200</catValu>
+        <labl>Waiting Associated with Telephone Calls</labl>
+      </catgry>
+      <catgry>
+        <catValu>160201</catValu>
+        <labl>Waiting associated with telephone calls</labl>
+      </catgry>
+      <catgry>
+        <catValu>160299</catValu>
+        <labl>Waiting associated with telephone calls, n.e.c.</labl>
+      </catgry>
+      <catgry>
+        <catValu>169900</catValu>
+        <labl>Telephone Calls, n.e.c.</labl>
+      </catgry>
+      <catgry>
+        <catValu>169999</catValu>
+        <labl>Telephone calls, n.e.c.</labl>
+      </catgry>
+      <catgry>
+        <catValu>180000</catValu>
+        <labl>Traveling</labl>
+      </catgry>
+      <catgry>
+        <catValu>180100</catValu>
+        <labl>Travel Related to Personal Care</labl>
+      </catgry>
+      <catgry>
+        <catValu>180101</catValu>
+        <labl>Travel related to personal care</labl>
+      </catgry>
+      <catgry>
+        <catValu>180199</catValu>
+        <labl>Travel related to personal care, n.e.c.</labl>
+      </catgry>
+      <catgry>
+        <catValu>180200</catValu>
+        <labl>Travel Related to Household Activities</labl>
+      </catgry>
+      <catgry>
+        <catValu>180201</catValu>
+        <labl>Travel related to housework</labl>
+      </catgry>
+      <catgry>
+        <catValu>180202</catValu>
+        <labl>Travel related to food and drink prep</labl>
+      </catgry>
+      <catgry>
+        <catValu>180203</catValu>
+        <labl>Travel related to int. maint, repair, and decoration</labl>
+      </catgry>
+      <catgry>
+        <catValu>180204</catValu>
+        <labl>Travel related to ext. maint, repair, and decoration</labl>
+      </catgry>
+      <catgry>
+        <catValu>180205</catValu>
+        <labl>Travel related to lawn, garden, and houseplants</labl>
+      </catgry>
+      <catgry>
+        <catValu>180206</catValu>
+        <labl>Travel related to care for animals (not vet care)</labl>
+      </catgry>
+      <catgry>
+        <catValu>180207</catValu>
+        <labl>Travel related to vehicle care and maint (by self)</labl>
+      </catgry>
+      <catgry>
+        <catValu>180208</catValu>
+        <labl>Trvl rel to app, tool, toy set-up, repair, and maint</labl>
+      </catgry>
+      <catgry>
+        <catValu>180209</catValu>
+        <labl>Travel related to household management</labl>
+      </catgry>
+      <catgry>
+        <catValu>180299</catValu>
+        <labl>Travel related to household activities, n.e.c.</labl>
+      </catgry>
+      <catgry>
+        <catValu>180300</catValu>
+        <labl>Travel Related to Caring for and Helping Household Members</labl>
+      </catgry>
+      <catgry>
+        <catValu>180301</catValu>
+        <labl>Travel related to caring for and helping HH children</labl>
+      </catgry>
+      <catgry>
+        <catValu>180302</catValu>
+        <labl>Travel related to caring for and helping household children (2005+)</labl>
+      </catgry>
+      <catgry>
+        <catValu>180303</catValu>
+        <labl>Travel related to hh children's education</labl>
+      </catgry>
+      <catgry>
+        <catValu>180304</catValu>
+        <labl>Travel related to hh children's health</labl>
+      </catgry>
+      <catgry>
+        <catValu>180305</catValu>
+        <labl>Travel related to caring for hh adults</labl>
+      </catgry>
+      <catgry>
+        <catValu>180306</catValu>
+        <labl>Travel related to helping hh adults</labl>
+      </catgry>
+      <catgry>
+        <catValu>180307</catValu>
+        <labl>Travel related to caring for and helping HH adults</labl>
+      </catgry>
+      <catgry>
+        <catValu>180399</catValu>
+        <labl>Trvl rel. to caring for, helping HH members, n.e.c.</labl>
+      </catgry>
+      <catgry>
+        <catValu>180400</catValu>
+        <labl>Travel Related to Caring for and Helping Non-Household Members</labl>
+      </catgry>
+      <catgry>
+        <catValu>180401</catValu>
+        <labl>Trvl rel to caring for and helping nonHH kids, inclusive</labl>
+      </catgry>
+      <catgry>
+        <catValu>180402</catValu>
+        <labl>Trvl rel to caring for and helping nonHH kids</labl>
+      </catgry>
+      <catgry>
+        <catValu>180403</catValu>
+        <labl>Travel related to nonhh children's education</labl>
+      </catgry>
+      <catgry>
+        <catValu>180404</catValu>
+        <labl>Travel related to nonhh children's health</labl>
+      </catgry>
+      <catgry>
+        <catValu>180405</catValu>
+        <labl>Travel related to caring for nonhh adults</labl>
+      </catgry>
+      <catgry>
+        <catValu>180406</catValu>
+        <labl>Travel related to helping nonhh adults</labl>
+      </catgry>
+      <catgry>
+        <catValu>180407</catValu>
+        <labl>Travel related to caring for, helping NonHH adults</labl>
+      </catgry>
+      <catgry>
+        <catValu>180499</catValu>
+        <labl>Trvl rel. to caring for, helping NonHH,  n.e.c.</labl>
+      </catgry>
+      <catgry>
+        <catValu>180500</catValu>
+        <labl>Travel Related to Work</labl>
+      </catgry>
+      <catgry>
+        <catValu>180501</catValu>
+        <labl>Travel related to working</labl>
+      </catgry>
+      <catgry>
+        <catValu>180502</catValu>
+        <labl>Travel related to work-related activities</labl>
+      </catgry>
+      <catgry>
+        <catValu>180503</catValu>
+        <labl>Travel related to income-generating activities</labl>
+      </catgry>
+      <catgry>
+        <catValu>180504</catValu>
+        <labl>Travel related to job search and interviewing</labl>
+      </catgry>
+      <catgry>
+        <catValu>180599</catValu>
+        <labl>Travel related to work, n.e.c.</labl>
+      </catgry>
+      <catgry>
+        <catValu>180600</catValu>
+        <labl>Travel Related to Education</labl>
+      </catgry>
+      <catgry>
+        <catValu>180601</catValu>
+        <labl>Travel related to taking class</labl>
+      </catgry>
+      <catgry>
+        <catValu>180602</catValu>
+        <labl>Trvl rel to extracurricular activities (ex. Sports)</labl>
+      </catgry>
+      <catgry>
+        <catValu>180603</catValu>
+        <labl>Travel related to research/homework</labl>
+      </catgry>
+      <catgry>
+        <catValu>180604</catValu>
+        <labl>Travel related to registration/admin activities</labl>
+      </catgry>
+      <catgry>
+        <catValu>180605</catValu>
+        <labl>Education-related travel, not commuting</labl>
+      </catgry>
+      <catgry>
+        <catValu>180699</catValu>
+        <labl>Education travel, n.e.c.</labl>
+      </catgry>
+      <catgry>
+        <catValu>180700</catValu>
+        <labl>Travel Related to Consumer Purchases</labl>
+      </catgry>
+      <catgry>
+        <catValu>180701</catValu>
+        <labl>Traveling to/from the grocery store</labl>
+      </catgry>
+      <catgry>
+        <catValu>180702</catValu>
+        <labl>Travel related to other shopping</labl>
+      </catgry>
+      <catgry>
+        <catValu>180703</catValu>
+        <labl>Travel related to purchasing food (not groceries)</labl>
+      </catgry>
+      <catgry>
+        <catValu>180704</catValu>
+        <labl>Travel related to shopping, ex groc, food, gas</labl>
+      </catgry>
+      <catgry>
+        <catValu>180705</catValu>
+        <labl>Traveling to/from gas station</labl>
+      </catgry>
+      <catgry>
+        <catValu>180799</catValu>
+        <labl>Travel related to consumer purchases, n.e.c.</labl>
+      </catgry>
+      <catgry>
+        <catValu>180800</catValu>
+        <labl>Travel Related to Using Professional and Personal Care Services</labl>
+      </catgry>
+      <catgry>
+        <catValu>180801</catValu>
+        <labl>Travel related to using childcare services</labl>
+      </catgry>
+      <catgry>
+        <catValu>180802</catValu>
+        <labl>Travel related to using financial svcs and banking</labl>
+      </catgry>
+      <catgry>
+        <catValu>180803</catValu>
+        <labl>Travel related to using legal services</labl>
+      </catgry>
+      <catgry>
+        <catValu>180804</catValu>
+        <labl>Travel related to using medical services</labl>
+      </catgry>
+      <catgry>
+        <catValu>180805</catValu>
+        <labl>Travel related to using personal care services</labl>
+      </catgry>
+      <catgry>
+        <catValu>180806</catValu>
+        <labl>Travel related to using real estate services</labl>
+      </catgry>
+      <catgry>
+        <catValu>180807</catValu>
+        <labl>Travel related to using veterinary services</labl>
+      </catgry>
+      <catgry>
+        <catValu>180899</catValu>
+        <labl>Travel rel. to using prof, personal care svcs n.e.c.</labl>
+      </catgry>
+      <catgry>
+        <catValu>180900</catValu>
+        <labl>Travel Related to Using Household Services</labl>
+      </catgry>
+      <catgry>
+        <catValu>180901</catValu>
+        <labl>Travel related to using household services</labl>
+      </catgry>
+      <catgry>
+        <catValu>180902</catValu>
+        <labl>Trvl rel to using home maint etc svcs</labl>
+      </catgry>
+      <catgry>
+        <catValu>180903</catValu>
+        <labl>Travel related to using pet services (not vet)</labl>
+      </catgry>
+      <catgry>
+        <catValu>180904</catValu>
+        <labl>Travel related to using lawn and garden services</labl>
+      </catgry>
+      <catgry>
+        <catValu>180905</catValu>
+        <labl>Trvl rel to using vehicle maint and repair services</labl>
+      </catgry>
+      <catgry>
+        <catValu>180999</catValu>
+        <labl>Travel related to using household services, n.e.c.</labl>
+      </catgry>
+      <catgry>
+        <catValu>181000</catValu>
+        <labl>Travel Related to Using Government Services and Civic Obligations</labl>
+      </catgry>
+      <catgry>
+        <catValu>181001</catValu>
+        <labl>Travel related to using government services</labl>
+      </catgry>
+      <catgry>
+        <catValu>181002</catValu>
+        <labl>Travel related to civic obligations and participation</labl>
+      </catgry>
+      <catgry>
+        <catValu>181099</catValu>
+        <labl>Travel rel. to govt svcs and civic obligations, n.e.c.</labl>
+      </catgry>
+      <catgry>
+        <catValu>181100</catValu>
+        <labl>Travel Related to Eating and Drinking</labl>
+      </catgry>
+      <catgry>
+        <catValu>181101</catValu>
+        <labl>Travel related to eating and drinking</labl>
+      </catgry>
+      <catgry>
+        <catValu>181199</catValu>
+        <labl>Travel related to eating and drinking, n.e.c.</labl>
+      </catgry>
+      <catgry>
+        <catValu>181200</catValu>
+        <labl>Travel Related to Socializing, Relaxing, and Leisure</labl>
+      </catgry>
+      <catgry>
+        <catValu>181201</catValu>
+        <labl>Travel related to socializing and communicating</labl>
+      </catgry>
+      <catgry>
+        <catValu>181202</catValu>
+        <labl>Trvl related to attending or hosting social events</labl>
+      </catgry>
+      <catgry>
+        <catValu>181203</catValu>
+        <labl>Travel related to relaxing and leisure (2003, 2004)</labl>
+      </catgry>
+      <catgry>
+        <catValu>181204</catValu>
+        <labl>Travel related to arts and entertainment</labl>
+      </catgry>
+      <catgry>
+        <catValu>181205</catValu>
+        <labl>Travel as a form of entertainment</labl>
+      </catgry>
+      <catgry>
+        <catValu>181206</catValu>
+        <labl>Travel related to relaxing and leisure (2005+)</labl>
+      </catgry>
+      <catgry>
+        <catValu>181299</catValu>
+        <labl>Travel rel. to socializing, relaxing, leisure, n.e.c.</labl>
+      </catgry>
+      <catgry>
+        <catValu>181300</catValu>
+        <labl>Travel Related to Sports, Exercise, and Recreation</labl>
+      </catgry>
+      <catgry>
+        <catValu>181301</catValu>
+        <labl>Trvl rel to doing sports/exercise/recreation</labl>
+      </catgry>
+      <catgry>
+        <catValu>181302</catValu>
+        <labl>Trvl rel to attending sporting/recreational events</labl>
+      </catgry>
+      <catgry>
+        <catValu>181399</catValu>
+        <labl>Travel rel to sports, exercise, recreation, n.e.c.</labl>
+      </catgry>
+      <catgry>
+        <catValu>181400</catValu>
+        <labl>Travel Related to Religious or Spiritual Activities</labl>
+      </catgry>
+      <catgry>
+        <catValu>181401</catValu>
+        <labl>Travel related to religious/spiritual practices</labl>
+      </catgry>
+      <catgry>
+        <catValu>181499</catValu>
+        <labl>Travel rel. to religious/spiritual activities, n.e.c.</labl>
+      </catgry>
+      <catgry>
+        <catValu>181500</catValu>
+        <labl>Travel Related to Volunteering</labl>
+      </catgry>
+      <catgry>
+        <catValu>181501</catValu>
+        <labl>Travel related to volunteering</labl>
+      </catgry>
+      <catgry>
+        <catValu>181599</catValu>
+        <labl>Travel related to volunteer activities, n.e.c.</labl>
+      </catgry>
+      <catgry>
+        <catValu>181600</catValu>
+        <labl>Travel Related to Phone Calls</labl>
+      </catgry>
+      <catgry>
+        <catValu>181601</catValu>
+        <labl>Travel related to phone calls</labl>
+      </catgry>
+      <catgry>
+        <catValu>181699</catValu>
+        <labl>Travel rel. to phone calls, n.e.c.</labl>
+      </catgry>
+      <catgry>
+        <catValu>181800</catValu>
+        <labl>Security Procedures Related to Traveling</labl>
+      </catgry>
+      <catgry>
+        <catValu>181801</catValu>
+        <labl>Security procedures related to traveling</labl>
+      </catgry>
+      <catgry>
+        <catValu>181899</catValu>
+        <labl>Security procedures related to traveling, n.e.c.</labl>
+      </catgry>
+      <catgry>
+        <catValu>189900</catValu>
+        <labl>Traveling, n.e.c.</labl>
+      </catgry>
+      <catgry>
+        <catValu>189999</catValu>
+        <labl>Traveling, n.e.c.</labl>
+      </catgry>
+      <catgry>
+        <catValu>500000</catValu>
+        <labl>Data Codes</labl>
+      </catgry>
+      <catgry>
+        <catValu>500100</catValu>
+        <labl>Unable to Code</labl>
+      </catgry>
+      <catgry>
+        <catValu>500101</catValu>
+        <labl>Insufficient detail in verbatim</labl>
+      </catgry>
+      <catgry>
+        <catValu>500102</catValu>
+        <labl>Recorded activity using incorrect words</labl>
+      </catgry>
+      <catgry>
+        <catValu>500103</catValu>
+        <labl>Missing travel or destination</labl>
+      </catgry>
+      <catgry>
+        <catValu>500104</catValu>
+        <labl>Recorded simultaneous activities incorrectly</labl>
+      </catgry>
+      <catgry>
+        <catValu>500105</catValu>
+        <labl>Respondent refused to provide information</labl>
+      </catgry>
+      <catgry>
+        <catValu>500106</catValu>
+        <labl>Gap/can't remember</labl>
+      </catgry>
+      <catgry>
+        <catValu>500107</catValu>
+        <labl>Unable to code activity at 1st tier</labl>
+      </catgry>
+      <catgry>
+        <catValu>509900</catValu>
+        <labl>Data codes, n.e.c.</labl>
+      </catgry>
+      <catgry>
+        <catValu>509999</catValu>
+        <labl>Data codes, n.e.c.</labl>
+      </catgry>
+      <concept vocab="IPUMS">Technical Activity Variables -- ACTIVITY</concept>
+      <varFormat schema="other" type="numeric"/>
+    </var>
+    <var ID="DURATION" files="ExtractData" name="DURATION" intrvl="contin" dcml="0" rectype="3">
+      <location StartPos="29" width="4" EndPos="32"/>
+      <labl>Duration of activity</labl>
+      <txt><![CDATA[DURATION reports the length of the activity in minutes. The sum of DURATION for all activities results in one 24-hour period (1440 minutes).
+
+Some researchers may wish to use DURATION_EXT, which provides the length of the final activity as it was reported rather than truncating it at the end of the 24-hour reporting period.
+
+This variable is available via extracts that are hierarchical or rectangular (activity) (more info on extract formats [URL omitted from DDI.]). If you request a hierarchical extract and plan to construct time use variables in your statistics package, this variable may be useful to you. If you request a rectangular extract and plan to construct time use variables through the extract system, DURATION will not be included in your extract, as persons are the unit of observation for rectangular extracts rather than activity or who records.]]></txt>
+      <codInstr><![CDATA[
+DURATION is a 4-digit numeric variable reporting the length of the activity in minutes in one 24-hour period.]]></codInstr>
+      <concept vocab="IPUMS">Technical Activity Variables -- ACTIVITY</concept>
+      <varFormat schema="other" type="numeric"/>
+    </var>
+    <var ID="telesolo" files="ExtractData" name="telesolo" intrvl="contin" dcml="0" rectype="2">
+      <location StartPos="71" width="4" EndPos="74"/>
+      <labl>televsion while alone</labl>
+      <txt><![CDATA[replication of Joanna Pepin]]></txt>
+      <codInstr><![CDATA[
+DURATION is a 4-digit numeric variable reporting the length of the activity in minutes in one 24-hour period.]]></codInstr>
+      <concept vocab="IPUMS">Time Use Variables -- PERSON</concept>
+      <varFormat schema="other" type="numeric"/>
+    </var>
+    <var ID="telesp" files="ExtractData" name="telesp" intrvl="contin" dcml="0" rectype="2">
+      <location StartPos="75" width="4" EndPos="78"/>
+      <labl>television with spouse/unmarried partner</labl>
+      <txt><![CDATA[replication of Joana Pepin]]></txt>
+      <codInstr><![CDATA[
+DURATION is a 4-digit numeric variable reporting the length of the activity in minutes in one 24-hour period.]]></codInstr>
+      <concept vocab="IPUMS">Time Use Variables -- PERSON</concept>
+      <varFormat schema="other" type="numeric"/>
+    </var>
+  </dataDscr>
+</codeBook>

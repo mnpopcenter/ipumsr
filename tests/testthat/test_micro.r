@@ -163,3 +163,35 @@ test_that("keyvar is loaded regardless of selection in hierarchical", {
   expect_true("SERIAL" %in% names(cps$HOUSEHOLD))
   expect_true("SERIAL" %in% names(cps$PERSON))
 })
+
+
+test_that("atus doesn't get duplicated rectype vars in hierarchical extracts (#43)", {
+  ddi_file <- system.file("extdata", "atus_00025.xml", package = "ipumsexamples")
+  if (!file.exists(ddi_file)) skip("Could not find ddi, ipumsexamples must not be installed")
+  ddi <- read_ipums_ddi(ddi_file)
+
+  data <- dplyr::tibble(
+    RECTYPE = c(1, 1, 2, 3, 3, 3),
+    REGION = c(1, 2, 3, 4, 1, 2),
+    x = 1:6
+  )
+
+  out <- set_ipums_var_attributes(data, ddi, var_attrs = "val_labels")
+  # Removed duplicates from rectype
+  expect_equal(
+    ipums_val_labels(out$RECTYPE),
+    tibble::tibble(
+      val = as.numeric(1:5),
+      lbl = c("Household Record", "Person Record", "Activity Record",
+              "Who Record", "Elder Care Record")
+    )
+  )
+  # Didn't affect the region labels
+  expect_equal(
+    ipums_val_labels(out$REGION),
+    tibble::tibble(
+      val = as.numeric(1:4),
+      lbl = c("Northeast", "Midwest", "South", "West")
+    )
+  )
+})
