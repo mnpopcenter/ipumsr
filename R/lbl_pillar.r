@@ -98,7 +98,7 @@ add_text <- function(display, new_text) {
 
 val_chr_pillar_info <- function(x) {
   MIN_CHR_DISPLAY <- 4
-  val_pillar <- pillar::pillar_shaft(zap_labels.haven_labelled(x))
+  val_pillar <- pillar::pillar_shaft(custom_zap_labels(x))
   disp_full <- trim_ws_rhs(format(val_pillar, attr(val_pillar, "width")))
   wid_full <- pillar::get_extent(disp_full)
 
