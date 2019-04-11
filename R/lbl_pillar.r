@@ -234,9 +234,7 @@ get_label_text <- function(x) {
 
   levs <- unname(labels)
   labs <- names(labels)
-  x <- haven_replace_with(x, levs, labs)
-
-  structure(x, label = label)
+  as.character(haven_replace_with(x, levs, labs))
 }
 
 # Adpated from haven:::replace_with
