@@ -157,6 +157,18 @@ set_ipums_var_attributes <- function(
     ))
   }
 
+  # Check for values with multiple labels and drop shorter ones because
+  # haven will break
+  var_info$val_labels <- purrr::map(var_info$val_labels, function(x) {
+    duplicated_values <- unique(x$val[which(duplicated(x$val))])
+    for (vvv in duplicated_values) {
+      dup_labels <- x$lbl[x$val == vvv]
+      longest_label <- x$lbl[x$val == vvv][which.max(nchar(dup_labels))[1]]
+      x <- x[x$val != vvv | (x$val == vvv & x$lbl == longest_label), ]
+    }
+    x
+  })
+
   # Convert data frame of value labels to named vector as the labelled class expects
   var_info$val_labels <- purrr::map(var_info$val_labels, function(x) {
     if (length(x) == 0 || nrow(x) == 0) NULL else purrr::set_names(x$val, x$lbl)
