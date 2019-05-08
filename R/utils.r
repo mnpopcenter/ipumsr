@@ -344,25 +344,27 @@ path_is_zip_or_dir <- function(file) {
 
 
 release_questions <- function() {
-  have_ipumsexamples <- requireNamespace("ipumsexamples", quietly = TRUE)
-  have_terraexample <- requireNamespace("terraexample", quietly = TRUE)
+  installed_packages <- rownames(utils::installed.packages())
 
   out <- c()
-  if (!have_ipumsexamples) out <- c(
-    out,
-    "It looks like you don't have ipumsexamples installed. Do ",
-    "you want to install it with `",
-    "devtools::install_github('mnpopcenter/ipumsr/ipumsexample')",
-    "` before you continue?"
-  )
-
-  if (!have_terraexample) out <- c(
-    out,
-    "It looks like you don't have terraexample installed. Do ",
-    "you want to install it with `",
-    "devtools::install_local('Z:/programming/r_ipums/internal_packages/terraexample')",
-    "` before you continue?"
-  )
+  if (!"ipumsexamples" %in% installed_packages) {
+    out <- c(
+      out,
+      "It looks like you don't have ipumsexamples installed. Do ",
+      "you want to install it with `",
+      "devtools::install_github('mnpopcenter/ipumsr/ipumsexample')",
+      "` before you continue?"
+    )
+  }
+  if (!"ipumsexamples" %in% installed_packages) {
+    out <- c(
+      out,
+      "It looks like you don't have terraexample installed. Do ",
+      "you want to install it with `",
+      "devtools::install_local('Z:/programming/r_ipums/internal_packages/terraexample')",
+      "` before you continue?"
+    )
+  }
   out
 }
 
