@@ -121,7 +121,7 @@ test_that(
     #expect_equal(attr(nhgis[["D6Z001"]], "label"), d6z001_label)
     #expect_equal(attr(nhgis[["D6Z001"]], "var_desc"), d6z001_var_desc)
     expect_equal(sort(nhgis$PMSA)[1:2], pmsa_first2_sort)
-    expect_equal(class(nhgis), rlang::set_attrs("SpatialPolygonsDataFrame", package = "sp"))
+    expect_equal(class(nhgis), structure("SpatialPolygonsDataFrame", package = "sp"))
   })
 
 test_that(

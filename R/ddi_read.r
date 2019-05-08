@@ -336,7 +336,7 @@ read_ipums_codebook <- function(cb_file, data_layer = NULL) {
     if (quo_is_null(data_layer)) {
       this_file <- seq_along(data_file_names)
     } else {
-      this_file <- which(data_file_names == dplyr::select_vars(data_file_names, !!data_layer))
+      this_file <- which(data_file_names == tidyselect::vars_select(data_file_names, !!data_layer))
     }
     if (length(this_file) > 1) {
       stop(custom_format_text(

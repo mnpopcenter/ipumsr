@@ -19,7 +19,7 @@ ipums_locale <- function(encoding = NULL) {
 # rows based on values in a column of a data.frame.
 select_var_rows <- function(df, vars, filter_var = "var_name") {
   if (!quo_is_null(vars)) {
-    vars <- dplyr::select_vars(df[[filter_var]], !!vars)
+    vars <- tidyselect::vars_select(df[[filter_var]], !!vars)
     df <- dplyr::filter(df, .data[[!!filter_var]] %in% vars)
   }
   df
@@ -45,7 +45,7 @@ find_files_in <- function(
 
 
   if (!is.null(name_ext)) file_names <- fostr_subset(file_names, paste0("\\.", name_ext, "$"))
-  if (!quo_is_null(name_select)) file_names <- dplyr::select_vars(file_names, !!name_select)
+  if (!quo_is_null(name_select)) file_names <- tidyselect::vars_select(file_names, !!name_select)
 
   if (!multiple_ok && length(file_names) > 1) {
     arg_name <- deparse(substitute(name_select))

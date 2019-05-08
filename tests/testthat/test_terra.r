@@ -56,5 +56,5 @@ test_that("Terra area works (sp)", {
   skip_if_not_installed("sp")
 
   area <- read_terra_area_sp(area_file, verbose = FALSE)
-  expect_equal(class(area), rlang::set_attrs("SpatialPolygonsDataFrame", package = "sp"))
+  expect_equal(class(area), structure("SpatialPolygonsDataFrame", package = "sp"))
 })

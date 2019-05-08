@@ -219,8 +219,8 @@ read_terra_area_sf <- function(
     shape_file, !!shape_layer, encoding = shape_encoding, verbose = verbose
   )
 
-  geo_vars <- unname(dplyr::select_vars(names(data), starts_with("GEO")))
-  label_name <- unname(dplyr::select_vars(geo_vars, ends_with("LABEL")))
+  geo_vars <- unname(tidyselect::vars_select(names(data), starts_with("GEO")))
+  label_name <- unname(tidyselect::vars_select(geo_vars, ends_with("LABEL")))
   id_name <- dplyr::setdiff(geo_vars, label_name)[1]
   by_vars <- rlang::set_names("GEOID", id_name)
 
@@ -257,8 +257,8 @@ read_terra_area_sp <- function(
   # for length, etc. Rely only on the code because it is easier.
   shape_data$LABEL <- NULL
 
-  geo_vars <- unname(dplyr::select_vars(names(data), starts_with("GEO")))
-  label_name <- unname(dplyr::select_vars(geo_vars, ends_with("LABEL")))
+  geo_vars <- unname(tidyselect::vars_select(names(data), starts_with("GEO")))
+  label_name <- unname(tidyselect::vars_select(geo_vars, ends_with("LABEL")))
   id_name <- dplyr::setdiff(geo_vars, label_name)[1]
   by_vars <- rlang::set_names("GEOID", id_name)
 
