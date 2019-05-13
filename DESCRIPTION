@@ -3,11 +3,11 @@ Title: Read 'IPUMS' Extract Files
 Version: 0.4.1
 Authors@R: c(
   person("Greg Freedman Ellis", role = "aut"), 
-  person("Derek Burk", role = c("aut", "cre")),
+  person("Derek Burk", email = "ipumsr+cran@umn.edu", role = c("aut", "cre")),
   person("Joe Grover", role = "ctb"),
   person("Minnesota Population Center", email = "ipums@umn.edu", role = "cph")
   )
-Contact: ipumsr+cran@umn.edu
+Contact: ipums@umn.edu
 URL: https://www.ipums.org, https://github.com/mnpopcenter/ipumsr
 BugReports: https://github.com/mnpopcenter/ipumsr/issues
 Description: An easy way to import census, survey and geographic data provided by 'IPUMS'
