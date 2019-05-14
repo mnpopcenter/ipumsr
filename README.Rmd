@@ -15,7 +15,7 @@ knitr::opts_chunk$set(
 # ipumsr <img src="man/figures/logo.png" align="right" height="149" width="128.5"/>
 
 [![Project Status:Active](http://www.repostatus.org/badges/latest/active.svg)](http://www.repostatus.org/#active)
-[![CRAN_Status_Badge](https://www.r-pkg.org/badges/version/ipumsr)](https://cran.r-project.org/web/packages/ipumsr) 
+[![CRAN_Status_Badge](https://www.r-pkg.org/badges/version/ipumsr)](https://CRAN.R-project.org/package=ipumsr)
 [![Travis-CI Build Status](https://travis-ci.org/mnpopcenter/ipumsr.svg?branch=master)](https://travis-ci.org/mnpopcenter/ipumsr)
 [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/87yerkl5t1e4nape/branch/master?svg=true)](https://ci.appveyor.com/project/mpcit/ipumsr)
 [![Coverage Status](https://codecov.io/gh/mnpopcenter/ipumsr/master.svg)](https://codecov.io/github/mnpopcenter/ipumsr?branch=master)
