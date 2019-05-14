@@ -23,11 +23,15 @@ Useful links:
 
 }
 \author{
-\strong{Maintainer}: Greg Freedman Ellis \email{gfellis@umn.edu}
+\strong{Maintainer}: Derek Burk \email{ipumsr+cran@umn.edu}
+
+Authors:
+\itemize{
+  \item Greg Freedman Ellis
+}
 
 Other contributors:
 \itemize{
-  \item Derek Burk [contributor]
   \item Joe Grover [contributor]
   \item Minnesota Population Center \email{ipums@umn.edu} [copyright holder]
 }
