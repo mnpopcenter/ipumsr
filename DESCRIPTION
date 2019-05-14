@@ -3,7 +3,7 @@ Title: Read 'IPUMS' Extract Files
 Version: 0.4.1
 Authors@R: c(
   person("Greg Freedman Ellis", role = "aut"), 
-  person("Derek Burk", email = "ipumsr+cran@umn.edu", role = c("aut", "cre")),
+  person("Derek Burk", email = "ipums+cran@umn.edu", role = c("aut", "cre")),
   person("Joe Grover", role = "ctb"),
   person("Minnesota Population Center", email = "ipums@umn.edu", role = "cph")
   )
