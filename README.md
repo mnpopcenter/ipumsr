@@ -5,7 +5,7 @@
 
 [![Project
 Status:Active](http://www.repostatus.org/badges/latest/active.svg)](http://www.repostatus.org/#active)
-[![CRAN\_Status\_Badge](https://www.r-pkg.org/badges/version/ipumsr)](https://cran.r-project.org/web/packages/ipumsr)
+[![CRAN\_Status\_Badge](https://www.r-pkg.org/badges/version/ipumsr)](https://CRAN.R-project.org/package=ipumsr)
 [![Travis-CI Build
 Status](https://travis-ci.org/mnpopcenter/ipumsr.svg?branch=master)](https://travis-ci.org/mnpopcenter/ipumsr)
 [![AppVeyor Build
@@ -51,22 +51,18 @@ data:
           - Provides guidance for using the value labels provided by
             IPUMS
       - [**ipums-geography**](http://tech.popdata.org/ipumsr/articles/ipums-geography.html)
-          - Provides guidance for using R as GIS tool with IPUMS
-        data
+          - Provides guidance for using R as GIS tool with IPUMS data
       - [**ipums-bigdata**](http://tech.popdata.org/ipumsr/articles/ipums-bigdata.html)
           - How to handle large IPUMS data extracts and examples of
             using the chunked versions of microdata reading functions.
 
   - Or to see examples of how to work through data from particular
-    projects, see these
-        vignettes:
+    projects, see these vignettes:
     
       - [**ipums-cps**](http://tech.popdata.org/ipumsr/articles/ipums-cps.html)
-          - An example of using CPS data with the ipumsr
-        package
+          - An example of using CPS data with the ipumsr package
       - [**ipums-nhgis**](http://tech.popdata.org/ipumsr/articles/ipums-nhgis.html)
-          - An example of using NHGIS data with the ipumsr
-        package
+          - An example of using NHGIS data with the ipumsr package
       - [**ipums-terra**](http://tech.popdata.org/ipumsr/articles/ipums-terra.html)
           - An example of using IPUMS Terra data with the ipumsr package
       - [The IPUMS website](https://www.ipums.org/exercises.shtml)
