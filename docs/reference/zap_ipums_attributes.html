@@ -81,7 +81,7 @@ the dplyr join functions so you may want to remove them." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ipumsr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.1</span>
       </span>
     </div>
 
@@ -214,8 +214,7 @@ the dplyr join functions so you may want to remove them.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='no'>cps</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='read_ipums_micro.html'>read_ipums_micro</a></span>(<span class='fu'><a href='ipums_example.html'>ipums_example</a></span>(<span class='st'>"cps_00006.xml"</span>))</div><div class='output co'>#&gt; Use of data from IPUMS-CPS is subject to conditions including that users should
-#&gt; cite the data appropriately. Use command `ipums_conditions()` for more details.
-#&gt; </div><div class='input'><span class='no'>annual_unemployment</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/data.frame'>data.frame</a></span>(<span class='kw'>YEAR</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>1962</span>, <span class='fl'>1963</span>), <span class='kw'>unemp</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>5.5</span>, <span class='fl'>5.7</span>))
+#&gt; cite the data appropriately. Use command `ipums_conditions()` for more details.</div><div class='input'><span class='no'>annual_unemployment</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/data.frame'>data.frame</a></span>(<span class='kw'>YEAR</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>1962</span>, <span class='fl'>1963</span>), <span class='kw'>unemp</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>5.5</span>, <span class='fl'>5.7</span>))
 
 <span class='co'># Avoids warning 'Column `YEAR` has different attributes on LHS and RHS of join'</span>
 <span class='no'>cps</span>$<span class='no'>YEAR</span> <span class='kw'>&lt;-</span> <span class='fu'>zap_ipums_attributes</span>(<span class='no'>cps</span>$<span class='no'>YEAR</span>)

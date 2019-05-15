@@ -39,7 +39,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ipumsr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.1</span>
       </span>
     </div>
 
@@ -135,7 +135,7 @@
       <h1>Value Labels</h1>
                         <h4 class="author">Minnesota Population Center</h4>
             
-            <h4 class="date">2019-03-20</h4>
+            <h4 class="date">2019-05-15</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/mnpopcenter/ipumsr/blob/master/vignettes/value-labels.Rmd"><code>vignettes/value-labels.Rmd</code></a></small>
       <div class="hidden name"><code>value-labels.Rmd</code></div>
@@ -149,25 +149,30 @@
 <a href="#value-labels-in-the-ipumsr-package" class="anchor"></a>Value labels in the ipumsr package</h1>
 <p>Integrated variables in IPUMS data often have value labels, which attach text labels to the values taken by a variable (for example the HEALTH variable has value labels: 1 = “Excellent”, 2 = “Very good”, etc.). The <code>ipumsr</code> package does import the labels, but not as factors, which may be how you were expecting them.</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(ipumsr)</a>
-<a class="sourceLine" id="cb1-2" title="2">ddi &lt;-<span class="st"> </span><span class="kw"><a href="../reference/read_ipums_ddi.html">read_ipums_ddi</a></span>(<span class="kw"><a href="../reference/ipums_example.html">ipums_example</a></span>(<span class="st">"cps_00015.xml"</span>))</a>
-<a class="sourceLine" id="cb1-3" title="3">cps &lt;-<span class="st"> </span><span class="kw"><a href="../reference/read_ipums_micro.html">read_ipums_micro</a></span>(ddi, <span class="dt">verbose =</span> <span class="ot">FALSE</span>)</a>
-<a class="sourceLine" id="cb1-4" title="4"></a>
-<a class="sourceLine" id="cb1-5" title="5">cps</a>
-<a class="sourceLine" id="cb1-6" title="6"><span class="co">#&gt; # A tibble: 10,883 x 13</span></a>
-<a class="sourceLine" id="cb1-7" title="7"><span class="co">#&gt;     YEAR SERIAL HWTSUPP STATEFIP ASECFLAG MONTH   PERNUM WTSUPP AGE  </span></a>
-<a class="sourceLine" id="cb1-8" title="8"><span class="co">#&gt;    &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt; &lt;int+lb&gt; &lt;int+lb&gt; &lt;int+l&gt;  &lt;dbl&gt;  &lt;dbl&gt; &lt;int&gt;</span></a>
-<a class="sourceLine" id="cb1-9" title="9"><span class="co">#&gt;  1  2016  24138   3249. 55 [Wis~ 1 [ASEC] 3 [Mar~      1  3249. 54   </span></a>
-<a class="sourceLine" id="cb1-10" title="10"><span class="co">#&gt;  2  2016  24139   3154. 55 [Wis~ 1 [ASEC] 3 [Mar~      1  3154. 54   </span></a>
-<a class="sourceLine" id="cb1-11" title="11"><span class="co">#&gt;  3  2016  24139   3154. 55 [Wis~ 1 [ASEC] 3 [Mar~      2  3154. 52   </span></a>
-<a class="sourceLine" id="cb1-12" title="12"><span class="co">#&gt;  4  2016  24140   1652. 55 [Wis~ 1 [ASEC] 3 [Mar~      1  1652. 38   </span></a>
-<a class="sourceLine" id="cb1-13" title="13"><span class="co">#&gt;  5  2016  24140   1652. 55 [Wis~ 1 [ASEC] 3 [Mar~      2  1503. 15   </span></a>
-<a class="sourceLine" id="cb1-14" title="14"><span class="co">#&gt;  6  2016  24140   1652. 55 [Wis~ 1 [ASEC] 3 [Mar~      3  1652. 38   </span></a>
-<a class="sourceLine" id="cb1-15" title="15"><span class="co">#&gt;  7  2016  24141   3049. 55 [Wis~ 1 [ASEC] 3 [Mar~      1  3049. 85   </span></a>
-<a class="sourceLine" id="cb1-16" title="16"><span class="co">#&gt;  8  2016  24142   1637. 55 [Wis~ 1 [ASEC] 3 [Mar~      1  1637. 27   </span></a>
-<a class="sourceLine" id="cb1-17" title="17"><span class="co">#&gt;  9  2016  24142   1637. 55 [Wis~ 1 [ASEC] 3 [Mar~      2  1637. 27   </span></a>
-<a class="sourceLine" id="cb1-18" title="18"><span class="co">#&gt; 10  2016  24142   1637. 55 [Wis~ 1 [ASEC] 3 [Mar~      3  1887.  2   </span></a>
-<a class="sourceLine" id="cb1-19" title="19"><span class="co">#&gt; # ... with 10,873 more rows, and 4 more variables: EDUC &lt;int+lbl&gt;,</span></a>
-<a class="sourceLine" id="cb1-20" title="20"><span class="co">#&gt; #   INCTOT &lt;dbl+lbl&gt;, HEALTH &lt;int+lbl&gt;, MIGRATE1 &lt;int+lbl&gt;</span></a></code></pre></div>
+<a class="sourceLine" id="cb1-2" title="2"><span class="co">#&gt; Registered S3 methods overwritten by 'ipumsr':</span></a>
+<a class="sourceLine" id="cb1-3" title="3"><span class="co">#&gt;   method                                 from </span></a>
+<a class="sourceLine" id="cb1-4" title="4"><span class="co">#&gt;   format.pillar_shaft_haven_labelled_chr haven</span></a>
+<a class="sourceLine" id="cb1-5" title="5"><span class="co">#&gt;   format.pillar_shaft_haven_labelled_num haven</span></a>
+<a class="sourceLine" id="cb1-6" title="6"><span class="co">#&gt;   pillar_shaft.haven_labelled            haven</span></a>
+<a class="sourceLine" id="cb1-7" title="7">ddi &lt;-<span class="st"> </span><span class="kw"><a href="../reference/read_ipums_ddi.html">read_ipums_ddi</a></span>(<span class="kw"><a href="../reference/ipums_example.html">ipums_example</a></span>(<span class="st">"cps_00015.xml"</span>))</a>
+<a class="sourceLine" id="cb1-8" title="8">cps &lt;-<span class="st"> </span><span class="kw"><a href="../reference/read_ipums_micro.html">read_ipums_micro</a></span>(ddi, <span class="dt">verbose =</span> <span class="ot">FALSE</span>)</a>
+<a class="sourceLine" id="cb1-9" title="9"></a>
+<a class="sourceLine" id="cb1-10" title="10">cps</a>
+<a class="sourceLine" id="cb1-11" title="11"><span class="co">#&gt; # A tibble: 10,883 x 13</span></a>
+<a class="sourceLine" id="cb1-12" title="12"><span class="co">#&gt;     YEAR SERIAL HWTSUPP STATEFIP ASECFLAG   MONTH PERNUM WTSUPP   AGE</span></a>
+<a class="sourceLine" id="cb1-13" title="13"><span class="co">#&gt;    &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt; &lt;int+lb&gt; &lt;int+lb&gt; &lt;int+l&gt;  &lt;dbl&gt;  &lt;dbl&gt; &lt;int&gt;</span></a>
+<a class="sourceLine" id="cb1-14" title="14"><span class="co">#&gt;  1  2016  24138   3249. 55 [Wis~ 1 [ASEC] 3 [Mar~      1  3249.  5454</span></a>
+<a class="sourceLine" id="cb1-15" title="15"><span class="co">#&gt;  2  2016  24139   3154. 55 [Wis~ 1 [ASEC] 3 [Mar~      1  3154.  5454</span></a>
+<a class="sourceLine" id="cb1-16" title="16"><span class="co">#&gt;  3  2016  24139   3154. 55 [Wis~ 1 [ASEC] 3 [Mar~      2  3154.  5252</span></a>
+<a class="sourceLine" id="cb1-17" title="17"><span class="co">#&gt;  4  2016  24140   1652. 55 [Wis~ 1 [ASEC] 3 [Mar~      1  1652.  3838</span></a>
+<a class="sourceLine" id="cb1-18" title="18"><span class="co">#&gt;  5  2016  24140   1652. 55 [Wis~ 1 [ASEC] 3 [Mar~      2  1503.  1515</span></a>
+<a class="sourceLine" id="cb1-19" title="19"><span class="co">#&gt;  6  2016  24140   1652. 55 [Wis~ 1 [ASEC] 3 [Mar~      3  1652.  3838</span></a>
+<a class="sourceLine" id="cb1-20" title="20"><span class="co">#&gt;  7  2016  24141   3049. 55 [Wis~ 1 [ASEC] 3 [Mar~      1  3049.  8585</span></a>
+<a class="sourceLine" id="cb1-21" title="21"><span class="co">#&gt;  8  2016  24142   1637. 55 [Wis~ 1 [ASEC] 3 [Mar~      1  1637.  2727</span></a>
+<a class="sourceLine" id="cb1-22" title="22"><span class="co">#&gt;  9  2016  24142   1637. 55 [Wis~ 1 [ASEC] 3 [Mar~      2  1637.  2727</span></a>
+<a class="sourceLine" id="cb1-23" title="23"><span class="co">#&gt; 10  2016  24142   1637. 55 [Wis~ 1 [ASEC] 3 [Mar~      3  1887.   22 </span></a>
+<a class="sourceLine" id="cb1-24" title="24"><span class="co">#&gt; # ... with 10,873 more rows, and 4 more variables: EDUC &lt;int+lbl&gt;,</span></a>
+<a class="sourceLine" id="cb1-25" title="25"><span class="co">#&gt; #   INCTOT &lt;dbl+lbl&gt;, HEALTH &lt;int+lbl&gt;, MIGRATE1 &lt;int+lbl&gt;</span></a></code></pre></div>
 <p>The first clue that some of the variables are labelled is the <code>&lt;dbl+lbl&gt;</code> that appear below <code>STATEFIP</code>, <code>ASECFLAG</code> and other variables. The tibble package prints the variable’s type information below the variable name, and this “+lbl” indicates that the variable uses the <code>labelled</code> type. The function <code><a href="https://haven.tidyverse.org/reference/labelled.html">is.labelled()</a></code> will also tell you if a variable is labelled.</p>
 <p>By default the ipumsr package now will attempt to show the value labels when printing out a data.frame (like the <code>"[Wis~"</code> on STATEFIP above, for Wisconsin). If your console supports colorful output, then the labels will be in a lighter gray than the values. You can turn off this printing behavior by setting the option <code><a href="https://www.rdocumentation.org/packages/base/topics/options">options("ipumsr.show_pillar_labels" = FALSE)</a></code>)</p>
 <p>However, as you can see, there often isn’t enough space to see the labels when printing out a full data.frame. So, there are a few options to see the labels directly:</p>

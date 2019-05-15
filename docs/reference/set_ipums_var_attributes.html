@@ -83,7 +83,7 @@ and add them on after loading a subset into a data.frame." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ipumsr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.1</span>
       </span>
     </div>
 
@@ -235,8 +235,7 @@ contents to the attribute "var_desc" when available.</p>
     <pre class="examples"><div class='input'>  <span class='no'>ddi_file</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='ipums_example.html'>ipums_example</a></span>(<span class='st'>"cps_00006.xml"</span>)
   <span class='no'>ddi</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='read_ipums_ddi.html'>read_ipums_ddi</a></span>(<span class='no'>ddi_file</span>)
   <span class='no'>cps</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='read_ipums_micro.html'>read_ipums_micro</a></span>(<span class='no'>ddi</span>, <span class='kw'>var_attrs</span> <span class='kw'>=</span> <span class='kw'>NULL</span>) <span class='co'># Don't load with attributes</span></div><div class='output co'>#&gt; Use of data from IPUMS-CPS is subject to conditions including that users should
-#&gt; cite the data appropriately. Use command `ipums_conditions()` for more details.
-#&gt; </div><div class='input'>
+#&gt; cite the data appropriately. Use command `ipums_conditions()` for more details.</div><div class='input'>
   <span class='fu'><a href='ipums_var_info.html'>ipums_var_desc</a></span>(<span class='no'>cps</span>$<span class='no'>YEAR</span>) <span class='co'># Not available</span></div><div class='output co'>#&gt; [1] NA</div><div class='input'>
   <span class='co'># But, we can add on attributes after loading</span>
   <span class='no'>cps_with_attr</span> <span class='kw'>&lt;-</span> <span class='fu'>set_ipums_var_attributes</span>(<span class='no'>cps</span>, <span class='no'>ddi</span>)

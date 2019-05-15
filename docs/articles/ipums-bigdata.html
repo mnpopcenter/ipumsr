@@ -39,7 +39,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ipumsr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.1</span>
       </span>
     </div>
 
@@ -135,7 +135,7 @@
       <h1>Big IPUMS data</h1>
                         <h4 class="author">Minnesota Population Center</h4>
             
-            <h4 class="date">2019-03-20</h4>
+            <h4 class="date">2019-05-15</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/mnpopcenter/ipumsr/blob/master/vignettes/ipums-bigdata.Rmd"><code>vignettes/ipums-bigdata.Rmd</code></a></small>
       <div class="hidden name"><code>ipums-bigdata.Rmd</code></div>
@@ -205,7 +205,7 @@
 <a class="sourceLine" id="cb2-13" title="13"><span class="st">  </span><span class="kw">group_by</span>(HEALTH, AT_WORK) <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb2-14" title="14"><span class="st">  </span><span class="kw">summarize</span>(<span class="dt">n =</span> <span class="kw">n</span>())</a>
 <a class="sourceLine" id="cb2-15" title="15"><span class="co">#&gt; # A tibble: 10 x 3</span></a>
-<a class="sourceLine" id="cb2-16" title="16"><span class="co">#&gt; # Groups:   HEALTH [?]</span></a>
+<a class="sourceLine" id="cb2-16" title="16"><span class="co">#&gt; # Groups:   HEALTH [5]</span></a>
 <a class="sourceLine" id="cb2-17" title="17"><span class="co">#&gt;    HEALTH    AT_WORK     n</span></a>
 <a class="sourceLine" id="cb2-18" title="18"><span class="co">#&gt;    &lt;fct&gt;     &lt;fct&gt;   &lt;int&gt;</span></a>
 <a class="sourceLine" id="cb2-19" title="19"><span class="co">#&gt;  1 Excellent No      40582</span></a>
@@ -256,7 +256,7 @@
 <a class="sourceLine" id="cb6-2" title="2"><span class="st">  </span><span class="kw">group_by</span>(HEALTH, AT_WORK) <span class="op">%&gt;%</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb6-3" title="3"><span class="st">  </span><span class="kw">summarize</span>(<span class="dt">n =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/sum">sum</a></span>(n))</a>
 <a class="sourceLine" id="cb6-4" title="4"><span class="co">#&gt; # A tibble: 10 x 3</span></a>
-<a class="sourceLine" id="cb6-5" title="5"><span class="co">#&gt; # Groups:   HEALTH [?]</span></a>
+<a class="sourceLine" id="cb6-5" title="5"><span class="co">#&gt; # Groups:   HEALTH [5]</span></a>
 <a class="sourceLine" id="cb6-6" title="6"><span class="co">#&gt;    HEALTH    AT_WORK     n</span></a>
 <a class="sourceLine" id="cb6-7" title="7"><span class="co">#&gt;    &lt;fct&gt;     &lt;fct&gt;   &lt;int&gt;</span></a>
 <a class="sourceLine" id="cb6-8" title="8"><span class="co">#&gt;  1 Excellent No      40582</span></a>
@@ -415,7 +415,7 @@
 <a class="sourceLine" id="cb12-24" title="24"></a>
 <a class="sourceLine" id="cb12-25" title="25">yield_results</a>
 <a class="sourceLine" id="cb12-26" title="26"><span class="co">#&gt; # A tibble: 10 x 3</span></a>
-<a class="sourceLine" id="cb12-27" title="27"><span class="co">#&gt; # Groups:   HEALTH [?]</span></a>
+<a class="sourceLine" id="cb12-27" title="27"><span class="co">#&gt; # Groups:   HEALTH [5]</span></a>
 <a class="sourceLine" id="cb12-28" title="28"><span class="co">#&gt;    HEALTH    AT_WORK     n</span></a>
 <a class="sourceLine" id="cb12-29" title="29"><span class="co">#&gt;    &lt;fct&gt;     &lt;fct&gt;   &lt;int&gt;</span></a>
 <a class="sourceLine" id="cb12-30" title="30"><span class="co">#&gt;  1 Excellent No      40582</span></a>
@@ -549,18 +549,18 @@
 <a class="sourceLine" id="cb18-2" title="2"><span class="st">  </span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/filter">filter</a></span>(<span class="st">'AGE'</span> <span class="op">&gt;</span><span class="st"> </span><span class="dv">25</span>) <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb18-3" title="3"><span class="st">  </span><span class="kw"><a href="../reference/ipums_collect.html">ipums_collect</a></span>(ddi)</a>
 <a class="sourceLine" id="cb18-4" title="4"><span class="co">#&gt; # A tibble: 204,983 x 14</span></a>
-<a class="sourceLine" id="cb18-5" title="5"><span class="co">#&gt;     YEAR SERIAL HWTSUPP   CPSID ASECFLAG FOODSTMP MONTH   PERNUM  CPSIDP</span></a>
+<a class="sourceLine" id="cb18-5" title="5"><span class="co">#&gt;     YEAR SERIAL HWTSUPP   CPSID ASECFLAG FOODSTMP   MONTH PERNUM  CPSIDP</span></a>
 <a class="sourceLine" id="cb18-6" title="6"><span class="co">#&gt;    &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt; &lt;int+lb&gt; &lt;int+lb&gt; &lt;int+l&gt;  &lt;dbl&gt;   &lt;dbl&gt;</span></a>
-<a class="sourceLine" id="cb18-7" title="7"><span class="co">#&gt;  1  2011      2    545. 2.01e13 1 [ASEC] 1 [No]   3 [Mar~      1 2.01e13</span></a>
-<a class="sourceLine" id="cb18-8" title="8"><span class="co">#&gt;  2  2011      3    475. 2.01e13 1 [ASEC] 1 [No]   3 [Mar~      1 2.01e13</span></a>
-<a class="sourceLine" id="cb18-9" title="9"><span class="co">#&gt;  3  2011      3    475. 2.01e13 1 [ASEC] 1 [No]   3 [Mar~      2 2.01e13</span></a>
-<a class="sourceLine" id="cb18-10" title="10"><span class="co">#&gt;  4  2011      4    548. 2.01e13 1 [ASEC] 1 [No]   3 [Mar~      1 2.01e13</span></a>
-<a class="sourceLine" id="cb18-11" title="11"><span class="co">#&gt;  5  2011      4    548. 2.01e13 1 [ASEC] 1 [No]   3 [Mar~      2 2.01e13</span></a>
-<a class="sourceLine" id="cb18-12" title="12"><span class="co">#&gt;  6  2011      5    475. 2.01e13 1 [ASEC] 1 [No]   3 [Mar~      1 2.01e13</span></a>
-<a class="sourceLine" id="cb18-13" title="13"><span class="co">#&gt;  7  2011      6    298. 2.01e13 1 [ASEC] 1 [No]   3 [Mar~      1 2.01e13</span></a>
-<a class="sourceLine" id="cb18-14" title="14"><span class="co">#&gt;  8  2011      6    298. 2.01e13 1 [ASEC] 1 [No]   3 [Mar~      2 2.01e13</span></a>
-<a class="sourceLine" id="cb18-15" title="15"><span class="co">#&gt;  9  2011      6    298. 2.01e13 1 [ASEC] 1 [No]   3 [Mar~      3 2.01e13</span></a>
-<a class="sourceLine" id="cb18-16" title="16"><span class="co">#&gt; 10  2011      6    298. 2.01e13 1 [ASEC] 1 [No]   3 [Mar~      4 2.01e13</span></a>
+<a class="sourceLine" id="cb18-7" title="7"><span class="co">#&gt;  1  2011      2    545. 2.01e13 1 [ASEC]   1 [No] 3 [Mar~      1 2.01e13</span></a>
+<a class="sourceLine" id="cb18-8" title="8"><span class="co">#&gt;  2  2011      3    475. 2.01e13 1 [ASEC]   1 [No] 3 [Mar~      1 2.01e13</span></a>
+<a class="sourceLine" id="cb18-9" title="9"><span class="co">#&gt;  3  2011      3    475. 2.01e13 1 [ASEC]   1 [No] 3 [Mar~      2 2.01e13</span></a>
+<a class="sourceLine" id="cb18-10" title="10"><span class="co">#&gt;  4  2011      4    548. 2.01e13 1 [ASEC]   1 [No] 3 [Mar~      1 2.01e13</span></a>
+<a class="sourceLine" id="cb18-11" title="11"><span class="co">#&gt;  5  2011      4    548. 2.01e13 1 [ASEC]   1 [No] 3 [Mar~      2 2.01e13</span></a>
+<a class="sourceLine" id="cb18-12" title="12"><span class="co">#&gt;  6  2011      5    475. 2.01e13 1 [ASEC]   1 [No] 3 [Mar~      1 2.01e13</span></a>
+<a class="sourceLine" id="cb18-13" title="13"><span class="co">#&gt;  7  2011      6    298. 2.01e13 1 [ASEC]   1 [No] 3 [Mar~      1 2.01e13</span></a>
+<a class="sourceLine" id="cb18-14" title="14"><span class="co">#&gt;  8  2011      6    298. 2.01e13 1 [ASEC]   1 [No] 3 [Mar~      2 2.01e13</span></a>
+<a class="sourceLine" id="cb18-15" title="15"><span class="co">#&gt;  9  2011      6    298. 2.01e13 1 [ASEC]   1 [No] 3 [Mar~      3 2.01e13</span></a>
+<a class="sourceLine" id="cb18-16" title="16"><span class="co">#&gt; 10  2011      6    298. 2.01e13 1 [ASEC]   1 [No] 3 [Mar~      4 2.01e13</span></a>
 <a class="sourceLine" id="cb18-17" title="17"><span class="co">#&gt; # ... with 204,973 more rows, and 5 more variables: WTSUPP &lt;dbl&gt;,</span></a>
 <a class="sourceLine" id="cb18-18" title="18"><span class="co">#&gt; #   AGE &lt;int+lbl&gt;, EMPSTAT &lt;int+lbl&gt;, AHRSWORKT &lt;dbl+lbl&gt;,</span></a>
 <a class="sourceLine" id="cb18-19" title="19"><span class="co">#&gt; #   HEALTH &lt;int+lbl&gt;</span></a></code></pre></div>

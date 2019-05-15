@@ -23,7 +23,7 @@ Useful links:
 
 }
 \author{
-\strong{Maintainer}: Derek Burk \email{ipumsr+cran@umn.edu}
+\strong{Maintainer}: Derek Burk \email{ipums+cran@umn.edu}
 
 Authors:
 \itemize{

@@ -39,7 +39,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ipumsr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.1</span>
       </span>
     </div>
 
@@ -136,7 +136,7 @@
 </h1>
                         <h4 class="author">Minnesota Population Center</h4>
             
-            <h4 class="date">2019-03-20</h4>
+            <h4 class="date">2019-05-15</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/mnpopcenter/ipumsr/blob/master/vignettes/ipums-geography.Rmd"><code>vignettes/ipums-geography.Rmd</code></a></small>
       <div class="hidden name"><code>ipums-geography.Rmd</code></div>
@@ -275,7 +275,9 @@
 <a class="sourceLine" id="cb6-8" title="8">  ipumsi_summary, </a>
 <a class="sourceLine" id="cb6-9" title="9">  colombia_shape,</a>
 <a class="sourceLine" id="cb6-10" title="10">  <span class="dt">by =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"GEOLEV1"</span> =<span class="st"> "GEOLEVEL1"</span>)</a>
-<a class="sourceLine" id="cb6-11" title="11">)</a></code></pre></div>
+<a class="sourceLine" id="cb6-11" title="11">)</a>
+<a class="sourceLine" id="cb6-12" title="12"><span class="co">#&gt; Warning: Factor `COUNTRY` contains implicit NA, consider using</span></a>
+<a class="sourceLine" id="cb6-13" title="13"><span class="co">#&gt; `forcats::fct_explicit_na`</span></a></code></pre></div>
 </div>
 <div id="ready-to-analyze-data" class="section level3">
 <h3 class="hasAnchor">
@@ -440,12 +442,12 @@
 <a class="sourceLine" id="cb15-8" title="8"><span class="co">#&gt; proj4string:    +proj=longlat +datum=WGS84 +no_defs</span></a>
 <a class="sourceLine" id="cb15-9" title="9"><span class="co">#&gt; # A tibble: 1 x 4</span></a>
 <a class="sourceLine" id="cb15-10" title="10"><span class="co">#&gt;   COUNTRY ADMIN_NAME   GEOLEV1                                     geometry</span></a>
-<a class="sourceLine" id="cb15-11" title="11"><span class="co">#&gt;   &lt;chr&gt;   &lt;chr&gt;          &lt;int&gt;                          &lt;MULTIPOLYGON [Â°]&gt;</span></a>
+<a class="sourceLine" id="cb15-11" title="11"><span class="co">#&gt;   &lt;chr&gt;   &lt;chr&gt;          &lt;int&gt;                           &lt;MULTIPOLYGON [°]&gt;</span></a>
 <a class="sourceLine" id="cb15-12" title="12"><span class="co">#&gt; 1 Peru    Lake Titica~     888 (((-69.70387 -15.23504, -69.70337 -15.23512~</span></a>
 <a class="sourceLine" id="cb15-13" title="13"><span class="co">#&gt; </span></a>
 <a class="sourceLine" id="cb15-14" title="14"><span class="co">#&gt; $data</span></a>
 <a class="sourceLine" id="cb15-15" title="15"><span class="co">#&gt; # A tibble: 0 x 4</span></a>
-<a class="sourceLine" id="cb15-16" title="16"><span class="co">#&gt; # Groups:   YEAR, COUNTRY [?]</span></a>
+<a class="sourceLine" id="cb15-16" title="16"><span class="co">#&gt; # Groups:   YEAR, COUNTRY [0]</span></a>
 <a class="sourceLine" id="cb15-17" title="17"><span class="co">#&gt; # ... with 4 variables: YEAR &lt;int&gt;, COUNTRY &lt;chr&gt;, GEOLEV1 &lt;int&gt;,</span></a>
 <a class="sourceLine" id="cb15-18" title="18"><span class="co">#&gt; #   pct_solid &lt;dbl&gt;</span></a></code></pre></div>
 <p>In this case, it appears that the shape file includes Lake Titicaca for mapping purposes, even though no one lives in the lake. We will just leave this boundary out of our dataset.</p>

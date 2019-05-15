@@ -39,7 +39,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ipumsr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.1</span>
       </span>
     </div>
 
@@ -135,7 +135,7 @@
       <h1>Introduction to <code>ipumsr</code> - IPUMS Data in R</h1>
                         <h4 class="author">Minnesota Population Center</h4>
             
-            <h4 class="date">2019-03-20</h4>
+            <h4 class="date">2019-05-15</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/mnpopcenter/ipumsr/blob/master/vignettes/ipums.Rmd"><code>vignettes/ipums.Rmd</code></a></small>
       <div class="hidden name"><code>ipums.Rmd</code></div>
@@ -224,65 +224,69 @@
 <p>Therefore, the <code>ipumsr</code> package uses the <code>labelled</code> class from the <code>haven</code> package to store labelled values. See the “value-labels” vignette for more information (<code><a href="../articles/value-labels.html">vignette('value-labels')</a></code>).</p>
 <p>In summary, it is generally best if you wish to use the labels, to convert from the <code>labelled</code> class to <code>factor</code> early on in data analysis workflow. This is because many data manipulation functions will lose the associated labels. The function <code><a href="https://forcats.tidyverse.org/reference/as_factor.html">as_factor()</a></code> is the main function to create factors from labels, but often you will need to do more manipulation before that.</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(ipumsr)</a>
-<a class="sourceLine" id="cb2-2" title="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(dplyr, <span class="dt">warn.conflicts =</span> <span class="ot">FALSE</span>)</a>
-<a class="sourceLine" id="cb2-3" title="3"></a>
-<a class="sourceLine" id="cb2-4" title="4"><span class="co"># Note that you can pass in the loaded DDI into the `read_ipums_micro()`</span></a>
-<a class="sourceLine" id="cb2-5" title="5">cps_ddi &lt;-<span class="st"> </span><span class="kw"><a href="../reference/read_ipums_ddi.html">read_ipums_ddi</a></span>(<span class="kw"><a href="../reference/ipums_example.html">ipums_example</a></span>(<span class="st">"cps_00006.xml"</span>))</a>
-<a class="sourceLine" id="cb2-6" title="6">cps_data &lt;-<span class="st"> </span><span class="kw"><a href="../reference/read_ipums_micro.html">read_ipums_micro</a></span>(cps_ddi, <span class="dt">verbose =</span> <span class="ot">FALSE</span>)</a>
-<a class="sourceLine" id="cb2-7" title="7"></a>
-<a class="sourceLine" id="cb2-8" title="8"><span class="co"># Show which variables have labels</span></a>
-<a class="sourceLine" id="cb2-9" title="9">cps_data <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb2-10" title="10"><span class="st">  </span><span class="kw">select_if</span>(is.labelled)</a>
-<a class="sourceLine" id="cb2-11" title="11"><span class="co">#&gt; # A tibble: 7,668 x 3</span></a>
-<a class="sourceLine" id="cb2-12" title="12"><span class="co">#&gt;    STATEFIP       MONTH     INCTOT                              </span></a>
-<a class="sourceLine" id="cb2-13" title="13"><span class="co">#&gt;    &lt;int+lbl&gt;      &lt;int+lbl&gt; &lt;dbl+lbl&gt;                           </span></a>
-<a class="sourceLine" id="cb2-14" title="14"><span class="co">#&gt;  1 55 [Wisconsin] 3 [March]     4883                            </span></a>
-<a class="sourceLine" id="cb2-15" title="15"><span class="co">#&gt;  2 55 [Wisconsin] 3 [March]     5800                            </span></a>
-<a class="sourceLine" id="cb2-16" title="16"><span class="co">#&gt;  3 55 [Wisconsin] 3 [March] 99999998 [Missing.]                 </span></a>
-<a class="sourceLine" id="cb2-17" title="17"><span class="co">#&gt;  4 27 [Minnesota] 3 [March]    14015                            </span></a>
-<a class="sourceLine" id="cb2-18" title="18"><span class="co">#&gt;  5 27 [Minnesota] 3 [March]    16552                            </span></a>
-<a class="sourceLine" id="cb2-19" title="19"><span class="co">#&gt;  6 27 [Minnesota] 3 [March]     6375                            </span></a>
-<a class="sourceLine" id="cb2-20" title="20"><span class="co">#&gt;  7 19 [Iowa]      3 [March] 99999999 [N.I.U. (Not in Universe).]</span></a>
-<a class="sourceLine" id="cb2-21" title="21"><span class="co">#&gt;  8 19 [Iowa]      3 [March]        0                            </span></a>
-<a class="sourceLine" id="cb2-22" title="22"><span class="co">#&gt;  9 19 [Iowa]      3 [March]      600                            </span></a>
-<a class="sourceLine" id="cb2-23" title="23"><span class="co">#&gt; 10 19 [Iowa]      3 [March] 99999999 [N.I.U. (Not in Universe).]</span></a>
-<a class="sourceLine" id="cb2-24" title="24"><span class="co">#&gt; # ... with 7,658 more rows</span></a>
-<a class="sourceLine" id="cb2-25" title="25"></a>
-<a class="sourceLine" id="cb2-26" title="26"><span class="co"># Notice how the tibble print function shows the dbl+lbl class on top</span></a>
-<a class="sourceLine" id="cb2-27" title="27"></a>
-<a class="sourceLine" id="cb2-28" title="28"><span class="co"># Investigate labels</span></a>
-<a class="sourceLine" id="cb2-29" title="29"><span class="kw"><a href="../reference/ipums_var_info.html">ipums_val_labels</a></span>(cps_data<span class="op">$</span>STATEFIP)</a>
-<a class="sourceLine" id="cb2-30" title="30"><span class="co">#&gt; # A tibble: 75 x 2</span></a>
-<a class="sourceLine" id="cb2-31" title="31"><span class="co">#&gt;      val lbl                 </span></a>
-<a class="sourceLine" id="cb2-32" title="32"><span class="co">#&gt;    &lt;dbl&gt; &lt;chr&gt;               </span></a>
-<a class="sourceLine" id="cb2-33" title="33"><span class="co">#&gt;  1     1 Alabama             </span></a>
-<a class="sourceLine" id="cb2-34" title="34"><span class="co">#&gt;  2     2 Alaska              </span></a>
-<a class="sourceLine" id="cb2-35" title="35"><span class="co">#&gt;  3     4 Arizona             </span></a>
-<a class="sourceLine" id="cb2-36" title="36"><span class="co">#&gt;  4     5 Arkansas            </span></a>
-<a class="sourceLine" id="cb2-37" title="37"><span class="co">#&gt;  5     6 California          </span></a>
-<a class="sourceLine" id="cb2-38" title="38"><span class="co">#&gt;  6     8 Colorado            </span></a>
-<a class="sourceLine" id="cb2-39" title="39"><span class="co">#&gt;  7     9 Connecticut         </span></a>
-<a class="sourceLine" id="cb2-40" title="40"><span class="co">#&gt;  8    10 Delaware            </span></a>
-<a class="sourceLine" id="cb2-41" title="41"><span class="co">#&gt;  9    11 District of Columbia</span></a>
-<a class="sourceLine" id="cb2-42" title="42"><span class="co">#&gt; 10    12 Florida             </span></a>
-<a class="sourceLine" id="cb2-43" title="43"><span class="co">#&gt; # ... with 65 more rows</span></a>
-<a class="sourceLine" id="cb2-44" title="44"></a>
-<a class="sourceLine" id="cb2-45" title="45"><span class="co"># Convert the labels to factors (and drop the unused levels)</span></a>
-<a class="sourceLine" id="cb2-46" title="46">cps_data &lt;-<span class="st"> </span>cps_data <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb2-47" title="47"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">STATE_factor =</span> <span class="kw"><a href="https://forcats.tidyverse.org/reference/as_factor.html">as_factor</a></span>(<span class="kw"><a href="../reference/lbl_clean.html">lbl_clean</a></span>(STATEFIP)))</a>
-<a class="sourceLine" id="cb2-48" title="48"></a>
-<a class="sourceLine" id="cb2-49" title="49"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/table">table</a></span>(cps_data<span class="op">$</span>STATE_factor, <span class="dt">useNA =</span> <span class="st">"always"</span>)</a>
-<a class="sourceLine" id="cb2-50" title="50"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb2-51" title="51"><span class="co">#&gt;         Iowa    Minnesota North Dakota South Dakota    Wisconsin </span></a>
-<a class="sourceLine" id="cb2-52" title="52"><span class="co">#&gt;         1892         2362          188          227         2999 </span></a>
-<a class="sourceLine" id="cb2-53" title="53"><span class="co">#&gt;         &lt;NA&gt; </span></a>
-<a class="sourceLine" id="cb2-54" title="54"><span class="co">#&gt;            0</span></a></code></pre></div>
+<a class="sourceLine" id="cb2-2" title="2"><span class="co">#&gt; Registered S3 methods overwritten by 'ipumsr':</span></a>
+<a class="sourceLine" id="cb2-3" title="3"><span class="co">#&gt;   method                                 from </span></a>
+<a class="sourceLine" id="cb2-4" title="4"><span class="co">#&gt;   format.pillar_shaft_haven_labelled_chr haven</span></a>
+<a class="sourceLine" id="cb2-5" title="5"><span class="co">#&gt;   format.pillar_shaft_haven_labelled_num haven</span></a>
+<a class="sourceLine" id="cb2-6" title="6"><span class="co">#&gt;   pillar_shaft.haven_labelled            haven</span></a>
+<a class="sourceLine" id="cb2-7" title="7"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(dplyr, <span class="dt">warn.conflicts =</span> <span class="ot">FALSE</span>)</a>
+<a class="sourceLine" id="cb2-8" title="8"></a>
+<a class="sourceLine" id="cb2-9" title="9"><span class="co"># Note that you can pass in the loaded DDI into the `read_ipums_micro()`</span></a>
+<a class="sourceLine" id="cb2-10" title="10">cps_ddi &lt;-<span class="st"> </span><span class="kw"><a href="../reference/read_ipums_ddi.html">read_ipums_ddi</a></span>(<span class="kw"><a href="../reference/ipums_example.html">ipums_example</a></span>(<span class="st">"cps_00006.xml"</span>))</a>
+<a class="sourceLine" id="cb2-11" title="11">cps_data &lt;-<span class="st"> </span><span class="kw"><a href="../reference/read_ipums_micro.html">read_ipums_micro</a></span>(cps_ddi, <span class="dt">verbose =</span> <span class="ot">FALSE</span>)</a>
+<a class="sourceLine" id="cb2-12" title="12"></a>
+<a class="sourceLine" id="cb2-13" title="13"><span class="co"># Show which variables have labels</span></a>
+<a class="sourceLine" id="cb2-14" title="14">cps_data <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb2-15" title="15"><span class="st">  </span><span class="kw">select_if</span>(is.labelled)</a>
+<a class="sourceLine" id="cb2-16" title="16"><span class="co">#&gt; # A tibble: 7,668 x 3</span></a>
+<a class="sourceLine" id="cb2-17" title="17"><span class="co">#&gt;          STATEFIP     MONTH                               INCTOT</span></a>
+<a class="sourceLine" id="cb2-18" title="18"><span class="co">#&gt;         &lt;int+lbl&gt; &lt;int+lbl&gt;                            &lt;dbl+lbl&gt;</span></a>
+<a class="sourceLine" id="cb2-19" title="19"><span class="co">#&gt;  1 55 [Wisconsin] 3 [March]     48834883                        </span></a>
+<a class="sourceLine" id="cb2-20" title="20"><span class="co">#&gt;  2 55 [Wisconsin] 3 [March]     58005800                        </span></a>
+<a class="sourceLine" id="cb2-21" title="21"><span class="co">#&gt;  3 55 [Wisconsin] 3 [March] 99999998 [Missing.]                 </span></a>
+<a class="sourceLine" id="cb2-22" title="22"><span class="co">#&gt;  4 27 [Minnesota] 3 [March]    1401514015                       </span></a>
+<a class="sourceLine" id="cb2-23" title="23"><span class="co">#&gt;  5 27 [Minnesota] 3 [March]    1655216552                       </span></a>
+<a class="sourceLine" id="cb2-24" title="24"><span class="co">#&gt;  6 27 [Minnesota] 3 [March]     63756375                        </span></a>
+<a class="sourceLine" id="cb2-25" title="25"><span class="co">#&gt;  7 19 [Iowa]      3 [March] 99999999 [N.I.U. (Not in Universe).]</span></a>
+<a class="sourceLine" id="cb2-26" title="26"><span class="co">#&gt;  8 19 [Iowa]      3 [March]        00                           </span></a>
+<a class="sourceLine" id="cb2-27" title="27"><span class="co">#&gt;  9 19 [Iowa]      3 [March]      600600                         </span></a>
+<a class="sourceLine" id="cb2-28" title="28"><span class="co">#&gt; 10 19 [Iowa]      3 [March] 99999999 [N.I.U. (Not in Universe).]</span></a>
+<a class="sourceLine" id="cb2-29" title="29"><span class="co">#&gt; # ... with 7,658 more rows</span></a>
+<a class="sourceLine" id="cb2-30" title="30"></a>
+<a class="sourceLine" id="cb2-31" title="31"><span class="co"># Notice how the tibble print function shows the dbl+lbl class on top</span></a>
+<a class="sourceLine" id="cb2-32" title="32"></a>
+<a class="sourceLine" id="cb2-33" title="33"><span class="co"># Investigate labels</span></a>
+<a class="sourceLine" id="cb2-34" title="34"><span class="kw"><a href="../reference/ipums_var_info.html">ipums_val_labels</a></span>(cps_data<span class="op">$</span>STATEFIP)</a>
+<a class="sourceLine" id="cb2-35" title="35"><span class="co">#&gt; # A tibble: 75 x 2</span></a>
+<a class="sourceLine" id="cb2-36" title="36"><span class="co">#&gt;      val lbl                 </span></a>
+<a class="sourceLine" id="cb2-37" title="37"><span class="co">#&gt;    &lt;dbl&gt; &lt;chr&gt;               </span></a>
+<a class="sourceLine" id="cb2-38" title="38"><span class="co">#&gt;  1     1 Alabama             </span></a>
+<a class="sourceLine" id="cb2-39" title="39"><span class="co">#&gt;  2     2 Alaska              </span></a>
+<a class="sourceLine" id="cb2-40" title="40"><span class="co">#&gt;  3     4 Arizona             </span></a>
+<a class="sourceLine" id="cb2-41" title="41"><span class="co">#&gt;  4     5 Arkansas            </span></a>
+<a class="sourceLine" id="cb2-42" title="42"><span class="co">#&gt;  5     6 California          </span></a>
+<a class="sourceLine" id="cb2-43" title="43"><span class="co">#&gt;  6     8 Colorado            </span></a>
+<a class="sourceLine" id="cb2-44" title="44"><span class="co">#&gt;  7     9 Connecticut         </span></a>
+<a class="sourceLine" id="cb2-45" title="45"><span class="co">#&gt;  8    10 Delaware            </span></a>
+<a class="sourceLine" id="cb2-46" title="46"><span class="co">#&gt;  9    11 District of Columbia</span></a>
+<a class="sourceLine" id="cb2-47" title="47"><span class="co">#&gt; 10    12 Florida             </span></a>
+<a class="sourceLine" id="cb2-48" title="48"><span class="co">#&gt; # ... with 65 more rows</span></a>
+<a class="sourceLine" id="cb2-49" title="49"></a>
+<a class="sourceLine" id="cb2-50" title="50"><span class="co"># Convert the labels to factors (and drop the unused levels)</span></a>
+<a class="sourceLine" id="cb2-51" title="51">cps_data &lt;-<span class="st"> </span>cps_data <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb2-52" title="52"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">STATE_factor =</span> <span class="kw"><a href="https://forcats.tidyverse.org/reference/as_factor.html">as_factor</a></span>(<span class="kw"><a href="../reference/lbl_clean.html">lbl_clean</a></span>(STATEFIP)))</a>
+<a class="sourceLine" id="cb2-53" title="53"></a>
+<a class="sourceLine" id="cb2-54" title="54"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/table">table</a></span>(cps_data<span class="op">$</span>STATE_factor, <span class="dt">useNA =</span> <span class="st">"always"</span>)</a>
+<a class="sourceLine" id="cb2-55" title="55"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb2-56" title="56"><span class="co">#&gt;         Iowa    Minnesota North Dakota South Dakota    Wisconsin </span></a>
+<a class="sourceLine" id="cb2-57" title="57"><span class="co">#&gt;         1892         2362          188          227         2999 </span></a>
+<a class="sourceLine" id="cb2-58" title="58"><span class="co">#&gt;         &lt;NA&gt; </span></a>
+<a class="sourceLine" id="cb2-59" title="59"><span class="co">#&gt;            0</span></a></code></pre></div>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" title="1"><span class="co"># Manipulating the labelled value before as_factor </span></a>
 <a class="sourceLine" id="cb3-2" title="2"><span class="co"># often leads to losing the information...</span></a>
 <a class="sourceLine" id="cb3-3" title="3"><span class="co"># Say we want to set Iowa (STATEFIP == 19) to missing</span></a>
 <a class="sourceLine" id="cb3-4" title="4">cps_data &lt;-<span class="st"> </span>cps_data <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb3-5" title="5"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">STATE_factor2 =</span> <span class="kw"><a href="https://forcats.tidyverse.org/reference/as_factor.html">as_factor</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/ifelse">ifelse</a></span>(STATEFIP <span class="op">==</span><span class="st"> </span><span class="dv">19</span>, <span class="ot">NA</span>, STATEFIP)))</a>
-<a class="sourceLine" id="cb3-6" title="6"><span class="co">#&gt; Error in mutate_impl(.data, dots): Evaluation error: no applicable method for 'as_factor' applied to an object of class "c('integer', 'numeric')".</span></a></code></pre></div>
+<a class="sourceLine" id="cb3-5" title="5"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">STATE_factor2 =</span> <span class="kw"><a href="https://forcats.tidyverse.org/reference/as_factor.html">as_factor</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/ifelse">ifelse</a></span>(STATEFIP <span class="op">==</span><span class="st"> </span><span class="dv">19</span>, <span class="ot">NA</span>, STATEFIP)))</a></code></pre></div>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" title="1"><span class="co"># ipumsr provides helpers for these kinds of tasks, like lbl_na_if().</span></a>
 <a class="sourceLine" id="cb4-2" title="2"><span class="co"># See the value-labels vignette for more information</span></a>
 <a class="sourceLine" id="cb4-3" title="3">cps_data &lt;-<span class="st"> </span>cps_data <span class="op">%&gt;%</span></a>
@@ -391,24 +395,24 @@
 <a class="sourceLine" id="cb7-9" title="9"></a>
 <a class="sourceLine" id="cb7-10" title="10">cps<span class="op">$</span>PERSON</a>
 <a class="sourceLine" id="cb7-11" title="11"><span class="co">#&gt; # A tibble: 7,668 x 6</span></a>
-<a class="sourceLine" id="cb7-12" title="12"><span class="co">#&gt;    RECTYPE          YEAR SERIAL PERNUM WTSUPP INCTOT                       </span></a>
-<a class="sourceLine" id="cb7-13" title="13"><span class="co">#&gt;    &lt;chr+lbl&gt;       &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl+lbl&gt;                    </span></a>
-<a class="sourceLine" id="cb7-14" title="14"><span class="co">#&gt;  1 P [Person Reco~  1962     80      1  1476.     4883                     </span></a>
-<a class="sourceLine" id="cb7-15" title="15"><span class="co">#&gt;  2 P [Person Reco~  1962     80      2  1471.     5800                     </span></a>
+<a class="sourceLine" id="cb7-12" title="12"><span class="co">#&gt;    RECTYPE          YEAR SERIAL PERNUM WTSUPP                        INCTOT</span></a>
+<a class="sourceLine" id="cb7-13" title="13"><span class="co">#&gt;    &lt;chr+lbl&gt;       &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;                     &lt;dbl+lbl&gt;</span></a>
+<a class="sourceLine" id="cb7-14" title="14"><span class="co">#&gt;  1 P [Person Reco~  1962     80      1  1476.     48834883                 </span></a>
+<a class="sourceLine" id="cb7-15" title="15"><span class="co">#&gt;  2 P [Person Reco~  1962     80      2  1471.     58005800                 </span></a>
 <a class="sourceLine" id="cb7-16" title="16"><span class="co">#&gt;  3 P [Person Reco~  1962     80      3  1579. 99999998 [Missing.]          </span></a>
-<a class="sourceLine" id="cb7-17" title="17"><span class="co">#&gt;  4 P [Person Reco~  1962     82      1  1598.    14015                     </span></a>
-<a class="sourceLine" id="cb7-18" title="18"><span class="co">#&gt;  5 P [Person Reco~  1962     83      1  1707.    16552                     </span></a>
-<a class="sourceLine" id="cb7-19" title="19"><span class="co">#&gt;  6 P [Person Reco~  1962     84      1  1790.     6375                     </span></a>
+<a class="sourceLine" id="cb7-17" title="17"><span class="co">#&gt;  4 P [Person Reco~  1962     82      1  1598.    1401514015                </span></a>
+<a class="sourceLine" id="cb7-18" title="18"><span class="co">#&gt;  5 P [Person Reco~  1962     83      1  1707.    1655216552                </span></a>
+<a class="sourceLine" id="cb7-19" title="19"><span class="co">#&gt;  6 P [Person Reco~  1962     84      1  1790.     63756375                 </span></a>
 <a class="sourceLine" id="cb7-20" title="20"><span class="co">#&gt;  7 P [Person Reco~  1962    107      1  4355. 99999999 [N.I.U. (Not in Uni~</span></a>
-<a class="sourceLine" id="cb7-21" title="21"><span class="co">#&gt;  8 P [Person Reco~  1962    107      2  1386.        0                     </span></a>
-<a class="sourceLine" id="cb7-22" title="22"><span class="co">#&gt;  9 P [Person Reco~  1962    107      3  1629.      600                     </span></a>
+<a class="sourceLine" id="cb7-21" title="21"><span class="co">#&gt;  8 P [Person Reco~  1962    107      2  1386.        00                    </span></a>
+<a class="sourceLine" id="cb7-22" title="22"><span class="co">#&gt;  9 P [Person Reco~  1962    107      3  1629.      600600                  </span></a>
 <a class="sourceLine" id="cb7-23" title="23"><span class="co">#&gt; 10 P [Person Reco~  1962    107      4  1432. 99999999 [N.I.U. (Not in Uni~</span></a>
 <a class="sourceLine" id="cb7-24" title="24"><span class="co">#&gt; # ... with 7,658 more rows</span></a>
 <a class="sourceLine" id="cb7-25" title="25"></a>
 <a class="sourceLine" id="cb7-26" title="26">cps<span class="op">$</span>HOUSEHOLD</a>
 <a class="sourceLine" id="cb7-27" title="27"><span class="co">#&gt; # A tibble: 3,385 x 6</span></a>
-<a class="sourceLine" id="cb7-28" title="28"><span class="co">#&gt;    RECTYPE               YEAR SERIAL HWTSUPP STATEFIP       MONTH    </span></a>
-<a class="sourceLine" id="cb7-29" title="29"><span class="co">#&gt;    &lt;chr+lbl&gt;            &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt; &lt;int+lbl&gt;      &lt;int+lbl&gt;</span></a>
+<a class="sourceLine" id="cb7-28" title="28"><span class="co">#&gt;    RECTYPE               YEAR SERIAL HWTSUPP       STATEFIP     MONTH</span></a>
+<a class="sourceLine" id="cb7-29" title="29"><span class="co">#&gt;    &lt;chr+lbl&gt;            &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;      &lt;int+lbl&gt; &lt;int+lbl&gt;</span></a>
 <a class="sourceLine" id="cb7-30" title="30"><span class="co">#&gt;  1 H [Household Record]  1962     80   1476. 55 [Wisconsin] 3 [March]</span></a>
 <a class="sourceLine" id="cb7-31" title="31"><span class="co">#&gt;  2 H [Household Record]  1962     82   1598. 27 [Minnesota] 3 [March]</span></a>
 <a class="sourceLine" id="cb7-32" title="32"><span class="co">#&gt;  3 H [Household Record]  1962     83   1707. 27 [Minnesota] 3 [March]</span></a>
@@ -429,7 +433,7 @@
 <a class="sourceLine" id="cb7-47" title="47"></a>
 <a class="sourceLine" id="cb7-48" title="48">cps</a>
 <a class="sourceLine" id="cb7-49" title="49"><span class="co">#&gt; # A tibble: 11,053 x 9</span></a>
-<a class="sourceLine" id="cb7-50" title="50"><span class="co">#&gt;    RECTYPE  YEAR SERIAL HWTSUPP STATEFIP MONTH    PERNUM WTSUPP</span></a>
+<a class="sourceLine" id="cb7-50" title="50"><span class="co">#&gt;    RECTYPE  YEAR SERIAL HWTSUPP STATEFIP    MONTH PERNUM WTSUPP</span></a>
 <a class="sourceLine" id="cb7-51" title="51"><span class="co">#&gt;    &lt;chr+l&gt; &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt; &lt;int+lb&gt; &lt;int+lb&gt;  &lt;dbl&gt;  &lt;dbl&gt;</span></a>
 <a class="sourceLine" id="cb7-52" title="52"><span class="co">#&gt;  1 H [Hou~  1962     80   1476. 55 [Wis~  3 [Mar~     NA    NA </span></a>
 <a class="sourceLine" id="cb7-53" title="53"><span class="co">#&gt;  2 P [Per~  1962     80     NA  NA       NA            1  1476.</span></a>

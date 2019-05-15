@@ -40,7 +40,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ipumsr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.1</span>
       </span>
     </div>
 
@@ -137,7 +137,7 @@
 <code>ipumsr</code> Example - Terra</h1>
                         <h4 class="author">Minnesota Population Center</h4>
             
-            <h4 class="date">2019-03-20</h4>
+            <h4 class="date">2019-05-15</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/mnpopcenter/ipumsr/blob/master/vignettes/ipums-terra.Rmd"><code>vignettes/ipums-terra.Rmd</code></a></small>
       <div class="hidden name"><code>ipums-terra.Rmd</code></div>
@@ -156,17 +156,27 @@
 <p>Learn more about the kinds of data in IPUMS Terra here: <a href="https://data.terrapop.org" class="uri">https://data.terrapop.org</a></p>
 <p><code>ipumsr</code> helps you read this data into R so you can continue your analysis.</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(ipumsr)</a>
-<a class="sourceLine" id="cb1-2" title="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(ggplot2)</a>
-<a class="sourceLine" id="cb1-3" title="3"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(dplyr)</a>
-<a class="sourceLine" id="cb1-4" title="4"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb1-5" title="5"><span class="co">#&gt; Attaching package: 'dplyr'</span></a>
-<a class="sourceLine" id="cb1-6" title="6"><span class="co">#&gt; The following objects are masked from 'package:stats':</span></a>
-<a class="sourceLine" id="cb1-7" title="7"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb1-8" title="8"><span class="co">#&gt;     filter, lag</span></a>
-<a class="sourceLine" id="cb1-9" title="9"><span class="co">#&gt; The following objects are masked from 'package:base':</span></a>
-<a class="sourceLine" id="cb1-10" title="10"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb1-11" title="11"><span class="co">#&gt;     intersect, setdiff, setequal, union</span></a>
-<a class="sourceLine" id="cb1-12" title="12"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(sf)</a></code></pre></div>
+<a class="sourceLine" id="cb1-2" title="2"><span class="co">#&gt; Registered S3 methods overwritten by 'ipumsr':</span></a>
+<a class="sourceLine" id="cb1-3" title="3"><span class="co">#&gt;   method                                 from </span></a>
+<a class="sourceLine" id="cb1-4" title="4"><span class="co">#&gt;   format.pillar_shaft_haven_labelled_chr haven</span></a>
+<a class="sourceLine" id="cb1-5" title="5"><span class="co">#&gt;   format.pillar_shaft_haven_labelled_num haven</span></a>
+<a class="sourceLine" id="cb1-6" title="6"><span class="co">#&gt;   pillar_shaft.haven_labelled            haven</span></a>
+<a class="sourceLine" id="cb1-7" title="7"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(ggplot2)</a>
+<a class="sourceLine" id="cb1-8" title="8"><span class="co">#&gt; Registered S3 methods overwritten by 'ggplot2':</span></a>
+<a class="sourceLine" id="cb1-9" title="9"><span class="co">#&gt;   method         from </span></a>
+<a class="sourceLine" id="cb1-10" title="10"><span class="co">#&gt;   [.quosures     rlang</span></a>
+<a class="sourceLine" id="cb1-11" title="11"><span class="co">#&gt;   c.quosures     rlang</span></a>
+<a class="sourceLine" id="cb1-12" title="12"><span class="co">#&gt;   print.quosures rlang</span></a>
+<a class="sourceLine" id="cb1-13" title="13"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(dplyr)</a>
+<a class="sourceLine" id="cb1-14" title="14"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb1-15" title="15"><span class="co">#&gt; Attaching package: 'dplyr'</span></a>
+<a class="sourceLine" id="cb1-16" title="16"><span class="co">#&gt; The following objects are masked from 'package:stats':</span></a>
+<a class="sourceLine" id="cb1-17" title="17"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb1-18" title="18"><span class="co">#&gt;     filter, lag</span></a>
+<a class="sourceLine" id="cb1-19" title="19"><span class="co">#&gt; The following objects are masked from 'package:base':</span></a>
+<a class="sourceLine" id="cb1-20" title="20"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb1-21" title="21"><span class="co">#&gt;     intersect, setdiff, setequal, union</span></a>
+<a class="sourceLine" id="cb1-22" title="22"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(sf)</a></code></pre></div>
 </div>
 <div id="learning-more-about-spatial-data-in-r" class="section level1">
 <h1 class="hasAnchor">
@@ -272,15 +282,14 @@
 <a class="sourceLine" id="cb9-2" title="2"><span class="co">#&gt; Use of data from IPUMS Terra is subject to conditions including that users</span></a>
 <a class="sourceLine" id="cb9-3" title="3"><span class="co">#&gt; should cite the data appropriately. Use command `ipums_conditions()` for more</span></a>
 <a class="sourceLine" id="cb9-4" title="4"><span class="co">#&gt; details.</span></a>
-<a class="sourceLine" id="cb9-5" title="5"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb9-6" title="6"><span class="co">#&gt; options:        ENCODING=UTF-8 </span></a>
-<a class="sourceLine" id="cb9-7" title="7"><span class="co">#&gt; Reading layer `boundaries_4618_IPUMS_US_SLAD_2010' from data source `C:\Users\gfellis\AppData\Local\Temp\RtmpYTJDTy\file1f8c2af3399c\boundaries_4618_IPUMS_US_SLAD_2010.shp' using driver `ESRI Shapefile'</span></a>
-<a class="sourceLine" id="cb9-8" title="8"><span class="co">#&gt; Simple feature collection with 2070 features and 2 fields</span></a>
-<a class="sourceLine" id="cb9-9" title="9"><span class="co">#&gt; geometry type:  MULTIPOLYGON</span></a>
-<a class="sourceLine" id="cb9-10" title="10"><span class="co">#&gt; dimension:      XY</span></a>
-<a class="sourceLine" id="cb9-11" title="11"><span class="co">#&gt; bbox:           xmin: -179.1526 ymin: 18.91236 xmax: 179.7758 ymax: 71.38875</span></a>
-<a class="sourceLine" id="cb9-12" title="12"><span class="co">#&gt; epsg (SRID):    4326</span></a>
-<a class="sourceLine" id="cb9-13" title="13"><span class="co">#&gt; proj4string:    +proj=longlat +datum=WGS84 +no_defs</span></a></code></pre></div>
+<a class="sourceLine" id="cb9-5" title="5"><span class="co">#&gt; options:        ENCODING=UTF-8 </span></a>
+<a class="sourceLine" id="cb9-6" title="6"><span class="co">#&gt; Reading layer `boundaries_4618_IPUMS_US_SLAD_2010' from data source `C:\Users\burkx031\AppData\Local\Temp\RtmpwpAwSc\file1d707ccf82e\boundaries_4618_IPUMS_US_SLAD_2010.shp' using driver `ESRI Shapefile'</span></a>
+<a class="sourceLine" id="cb9-7" title="7"><span class="co">#&gt; Simple feature collection with 2070 features and 2 fields</span></a>
+<a class="sourceLine" id="cb9-8" title="8"><span class="co">#&gt; geometry type:  MULTIPOLYGON</span></a>
+<a class="sourceLine" id="cb9-9" title="9"><span class="co">#&gt; dimension:      XY</span></a>
+<a class="sourceLine" id="cb9-10" title="10"><span class="co">#&gt; bbox:           xmin: -179.1526 ymin: 18.91236 xmax: 179.7758 ymax: 71.38875</span></a>
+<a class="sourceLine" id="cb9-11" title="11"><span class="co">#&gt; epsg (SRID):    4326</span></a>
+<a class="sourceLine" id="cb9-12" title="12"><span class="co">#&gt; proj4string:    +proj=longlat +datum=WGS84 +no_defs</span></a></code></pre></div>
 <p>With the (currently) still in-development version of ggplot2, we can use the function <code>geom_sf()</code> to make maps of the sf object.</p>
 <p>Here’s a map of the average temperature in February, averaged over all rasters in a given geographic boundary:</p>
 <div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" title="1">terra_area &lt;-<span class="st"> </span>terra_area <span class="op">%&gt;%</span><span class="st"> </span></a>
@@ -332,7 +341,7 @@
 <a class="sourceLine" id="cb13-4" title="4"><span class="co">#&gt; details.</span></a>
 <a class="sourceLine" id="cb13-5" title="5">terra_micro_shapes &lt;-<span class="st"> </span><span class="kw"><a href="../reference/read_ipums_sf.html">read_ipums_sf</a></span>(micro_extract)</a>
 <a class="sourceLine" id="cb13-6" title="6"><span class="co">#&gt; options:        ENCODING=latin1 </span></a>
-<a class="sourceLine" id="cb13-7" title="7"><span class="co">#&gt; Reading layer `boundaries_4621_IPUMS_US_SLAD_2010' from data source `C:\Users\gfellis\AppData\Local\Temp\RtmpYTJDTy\file1f8c3ad25d0\boundaries_4621_IPUMS_US_SLAD_2010.shp' using driver `ESRI Shapefile'</span></a>
+<a class="sourceLine" id="cb13-7" title="7"><span class="co">#&gt; Reading layer `boundaries_4621_IPUMS_US_SLAD_2010' from data source `C:\Users\burkx031\AppData\Local\Temp\RtmpwpAwSc\file1d707ec02505\boundaries_4621_IPUMS_US_SLAD_2010.shp' using driver `ESRI Shapefile'</span></a>
 <a class="sourceLine" id="cb13-8" title="8"><span class="co">#&gt; Simple feature collection with 2070 features and 2 fields</span></a>
 <a class="sourceLine" id="cb13-9" title="9"><span class="co">#&gt; geometry type:  MULTIPOLYGON</span></a>
 <a class="sourceLine" id="cb13-10" title="10"><span class="co">#&gt; dimension:      XY</span></a>

@@ -81,7 +81,7 @@ too large to store in your computer's RAM all at once." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ipumsr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.1</span>
       </span>
     </div>
 
@@ -265,8 +265,7 @@ adding all (val_labels, var_label and var_desc). See
   }),
   <span class='kw'>chunk_size</span> <span class='kw'>=</span> <span class='fl'>1000</span> <span class='co'># Generally you want this larger, but this example is a small file</span>
 )</div><div class='output co'>#&gt; Use of data from IPUMS-CPS is subject to conditions including that users should
-#&gt; cite the data appropriately. Use command `ipums_conditions()` for more details.
-#&gt; </div><div class='input'>
+#&gt; cite the data appropriately. Use command `ipums_conditions()` for more details.</div><div class='input'>
 <span class='co'># Tabulate INCTOT average by state without storing full dataset in memory</span>
 <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>library</a></span>(<span class='no'>dplyr</span>)</div><div class='output co'>#&gt; <span class='message'></span>
 #&gt; <span class='message'>Attaching package: 'dplyr'</span></div><div class='output co'>#&gt; <span class='message'>The following object is masked from 'package:testthat':</span>
@@ -291,8 +290,7 @@ adding all (val_labels, var_label and var_desc). See
 ) <span class='kw'>%&gt;%</span>
 <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span>(<span class='no'>STATEFIP</span>) <span class='kw'>%&gt;%</span>
 <span class='fu'><a href='https://dplyr.tidyverse.org/reference/summarise.html'>summarize</a></span>(<span class='kw'>avg_inc</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/sum'>sum</a></span>(<span class='no'>INCTOT_SUM</span>) / <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/sum'>sum</a></span>(<span class='no'>n</span>))</div><div class='output co'>#&gt; Use of data from IPUMS-CPS is subject to conditions including that users should
-#&gt; cite the data appropriately. Use command `ipums_conditions()` for more details.
-#&gt; </div><div class='input'>
+#&gt; cite the data appropriately. Use command `ipums_conditions()` for more details.</div><div class='input'>
 <span class='co'># x will be a list when using `read_ipums_micro_list_chunked()`</span>
 <span class='fu'>read_ipums_micro_list_chunked</span>(
   <span class='fu'><a href='ipums_example.html'>ipums_example</a></span>(<span class='st'>"cps_00010.xml"</span>),
@@ -302,7 +300,6 @@ adding all (val_labels, var_label and var_desc). See
   <span class='kw'>chunk_size</span> <span class='kw'>=</span> <span class='fl'>1000</span> <span class='co'># Generally you want this larger, but this example is a small file</span>
 )</div><div class='output co'>#&gt; Use of data from IPUMS-CPS is subject to conditions including that users should
 #&gt; cite the data appropriately. Use command `ipums_conditions()` for more details.
-#&gt; 
 #&gt; [1] "699 persons and 301 households in this chunk."
 #&gt; [1] "701 persons and 299 households in this chunk."
 #&gt; [1] "693 persons and 307 households in this chunk."
@@ -336,8 +333,7 @@ adding all (val_labels, var_label and var_desc). See
   )
   <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>lm_results</span>)
 }</div><div class='output co'>#&gt; <span class='message'>Loading required package: biglm</span></div><div class='output co'>#&gt; <span class='message'>Loading required package: DBI</span></div><div class='output co'>#&gt; Use of data from IPUMS-CPS is subject to conditions including that users should
-#&gt; cite the data appropriately. Use command `ipums_conditions()` for more details.
-#&gt; </div><div class='output co'>#&gt; Large data regression model: biglm(INCTOT ~ AGE + HEALTH, data, ...)
+#&gt; cite the data appropriately. Use command `ipums_conditions()` for more details.</div><div class='output co'>#&gt; Large data regression model: biglm(INCTOT ~ AGE + HEALTH, data, ...)
 #&gt; Sample size =  8194 
 #&gt;                        Coef        (95%        CI)        SE      p
 #&gt; (Intercept)      25351.6183  21728.2210  28975.016 1811.6986 0.0000
