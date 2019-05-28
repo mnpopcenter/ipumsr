@@ -1,5 +1,4 @@
-Note that the package maintainer has changed from Greg Freedman Ellis to Derek
-Burk.
+Updating to incorporate knitr bug fix as instructed by Kurt Hornik.
 
 ## Test environments
 * local Windows, R 3.6.0
