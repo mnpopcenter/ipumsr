@@ -25,7 +25,7 @@ is a great source of international census and survey data.
 > individuals within family and community context. Data and services are available free 
 > of charge. 
 
-Learn more here: <https://www.ipums.org/whatIsIPUMS.shtml>
+Learn more here: <https://ipums.org/what-is-ipums>
 
 ## Additional Vignettes
 This vignette gives the basic outline of the `ipumsr` package. Additional
