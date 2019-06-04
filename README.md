@@ -65,7 +65,7 @@ data:
           - An example of using NHGIS data with the ipumsr package
       - [**ipums-terra**](http://tech.popdata.org/ipumsr/articles/ipums-terra.html)
           - An example of using IPUMS Terra data with the ipumsr package
-      - [The IPUMS website](https://www.ipums.org/exercises.shtml)
+      - [The IPUMS website](https://ipums.org/support/exercises)
           - For more project specific exercises
 
 You can access them from R with the `vignette()` command (eg
