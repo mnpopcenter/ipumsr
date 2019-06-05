@@ -39,7 +39,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ipumsr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.2</span>
       </span>
     </div>
 
@@ -135,7 +135,7 @@
       <h1>Introduction to <code>ipumsr</code> - IPUMS Data in R</h1>
                         <h4 class="author">Minnesota Population Center</h4>
             
-            <h4 class="date">2019-05-15</h4>
+            <h4 class="date">2019-06-05</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/mnpopcenter/ipumsr/blob/master/vignettes/ipums.Rmd"><code>vignettes/ipums.Rmd</code></a></small>
       <div class="hidden name"><code>ipums.Rmd</code></div>
@@ -144,31 +144,32 @@
 
     
     
-<p>The <code>ipumsr</code> package allows you to read in data from your extract into R along with the associated metadata like variable labels, value labels and more. IPUMS is a great source of international census and survey data.</p>
+<p>The <code>ipumsr</code> package allows you to read data from your IPUMS extract into R along with the associated metadata like variable labels, value labels and more. IPUMS is a great source of international census and survey data.</p>
 <blockquote>
 <p>IPUMS provides census and survey data from around the world integrated across time and space. IPUMS integration and documentation makes it easy to study change, conduct comparative research, merge information across data types, and analyze individuals within family and community context. Data and services are available free of charge.</p>
 </blockquote>
-<p>Learn more here: <a href="https://www.ipums.org/whatIsIPUMS.shtml" class="uri">https://www.ipums.org/whatIsIPUMS.shtml</a></p>
-<div id="basics" class="section level1">
-<h1 class="hasAnchor">
-<a href="#basics" class="anchor"></a>Basics</h1>
-<p>This vignette gives the basic outline of the <code>ipumsr</code> package. There are also vignettes that show how to use the value labels and geographic data provided by IPUMS and others that run through examples using CPS data and NHGIS data.</p>
-<p>To get to them run the following commands:</p>
+<p>Learn more here: <a href="https://ipums.org/what-is-ipums" class="uri">https://ipums.org/what-is-ipums</a></p>
+<div id="additional-vignettes" class="section level2">
+<h2 class="hasAnchor">
+<a href="#additional-vignettes" class="anchor"></a>Additional Vignettes</h2>
+<p>This vignette gives the basic outline of the <code>ipumsr</code> package. Additional vignettes provide guidance on working with IPUMS value labels, IPUMS geographic data, and data from three specific IPUMS projects – CPS, NHGIS, and Terra.</p>
+<p>To view any of these additional vignettes, run one the following commands after installing the <code>ipumsr</code> package:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/vignette">vignette</a></span>(<span class="st">"value-labels"</span>, <span class="dt">package =</span> <span class="st">"ipumsr"</span>)</a>
 <a class="sourceLine" id="cb1-2" title="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/vignette">vignette</a></span>(<span class="st">"ipums-geography"</span>, <span class="dt">package =</span> <span class="st">"ipumsr"</span>)</a>
 <a class="sourceLine" id="cb1-3" title="3"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/vignette">vignette</a></span>(<span class="st">"ipums-cps"</span>, <span class="dt">package =</span> <span class="st">"ipumsr"</span>)</a>
 <a class="sourceLine" id="cb1-4" title="4"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/vignette">vignette</a></span>(<span class="st">"ipums-nhgis"</span>, <span class="dt">package =</span> <span class="st">"ipumsr"</span>)</a>
 <a class="sourceLine" id="cb1-5" title="5"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/vignette">vignette</a></span>(<span class="st">"ipums-terra"</span>, <span class="dt">package =</span> <span class="st">"ipumsr"</span>)</a></code></pre></div>
+</div>
 <div id="getting-data-from-the-ipums-website" class="section level2">
 <h2 class="hasAnchor">
 <a href="#getting-data-from-the-ipums-website" class="anchor"></a>Getting Data from the IPUMS website</h2>
-<p>IPUMS data is downloaded from our website at <a href="https://www.ipums.org" class="uri">https://www.ipums.org</a>. The website provides an interactive extract system that allows you to select only the sample and variables that are relevant to your research question.</p>
-<p><strong>For microdata projects (all supported projects except NHGIS and IPUMS Terra)</strong>, once you have created your extract, you should choose to download data as either fixed-width-files or comma separated ones.</p>
-<p>Once your extract is complete, download the data file (.dat or .csv) and the DDI. Downloading the DDI is a little bit different depending on your computer. On most browsers you should right-click the file and select “Save As…”. If this saves a “.xml” file, then you should be ready. However, Safari users must select “Download Linked File” instead of “Download Linked File <strong>As</strong>”. On Safari, selecting the wrong version of these two will download an “.html” file instead of a “.xml” one.</p>
+<p>Registered users can download IPUMS data from our website at <a href="https://www.ipums.org" class="uri">https://www.ipums.org</a>. The website provides an interactive extract system that allows you to select only the samples and variables that are relevant to your research question.</p>
+<p><strong>For microdata projects (all supported projects except NHGIS and IPUMS Terra)</strong>, once you have created your extract, you should choose to download your data in either a fixed-width text (.dat file extension) or comma delimited (.csv file extension) format.</p>
+<p>Once your extract is complete, download the data file and the DDI. Downloading the DDI is a little bit different depending on your browser. On most browsers you should right-click the file and select “Save As…”. If this saves a file with a .xml file extension, then you should be ready. However, Safari users must select “Download Linked File” instead of “Download Linked File <strong>As</strong>”. On Safari, selecting the wrong version of these two will download a file with a .html file extension instead of a .xml extension.</p>
 <div class="figure">
 <img src="microdata_annotated_screenshot.png" alt="Annotated screenshot for downloading microdata (may look different on your computer)" width="700"><p class="caption">Annotated screenshot for downloading microdata (may look different on your computer)</p>
 </div>
-<p><strong>For NHGIS</strong>, download the table data as a csv, and, if you want the associated mapping data, the GIS data. NHGIS provides the option to download csvs with an extra header row, it does not matter which option you select.</p>
+<p><strong>For NHGIS</strong>, download the table data in a comma delimited format, and, if you want the associated mapping data, the GIS data. NHGIS provides the option to download comma-delimited files with an extra header row; it does not matter which option you select.</p>
 <p><strong>For IPUMS Terra</strong>, download the .zip extract “bundles”. If you want the associated mapping data, select the “include boundary files” option. You do not need to unzip the data.</p>
 </div>
 <div id="import-functions" class="section level2">
@@ -185,22 +186,22 @@
 <li>
 <code><a href="../reference/read_ipums_sf.html">read_ipums_sf()</a></code> and <code><a href="../reference/read_ipums_sf.html">read_ipums_sp()</a></code> load boundary files.</li>
 <li>
-<code><a href="../reference/read_ipums_ddi.html">read_ipums_ddi()</a></code>: Reads DDI files with metadata that are included alongside some extracts (mainly microdata)</li>
+<code><a href="../reference/read_ipums_ddi.html">read_ipums_ddi()</a></code>: Reads DDI files with metadata that are included with some extracts (mainly microdata)</li>
 <li>
-<code><a href="../reference/read_ipums_codebook.html">read_ipums_codebook()</a></code>: Reads the text codebook included alongside some extracts (mainly NHGIS and some TerraPop extracts)</li>
+<code><a href="../reference/read_ipums_codebook.html">read_ipums_codebook()</a></code>: Reads the text codebook included with some extracts (mainly NHGIS and some TerraPop extracts)</li>
 </ul>
 </div>
 <div id="metadata-functions" class="section level2">
 <h2 class="hasAnchor">
 <a href="#metadata-functions" class="anchor"></a>Metadata Functions</h2>
-<p>Once the data is into R, you can learn information about the extract using the metadata function.</p>
+<p>Once the data is in R, you can view information about the extract using the metadata functions.</p>
 <ul>
 <li>
-<code><a href="../reference/ipums_view.html">ipums_view()</a></code>: Makes a webpage that displays in the Rstudio Viewer which provides information about the extract as a whole (like your extract notes or the citation information) and the specific variables included (like the variable label, description and value labels).</li>
+<code><a href="../reference/ipums_view.html">ipums_view()</a></code>: Makes a webpage that displays in the RStudio Viewer which provides information about the extract as a whole (like your extract notes or the citation information) and the specific variables included (like the variable label, description and value labels).</li>
 <li>
-<code><a href="../reference/ipums_file_info.html">ipums_file_info()</a></code>: Returns the file-level metadata contained in <code><a href="../reference/ipums_view.html">ipums_view()</a></code> but as a R data structure.</li>
+<code><a href="../reference/ipums_file_info.html">ipums_file_info()</a></code>: Returns the file-level metadata contained in <code><a href="../reference/ipums_view.html">ipums_view()</a></code> as an R data structure.</li>
 <li>
-<code><a href="../reference/ipums_var_info.html">ipums_var_info()</a></code>: Returns the variable-level metadata contained in <code><a href="../reference/ipums_view.html">ipums_view()</a></code> but as a R data structure.</li>
+<code><a href="../reference/ipums_var_info.html">ipums_var_info()</a></code>: Returns the variable-level metadata contained in <code><a href="../reference/ipums_view.html">ipums_view()</a></code> as an R data structure.</li>
 </ul>
 </div>
 <div id="grab-bag" class="section level2">
@@ -209,20 +210,20 @@
 <div id="survey-weights" class="section level3">
 <h3 class="hasAnchor">
 <a href="#survey-weights" class="anchor"></a>Survey Weights</h3>
-<p>The data from most projects contain some form of weighting variable that should be used to calculate estimates that are representative of the whole population. Many projects also provide specifications to help estimate variance given the complex design of the survey, such as replicate weights or design variables like STRATUM and PSU. The <a href="https://cran.r-project.org/package=survey">survey package</a> provides functions that allow you to estimate variance taking this into account, and the <a href="https://cran.r-project.org/package=srvyr">srvyr package</a> implements dplyr-like syntax for survey analysis, using the survey package’s functions.</p>
+<p>The data from most IPUMS projects contain some form of weighting variable that should be used to calculate estimates that are representative of the whole population. Many projects also provide specifications to help estimate variance given the complex design of the survey, such as replicate weights or design variables like STRATUM and PSU. The <a href="https://cran.r-project.org/package=survey">survey package</a> provides functions that allow you to estimate variance taking this into account, and the <a href="https://cran.r-project.org/package=srvyr">srvyr package</a> implements dplyr-like syntax for survey analysis, using the survey package’s functions.</p>
 <p>For more information about what these variables mean and how to use them, see the website for the project you are interested in.</p>
 </div>
 <div id="non-extract-data" class="section level3">
 <h3 class="hasAnchor">
 <a href="#non-extract-data" class="anchor"></a>Non-Extract Data</h3>
-<p>Some projects have data that is not contained within the extract system and so no DDI is provided for this data. In this case, either use the csv if available, or the haven package to read one of the files intended for another statistical software (like Stata, SAS or SPSS).</p>
+<p>Some projects have data that is not contained within the extract system, such that no DDI is provided for this data. In this case, either use the comma delimited file (.csv file extension) if available, or use the <code>haven</code> package to read one of the files intended for another statistical software (like Stata, SAS or SPSS).</p>
 </div>
 <div id="value-labels" class="section level3">
 <h3 class="hasAnchor">
 <a href="#value-labels" class="anchor"></a>Value Labels</h3>
-<p>The way that IPUMS treats value labels does not align with factors (the main way that R is able to store values associated with labels). R’s <code>factor</code> variables can only store values as an integer sequence (1, 2, 3, …), but IPUMS conventions are to store missing / not in universe codes as large numbers, to distinguish them from the normal values.</p>
+<p>The way that IPUMS treats value labels does not align with factors (the main way that R is able to store values associated with labels). R’s <code>factor</code> variables can only store values as an integer sequence (1, 2, 3, …), but IPUMS conventions are to store missing and not-in-universe codes as large numbers, to distinguish them from the normal values.</p>
 <p>Therefore, the <code>ipumsr</code> package uses the <code>labelled</code> class from the <code>haven</code> package to store labelled values. See the “value-labels” vignette for more information (<code><a href="../articles/value-labels.html">vignette('value-labels')</a></code>).</p>
-<p>In summary, it is generally best if you wish to use the labels, to convert from the <code>labelled</code> class to <code>factor</code> early on in data analysis workflow. This is because many data manipulation functions will lose the associated labels. The function <code><a href="https://forcats.tidyverse.org/reference/as_factor.html">as_factor()</a></code> is the main function to create factors from labels, but often you will need to do more manipulation before that.</p>
+<p>If you want to use IPUMS value labels attached to a variable, it is generally best to convert from the <code>labelled</code> class to <code>factor</code> early on in your data analysis workflow. This is because many data manipulation functions will drop the labels stored in a variable with class <code>labelled</code>. The function <code><a href="https://forcats.tidyverse.org/reference/as_factor.html">as_factor()</a></code> is the main function to create factors from labels, but often you will need to do more manipulation before that.</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(ipumsr)</a>
 <a class="sourceLine" id="cb2-2" title="2"><span class="co">#&gt; Registered S3 methods overwritten by 'ipumsr':</span></a>
 <a class="sourceLine" id="cb2-3" title="3"><span class="co">#&gt;   method                                 from </span></a>
@@ -307,7 +308,7 @@
 <div id="other-ipums-attributes" class="section level3">
 <h3 class="hasAnchor">
 <a href="#other-ipums-attributes" class="anchor"></a>Other IPUMS attributes</h3>
-<p>Similarly, the other attributes that <code>ipumsr</code> stores about the data are often lost during an analysis. One way to deal with this is to load the DDI or codebook in addition to the actual data using the functions <code><a href="../reference/read_ipums_ddi.html">read_ipums_ddi()</a></code> and <code><a href="../reference/read_ipums_codebook.html">read_ipums_codebook()</a></code>. This way, when you wish to refer to variable labels or other metadata, you can use the DDI object, which does not get modified during your analysis.</p>
+<p>As with value labels, the other attributes that <code>ipumsr</code> stores about the data are often lost during an analysis. One way to deal with this is to load the DDI or codebook in addition to the actual data using the functions <code><a href="../reference/read_ipums_ddi.html">read_ipums_ddi()</a></code> and <code><a href="../reference/read_ipums_codebook.html">read_ipums_codebook()</a></code>. This way, when you wish to refer to variable labels or other metadata, you can use the DDI object, which does not get modified during your analysis.</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" title="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(ipumsr)</a>
 <a class="sourceLine" id="cb5-2" title="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(dplyr, <span class="dt">warn.conflicts =</span> <span class="ot">FALSE</span>)</a>
 <a class="sourceLine" id="cb5-3" title="3"></a>
@@ -331,13 +332,16 @@
 <a class="sourceLine" id="cb5-21" title="21"></a>
 <a class="sourceLine" id="cb5-22" title="22"><span class="co"># The DDI also has file level information that is not available from just</span></a>
 <a class="sourceLine" id="cb5-23" title="23"><span class="co"># the data.</span></a>
-<a class="sourceLine" id="cb5-24" title="24"><span class="kw"><a href="../reference/ipums_file_info.html">ipums_file_info</a></span>(cps_ddi, <span class="st">"extract_notes"</span>)</a>
-<a class="sourceLine" id="cb5-25" title="25"><span class="co">#&gt; [1] "User-provided description:  Minimal test extract\nSamples: 1962, 1963\nVariables: STATEFIP, INCTOT (automatically Year, SERIAL, HWTSUPP, MONTH, WTSUPP)\nSelect Cases: State - Minnesota, Iowa, Wisconsin, South Dakota, North Dakota"</span></a></code></pre></div>
+<a class="sourceLine" id="cb5-24" title="24"><span class="kw"><a href="../reference/ipums_file_info.html">ipums_file_info</a></span>(cps_ddi, <span class="st">"extract_notes"</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/cat">cat</a></span>()</a>
+<a class="sourceLine" id="cb5-25" title="25"><span class="co">#&gt; User-provided description:  Minimal test extract</span></a>
+<a class="sourceLine" id="cb5-26" title="26"><span class="co">#&gt; Samples: 1962, 1963</span></a>
+<a class="sourceLine" id="cb5-27" title="27"><span class="co">#&gt; Variables: STATEFIP, INCTOT (automatically Year, SERIAL, HWTSUPP, MONTH, WTSUPP)</span></a>
+<a class="sourceLine" id="cb5-28" title="28"><span class="co">#&gt; Select Cases: State - Minnesota, Iowa, Wisconsin, South Dakota, North Dakota</span></a></code></pre></div>
 </div>
 <div id="dplyr-select-style-syntax" class="section level3">
 <h3 class="hasAnchor">
 <a href="#dplyr-select-style-syntax" class="anchor"></a>“dplyr select-style” Syntax</h3>
-<p>Several functions within the <code>ipumsr</code> package allow for “dplyr select-style” syntax. This means that they accept either a character vector of values (eg <code><a href="https://www.rdocumentation.org/packages/base/topics/c">c("YEAR", "AGE")</a></code>), bare vectors of values (eg <code><a href="https://www.rdocumentation.org/packages/base/topics/c">c(YEAR, AGE)</a></code>) and the helper functions allowed in <code><a href="https://dplyr.tidyverse.org/reference/select.html">dplyr::select()</a></code> (eg <code><a href="https://www.rdocumentation.org/packages/tidyselect/topics/select_helpers">one_of(c("YEAR", "AGE"))</a></code>).</p>
+<p>Several functions within the <code>ipumsr</code> package allow for “dplyr select-style” syntax. This means that they accept either a character vector of values (e.g. <code><a href="https://www.rdocumentation.org/packages/base/topics/c">c("YEAR", "AGE")</a></code>), bare vectors of values (e.g. <code><a href="https://www.rdocumentation.org/packages/base/topics/c">c(YEAR, AGE)</a></code>) and the helper functions allowed in <code><a href="https://dplyr.tidyverse.org/reference/select.html">dplyr::select()</a></code> (e.g. <code><a href="https://www.rdocumentation.org/packages/tidyselect/topics/select_helpers">one_of(c("YEAR", "AGE"))</a></code>).</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" title="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(ipumsr)</a>
 <a class="sourceLine" id="cb6-2" title="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(dplyr, <span class="dt">warn.conflicts =</span> <span class="ot">FALSE</span>)</a>
 <a class="sourceLine" id="cb6-3" title="3"></a>
@@ -382,7 +386,7 @@
 <h3 class="hasAnchor">
 <a href="#hierarchical-data-structures" class="anchor"></a>Hierarchical data structures</h3>
 <p>For certain IPUMS projects, the data is hierarchical, multiple people are included in a single household, or multiple activities are performed by a single person. The <code>ipumsr</code> package provides two data structures for storing such data (for users who did not select the “rectangularize” option on the website). The data can be loaded as a <code>"list"</code> or <code>"long"</code>.</p>
-<p><strong>List</strong> data loads each record type into a separate data.frame. The names of the recordtype data.frames are the value of the RECTYPE variable (eg “H” and “P”). Use the function <code><a href="../reference/read_ipums_micro.html">read_ipums_micro_list()</a></code> to load the data this way.</p>
+<p><strong>List</strong> data loads each record type into a separate data.frame. The names of the recordtype data.frames are the value of the RECTYPE variable (e.g. “H” and “P”). Use the function <code><a href="../reference/read_ipums_micro.html">read_ipums_micro_list()</a></code> to load the data this way.</p>
 <p><strong>Long</strong> data has one row per unit, regardless of what type of record the unit is. Therefore, datasets loaded this way often contain variables with a large number of missings, for the variables that only apply to certain record types. Use the function <code><a href="../reference/read_ipums_micro.html">read_ipums_micro()</a></code> to load the data this way.</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" title="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(ipumsr)</a>
 <a class="sourceLine" id="cb7-2" title="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(dplyr, <span class="dt">warn.conflicts =</span> <span class="ot">FALSE</span>)</a>
@@ -455,7 +459,6 @@
 <p>For more details about how to load geographic data using ipumsr, see the vignette “ipums-geography” (<code><a href="../articles/ipums-geography.html">vignette("ipums-geography", package = "ipumsr")</a></code>)</p>
 </div>
 </div>
-</div>
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
@@ -463,14 +466,11 @@
       <h2 class="hasAnchor">
 <a href="#tocnav" class="anchor"></a>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
-<li>
-<a href="#basics">Basics</a><ul class="nav nav-pills nav-stacked">
-<li><a href="#getting-data-from-the-ipums-website">Getting Data from the IPUMS website</a></li>
+<li><a href="#additional-vignettes">Additional Vignettes</a></li>
+      <li><a href="#getting-data-from-the-ipums-website">Getting Data from the IPUMS website</a></li>
       <li><a href="#import-functions">Import Functions</a></li>
       <li><a href="#metadata-functions">Metadata Functions</a></li>
       <li><a href="#grab-bag">Grab Bag</a></li>
-      </ul>
-</li>
       </ul>
 </div>
       </div>
