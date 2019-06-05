@@ -1,3 +1,5 @@
+# ipumsr (development version)
+
 # ipumsr 0.4.2
 
 * Incorporate bug fix in knitr 1.23 that affected encoding in NHGIS vignette.
