@@ -18,7 +18,7 @@ also accepts quosure-style lambda functions (that use values .val and .lbl).
 See examples for more information.}
 }
 \value{
-A haven::labeled vector
+A haven::labelled vector
 }
 \description{
 Converts values to a new value (that may or may not exist) based on their
@@ -50,7 +50,7 @@ lbl_relabel(x, lbl(.val = 10) ~ .val == 11)
 \seealso{
 Other lbl_helpers: \code{\link{lbl_add}},
   \code{\link{lbl_clean}}, \code{\link{lbl_collapse}},
-  \code{\link{lbl_na_if}}, \code{\link{lbl}},
-  \code{\link{zap_ipums_attributes}}
+  \code{\link{lbl_define}}, \code{\link{lbl_na_if}},
+  \code{\link{lbl}}, \code{\link{zap_ipums_attributes}}
 }
 \concept{lbl_helpers}

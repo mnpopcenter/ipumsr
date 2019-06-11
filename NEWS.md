@@ -1,5 +1,8 @@
 # ipumsr (development version)
 
+* Add `lbl_define()` function to enable the use of `lbl_relabel()` syntax when  
+  creating a new labelled vector from an unlabelled one.
+
 # ipumsr 0.4.2
 
 * Incorporate bug fix in knitr 1.23 that affected encoding in NHGIS vignette.

@@ -30,7 +30,7 @@ cps <- dplyr::left_join(cps, annual_unemployment, by = "YEAR")
 \seealso{
 Other lbl_helpers: \code{\link{lbl_add}},
   \code{\link{lbl_clean}}, \code{\link{lbl_collapse}},
-  \code{\link{lbl_na_if}}, \code{\link{lbl_relabel}},
-  \code{\link{lbl}}
+  \code{\link{lbl_define}}, \code{\link{lbl_na_if}},
+  \code{\link{lbl_relabel}}, \code{\link{lbl}}
 }
 \concept{lbl_helpers}

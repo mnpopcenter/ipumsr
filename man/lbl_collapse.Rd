@@ -16,7 +16,7 @@ also accepts quosure-style lambda functions (that use values .val and .lbl).
 See examples for more information.}
 }
 \value{
-A haven::labeled vector
+A haven::labelled vector
 }
 \description{
 Converts values to a new value based on their label and value in a
@@ -33,7 +33,7 @@ x <- haven::labelled(
 lbl_collapse(x, ~(.val \%/\% 10) * 10)
 # Notice that 90 get's NIU from 99 even though 90 didn't have a label in original
 
-lbl_collapse(x, ~ifelse(.lbl == 10, 11, .lbl))
+lbl_collapse(x, ~ifelse(.val == 10, 11, .val))
 # But here 10 is assigned 11's label
 
 # You can also use the more explicit function notation
@@ -46,8 +46,8 @@ lbl_collapse(x, "collapse_function")
 }
 \seealso{
 Other lbl_helpers: \code{\link{lbl_add}},
-  \code{\link{lbl_clean}}, \code{\link{lbl_na_if}},
-  \code{\link{lbl_relabel}}, \code{\link{lbl}},
-  \code{\link{zap_ipums_attributes}}
+  \code{\link{lbl_clean}}, \code{\link{lbl_define}},
+  \code{\link{lbl_na_if}}, \code{\link{lbl_relabel}},
+  \code{\link{lbl}}, \code{\link{zap_ipums_attributes}}
 }
 \concept{lbl_helpers}

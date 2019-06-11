@@ -15,7 +15,7 @@ to \code{\link[rlang]{as_function}}, so also accepts quosure-style lambda
 functions (that use values .val and .lbl). See examples for more information.}
 }
 \value{
-A haven::labeled vector
+A haven::labelled vector
 }
 \description{
 Convert values to NA based on their label and value in a
@@ -43,7 +43,7 @@ lbl_na_if(x, "na_function")
 \seealso{
 Other lbl_helpers: \code{\link{lbl_add}},
   \code{\link{lbl_clean}}, \code{\link{lbl_collapse}},
-  \code{\link{lbl_relabel}}, \code{\link{lbl}},
-  \code{\link{zap_ipums_attributes}}
+  \code{\link{lbl_define}}, \code{\link{lbl_relabel}},
+  \code{\link{lbl}}, \code{\link{zap_ipums_attributes}}
 }
 \concept{lbl_helpers}

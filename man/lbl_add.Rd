@@ -22,7 +22,7 @@ also accepts quosure-style lambda functions. See examples for more details.}
 that are in the data, but aren't already labelled.}
 }
 \value{
-A haven::labeled vector
+A haven::labelled vector
 }
 \description{
 Add labels for values that don't already have them.
@@ -42,8 +42,8 @@ lbl_add_vals(x, vals = c(100, 200))
 }
 \seealso{
 Other lbl_helpers: \code{\link{lbl_clean}},
-  \code{\link{lbl_collapse}}, \code{\link{lbl_na_if}},
-  \code{\link{lbl_relabel}}, \code{\link{lbl}},
-  \code{\link{zap_ipums_attributes}}
+  \code{\link{lbl_collapse}}, \code{\link{lbl_define}},
+  \code{\link{lbl_na_if}}, \code{\link{lbl_relabel}},
+  \code{\link{lbl}}, \code{\link{zap_ipums_attributes}}
 }
 \concept{lbl_helpers}
