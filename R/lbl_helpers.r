@@ -325,11 +325,9 @@ lbl_clean <-function(x) {
 # Changed so that instead of function having args .x & .y, it has
 # .val and .lbl
 as_lbl_function <- function(x, env = caller_env()) {
-  rlang::coerce_type(
-    x,
-    rlang::friendly_type("function"),
-    primitive = ,
-    closure = {
+  switch(
+    class(x),
+    "function" = {
       x
     },
     formula = {
@@ -339,9 +337,10 @@ as_lbl_function <- function(x, env = caller_env()) {
       args <- list(... = rlang::missing_arg(), .val = quote(..1), .lbl = quote(..2))
       rlang::new_function(args, rlang::f_rhs(x), rlang::f_env(x))
     },
-    string = {
+    character = {
       get(x, envir = env, mode = "function")
-    }
+    },
+    stop("Can't convert object of class ", class(x), " to a function")
   )
 }
 
