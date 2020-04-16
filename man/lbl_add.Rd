@@ -41,9 +41,13 @@ lbl_add_vals(x, vals = c(100, 200))
 
 }
 \seealso{
-Other lbl_helpers: \code{\link{lbl_clean}},
-  \code{\link{lbl_collapse}}, \code{\link{lbl_define}},
-  \code{\link{lbl_na_if}}, \code{\link{lbl_relabel}},
-  \code{\link{lbl}}, \code{\link{zap_ipums_attributes}}
+Other lbl_helpers: 
+\code{\link{lbl_clean}()},
+\code{\link{lbl_collapse}()},
+\code{\link{lbl_define}()},
+\code{\link{lbl_na_if}()},
+\code{\link{lbl_relabel}()},
+\code{\link{lbl}()},
+\code{\link{zap_ipums_attributes}()}
 }
 \concept{lbl_helpers}

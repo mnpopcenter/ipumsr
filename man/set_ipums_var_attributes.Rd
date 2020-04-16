@@ -4,8 +4,11 @@
 \alias{set_ipums_var_attributes}
 \title{Add IPUMS variable attributes to a data.frame}
 \usage{
-set_ipums_var_attributes(data, var_info, var_attrs = c("val_labels",
-  "var_label", "var_desc"))
+set_ipums_var_attributes(
+  data,
+  var_info,
+  var_attrs = c("val_labels", "var_label", "var_desc")
+)
 }
 \arguments{
 \item{data}{A data.frame}
