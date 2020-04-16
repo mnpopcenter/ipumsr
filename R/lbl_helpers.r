@@ -399,7 +399,7 @@ as_lbl_function <- function(x, env = caller_env()) {
 
 # Adapted from rlang:::abort_coercion
 abort_coercion_function <- function(x) {
-  x_type <- rlang::friendly_type_of(x)
+  x_type <- rlang:::friendly_type_of(x)
   abort(paste0("Can't convert ", x_type, " to function"))
 }
 
