@@ -218,7 +218,13 @@ lbl_relabel <- function(x, ...) {
 #' values into a single labelled value. Values not assigned a label will remain
 #' unlabelled.
 #' @param x An unlabelled atomic vector
-#' @inheritParams lbl_relabel
+#' @param ... Two-sided formulas where the left hand side is a label placeholder
+#'   (created with the \code{\link{lbl}} function) and the right hand side is a
+#'   function that returns a logical vector that indicates which existing values
+#'   should be assigned that labeled value. The right hand side is passed to a
+#'   function similar to \code{\link[rlang]{as_function}}, so also accepts
+#'   quosure-style lambda functions (that use values .val and .lbl). See
+#'   examples for more information.
 #' @return A haven::labelled vector
 #' @examples
 #' age <- c(10, 12, 16, 18, 20, 22, 25, 27)

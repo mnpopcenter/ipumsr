@@ -10,12 +10,12 @@ lbl_define(x, ...)
 \item{x}{An unlabelled atomic vector}
 
 \item{...}{Two-sided formulas where the left hand side is a label placeholder
-(created with the \code{\link{lbl}} function) or a value that already exists
-in the data and the right hand side is a function that returns a logical
-vector that indicates which labels should be relabeled. The right hand side
-is passed to a function similar to \code{\link[rlang]{as_function}}, so
-also accepts quosure-style lambda functions (that use values .val and .lbl).
-See examples for more information.}
+(created with the \code{\link{lbl}} function) and the right hand side is a
+function that returns a logical vector that indicates which existing values
+should be assigned that labeled value. The right hand side is passed to a
+function similar to \code{\link[rlang]{as_function}}, so also accepts
+quosure-style lambda functions (that use values .val and .lbl). See
+examples for more information.}
 }
 \value{
 A haven::labelled vector
