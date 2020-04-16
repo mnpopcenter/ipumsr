@@ -325,23 +325,35 @@ lbl_clean <-function(x) {
 # Changed so that instead of function having args .x & .y, it has
 # .val and .lbl
 as_lbl_function <- function(x, env = caller_env()) {
-  switch(
-    class(x),
-    "function" = {
-      x
-    },
-    formula = {
-      if (length(x) > 2) {
-        abort("Can't convert a two-sided formula to a function")
-      }
-      args <- list(... = rlang::missing_arg(), .val = quote(..1), .lbl = quote(..2))
-      rlang::new_function(args, rlang::f_rhs(x), rlang::f_env(x))
-    },
-    character = {
-      get(x, envir = env, mode = "function")
-    },
-    stop("Can't convert object of class ", class(x), " to a function")
-  )
+  if (rlang::is_function(x)) {
+    return(x)
+  }
+
+  if (rlang::is_quosure(x)) {
+    return(eval(rlang::expr(function(...) rlang::eval_tidy(!!x))))
+  }
+
+  if (rlang::is_formula(x)) {
+    if (length(x) > 2) {
+      rlang::abort("Can't convert a two-sided formula to a function")
+    }
+
+    args <- list(... = rlang::missing_arg(), .val = quote(..1), .lbl = quote(..2))
+    fn <- new_function(args, rlang::f_rhs(x), rlang::f_env(x))
+    return(fn)
+  }
+
+  if (rlang::is_string(x)) {
+    return(get(x, envir = env, mode = "function"))
+  }
+
+  abort_coercion_function(x)
+}
+
+# Adapted from rlang:::abort_coercion
+abort_coercion_function <- function(x) {
+  x_type <- rlang::friendly_type_of(x)
+  abort(paste0("Can't convert ", x_type, " to function"))
 }
 
 #' Make a label placeholder object
