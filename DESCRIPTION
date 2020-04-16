@@ -19,7 +19,7 @@ Encoding: UTF-8
 LazyData: true
 Imports:
     dplyr (>= 0.7.0),
-    haven (>= 2.0.0),
+    haven (>= 2.2.0),
     hipread (>= 0.2.0),
     purrr,
     R6,
