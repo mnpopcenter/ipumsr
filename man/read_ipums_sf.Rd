@@ -5,13 +5,25 @@
 \alias{read_ipums_sp}
 \title{Read boundary files from an IPUMS extract}
 \usage{
-read_ipums_sf(shape_file, shape_layer = NULL, vars = NULL,
-  encoding = NULL, bind_multiple = TRUE, add_layer_var = NULL,
-  verbose = TRUE)
+read_ipums_sf(
+  shape_file,
+  shape_layer = NULL,
+  vars = NULL,
+  encoding = NULL,
+  bind_multiple = TRUE,
+  add_layer_var = NULL,
+  verbose = TRUE
+)
 
-read_ipums_sp(shape_file, shape_layer = NULL, vars = NULL,
-  encoding = NULL, bind_multiple = TRUE, add_layer_var = NULL,
-  verbose = TRUE)
+read_ipums_sp(
+  shape_file,
+  shape_layer = NULL,
+  vars = NULL,
+  encoding = NULL,
+  bind_multiple = TRUE,
+  add_layer_var = NULL,
+  verbose = TRUE
+)
 }
 \arguments{
 \item{shape_file}{Filepath to one or more .shp files, a .zip file from an IPUMS extract
@@ -64,11 +76,13 @@ if (require(sp) && require(rgdal)) {
 
 }
 \seealso{
-Other ipums_read: \code{\link{read_ipums_micro_chunked}},
-  \code{\link{read_ipums_micro_yield}},
-  \code{\link{read_ipums_micro}}, \code{\link{read_nhgis}},
-  \code{\link{read_terra_area}},
-  \code{\link{read_terra_micro}},
-  \code{\link{read_terra_raster}}
+Other ipums_read: 
+\code{\link{read_ipums_micro_chunked}()},
+\code{\link{read_ipums_micro_yield}()},
+\code{\link{read_ipums_micro}()},
+\code{\link{read_nhgis}()},
+\code{\link{read_terra_area}()},
+\code{\link{read_terra_micro}()},
+\code{\link{read_terra_raster}()}
 }
 \concept{ipums_read}

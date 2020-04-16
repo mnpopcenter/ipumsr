@@ -7,8 +7,13 @@
 \alias{ipums_list_raster}
 \title{List files available for analysis in an IPUMS extract}
 \usage{
-ipums_list_files(file, types = NULL, data_layer = NULL,
-  shape_layer = NULL, raster_layer = NULL)
+ipums_list_files(
+  file,
+  types = NULL,
+  data_layer = NULL,
+  shape_layer = NULL,
+  raster_layer = NULL
+)
 
 ipums_list_data(file, data_layer = NULL)
 

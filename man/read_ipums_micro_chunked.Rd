@@ -5,13 +5,25 @@
 \alias{read_ipums_micro_list_chunked}
 \title{Read data from an IPUMS extract (in chunks)}
 \usage{
-read_ipums_micro_chunked(ddi, callback, chunk_size = 10000,
-  vars = NULL, data_file = NULL, verbose = TRUE,
-  var_attrs = c("val_labels", "var_label", "var_desc"))
+read_ipums_micro_chunked(
+  ddi,
+  callback,
+  chunk_size = 10000,
+  vars = NULL,
+  data_file = NULL,
+  verbose = TRUE,
+  var_attrs = c("val_labels", "var_label", "var_desc")
+)
 
-read_ipums_micro_list_chunked(ddi, callback, chunk_size = 10000,
-  vars = NULL, data_file = NULL, verbose = TRUE,
-  var_attrs = c("val_labels", "var_label", "var_desc"))
+read_ipums_micro_list_chunked(
+  ddi,
+  callback,
+  chunk_size = 10000,
+  vars = NULL,
+  data_file = NULL,
+  verbose = TRUE,
+  var_attrs = c("val_labels", "var_label", "var_desc")
+)
 }
 \arguments{
 \item{ddi}{Either a filepath to a DDI xml file downloaded from
@@ -111,11 +123,13 @@ if (require(biglm)) {
 
 }
 \seealso{
-Other ipums_read: \code{\link{read_ipums_micro_yield}},
-  \code{\link{read_ipums_micro}},
-  \code{\link{read_ipums_sf}}, \code{\link{read_nhgis}},
-  \code{\link{read_terra_area}},
-  \code{\link{read_terra_micro}},
-  \code{\link{read_terra_raster}}
+Other ipums_read: 
+\code{\link{read_ipums_micro_yield}()},
+\code{\link{read_ipums_micro}()},
+\code{\link{read_ipums_sf}()},
+\code{\link{read_nhgis}()},
+\code{\link{read_terra_area}()},
+\code{\link{read_terra_micro}()},
+\code{\link{read_terra_raster}()}
 }
 \concept{ipums_read}

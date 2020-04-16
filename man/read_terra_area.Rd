@@ -6,19 +6,38 @@
 \alias{read_terra_area_sp}
 \title{Read data from an IPUMS Terra area extract}
 \usage{
-read_terra_area(data_file, data_layer = NULL, ddi_file = NULL,
-  cb_file = NULL, verbose = TRUE, var_attrs = c("val_labels",
-  "var_label", "var_desc"))
+read_terra_area(
+  data_file,
+  data_layer = NULL,
+  ddi_file = NULL,
+  cb_file = NULL,
+  verbose = TRUE,
+  var_attrs = c("val_labels", "var_label", "var_desc")
+)
 
-read_terra_area_sf(data_file, shape_file = NULL, data_layer = NULL,
-  shape_layer = data_layer, shape_encoding = "UTF-8",
-  ddi_file = NULL, cb_file = NULL, verbose = TRUE,
-  var_attrs = c("val_labels", "var_label", "var_desc"))
+read_terra_area_sf(
+  data_file,
+  shape_file = NULL,
+  data_layer = NULL,
+  shape_layer = data_layer,
+  shape_encoding = "UTF-8",
+  ddi_file = NULL,
+  cb_file = NULL,
+  verbose = TRUE,
+  var_attrs = c("val_labels", "var_label", "var_desc")
+)
 
-read_terra_area_sp(data_file, shape_file = NULL, data_layer = NULL,
-  shape_layer = data_layer, shape_encoding = "UTF-8",
-  ddi_file = NULL, cb_file = NULL, verbose = TRUE,
-  var_attrs = c("val_labels", "var_label", "var_desc"))
+read_terra_area_sp(
+  data_file,
+  shape_file = NULL,
+  data_layer = NULL,
+  shape_layer = data_layer,
+  shape_encoding = "UTF-8",
+  ddi_file = NULL,
+  cb_file = NULL,
+  verbose = TRUE,
+  var_attrs = c("val_labels", "var_label", "var_desc")
+)
 }
 \arguments{
 \item{data_file}{Path to the data file, which can either be the .zip file directly
@@ -72,11 +91,13 @@ data <- read_terra_area("2553_bundle.zip")
 }
 }
 \seealso{
-Other ipums_read: \code{\link{read_ipums_micro_chunked}},
-  \code{\link{read_ipums_micro_yield}},
-  \code{\link{read_ipums_micro}},
-  \code{\link{read_ipums_sf}}, \code{\link{read_nhgis}},
-  \code{\link{read_terra_micro}},
-  \code{\link{read_terra_raster}}
+Other ipums_read: 
+\code{\link{read_ipums_micro_chunked}()},
+\code{\link{read_ipums_micro_yield}()},
+\code{\link{read_ipums_micro}()},
+\code{\link{read_ipums_sf}()},
+\code{\link{read_nhgis}()},
+\code{\link{read_terra_micro}()},
+\code{\link{read_terra_raster}()}
 }
 \concept{ipums_read}

@@ -4,8 +4,15 @@
 \alias{ipums_website}
 \title{Launch a browser window to the ipums website}
 \usage{
-ipums_website(x, var, project = NULL, launch = TRUE, verbose = TRUE,
-  var_label = NULL, homepage_if_missing = TRUE)
+ipums_website(
+  x,
+  var,
+  project = NULL,
+  launch = TRUE,
+  verbose = TRUE,
+  var_label = NULL,
+  homepage_if_missing = TRUE
+)
 }
 \arguments{
 \item{x}{A DDI or empty (if specifying project)}

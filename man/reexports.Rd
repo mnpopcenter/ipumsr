@@ -21,9 +21,9 @@ These objects are imported from other packages. Follow the links
 below to see their documentation.
 
 \describe{
-  \item{dplyr}{\code{\link[dplyr]{starts_with}}, \code{\link[dplyr]{ends_with}}, \code{\link[dplyr]{contains}}, \code{\link[dplyr]{matches}}, \code{\link[dplyr]{num_range}}, \code{\link[dplyr]{starts_with}}, \code{\link[dplyr]{one_of}}, \code{\link[dplyr]{everything}}}
+  \item{dplyr}{\code{\link[dplyr]{contains}}, \code{\link[dplyr]{ends_with}}, \code{\link[dplyr]{everything}}, \code{\link[dplyr]{matches}}, \code{\link[dplyr]{num_range}}, \code{\link[dplyr]{one_of}}, \code{\link[dplyr]{starts_with}}, \code{\link[dplyr]{starts_with}}}
 
-  \item{haven}{\code{\link[haven]{as_factor}}, \code{\link[haven]{zap_labels}}, \code{\link[haven]{is.labelled}}}
+  \item{haven}{\code{\link[haven]{as_factor}}, \code{\link[haven]{is.labelled}}, \code{\link[haven]{zap_labels}}}
 
   \item{zeallot}{\code{\link[zeallot]{\%<-\%}}}
 }}

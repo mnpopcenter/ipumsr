@@ -4,11 +4,21 @@
 \alias{make_ddi_from_scratch}
 \title{Create DDI structure (for internal use)}
 \usage{
-make_ddi_from_scratch(file_name = NULL, file_path = NULL,
-  file_type = NULL, ipums_project = NULL, extract_date = NULL,
-  extract_notes = NULL, rectypes = NULL, rectype_idvar = NULL,
-  rectypes_keyvars = NULL, var_info = NULL, conditions = NULL,
-  citation = NULL, file_encoding = NULL)
+make_ddi_from_scratch(
+  file_name = NULL,
+  file_path = NULL,
+  file_type = NULL,
+  ipums_project = NULL,
+  extract_date = NULL,
+  extract_notes = NULL,
+  rectypes = NULL,
+  rectype_idvar = NULL,
+  rectypes_keyvars = NULL,
+  var_info = NULL,
+  conditions = NULL,
+  citation = NULL,
+  file_encoding = NULL
+)
 }
 \description{
 Helper to make a new DDI structure (not very useful for end-users).

@@ -34,7 +34,7 @@ Imports:
     xml2,
     Rcpp,
     zeallot
-RoxygenNote: 6.1.1
+RoxygenNote: 7.1.0
 Suggests:
     DT,
     ggplot2,

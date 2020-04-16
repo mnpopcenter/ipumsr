@@ -6,7 +6,7 @@
 \alias{ipumsr-package}
 \title{ipumsr: Read 'IPUMS' Extract Files}
 \description{
-\if{html}{\figure{logo.png}{options: align='right'}}
+\if{html}{\figure{logo.png}{options: align='right' alt='logo' width='120'}}
 
 An easy way to import census, survey and geographic data provided by 'IPUMS'
     into R plus tools to help use the associated metadata to make analysis easier. 'IPUMS'

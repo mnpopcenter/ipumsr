@@ -27,9 +27,13 @@ lbl_add(x, lbl(100, "$100"), lbl(105, "$105"), lbl(200, "$200"), lbl(230, "$230"
 
 }
 \seealso{
-Other lbl_helpers: \code{\link{lbl_add}},
-  \code{\link{lbl_clean}}, \code{\link{lbl_collapse}},
-  \code{\link{lbl_na_if}}, \code{\link{lbl_relabel}},
-  \code{\link{zap_ipums_attributes}}
+Other lbl_helpers: 
+\code{\link{lbl_add}()},
+\code{\link{lbl_clean}()},
+\code{\link{lbl_collapse}()},
+\code{\link{lbl_define}()},
+\code{\link{lbl_na_if}()},
+\code{\link{lbl_relabel}()},
+\code{\link{zap_ipums_attributes}()}
 }
 \concept{lbl_helpers}

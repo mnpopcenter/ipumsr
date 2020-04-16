@@ -4,8 +4,7 @@
 \alias{ipums_collect}
 \title{Collect data into R session with IPUMS attributes}
 \usage{
-ipums_collect(data, ddi, var_attrs = c("val_labels", "var_label",
-  "var_desc"))
+ipums_collect(data, ddi, var_attrs = c("val_labels", "var_label", "var_desc"))
 }
 \arguments{
 \item{data}{A dplyr \code{tbl} object (generally a \code{tbl_lazy}

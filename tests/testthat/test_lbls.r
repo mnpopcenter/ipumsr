@@ -174,6 +174,46 @@ test_that("lbl_relabel: can flip labels", {
   )
 })
 
+test_that("lbl_relabel: error when x has no labels", {
+  expect_error(
+    lbl_relabel(
+      c(10, 12, 16, 18, 20, 22, 25, 27),
+      lbl(1, "Pre-college age") ~ .val < 18,
+      lbl(2, "College age") ~ .val >= 18 & .val <= 22
+    ),
+    regexp = "Vector must be labelled"
+  )
+})
+
+test_that("lbl_define: basic", {
+  college_age <- haven::labelled(
+    c(1, 1, 1, 2, 2, 2, 25, 27),
+    c("Pre-college age" = 1, "College age" = 2)
+  )
+  expect_equal(
+    lbl_define(
+      c(10, 12, 16, 18, 20, 22, 25, 27),
+      lbl(1, "Pre-college age") ~ .val < 18,
+      lbl(2, "College age") ~ .val >= 18 & .val <= 22
+    ),
+    college_age
+  )
+})
+
+test_that("lbl_define: error when x is already labelled", {
+  college_age <- haven::labelled(
+    c(1, 1, 1, 2, 2, 2, 25, 27),
+    c("Pre-college age" = 1, "College age" = 2)
+  )
+  expect_error(
+    lbl_define(
+      college_age,
+      lbl(3, "Post-college age") ~ .val > 22
+    ),
+    regexp = "Vector should not have labels"
+  )
+})
+
 test_that("lbl_add: can add a single label", {
   x_newlabel <- haven::labelled(
     c(10, 10, 11, 20, 30, 99, 30, 10),
