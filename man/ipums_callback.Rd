@@ -11,7 +11,7 @@
 \description{
 These classes are used to define callback behaviors that have been adapted
 for use on IPUMS microdata extracts. Though the callbacks from the
-readr package will work, they will not take divide out implicit decimals
+readr package will work, they will not handle implicit decimals
 or add value/variable labels to the data.
 }
 \details{
