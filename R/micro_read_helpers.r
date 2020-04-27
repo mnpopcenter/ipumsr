@@ -109,7 +109,7 @@ ddi_to_readr_colspec <- function(ddi) {
     else if (x == "integer") out <- readr::col_integer()
     out
   })
-  names(col_types) <- ddi$var_info$var_name
+  names(col_types) <- toupper(ddi$var_info$var_name)
   col_types <- do.call(readr::cols_only, col_types)
 }
 
@@ -129,4 +129,8 @@ rectype_label_names <- function(cur_names, ddi) {
   rt_lbls <- fostr_replace_all(rt_lbls, "[[:blank:]]", "_")
 
   rt_lbls
+}
+
+ddi_has_lowercase_var_names <- function(ddi) {
+  all(ddi$var_info$var_name == tolower(ddi$var_info$var_name))
 }
