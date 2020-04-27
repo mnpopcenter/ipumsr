@@ -11,7 +11,9 @@
 #' the functions like \code{\link{read_ipums_micro_chunked}}, allowing
 #' you to do things like reading parts of multiple files at the same time
 #' and resetting from the beginning more easily than with the chunked
-#' functions.
+#' functions. \strong{Note that while other \code{read_ipums_micro*} functions
+#' can read from .csv(.gz) or .dat(.gz) files, these functions can only read
+#' from .dat(.gz) files.}
 #'
 #' These functions return an IpumsYield R6 object which have the following
 #' methods:
@@ -115,8 +117,18 @@ IpumsLongYield <- R6::R6Class(
       var_attrs = c("val_labels", "var_label", "var_desc"),
       lower_vars = FALSE
     ) {
+      lower_vars_was_ignored <- check_if_lower_vars_ignored(ddi, lower_vars)
+      if (lower_vars_was_ignored) {
+        warning(lower_vars_ignored_warning())
+      }
       if (is.character(ddi)) ddi <- read_ipums_ddi(ddi, lower_vars = lower_vars)
       if (is.null(data_file)) data_file <- file.path(ddi$file_path, ddi$file_name)
+      if (fostr_detect(data_file, "\\.csv$|\\.csv\\.gz$")) {
+        stop(
+          "read_ipums_micro_yield does not support reading from .csv ",
+          "formatted data files, only from .dat (or .dat.gz) files"
+        )
+      }
 
       data_file <- custom_check_file_exists(data_file, c(".dat.gz", ".csv", ".csv.gz"))
 
@@ -164,8 +176,18 @@ IpumsListYield <- R6::R6Class(
       var_attrs = c("val_labels", "var_label", "var_desc"),
       lower_vars = FALSE
     ) {
+      lower_vars_was_ignored <- check_if_lower_vars_ignored(ddi, lower_vars)
+      if (lower_vars_was_ignored) {
+        warning(lower_vars_ignored_warning())
+      }
       if (is.character(ddi)) ddi <- read_ipums_ddi(ddi, lower_vars = lower_vars)
       if (is.null(data_file)) data_file <- file.path(ddi$file_path, ddi$file_name)
+      if (fostr_detect(data_file, "\\.csv$|\\.csv\\.gz$")) {
+        stop(
+          "read_ipums_micro_yield does not support reading from .csv ",
+          "formatted data files, only from .dat (or .dat.gz) files"
+        )
+      }
 
       data_file <- custom_check_file_exists(data_file, c(".dat.gz", ".csv", ".csv.gz"))
 
