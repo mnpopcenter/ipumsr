@@ -17,6 +17,15 @@
 #' @param chunk_size An integer indicating how many observations to
 #'   read in per chunk (defaults to 10,000). Setting this higher
 #'   uses more RAM, but will usually be faster.
+#' @param lower_vars Only if reading a DDI from a file, a logical indicating
+#'   whether to convert variable names to lowercase (default is FALSE, in line
+#'   with IPUMS conventions). Note that this argument will be ignored if
+#'   argument \code{ddi} is an \code{ipums_ddi} object rather than a file path.
+#'   See \code{\link{read_ipums_ddi}} for converting variable names to lowercase
+#'   when reading in the DDI. Also note that if reading in chunks from a .csv or
+#'   .csv.gz file, the callback function will be called *before* variable names
+#'   are converted to lowercase, and thus should reference uppercase variable
+#'   names.
 #'
 #' @return Depends on the callback object
 #' @export
@@ -90,9 +99,14 @@ read_ipums_micro_chunked <- function(
   vars = NULL,
   data_file = NULL,
   verbose = TRUE,
-  var_attrs = c("val_labels", "var_label", "var_desc")
+  var_attrs = c("val_labels", "var_label", "var_desc"),
+  lower_vars = FALSE
 ) {
-  if (is.character(ddi)) ddi <- read_ipums_ddi(ddi)
+  lower_vars_was_ignored <- check_if_lower_vars_ignored(ddi, lower_vars)
+  if (lower_vars_was_ignored) {
+    warning(lower_vars_ignored_warning())
+  }
+  if (is.character(ddi)) ddi <- read_ipums_ddi(ddi, lower_vars = lower_vars)
   if (is.null(data_file)) data_file <- file.path(ddi$file_path, ddi$file_name)
 
   data_file <- custom_check_file_exists(data_file, c(".dat.gz", ".csv", ".csv.gz"))
@@ -125,6 +139,9 @@ read_ipums_micro_chunked <- function(
       locale = ipums_locale(ddi$file_encoding),
       progress = show_readr_progress(verbose)
     )
+    if (ddi_has_lowercase_var_names(ddi)) {
+      out <- dplyr::rename_all(out, tolower)
+    }
   } else {
     rt_info <- ddi_to_rtinfo(ddi)
     col_spec <- ddi_to_colspec(ddi, "long", verbose)
@@ -151,9 +168,14 @@ read_ipums_micro_list_chunked <- function(
   vars = NULL,
   data_file = NULL,
   verbose = TRUE,
-  var_attrs = c("val_labels", "var_label", "var_desc")
+  var_attrs = c("val_labels", "var_label", "var_desc"),
+  lower_vars = FALSE
 ) {
-  if (is.character(ddi)) ddi <- read_ipums_ddi(ddi)
+  lower_vars_was_ignored <- check_if_lower_vars_ignored(ddi, lower_vars)
+  if (lower_vars_was_ignored) {
+    warning(lower_vars_ignored_warning())
+  }
+  if (is.character(ddi)) ddi <- read_ipums_ddi(ddi, lower_vars = lower_vars)
   if (is.null(data_file)) data_file <- file.path(ddi$file_path, ddi$file_name)
 
   data_file <- custom_check_file_exists(data_file, c(".dat.gz", ".csv", ".csv.gz"))
@@ -183,6 +205,9 @@ read_ipums_micro_list_chunked <- function(
       locale = ipums_locale(ddi$file_encoding),
       progress = show_readr_progress(verbose)
     )
+    if (ddi_has_lowercase_var_names(ddi)) {
+      out <- dplyr::rename_all(out, tolower)
+    }
     if (verbose) cat("Assuming data rectangularized to 'P' record type")
     out <- list("P" = out)
   } else {
