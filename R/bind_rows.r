@@ -32,33 +32,22 @@ ipums_bind_rows <- function(..., .id = NULL) {
   })
   names(attrs_by_var) <- unique_var_names
 
-  purrr::iwalk(purrr::keep(attrs_by_var, ~!is_FALSE(.)), function(attr, vname) {
-    for (iii in seq_along(d_list)) {
-      if (vname %in% names(d_list[[iii]])) {
-        d_list[[iii]][[vname]] <<- zap_ipums_attributes(d_list[[iii]][[vname]])
-      }
-    }
-  })
+  # Remove all IPUMS attributes (we will put back the matching ones after
+  # row-binding)
+  d_list <- purrr::map(d_list, zap_ipums_attributes)
 
-  # Remove all attributes for shared columns with incompatible attributes
   vars_w_incompat_attrs <- unique_var_names[purrr::map_lgl(attrs_by_var, ~ is_FALSE(.))]
   if (length(vars_w_incompat_attrs) > 0) {
     warning(
-      "All attributes have been removed from the following columns, which ",
+      "IPUMS attributes have been removed from the following columns, which ",
       "had incompatible attributes across the data.frames to be combined: ",
       paste0(vars_w_incompat_attrs, collapse = ",")
     )
-    purrr::iwalk(purrr::keep(attrs_by_var, ~is_FALSE(.)), function(attr, vname) {
-      for (iii in seq_along(d_list)) {
-        if (vname %in% names(d_list[[iii]])) {
-          attributes(d_list[[iii]][[vname]]) <<- NULL
-        }
-      }
-    })
   }
 
   out <- dplyr::bind_rows(d_list, .id = .id)
 
+  # Reassign attributes for columns where all attributes matched
   purrr::iwalk(purrr::keep(attrs_by_var, ~!is_FALSE(.)), function(attr, vname) {
     attributes(out[[vname]]) <<- attr
   })
