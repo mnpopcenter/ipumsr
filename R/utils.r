@@ -450,8 +450,13 @@ fostr_named_capture <- function(string, pattern, only_matches = FALSE) {
   ends <- purrr::map2(capture_names, starts, ~attr(matches, "capture.length")[, .x] + .y - 1)
 
 
-  out <- purrr::map2_dfc(starts, ends, ~substr(string, .x, .y))
-  names(out) <- capture_names
+  out <- purrr::pmap_dfc(
+    dplyr::tibble(start = starts, end = ends, nm = capture_names),
+    function(start, end, nm) {
+      nm <- rlang::ensym(nm)
+      dplyr::tibble(!!nm := substr(string, start, end))
+    }
+  )
   if (only_matches) out <- out[out[[1]] != "", ]
 
   out
