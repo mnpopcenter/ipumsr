@@ -210,7 +210,7 @@ read_ipums_micro_list <- function(
 #' to a data reading function
 #' @noRd
 check_if_lower_vars_ignored <- function(ddi, lower_vars) {
-  "ipums_ddi" %in% class(ddi) & lower_vars
+  inherits(ddi, "ipums_ddi") & lower_vars
 }
 
 lower_vars_ignored_warning <- function() {
