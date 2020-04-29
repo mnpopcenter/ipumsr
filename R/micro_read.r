@@ -47,9 +47,12 @@
 #' @param var_attrs Variable attributes to add from the DDI, defaults to
 #'   adding all (val_labels, var_label and var_desc). See
 #'   \code{\link{set_ipums_var_attributes}} for more details.
-#' @param lower_vars If reading a DDI from a file, a logical indicating
-#'   whether to convert variable names to lowercase (default is FALSE due
-#'   to tradition)
+#' @param lower_vars Only if reading a DDI from a file, a logical indicating
+#'   whether to convert variable names to lowercase (default is FALSE, in line
+#'   with IPUMS conventions). Note that this argument will be ignored if
+#'   argument \code{ddi} is an \code{ipums_ddi} object rather than a file path.
+#'   See \code{\link{read_ipums_ddi}} for converting variable names to lowercase
+#'   when reading in the DDI.
 #' @return \code{read_ipums_micro} returns a single tbl_df data frame, and
 #'   \code{read_ipums_micro_list} returns a list of data frames, named by
 #'   the Record Type. See 'Details' for more
@@ -91,6 +94,10 @@ read_ipums_micro <- function(
   var_attrs = c("val_labels", "var_label", "var_desc"),
   lower_vars = FALSE
 ) {
+  lower_vars_was_ignored <- check_if_lower_vars_ignored(ddi, lower_vars)
+  if (lower_vars_was_ignored) {
+    warning(lower_vars_ignored_warning())
+  }
   if (is.character(ddi)) ddi <- read_ipums_ddi(ddi, lower_vars = lower_vars)
   if (is.null(data_file)) data_file <- file.path(ddi$file_path, ddi$file_name)
 
@@ -113,6 +120,9 @@ read_ipums_micro <- function(
       locale = ipums_locale(ddi$file_encoding),
       progress = show_readr_progress(verbose)
     )
+    if (ddi_has_lowercase_var_names(ddi)) {
+      out <- dplyr::rename_all(out, tolower)
+    }
   } else {
     rt_info <- ddi_to_rtinfo(ddi)
     col_spec <- ddi_to_colspec(ddi, "long", verbose)
@@ -142,6 +152,10 @@ read_ipums_micro_list <- function(
   var_attrs = c("val_labels", "var_label", "var_desc"),
   lower_vars = FALSE
 ) {
+  lower_vars_was_ignored <- check_if_lower_vars_ignored(ddi, lower_vars)
+  if (lower_vars_was_ignored) {
+    warning(lower_vars_ignored_warning())
+  }
   if (is.character(ddi)) ddi <- read_ipums_ddi(ddi, lower_vars = lower_vars)
   if (is.null(data_file)) data_file <- file.path(ddi$file_path, ddi$file_name)
 
@@ -166,6 +180,9 @@ read_ipums_micro_list <- function(
       locale = ipums_locale(ddi$file_encoding),
       progress = show_readr_progress(verbose)
     )
+    if (ddi_has_lowercase_var_names(ddi)) {
+      out <- dplyr::rename_all(out, tolower)
+    }
     if (verbose) cat("Assuming data rectangularized to 'P' record type")
     out <- list("P" = out)
   } else {
@@ -189,3 +206,18 @@ read_ipums_micro_list <- function(
   out
 }
 
+#' Warns the user that lower_vars has been ignored when they supply an ipums_ddi
+#' to a data reading function
+#' @noRd
+check_if_lower_vars_ignored <- function(ddi, lower_vars) {
+  inherits(ddi, "ipums_ddi") & lower_vars
+}
+
+lower_vars_ignored_warning <- function() {
+  paste0(
+    "Argument lower_vars was set to TRUE but has been ignored because ",
+    "argument ddi is an ipums_ddi object. To obtain lowercase names in both ",
+    "the ipums_ddi object and the data, set lower_vars to TRUE in your call ",
+    "to function `read_ipums_ddi`."
+  )
+}

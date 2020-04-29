@@ -12,7 +12,8 @@ read_ipums_micro_chunked(
   vars = NULL,
   data_file = NULL,
   verbose = TRUE,
-  var_attrs = c("val_labels", "var_label", "var_desc")
+  var_attrs = c("val_labels", "var_label", "var_desc"),
+  lower_vars = FALSE
 )
 
 read_ipums_micro_list_chunked(
@@ -22,7 +23,8 @@ read_ipums_micro_list_chunked(
   vars = NULL,
   data_file = NULL,
   verbose = TRUE,
-  var_attrs = c("val_labels", "var_label", "var_desc")
+  var_attrs = c("val_labels", "var_label", "var_desc"),
+  lower_vars = FALSE
 )
 }
 \arguments{
@@ -49,6 +51,16 @@ to console.}
 \item{var_attrs}{Variable attributes to add from the DDI, defaults to
 adding all (val_labels, var_label and var_desc). See
 \code{\link{set_ipums_var_attributes}} for more details.}
+
+\item{lower_vars}{Only if reading a DDI from a file, a logical indicating
+whether to convert variable names to lowercase (default is FALSE, in line
+with IPUMS conventions). Note that this argument will be ignored if
+argument \code{ddi} is an \code{ipums_ddi} object rather than a file path.
+See \code{\link{read_ipums_ddi}} for converting variable names to lowercase
+when reading in the DDI. Also note that if reading in chunks from a .csv or
+.csv.gz file, the callback function will be called *before* variable names
+are converted to lowercase, and thus should reference uppercase variable
+names.}
 }
 \value{
 Depends on the callback object

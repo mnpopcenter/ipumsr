@@ -95,3 +95,14 @@ test_that(
 
     expect_equal(cps_yield, cps_chunked)
   })
+
+test_that("read_ipums_micro_yield can't read from .csv file", {
+  expect_error(
+    cps_yield_source <- read_ipums_micro_yield(
+      ddi = ipums_example("cps_00006.xml"),
+      data_file = ipums_example("cps_00006.csv.gz"),
+      verbose = FALSE
+    ),
+    regexp = "does not support"
+  )
+})

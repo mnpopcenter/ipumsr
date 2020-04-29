@@ -14,7 +14,7 @@ read_ipums_ddi(ddi_file, data_layer = NULL, lower_vars = FALSE)
 layer to load.}
 
 \item{lower_vars}{Logical indicating whether to convert variable names
-to lowercase (default is FALSE due to tradition)}
+to lowercase (default is FALSE, in line with IPUMS conventions)}
 }
 \value{
 An \code{ipums_ddi} object with metadata information.

@@ -15,7 +15,7 @@
 #'   \code{\link[dplyr]{select}}-style notation indicating which .xml data
 #'   layer to load.
 #' @param lower_vars Logical indicating whether to convert variable names
-#'   to lowercase (default is FALSE due to tradition)
+#'   to lowercase (default is FALSE, in line with IPUMS conventions)
 #' @return An \code{ipums_ddi} object with metadata information.
 #' @examples
 #' # Example extract DDI
@@ -132,8 +132,10 @@ read_ipums_ddi <- function(ddi_file, data_layer = NULL, lower_vars = FALSE) {
 
   if (lower_vars) {
     var_info$var_name <- tolower(var_info$var_name)
-    rectype_idvar <- tolower(rectype_idvar)
-    rectypes_keyvars$keyvars <- purrr::map(rectypes_keyvars$keyvars, tolower)
+    if (!is.null(rectype_idvar)) rectype_idvar <- tolower(rectype_idvar)
+    if (!is.null(rectypes_keyvars)) {
+      rectypes_keyvars$keyvars <- purrr::map(rectypes_keyvars$keyvars, tolower)
+    }
   }
 
   make_ddi_from_scratch(

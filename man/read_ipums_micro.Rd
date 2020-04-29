@@ -45,9 +45,12 @@ to console.}
 adding all (val_labels, var_label and var_desc). See
 \code{\link{set_ipums_var_attributes}} for more details.}
 
-\item{lower_vars}{If reading a DDI from a file, a logical indicating
-whether to convert variable names to lowercase (default is FALSE due
-to tradition)}
+\item{lower_vars}{Only if reading a DDI from a file, a logical indicating
+whether to convert variable names to lowercase (default is FALSE, in line
+with IPUMS conventions). Note that this argument will be ignored if
+argument \code{ddi} is an \code{ipums_ddi} object rather than a file path.
+See \code{\link{read_ipums_ddi}} for converting variable names to lowercase
+when reading in the DDI.}
 }
 \value{
 \code{read_ipums_micro} returns a single tbl_df data frame, and
