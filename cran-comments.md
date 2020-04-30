@@ -1,7 +1,7 @@
 ## Test environments
 * local Windows, R 4.0.0
 * win builder release and devel
-* Travis-CI Linux R 3.2, 3.5, release and devel
+* Travis-CI Linux R 3.2, 3.6, release and devel
 * MacOS High Sierra via R-hub
 
 ## R CMD check results
