@@ -181,12 +181,12 @@ cb_function <- function(x, pos) {
 Next we need to create a callback object. The choice of a callback object
 depends mainly on how we want to combine the results from applying our callback
 function to each chunk. The tree main types of callbacks that apply IPUMS variable
-metadta are:
+metadata are:
 
 - `IpumsDataFrameCallback` - Combine the results from each chunk together by 
 row binding them together.
 - `IpumsListCallback` - Use when you don't want to (or can't) immediately combine
-the resuts, so it returns a list with one item per chunk containing the results.
+the results, so it returns a list with one item per chunk containing the results.
 - `IpumsSideEffectCallback` - Use when you are calling the function primarily for
 side effects, and do not need the results at all (for example if you are saving
 each chunk to disk).
@@ -318,13 +318,13 @@ chunked_subset <- read_ipums_micro_chunked(
 ```
 
 
-## Option 3B: Work one 'yield' at  atime
+## Option 3B: Work one 'yield' at a time
 ipumsr now has a second form of chunked reading called 'yields' which 
 accomplish a similar goal as chunks, but are more flexible. They
 grant you more freedom in what R code you run between reading chunks, 
 including the ability to have multiple files open at once. Additionally,
 yields are compatible with the bigglm function which allows you to run 
-glm models on data larger than memory (as oposed to plain old lm's that 
+glm models on data larger than memory (as opposed to plain old lm's that 
 you can run with chunks). The downside to this greater control is that 
 yields have an API that is unique to IPUMS data and the way they work
 is unusual for R code.
