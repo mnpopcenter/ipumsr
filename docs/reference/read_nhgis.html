@@ -15,21 +15,29 @@
 <link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png" />
 <link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png" />
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png" />
+
 <!-- jquery -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous" />
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous" />
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
+
+<!-- bootstrap-toc -->
+<link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script>
 
-<!-- sticky kit -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
+<!-- headroom.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -38,18 +46,17 @@
 
 <!-- docsearch -->
 <script src="../docsearch.js"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/docsearch.js/2.6.1/docsearch.min.css" integrity="sha256-QOSRU/ra9ActyXkIBbiIB144aDBdtvXBcNc3OTNuX/Q=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/docsearch.js/2.6.3/docsearch.min.css" integrity="sha256-QOSRU/ra9ActyXkIBbiIB144aDBdtvXBcNc3OTNuX/Q=" crossorigin="anonymous" />
 <link href="../docsearch.css" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js" integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin="anonymous"></script>
 
 
-<meta property="og:title" content="Read data from an NHGIS extract — read_nhgis" />
 
+<meta property="og:title" content="Read data from an NHGIS extract — read_nhgis" />
 <meta property="og:description" content="Reads a dataset downloaded from the NHGIS extract system. Relies on csv files
 (with or without the extra header row)." />
-
 <meta property="og:image" content="http://tech.popdata.org/ipumsr/logo.png" />
-<meta name="twitter:card" content="summary" />
+
 
 
 
@@ -63,9 +70,10 @@
 <![endif]-->
 
 
+
   </head>
 
-  <body>
+  <body data-spy="scroll" data-target="#toc">
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
@@ -79,7 +87,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ipumsr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.3</span>
       </span>
     </div>
 
@@ -135,7 +143,6 @@
   <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
-      
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/mnpopcenter/ipumsr">
@@ -157,7 +164,7 @@
 </li>
       </ul>
       
-      <form class="navbar-form navbar-right" role="search">
+      <form class="navbar-form navbar-right hidden-xs hidden-sm" role="search">
         <div class="form-group">
           <input type="search" class="form-control" name="search-input" id="search-input" placeholder="Search..." aria-label="Search for..." autocomplete="off">
         </div>
@@ -168,6 +175,7 @@
 </div><!--/.navbar -->
 
       
+
       </header>
 
 <div class="row">
@@ -179,23 +187,37 @@
     </div>
 
     <div class="ref-description">
-    
     <p>Reads a dataset downloaded from the NHGIS extract system. Relies on csv files
 (with or without the extra header row).</p>
-    
     </div>
 
-    <pre class="usage"><span class='fu'>read_nhgis</span>(<span class='no'>data_file</span>, <span class='kw'>data_layer</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>var_attrs</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"val_labels"</span>, <span class='st'>"var_label"</span>, <span class='st'>"var_desc"</span>))
+    <pre class="usage"><span class='fu'>read_nhgis</span>(
+  <span class='no'>data_file</span>,
+  <span class='kw'>data_layer</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>var_attrs</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"val_labels"</span>, <span class='st'>"var_label"</span>, <span class='st'>"var_desc"</span>)
+)
 
-<span class='fu'>read_nhgis_sf</span>(<span class='no'>data_file</span>, <span class='no'>shape_file</span>, <span class='kw'>data_layer</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>shape_layer</span> <span class='kw'>=</span> <span class='no'>data_layer</span>, <span class='kw'>shape_encoding</span> <span class='kw'>=</span> <span class='st'>"latin1"</span>,
-  <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>var_attrs</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"val_labels"</span>, <span class='st'>"var_label"</span>, <span class='st'>"var_desc"</span>))
+<span class='fu'>read_nhgis_sf</span>(
+  <span class='no'>data_file</span>,
+  <span class='no'>shape_file</span>,
+  <span class='kw'>data_layer</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>shape_layer</span> <span class='kw'>=</span> <span class='no'>data_layer</span>,
+  <span class='kw'>shape_encoding</span> <span class='kw'>=</span> <span class='st'>"latin1"</span>,
+  <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>var_attrs</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"val_labels"</span>, <span class='st'>"var_label"</span>, <span class='st'>"var_desc"</span>)
+)
 
-<span class='fu'>read_nhgis_sp</span>(<span class='no'>data_file</span>, <span class='no'>shape_file</span>, <span class='kw'>data_layer</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>shape_layer</span> <span class='kw'>=</span> <span class='no'>data_layer</span>, <span class='kw'>shape_encoding</span> <span class='kw'>=</span> <span class='st'>"latin1"</span>,
-  <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>var_attrs</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"val_labels"</span>, <span class='st'>"var_label"</span>, <span class='st'>"var_desc"</span>))</pre>
-    
+<span class='fu'>read_nhgis_sp</span>(
+  <span class='no'>data_file</span>,
+  <span class='no'>shape_file</span>,
+  <span class='kw'>data_layer</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>shape_layer</span> <span class='kw'>=</span> <span class='no'>data_layer</span>,
+  <span class='kw'>shape_encoding</span> <span class='kw'>=</span> <span class='st'>"latin1"</span>,
+  <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>var_attrs</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"val_labels"</span>, <span class='st'>"var_label"</span>, <span class='st'>"var_desc"</span>)
+)</pre>
+
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
@@ -243,24 +265,23 @@ to set them manually, but if funny characters appear in your data, you may need
 to. Defaults to "latin1" for NHGIS.</p></td>
     </tr>
     </table>
-    
+
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p><code>read_nhgis</code> returns a <code>tbl_df</code> with only the tabular data,
 <code>read_nhgis_sf</code> returns a <code>sf</code> object with data and the shapes, and
 <code>read_nhgis_sp</code> returns a <code>SpatialPolygonsDataFrame</code> with data and
 shapes.</p>
-    
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p>Other ipums_read: <code><a href='read_ipums_micro_chunked.html'>read_ipums_micro_chunked</a></code>,
-  <code><a href='read_ipums_micro_yield.html'>read_ipums_micro_yield</a></code>,
-  <code><a href='read_ipums_micro.html'>read_ipums_micro</a></code>,
-  <code><a href='read_ipums_sf.html'>read_ipums_sf</a></code>,
-  <code><a href='read_terra_area.html'>read_terra_area</a></code>,
-  <code><a href='read_terra_micro.html'>read_terra_micro</a></code>,
-  <code><a href='read_terra_raster.html'>read_terra_raster</a></code></p></div>
-    
+    <div class='dont-index'><p>Other ipums_read: 
+<code><a href='read_ipums_micro_chunked.html'>read_ipums_micro_chunked</a>()</code>,
+<code><a href='read_ipums_micro_yield.html'>read_ipums_micro_yield</a>()</code>,
+<code><a href='read_ipums_micro.html'>read_ipums_micro</a>()</code>,
+<code><a href='read_ipums_sf.html'>read_ipums_sf</a>()</code>,
+<code><a href='read_terra_area.html'>read_terra_area</a>()</code>,
+<code><a href='read_terra_micro.html'>read_terra_micro</a>()</code>,
+<code><a href='read_terra_raster.html'>read_terra_raster</a>()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='no'>csv_file</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='ipums_example.html'>ipums_example</a></span>(<span class='st'>"nhgis0008_csv.zip"</span>)
@@ -272,7 +293,7 @@ shapes.</p>
 #&gt; 
 #&gt; Reading data file...</div><div class='input'>
 <span class='co'># If sf package is availble, can load as sf object</span>
-<span class='kw'>if</span> (<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>require</a></span>(<span class='no'>sf</span>)) {
+<span class='kw'>if</span> (<span class='fu'><a href='https://rdrr.io/r/base/library.html'>require</a></span>(<span class='no'>sf</span>)) {
   <span class='no'>sf_data</span> <span class='kw'>&lt;-</span> <span class='fu'>read_nhgis_sf</span>(<span class='no'>csv_file</span>, <span class='no'>shape_file</span>)
 }</div><div class='output co'>#&gt; Use of data from NHGIS is subject to conditions including that users should
 #&gt; cite the data appropriately. Use command `ipums_conditions()` for more details.
@@ -281,15 +302,14 @@ shapes.</p>
 #&gt; Reading data file...
 #&gt; Reading geography...
 #&gt; options:        ENCODING=latin1 
-#&gt; Reading layer `US_pmsa_1990' from data source `C:\Users\burkx031\AppData\Local\Temp\RtmpgnQu91\file1ee4b7d3f8\US_pmsa_1990.shp' using driver `ESRI Shapefile'
+#&gt; Reading layer `US_pmsa_1990' from data source `C:\Users\derek\AppData\Local\Temp\Rtmpg1qS8L\file375c74375ace\US_pmsa_1990.shp' using driver `ESRI Shapefile'
 #&gt; Simple feature collection with 71 features and 8 fields
 #&gt; geometry type:  MULTIPOLYGON
 #&gt; dimension:      XY
 #&gt; bbox:           xmin: -2336182 ymin: -1247086 xmax: 2075339 ymax: 1476544
-#&gt; epsg (SRID):    NA
-#&gt; proj4string:    +proj=aea +lat_1=29.5 +lat_2=45.5 +lat_0=37.5 +lon_0=-96 +x_0=0 +y_0=0 +datum=NAD83 +units=m +no_defs</div><div class='input'>
+#&gt; proj4string:    +proj=aea +lat_1=29.5 +lat_2=45.5 +lat_0=37.5 +lon_0=-96 +x_0=0 +y_0=0 +datum=NAD83 +units=m +no_defs </div><div class='input'>
 <span class='co'># If sp package is available, can load as SpatialPolygonsDataFrame</span>
-<span class='kw'>if</span> (<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>require</a></span>(<span class='no'>rgdal</span>) <span class='kw'>&amp;&amp;</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>require</a></span>(<span class='no'>sp</span>)) {
+<span class='kw'>if</span> (<span class='fu'><a href='https://rdrr.io/r/base/library.html'>require</a></span>(<span class='no'>rgdal</span>) <span class='kw'>&amp;&amp;</span> <span class='fu'><a href='https://rdrr.io/r/base/library.html'>require</a></span>(<span class='no'>sp</span>)) {
   <span class='no'>sp_data</span> <span class='kw'>&lt;-</span> <span class='fu'>read_nhgis_sp</span>(<span class='no'>csv_file</span>, <span class='no'>shape_file</span>)
 }</div><div class='output co'>#&gt; Use of data from NHGIS is subject to conditions including that users should
 #&gt; cite the data appropriately. Use command `ipums_conditions()` for more details.
@@ -298,25 +318,18 @@ shapes.</p>
 #&gt; Reading data file...
 #&gt; Reading geography...
 #&gt; OGR data source with driver: ESRI Shapefile 
-#&gt; Source: "C:\Users\burkx031\AppData\Local\Temp\RtmpgnQu91\file1ee45aa01ab3", layer: "US_pmsa_1990"
+#&gt; Source: "C:\Users\derek\AppData\Local\Temp\Rtmpg1qS8L\file375c77c14b7b", layer: "US_pmsa_1990"
 #&gt; with 71 features
-#&gt; It has 8 fields</div><div class='output co'>#&gt; <span class='warning'>Warning: Column `GISJOIN` has different attributes on LHS and RHS of join</span></div><div class='input'>
+#&gt; It has 8 fields</div><div class='input'>
 </div></pre>
   </div>
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-    <h2>Contents</h2>
-    <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
-      
-      <li><a href="#value">Value</a></li>
-
-      <li><a href="#see-also">See also</a></li>
-      
-      <li><a href="#examples">Examples</a></li>
-    </ul>
-
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
+    <nav id="toc" data-toggle="toc" class="sticky-top">
+      <h2 data-toc-skip>Contents</h2>
+    </nav>
   </div>
 </div>
+
 
       <footer>
       <div class="copyright">
@@ -324,8 +337,9 @@ shapes.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
 </div>
+
       </footer>
    </div>
 
@@ -348,6 +362,8 @@ shapes.</p>
 </script>
 
 
+
   </body>
 </html>
+
 

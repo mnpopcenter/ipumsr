@@ -15,21 +15,29 @@
 <link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png" />
 <link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png" />
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png" />
+
 <!-- jquery -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous" />
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous" />
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
+
+<!-- bootstrap-toc -->
+<link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script>
 
-<!-- sticky kit -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
+<!-- headroom.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -38,22 +46,21 @@
 
 <!-- docsearch -->
 <script src="../docsearch.js"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/docsearch.js/2.6.1/docsearch.min.css" integrity="sha256-QOSRU/ra9ActyXkIBbiIB144aDBdtvXBcNc3OTNuX/Q=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/docsearch.js/2.6.3/docsearch.min.css" integrity="sha256-QOSRU/ra9ActyXkIBbiIB144aDBdtvXBcNc3OTNuX/Q=" crossorigin="anonymous" />
 <link href="../docsearch.css" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js" integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin="anonymous"></script>
 
 
-<meta property="og:title" content="Read data from an IPUMS extract — read_ipums_micro" />
 
+<meta property="og:title" content="Read data from an IPUMS extract — read_ipums_micro" />
 <meta property="og:description" content="Reads a dataset downloaded from the IPUMS extract system.
 For IPUMS projects with microdata, it relies on a downloaded
 DDI codebook and a fixed-width file. Loads the data with
 value labels (using labelled format)
 and variable labels. See 'Details' for more information on
 how record types are handled by the ipumsr package." />
-
 <meta property="og:image" content="http://tech.popdata.org/ipumsr/logo.png" />
-<meta name="twitter:card" content="summary" />
+
 
 
 
@@ -67,9 +74,10 @@ how record types are handled by the ipumsr package." />
 <![endif]-->
 
 
+
   </head>
 
-  <body>
+  <body data-spy="scroll" data-target="#toc">
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
@@ -83,7 +91,7 @@ how record types are handled by the ipumsr package." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ipumsr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.3</span>
       </span>
     </div>
 
@@ -139,7 +147,6 @@ how record types are handled by the ipumsr package." />
   <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
-      
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/mnpopcenter/ipumsr">
@@ -161,7 +168,7 @@ how record types are handled by the ipumsr package." />
 </li>
       </ul>
       
-      <form class="navbar-form navbar-right" role="search">
+      <form class="navbar-form navbar-right hidden-xs hidden-sm" role="search">
         <div class="form-group">
           <input type="search" class="form-control" name="search-input" id="search-input" placeholder="Search..." aria-label="Search for..." autocomplete="off">
         </div>
@@ -172,6 +179,7 @@ how record types are handled by the ipumsr package." />
 </div><!--/.navbar -->
 
       
+
       </header>
 
 <div class="row">
@@ -183,24 +191,34 @@ how record types are handled by the ipumsr package." />
     </div>
 
     <div class="ref-description">
-    
     <p>Reads a dataset downloaded from the IPUMS extract system.
 For IPUMS projects with microdata, it relies on a downloaded
 DDI codebook and a fixed-width file. Loads the data with
 value labels (using <code><a href='https://haven.tidyverse.org/reference/labelled.html'>labelled</a></code> format)
 and variable labels. See 'Details' for more information on
 how record types are handled by the ipumsr package.</p>
-    
     </div>
 
-    <pre class="usage"><span class='fu'>read_ipums_micro</span>(<span class='no'>ddi</span>, <span class='kw'>vars</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>n_max</span> <span class='kw'>=</span> <span class='fl'>Inf</span>, <span class='kw'>data_file</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>var_attrs</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"val_labels"</span>, <span class='st'>"var_label"</span>, <span class='st'>"var_desc"</span>),
-  <span class='kw'>lower_vars</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
+    <pre class="usage"><span class='fu'>read_ipums_micro</span>(
+  <span class='no'>ddi</span>,
+  <span class='kw'>vars</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>n_max</span> <span class='kw'>=</span> <span class='fl'>Inf</span>,
+  <span class='kw'>data_file</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>var_attrs</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"val_labels"</span>, <span class='st'>"var_label"</span>, <span class='st'>"var_desc"</span>),
+  <span class='kw'>lower_vars</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>
+)
 
-<span class='fu'>read_ipums_micro_list</span>(<span class='no'>ddi</span>, <span class='kw'>vars</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>n_max</span> <span class='kw'>=</span> <span class='fl'>Inf</span>,
-  <span class='kw'>data_file</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>var_attrs</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"val_labels"</span>,
-  <span class='st'>"var_label"</span>, <span class='st'>"var_desc"</span>), <span class='kw'>lower_vars</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
-    
+<span class='fu'>read_ipums_micro_list</span>(
+  <span class='no'>ddi</span>,
+  <span class='kw'>vars</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>n_max</span> <span class='kw'>=</span> <span class='fl'>Inf</span>,
+  <span class='kw'>data_file</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>var_attrs</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"val_labels"</span>, <span class='st'>"var_label"</span>, <span class='st'>"var_desc"</span>),
+  <span class='kw'>lower_vars</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>
+)</pre>
+
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
@@ -237,19 +255,21 @@ adding all (val_labels, var_label and var_desc). See
     </tr>
     <tr>
       <th>lower_vars</th>
-      <td><p>If reading a DDI from a file, a logical indicating
-whether to convert variable names to lowercase (default is FALSE due
-to tradition)</p></td>
+      <td><p>Only if reading a DDI from a file, a logical indicating
+whether to convert variable names to lowercase (default is FALSE, in line
+with IPUMS conventions). Note that this argument will be ignored if
+argument <code>ddi</code> is an <code>ipums_ddi</code> object rather than a file path.
+See <code><a href='read_ipums_ddi.html'>read_ipums_ddi</a></code> for converting variable names to lowercase
+when reading in the DDI.</p></td>
     </tr>
     </table>
-    
+
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p><code>read_ipums_micro</code> returns a single tbl_df data frame, and
   <code>read_ipums_micro_list</code> returns a list of data frames, named by
   the Record Type. See 'Details' for more
   information.</p>
-    
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>Some IPUMS projects have data for multiple types of records
@@ -269,16 +289,16 @@ data frames objects, where each data frame contains only
 one record type. The names of the data frames in the list
 are the text from the record type labels without 'Record'
 (often 'HOUSEHOLD' for Household and 'PERSON' for Person).</p>
-    
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p>Other ipums_read: <code><a href='read_ipums_micro_chunked.html'>read_ipums_micro_chunked</a></code>,
-  <code><a href='read_ipums_micro_yield.html'>read_ipums_micro_yield</a></code>,
-  <code><a href='read_ipums_sf.html'>read_ipums_sf</a></code>, <code><a href='read_nhgis.html'>read_nhgis</a></code>,
-  <code><a href='read_terra_area.html'>read_terra_area</a></code>,
-  <code><a href='read_terra_micro.html'>read_terra_micro</a></code>,
-  <code><a href='read_terra_raster.html'>read_terra_raster</a></code></p></div>
-    
+    <div class='dont-index'><p>Other ipums_read: 
+<code><a href='read_ipums_micro_chunked.html'>read_ipums_micro_chunked</a>()</code>,
+<code><a href='read_ipums_micro_yield.html'>read_ipums_micro_yield</a>()</code>,
+<code><a href='read_ipums_sf.html'>read_ipums_sf</a>()</code>,
+<code><a href='read_nhgis.html'>read_nhgis</a>()</code>,
+<code><a href='read_terra_area.html'>read_terra_area</a>()</code>,
+<code><a href='read_terra_micro.html'>read_terra_micro</a>()</code>,
+<code><a href='read_terra_raster.html'>read_terra_raster</a>()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>  <span class='co'># Rectangular example file</span>
@@ -294,71 +314,62 @@ are the text from the record type labels without 'Record'
 
   <span class='co'># Read in "long" format and you get 1 data frame</span>
   <span class='no'>cps_long</span> <span class='kw'>&lt;-</span> <span class='fu'>read_ipums_micro</span>(<span class='no'>cps_hier_ddi_file</span>)</div><div class='output co'>#&gt; Use of data from IPUMS-CPS is subject to conditions including that users should
-#&gt; cite the data appropriately. Use command `ipums_conditions()` for more details.</div><div class='input'>  <span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/head'>head</a></span>(<span class='no'>cps_long</span>)</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 6 x 9</span><span>
+#&gt; cite the data appropriately. Use command `ipums_conditions()` for more details.</div><div class='input'>  <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='no'>cps_long</span>)</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 6 x 9</span><span>
 #&gt;   RECTYPE    YEAR SERIAL HWTSUPP  STATEFIP     MONTH PERNUM WTSUPP        INCTOT
-#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr+lbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;int+lbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;int+lbl&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl+lbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'>1</span><span> H</span><span style='color: #555555;'> [House~</span><span>  </span><span style='text-decoration: underline;'>1</span><span>962     80   </span><span style='text-decoration: underline;'>1</span><span>476. 55</span><span style='color: #555555;'> [Wisc~</span><span>  3</span><span style='color: #555555;'> [Marc~</span><span>     </span><span style='color: #BB0000;'>NA</span><span>    </span><span style='color: #BB0000;'>NA</span><span>  </span><span style='color: #BB0000;'>NA</span><span>           
-#&gt; </span><span style='color: #555555;'>2</span><span> P</span><span style='color: #555555;'> [Perso~</span><span>  </span><span style='text-decoration: underline;'>1</span><span>962     80     </span><span style='color: #BB0000;'>NA</span><span>  </span><span style='color: #BB0000;'>NA</span><span>        </span><span style='color: #BB0000;'>NA</span><span>             1  </span><span style='text-decoration: underline;'>1</span><span>476.  4.88</span><span style='color: #555555;'>e</span><span>34883  
-#&gt; </span><span style='color: #555555;'>3</span><span> P</span><span style='color: #555555;'> [Perso~</span><span>  </span><span style='text-decoration: underline;'>1</span><span>962     80     </span><span style='color: #BB0000;'>NA</span><span>  </span><span style='color: #BB0000;'>NA</span><span>        </span><span style='color: #BB0000;'>NA</span><span>             2  </span><span style='text-decoration: underline;'>1</span><span>471.  5.80</span><span style='color: #555555;'>e</span><span>35800  
-#&gt; </span><span style='color: #555555;'>4</span><span> P</span><span style='color: #555555;'> [Perso~</span><span>  </span><span style='text-decoration: underline;'>1</span><span>962     80     </span><span style='color: #BB0000;'>NA</span><span>  </span><span style='color: #BB0000;'>NA</span><span>        </span><span style='color: #BB0000;'>NA</span><span>             3  </span><span style='text-decoration: underline;'>1</span><span>579. 10.00</span><span style='color: #555555;'>e</span><span>7</span><span style='color: #555555;'> [Mis~</span><span>
-#&gt; </span><span style='color: #555555;'>5</span><span> H</span><span style='color: #555555;'> [House~</span><span>  </span><span style='text-decoration: underline;'>1</span><span>962     82   </span><span style='text-decoration: underline;'>1</span><span>598. 27</span><span style='color: #555555;'> [Minn~</span><span>  3</span><span style='color: #555555;'> [Marc~</span><span>     </span><span style='color: #BB0000;'>NA</span><span>    </span><span style='color: #BB0000;'>NA</span><span>  </span><span style='color: #BB0000;'>NA</span><span>           
-#&gt; </span><span style='color: #555555;'>6</span><span> P</span><span style='color: #555555;'> [Perso~</span><span>  </span><span style='text-decoration: underline;'>1</span><span>962     82     </span><span style='color: #BB0000;'>NA</span><span>  </span><span style='color: #BB0000;'>NA</span><span>        </span><span style='color: #BB0000;'>NA</span><span>             1  </span><span style='text-decoration: underline;'>1</span><span>598.  1.40</span><span style='color: #555555;'>e</span><span>414015 </div><div class='input'>
+#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;chr+lbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>   </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;int+lbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;int+lbl&gt;</span><span>  </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #949494;font-style: italic;'>&lt;dbl+lbl&gt;</span><span>
+#&gt; </span><span style='color: #BCBCBC;'>1</span><span> H</span><span style='color: #949494;'> [House~</span><span>  </span><span style='text-decoration: underline;'>1</span><span>962     80   </span><span style='text-decoration: underline;'>1</span><span>476. 55</span><span style='color: #949494;'> [Wisc~</span><span>  3</span><span style='color: #949494;'> [Marc~</span><span>     </span><span style='color: #BB0000;'>NA</span><span>    </span><span style='color: #BB0000;'>NA</span><span>  </span><span style='color: #BB0000;'>NA</span><span>           
+#&gt; </span><span style='color: #BCBCBC;'>2</span><span> P</span><span style='color: #949494;'> [Perso~</span><span>  </span><span style='text-decoration: underline;'>1</span><span>962     80     </span><span style='color: #BB0000;'>NA</span><span>  </span><span style='color: #BB0000;'>NA</span><span>        </span><span style='color: #BB0000;'>NA</span><span>             1  </span><span style='text-decoration: underline;'>1</span><span>476.  4.88</span><span style='color: #949494;'>e</span><span>3      
+#&gt; </span><span style='color: #BCBCBC;'>3</span><span> P</span><span style='color: #949494;'> [Perso~</span><span>  </span><span style='text-decoration: underline;'>1</span><span>962     80     </span><span style='color: #BB0000;'>NA</span><span>  </span><span style='color: #BB0000;'>NA</span><span>        </span><span style='color: #BB0000;'>NA</span><span>             2  </span><span style='text-decoration: underline;'>1</span><span>471.  5.80</span><span style='color: #949494;'>e</span><span>3      
+#&gt; </span><span style='color: #BCBCBC;'>4</span><span> P</span><span style='color: #949494;'> [Perso~</span><span>  </span><span style='text-decoration: underline;'>1</span><span>962     80     </span><span style='color: #BB0000;'>NA</span><span>  </span><span style='color: #BB0000;'>NA</span><span>        </span><span style='color: #BB0000;'>NA</span><span>             3  </span><span style='text-decoration: underline;'>1</span><span>579.  1.00</span><span style='color: #949494;'>e</span><span>8</span><span style='color: #949494;'> [Mis~</span><span>
+#&gt; </span><span style='color: #BCBCBC;'>5</span><span> H</span><span style='color: #949494;'> [House~</span><span>  </span><span style='text-decoration: underline;'>1</span><span>962     82   </span><span style='text-decoration: underline;'>1</span><span>598. 27</span><span style='color: #949494;'> [Minn~</span><span>  3</span><span style='color: #949494;'> [Marc~</span><span>     </span><span style='color: #BB0000;'>NA</span><span>    </span><span style='color: #BB0000;'>NA</span><span>  </span><span style='color: #BB0000;'>NA</span><span>           
+#&gt; </span><span style='color: #BCBCBC;'>6</span><span> P</span><span style='color: #949494;'> [Perso~</span><span>  </span><span style='text-decoration: underline;'>1</span><span>962     82     </span><span style='color: #BB0000;'>NA</span><span>  </span><span style='color: #BB0000;'>NA</span><span>        </span><span style='color: #BB0000;'>NA</span><span>             1  </span><span style='text-decoration: underline;'>1</span><span>598.  1.40</span><span style='color: #949494;'>e</span><span>4      </div><div class='input'>
   <span class='co'># Read in "list" format and you get a list of multiple data frames</span>
   <span class='no'>cps_list</span> <span class='kw'>&lt;-</span> <span class='fu'>read_ipums_micro_list</span>(<span class='no'>cps_hier_ddi_file</span>)</div><div class='output co'>#&gt; Use of data from IPUMS-CPS is subject to conditions including that users should
-#&gt; cite the data appropriately. Use command `ipums_conditions()` for more details.</div><div class='input'>  <span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/head'>head</a></span>(<span class='no'>cps_list</span>$<span class='no'>PERSON</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 6 x 6</span><span>
+#&gt; cite the data appropriately. Use command `ipums_conditions()` for more details.</div><div class='input'>  <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='no'>cps_list</span>$<span class='no'>PERSON</span>)</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 6 x 6</span><span>
 #&gt;   RECTYPE            YEAR SERIAL PERNUM WTSUPP              INCTOT
-#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr+lbl&gt;</span><span>         </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>           </span><span style='color: #555555;font-style: italic;'>&lt;dbl+lbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'>1</span><span> P</span><span style='color: #555555;'> [Person Record]</span><span>  </span><span style='text-decoration: underline;'>1</span><span>962     80      1  </span><span style='text-decoration: underline;'>1</span><span>476.     </span><span style='text-decoration: underline;'>4</span><span>8834883       
-#&gt; </span><span style='color: #555555;'>2</span><span> P</span><span style='color: #555555;'> [Person Record]</span><span>  </span><span style='text-decoration: underline;'>1</span><span>962     80      2  </span><span style='text-decoration: underline;'>1</span><span>471.     </span><span style='text-decoration: underline;'>5</span><span>8005800       
-#&gt; </span><span style='color: #555555;'>3</span><span> P</span><span style='color: #555555;'> [Person Record]</span><span>  </span><span style='text-decoration: underline;'>1</span><span>962     80      3  </span><span style='text-decoration: underline;'>1</span><span>579. 99</span><span style='text-decoration: underline;'>999</span><span>998</span><span style='color: #555555;'> [Missing.]</span><span>
-#&gt; </span><span style='color: #555555;'>4</span><span> P</span><span style='color: #555555;'> [Person Record]</span><span>  </span><span style='text-decoration: underline;'>1</span><span>962     82      1  </span><span style='text-decoration: underline;'>1</span><span>598.    </span><span style='text-decoration: underline;'>14</span><span>01514015      
-#&gt; </span><span style='color: #555555;'>5</span><span> P</span><span style='color: #555555;'> [Person Record]</span><span>  </span><span style='text-decoration: underline;'>1</span><span>962     83      1  </span><span style='text-decoration: underline;'>1</span><span>707.    </span><span style='text-decoration: underline;'>16</span><span>55216552      
-#&gt; </span><span style='color: #555555;'>6</span><span> P</span><span style='color: #555555;'> [Person Record]</span><span>  </span><span style='text-decoration: underline;'>1</span><span>962     84      1  </span><span style='text-decoration: underline;'>1</span><span>790.     </span><span style='text-decoration: underline;'>6</span><span>3756375       </div><div class='input'>  <span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/head'>head</a></span>(<span class='no'>cps_list</span>$<span class='no'>HOUSEHOLD</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 6 x 6</span><span>
+#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;chr+lbl&gt;</span><span>         </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>           </span><span style='color: #949494;font-style: italic;'>&lt;dbl+lbl&gt;</span><span>
+#&gt; </span><span style='color: #BCBCBC;'>1</span><span> P</span><span style='color: #949494;'> [Person Record]</span><span>  </span><span style='text-decoration: underline;'>1</span><span>962     80      1  </span><span style='text-decoration: underline;'>1</span><span>476.     </span><span style='text-decoration: underline;'>4</span><span>883           
+#&gt; </span><span style='color: #BCBCBC;'>2</span><span> P</span><span style='color: #949494;'> [Person Record]</span><span>  </span><span style='text-decoration: underline;'>1</span><span>962     80      2  </span><span style='text-decoration: underline;'>1</span><span>471.     </span><span style='text-decoration: underline;'>5</span><span>800           
+#&gt; </span><span style='color: #BCBCBC;'>3</span><span> P</span><span style='color: #949494;'> [Person Record]</span><span>  </span><span style='text-decoration: underline;'>1</span><span>962     80      3  </span><span style='text-decoration: underline;'>1</span><span>579. 99</span><span style='text-decoration: underline;'>999</span><span>998</span><span style='color: #949494;'> [Missing.]</span><span>
+#&gt; </span><span style='color: #BCBCBC;'>4</span><span> P</span><span style='color: #949494;'> [Person Record]</span><span>  </span><span style='text-decoration: underline;'>1</span><span>962     82      1  </span><span style='text-decoration: underline;'>1</span><span>598.    </span><span style='text-decoration: underline;'>14</span><span>015           
+#&gt; </span><span style='color: #BCBCBC;'>5</span><span> P</span><span style='color: #949494;'> [Person Record]</span><span>  </span><span style='text-decoration: underline;'>1</span><span>962     83      1  </span><span style='text-decoration: underline;'>1</span><span>707.    </span><span style='text-decoration: underline;'>16</span><span>552           
+#&gt; </span><span style='color: #BCBCBC;'>6</span><span> P</span><span style='color: #949494;'> [Person Record]</span><span>  </span><span style='text-decoration: underline;'>1</span><span>962     84      1  </span><span style='text-decoration: underline;'>1</span><span>790.     </span><span style='text-decoration: underline;'>6</span><span>375           </div><div class='input'>  <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='no'>cps_list</span>$<span class='no'>HOUSEHOLD</span>)</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 6 x 6</span><span>
 #&gt;   RECTYPE               YEAR SERIAL HWTSUPP       STATEFIP     MONTH
-#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr+lbl&gt;</span><span>            </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;int+lbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;int+lbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'>1</span><span> H</span><span style='color: #555555;'> [Household Record]</span><span>  </span><span style='text-decoration: underline;'>1</span><span>962     80   </span><span style='text-decoration: underline;'>1</span><span>476. 55</span><span style='color: #555555;'> [Wisconsin]</span><span> 3</span><span style='color: #555555;'> [March]</span><span>
-#&gt; </span><span style='color: #555555;'>2</span><span> H</span><span style='color: #555555;'> [Household Record]</span><span>  </span><span style='text-decoration: underline;'>1</span><span>962     82   </span><span style='text-decoration: underline;'>1</span><span>598. 27</span><span style='color: #555555;'> [Minnesota]</span><span> 3</span><span style='color: #555555;'> [March]</span><span>
-#&gt; </span><span style='color: #555555;'>3</span><span> H</span><span style='color: #555555;'> [Household Record]</span><span>  </span><span style='text-decoration: underline;'>1</span><span>962     83   </span><span style='text-decoration: underline;'>1</span><span>707. 27</span><span style='color: #555555;'> [Minnesota]</span><span> 3</span><span style='color: #555555;'> [March]</span><span>
-#&gt; </span><span style='color: #555555;'>4</span><span> H</span><span style='color: #555555;'> [Household Record]</span><span>  </span><span style='text-decoration: underline;'>1</span><span>962     84   </span><span style='text-decoration: underline;'>1</span><span>790. 27</span><span style='color: #555555;'> [Minnesota]</span><span> 3</span><span style='color: #555555;'> [March]</span><span>
-#&gt; </span><span style='color: #555555;'>5</span><span> H</span><span style='color: #555555;'> [Household Record]</span><span>  </span><span style='text-decoration: underline;'>1</span><span>962    107   </span><span style='text-decoration: underline;'>4</span><span>355. 19</span><span style='color: #555555;'> [Iowa]</span><span>      3</span><span style='color: #555555;'> [March]</span><span>
-#&gt; </span><span style='color: #555555;'>6</span><span> H</span><span style='color: #555555;'> [Household Record]</span><span>  </span><span style='text-decoration: underline;'>1</span><span>962    108   </span><span style='text-decoration: underline;'>1</span><span>479. 19</span><span style='color: #555555;'> [Iowa]</span><span>      3</span><span style='color: #555555;'> [March]</span><span></div><div class='input'>
+#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;chr+lbl&gt;</span><span>            </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>   </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>      </span><span style='color: #949494;font-style: italic;'>&lt;int+lbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;int+lbl&gt;</span><span>
+#&gt; </span><span style='color: #BCBCBC;'>1</span><span> H</span><span style='color: #949494;'> [Household Record]</span><span>  </span><span style='text-decoration: underline;'>1</span><span>962     80   </span><span style='text-decoration: underline;'>1</span><span>476. 55</span><span style='color: #949494;'> [Wisconsin]</span><span> 3</span><span style='color: #949494;'> [March]</span><span>
+#&gt; </span><span style='color: #BCBCBC;'>2</span><span> H</span><span style='color: #949494;'> [Household Record]</span><span>  </span><span style='text-decoration: underline;'>1</span><span>962     82   </span><span style='text-decoration: underline;'>1</span><span>598. 27</span><span style='color: #949494;'> [Minnesota]</span><span> 3</span><span style='color: #949494;'> [March]</span><span>
+#&gt; </span><span style='color: #BCBCBC;'>3</span><span> H</span><span style='color: #949494;'> [Household Record]</span><span>  </span><span style='text-decoration: underline;'>1</span><span>962     83   </span><span style='text-decoration: underline;'>1</span><span>707. 27</span><span style='color: #949494;'> [Minnesota]</span><span> 3</span><span style='color: #949494;'> [March]</span><span>
+#&gt; </span><span style='color: #BCBCBC;'>4</span><span> H</span><span style='color: #949494;'> [Household Record]</span><span>  </span><span style='text-decoration: underline;'>1</span><span>962     84   </span><span style='text-decoration: underline;'>1</span><span>790. 27</span><span style='color: #949494;'> [Minnesota]</span><span> 3</span><span style='color: #949494;'> [March]</span><span>
+#&gt; </span><span style='color: #BCBCBC;'>5</span><span> H</span><span style='color: #949494;'> [Household Record]</span><span>  </span><span style='text-decoration: underline;'>1</span><span>962    107   </span><span style='text-decoration: underline;'>4</span><span>355. 19</span><span style='color: #949494;'> [Iowa]</span><span>      3</span><span style='color: #949494;'> [March]</span><span>
+#&gt; </span><span style='color: #BCBCBC;'>6</span><span> H</span><span style='color: #949494;'> [Household Record]</span><span>  </span><span style='text-decoration: underline;'>1</span><span>962    108   </span><span style='text-decoration: underline;'>1</span><span>479. 19</span><span style='color: #949494;'> [Iowa]</span><span>      3</span><span style='color: #949494;'> [March]</span><span></div><div class='input'>
   <span class='co'># Or you can use the \code{%&lt;-%} operator from zeallot to unpack</span>
-  <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='no'>household</span>, <span class='no'>person</span>) <span class='kw'>%&lt;-%</span> <span class='fu'>read_ipums_micro_list</span>(<span class='no'>cps_hier_ddi_file</span>)</div><div class='output co'>#&gt; Use of data from IPUMS-CPS is subject to conditions including that users should
-#&gt; cite the data appropriately. Use command `ipums_conditions()` for more details.</div><div class='input'>  <span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/head'>head</a></span>(<span class='no'>person</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 6 x 6</span><span>
+  <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='no'>household</span>, <span class='no'>person</span>) <span class='kw'>%&lt;-%</span> <span class='fu'>read_ipums_micro_list</span>(<span class='no'>cps_hier_ddi_file</span>)</div><div class='output co'>#&gt; Use of data from IPUMS-CPS is subject to conditions including that users should
+#&gt; cite the data appropriately. Use command `ipums_conditions()` for more details.</div><div class='input'>  <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='no'>person</span>)</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 6 x 6</span><span>
 #&gt;   RECTYPE            YEAR SERIAL PERNUM WTSUPP              INCTOT
-#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr+lbl&gt;</span><span>         </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>           </span><span style='color: #555555;font-style: italic;'>&lt;dbl+lbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'>1</span><span> P</span><span style='color: #555555;'> [Person Record]</span><span>  </span><span style='text-decoration: underline;'>1</span><span>962     80      1  </span><span style='text-decoration: underline;'>1</span><span>476.     </span><span style='text-decoration: underline;'>4</span><span>8834883       
-#&gt; </span><span style='color: #555555;'>2</span><span> P</span><span style='color: #555555;'> [Person Record]</span><span>  </span><span style='text-decoration: underline;'>1</span><span>962     80      2  </span><span style='text-decoration: underline;'>1</span><span>471.     </span><span style='text-decoration: underline;'>5</span><span>8005800       
-#&gt; </span><span style='color: #555555;'>3</span><span> P</span><span style='color: #555555;'> [Person Record]</span><span>  </span><span style='text-decoration: underline;'>1</span><span>962     80      3  </span><span style='text-decoration: underline;'>1</span><span>579. 99</span><span style='text-decoration: underline;'>999</span><span>998</span><span style='color: #555555;'> [Missing.]</span><span>
-#&gt; </span><span style='color: #555555;'>4</span><span> P</span><span style='color: #555555;'> [Person Record]</span><span>  </span><span style='text-decoration: underline;'>1</span><span>962     82      1  </span><span style='text-decoration: underline;'>1</span><span>598.    </span><span style='text-decoration: underline;'>14</span><span>01514015      
-#&gt; </span><span style='color: #555555;'>5</span><span> P</span><span style='color: #555555;'> [Person Record]</span><span>  </span><span style='text-decoration: underline;'>1</span><span>962     83      1  </span><span style='text-decoration: underline;'>1</span><span>707.    </span><span style='text-decoration: underline;'>16</span><span>55216552      
-#&gt; </span><span style='color: #555555;'>6</span><span> P</span><span style='color: #555555;'> [Person Record]</span><span>  </span><span style='text-decoration: underline;'>1</span><span>962     84      1  </span><span style='text-decoration: underline;'>1</span><span>790.     </span><span style='text-decoration: underline;'>6</span><span>3756375       </div><div class='input'>  <span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/head'>head</a></span>(<span class='no'>household</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 6 x 6</span><span>
+#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;chr+lbl&gt;</span><span>         </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>           </span><span style='color: #949494;font-style: italic;'>&lt;dbl+lbl&gt;</span><span>
+#&gt; </span><span style='color: #BCBCBC;'>1</span><span> P</span><span style='color: #949494;'> [Person Record]</span><span>  </span><span style='text-decoration: underline;'>1</span><span>962     80      1  </span><span style='text-decoration: underline;'>1</span><span>476.     </span><span style='text-decoration: underline;'>4</span><span>883           
+#&gt; </span><span style='color: #BCBCBC;'>2</span><span> P</span><span style='color: #949494;'> [Person Record]</span><span>  </span><span style='text-decoration: underline;'>1</span><span>962     80      2  </span><span style='text-decoration: underline;'>1</span><span>471.     </span><span style='text-decoration: underline;'>5</span><span>800           
+#&gt; </span><span style='color: #BCBCBC;'>3</span><span> P</span><span style='color: #949494;'> [Person Record]</span><span>  </span><span style='text-decoration: underline;'>1</span><span>962     80      3  </span><span style='text-decoration: underline;'>1</span><span>579. 99</span><span style='text-decoration: underline;'>999</span><span>998</span><span style='color: #949494;'> [Missing.]</span><span>
+#&gt; </span><span style='color: #BCBCBC;'>4</span><span> P</span><span style='color: #949494;'> [Person Record]</span><span>  </span><span style='text-decoration: underline;'>1</span><span>962     82      1  </span><span style='text-decoration: underline;'>1</span><span>598.    </span><span style='text-decoration: underline;'>14</span><span>015           
+#&gt; </span><span style='color: #BCBCBC;'>5</span><span> P</span><span style='color: #949494;'> [Person Record]</span><span>  </span><span style='text-decoration: underline;'>1</span><span>962     83      1  </span><span style='text-decoration: underline;'>1</span><span>707.    </span><span style='text-decoration: underline;'>16</span><span>552           
+#&gt; </span><span style='color: #BCBCBC;'>6</span><span> P</span><span style='color: #949494;'> [Person Record]</span><span>  </span><span style='text-decoration: underline;'>1</span><span>962     84      1  </span><span style='text-decoration: underline;'>1</span><span>790.     </span><span style='text-decoration: underline;'>6</span><span>375           </div><div class='input'>  <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='no'>household</span>)</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 6 x 6</span><span>
 #&gt;   RECTYPE               YEAR SERIAL HWTSUPP       STATEFIP     MONTH
-#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr+lbl&gt;</span><span>            </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;int+lbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;int+lbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'>1</span><span> H</span><span style='color: #555555;'> [Household Record]</span><span>  </span><span style='text-decoration: underline;'>1</span><span>962     80   </span><span style='text-decoration: underline;'>1</span><span>476. 55</span><span style='color: #555555;'> [Wisconsin]</span><span> 3</span><span style='color: #555555;'> [March]</span><span>
-#&gt; </span><span style='color: #555555;'>2</span><span> H</span><span style='color: #555555;'> [Household Record]</span><span>  </span><span style='text-decoration: underline;'>1</span><span>962     82   </span><span style='text-decoration: underline;'>1</span><span>598. 27</span><span style='color: #555555;'> [Minnesota]</span><span> 3</span><span style='color: #555555;'> [March]</span><span>
-#&gt; </span><span style='color: #555555;'>3</span><span> H</span><span style='color: #555555;'> [Household Record]</span><span>  </span><span style='text-decoration: underline;'>1</span><span>962     83   </span><span style='text-decoration: underline;'>1</span><span>707. 27</span><span style='color: #555555;'> [Minnesota]</span><span> 3</span><span style='color: #555555;'> [March]</span><span>
-#&gt; </span><span style='color: #555555;'>4</span><span> H</span><span style='color: #555555;'> [Household Record]</span><span>  </span><span style='text-decoration: underline;'>1</span><span>962     84   </span><span style='text-decoration: underline;'>1</span><span>790. 27</span><span style='color: #555555;'> [Minnesota]</span><span> 3</span><span style='color: #555555;'> [March]</span><span>
-#&gt; </span><span style='color: #555555;'>5</span><span> H</span><span style='color: #555555;'> [Household Record]</span><span>  </span><span style='text-decoration: underline;'>1</span><span>962    107   </span><span style='text-decoration: underline;'>4</span><span>355. 19</span><span style='color: #555555;'> [Iowa]</span><span>      3</span><span style='color: #555555;'> [March]</span><span>
-#&gt; </span><span style='color: #555555;'>6</span><span> H</span><span style='color: #555555;'> [Household Record]</span><span>  </span><span style='text-decoration: underline;'>1</span><span>962    108   </span><span style='text-decoration: underline;'>1</span><span>479. 19</span><span style='color: #555555;'> [Iowa]</span><span>      3</span><span style='color: #555555;'> [March]</span><span></div><div class='input'>
+#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;chr+lbl&gt;</span><span>            </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>   </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>      </span><span style='color: #949494;font-style: italic;'>&lt;int+lbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;int+lbl&gt;</span><span>
+#&gt; </span><span style='color: #BCBCBC;'>1</span><span> H</span><span style='color: #949494;'> [Household Record]</span><span>  </span><span style='text-decoration: underline;'>1</span><span>962     80   </span><span style='text-decoration: underline;'>1</span><span>476. 55</span><span style='color: #949494;'> [Wisconsin]</span><span> 3</span><span style='color: #949494;'> [March]</span><span>
+#&gt; </span><span style='color: #BCBCBC;'>2</span><span> H</span><span style='color: #949494;'> [Household Record]</span><span>  </span><span style='text-decoration: underline;'>1</span><span>962     82   </span><span style='text-decoration: underline;'>1</span><span>598. 27</span><span style='color: #949494;'> [Minnesota]</span><span> 3</span><span style='color: #949494;'> [March]</span><span>
+#&gt; </span><span style='color: #BCBCBC;'>3</span><span> H</span><span style='color: #949494;'> [Household Record]</span><span>  </span><span style='text-decoration: underline;'>1</span><span>962     83   </span><span style='text-decoration: underline;'>1</span><span>707. 27</span><span style='color: #949494;'> [Minnesota]</span><span> 3</span><span style='color: #949494;'> [March]</span><span>
+#&gt; </span><span style='color: #BCBCBC;'>4</span><span> H</span><span style='color: #949494;'> [Household Record]</span><span>  </span><span style='text-decoration: underline;'>1</span><span>962     84   </span><span style='text-decoration: underline;'>1</span><span>790. 27</span><span style='color: #949494;'> [Minnesota]</span><span> 3</span><span style='color: #949494;'> [March]</span><span>
+#&gt; </span><span style='color: #BCBCBC;'>5</span><span> H</span><span style='color: #949494;'> [Household Record]</span><span>  </span><span style='text-decoration: underline;'>1</span><span>962    107   </span><span style='text-decoration: underline;'>4</span><span>355. 19</span><span style='color: #949494;'> [Iowa]</span><span>      3</span><span style='color: #949494;'> [March]</span><span>
+#&gt; </span><span style='color: #BCBCBC;'>6</span><span> H</span><span style='color: #949494;'> [Household Record]</span><span>  </span><span style='text-decoration: underline;'>1</span><span>962    108   </span><span style='text-decoration: underline;'>1</span><span>479. 19</span><span style='color: #949494;'> [Iowa]</span><span>      3</span><span style='color: #949494;'> [March]</span><span></div><div class='input'>
 </div></span></pre>
   </div>
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-    <h2>Contents</h2>
-    <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
-      
-      <li><a href="#value">Value</a></li>
-
-      <li><a href="#details">Details</a></li>
-
-      <li><a href="#see-also">See also</a></li>
-      
-      <li><a href="#examples">Examples</a></li>
-    </ul>
-
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
+    <nav id="toc" data-toggle="toc" class="sticky-top">
+      <h2 data-toc-skip>Contents</h2>
+    </nav>
   </div>
 </div>
+
 
       <footer>
       <div class="copyright">
@@ -366,8 +377,9 @@ are the text from the record type labels without 'Record'
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
 </div>
+
       </footer>
    </div>
 
@@ -390,6 +402,8 @@ are the text from the record type labels without 'Record'
 </script>
 
 
+
   </body>
 </html>
+
 

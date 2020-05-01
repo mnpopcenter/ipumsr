@@ -80,6 +80,7 @@ reference:
     contents:
       - lbl_na_if
       - lbl_relabel
+      - lbl_define
       - lbl_collapse
       - zap_ipums_attributes
       - lbl_clean

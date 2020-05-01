@@ -15,21 +15,29 @@
 <link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png" />
 <link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png" />
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png" />
+
 <!-- jquery -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous" />
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous" />
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
+
+<!-- bootstrap-toc -->
+<link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script>
 
-<!-- sticky kit -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
+<!-- headroom.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -38,23 +46,24 @@
 
 <!-- docsearch -->
 <script src="../docsearch.js"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/docsearch.js/2.6.1/docsearch.min.css" integrity="sha256-QOSRU/ra9ActyXkIBbiIB144aDBdtvXBcNc3OTNuX/Q=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/docsearch.js/2.6.3/docsearch.min.css" integrity="sha256-QOSRU/ra9ActyXkIBbiIB144aDBdtvXBcNc3OTNuX/Q=" crossorigin="anonymous" />
 <link href="../docsearch.css" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js" integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin="anonymous"></script>
 
 
-<meta property="og:title" content="Read data from an IPUMS extract (in yields) — read_ipums_micro_yield" />
 
+<meta property="og:title" content="Read data from an IPUMS extract (in yields) — read_ipums_micro_yield" />
 <meta property="og:description" content="Reads a dataset downloaded from the IPUMS extract system, but does
 so by returning an object that can read a group of lines at a time.
 This is a more flexible way to read data in chunks than
 the functions like read_ipums_micro_chunked, allowing
 you to do things like reading parts of multiple files at the same time
 and resetting from the beginning more easily than with the chunked
-functions." />
-
+functions. Note that while other read_ipums_micro* functions
+can read from .csv(.gz) or .dat(.gz) files, these functions can only read
+from .dat(.gz) files." />
 <meta property="og:image" content="http://tech.popdata.org/ipumsr/logo.png" />
-<meta name="twitter:card" content="summary" />
+
 
 
 
@@ -68,9 +77,10 @@ functions." />
 <![endif]-->
 
 
+
   </head>
 
-  <body>
+  <body data-spy="scroll" data-target="#toc">
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
@@ -84,7 +94,7 @@ functions." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ipumsr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.3</span>
       </span>
     </div>
 
@@ -140,7 +150,6 @@ functions." />
   <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
-      
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/mnpopcenter/ipumsr">
@@ -162,7 +171,7 @@ functions." />
 </li>
       </ul>
       
-      <form class="navbar-form navbar-right" role="search">
+      <form class="navbar-form navbar-right hidden-xs hidden-sm" role="search">
         <div class="form-group">
           <input type="search" class="form-control" name="search-input" id="search-input" placeholder="Search..." aria-label="Search for..." autocomplete="off">
         </div>
@@ -173,6 +182,7 @@ functions." />
 </div><!--/.navbar -->
 
       
+
       </header>
 
 <div class="row">
@@ -184,29 +194,35 @@ functions." />
     </div>
 
     <div class="ref-description">
-    
     <p>Reads a dataset downloaded from the IPUMS extract system, but does
 so by returning an object that can read a group of lines at a time.
 This is a more flexible way to read data in chunks than
 the functions like <code><a href='read_ipums_micro_chunked.html'>read_ipums_micro_chunked</a></code>, allowing
 you to do things like reading parts of multiple files at the same time
 and resetting from the beginning more easily than with the chunked
-functions.</p>
-    
+functions. <strong>Note that while other <code>read_ipums_micro*</code> functions
+can read from .csv(.gz) or .dat(.gz) files, these functions can only read
+from .dat(.gz) files.</strong></p>
     </div>
 
-    <pre class="usage"><span class='fu'>read_ipums_micro_yield</span>(<span class='no'>ddi</span>, <span class='kw'>vars</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>data_file</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>var_attrs</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"val_labels"</span>, <span class='st'>"var_label"</span>, <span class='st'>"var_desc"</span>),
-  <span class='kw'>lower_vars</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
+    <pre class="usage"><span class='fu'>read_ipums_micro_yield</span>(
+  <span class='no'>ddi</span>,
+  <span class='kw'>vars</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>data_file</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>var_attrs</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"val_labels"</span>, <span class='st'>"var_label"</span>, <span class='st'>"var_desc"</span>),
+  <span class='kw'>lower_vars</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>
+)
 
-<span class='fu'>read_ipums_micro_list_yield</span>(<span class='no'>ddi</span>, <span class='kw'>vars</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>data_file</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>var_attrs</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"val_labels"</span>, <span class='st'>"var_label"</span>, <span class='st'>"var_desc"</span>),
-  <span class='kw'>lower_vars</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
+<span class='fu'>read_ipums_micro_list_yield</span>(
+  <span class='no'>ddi</span>,
+  <span class='kw'>vars</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>data_file</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>var_attrs</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"val_labels"</span>, <span class='st'>"var_label"</span>, <span class='st'>"var_desc"</span>),
+  <span class='kw'>lower_vars</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>
+)</pre>
 
-<span class='no'>IpumsLongYield</span>
-
-<span class='no'>IpumsListYield</span></pre>
-    
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
@@ -239,20 +255,18 @@ adding all (val_labels, var_label and var_desc). See
     </tr>
     <tr>
       <th>lower_vars</th>
-      <td><p>If reading a DDI from a file, a logical indicating
-whether to convert variable names to lowercase (default is FALSE due
-to tradition)</p></td>
+      <td><p>Only if reading a DDI from a file, a logical indicating
+whether to convert variable names to lowercase (default is FALSE, in line
+with IPUMS conventions). Note that this argument will be ignored if
+argument <code>ddi</code> is an <code>ipums_ddi</code> object rather than a file path.
+See <code><a href='read_ipums_ddi.html'>read_ipums_ddi</a></code> for converting variable names to lowercase
+when reading in the DDI.</p></td>
     </tr>
     </table>
-    
-    <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
 
-    <p>An object of class <code>R6ClassGenerator</code> of length 24.</p>
-    
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>A HipYield R6 object (See 'Details' for more information)</p>
-    
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>These functions return an IpumsYield R6 object which have the following
@@ -268,104 +282,174 @@ methods:</p><ul>
 <li><p><code>cur_pos</code> A property that contains the next row number that will be
    read (1-indexed).</p></li>
 </ul>
-    
+
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p>Other ipums_read: <code><a href='read_ipums_micro_chunked.html'>read_ipums_micro_chunked</a></code>,
-  <code><a href='read_ipums_micro.html'>read_ipums_micro</a></code>,
-  <code><a href='read_ipums_sf.html'>read_ipums_sf</a></code>, <code><a href='read_nhgis.html'>read_nhgis</a></code>,
-  <code><a href='read_terra_area.html'>read_terra_area</a></code>,
-  <code><a href='read_terra_micro.html'>read_terra_micro</a></code>,
-  <code><a href='read_terra_raster.html'>read_terra_raster</a></code></p></div>
+    <div class='dont-index'><p>Other ipums_read: 
+<code><a href='read_ipums_micro_chunked.html'>read_ipums_micro_chunked</a>()</code>,
+<code><a href='read_ipums_micro.html'>read_ipums_micro</a>()</code>,
+<code><a href='read_ipums_sf.html'>read_ipums_sf</a>()</code>,
+<code><a href='read_nhgis.html'>read_nhgis</a>()</code>,
+<code><a href='read_terra_area.html'>read_terra_area</a>()</code>,
+<code><a href='read_terra_micro.html'>read_terra_micro</a>()</code>,
+<code><a href='read_terra_raster.html'>read_terra_raster</a>()</code></p></div>
+    <h2 class="hasAnchor" id="super-classes"><a class="anchor" href="#super-classes"></a>Super classes</h2>
+
+    <p><code><a href='https://rdrr.io/pkg/hipread/man/hipread_long_yield.html'>hipread::HipYield</a></code> -&gt; <code><a href='https://rdrr.io/pkg/hipread/man/hipread_long_yield.html'>hipread::HipLongYield</a></code> -&gt; <code>IpumsLongYield</code></p>
+    <h2 class="hasAnchor" id="methods"><a class="anchor" href="#methods"></a>Methods</h2>
+
     
+<h3>Public methods</h3>
+
+<ul>
+<li><p><a href='#method-new'><code>IpumsLongYield$new()</code></a></p></li>
+<li><p><a href='#method-yield'><code>IpumsLongYield$yield()</code></a></p></li>
+</ul>
+<p><details open ><summary>Inherited methods</summary>
+<ul>
+<li><p><span class="pkg-link" data-pkg="hipread" data-topic="HipYield" data-id="is_done"><a href='../../hipread/html/HipYield.html#method-is_done'><code>hipread::HipYield$is_done()</code></a></span></p></li>
+<li><p><span class="pkg-link" data-pkg="hipread" data-topic="HipYield" data-id="reset"><a href='../../hipread/html/HipYield.html#method-reset'><code>hipread::HipYield$reset()</code></a></span></p></li>
+</ul>
+</details>
+
+<hr>
+<a id="method-new"></a></p><h3>Method <code>new()</code></h3>
+
+<h3>Usage</h3>
+<p><div class="r"></p><pre><span class='no'>IpumsLongYield</span>$<span class='fu'>new</span>(
+  <span class='no'>ddi</span>,
+  <span class='kw'>vars</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>data_file</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>var_attrs</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"val_labels"</span>, <span class='st'>"var_label"</span>, <span class='st'>"var_desc"</span>),
+  <span class='kw'>lower_vars</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>
+)</pre><p></div></p>
+
+<p><hr>
+<a id="method-yield"></a></p><h3>Method <code>yield()</code></h3>
+
+<h3>Usage</h3>
+<p><div class="r"></p><pre><span class='no'>IpumsLongYield</span>$<span class='fu'>yield</span>(<span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>10000</span>)</pre><p></div></p>
+
+
+
+    <h2 class="hasAnchor" id="super-classes"><a class="anchor" href="#super-classes"></a>Super classes</h2>
+
+    <p><code><a href='https://rdrr.io/pkg/hipread/man/hipread_long_yield.html'>hipread::HipYield</a></code> -&gt; <code><a href='https://rdrr.io/pkg/hipread/man/hipread_long_yield.html'>hipread::HipListYield</a></code> -&gt; <code>IpumsListYield</code></p>
+    <h2 class="hasAnchor" id="methods"><a class="anchor" href="#methods"></a>Methods</h2>
+
+    
+<h3>Public methods</h3>
+
+<ul>
+<li><p><a href='#method-new'><code>IpumsListYield$new()</code></a></p></li>
+<li><p><a href='#method-yield'><code>IpumsListYield$yield()</code></a></p></li>
+</ul>
+<p><details open ><summary>Inherited methods</summary>
+<ul>
+<li><p><span class="pkg-link" data-pkg="hipread" data-topic="HipYield" data-id="is_done"><a href='../../hipread/html/HipYield.html#method-is_done'><code>hipread::HipYield$is_done()</code></a></span></p></li>
+<li><p><span class="pkg-link" data-pkg="hipread" data-topic="HipYield" data-id="reset"><a href='../../hipread/html/HipYield.html#method-reset'><code>hipread::HipYield$reset()</code></a></span></p></li>
+</ul>
+</details>
+
+<hr>
+<a id="method-new"></a></p><h3>Method <code>new()</code></h3>
+
+<h3>Usage</h3>
+<p><div class="r"></p><pre><span class='no'>IpumsListYield</span>$<span class='fu'>new</span>(
+  <span class='no'>ddi</span>,
+  <span class='kw'>vars</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>data_file</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>var_attrs</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"val_labels"</span>, <span class='st'>"var_label"</span>, <span class='st'>"var_desc"</span>),
+  <span class='kw'>lower_vars</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>
+)</pre><p></div></p>
+
+<p><hr>
+<a id="method-yield"></a></p><h3>Method <code>yield()</code></h3>
+
+<h3>Usage</h3>
+<p><div class="r"></p><pre><span class='no'>IpumsListYield</span>$<span class='fu'>yield</span>(<span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>10000</span>)</pre><p></div></p>
+
+
+
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># An example using "long" data</span>
 <span class='no'>long_yield</span> <span class='kw'>&lt;-</span> <span class='fu'>read_ipums_micro_yield</span>(<span class='fu'><a href='ipums_example.html'>ipums_example</a></span>(<span class='st'>"cps_00006.xml"</span>))</div><div class='output co'>#&gt; Use of data from IPUMS-CPS is subject to conditions including that users should
 #&gt; cite the data appropriately. Use command `ipums_conditions()` for more details.</div><div class='input'><span class='co'># Get first 10 rows</span>
-<span class='no'>long_yield</span>$<span class='fu'>yield</span>(<span class='fl'>10</span>)</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 10 x 8</span><span>
+<span class='no'>long_yield</span>$<span class='fu'>yield</span>(<span class='fl'>10</span>)</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 10 x 8</span><span>
 #&gt;     YEAR SERIAL HWTSUPP    STATEFIP    MONTH PERNUM WTSUPP                INCTOT
-#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;int+lbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;int+lb&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>             </span><span style='color: #555555;font-style: italic;'>&lt;dbl+lbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'> 1</span><span>  </span><span style='text-decoration: underline;'>1</span><span>962     80   </span><span style='text-decoration: underline;'>1</span><span>476. 55</span><span style='color: #555555;'> [Wiscon~</span><span> 3</span><span style='color: #555555;'> [Marc~</span><span>      1  </span><span style='text-decoration: underline;'>1</span><span>476.     </span><span style='text-decoration: underline;'>4</span><span>8834883         
-#&gt; </span><span style='color: #555555;'> 2</span><span>  </span><span style='text-decoration: underline;'>1</span><span>962     80   </span><span style='text-decoration: underline;'>1</span><span>476. 55</span><span style='color: #555555;'> [Wiscon~</span><span> 3</span><span style='color: #555555;'> [Marc~</span><span>      2  </span><span style='text-decoration: underline;'>1</span><span>471.     </span><span style='text-decoration: underline;'>5</span><span>8005800         
-#&gt; </span><span style='color: #555555;'> 3</span><span>  </span><span style='text-decoration: underline;'>1</span><span>962     80   </span><span style='text-decoration: underline;'>1</span><span>476. 55</span><span style='color: #555555;'> [Wiscon~</span><span> 3</span><span style='color: #555555;'> [Marc~</span><span>      3  </span><span style='text-decoration: underline;'>1</span><span>579. 99</span><span style='text-decoration: underline;'>999</span><span>998</span><span style='color: #555555;'> [Missing.]</span><span>  
-#&gt; </span><span style='color: #555555;'> 4</span><span>  </span><span style='text-decoration: underline;'>1</span><span>962     82   </span><span style='text-decoration: underline;'>1</span><span>598. 27</span><span style='color: #555555;'> [Minnes~</span><span> 3</span><span style='color: #555555;'> [Marc~</span><span>      1  </span><span style='text-decoration: underline;'>1</span><span>598.    </span><span style='text-decoration: underline;'>14</span><span>01514015        
-#&gt; </span><span style='color: #555555;'> 5</span><span>  </span><span style='text-decoration: underline;'>1</span><span>962     83   </span><span style='text-decoration: underline;'>1</span><span>707. 27</span><span style='color: #555555;'> [Minnes~</span><span> 3</span><span style='color: #555555;'> [Marc~</span><span>      1  </span><span style='text-decoration: underline;'>1</span><span>707.    </span><span style='text-decoration: underline;'>16</span><span>55216552        
-#&gt; </span><span style='color: #555555;'> 6</span><span>  </span><span style='text-decoration: underline;'>1</span><span>962     84   </span><span style='text-decoration: underline;'>1</span><span>790. 27</span><span style='color: #555555;'> [Minnes~</span><span> 3</span><span style='color: #555555;'> [Marc~</span><span>      1  </span><span style='text-decoration: underline;'>1</span><span>790.     </span><span style='text-decoration: underline;'>6</span><span>3756375         
-#&gt; </span><span style='color: #555555;'> 7</span><span>  </span><span style='text-decoration: underline;'>1</span><span>962    107   </span><span style='text-decoration: underline;'>4</span><span>355. 19</span><span style='color: #555555;'> [Iowa]</span><span>   3</span><span style='color: #555555;'> [Marc~</span><span>      1  </span><span style='text-decoration: underline;'>4</span><span>355. 99</span><span style='text-decoration: underline;'>999</span><span>999</span><span style='color: #555555;'> [N.I.U. (No~</span><span>
-#&gt; </span><span style='color: #555555;'> 8</span><span>  </span><span style='text-decoration: underline;'>1</span><span>962    107   </span><span style='text-decoration: underline;'>4</span><span>355. 19</span><span style='color: #555555;'> [Iowa]</span><span>   3</span><span style='color: #555555;'> [Marc~</span><span>      2  </span><span style='text-decoration: underline;'>1</span><span>386.        00            
-#&gt; </span><span style='color: #555555;'> 9</span><span>  </span><span style='text-decoration: underline;'>1</span><span>962    107   </span><span style='text-decoration: underline;'>4</span><span>355. 19</span><span style='color: #555555;'> [Iowa]</span><span>   3</span><span style='color: #555555;'> [Marc~</span><span>      3  </span><span style='text-decoration: underline;'>1</span><span>629.      600600          
-#&gt; </span><span style='color: #555555;'>10</span><span>  </span><span style='text-decoration: underline;'>1</span><span>962    107   </span><span style='text-decoration: underline;'>4</span><span>355. 19</span><span style='color: #555555;'> [Iowa]</span><span>   3</span><span style='color: #555555;'> [Marc~</span><span>      4  </span><span style='text-decoration: underline;'>1</span><span>432. 99</span><span style='text-decoration: underline;'>999</span><span>999</span><span style='color: #555555;'> [N.I.U. (No~</span><span></div><div class='input'><span class='co'># Get 20 more rows now</span>
-<span class='no'>long_yield</span>$<span class='fu'>yield</span>(<span class='fl'>20</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 20 x 8</span><span>
+#&gt;    </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>   </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>   </span><span style='color: #949494;font-style: italic;'>&lt;int+lbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;int+lb&gt;</span><span>  </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>             </span><span style='color: #949494;font-style: italic;'>&lt;dbl+lbl&gt;</span><span>
+#&gt; </span><span style='color: #BCBCBC;'> 1</span><span>  </span><span style='text-decoration: underline;'>1</span><span>962     80   </span><span style='text-decoration: underline;'>1</span><span>476. 55</span><span style='color: #949494;'> [Wiscon~</span><span> 3</span><span style='color: #949494;'> [Marc~</span><span>      1  </span><span style='text-decoration: underline;'>1</span><span>476.     </span><span style='text-decoration: underline;'>4</span><span>883             
+#&gt; </span><span style='color: #BCBCBC;'> 2</span><span>  </span><span style='text-decoration: underline;'>1</span><span>962     80   </span><span style='text-decoration: underline;'>1</span><span>476. 55</span><span style='color: #949494;'> [Wiscon~</span><span> 3</span><span style='color: #949494;'> [Marc~</span><span>      2  </span><span style='text-decoration: underline;'>1</span><span>471.     </span><span style='text-decoration: underline;'>5</span><span>800             
+#&gt; </span><span style='color: #BCBCBC;'> 3</span><span>  </span><span style='text-decoration: underline;'>1</span><span>962     80   </span><span style='text-decoration: underline;'>1</span><span>476. 55</span><span style='color: #949494;'> [Wiscon~</span><span> 3</span><span style='color: #949494;'> [Marc~</span><span>      3  </span><span style='text-decoration: underline;'>1</span><span>579. 99</span><span style='text-decoration: underline;'>999</span><span>998</span><span style='color: #949494;'> [Missing.]</span><span>  
+#&gt; </span><span style='color: #BCBCBC;'> 4</span><span>  </span><span style='text-decoration: underline;'>1</span><span>962     82   </span><span style='text-decoration: underline;'>1</span><span>598. 27</span><span style='color: #949494;'> [Minnes~</span><span> 3</span><span style='color: #949494;'> [Marc~</span><span>      1  </span><span style='text-decoration: underline;'>1</span><span>598.    </span><span style='text-decoration: underline;'>14</span><span>015             
+#&gt; </span><span style='color: #BCBCBC;'> 5</span><span>  </span><span style='text-decoration: underline;'>1</span><span>962     83   </span><span style='text-decoration: underline;'>1</span><span>707. 27</span><span style='color: #949494;'> [Minnes~</span><span> 3</span><span style='color: #949494;'> [Marc~</span><span>      1  </span><span style='text-decoration: underline;'>1</span><span>707.    </span><span style='text-decoration: underline;'>16</span><span>552             
+#&gt; </span><span style='color: #BCBCBC;'> 6</span><span>  </span><span style='text-decoration: underline;'>1</span><span>962     84   </span><span style='text-decoration: underline;'>1</span><span>790. 27</span><span style='color: #949494;'> [Minnes~</span><span> 3</span><span style='color: #949494;'> [Marc~</span><span>      1  </span><span style='text-decoration: underline;'>1</span><span>790.     </span><span style='text-decoration: underline;'>6</span><span>375             
+#&gt; </span><span style='color: #BCBCBC;'> 7</span><span>  </span><span style='text-decoration: underline;'>1</span><span>962    107   </span><span style='text-decoration: underline;'>4</span><span>355. 19</span><span style='color: #949494;'> [Iowa]</span><span>   3</span><span style='color: #949494;'> [Marc~</span><span>      1  </span><span style='text-decoration: underline;'>4</span><span>355. 99</span><span style='text-decoration: underline;'>999</span><span>999</span><span style='color: #949494;'> [N.I.U. (No~</span><span>
+#&gt; </span><span style='color: #BCBCBC;'> 8</span><span>  </span><span style='text-decoration: underline;'>1</span><span>962    107   </span><span style='text-decoration: underline;'>4</span><span>355. 19</span><span style='color: #949494;'> [Iowa]</span><span>   3</span><span style='color: #949494;'> [Marc~</span><span>      2  </span><span style='text-decoration: underline;'>1</span><span>386.        0             
+#&gt; </span><span style='color: #BCBCBC;'> 9</span><span>  </span><span style='text-decoration: underline;'>1</span><span>962    107   </span><span style='text-decoration: underline;'>4</span><span>355. 19</span><span style='color: #949494;'> [Iowa]</span><span>   3</span><span style='color: #949494;'> [Marc~</span><span>      3  </span><span style='text-decoration: underline;'>1</span><span>629.      600             
+#&gt; </span><span style='color: #BCBCBC;'>10</span><span>  </span><span style='text-decoration: underline;'>1</span><span>962    107   </span><span style='text-decoration: underline;'>4</span><span>355. 19</span><span style='color: #949494;'> [Iowa]</span><span>   3</span><span style='color: #949494;'> [Marc~</span><span>      4  </span><span style='text-decoration: underline;'>1</span><span>432. 99</span><span style='text-decoration: underline;'>999</span><span>999</span><span style='color: #949494;'> [N.I.U. (No~</span><span></div><div class='input'><span class='co'># Get 20 more rows now</span>
+<span class='no'>long_yield</span>$<span class='fu'>yield</span>(<span class='fl'>20</span>)</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 20 x 8</span><span>
 #&gt;     YEAR SERIAL HWTSUPP    STATEFIP    MONTH PERNUM WTSUPP                INCTOT
-#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;int+lbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;int+lb&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>             </span><span style='color: #555555;font-style: italic;'>&lt;dbl+lbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'> 1</span><span>  </span><span style='text-decoration: underline;'>1</span><span>962    108   </span><span style='text-decoration: underline;'>1</span><span>479. 19</span><span style='color: #555555;'> [Iowa]</span><span>   3</span><span style='color: #555555;'> [Marc~</span><span>      1  </span><span style='text-decoration: underline;'>1</span><span>479.    </span><span style='text-decoration: underline;'>12</span><span>30012300        
-#&gt; </span><span style='color: #555555;'> 2</span><span>  </span><span style='text-decoration: underline;'>1</span><span>962    108   </span><span style='text-decoration: underline;'>1</span><span>479. 19</span><span style='color: #555555;'> [Iowa]</span><span>   3</span><span style='color: #555555;'> [Marc~</span><span>      2  </span><span style='text-decoration: underline;'>1</span><span>482.        00            
-#&gt; </span><span style='color: #555555;'> 3</span><span>  </span><span style='text-decoration: underline;'>1</span><span>962    122   </span><span style='text-decoration: underline;'>3</span><span>603. 27</span><span style='color: #555555;'> [Minnes~</span><span> 3</span><span style='color: #555555;'> [Marc~</span><span>      1  </span><span style='text-decoration: underline;'>3</span><span>603.    </span><span style='text-decoration: underline;'>15</span><span>55015550        
-#&gt; </span><span style='color: #555555;'> 4</span><span>  </span><span style='text-decoration: underline;'>1</span><span>962    122   </span><span style='text-decoration: underline;'>3</span><span>603. 27</span><span style='color: #555555;'> [Minnes~</span><span> 3</span><span style='color: #555555;'> [Marc~</span><span>      2  </span><span style='text-decoration: underline;'>3</span><span>603.        00            
-#&gt; </span><span style='color: #555555;'> 5</span><span>  </span><span style='text-decoration: underline;'>1</span><span>962    122   </span><span style='text-decoration: underline;'>3</span><span>603. 27</span><span style='color: #555555;'> [Minnes~</span><span> 3</span><span style='color: #555555;'> [Marc~</span><span>      3  </span><span style='text-decoration: underline;'>4</span><span>243.     </span><span style='text-decoration: underline;'>3</span><span>4433443         
-#&gt; </span><span style='color: #555555;'> 6</span><span>  </span><span style='text-decoration: underline;'>1</span><span>962    122   </span><span style='text-decoration: underline;'>3</span><span>603. 27</span><span style='color: #555555;'> [Minnes~</span><span> 3</span><span style='color: #555555;'> [Marc~</span><span>      4  </span><span style='text-decoration: underline;'>3</span><span>920.      255255          
-#&gt; </span><span style='color: #555555;'> 7</span><span>  </span><span style='text-decoration: underline;'>1</span><span>962    122   </span><span style='text-decoration: underline;'>3</span><span>603. 27</span><span style='color: #555555;'> [Minnes~</span><span> 3</span><span style='color: #555555;'> [Marc~</span><span>      5  </span><span style='text-decoration: underline;'>3</span><span>689.      135135          
-#&gt; </span><span style='color: #555555;'> 8</span><span>  </span><span style='text-decoration: underline;'>1</span><span>962    124   </span><span style='text-decoration: underline;'>4</span><span>104. 55</span><span style='color: #555555;'> [Wiscon~</span><span> 3</span><span style='color: #555555;'> [Marc~</span><span>      1  </span><span style='text-decoration: underline;'>4</span><span>104.    </span><span style='text-decoration: underline;'>15</span><span>00015000        
-#&gt; </span><span style='color: #555555;'> 9</span><span>  </span><span style='text-decoration: underline;'>1</span><span>962    124   </span><span style='text-decoration: underline;'>4</span><span>104. 55</span><span style='color: #555555;'> [Wiscon~</span><span> 3</span><span style='color: #555555;'> [Marc~</span><span>      2  </span><span style='text-decoration: underline;'>1</span><span>487.     </span><span style='text-decoration: underline;'>3</span><span>5503550         
-#&gt; </span><span style='color: #555555;'>10</span><span>  </span><span style='text-decoration: underline;'>1</span><span>962    124   </span><span style='text-decoration: underline;'>4</span><span>104. 55</span><span style='color: #555555;'> [Wiscon~</span><span> 3</span><span style='color: #555555;'> [Marc~</span><span>      3  </span><span style='text-decoration: underline;'>1</span><span>450.      692692          
-#&gt; </span><span style='color: #555555;'>11</span><span>  </span><span style='text-decoration: underline;'>1</span><span>962    124   </span><span style='text-decoration: underline;'>4</span><span>104. 55</span><span style='color: #555555;'> [Wiscon~</span><span> 3</span><span style='color: #555555;'> [Marc~</span><span>      4  </span><span style='text-decoration: underline;'>1</span><span>441.        00            
-#&gt; </span><span style='color: #555555;'>12</span><span>  </span><span style='text-decoration: underline;'>1</span><span>962    125   </span><span style='text-decoration: underline;'>2</span><span>182. 55</span><span style='color: #555555;'> [Wiscon~</span><span> 3</span><span style='color: #555555;'> [Marc~</span><span>      1  </span><span style='text-decoration: underline;'>2</span><span>182.     </span><span style='text-decoration: underline;'>4</span><span>4704470         
-#&gt; </span><span style='color: #555555;'>13</span><span>  </span><span style='text-decoration: underline;'>1</span><span>962    126   </span><span style='text-decoration: underline;'>1</span><span>826. 55</span><span style='color: #555555;'> [Wiscon~</span><span> 3</span><span style='color: #555555;'> [Marc~</span><span>      1  </span><span style='text-decoration: underline;'>1</span><span>826. 99</span><span style='text-decoration: underline;'>999</span><span>999</span><span style='color: #555555;'> [N.I.U. (No~</span><span>
-#&gt; </span><span style='color: #555555;'>14</span><span>  </span><span style='text-decoration: underline;'>1</span><span>962    126   </span><span style='text-decoration: underline;'>1</span><span>826. 55</span><span style='color: #555555;'> [Wiscon~</span><span> 3</span><span style='color: #555555;'> [Marc~</span><span>      2  </span><span style='text-decoration: underline;'>1</span><span>629.        00            
-#&gt; </span><span style='color: #555555;'>15</span><span>  </span><span style='text-decoration: underline;'>1</span><span>962    761   </span><span style='text-decoration: underline;'>1</span><span>751. 19</span><span style='color: #555555;'> [Iowa]</span><span>   3</span><span style='color: #555555;'> [Marc~</span><span>      1  </span><span style='text-decoration: underline;'>1</span><span>751.     </span><span style='text-decoration: underline;'>7</span><span>3007300         
-#&gt; </span><span style='color: #555555;'>16</span><span>  </span><span style='text-decoration: underline;'>1</span><span>962    761   </span><span style='text-decoration: underline;'>1</span><span>751. 19</span><span style='color: #555555;'> [Iowa]</span><span>   3</span><span style='color: #555555;'> [Marc~</span><span>      2  </span><span style='text-decoration: underline;'>1</span><span>751.     </span><span style='text-decoration: underline;'>3</span><span>7003700         
-#&gt; </span><span style='color: #555555;'>17</span><span>  </span><span style='text-decoration: underline;'>1</span><span>962    762   </span><span style='text-decoration: underline;'>1</span><span>874. 19</span><span style='color: #555555;'> [Iowa]</span><span>   3</span><span style='color: #555555;'> [Marc~</span><span>      1  </span><span style='text-decoration: underline;'>1</span><span>874.     </span><span style='text-decoration: underline;'>2</span><span>5342534         
-#&gt; </span><span style='color: #555555;'>18</span><span>  </span><span style='text-decoration: underline;'>1</span><span>962    762   </span><span style='text-decoration: underline;'>1</span><span>874. 19</span><span style='color: #555555;'> [Iowa]</span><span>   3</span><span style='color: #555555;'> [Marc~</span><span>      2  </span><span style='text-decoration: underline;'>1</span><span>874.        00            
-#&gt; </span><span style='color: #555555;'>19</span><span>  </span><span style='text-decoration: underline;'>1</span><span>962    763   </span><span style='text-decoration: underline;'>1</span><span>874. 19</span><span style='color: #555555;'> [Iowa]</span><span>   3</span><span style='color: #555555;'> [Marc~</span><span>      1  </span><span style='text-decoration: underline;'>1</span><span>874.     </span><span style='text-decoration: underline;'>1</span><span>5911591         
-#&gt; </span><span style='color: #555555;'>20</span><span>  </span><span style='text-decoration: underline;'>1</span><span>962    764   </span><span style='text-decoration: underline;'>1</span><span>724. 19</span><span style='color: #555555;'> [Iowa]</span><span>   3</span><span style='color: #555555;'> [Marc~</span><span>      1  </span><span style='text-decoration: underline;'>1</span><span>724.     </span><span style='text-decoration: underline;'>8</span><span>0028002         </div><div class='input'><span class='co'># See what row we're on now</span>
+#&gt;    </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>   </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>   </span><span style='color: #949494;font-style: italic;'>&lt;int+lbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;int+lb&gt;</span><span>  </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>             </span><span style='color: #949494;font-style: italic;'>&lt;dbl+lbl&gt;</span><span>
+#&gt; </span><span style='color: #BCBCBC;'> 1</span><span>  </span><span style='text-decoration: underline;'>1</span><span>962    108   </span><span style='text-decoration: underline;'>1</span><span>479. 19</span><span style='color: #949494;'> [Iowa]</span><span>   3</span><span style='color: #949494;'> [Marc~</span><span>      1  </span><span style='text-decoration: underline;'>1</span><span>479.    </span><span style='text-decoration: underline;'>12</span><span>300             
+#&gt; </span><span style='color: #BCBCBC;'> 2</span><span>  </span><span style='text-decoration: underline;'>1</span><span>962    108   </span><span style='text-decoration: underline;'>1</span><span>479. 19</span><span style='color: #949494;'> [Iowa]</span><span>   3</span><span style='color: #949494;'> [Marc~</span><span>      2  </span><span style='text-decoration: underline;'>1</span><span>482.        0             
+#&gt; </span><span style='color: #BCBCBC;'> 3</span><span>  </span><span style='text-decoration: underline;'>1</span><span>962    122   </span><span style='text-decoration: underline;'>3</span><span>603. 27</span><span style='color: #949494;'> [Minnes~</span><span> 3</span><span style='color: #949494;'> [Marc~</span><span>      1  </span><span style='text-decoration: underline;'>3</span><span>603.    </span><span style='text-decoration: underline;'>15</span><span>550             
+#&gt; </span><span style='color: #BCBCBC;'> 4</span><span>  </span><span style='text-decoration: underline;'>1</span><span>962    122   </span><span style='text-decoration: underline;'>3</span><span>603. 27</span><span style='color: #949494;'> [Minnes~</span><span> 3</span><span style='color: #949494;'> [Marc~</span><span>      2  </span><span style='text-decoration: underline;'>3</span><span>603.        0             
+#&gt; </span><span style='color: #BCBCBC;'> 5</span><span>  </span><span style='text-decoration: underline;'>1</span><span>962    122   </span><span style='text-decoration: underline;'>3</span><span>603. 27</span><span style='color: #949494;'> [Minnes~</span><span> 3</span><span style='color: #949494;'> [Marc~</span><span>      3  </span><span style='text-decoration: underline;'>4</span><span>243.     </span><span style='text-decoration: underline;'>3</span><span>443             
+#&gt; </span><span style='color: #BCBCBC;'> 6</span><span>  </span><span style='text-decoration: underline;'>1</span><span>962    122   </span><span style='text-decoration: underline;'>3</span><span>603. 27</span><span style='color: #949494;'> [Minnes~</span><span> 3</span><span style='color: #949494;'> [Marc~</span><span>      4  </span><span style='text-decoration: underline;'>3</span><span>920.      255             
+#&gt; </span><span style='color: #BCBCBC;'> 7</span><span>  </span><span style='text-decoration: underline;'>1</span><span>962    122   </span><span style='text-decoration: underline;'>3</span><span>603. 27</span><span style='color: #949494;'> [Minnes~</span><span> 3</span><span style='color: #949494;'> [Marc~</span><span>      5  </span><span style='text-decoration: underline;'>3</span><span>689.      135             
+#&gt; </span><span style='color: #BCBCBC;'> 8</span><span>  </span><span style='text-decoration: underline;'>1</span><span>962    124   </span><span style='text-decoration: underline;'>4</span><span>104. 55</span><span style='color: #949494;'> [Wiscon~</span><span> 3</span><span style='color: #949494;'> [Marc~</span><span>      1  </span><span style='text-decoration: underline;'>4</span><span>104.    </span><span style='text-decoration: underline;'>15</span><span>000             
+#&gt; </span><span style='color: #BCBCBC;'> 9</span><span>  </span><span style='text-decoration: underline;'>1</span><span>962    124   </span><span style='text-decoration: underline;'>4</span><span>104. 55</span><span style='color: #949494;'> [Wiscon~</span><span> 3</span><span style='color: #949494;'> [Marc~</span><span>      2  </span><span style='text-decoration: underline;'>1</span><span>487.     </span><span style='text-decoration: underline;'>3</span><span>550             
+#&gt; </span><span style='color: #BCBCBC;'>10</span><span>  </span><span style='text-decoration: underline;'>1</span><span>962    124   </span><span style='text-decoration: underline;'>4</span><span>104. 55</span><span style='color: #949494;'> [Wiscon~</span><span> 3</span><span style='color: #949494;'> [Marc~</span><span>      3  </span><span style='text-decoration: underline;'>1</span><span>450.      692             
+#&gt; </span><span style='color: #BCBCBC;'>11</span><span>  </span><span style='text-decoration: underline;'>1</span><span>962    124   </span><span style='text-decoration: underline;'>4</span><span>104. 55</span><span style='color: #949494;'> [Wiscon~</span><span> 3</span><span style='color: #949494;'> [Marc~</span><span>      4  </span><span style='text-decoration: underline;'>1</span><span>441.        0             
+#&gt; </span><span style='color: #BCBCBC;'>12</span><span>  </span><span style='text-decoration: underline;'>1</span><span>962    125   </span><span style='text-decoration: underline;'>2</span><span>182. 55</span><span style='color: #949494;'> [Wiscon~</span><span> 3</span><span style='color: #949494;'> [Marc~</span><span>      1  </span><span style='text-decoration: underline;'>2</span><span>182.     </span><span style='text-decoration: underline;'>4</span><span>470             
+#&gt; </span><span style='color: #BCBCBC;'>13</span><span>  </span><span style='text-decoration: underline;'>1</span><span>962    126   </span><span style='text-decoration: underline;'>1</span><span>826. 55</span><span style='color: #949494;'> [Wiscon~</span><span> 3</span><span style='color: #949494;'> [Marc~</span><span>      1  </span><span style='text-decoration: underline;'>1</span><span>826. 99</span><span style='text-decoration: underline;'>999</span><span>999</span><span style='color: #949494;'> [N.I.U. (No~</span><span>
+#&gt; </span><span style='color: #BCBCBC;'>14</span><span>  </span><span style='text-decoration: underline;'>1</span><span>962    126   </span><span style='text-decoration: underline;'>1</span><span>826. 55</span><span style='color: #949494;'> [Wiscon~</span><span> 3</span><span style='color: #949494;'> [Marc~</span><span>      2  </span><span style='text-decoration: underline;'>1</span><span>629.        0             
+#&gt; </span><span style='color: #BCBCBC;'>15</span><span>  </span><span style='text-decoration: underline;'>1</span><span>962    761   </span><span style='text-decoration: underline;'>1</span><span>751. 19</span><span style='color: #949494;'> [Iowa]</span><span>   3</span><span style='color: #949494;'> [Marc~</span><span>      1  </span><span style='text-decoration: underline;'>1</span><span>751.     </span><span style='text-decoration: underline;'>7</span><span>300             
+#&gt; </span><span style='color: #BCBCBC;'>16</span><span>  </span><span style='text-decoration: underline;'>1</span><span>962    761   </span><span style='text-decoration: underline;'>1</span><span>751. 19</span><span style='color: #949494;'> [Iowa]</span><span>   3</span><span style='color: #949494;'> [Marc~</span><span>      2  </span><span style='text-decoration: underline;'>1</span><span>751.     </span><span style='text-decoration: underline;'>3</span><span>700             
+#&gt; </span><span style='color: #BCBCBC;'>17</span><span>  </span><span style='text-decoration: underline;'>1</span><span>962    762   </span><span style='text-decoration: underline;'>1</span><span>874. 19</span><span style='color: #949494;'> [Iowa]</span><span>   3</span><span style='color: #949494;'> [Marc~</span><span>      1  </span><span style='text-decoration: underline;'>1</span><span>874.     </span><span style='text-decoration: underline;'>2</span><span>534             
+#&gt; </span><span style='color: #BCBCBC;'>18</span><span>  </span><span style='text-decoration: underline;'>1</span><span>962    762   </span><span style='text-decoration: underline;'>1</span><span>874. 19</span><span style='color: #949494;'> [Iowa]</span><span>   3</span><span style='color: #949494;'> [Marc~</span><span>      2  </span><span style='text-decoration: underline;'>1</span><span>874.        0             
+#&gt; </span><span style='color: #BCBCBC;'>19</span><span>  </span><span style='text-decoration: underline;'>1</span><span>962    763   </span><span style='text-decoration: underline;'>1</span><span>874. 19</span><span style='color: #949494;'> [Iowa]</span><span>   3</span><span style='color: #949494;'> [Marc~</span><span>      1  </span><span style='text-decoration: underline;'>1</span><span>874.     </span><span style='text-decoration: underline;'>1</span><span>591             
+#&gt; </span><span style='color: #BCBCBC;'>20</span><span>  </span><span style='text-decoration: underline;'>1</span><span>962    764   </span><span style='text-decoration: underline;'>1</span><span>724. 19</span><span style='color: #949494;'> [Iowa]</span><span>   3</span><span style='color: #949494;'> [Marc~</span><span>      1  </span><span style='text-decoration: underline;'>1</span><span>724.     </span><span style='text-decoration: underline;'>8</span><span>002             </div><div class='input'><span class='co'># See what row we're on now</span>
 <span class='no'>long_yield</span>$<span class='no'>cur_pos</span></div><div class='output co'>#&gt; [1] 31</div><div class='input'><span class='co'># Reset to beginning</span>
 <span class='no'>long_yield</span>$<span class='fu'>reset</span>()
 <span class='co'># Read the whole thing in chunks and count Minnesotans</span>
 <span class='no'>total_mn</span> <span class='kw'>&lt;-</span> <span class='fl'>0</span>
 <span class='kw'>while</span> (!<span class='no'>long_yield</span>$<span class='fu'>is_done</span>()) {
   <span class='no'>cur_data</span> <span class='kw'>&lt;-</span> <span class='no'>long_yield</span>$<span class='fu'>yield</span>(<span class='fl'>1000</span>)
-  <span class='no'>total_mn</span> <span class='kw'>&lt;-</span> <span class='no'>total_mn</span> + <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/sum'>sum</a></span>(<span class='fu'><a href='https://forcats.tidyverse.org/reference/as_factor.html'>as_factor</a></span>(<span class='no'>cur_data</span>$<span class='no'>STATEFIP</span>) <span class='kw'>==</span> <span class='st'>"Minnesota"</span>)
+  <span class='no'>total_mn</span> <span class='kw'>&lt;-</span> <span class='no'>total_mn</span> + <span class='fu'><a href='https://rdrr.io/r/base/sum.html'>sum</a></span>(<span class='fu'><a href='https://forcats.tidyverse.org/reference/as_factor.html'>as_factor</a></span>(<span class='no'>cur_data</span>$<span class='no'>STATEFIP</span>) <span class='kw'>==</span> <span class='st'>"Minnesota"</span>)
 }
 <span class='no'>total_mn</span></div><div class='output co'>#&gt; [1] 2362</div><div class='input'>
 <span class='co'># Can also read hierarchical data as list:</span>
 <span class='no'>list_yield</span> <span class='kw'>&lt;-</span> <span class='fu'>read_ipums_micro_list_yield</span>(<span class='fu'><a href='ipums_example.html'>ipums_example</a></span>(<span class='st'>"cps_00006.xml"</span>))</div><div class='output co'>#&gt; Use of data from IPUMS-CPS is subject to conditions including that users should
 #&gt; cite the data appropriately. Use command `ipums_conditions()` for more details.
 #&gt; Assuming data rectangularized to 'P' record type</div><div class='input'><span class='no'>list_yield</span>$<span class='fu'>yield</span>(<span class='fl'>10</span>)</div><div class='output co'>#&gt; $P
-#&gt; </span><span style='color: #555555;'># A tibble: 10 x 8</span><span>
+#&gt; </span><span style='color: #949494;'># A tibble: 10 x 8</span><span>
 #&gt;     YEAR SERIAL HWTSUPP    STATEFIP    MONTH PERNUM WTSUPP                INCTOT
-#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;int+lbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;int+lb&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>             </span><span style='color: #555555;font-style: italic;'>&lt;dbl+lbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'> 1</span><span>  </span><span style='text-decoration: underline;'>1</span><span>962     80   </span><span style='text-decoration: underline;'>1</span><span>476. 55</span><span style='color: #555555;'> [Wiscon~</span><span> 3</span><span style='color: #555555;'> [Marc~</span><span>      1  </span><span style='text-decoration: underline;'>1</span><span>476.     </span><span style='text-decoration: underline;'>4</span><span>8834883         
-#&gt; </span><span style='color: #555555;'> 2</span><span>  </span><span style='text-decoration: underline;'>1</span><span>962     80   </span><span style='text-decoration: underline;'>1</span><span>476. 55</span><span style='color: #555555;'> [Wiscon~</span><span> 3</span><span style='color: #555555;'> [Marc~</span><span>      2  </span><span style='text-decoration: underline;'>1</span><span>471.     </span><span style='text-decoration: underline;'>5</span><span>8005800         
-#&gt; </span><span style='color: #555555;'> 3</span><span>  </span><span style='text-decoration: underline;'>1</span><span>962     80   </span><span style='text-decoration: underline;'>1</span><span>476. 55</span><span style='color: #555555;'> [Wiscon~</span><span> 3</span><span style='color: #555555;'> [Marc~</span><span>      3  </span><span style='text-decoration: underline;'>1</span><span>579. 99</span><span style='text-decoration: underline;'>999</span><span>998</span><span style='color: #555555;'> [Missing.]</span><span>  
-#&gt; </span><span style='color: #555555;'> 4</span><span>  </span><span style='text-decoration: underline;'>1</span><span>962     82   </span><span style='text-decoration: underline;'>1</span><span>598. 27</span><span style='color: #555555;'> [Minnes~</span><span> 3</span><span style='color: #555555;'> [Marc~</span><span>      1  </span><span style='text-decoration: underline;'>1</span><span>598.    </span><span style='text-decoration: underline;'>14</span><span>01514015        
-#&gt; </span><span style='color: #555555;'> 5</span><span>  </span><span style='text-decoration: underline;'>1</span><span>962     83   </span><span style='text-decoration: underline;'>1</span><span>707. 27</span><span style='color: #555555;'> [Minnes~</span><span> 3</span><span style='color: #555555;'> [Marc~</span><span>      1  </span><span style='text-decoration: underline;'>1</span><span>707.    </span><span style='text-decoration: underline;'>16</span><span>55216552        
-#&gt; </span><span style='color: #555555;'> 6</span><span>  </span><span style='text-decoration: underline;'>1</span><span>962     84   </span><span style='text-decoration: underline;'>1</span><span>790. 27</span><span style='color: #555555;'> [Minnes~</span><span> 3</span><span style='color: #555555;'> [Marc~</span><span>      1  </span><span style='text-decoration: underline;'>1</span><span>790.     </span><span style='text-decoration: underline;'>6</span><span>3756375         
-#&gt; </span><span style='color: #555555;'> 7</span><span>  </span><span style='text-decoration: underline;'>1</span><span>962    107   </span><span style='text-decoration: underline;'>4</span><span>355. 19</span><span style='color: #555555;'> [Iowa]</span><span>   3</span><span style='color: #555555;'> [Marc~</span><span>      1  </span><span style='text-decoration: underline;'>4</span><span>355. 99</span><span style='text-decoration: underline;'>999</span><span>999</span><span style='color: #555555;'> [N.I.U. (No~</span><span>
-#&gt; </span><span style='color: #555555;'> 8</span><span>  </span><span style='text-decoration: underline;'>1</span><span>962    107   </span><span style='text-decoration: underline;'>4</span><span>355. 19</span><span style='color: #555555;'> [Iowa]</span><span>   3</span><span style='color: #555555;'> [Marc~</span><span>      2  </span><span style='text-decoration: underline;'>1</span><span>386.        00            
-#&gt; </span><span style='color: #555555;'> 9</span><span>  </span><span style='text-decoration: underline;'>1</span><span>962    107   </span><span style='text-decoration: underline;'>4</span><span>355. 19</span><span style='color: #555555;'> [Iowa]</span><span>   3</span><span style='color: #555555;'> [Marc~</span><span>      3  </span><span style='text-decoration: underline;'>1</span><span>629.      600600          
-#&gt; </span><span style='color: #555555;'>10</span><span>  </span><span style='text-decoration: underline;'>1</span><span>962    107   </span><span style='text-decoration: underline;'>4</span><span>355. 19</span><span style='color: #555555;'> [Iowa]</span><span>   3</span><span style='color: #555555;'> [Marc~</span><span>      4  </span><span style='text-decoration: underline;'>1</span><span>432. 99</span><span style='text-decoration: underline;'>999</span><span>999</span><span style='color: #555555;'> [N.I.U. (No~</span><span>
+#&gt;    </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>   </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>   </span><span style='color: #949494;font-style: italic;'>&lt;int+lbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;int+lb&gt;</span><span>  </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>             </span><span style='color: #949494;font-style: italic;'>&lt;dbl+lbl&gt;</span><span>
+#&gt; </span><span style='color: #BCBCBC;'> 1</span><span>  </span><span style='text-decoration: underline;'>1</span><span>962     80   </span><span style='text-decoration: underline;'>1</span><span>476. 55</span><span style='color: #949494;'> [Wiscon~</span><span> 3</span><span style='color: #949494;'> [Marc~</span><span>      1  </span><span style='text-decoration: underline;'>1</span><span>476.     </span><span style='text-decoration: underline;'>4</span><span>883             
+#&gt; </span><span style='color: #BCBCBC;'> 2</span><span>  </span><span style='text-decoration: underline;'>1</span><span>962     80   </span><span style='text-decoration: underline;'>1</span><span>476. 55</span><span style='color: #949494;'> [Wiscon~</span><span> 3</span><span style='color: #949494;'> [Marc~</span><span>      2  </span><span style='text-decoration: underline;'>1</span><span>471.     </span><span style='text-decoration: underline;'>5</span><span>800             
+#&gt; </span><span style='color: #BCBCBC;'> 3</span><span>  </span><span style='text-decoration: underline;'>1</span><span>962     80   </span><span style='text-decoration: underline;'>1</span><span>476. 55</span><span style='color: #949494;'> [Wiscon~</span><span> 3</span><span style='color: #949494;'> [Marc~</span><span>      3  </span><span style='text-decoration: underline;'>1</span><span>579. 99</span><span style='text-decoration: underline;'>999</span><span>998</span><span style='color: #949494;'> [Missing.]</span><span>  
+#&gt; </span><span style='color: #BCBCBC;'> 4</span><span>  </span><span style='text-decoration: underline;'>1</span><span>962     82   </span><span style='text-decoration: underline;'>1</span><span>598. 27</span><span style='color: #949494;'> [Minnes~</span><span> 3</span><span style='color: #949494;'> [Marc~</span><span>      1  </span><span style='text-decoration: underline;'>1</span><span>598.    </span><span style='text-decoration: underline;'>14</span><span>015             
+#&gt; </span><span style='color: #BCBCBC;'> 5</span><span>  </span><span style='text-decoration: underline;'>1</span><span>962     83   </span><span style='text-decoration: underline;'>1</span><span>707. 27</span><span style='color: #949494;'> [Minnes~</span><span> 3</span><span style='color: #949494;'> [Marc~</span><span>      1  </span><span style='text-decoration: underline;'>1</span><span>707.    </span><span style='text-decoration: underline;'>16</span><span>552             
+#&gt; </span><span style='color: #BCBCBC;'> 6</span><span>  </span><span style='text-decoration: underline;'>1</span><span>962     84   </span><span style='text-decoration: underline;'>1</span><span>790. 27</span><span style='color: #949494;'> [Minnes~</span><span> 3</span><span style='color: #949494;'> [Marc~</span><span>      1  </span><span style='text-decoration: underline;'>1</span><span>790.     </span><span style='text-decoration: underline;'>6</span><span>375             
+#&gt; </span><span style='color: #BCBCBC;'> 7</span><span>  </span><span style='text-decoration: underline;'>1</span><span>962    107   </span><span style='text-decoration: underline;'>4</span><span>355. 19</span><span style='color: #949494;'> [Iowa]</span><span>   3</span><span style='color: #949494;'> [Marc~</span><span>      1  </span><span style='text-decoration: underline;'>4</span><span>355. 99</span><span style='text-decoration: underline;'>999</span><span>999</span><span style='color: #949494;'> [N.I.U. (No~</span><span>
+#&gt; </span><span style='color: #BCBCBC;'> 8</span><span>  </span><span style='text-decoration: underline;'>1</span><span>962    107   </span><span style='text-decoration: underline;'>4</span><span>355. 19</span><span style='color: #949494;'> [Iowa]</span><span>   3</span><span style='color: #949494;'> [Marc~</span><span>      2  </span><span style='text-decoration: underline;'>1</span><span>386.        0             
+#&gt; </span><span style='color: #BCBCBC;'> 9</span><span>  </span><span style='text-decoration: underline;'>1</span><span>962    107   </span><span style='text-decoration: underline;'>4</span><span>355. 19</span><span style='color: #949494;'> [Iowa]</span><span>   3</span><span style='color: #949494;'> [Marc~</span><span>      3  </span><span style='text-decoration: underline;'>1</span><span>629.      600             
+#&gt; </span><span style='color: #BCBCBC;'>10</span><span>  </span><span style='text-decoration: underline;'>1</span><span>962    107   </span><span style='text-decoration: underline;'>4</span><span>355. 19</span><span style='color: #949494;'> [Iowa]</span><span>   3</span><span style='color: #949494;'> [Marc~</span><span>      4  </span><span style='text-decoration: underline;'>1</span><span>432. 99</span><span style='text-decoration: underline;'>999</span><span>999</span><span style='color: #949494;'> [N.I.U. (No~</span><span>
 #&gt; </div><div class='input'>
 </div></span></pre>
   </div>
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-    <h2>Contents</h2>
-    <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
-      
-      <li><a href="#format">Format</a></li>
-
-      <li><a href="#value">Value</a></li>
-
-      <li><a href="#details">Details</a></li>
-
-      <li><a href="#see-also">See also</a></li>
-      
-      <li><a href="#examples">Examples</a></li>
-    </ul>
-
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
+    <nav id="toc" data-toggle="toc" class="sticky-top">
+      <h2 data-toc-skip>Contents</h2>
+    </nav>
   </div>
 </div>
+
 
       <footer>
       <div class="copyright">
@@ -373,8 +457,9 @@ methods:</p><ul>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
 </div>
+
       </footer>
    </div>
 
@@ -397,6 +482,8 @@ methods:</p><ul>
 </script>
 
 
+
   </body>
 </html>
+
 

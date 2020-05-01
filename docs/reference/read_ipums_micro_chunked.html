@@ -15,21 +15,29 @@
 <link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png" />
 <link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png" />
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png" />
+
 <!-- jquery -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous" />
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous" />
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
+
+<!-- bootstrap-toc -->
+<link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script>
 
-<!-- sticky kit -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
+<!-- headroom.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -38,20 +46,19 @@
 
 <!-- docsearch -->
 <script src="../docsearch.js"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/docsearch.js/2.6.1/docsearch.min.css" integrity="sha256-QOSRU/ra9ActyXkIBbiIB144aDBdtvXBcNc3OTNuX/Q=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/docsearch.js/2.6.3/docsearch.min.css" integrity="sha256-QOSRU/ra9ActyXkIBbiIB144aDBdtvXBcNc3OTNuX/Q=" crossorigin="anonymous" />
 <link href="../docsearch.css" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js" integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin="anonymous"></script>
 
 
-<meta property="og:title" content="Read data from an IPUMS extract (in chunks) — read_ipums_micro_chunked" />
 
+<meta property="og:title" content="Read data from an IPUMS extract (in chunks) — read_ipums_micro_chunked" />
 <meta property="og:description" content="Reads a dataset downloaded from the IPUMS extract system, but does
 so by reading a chunk, then applying your code to that chunk and
 then continuing, which can allow you to deal with data that is
 too large to store in your computer's RAM all at once." />
-
 <meta property="og:image" content="http://tech.popdata.org/ipumsr/logo.png" />
-<meta name="twitter:card" content="summary" />
+
 
 
 
@@ -65,9 +72,10 @@ too large to store in your computer's RAM all at once." />
 <![endif]-->
 
 
+
   </head>
 
-  <body>
+  <body data-spy="scroll" data-target="#toc">
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
@@ -81,7 +89,7 @@ too large to store in your computer's RAM all at once." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ipumsr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.3</span>
       </span>
     </div>
 
@@ -137,7 +145,6 @@ too large to store in your computer's RAM all at once." />
   <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
-      
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/mnpopcenter/ipumsr">
@@ -159,7 +166,7 @@ too large to store in your computer's RAM all at once." />
 </li>
       </ul>
       
-      <form class="navbar-form navbar-right" role="search">
+      <form class="navbar-form navbar-right hidden-xs hidden-sm" role="search">
         <div class="form-group">
           <input type="search" class="form-control" name="search-input" id="search-input" placeholder="Search..." aria-label="Search for..." autocomplete="off">
         </div>
@@ -170,6 +177,7 @@ too large to store in your computer's RAM all at once." />
 </div><!--/.navbar -->
 
       
+
       </header>
 
 <div class="row">
@@ -181,22 +189,34 @@ too large to store in your computer's RAM all at once." />
     </div>
 
     <div class="ref-description">
-    
     <p>Reads a dataset downloaded from the IPUMS extract system, but does
 so by reading a chunk, then applying your code to that chunk and
 then continuing, which can allow you to deal with data that is
 too large to store in your computer's RAM all at once.</p>
-    
     </div>
 
-    <pre class="usage"><span class='fu'>read_ipums_micro_chunked</span>(<span class='no'>ddi</span>, <span class='no'>callback</span>, <span class='kw'>chunk_size</span> <span class='kw'>=</span> <span class='fl'>10000</span>,
-  <span class='kw'>vars</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>data_file</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>var_attrs</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"val_labels"</span>, <span class='st'>"var_label"</span>, <span class='st'>"var_desc"</span>))
+    <pre class="usage"><span class='fu'>read_ipums_micro_chunked</span>(
+  <span class='no'>ddi</span>,
+  <span class='no'>callback</span>,
+  <span class='kw'>chunk_size</span> <span class='kw'>=</span> <span class='fl'>10000</span>,
+  <span class='kw'>vars</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>data_file</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>var_attrs</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"val_labels"</span>, <span class='st'>"var_label"</span>, <span class='st'>"var_desc"</span>),
+  <span class='kw'>lower_vars</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>
+)
 
-<span class='fu'>read_ipums_micro_list_chunked</span>(<span class='no'>ddi</span>, <span class='no'>callback</span>, <span class='kw'>chunk_size</span> <span class='kw'>=</span> <span class='fl'>10000</span>,
-  <span class='kw'>vars</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>data_file</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>var_attrs</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"val_labels"</span>, <span class='st'>"var_label"</span>, <span class='st'>"var_desc"</span>))</pre>
-    
+<span class='fu'>read_ipums_micro_list_chunked</span>(
+  <span class='no'>ddi</span>,
+  <span class='no'>callback</span>,
+  <span class='kw'>chunk_size</span> <span class='kw'>=</span> <span class='fl'>10000</span>,
+  <span class='kw'>vars</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>data_file</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>var_attrs</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"val_labels"</span>, <span class='st'>"var_label"</span>, <span class='st'>"var_desc"</span>),
+  <span class='kw'>lower_vars</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>
+)</pre>
+
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
@@ -238,21 +258,33 @@ to console.</p></td>
 adding all (val_labels, var_label and var_desc). See
 <code><a href='set_ipums_var_attributes.html'>set_ipums_var_attributes</a></code> for more details.</p></td>
     </tr>
+    <tr>
+      <th>lower_vars</th>
+      <td><p>Only if reading a DDI from a file, a logical indicating
+whether to convert variable names to lowercase (default is FALSE, in line
+with IPUMS conventions). Note that this argument will be ignored if
+argument <code>ddi</code> is an <code>ipums_ddi</code> object rather than a file path.
+See <code><a href='read_ipums_ddi.html'>read_ipums_ddi</a></code> for converting variable names to lowercase
+when reading in the DDI. Also note that if reading in chunks from a .csv or
+.csv.gz file, the callback function will be called *before* variable names
+are converted to lowercase, and thus should reference uppercase variable
+names.</p></td>
+    </tr>
     </table>
-    
+
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>Depends on the callback object</p>
-    
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p>Other ipums_read: <code><a href='read_ipums_micro_yield.html'>read_ipums_micro_yield</a></code>,
-  <code><a href='read_ipums_micro.html'>read_ipums_micro</a></code>,
-  <code><a href='read_ipums_sf.html'>read_ipums_sf</a></code>, <code><a href='read_nhgis.html'>read_nhgis</a></code>,
-  <code><a href='read_terra_area.html'>read_terra_area</a></code>,
-  <code><a href='read_terra_micro.html'>read_terra_micro</a></code>,
-  <code><a href='read_terra_raster.html'>read_terra_raster</a></code></p></div>
-    
+    <div class='dont-index'><p>Other ipums_read: 
+<code><a href='read_ipums_micro_yield.html'>read_ipums_micro_yield</a>()</code>,
+<code><a href='read_ipums_micro.html'>read_ipums_micro</a>()</code>,
+<code><a href='read_ipums_sf.html'>read_ipums_sf</a>()</code>,
+<code><a href='read_nhgis.html'>read_nhgis</a>()</code>,
+<code><a href='read_terra_area.html'>read_terra_area</a>()</code>,
+<code><a href='read_terra_micro.html'>read_terra_micro</a>()</code>,
+<code><a href='read_terra_raster.html'>read_terra_raster</a>()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># Select Minnesotan cases from CPS example (Note you can also accomplish</span>
@@ -267,10 +299,8 @@ adding all (val_labels, var_label and var_desc). See
 )</div><div class='output co'>#&gt; Use of data from IPUMS-CPS is subject to conditions including that users should
 #&gt; cite the data appropriately. Use command `ipums_conditions()` for more details.</div><div class='input'>
 <span class='co'># Tabulate INCTOT average by state without storing full dataset in memory</span>
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>library</a></span>(<span class='no'>dplyr</span>)</div><div class='output co'>#&gt; <span class='message'></span>
-#&gt; <span class='message'>Attaching package: 'dplyr'</span></div><div class='output co'>#&gt; <span class='message'>The following object is masked from 'package:testthat':</span>
-#&gt; <span class='message'></span>
-#&gt; <span class='message'>    matches</span></div><div class='output co'>#&gt; <span class='message'>The following objects are masked from 'package:stats':</span>
+<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>dplyr</span>)</div><div class='output co'>#&gt; <span class='message'></span>
+#&gt; <span class='message'>Attaching package: 'dplyr'</span></div><div class='output co'>#&gt; <span class='message'>The following objects are masked from 'package:stats':</span>
 #&gt; <span class='message'></span>
 #&gt; <span class='message'>    filter, lag</span></div><div class='output co'>#&gt; <span class='message'>The following objects are masked from 'package:base':</span>
 #&gt; <span class='message'></span>
@@ -280,22 +310,22 @@ adding all (val_labels, var_label and var_desc). See
     <span class='no'>x</span> <span class='kw'>%&gt;%</span>
       <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span>(
         <span class='kw'>INCTOT</span> <span class='kw'>=</span> <span class='fu'><a href='lbl_na_if.html'>lbl_na_if</a></span>(
-          <span class='no'>INCTOT</span>, ~<span class='no'>.lbl</span> <span class='kw'>%in%</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"Missing."</span>, <span class='st'>"N.I.U. (Not in Universe)."</span>))
+          <span class='no'>INCTOT</span>, ~<span class='no'>.lbl</span> <span class='kw'>%in%</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"Missing."</span>, <span class='st'>"N.I.U. (Not in Universe)."</span>))
         ) <span class='kw'>%&gt;%</span>
-      <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span>(!<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/NA'>is.na</a></span>(<span class='no'>INCTOT</span>)) <span class='kw'>%&gt;%</span>
+      <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span>(!<span class='fu'><a href='https://rdrr.io/r/base/NA.html'>is.na</a></span>(<span class='no'>INCTOT</span>)) <span class='kw'>%&gt;%</span>
       <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span>(<span class='kw'>STATEFIP</span> <span class='kw'>=</span> <span class='fu'><a href='https://forcats.tidyverse.org/reference/as_factor.html'>as_factor</a></span>(<span class='no'>STATEFIP</span>)) <span class='kw'>%&gt;%</span>
-      <span class='fu'><a href='https://dplyr.tidyverse.org/reference/summarise.html'>summarize</a></span>(<span class='kw'>INCTOT_SUM</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/sum'>sum</a></span>(<span class='no'>INCTOT</span>), <span class='kw'>n</span> <span class='kw'>=</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/n.html'>n</a></span>())
+      <span class='fu'><a href='https://dplyr.tidyverse.org/reference/summarise.html'>summarize</a></span>(<span class='kw'>INCTOT_SUM</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/sum.html'>sum</a></span>(<span class='no'>INCTOT</span>), <span class='kw'>n</span> <span class='kw'>=</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/context.html'>n</a></span>())
   }),
   <span class='kw'>chunk_size</span> <span class='kw'>=</span> <span class='fl'>1000</span> <span class='co'># Generally you want this larger, but this example is a small file</span>
 ) <span class='kw'>%&gt;%</span>
 <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span>(<span class='no'>STATEFIP</span>) <span class='kw'>%&gt;%</span>
-<span class='fu'><a href='https://dplyr.tidyverse.org/reference/summarise.html'>summarize</a></span>(<span class='kw'>avg_inc</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/sum'>sum</a></span>(<span class='no'>INCTOT_SUM</span>) / <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/sum'>sum</a></span>(<span class='no'>n</span>))</div><div class='output co'>#&gt; Use of data from IPUMS-CPS is subject to conditions including that users should
+<span class='fu'><a href='https://dplyr.tidyverse.org/reference/summarise.html'>summarize</a></span>(<span class='kw'>avg_inc</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/sum.html'>sum</a></span>(<span class='no'>INCTOT_SUM</span>) / <span class='fu'><a href='https://rdrr.io/r/base/sum.html'>sum</a></span>(<span class='no'>n</span>))</div><div class='output co'>#&gt; Use of data from IPUMS-CPS is subject to conditions including that users should
 #&gt; cite the data appropriately. Use command `ipums_conditions()` for more details.</div><div class='input'>
 <span class='co'># x will be a list when using `read_ipums_micro_list_chunked()`</span>
 <span class='fu'>read_ipums_micro_list_chunked</span>(
   <span class='fu'><a href='ipums_example.html'>ipums_example</a></span>(<span class='st'>"cps_00010.xml"</span>),
   <span class='no'>IpumsSideEffectCallback</span>$<span class='fu'>new</span>(<span class='kw'>function</span>(<span class='no'>x</span>, <span class='no'>pos</span>) {
-    <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/paste'>paste0</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/nrow'>nrow</a></span>(<span class='no'>x</span>$<span class='no'>PERSON</span>), <span class='st'>" persons and "</span>, <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/nrow'>nrow</a></span>(<span class='no'>x</span>$<span class='no'>HOUSEHOLD</span>), <span class='st'>" households in this chunk."</span>))
+    <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span>(<span class='no'>x</span>$<span class='no'>PERSON</span>), <span class='st'>" persons and "</span>, <span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span>(<span class='no'>x</span>$<span class='no'>HOUSEHOLD</span>), <span class='st'>" households in this chunk."</span>))
   }),
   <span class='kw'>chunk_size</span> <span class='kw'>=</span> <span class='fl'>1000</span> <span class='co'># Generally you want this larger, but this example is a small file</span>
 )</div><div class='output co'>#&gt; Use of data from IPUMS-CPS is subject to conditions including that users should
@@ -314,8 +344,8 @@ adding all (val_labels, var_label and var_desc). See
 #&gt; [1] "39 persons and 14 households in this chunk."</div><div class='output co'>#&gt; NULL</div><div class='input'>
 <span class='co'># Using the biglm package, you can even run a regression without storing</span>
 <span class='co'># the full dataset in memory</span>
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>library</a></span>(<span class='no'>dplyr</span>)
-<span class='kw'>if</span> (<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>require</a></span>(<span class='no'>biglm</span>)) {
+<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>dplyr</span>)
+<span class='kw'>if</span> (<span class='fu'><a href='https://rdrr.io/r/base/library.html'>require</a></span>(<span class='no'>biglm</span>)) {
   <span class='no'>lm_results</span> <span class='kw'>&lt;-</span> <span class='fu'>read_ipums_micro_chunked</span>(
     <span class='fu'><a href='ipums_example.html'>ipums_example</a></span>(<span class='st'>"cps_00015.xml"</span>),
     <span class='no'>IpumsBiglmCallback</span>$<span class='fu'>new</span>(
@@ -324,14 +354,14 @@ adding all (val_labels, var_label and var_desc). See
         <span class='no'>x</span> <span class='kw'>%&gt;%</span>
         <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span>(
           <span class='kw'>INCTOT</span> <span class='kw'>=</span> <span class='fu'><a href='lbl_na_if.html'>lbl_na_if</a></span>(
-            <span class='no'>INCTOT</span>, ~<span class='no'>.lbl</span> <span class='kw'>%in%</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"Missing."</span>, <span class='st'>"N.I.U. (Not in Universe)."</span>)
+            <span class='no'>INCTOT</span>, ~<span class='no'>.lbl</span> <span class='kw'>%in%</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"Missing."</span>, <span class='st'>"N.I.U. (Not in Universe)."</span>)
           ),
           <span class='kw'>HEALTH</span> <span class='kw'>=</span> <span class='fu'><a href='https://forcats.tidyverse.org/reference/as_factor.html'>as_factor</a></span>(<span class='no'>HEALTH</span>)
         )
     }),
     <span class='kw'>chunk_size</span> <span class='kw'>=</span> <span class='fl'>1000</span> <span class='co'># Generally you want this larger, but this example is a small file</span>
   )
-  <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>lm_results</span>)
+  <span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span>(<span class='no'>lm_results</span>)
 }</div><div class='output co'>#&gt; <span class='message'>Loading required package: biglm</span></div><div class='output co'>#&gt; <span class='message'>Loading required package: DBI</span></div><div class='output co'>#&gt; Use of data from IPUMS-CPS is subject to conditions including that users should
 #&gt; cite the data appropriately. Use command `ipums_conditions()` for more details.</div><div class='output co'>#&gt; Large data regression model: biglm(INCTOT ~ AGE + HEALTH, data, ...)
 #&gt; Sample size =  8194 
@@ -344,20 +374,13 @@ adding all (val_labels, var_label and var_desc). See
 #&gt; HEALTHPoor      -34341.0066 -42611.9852 -26070.028 4135.4893 0.0000</div><div class='input'>
 </div></pre>
   </div>
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-    <h2>Contents</h2>
-    <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
-      
-      <li><a href="#value">Value</a></li>
-
-      <li><a href="#see-also">See also</a></li>
-      
-      <li><a href="#examples">Examples</a></li>
-    </ul>
-
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
+    <nav id="toc" data-toggle="toc" class="sticky-top">
+      <h2 data-toc-skip>Contents</h2>
+    </nav>
   </div>
 </div>
+
 
       <footer>
       <div class="copyright">
@@ -365,8 +388,9 @@ adding all (val_labels, var_label and var_desc). See
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
 </div>
+
       </footer>
    </div>
 
@@ -389,6 +413,8 @@ adding all (val_labels, var_label and var_desc). See
 </script>
 
 
+
   </body>
 </html>
+
 
