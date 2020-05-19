@@ -247,9 +247,8 @@ lbl_define <- function(x, ...) {
   attr(x, "labels") <- purrr::set_names(unique_x, tmp_lbls)
   x <- lbl_relabel(x, ...)
   label_is_na <- is.na(names(attr(x, "labels")))
-  attr(x, "labels") <- attr(x, "labels")[!label_is_na]
-  attr(x, "class") <- "haven_labelled"
-  x
+
+  haven::labelled(x, labels = attr(x, "labels")[!label_is_na])
 }
 
 
