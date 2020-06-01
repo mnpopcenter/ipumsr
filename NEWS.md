@@ -1,4 +1,7 @@
-# ipumsr (development version)
+# ipumsr 0.4.4
+
+* Modify `lbl_define()` test to reflect changes to haven's `labelled` class 
+  definition.
 
 # ipumsr 0.4.3
 
