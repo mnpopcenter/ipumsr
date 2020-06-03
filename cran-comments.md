@@ -1,3 +1,7 @@
+## Purpose of release
+This release simply fixes one test that broke due to changes in the latest 
+release of dependency haven.
+
 ## Test environments
 * local Windows, R 4.0.0
 * win builder release and devel
