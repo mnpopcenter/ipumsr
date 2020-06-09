@@ -25,6 +25,9 @@ test_that("setting variable attributes one at a time (#34)", {
   just_var_desc <- set_ipums_var_attributes(data, ddi, "var_desc")
   just_val_lbls <- set_ipums_var_attributes(data, ddi, "val_labels")
 
+  # Make sure we didn't put attributes on original dataset
+  expect_true(!identical(attributes(data[[1]]), attributes(all_attributes[[1]])))
+
   # just_var_lbl ----
   expect_equal(
     vapply(all_attributes, function(x) attr(x, "label"), ""),
