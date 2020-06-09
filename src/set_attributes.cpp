@@ -43,13 +43,14 @@ DataFrame set_imp_decim_(DataFrame x, DataFrame var_info) {
   int num_vars = var_info.nrows();
   CharacterVector var_names = var_info["var_name"];
   NumericVector imp_decim = var_info["imp_decim"];
+  DataFrame out = clone(x);
 
   for (int i = 0; i < num_vars; i++) {
     if (imp_decim[i] != 0) {
       const char* vn = var_names[i];
-      NumericVector col = x[vn];
+      NumericVector col = out[vn];
       col = col / pow(10, imp_decim[i]);
     }
   }
-  return x;
+  return out;
 }
