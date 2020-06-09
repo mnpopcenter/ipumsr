@@ -30,13 +30,13 @@ test_that("setting variable attributes one at a time (#34)", {
 
   # just_var_lbl ----
   expect_equal(
-    vapply(all_attributes, function(x) attr(x, "label"), ""),
-    vapply(just_var_lbl, function(x) attr(x, "label"), "")
+    lapply(all_attributes, function(x) attr(x, "label")),
+    lapply(just_var_lbl, function(x) attr(x, "label"))
   )
 
   expect_equal(
-    vapply(data, function(x) attr(x, "var_desc"), ""),
-    vapply(just_var_lbl, function(x) attr(x, "var_desc"), "")
+    lapply(data, function(x) attr(x, "var_desc")),
+    lapply(just_var_lbl, function(x) attr(x, "var_desc"))
   )
 
   expect_equal(
@@ -51,13 +51,13 @@ test_that("setting variable attributes one at a time (#34)", {
 
   # just_var_desc
   expect_equal(
-    vapply(data, function(x) attr(x, "label"), ""),
-    vapply(just_var_desc, function(x) attr(x, "label"), "")
+    lapply(data, function(x) attr(x, "label")),
+    lapply(just_var_desc, function(x) attr(x, "label"))
   )
 
   expect_equal(
-    vapply(all_attributes, function(x) attr(x, "var_desc"), ""),
-    vapply(just_var_desc, function(x) attr(x, "var_desc"), "")
+    lapply(all_attributes, function(x) attr(x, "var_desc")),
+    lapply(just_var_desc, function(x) attr(x, "var_desc"))
   )
 
   expect_equal(
@@ -72,13 +72,13 @@ test_that("setting variable attributes one at a time (#34)", {
 
   # just_val_lbls
   expect_equal(
-    vapply(data, function(x) attr(x, "label"), ""),
-    vapply(just_val_lbls, function(x) attr(x, "label"), "")
+    lapply(data, function(x) attr(x, "label", exact = TRUE)),
+    lapply(just_val_lbls, function(x) attr(x, "label", exact = TRUE))
   )
 
   expect_equal(
-    vapply(data, function(x) attr(x, "var_desc"), ""),
-    vapply(just_val_lbls, function(x) attr(x, "var_desc"), "")
+    lapply(data, function(x) attr(x, "var_desc")),
+    lapply(just_val_lbls, function(x) attr(x, "var_desc"))
   )
 
   expect_equal(

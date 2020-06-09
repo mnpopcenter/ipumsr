@@ -10,26 +10,31 @@ DataFrame set_ipums_var_attributes_(DataFrame x, DataFrame var_info) {
   CharacterVector var_descs = var_info["var_desc"];
   List val_labels = var_info["val_labels"];
   Function labelled_f = Environment::namespace_env("haven")["labelled"];
+  DataFrame out = clone(x);
 
   for (int i = 0; i < num_vars; i++) {
     const char* vn = var_names[i];
     if (!Rf_isNull(val_labels[i])) {
-      x[vn] = labelled_f(x[vn], val_labels[i]);
+      out[vn] = labelled_f(out[vn], val_labels[i]);
     }
 
-    SEXP col = x[vn];
+    SEXP col = out[vn];
 
-    SEXP vl = PROTECT(Rf_allocVector(STRSXP, 1));
-    SET_STRING_ELT(vl, 0, var_labels[i]);
-    Rf_setAttrib(col, Rf_install("label"), vl);
-    UNPROTECT(1);
+    if (var_labels[i] != NA_STRING) {
+      SEXP vl = PROTECT(Rf_allocVector(STRSXP, 1));
+      SET_STRING_ELT(vl, 0, var_labels[i]);
+      Rf_setAttrib(col, Rf_install("label"), vl);
+      UNPROTECT(1);
+    }
 
-    SEXP vd = PROTECT(Rf_allocVector(STRSXP, 1));
-    SET_STRING_ELT(vd, 0, var_descs[i]);
-    Rf_setAttrib(col, Rf_install("var_desc"), vd);
-    UNPROTECT(1);
+    if (var_descs[i] != NA_STRING) {
+      SEXP vd = PROTECT(Rf_allocVector(STRSXP, 1));
+      SET_STRING_ELT(vd, 0, var_descs[i]);
+      Rf_setAttrib(col, Rf_install("var_desc"), vd);
+      UNPROTECT(1);
+    }
   }
-  return x;
+  return out;
 }
 
 
