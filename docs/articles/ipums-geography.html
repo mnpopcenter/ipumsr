@@ -40,7 +40,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ipumsr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.4</span>
       </span>
     </div>
 
@@ -138,7 +138,7 @@
 </h1>
                         <h4 class="author">Minnesota Population Center</h4>
             
-            <h4 class="date">2020-05-01</h4>
+            <h4 class="date">2020-06-17</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/mnpopcenter/ipumsr/blob/master/vignettes/ipums-geography.Rmd"><code>vignettes/ipums-geography.Rmd</code></a></small>
       <div class="hidden name"><code>ipums-geography.Rmd</code></div>
@@ -246,7 +246,7 @@
 <span class="no">ipumsi_data</span> <span class="kw">&lt;-</span> <span class="no">ipumsi_data</span> <span class="kw">%&gt;%</span>
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate_all.html">mutate_at</a></span>(<span class="fu"><a href="https://dplyr.tidyverse.org/reference/vars.html">vars</a></span>(<span class="no">COUNTRY</span>, <span class="no">SAMPLE</span>, <span class="no">AGE2</span>), ~<span class="fu"><a href="https://forcats.tidyverse.org/reference/as_factor.html">as_factor</a></span>(<span class="fu"><a href="../reference/lbl_clean.html">lbl_clean</a></span>(<span class="no">.</span>))) <span class="kw">%&gt;%</span>
   <span class="co"># We will get labels from shape file for geographic variables</span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate_all.html">mutate_at</a></span>(<span class="fu"><a href="https://dplyr.tidyverse.org/reference/vars.html">vars</a></span>(<span class="fu"><a href="https://tidyselect.r-lib.org/reference/select_helpers.html">starts_with</a></span>(<span class="st">"GEO"</span>)), <span class="no">zap_labels</span>) <span class="kw">%&gt;%</span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate_all.html">mutate_at</a></span>(<span class="fu"><a href="https://dplyr.tidyverse.org/reference/vars.html">vars</a></span>(<span class="fu"><a href="https://tidyselect.r-lib.org/reference/starts_with.html">starts_with</a></span>(<span class="st">"GEO"</span>)), <span class="no">zap_labels</span>) <span class="kw">%&gt;%</span>
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span>(
     <span class="kw">SOLIDFUEL</span> <span class="kw">=</span> <span class="no">FUELCOOK</span> <span class="kw">%&gt;%</span>
       <span class="fu"><a href="../reference/lbl_na_if.html">lbl_na_if</a></span>(~<span class="no">.lbl</span> <span class="kw">%in%</span> <span class="no">fuel_missing_lbls</span>) <span class="kw">%&gt;%</span>
@@ -380,7 +380,7 @@
 <span class="no">ipumsi_data</span> <span class="kw">&lt;-</span> <span class="no">ipumsi_data</span> <span class="kw">%&gt;%</span>
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate_all.html">mutate_at</a></span>(<span class="fu"><a href="https://dplyr.tidyverse.org/reference/vars.html">vars</a></span>(<span class="no">COUNTRY</span>, <span class="no">SAMPLE</span>, <span class="no">AGE2</span>), ~<span class="fu"><a href="https://forcats.tidyverse.org/reference/as_factor.html">as_factor</a></span>(<span class="fu"><a href="../reference/lbl_clean.html">lbl_clean</a></span>(<span class="no">.</span>))) <span class="kw">%&gt;%</span>
   <span class="co"># We will get labels from shape file for geographic variables</span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate_all.html">mutate_at</a></span>(<span class="fu"><a href="https://dplyr.tidyverse.org/reference/vars.html">vars</a></span>(<span class="fu"><a href="https://tidyselect.r-lib.org/reference/select_helpers.html">starts_with</a></span>(<span class="st">"GEO"</span>)), <span class="no">zap_labels</span>) <span class="kw">%&gt;%</span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate_all.html">mutate_at</a></span>(<span class="fu"><a href="https://dplyr.tidyverse.org/reference/vars.html">vars</a></span>(<span class="fu"><a href="https://tidyselect.r-lib.org/reference/starts_with.html">starts_with</a></span>(<span class="st">"GEO"</span>)), <span class="no">zap_labels</span>) <span class="kw">%&gt;%</span>
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span>(
     <span class="kw">SOLIDFUEL</span> <span class="kw">=</span> <span class="no">FUELCOOK</span> <span class="kw">%&gt;%</span>
       <span class="fu"><a href="../reference/lbl_na_if.html">lbl_na_if</a></span>(~<span class="no">.lbl</span> <span class="kw">%in%</span> <span class="no">fuel_missing_lbls</span>) <span class="kw">%&gt;%</span>

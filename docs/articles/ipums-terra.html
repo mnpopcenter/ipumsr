@@ -40,7 +40,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ipumsr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.4</span>
       </span>
     </div>
 
@@ -138,7 +138,7 @@
 <code>ipumsr</code> Example - Terra</h1>
                         <h4 class="author">Minnesota Population Center</h4>
             
-            <h4 class="date">2020-05-01</h4>
+            <h4 class="date">2020-06-17</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/mnpopcenter/ipumsr/blob/master/vignettes/ipums-terra.Rmd"><code>vignettes/ipums-terra.Rmd</code></a></small>
       <div class="hidden name"><code>ipums-terra.Rmd</code></div>
@@ -192,8 +192,8 @@
 <div id="reading-a-single-raster" class="section level3">
 <h3 class="hasAnchor">
 <a href="#reading-a-single-raster" class="anchor"></a>Reading a single raster</h3>
-<p>Let’s first look at loading a single layer, by making a map of the <code>TEMPAVGFEB</code> layer (called <code>TEMPAVGFEBUS2013.tiff</code> in the file, but we can refer to it with the <code><a href="https://tidyselect.r-lib.org/reference/select_helpers.html">matches()</a></code> function).</p>
-<div class="sourceCode" id="cb4"><html><body><pre class="r"><span class="no">febtemp</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/read_terra_raster.html">read_terra_raster</a></span>(<span class="no">raster_extract</span>, <span class="fu"><a href="https://tidyselect.r-lib.org/reference/select_helpers.html">matches</a></span>(<span class="st">"TEMPAVGFEB"</span>))</pre></body></html></div>
+<p>Let’s first look at loading a single layer, by making a map of the <code>TEMPAVGFEB</code> layer (called <code>TEMPAVGFEBUS2013.tiff</code> in the file, but we can refer to it with the <code><a href="https://tidyselect.r-lib.org/reference/starts_with.html">matches()</a></code> function).</p>
+<div class="sourceCode" id="cb4"><html><body><pre class="r"><span class="no">febtemp</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/read_terra_raster.html">read_terra_raster</a></span>(<span class="no">raster_extract</span>, <span class="fu"><a href="https://tidyselect.r-lib.org/reference/starts_with.html">matches</a></span>(<span class="st">"TEMPAVGFEB"</span>))</pre></body></html></div>
 <p>The details of making good maps with raster data are beyond this tutorial, (see below for some pointers on where to learn more), but just to prove that we got the data, we can use the raster package’s built in <code><a href="https://rdrr.io/pkg/sf/man/plot.html">plot()</a></code> method.</p>
 <div class="sourceCode" id="cb5"><html><body><pre class="r"><span class="co"># Crop map a bit</span>
 <span class="no">zoomed_extent</span> <span class="kw">&lt;-</span> <span class="kw pkg">raster</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/raster/man/extent.html">extent</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(-<span class="fl">180</span>, -<span class="fl">64</span>, <span class="fl">16.5</span>, <span class="fl">72.5</span>))

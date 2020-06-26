@@ -88,7 +88,7 @@ that does not have a label." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ipumsr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.4</span>
       </span>
     </div>
 
@@ -238,7 +238,7 @@ See examples for more information.</p></td>
   <span class='no'>x</span>,
   <span class='fu'><a href='lbl.html'>lbl</a></span>(<span class='fl'>10</span>, <span class='st'>"Yes/Yes-ish"</span>) ~ <span class='no'>.val</span> <span class='kw'>%in%</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>10</span>, <span class='fl'>11</span>),
   <span class='fu'><a href='lbl.html'>lbl</a></span>(<span class='fl'>90</span>, <span class='st'>"???"</span>) ~ <span class='no'>.val</span> <span class='kw'>==</span> <span class='fl'>99</span> <span class='kw'>|</span> <span class='no'>.lbl</span> <span class='kw'>==</span> <span class='st'>"Maybe"</span>
-)</div><div class='output co'>#&gt; &lt;Labelled double&gt;
+)</div><div class='output co'>#&gt; &lt;labelled&lt;double&gt;[8]&gt;
 #&gt; [1] 10 10 10 20 90 90 90 10
 #&gt; 
 #&gt; Labels:
@@ -249,7 +249,7 @@ See examples for more information.</p></td>
 <span class='co'># If relabelling to labels that already exist, don't need to specify both label</span>
 <span class='co'># and value:</span>
 <span class='co'># If just bare, assumes it is a value:</span>
-<span class='fu'>lbl_relabel</span>(<span class='no'>x</span>, <span class='fl'>10</span> ~ <span class='no'>.val</span> <span class='kw'>==</span> <span class='fl'>11</span>)</div><div class='output co'>#&gt; &lt;Labelled double&gt;
+<span class='fu'>lbl_relabel</span>(<span class='no'>x</span>, <span class='fl'>10</span> ~ <span class='no'>.val</span> <span class='kw'>==</span> <span class='fl'>11</span>)</div><div class='output co'>#&gt; &lt;labelled&lt;double&gt;[8]&gt;
 #&gt; [1] 10 10 10 20 30 99 30 10
 #&gt; 
 #&gt; Labels:
@@ -258,7 +258,7 @@ See examples for more information.</p></td>
 #&gt;     20    No
 #&gt;     30 Maybe
 #&gt;     99   NIU</div><div class='input'><span class='co'># Use single argument to lbl for the label</span>
-<span class='fu'>lbl_relabel</span>(<span class='no'>x</span>, <span class='fu'><a href='lbl.html'>lbl</a></span>(<span class='st'>"Yes"</span>) ~ <span class='no'>.val</span> <span class='kw'>==</span> <span class='fl'>11</span>)</div><div class='output co'>#&gt; &lt;Labelled double&gt;
+<span class='fu'>lbl_relabel</span>(<span class='no'>x</span>, <span class='fu'><a href='lbl.html'>lbl</a></span>(<span class='st'>"Yes"</span>) ~ <span class='no'>.val</span> <span class='kw'>==</span> <span class='fl'>11</span>)</div><div class='output co'>#&gt; &lt;labelled&lt;double&gt;[8]&gt;
 #&gt; [1] 10 10 10 20 30 99 30 10
 #&gt; 
 #&gt; Labels:
@@ -267,7 +267,7 @@ See examples for more information.</p></td>
 #&gt;     20    No
 #&gt;     30 Maybe
 #&gt;     99   NIU</div><div class='input'><span class='co'># Or can used named arguments</span>
-<span class='fu'>lbl_relabel</span>(<span class='no'>x</span>, <span class='fu'><a href='lbl.html'>lbl</a></span>(<span class='kw'>.val</span> <span class='kw'>=</span> <span class='fl'>10</span>) ~ <span class='no'>.val</span> <span class='kw'>==</span> <span class='fl'>11</span>)</div><div class='output co'>#&gt; &lt;Labelled double&gt;
+<span class='fu'>lbl_relabel</span>(<span class='no'>x</span>, <span class='fu'><a href='lbl.html'>lbl</a></span>(<span class='kw'>.val</span> <span class='kw'>=</span> <span class='fl'>10</span>) ~ <span class='no'>.val</span> <span class='kw'>==</span> <span class='fl'>11</span>)</div><div class='output co'>#&gt; &lt;labelled&lt;double&gt;[8]&gt;
 #&gt; [1] 10 10 10 20 30 99 30 10
 #&gt; 
 #&gt; Labels:

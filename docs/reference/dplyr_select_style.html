@@ -87,7 +87,7 @@ based on dplyr's select function. See details for more information." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ipumsr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.4</span>
       </span>
     </div>
 
@@ -200,7 +200,7 @@ parameters.</p><ul>
 <li><p>"Character Vector"A character vector of names (such as <code><a href='https://rdrr.io/r/base/c.html'>c("var1", "var2", "var3")</a></code>)</p></li>
 <li><p>"'Bare' Vector"A vector of 'bare' names (such as <code><a href='https://rdrr.io/r/base/c.html'>c(var1, var2, var3)</a></code>)</p></li>
 <li><p>"Helper Functions"Helper functions from <code><a href='https://dplyr.tidyverse.org/reference/select.html'>dplyr::select</a></code> such as
-    <code><a href='https://tidyselect.r-lib.org/reference/select_helpers.html'>starts_with()</a></code>, <code>contains</code> and others.</p></li>
+    <code><a href='https://tidyselect.r-lib.org/reference/starts_with.html'>starts_with()</a></code>, <code>contains</code> and others.</p></li>
 </ul>
 
 
@@ -214,10 +214,10 @@ parameters.</p><ul>
 <span class='no'>data</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='read_ipums_micro.html'>read_ipums_micro</a></span>(<span class='no'>cps_file</span>, <span class='kw'>vars</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='no'>YEAR</span>, <span class='no'>MONTH</span>, <span class='no'>PERNUM</span>))</div><div class='output co'>#&gt; Use of data from IPUMS-CPS is subject to conditions including that users should
 #&gt; cite the data appropriately. Use command `ipums_conditions()` for more details.</div><div class='input'>
 <span class='co'># Use helper functions to load all variables that start with "WT"</span>
-<span class='no'>data</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='read_ipums_micro.html'>read_ipums_micro</a></span>(<span class='no'>cps_file</span>, <span class='kw'>vars</span> <span class='kw'>=</span> <span class='fu'><a href='https://tidyselect.r-lib.org/reference/select_helpers.html'>starts_with</a></span>(<span class='st'>"WT"</span>))</div><div class='output co'>#&gt; Use of data from IPUMS-CPS is subject to conditions including that users should
+<span class='no'>data</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='read_ipums_micro.html'>read_ipums_micro</a></span>(<span class='no'>cps_file</span>, <span class='kw'>vars</span> <span class='kw'>=</span> <span class='fu'><a href='https://tidyselect.r-lib.org/reference/starts_with.html'>starts_with</a></span>(<span class='st'>"WT"</span>))</div><div class='output co'>#&gt; Use of data from IPUMS-CPS is subject to conditions including that users should
 #&gt; cite the data appropriately. Use command `ipums_conditions()` for more details.</div><div class='input'>
 <span class='co'># Use bare names and helper function to load YEAR, MONTH and all variables with 'INC' in name</span>
-<span class='no'>data</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='read_ipums_micro.html'>read_ipums_micro</a></span>(<span class='no'>cps_file</span>, <span class='kw'>vars</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='no'>YEAR</span>, <span class='no'>MONTH</span>, <span class='fu'><a href='https://tidyselect.r-lib.org/reference/select_helpers.html'>contains</a></span>(<span class='st'>"INC"</span>)))</div><div class='output co'>#&gt; Use of data from IPUMS-CPS is subject to conditions including that users should
+<span class='no'>data</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='read_ipums_micro.html'>read_ipums_micro</a></span>(<span class='no'>cps_file</span>, <span class='kw'>vars</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='no'>YEAR</span>, <span class='no'>MONTH</span>, <span class='fu'><a href='https://tidyselect.r-lib.org/reference/starts_with.html'>contains</a></span>(<span class='st'>"INC"</span>)))</div><div class='output co'>#&gt; Use of data from IPUMS-CPS is subject to conditions including that users should
 #&gt; cite the data appropriately. Use command `ipums_conditions()` for more details.</div><div class='input'>
 <span class='co'># For geographic extracts, `data_layer` and `shape_layer` arguments use the same conventions</span>
 <span class='co'># to select file names from within zip files.</span>
@@ -225,7 +225,7 @@ parameters.</p><ul>
 <span class='no'>csv_file</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='ipums_example.html'>ipums_example</a></span>(<span class='st'>"nhgis0008_csv.zip"</span>)
 <span class='no'>data</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='read_nhgis.html'>read_nhgis</a></span>(
   <span class='no'>csv_file</span>,
-  <span class='kw'>data_layer</span> <span class='kw'>=</span> <span class='fu'><a href='https://tidyselect.r-lib.org/reference/select_helpers.html'>contains</a></span>(<span class='st'>"pmsa"</span>)
+  <span class='kw'>data_layer</span> <span class='kw'>=</span> <span class='fu'><a href='https://tidyselect.r-lib.org/reference/starts_with.html'>contains</a></span>(<span class='st'>"pmsa"</span>)
 )</div><div class='output co'>#&gt; Use of data from NHGIS is subject to conditions including that users should
 #&gt; cite the data appropriately. Use command `ipums_conditions()` for more details.
 #&gt; 

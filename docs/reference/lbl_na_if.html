@@ -88,7 +88,7 @@ label." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ipumsr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.4</span>
       </span>
     </div>
 
@@ -231,7 +231,7 @@ functions (that use values .val and .lbl). See examples for more information.</p
   <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='kw'>Yes</span> <span class='kw'>=</span> <span class='fl'>10</span>, <span class='kw'>`Yes - Logically Assigned`</span> <span class='kw'>=</span> <span class='fl'>11</span>, <span class='kw'>No</span> <span class='kw'>=</span> <span class='fl'>20</span>, <span class='kw'>Maybe</span> <span class='kw'>=</span> <span class='fl'>30</span>, <span class='kw'>NIU</span> <span class='kw'>=</span> <span class='fl'>99</span>)
 )
 
-<span class='fu'>lbl_na_if</span>(<span class='no'>x</span>, ~<span class='no'>.val</span> <span class='kw'>&gt;=</span> <span class='fl'>90</span>)</div><div class='output co'>#&gt; &lt;Labelled double&gt;
+<span class='fu'>lbl_na_if</span>(<span class='no'>x</span>, ~<span class='no'>.val</span> <span class='kw'>&gt;=</span> <span class='fl'>90</span>)</div><div class='output co'>#&gt; &lt;labelled&lt;double&gt;[8]&gt;
 #&gt; [1] 10 10 11 20 30 NA 30 10
 #&gt; 
 #&gt; Labels:
@@ -239,7 +239,7 @@ functions (that use values .val and .lbl). See examples for more information.</p
 #&gt;     10                      Yes
 #&gt;     11 Yes - Logically Assigned
 #&gt;     20                       No
-#&gt;     30                    Maybe</div><div class='input'><span class='fu'>lbl_na_if</span>(<span class='no'>x</span>, ~<span class='no'>.lbl</span> <span class='kw'>%in%</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"Maybe"</span>))</div><div class='output co'>#&gt; &lt;Labelled double&gt;
+#&gt;     30                    Maybe</div><div class='input'><span class='fu'>lbl_na_if</span>(<span class='no'>x</span>, ~<span class='no'>.lbl</span> <span class='kw'>%in%</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"Maybe"</span>))</div><div class='output co'>#&gt; &lt;labelled&lt;double&gt;[8]&gt;
 #&gt; [1] 10 10 11 20 NA 99 NA 10
 #&gt; 
 #&gt; Labels:
@@ -247,7 +247,7 @@ functions (that use values .val and .lbl). See examples for more information.</p
 #&gt;     10                      Yes
 #&gt;     11 Yes - Logically Assigned
 #&gt;     20                       No
-#&gt;     99                      NIU</div><div class='input'><span class='fu'>lbl_na_if</span>(<span class='no'>x</span>, ~<span class='no'>.val</span> <span class='kw'>&gt;=</span> <span class='fl'>90</span> <span class='kw'>|</span> <span class='no'>.lbl</span> <span class='kw'>%in%</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"Maybe"</span>))</div><div class='output co'>#&gt; &lt;Labelled double&gt;
+#&gt;     99                      NIU</div><div class='input'><span class='fu'>lbl_na_if</span>(<span class='no'>x</span>, ~<span class='no'>.val</span> <span class='kw'>&gt;=</span> <span class='fl'>90</span> <span class='kw'>|</span> <span class='no'>.lbl</span> <span class='kw'>%in%</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"Maybe"</span>))</div><div class='output co'>#&gt; &lt;labelled&lt;double&gt;[8]&gt;
 #&gt; [1] 10 10 11 20 NA NA NA 10
 #&gt; 
 #&gt; Labels:
@@ -256,7 +256,7 @@ functions (that use values .val and .lbl). See examples for more information.</p
 #&gt;     11 Yes - Logically Assigned
 #&gt;     20                       No</div><div class='input'>
 <span class='co'># You can also use the more explicit function notation</span>
-<span class='fu'>lbl_na_if</span>(<span class='no'>x</span>, <span class='kw'>function</span>(<span class='no'>.val</span>, <span class='no'>.lbl</span>) <span class='no'>.val</span> <span class='kw'>&gt;=</span> <span class='fl'>90</span>)</div><div class='output co'>#&gt; &lt;Labelled double&gt;
+<span class='fu'>lbl_na_if</span>(<span class='no'>x</span>, <span class='kw'>function</span>(<span class='no'>.val</span>, <span class='no'>.lbl</span>) <span class='no'>.val</span> <span class='kw'>&gt;=</span> <span class='fl'>90</span>)</div><div class='output co'>#&gt; &lt;labelled&lt;double&gt;[8]&gt;
 #&gt; [1] 10 10 11 20 30 NA 30 10
 #&gt; 
 #&gt; Labels:
@@ -267,7 +267,7 @@ functions (that use values .val and .lbl). See examples for more information.</p
 #&gt;     30                    Maybe</div><div class='input'>
 <span class='co'># Or even the name of a function</span>
 <span class='no'>na_function</span> <span class='kw'>&lt;-</span> <span class='kw'>function</span>(<span class='no'>.val</span>, <span class='no'>.lbl</span>) <span class='no'>.val</span> <span class='kw'>&gt;=</span> <span class='fl'>90</span>
-<span class='fu'>lbl_na_if</span>(<span class='no'>x</span>, <span class='st'>"na_function"</span>)</div><div class='output co'>#&gt; &lt;Labelled double&gt;
+<span class='fu'>lbl_na_if</span>(<span class='no'>x</span>, <span class='st'>"na_function"</span>)</div><div class='output co'>#&gt; &lt;labelled&lt;double&gt;[8]&gt;
 #&gt; [1] 10 10 11 20 30 NA 30 10
 #&gt; 
 #&gt; Labels:

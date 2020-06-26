@@ -86,7 +86,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ipumsr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.4</span>
       </span>
     </div>
 
@@ -237,7 +237,7 @@ that are in the data, but aren't already labelled.</p></td>
   <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='kw'>`Unknown`</span> <span class='kw'>=</span> <span class='fl'>990</span>, <span class='kw'>NIU</span> <span class='kw'>=</span> <span class='fl'>999</span>)
 )
 
-<span class='fu'>lbl_add</span>(<span class='no'>x</span>, <span class='fu'><a href='lbl.html'>lbl</a></span>(<span class='fl'>100</span>, <span class='st'>"$100"</span>), <span class='fu'><a href='lbl.html'>lbl</a></span>(<span class='fl'>105</span>, <span class='st'>"$105"</span>), <span class='fu'><a href='lbl.html'>lbl</a></span>(<span class='fl'>200</span>, <span class='st'>"$200"</span>), <span class='fu'><a href='lbl.html'>lbl</a></span>(<span class='fl'>230</span>, <span class='st'>"$230"</span>))</div><div class='output co'>#&gt; &lt;Labelled double&gt;
+<span class='fu'>lbl_add</span>(<span class='no'>x</span>, <span class='fu'><a href='lbl.html'>lbl</a></span>(<span class='fl'>100</span>, <span class='st'>"$100"</span>), <span class='fu'><a href='lbl.html'>lbl</a></span>(<span class='fl'>105</span>, <span class='st'>"$105"</span>), <span class='fu'><a href='lbl.html'>lbl</a></span>(<span class='fl'>200</span>, <span class='st'>"$200"</span>), <span class='fu'><a href='lbl.html'>lbl</a></span>(<span class='fl'>230</span>, <span class='st'>"$230"</span>))</div><div class='output co'>#&gt; &lt;labelled&lt;double&gt;[6]&gt;
 #&gt; [1] 100 200 105 990 999 230
 #&gt; 
 #&gt; Labels:
@@ -248,7 +248,7 @@ that are in the data, but aren't already labelled.</p></td>
 #&gt;    230    $230
 #&gt;    990 Unknown
 #&gt;    999     NIU</div><div class='input'>
-<span class='fu'>lbl_add_vals</span>(<span class='no'>x</span>)</div><div class='output co'>#&gt; &lt;Labelled double&gt;
+<span class='fu'>lbl_add_vals</span>(<span class='no'>x</span>)</div><div class='output co'>#&gt; &lt;labelled&lt;double&gt;[6]&gt;
 #&gt; [1] 100 200 105 990 999 230
 #&gt; 
 #&gt; Labels:
@@ -258,7 +258,7 @@ that are in the data, but aren't already labelled.</p></td>
 #&gt;    200     200
 #&gt;    230     230
 #&gt;    990 Unknown
-#&gt;    999     NIU</div><div class='input'><span class='fu'>lbl_add_vals</span>(<span class='no'>x</span>, ~<span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span>(<span class='st'>"$"</span>, <span class='no'>.</span>))</div><div class='output co'>#&gt; &lt;Labelled double&gt;
+#&gt;    999     NIU</div><div class='input'><span class='fu'>lbl_add_vals</span>(<span class='no'>x</span>, ~<span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span>(<span class='st'>"$"</span>, <span class='no'>.</span>))</div><div class='output co'>#&gt; &lt;labelled&lt;double&gt;[6]&gt;
 #&gt; [1] 100 200 105 990 999 230
 #&gt; 
 #&gt; Labels:
@@ -268,7 +268,7 @@ that are in the data, but aren't already labelled.</p></td>
 #&gt;    200    $200
 #&gt;    230    $230
 #&gt;    990 Unknown
-#&gt;    999     NIU</div><div class='input'><span class='fu'>lbl_add_vals</span>(<span class='no'>x</span>, <span class='kw'>vals</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>100</span>, <span class='fl'>200</span>))</div><div class='output co'>#&gt; &lt;Labelled double&gt;
+#&gt;    999     NIU</div><div class='input'><span class='fu'>lbl_add_vals</span>(<span class='no'>x</span>, <span class='kw'>vals</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>100</span>, <span class='fl'>200</span>))</div><div class='output co'>#&gt; &lt;labelled&lt;double&gt;[6]&gt;
 #&gt; [1] 100 200 105 990 999 230
 #&gt; 
 #&gt; Labels:

@@ -89,7 +89,7 @@ is used. Ignores any value that does not have a label." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ipumsr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.4</span>
       </span>
     </div>
 
@@ -234,7 +234,7 @@ See examples for more information.</p></td>
   <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='kw'>Yes</span> <span class='kw'>=</span> <span class='fl'>10</span>, <span class='kw'>`Yes - Logically Assigned`</span> <span class='kw'>=</span> <span class='fl'>11</span>, <span class='kw'>No</span> <span class='kw'>=</span> <span class='fl'>20</span>, <span class='kw'>Maybe</span> <span class='kw'>=</span> <span class='fl'>30</span>, <span class='kw'>NIU</span> <span class='kw'>=</span> <span class='fl'>99</span>)
 )
 
-<span class='fu'>lbl_collapse</span>(<span class='no'>x</span>, ~(<span class='no'>.val</span> <span class='kw'>%/%</span> <span class='fl'>10</span>) * <span class='fl'>10</span>)</div><div class='output co'>#&gt; &lt;Labelled double&gt;
+<span class='fu'>lbl_collapse</span>(<span class='no'>x</span>, ~(<span class='no'>.val</span> <span class='kw'>%/%</span> <span class='fl'>10</span>) * <span class='fl'>10</span>)</div><div class='output co'>#&gt; &lt;labelled&lt;double&gt;[8]&gt;
 #&gt; [1] 10 10 10 20 30 90 30 10
 #&gt; 
 #&gt; Labels:
@@ -244,7 +244,7 @@ See examples for more information.</p></td>
 #&gt;     30 Maybe
 #&gt;     90   NIU</div><div class='input'><span class='co'># Notice that 90 get's NIU from 99 even though 90 didn't have a label in original</span>
 
-<span class='fu'>lbl_collapse</span>(<span class='no'>x</span>, ~<span class='fu'><a href='https://rdrr.io/r/base/ifelse.html'>ifelse</a></span>(<span class='no'>.val</span> <span class='kw'>==</span> <span class='fl'>10</span>, <span class='fl'>11</span>, <span class='no'>.val</span>))</div><div class='output co'>#&gt; &lt;Labelled double&gt;
+<span class='fu'>lbl_collapse</span>(<span class='no'>x</span>, ~<span class='fu'><a href='https://rdrr.io/r/base/ifelse.html'>ifelse</a></span>(<span class='no'>.val</span> <span class='kw'>==</span> <span class='fl'>10</span>, <span class='fl'>11</span>, <span class='no'>.val</span>))</div><div class='output co'>#&gt; &lt;labelled&lt;double&gt;[8]&gt;
 #&gt; [1] 11 11 11 20 30 99 30 11
 #&gt; 
 #&gt; Labels:
@@ -255,7 +255,7 @@ See examples for more information.</p></td>
 #&gt;     99                      NIU</div><div class='input'><span class='co'># But here 10 is assigned 11's label</span>
 
 <span class='co'># You can also use the more explicit function notation</span>
-<span class='fu'>lbl_collapse</span>(<span class='no'>x</span>, <span class='kw'>function</span>(<span class='no'>.val</span>, <span class='no'>.lbl</span>) (<span class='no'>.val</span> <span class='kw'>%/%</span> <span class='fl'>10</span>) * <span class='fl'>10</span>)</div><div class='output co'>#&gt; &lt;Labelled double&gt;
+<span class='fu'>lbl_collapse</span>(<span class='no'>x</span>, <span class='kw'>function</span>(<span class='no'>.val</span>, <span class='no'>.lbl</span>) (<span class='no'>.val</span> <span class='kw'>%/%</span> <span class='fl'>10</span>) * <span class='fl'>10</span>)</div><div class='output co'>#&gt; &lt;labelled&lt;double&gt;[8]&gt;
 #&gt; [1] 10 10 10 20 30 90 30 10
 #&gt; 
 #&gt; Labels:
@@ -266,7 +266,7 @@ See examples for more information.</p></td>
 #&gt;     90   NIU</div><div class='input'>
 <span class='co'># Or even the name of a function</span>
 <span class='no'>collapse_function</span> <span class='kw'>&lt;-</span> <span class='kw'>function</span>(<span class='no'>.val</span>, <span class='no'>.lbl</span>) (<span class='no'>.val</span> <span class='kw'>%/%</span> <span class='fl'>10</span>) * <span class='fl'>10</span>
-<span class='fu'>lbl_collapse</span>(<span class='no'>x</span>, <span class='st'>"collapse_function"</span>)</div><div class='output co'>#&gt; &lt;Labelled double&gt;
+<span class='fu'>lbl_collapse</span>(<span class='no'>x</span>, <span class='st'>"collapse_function"</span>)</div><div class='output co'>#&gt; &lt;labelled&lt;double&gt;[8]&gt;
 #&gt; [1] 10 10 10 20 30 90 30 10
 #&gt; 
 #&gt; Labels:

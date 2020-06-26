@@ -40,7 +40,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ipumsr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.4</span>
       </span>
     </div>
 
@@ -137,7 +137,7 @@
       <h1 data-toc-skip>Introduction to <code>ipumsr</code> - IPUMS Data in R</h1>
                         <h4 class="author">Minnesota Population Center</h4>
             
-            <h4 class="date">2020-05-01</h4>
+            <h4 class="date">2020-06-17</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/mnpopcenter/ipumsr/blob/master/vignettes/ipums.Rmd"><code>vignettes/ipums.Rmd</code></a></small>
       <div class="hidden name"><code>ipums.Rmd</code></div>
@@ -351,7 +351,7 @@
   <span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span>()
 <span class="co">#&gt; [1] "YEAR"   "INCTOT"</span>
 
-<span class="fu"><a href="../reference/read_ipums_micro.html">read_ipums_micro</a></span>(<span class="no">cf</span>, <span class="kw">vars</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fu"><a href="https://tidyselect.r-lib.org/reference/one_of.html">one_of</a></span>(<span class="st">"YEAR"</span>), <span class="fu"><a href="https://tidyselect.r-lib.org/reference/select_helpers.html">starts_with</a></span>(<span class="st">"INC"</span>)), <span class="kw">verbose</span> <span class="kw">=</span> <span class="fl">FALSE</span>) <span class="kw">%&gt;%</span>
+<span class="fu"><a href="../reference/read_ipums_micro.html">read_ipums_micro</a></span>(<span class="no">cf</span>, <span class="kw">vars</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fu"><a href="https://tidyselect.r-lib.org/reference/one_of.html">one_of</a></span>(<span class="st">"YEAR"</span>), <span class="fu"><a href="https://tidyselect.r-lib.org/reference/starts_with.html">starts_with</a></span>(<span class="st">"INC"</span>)), <span class="kw">verbose</span> <span class="kw">=</span> <span class="fl">FALSE</span>) <span class="kw">%&gt;%</span>
   <span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span>()
 <span class="co">#&gt; [1] "YEAR"   "INCTOT"</span>
 
@@ -371,7 +371,7 @@
 <span class="co">#&gt; * &lt;chr&gt; &lt;chr&gt;                                      </span>
 <span class="co">#&gt; 1 data  nhgis0008_csv/nhgis0008_ds135_1990_pmsa.csv</span>
 
-<span class="fu"><a href="../reference/ipums_list_files.html">ipums_list_files</a></span>(<span class="no">nf</span>, <span class="kw">data_layer</span> <span class="kw">=</span> <span class="fu"><a href="https://tidyselect.r-lib.org/reference/select_helpers.html">contains</a></span>(<span class="st">"ds135"</span>))
+<span class="fu"><a href="../reference/ipums_list_files.html">ipums_list_files</a></span>(<span class="no">nf</span>, <span class="kw">data_layer</span> <span class="kw">=</span> <span class="fu"><a href="https://tidyselect.r-lib.org/reference/starts_with.html">contains</a></span>(<span class="st">"ds135"</span>))
 <span class="co">#&gt; # A tibble: 1 x 2</span>
 <span class="co">#&gt;   type  file                                       </span>
 <span class="co">#&gt; * &lt;chr&gt; &lt;chr&gt;                                      </span>
