@@ -528,14 +528,17 @@ make_var_info_from_scratch <- function(
   )
 }
 
-make_empty_labels <- function() {
-  tibble::tibble(val = numeric(0), lbl = character(0))
+make_empty_labels <- function(vt) {
+  tibble::tibble(
+    val = if (vt == "character") character(0) else numeric(0),
+    lbl = character(0)
+  )
 }
 
 # Helper to get labels out of free text from codInstr in xml
 parse_labels_from_code_instr <- function(code, var_type) {
   purrr::map2(code, var_type, function(x, vt) {
-    if (is.na(x)) return(make_empty_labels())
+    if (is.na(x)) return(make_empty_labels(vt))
     lines <- fostr_split(x, "\n")[[1]]
     labels <- parse_code_regex(lines, vt)
     dplyr::arrange(labels, .data$val)

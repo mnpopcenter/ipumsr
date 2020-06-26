@@ -1,0 +1,1565 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="ipums-ddi-xslt.xsl"?>
+<codeBook xmlns="ddi:codebook:2_5" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ddi:codebook:2_5 http://www.ddialliance.org/Specification/DDI-Codebook/2.5/XMLSchema/codebook.xsd" version="2.5" ID="ddi2-138358_mtus_00002.dat-www.mtusdata.org">
+  <docDscr>
+    <citation>
+      <titlStmt>
+        <titl>Codebook for an MTUS Data Extract</titl>
+        <subTitl>DDI 2.5 metadata describing the extract file  'mtus_00002.dat'</subTitl>
+        <IDNo>ddi2-138358_mtus_00002.dat-www.mtusdata.org</IDNo>
+      </titlStmt>
+      <rspStmt>
+        <AuthEnty affiliation="University of Minnesota">Minnesota Population Center</AuthEnty>
+      </rspStmt>
+      <prodStmt>
+        <producer abbr="MPC" affiliation="University of Minnesota" role="Documentation">Minnesota Population Center</producer>
+        <prodDate date="2020-06-20">June 20, 2020</prodDate>
+        <prodPlac>Minnesota Population Center, 50 Willey Hall, 225 - 19th Avenue South, Minneapolis, MN 55455</prodPlac>
+      </prodStmt>
+      <distStmt>
+        <contact affiliation="University of Minnesota" URI="http://pop.umn.edu">Minnesota Population Center</contact>
+      </distStmt>
+    </citation>
+  </docDscr>
+  <stdyDscr>
+    <citation>
+      <titlStmt>
+        <titl>User Extract mtus_00002.dat</titl>
+      </titlStmt>
+      <rspStmt>
+        <AuthEnty affiliation="University of Minnesota">Minnesota Population Center</AuthEnty>
+      </rspStmt>
+      <prodStmt>
+        <producer abbr="MPC" affiliation="University of Minnesota" role="Documentation">Minnesota Population Center</producer>
+        <prodDate date="2020-06-20">June 20, 2020</prodDate>
+        <prodPlac>Minnesota Population Center, 50 Willey Hall, 225 - 19th Avenue South, Minneapolis, MN 55455</prodPlac>
+      </prodStmt>
+      <distStmt>
+        <contact affiliation="University of Minnesota" URI="http://pop.umn.edu">Minnesota Population Center</contact>
+      </distStmt>
+      <serStmt>
+        <serName abbr="mtus">IPUMS MTUS</serName>
+        <serInfo>DOI:10.18128/D062.V1.3</serInfo>
+      </serStmt>
+      <verStmt>
+        <version date="2020-06-20"/>
+      </verStmt>
+    </citation>
+    <stdyInfo>
+      <subject>
+        <topcClas vocab="IPUMS">Technical Person Variables -- PERSON</topcClas>
+        <topcClas vocab="IPUMS">Household characteristics Variables -- PERSON</topcClas>
+        <topcClas vocab="IPUMS">Core Demographic Variables -- PERSON</topcClas>
+        <topcClas vocab="IPUMS">Work Status Variables -- PERSON</topcClas>
+        <topcClas vocab="IPUMS">Income Variables -- PERSON</topcClas>
+        <topcClas vocab="IPUMS">Weights Variables -- PERSON</topcClas>
+      </subject>
+      <sumDscr ID="sdatref-25">
+        <timePrd event="single" date="1975">1975</timePrd>
+        <nation abbr="nl">Netherlands</nation>
+      </sumDscr>
+      <sumDscr ID="sdatref-26">
+        <timePrd event="single" date="1980">1980</timePrd>
+        <nation abbr="nl">Netherlands</nation>
+      </sumDscr>
+      <sumDscr ID="sdatref-27">
+        <timePrd event="single" date="1985">1985</timePrd>
+        <nation abbr="nl">Netherlands</nation>
+      </sumDscr>
+      <sumDscr ID="sdatref-28">
+        <timePrd event="single" date="1990">1990</timePrd>
+        <nation abbr="nl">Netherlands</nation>
+      </sumDscr>
+      <sumDscr ID="sdatref-29">
+        <timePrd event="single" date="1995">1995</timePrd>
+        <nation abbr="nl">Netherlands</nation>
+      </sumDscr>
+      <sumDscr ID="sdatref-30">
+        <timePrd event="single" date="2000">2000</timePrd>
+        <nation abbr="nl">Netherlands</nation>
+      </sumDscr>
+      <sumDscr ID="sdatref-31">
+        <timePrd event="single" date="2005">2005</timePrd>
+        <nation abbr="nl">Netherlands</nation>
+      </sumDscr>
+      <notes><![CDATA[Additional notes on a sample that is part of this study:  ; regular size
+]]></notes>
+      <notes><![CDATA[Additional notes on a sample that is part of this study:  ; regular size
+]]></notes>
+      <notes><![CDATA[Additional notes on a sample that is part of this study:  ; regular size
+]]></notes>
+      <notes><![CDATA[Additional notes on a sample that is part of this study:  ; regular size
+]]></notes>
+      <notes><![CDATA[Additional notes on a sample that is part of this study:  ; regular size
+]]></notes>
+      <notes><![CDATA[Additional notes on a sample that is part of this study:  ; regular size
+]]></notes>
+      <notes><![CDATA[Additional notes on a sample that is part of this study:  ; regular size
+]]></notes>
+    </stdyInfo>
+    <dataAccs>
+      <useStmt>
+        <confDec required="no"><![CDATA[None]]></confDec>
+        <contact affiliation="Minnesota Population Center" URI="http://mtusdata.org/">MTUS</contact>
+        <citReq><![CDATA[Publications and research reports based on the MTUS database must cite it appropriately. The citation should include the following:
+
+Kimberly Fisher,  Jonathan Gershuny,  Sarah M. Flood,  Daniel Backman and Sandra L. Hofferth. Multinational Time Use Study Extract System: Version 1.3  [dataset]. Minneapolis, MN: IPUMS, 2019. https://doi.org/10.18128/D062.V1.3
+
+The licensing agreement for use of MTUS data requires that users supply us with the title and full citation for any publications, research reports, or educational materials making use of the data or documentation. Please add your citation to the IPUMS bibliography: http://bibliography.ipums.org/]]></citReq>
+        <conditions><![CDATA[Users of MTUS data must agree to abide by the conditions of use. A user's license is valid for one year and may be renewed.  Users must agree to the following conditions:
+
+(1) No fees may be charged for use or distribution of the data.  All persons are granted a limited license to use these data, but you may not charge a fee for the data if you distribute it to others.
+
+(2) Cite IPUMS appropriately.  For information on proper citation, refer to the citation requirement section of this DDI document.
+
+(3) Tell us about any work you do using the IPUMS.  Publications, research reports, or presentations making use of MTUS should be added to our Bibliography. Continued funding for the IPUMS depends on our ability to show our sponsor agencies that researchers are using the data for productive purposes.
+
+(4) Use it for GOOD -- never for EVIL.]]></conditions>
+        <disclaimer>The user of the data acknowledges that the original collector of the data, the authorized distributor of the data, and the relevant funding agency bear no responsibility for use of the data or for interpretations or inferences based upon such uses.</disclaimer>
+      </useStmt>
+    </dataAccs>
+    <notes><![CDATA[User-provided description:  Revision of (Time use from multiple days): Add more worker's characteristics.]]></notes>
+    <notes>This extract is a revision of the user's previous extract, number 1.</notes>
+  </stdyDscr>
+  <fileDscr ID="ExtractData">
+    <fileTxt>
+      <fileName>mtus_00002.dat</fileName>
+      <fileCont>Microdata records</fileCont>
+      <fileStrc type="rectangular">
+      </fileStrc>
+      <fileType charset="ISO-8859-1">ISO-8859-1 data file</fileType>
+      <format>fixed length fields</format>
+      <filePlac>Minnesota Population Center, 50 Willey Hall, 225 - 19th Avenue South, Minneapolis, MN 55455</filePlac>
+    </fileTxt>
+  </fileDscr>
+  <dataDscr>
+    <var ID="RECTYPE" files="ExtractData" name="RECTYPE" intrvl="discrete" dcml="0">
+      <location StartPos="1" width="1" EndPos="1"/>
+      <labl>Record type</labl>
+      <txt><![CDATA[RECTYPE indicates for a hierarchical extract whether the record in the data represents Person (P) or Activity (A).]]></txt>
+      <catgry>
+        <catValu>2</catValu>
+        <labl>Person</labl>
+      </catgry>
+      <catgry>
+        <catValu>3</catValu>
+        <labl>Activity</labl>
+      </catgry>
+      <concept vocab="IPUMS">Technical Person Variables -- PERSON</concept>
+      <varFormat schema="other" type="numeric"/>
+    </var>
+    <var ID="SAMPLE" files="ExtractData" name="SAMPLE" intrvl="discrete" dcml="0">
+      <location StartPos="2" width="6" EndPos="7"/>
+      <labl>Sample</labl>
+      <txt><![CDATA[SAMPLE indicates the dataset to which the case belongs. Each sample receives a unique 6-digit code. The code is structured as follows:
+
+The first two digits are the codes used in COUNTRY
+The next four digits are the year used to identify the dataset
+
+
+Some surveys include data from more than one year (YEAR).]]></txt>
+      <catgry>
+        <catValu>UK2014</catValu>
+        <labl>United Kingdom 2014</labl>
+      </catgry>
+      <catgry>
+        <catValu>NL1990</catValu>
+        <labl>Netherlands 1990</labl>
+      </catgry>
+      <catgry>
+        <catValu>NL1985</catValu>
+        <labl>Netherlands 1985</labl>
+      </catgry>
+      <catgry>
+        <catValu>NL1980</catValu>
+        <labl>Netherlands 1980</labl>
+      </catgry>
+      <catgry>
+        <catValu>NL1975</catValu>
+        <labl>Netherlands 1975</labl>
+      </catgry>
+      <catgry>
+        <catValu>ES2009</catValu>
+        <labl>Spain 2009</labl>
+      </catgry>
+      <catgry>
+        <catValu>ES2002</catValu>
+        <labl>Spain 2002</labl>
+      </catgry>
+      <catgry>
+        <catValu>US2012</catValu>
+        <labl>United States 2012</labl>
+      </catgry>
+      <catgry>
+        <catValu>US2011</catValu>
+        <labl>United States 2011</labl>
+      </catgry>
+      <catgry>
+        <catValu>US2010</catValu>
+        <labl>United States 2010</labl>
+      </catgry>
+      <catgry>
+        <catValu>US2009</catValu>
+        <labl>United States 2009</labl>
+      </catgry>
+      <catgry>
+        <catValu>US2008</catValu>
+        <labl>United States 2008</labl>
+      </catgry>
+      <catgry>
+        <catValu>US2007</catValu>
+        <labl>United States 2007</labl>
+      </catgry>
+      <catgry>
+        <catValu>US2006</catValu>
+        <labl>United States 2006</labl>
+      </catgry>
+      <catgry>
+        <catValu>US2005</catValu>
+        <labl>United States 2005</labl>
+      </catgry>
+      <catgry>
+        <catValu>US2004</catValu>
+        <labl>United States 2004</labl>
+      </catgry>
+      <catgry>
+        <catValu>US2003</catValu>
+        <labl>United States 2003</labl>
+      </catgry>
+      <catgry>
+        <catValu>US1998</catValu>
+        <labl>United States 1998</labl>
+      </catgry>
+      <catgry>
+        <catValu>US1995</catValu>
+        <labl>United States 1995</labl>
+      </catgry>
+      <catgry>
+        <catValu>US1993</catValu>
+        <labl>United States 1993</labl>
+      </catgry>
+      <catgry>
+        <catValu>US1985</catValu>
+        <labl>United States 1985</labl>
+      </catgry>
+      <catgry>
+        <catValu>US1975</catValu>
+        <labl>United States 1975</labl>
+      </catgry>
+      <catgry>
+        <catValu>US1965</catValu>
+        <labl>United States 1965</labl>
+      </catgry>
+      <catgry>
+        <catValu>AT1992</catValu>
+        <labl>Austria 1992</labl>
+      </catgry>
+      <catgry>
+        <catValu>FR1985</catValu>
+        <labl>France 1985</labl>
+      </catgry>
+      <catgry>
+        <catValu>FR1998</catValu>
+        <labl>France 1998</labl>
+      </catgry>
+      <catgry>
+        <catValu>US2015</catValu>
+        <labl>United States 2015</labl>
+      </catgry>
+      <catgry>
+        <catValu>US2014</catValu>
+        <labl>United States 2014</labl>
+      </catgry>
+      <catgry>
+        <catValu>NL2005</catValu>
+        <labl>Netherlands 2005</labl>
+      </catgry>
+      <catgry>
+        <catValu>NL2000</catValu>
+        <labl>Netherlands 2000</labl>
+      </catgry>
+      <catgry>
+        <catValu>NL1995</catValu>
+        <labl>Netherlands 1995</labl>
+      </catgry>
+      <catgry>
+        <catValu>US2013</catValu>
+        <labl>United States 2013</labl>
+      </catgry>
+      <catgry>
+        <catValu>IT2002</catValu>
+        <labl>Italy 2002</labl>
+      </catgry>
+      <catgry>
+        <catValu>CA2010</catValu>
+        <labl>Canada 2010</labl>
+      </catgry>
+      <catgry>
+        <catValu>FI1979</catValu>
+        <labl>Finland 1979</labl>
+      </catgry>
+      <catgry>
+        <catValu>UK2005</catValu>
+        <labl>United Kingdom 2005</labl>
+      </catgry>
+      <catgry>
+        <catValu>UK2000</catValu>
+        <labl>United Kingdom 2000</labl>
+      </catgry>
+      <catgry>
+        <catValu>UK1995</catValu>
+        <labl>United Kingdom 1995</labl>
+      </catgry>
+      <catgry>
+        <catValu>UK1987</catValu>
+        <labl>United Kingdom 1987</labl>
+      </catgry>
+      <catgry>
+        <catValu>UK1983</catValu>
+        <labl>United Kingdom 1983</labl>
+      </catgry>
+      <catgry>
+        <catValu>UK1974</catValu>
+        <labl>United Kingdom 1974</labl>
+      </catgry>
+      <catgry>
+        <catValu>IL1991</catValu>
+        <labl>Israel 1991</labl>
+      </catgry>
+      <catgry>
+        <catValu>BG2001</catValu>
+        <labl>Bulgaria 2001</labl>
+      </catgry>
+      <catgry>
+        <catValu>HU2009</catValu>
+        <labl>Hungary 2009</labl>
+      </catgry>
+      <catgry>
+        <catValu>HU1999</catValu>
+        <labl>Hungary 1999</labl>
+      </catgry>
+      <catgry>
+        <catValu>FI2009</catValu>
+        <labl>Finland 2009</labl>
+      </catgry>
+      <catgry>
+        <catValu>US2018</catValu>
+        <labl>United States 2018</labl>
+      </catgry>
+      <catgry>
+        <catValu>US2017</catValu>
+        <labl>United States 2017</labl>
+      </catgry>
+      <catgry>
+        <catValu>US2016</catValu>
+        <labl>United States 2016</labl>
+      </catgry>
+      <catgry>
+        <catValu>ZA2010</catValu>
+        <labl>South Africa 2010</labl>
+      </catgry>
+      <catgry>
+        <catValu>IT2008</catValu>
+        <labl>Italy 2008</labl>
+      </catgry>
+      <catgry>
+        <catValu>CA2005</catValu>
+        <labl>Canada 2005</labl>
+      </catgry>
+      <catgry>
+        <catValu>FR2009</catValu>
+        <labl>France 2009</labl>
+      </catgry>
+      <catgry>
+        <catValu>ZA2000</catValu>
+        <labl>South Africa 2000</labl>
+      </catgry>
+      <catgry>
+        <catValu>KR2009</catValu>
+        <labl>South Korea 2009</labl>
+      </catgry>
+      <catgry>
+        <catValu>CA2015</catValu>
+        <labl>Canada 2015</labl>
+      </catgry>
+      <catgry>
+        <catValu>KR2004</catValu>
+        <labl>South Korea 2004</labl>
+      </catgry>
+      <concept vocab="IPUMS">Technical Person Variables -- PERSON</concept>
+      <varFormat schema="other" type="character"/>
+    </var>
+    <var ID="IDENT" files="ExtractData" name="IDENT" intrvl="contin" dcml="0">
+      <location StartPos="8" width="9" EndPos="16"/>
+      <labl>Identifier</labl>
+      <txt><![CDATA[IDENT is an identifier to link person and activity records. It is unique within but not across surveys. Together IDENT and SAMPLE uniquely identify individuals.]]></txt>
+      <codInstr><![CDATA[This is a 9-digit numeric variable with 0 implied decimal places]]></codInstr>
+      <concept vocab="IPUMS">Technical Person Variables -- PERSON</concept>
+      <varFormat schema="other" type="numeric"/>
+    </var>
+    <var ID="COUNTRY" files="ExtractData" name="COUNTRY" intrvl="discrete" dcml="0">
+      <location StartPos="17" width="2" EndPos="18"/>
+      <labl>Country or region of survey</labl>
+      <txt><![CDATA[COUNTRY gives the country in which the survey was conducted.]]></txt>
+      <catgry>
+        <catValu>AT</catValu>
+        <labl>Austria</labl>
+      </catgry>
+      <catgry>
+        <catValu>BG</catValu>
+        <labl>Bulgaria</labl>
+      </catgry>
+      <catgry>
+        <catValu>CA</catValu>
+        <labl>Canada</labl>
+      </catgry>
+      <catgry>
+        <catValu>ES</catValu>
+        <labl>Spain</labl>
+      </catgry>
+      <catgry>
+        <catValu>FI</catValu>
+        <labl>Finland</labl>
+      </catgry>
+      <catgry>
+        <catValu>FR</catValu>
+        <labl>France</labl>
+      </catgry>
+      <catgry>
+        <catValu>HU</catValu>
+        <labl>Hungary</labl>
+      </catgry>
+      <catgry>
+        <catValu>IL</catValu>
+        <labl>Israel</labl>
+      </catgry>
+      <catgry>
+        <catValu>IT</catValu>
+        <labl>Italy</labl>
+      </catgry>
+      <catgry>
+        <catValu>KR</catValu>
+        <labl>Korea</labl>
+      </catgry>
+      <catgry>
+        <catValu>NL</catValu>
+        <labl>Netherlands</labl>
+      </catgry>
+      <catgry>
+        <catValu>UK</catValu>
+        <labl>United Kingdom</labl>
+      </catgry>
+      <catgry>
+        <catValu>US</catValu>
+        <labl>USA</labl>
+      </catgry>
+      <catgry>
+        <catValu>ZA</catValu>
+        <labl>South Africa</labl>
+      </catgry>
+      <concept vocab="IPUMS">Technical Person Variables -- PERSON</concept>
+      <varFormat schema="other" type="character"/>
+    </var>
+    <var ID="HLDID" files="ExtractData" name="HLDID" intrvl="contin" dcml="0">
+      <location StartPos="19" width="18" EndPos="36"/>
+      <labl>Household id</labl>
+      <txt><![CDATA[HLDID is drawn from the original data and may be used to match MTUS data back to the original survey. 
+
+In samples where more than one household member completed a diary, HLDID uniquely identifies households, but not individuals. In surveys where only one person per household completed a diary, HLDID is the original value in the data. When no household identifier is included in the original data, HLDID=0]]></txt>
+      <codInstr><![CDATA[This is a 18-digit numeric variable with 0 implied decimal places]]></codInstr>
+      <concept vocab="IPUMS">Technical Person Variables -- PERSON</concept>
+      <varFormat schema="other" type="numeric"/>
+    </var>
+    <var ID="PERSID" files="ExtractData" name="PERSID" intrvl="contin" dcml="0">
+      <location StartPos="37" width="17" EndPos="53"/>
+      <labl>Person/diarist identifier</labl>
+      <txt><![CDATA[PERSID uniquely identifies diarists within a given household.]]></txt>
+      <codInstr><![CDATA[This is a 17-digit numeric variable with 0 implied decimal places]]></codInstr>
+      <concept vocab="IPUMS">Technical Person Variables -- PERSON</concept>
+      <varFormat schema="other" type="numeric"/>
+    </var>
+    <var ID="DIARY" files="ExtractData" name="DIARY" intrvl="discrete" dcml="0">
+      <location StartPos="54" width="2" EndPos="55"/>
+      <labl>Diary order</labl>
+      <txt><![CDATA[DIARY records the order in which diaries were completed. For samples in which only one diary was completed per respondent, all values are 1. For samples in which multiple diary days were completed per respondent, values start at 1 and increment by 1 until each diary has been numbered in the order in which they were completed.]]></txt>
+      <catgry>
+        <catValu>01</catValu>
+        <labl>1st diary day</labl>
+      </catgry>
+      <catgry>
+        <catValu>02</catValu>
+        <labl>2nd diary day</labl>
+      </catgry>
+      <catgry>
+        <catValu>03</catValu>
+        <labl>3rd diary day</labl>
+      </catgry>
+      <catgry>
+        <catValu>04</catValu>
+        <labl>4th diary day</labl>
+      </catgry>
+      <catgry>
+        <catValu>05</catValu>
+        <labl>5th diary day</labl>
+      </catgry>
+      <catgry>
+        <catValu>06</catValu>
+        <labl>6th diary day</labl>
+      </catgry>
+      <catgry>
+        <catValu>07</catValu>
+        <labl>7th diary day</labl>
+      </catgry>
+      <concept vocab="IPUMS">Technical Person Variables -- PERSON</concept>
+      <varFormat schema="other" type="numeric"/>
+    </var>
+    <var ID="YEAR" files="ExtractData" name="YEAR" intrvl="discrete" dcml="0">
+      <location StartPos="56" width="4" EndPos="59"/>
+      <labl>Year diary kept</labl>
+      <txt><![CDATA[YEAR records the four-digit year when the diary was kept.]]></txt>
+      <catgry>
+        <catValu>1965</catValu>
+        <labl>1965</labl>
+      </catgry>
+      <catgry>
+        <catValu>1966</catValu>
+        <labl>1966</labl>
+      </catgry>
+      <catgry>
+        <catValu>1974</catValu>
+        <labl>1974</labl>
+      </catgry>
+      <catgry>
+        <catValu>1975</catValu>
+        <labl>1975</labl>
+      </catgry>
+      <catgry>
+        <catValu>1976</catValu>
+        <labl>1976</labl>
+      </catgry>
+      <catgry>
+        <catValu>1979</catValu>
+        <labl>1979</labl>
+      </catgry>
+      <catgry>
+        <catValu>1980</catValu>
+        <labl>1980</labl>
+      </catgry>
+      <catgry>
+        <catValu>1983</catValu>
+        <labl>1983</labl>
+      </catgry>
+      <catgry>
+        <catValu>1984</catValu>
+        <labl>1984</labl>
+      </catgry>
+      <catgry>
+        <catValu>1985</catValu>
+        <labl>1985</labl>
+      </catgry>
+      <catgry>
+        <catValu>1986</catValu>
+        <labl>1986</labl>
+      </catgry>
+      <catgry>
+        <catValu>1987</catValu>
+        <labl>1987</labl>
+      </catgry>
+      <catgry>
+        <catValu>1990</catValu>
+        <labl>1990</labl>
+      </catgry>
+      <catgry>
+        <catValu>1991</catValu>
+        <labl>1991</labl>
+      </catgry>
+      <catgry>
+        <catValu>1992</catValu>
+        <labl>1992</labl>
+      </catgry>
+      <catgry>
+        <catValu>1993</catValu>
+        <labl>1993</labl>
+      </catgry>
+      <catgry>
+        <catValu>1994</catValu>
+        <labl>1994</labl>
+      </catgry>
+      <catgry>
+        <catValu>1995</catValu>
+        <labl>1995</labl>
+      </catgry>
+      <catgry>
+        <catValu>1998</catValu>
+        <labl>1998</labl>
+      </catgry>
+      <catgry>
+        <catValu>1999</catValu>
+        <labl>1999</labl>
+      </catgry>
+      <catgry>
+        <catValu>2000</catValu>
+        <labl>2000</labl>
+      </catgry>
+      <catgry>
+        <catValu>2001</catValu>
+        <labl>2001</labl>
+      </catgry>
+      <catgry>
+        <catValu>2002</catValu>
+        <labl>2002</labl>
+      </catgry>
+      <catgry>
+        <catValu>2003</catValu>
+        <labl>2003</labl>
+      </catgry>
+      <catgry>
+        <catValu>2004</catValu>
+        <labl>2004</labl>
+      </catgry>
+      <catgry>
+        <catValu>2005</catValu>
+        <labl>2005</labl>
+      </catgry>
+      <catgry>
+        <catValu>2006</catValu>
+        <labl>2006</labl>
+      </catgry>
+      <catgry>
+        <catValu>2007</catValu>
+        <labl>2007</labl>
+      </catgry>
+      <catgry>
+        <catValu>2008</catValu>
+        <labl>2008</labl>
+      </catgry>
+      <catgry>
+        <catValu>2009</catValu>
+        <labl>2009</labl>
+      </catgry>
+      <catgry>
+        <catValu>2010</catValu>
+        <labl>2010</labl>
+      </catgry>
+      <catgry>
+        <catValu>2011</catValu>
+        <labl>2011</labl>
+      </catgry>
+      <catgry>
+        <catValu>2012</catValu>
+        <labl>2012</labl>
+      </catgry>
+      <catgry>
+        <catValu>2013</catValu>
+        <labl>2013</labl>
+      </catgry>
+      <catgry>
+        <catValu>2014</catValu>
+        <labl>2014</labl>
+      </catgry>
+      <catgry>
+        <catValu>2015</catValu>
+        <labl>2015</labl>
+      </catgry>
+      <catgry>
+        <catValu>2016</catValu>
+        <labl>2016</labl>
+      </catgry>
+      <catgry>
+        <catValu>2017</catValu>
+        <labl>2017</labl>
+      </catgry>
+      <catgry>
+        <catValu>2018</catValu>
+        <labl>2018</labl>
+      </catgry>
+      <concept vocab="IPUMS">Technical Person Variables -- PERSON</concept>
+      <varFormat schema="other" type="numeric"/>
+    </var>
+    <var ID="RELREFP" files="ExtractData" name="RELREFP" intrvl="discrete" dcml="0">
+      <location StartPos="60" width="2" EndPos="61"/>
+      <labl>Relation to household reference person</labl>
+      <txt><![CDATA[RELREFP indicates the relationship of the respondent to the household reference person. The MTUS reference person is usually the person who answered the household questionnaire (generally PERSID=1). In some cases, this may be the person designated as the head of the household.]]></txt>
+      <catgry>
+        <catValu>-8</catValu>
+        <labl>Missing</labl>
+      </catgry>
+      <catgry>
+        <catValu>-9</catValu>
+        <labl>Not applicable/Not asked</labl>
+      </catgry>
+      <catgry>
+        <catValu>01</catValu>
+        <labl>Reference person</labl>
+      </catgry>
+      <catgry>
+        <catValu>02</catValu>
+        <labl>Spouse/partner</labl>
+      </catgry>
+      <catgry>
+        <catValu>03</catValu>
+        <labl>Child</labl>
+      </catgry>
+      <catgry>
+        <catValu>04</catValu>
+        <labl>Parent</labl>
+      </catgry>
+      <catgry>
+        <catValu>05</catValu>
+        <labl>Sibling</labl>
+      </catgry>
+      <catgry>
+        <catValu>06</catValu>
+        <labl>Son/Daughter-in-law</labl>
+      </catgry>
+      <catgry>
+        <catValu>07</catValu>
+        <labl>Parent-in-law</labl>
+      </catgry>
+      <catgry>
+        <catValu>08</catValu>
+        <labl>Brother/Sister-in-law</labl>
+      </catgry>
+      <catgry>
+        <catValu>09</catValu>
+        <labl>Other relative</labl>
+      </catgry>
+      <catgry>
+        <catValu>10</catValu>
+        <labl>Not related</labl>
+      </catgry>
+      <concept vocab="IPUMS">Technical Person Variables -- PERSON</concept>
+      <varFormat schema="other" type="numeric"/>
+    </var>
+    <var ID="DAY" files="ExtractData" name="DAY" intrvl="discrete" dcml="0">
+      <location StartPos="62" width="2" EndPos="63"/>
+      <labl>Day of week diary kept</labl>
+      <txt><![CDATA[DAY records the day of the week when the diary was kept.]]></txt>
+      <catgry>
+        <catValu>-8</catValu>
+        <labl>Missing</labl>
+      </catgry>
+      <catgry>
+        <catValu>01</catValu>
+        <labl>Sunday</labl>
+      </catgry>
+      <catgry>
+        <catValu>02</catValu>
+        <labl>Monday</labl>
+      </catgry>
+      <catgry>
+        <catValu>03</catValu>
+        <labl>Tuesday</labl>
+      </catgry>
+      <catgry>
+        <catValu>04</catValu>
+        <labl>Wednesday</labl>
+      </catgry>
+      <catgry>
+        <catValu>05</catValu>
+        <labl>Thursday</labl>
+      </catgry>
+      <catgry>
+        <catValu>06</catValu>
+        <labl>Friday</labl>
+      </catgry>
+      <catgry>
+        <catValu>07</catValu>
+        <labl>Saturday</labl>
+      </catgry>
+      <concept vocab="IPUMS">Technical Person Variables -- PERSON</concept>
+      <varFormat schema="other" type="numeric"/>
+    </var>
+    <var ID="MONTH" files="ExtractData" name="MONTH" intrvl="discrete" dcml="0">
+      <location StartPos="64" width="2" EndPos="65"/>
+      <labl>Month diary kept</labl>
+      <txt><![CDATA[MONTH records the month when the diary was kept. Some surveys only record the quarter or season when the survey was carried out. See the comparability section for the criteria used in each sample.]]></txt>
+      <catgry>
+        <catValu>-8</catValu>
+        <labl>Missing</labl>
+      </catgry>
+      <catgry>
+        <catValu>01</catValu>
+        <labl>January</labl>
+      </catgry>
+      <catgry>
+        <catValu>02</catValu>
+        <labl>February</labl>
+      </catgry>
+      <catgry>
+        <catValu>03</catValu>
+        <labl>March</labl>
+      </catgry>
+      <catgry>
+        <catValu>04</catValu>
+        <labl>April</labl>
+      </catgry>
+      <catgry>
+        <catValu>05</catValu>
+        <labl>May</labl>
+      </catgry>
+      <catgry>
+        <catValu>06</catValu>
+        <labl>June</labl>
+      </catgry>
+      <catgry>
+        <catValu>07</catValu>
+        <labl>July</labl>
+      </catgry>
+      <catgry>
+        <catValu>08</catValu>
+        <labl>August</labl>
+      </catgry>
+      <catgry>
+        <catValu>09</catValu>
+        <labl>September</labl>
+      </catgry>
+      <catgry>
+        <catValu>10</catValu>
+        <labl>October</labl>
+      </catgry>
+      <catgry>
+        <catValu>11</catValu>
+        <labl>November</labl>
+      </catgry>
+      <catgry>
+        <catValu>12</catValu>
+        <labl>December</labl>
+      </catgry>
+      <concept vocab="IPUMS">Technical Person Variables -- PERSON</concept>
+      <varFormat schema="other" type="numeric"/>
+    </var>
+    <var ID="HHTYPE" files="ExtractData" name="HHTYPE" intrvl="discrete" dcml="0">
+      <location StartPos="66" width="2" EndPos="67"/>
+      <labl>Household type</labl>
+      <txt><![CDATA[HHTYPE records the type of household in which the respondent lived at the time of the survey. This is a household characteristic variable and can take the value of 1, 2, 3, and 4. HHTYPE is computed from a household type variable or a household grid when available and from a combination of marital status and household size when no household type classification was available. Where there is inconsistency in the reporting in the survey, the converter opts for the most logical solution.
+
+One person households have only 1 member and are coded as HHTYPE equal to 1. In instances where a household size variable suggests that there is only one household member, but the person is also a parent and not in a couple and at least one child also lives in the household, then the household type should be coded as 4 ("other household type"). 
+
+Values 2 and 3 mark instances where a household includes a couple (cohabiting or married). If the couple are the only people in the household (and the household size is equal to 2, then the appropriate code is category 2. If a couple lives in the household with at least one other person, then the code is 3. It does not matter if the couple are lodgers of the household reference person, or the household is a multi-couple household, or the reference person is a widow/widower or divorced person and has a child who has a partner that lives in the same household, or is a couple and children, the appropriate code is 3. If two or more people live in the household, and no household member is in a couple, then the appropriate code is a 4. 
+
+See  FAMSTAT  for more information on individual characteristics of members in the household.]]></txt>
+      <catgry>
+        <catValu>-7</catValu>
+        <labl>Not applicable/Not asked</labl>
+      </catgry>
+      <catgry>
+        <catValu>-8</catValu>
+        <labl>Missing</labl>
+      </catgry>
+      <catgry>
+        <catValu>01</catValu>
+        <labl>One person household</labl>
+      </catgry>
+      <catgry>
+        <catValu>02</catValu>
+        <labl>Married or cohabiting couple alone</labl>
+      </catgry>
+      <catgry>
+        <catValu>03</catValu>
+        <labl>Married or cohabiting couple and others</labl>
+      </catgry>
+      <catgry>
+        <catValu>04</catValu>
+        <labl>Other household types</labl>
+      </catgry>
+      <concept vocab="IPUMS">Household characteristics Variables -- PERSON</concept>
+      <varFormat schema="other" type="numeric"/>
+    </var>
+    <var ID="NCHILD" files="ExtractData" name="NCHILD" intrvl="discrete" dcml="0">
+      <location StartPos="68" width="2" EndPos="69"/>
+      <labl>Number of children aged under 18 in household</labl>
+      <txt><![CDATA[NCHILD reports the total number of individuals under 18 in the household. Any reported children are not necessarily the respondent's children.
+
+AGEKID and AGEKID2 provide the age of the youngest child in the household including adult children.]]></txt>
+      <catgry>
+        <catValu>-7</catValu>
+        <labl>Not available in this dataset</labl>
+      </catgry>
+      <catgry>
+        <catValu>-8</catValu>
+        <labl>Missing</labl>
+      </catgry>
+      <catgry>
+        <catValu>00</catValu>
+        <labl>0</labl>
+      </catgry>
+      <catgry>
+        <catValu>01</catValu>
+        <labl>1</labl>
+      </catgry>
+      <catgry>
+        <catValu>02</catValu>
+        <labl>2</labl>
+      </catgry>
+      <catgry>
+        <catValu>03</catValu>
+        <labl>3</labl>
+      </catgry>
+      <catgry>
+        <catValu>04</catValu>
+        <labl>4</labl>
+      </catgry>
+      <catgry>
+        <catValu>05</catValu>
+        <labl>5</labl>
+      </catgry>
+      <catgry>
+        <catValu>06</catValu>
+        <labl>6</labl>
+      </catgry>
+      <catgry>
+        <catValu>07</catValu>
+        <labl>7</labl>
+      </catgry>
+      <catgry>
+        <catValu>08</catValu>
+        <labl>8</labl>
+      </catgry>
+      <catgry>
+        <catValu>09</catValu>
+        <labl>9</labl>
+      </catgry>
+      <catgry>
+        <catValu>10</catValu>
+        <labl>10</labl>
+      </catgry>
+      <catgry>
+        <catValu>11</catValu>
+        <labl>11</labl>
+      </catgry>
+      <catgry>
+        <catValu>12</catValu>
+        <labl>12</labl>
+      </catgry>
+      <catgry>
+        <catValu>13</catValu>
+        <labl>13</labl>
+      </catgry>
+      <catgry>
+        <catValu>14</catValu>
+        <labl>14</labl>
+      </catgry>
+      <catgry>
+        <catValu>17</catValu>
+        <labl>17</labl>
+      </catgry>
+      <concept vocab="IPUMS">Household characteristics Variables -- PERSON</concept>
+      <varFormat schema="other" type="numeric"/>
+    </var>
+    <var ID="URBAN" files="ExtractData" name="URBAN" intrvl="discrete" dcml="0">
+      <location StartPos="70" width="2" EndPos="71"/>
+      <labl>Urban</labl>
+      <txt><![CDATA[URBAN indicates whether or not the respondent lives in an urban area.]]></txt>
+      <catgry>
+        <catValu>-7</catValu>
+        <labl>Not applicable/not asked</labl>
+      </catgry>
+      <catgry>
+        <catValu>-8</catValu>
+        <labl>Missing</labl>
+      </catgry>
+      <catgry>
+        <catValu>01</catValu>
+        <labl>Urban/Suburban</labl>
+      </catgry>
+      <catgry>
+        <catValu>02</catValu>
+        <labl>Rural/Semi-rural</labl>
+      </catgry>
+      <concept vocab="IPUMS">Household characteristics Variables -- PERSON</concept>
+      <varFormat schema="other" type="numeric"/>
+    </var>
+    <var ID="AGE" files="ExtractData" name="AGE" intrvl="contin" dcml="0">
+      <location StartPos="72" width="3" EndPos="74"/>
+      <labl>Age</labl>
+      <txt><![CDATA[AGE reports the age of respondents. 
+
+When age is recorded in categories, a mid-point of each age group is assigned, for example, 17 for age group 15-19. When surveys only included the year of birth of respondents, AGE was computed by subtracting the year of birth from the year of the survey. To protect the anonymity of the oldest respondents, age is topcoded. Users should note differences in topcodes across countries and years.]]></txt>
+      <codInstr><![CDATA[This is a 3-digit numeric variable with 0 implied decimal places]]></codInstr>
+      <concept vocab="IPUMS">Core Demographic Variables -- PERSON</concept>
+      <varFormat schema="other" type="numeric"/>
+    </var>
+    <var ID="SEX" files="ExtractData" name="SEX" intrvl="discrete" dcml="0">
+      <location StartPos="75" width="2" EndPos="76"/>
+      <labl>Sex</labl>
+      <txt><![CDATA[SEX reports whether the individual is male or female.]]></txt>
+      <catgry>
+        <catValu>01</catValu>
+        <labl>Man</labl>
+      </catgry>
+      <catgry>
+        <catValu>02</catValu>
+        <labl>Woman</labl>
+      </catgry>
+      <catgry>
+        <catValu>-8</catValu>
+        <labl>Missing</labl>
+      </catgry>
+      <concept vocab="IPUMS">Core Demographic Variables -- PERSON</concept>
+      <varFormat schema="other" type="numeric"/>
+    </var>
+    <var ID="CITIZEN" files="ExtractData" name="CITIZEN" intrvl="discrete" dcml="0">
+      <location StartPos="77" width="2" EndPos="78"/>
+      <labl>Diarist is citizen/native of country</labl>
+      <txt><![CDATA[CITIZEN indicates whether the respondent is a citizen or native of the country in which he or she completed the diary.]]></txt>
+      <catgry>
+        <catValu>-7</catValu>
+        <labl>Not applicable/not asked</labl>
+      </catgry>
+      <catgry>
+        <catValu>-8</catValu>
+        <labl>Missing</labl>
+      </catgry>
+      <catgry>
+        <catValu>00</catValu>
+        <labl>No</labl>
+      </catgry>
+      <catgry>
+        <catValu>01</catValu>
+        <labl>Yes</labl>
+      </catgry>
+      <concept vocab="IPUMS">Core Demographic Variables -- PERSON</concept>
+      <varFormat schema="other" type="numeric"/>
+    </var>
+    <var ID="EDTRY" files="ExtractData" name="EDTRY" intrvl="discrete" dcml="0">
+      <location StartPos="79" width="2" EndPos="80"/>
+      <labl>Harmonized highest level of education</labl>
+      <txt><![CDATA[EDTRY indicates the respondent's highest level of education based on the International Classification of Education (ISCED) [URL omitted from DDI.].
+
+Users may also be interested in EDUCA which is unharmonized and indicates the highest level of education attained. A cross tabulation of EDTRY and EDUCA shows how EDTRY was constructed for each sample.]]></txt>
+      <catgry>
+        <catValu>-7</catValu>
+        <labl>Not Applicable/not asked</labl>
+      </catgry>
+      <catgry>
+        <catValu>-8</catValu>
+        <labl>Missing</labl>
+      </catgry>
+      <catgry>
+        <catValu>-9</catValu>
+        <labl>Could not be created</labl>
+      </catgry>
+      <catgry>
+        <catValu>01</catValu>
+        <labl>inc 2ndry or less</labl>
+      </catgry>
+      <catgry>
+        <catValu>02</catValu>
+        <labl>completed secondary</labl>
+      </catgry>
+      <catgry>
+        <catValu>03</catValu>
+        <labl>above 2ndry education</labl>
+      </catgry>
+      <concept vocab="IPUMS">Core Demographic Variables -- PERSON</concept>
+      <varFormat schema="other" type="numeric"/>
+    </var>
+    <var ID="EMPSTAT" files="ExtractData" name="EMPSTAT" intrvl="discrete" dcml="0">
+      <location StartPos="81" width="2" EndPos="82"/>
+      <labl>Employment status</labl>
+      <txt><![CDATA[EMPSTAT reports the employment status of the respondent. This variable reflects attachment to the labor market. People who are retired, students, seeking work or looking after family but who work at least some hours should be coded as working part time. Category 4 ("Not in paid work") should mean no attachment to the labor force (unemployed, retired, homemaker, attending school, on maternity leave, or disability leave). 
+
+Users may also be interested in EMP which reports whether or not the respondent was employed or self-employed (i.e. had a paid job) during the week prior to the survey (or period of the reference in the questionnaire). UNEMP reports whether or not respondent was unemployed. STUDENT reports whether or not respondent was a student and RETIRED if respondent was retired. EMPSP indicates the employment status of the spouse or partner for those respondents in a couple. 
+
+WORKHRS provides information on the number of paid hours of work reported during the week prior to the survey including any overtime while EMPINCLM reports the monthly employment income.]]></txt>
+      <catgry>
+        <catValu>-7</catValu>
+        <labl>Not asked of this diarist</labl>
+      </catgry>
+      <catgry>
+        <catValu>-8</catValu>
+        <labl>Missing</labl>
+      </catgry>
+      <catgry>
+        <catValu>01</catValu>
+        <labl>Full-time</labl>
+      </catgry>
+      <catgry>
+        <catValu>02</catValu>
+        <labl>Part-time</labl>
+      </catgry>
+      <catgry>
+        <catValu>03</catValu>
+        <labl>Unknown job hours</labl>
+      </catgry>
+      <catgry>
+        <catValu>04</catValu>
+        <labl>Not in paid work</labl>
+      </catgry>
+      <concept vocab="IPUMS">Work Status Variables -- PERSON</concept>
+      <varFormat schema="other" type="numeric"/>
+    </var>
+    <var ID="EMPSP" files="ExtractData" name="EMPSP" intrvl="discrete" dcml="0">
+      <location StartPos="83" width="2" EndPos="84"/>
+      <labl>Emp status of spouse/partner</labl>
+      <txt><![CDATA[EMPSP reports the employment status of the respondent's spouse or partner for coupled respondents. EMPSTAT provides further details on the employment status of the respondent. 
+
+Where the survey collected diaries from both members of the couple, each partner's own self-reported employment status is used to identify the corresponding spouse's employment status. If one partner's employment status is not reported or where only one person in the household completed a diary, the employment status of the respondent's spouse during the week prior to the survey (or whatever the period of reference was in the original questionnaire) is assigned.]]></txt>
+      <catgry>
+        <catValu>-7</catValu>
+        <labl>Not applicable/not asked</labl>
+      </catgry>
+      <catgry>
+        <catValu>-8</catValu>
+        <labl>Missing</labl>
+      </catgry>
+      <catgry>
+        <catValu>-9</catValu>
+        <labl>Could not be created</labl>
+      </catgry>
+      <catgry>
+        <catValu>01</catValu>
+        <labl>Full-time</labl>
+      </catgry>
+      <catgry>
+        <catValu>02</catValu>
+        <labl>Part-time</labl>
+      </catgry>
+      <catgry>
+        <catValu>03</catValu>
+        <labl>Unknown job hours</labl>
+      </catgry>
+      <catgry>
+        <catValu>04</catValu>
+        <labl>Not in paid work</labl>
+      </catgry>
+      <concept vocab="IPUMS">Work Status Variables -- PERSON</concept>
+      <varFormat schema="other" type="numeric"/>
+    </var>
+    <var ID="SECTOR" files="ExtractData" name="SECTOR" intrvl="discrete" dcml="0">
+      <location StartPos="85" width="2" EndPos="86"/>
+      <labl>Sector of employment</labl>
+      <txt><![CDATA[SECTOR reports whether employed people work in the public or the private sector.]]></txt>
+      <catgry>
+        <catValu>-7</catValu>
+        <labl>Not applicable/Not asked</labl>
+      </catgry>
+      <catgry>
+        <catValu>-8</catValu>
+        <labl>Missing</labl>
+      </catgry>
+      <catgry>
+        <catValu>-9</catValu>
+        <labl>Could not be created</labl>
+      </catgry>
+      <catgry>
+        <catValu>01</catValu>
+        <labl>Public sector</labl>
+      </catgry>
+      <catgry>
+        <catValu>02</catValu>
+        <labl>Private sector</labl>
+      </catgry>
+      <concept vocab="IPUMS">Work Status Variables -- PERSON</concept>
+      <varFormat schema="other" type="numeric"/>
+    </var>
+    <var ID="EMP" files="ExtractData" name="EMP" intrvl="discrete" dcml="0">
+      <location StartPos="87" width="2" EndPos="88"/>
+      <labl>Employed</labl>
+      <txt><![CDATA[EMP indicates whether or not the respondent was employed or self-employed (i.e. had a paid job) during the reference period in the original questionnaire). 
+
+EMPSTAT provides further details on the employment status of the respondent. UNEMP reports whether or not respondent was unemployed. STUDENT reports whether or not respondent was a student and RETIRED if respondent was retired. EMPSP indicates the employment status of the spouse or partner for those respondents in a couple.]]></txt>
+      <catgry>
+        <catValu>-7</catValu>
+        <labl>Could not be created</labl>
+      </catgry>
+      <catgry>
+        <catValu>-8</catValu>
+        <labl>Missing</labl>
+      </catgry>
+      <catgry>
+        <catValu>00</catValu>
+        <labl>Not in paid work</labl>
+      </catgry>
+      <catgry>
+        <catValu>01</catValu>
+        <labl>In paid work</labl>
+      </catgry>
+      <concept vocab="IPUMS">Work Status Variables -- PERSON</concept>
+      <varFormat schema="other" type="numeric"/>
+    </var>
+    <var ID="WORKHRS" files="ExtractData" name="WORKHRS" intrvl="contin" dcml="0">
+      <location StartPos="89" width="4" EndPos="92"/>
+      <labl>Hours paid work last week including overtime</labl>
+      <txt><![CDATA[WORKHRS reports the number of hours of paid work reported during the week prior to the survey including any overtime. The number of hours of paid work during the last week was given priority even if data on the number of hour 'usually worked' was available. If data on the number of paid work hours last week was not available, then was based on usual hours of paid work. When neither question was available, 7-day diaries and/or work schedules were used to measure hours worked during the diary week. 
+
+The variable includes reported hours of paid work for any respondent who answered the question, whether or not this person reports being employed on a main economic activity variable. 
+
+Users may also be interested in EMPSTAT which provides further details on the employment status of the respondent. UNEMP reports whether or not respondent was unemployed. STUDENT reports whether or not respondent was a student and RETIRED if respondent was retired. EMPSP indicates the employment status of the spouse or partner for those respondents in a couple.  EMPINCLM provides information on the personal income from wages/employment/self-employment during the last month.]]></txt>
+      <codInstr><![CDATA[
+WORKHRS reports the number of hours of paid work reported during the week prior to the survey including any overtime.
+
+-7=Not applicable/not asked
+-8=Missing
+-9=Could not be created]]></codInstr>
+      <concept vocab="IPUMS">Work Status Variables -- PERSON</concept>
+      <varFormat schema="other" type="numeric"/>
+    </var>
+    <var ID="INCOME" files="ExtractData" name="INCOME" intrvl="discrete" dcml="0">
+      <location StartPos="93" width="2" EndPos="94"/>
+      <labl>Total household income grouped</labl>
+      <txt><![CDATA[INCOME contains information about the annual household income (in quartiles). 
+
+Users should note that income often has a high percentage of cases with missing values. Also, in many surveys, data on household income was collected and/or coded in income groups rather than interval values. As a result, the identification of the cut-off points for the first quartile (lowest 25%) and fourth quartile (highest 25%) may not be precise.]]></txt>
+      <catgry>
+        <catValu>-7</catValu>
+        <labl>Not applicable/not asked</labl>
+      </catgry>
+      <catgry>
+        <catValu>-8</catValu>
+        <labl>Missing</labl>
+      </catgry>
+      <catgry>
+        <catValu>-9</catValu>
+        <labl>Could not be created</labl>
+      </catgry>
+      <catgry>
+        <catValu>01</catValu>
+        <labl>Lowest 25%</labl>
+      </catgry>
+      <catgry>
+        <catValu>02</catValu>
+        <labl>Middle 50%</labl>
+      </catgry>
+      <catgry>
+        <catValu>03</catValu>
+        <labl>Highest 25%</labl>
+      </catgry>
+      <concept vocab="IPUMS">Income Variables -- PERSON</concept>
+      <varFormat schema="other" type="numeric"/>
+    </var>
+    <var ID="INCORIG" files="ExtractData" name="INCORIG" intrvl="contin" dcml="0">
+      <location StartPos="95" width="8" EndPos="102"/>
+      <labl>Original household income</labl>
+      <txt><![CDATA[INCORIG records total household income as originally recorded in the survey. 
+
+This variable is unharmonized (see INCOME for the harmonized variable). 
+
+Users should note that when merging data from different surveys, the original value labels for this variable will be lost since they are survey-specific.]]></txt>
+      <codInstr><![CDATA[Austria 1992:
+
+In 1992, this is a continuous variable that reports monthly household income in Austrian schillings.
+
+Canada 2005:
+
+1 No income or loss 
+2 Less than $5,000 
+3 $5,000 to $9,999 
+4 $10,000 to $14,999 
+5 $15,000 to $19,999 
+6 $20,000 to $29,999 
+7 $30,000 to $39,999 
+8 $40,000 to $49,999 
+9 $50,000 to $59,999 
+10 $60,000 to $79,999 
+11 $80,000 to $99,999 
+12 $100,000 or more 
+
+Canada 2010: 
+
+1 No income or loss 
+2 Less than $5,000 
+3 $5,000 to $9,999 
+4 $10,000 to $14,999 
+5 $15,000 to $19,999 
+6 $20,000 to $29,999 
+7 $30,000 to $39,999 
+8 $40,000 to $49,999 
+9 $50,000 to $59,999 
+10 $60,000 to $79,999 
+11 $80,000 to $99,999 
+12 $100,000 to $149,999
+13 $150,000 or more 
+Canada 2015
+
+1 Less than $20,000
+2 $20,000 to $39,999	
+3 $40,000 to $59,999	
+4 $60,000 to $79,999
+5 $80,000 to $99,999	
+6 $100,000 to $119,999	
+7 $120,000 to $139,999
+8 $140,000 or more	
+
+
+Israel 1991:
+
+In the Israel 1991 data, information about household income is available as continuous data. The currency is the New Shekel. This variable includes wages sum of employment, child, old age  other allowances, pension  other income.
+
+Spain 2002 and 2009:
+In the Spanish data, income is reported as monthly household income.
+
+In 2002 and 2009, the values are as follows:
+
+1 1200 euros or less
+2 1201 euros to 2000 euros
+3 2001 euros to 3000 euros
+4 More than 3000 euros
+-8 Missing
+
+
+Finland 2009: 
+
+In the Finland 2009 data, information about household income is available as continuous data. The currency is the Euro.
+
+France 1998: 
+
+
+1 Less than 3,500
+2 3,500 to 7,000
+3 7,000 to 10,000
+4 10,000 to 14,000
+5 14,000 to 17,500
+6 17,500 to 21,000
+7 21,000 to 35,000
+8 35,000 to 50,000
+9 More than 50,000
+99 Doesn't know 
+
+
+Hungary 2009 (The currency is Forint):
+
+1 50000 and under
+2 50001 to 80000
+3 80001 to 120000
+4 120001 to 160000
+5 160001 to 200000
+6 200001 to 250000
+7 250001 to 300000
+8 300001 to 400000
+9 400001 to 600000
+10 600001 to 1000000
+
+
+Netherlands: 
+
+In 1975, there is no income variable but there is a social class variable with the categories: 
+
+A/B (9.1%)
+C1 (13.8%)
+C2 (22.2%)
+D1 (41.4%)
+D2 (12.5%)
+9	missing
+
+We use this variable in place of INCOME for INCORIG, and code 1,2 into INCOME=3 (high), 3,4 into INCOME=2 (middle) and 5 into INCOME=1 (low).
+
+For 1980: 
+
+1 Under 750 PMND
+   	2 F 750-1000 PMND
+   	3 F 1000-1250 PMND
+   	4 F 1250-1500 PMND
+   	5 F 1500-1750 PMND
+   	6 F 1750-2000 PMND
+   	7 F 2000-2250 PMND
+   	8 F 2250-2500 PMND
+   	9 F 2500-2750 PMND
+  	10 F 2750-3250 PMND
+  	11 F 3250-3750 PMND
+  	12 More than F 3750 PMND
+  	13 Does not know (mainly for young diarists)
+  	14 Refused or not stated.
+
+For 1985-2000, this is a continuous variable that reports net monthly income in Dutch Guilder.
+
+For 2000, the original variable used to create INCORIG is v258. However, there are missing cases, so the variable v672 is used as additional information. v672 covers income ranges, so the variable was recoded according to the midpoint of the range.
+
+United Kingdom:
+
+In 1995, the original variable gross income is used as INCORIG with no conversion.  Values and labels are as follows:
+
+1 Less than 1,000
+2 1,000 to 1,999
+3 2,000 to 2,999
+4 3,000 to 3,999
+5 4,000 to 4,999
+6 5,000 to 5,999
+7 6,000 to 6,999
+8 7,000 to 7,999
+9 8,000 to 8,999
+10 9,000 to 9,999
+11 10,000 to 10,999
+12 11,000 to 11,999
+13 12,000 to 12,999
+14 13,000 to 13,999
+15 14,000 to 14,999
+16 15,000 to 17,499
+17 17,500 to 19,999
+18 20,000 to 24,999
+19 25,000 to 29,999
+20 30,000 to 39,999
+21 40,000 or more
+98 No source of income
+99 Refused
+
+
+In 2000 and 2001, the labels are as follows:
+
+-8   missing
+1    Less than 2,610 pounds
+2    2,610 -   5,210 pounds
+3    5,210 - 10,430 pounds
+4    10,430 - 15,640 pounds
+5    15,640 - 20,860 pounds
+6    20,860 - 33,800 pounds
+7    33,800 - 41,000 pounds
+8    41,000 - 46,000 pounds
+9    46,000 - 55,000 pounds
+10  55,000 - 80,000 pounds
+11  80,000 pounds or more
+
+In 2014,this is a continuous variable that reports monthly household income in pound sterling.
+
+United States:
+
+In 1965, values in the original data are:
+
+50 'less than $15,000' 
+51 '$15-24,999' 
+52 '$25-34,999' 
+53 '$35,000+'
+99 no label, assumed to be non-response
+
+
+In 1975, values in the original data are: 
+
+-8 Missing
+1 Under US$2000
+2 US$2000-2999
+3 US$3000-3999
+4 US$4000-4999
+5 US$5000-5999
+6 US$6000-7499
+7 US$7500-8999
+8 US$9000-9999
+9 US$10,000-10,999
+10 US$11,000-12,499
+11 US$12,500-14,999
+12 US$15,000-17,499
+13 US$17,500-19,999
+14 US$20,000-22,499
+15 US$22,500-24,999
+16 US$25,000-29,999
+17 US$30,000-34,999
+18 US$35000 or over
+
+
+In 1985, values in the original data are:
+
+50 'less than $15,000' 
+51 '$15-24,999' 
+52 '$25-34,999' 
+53 '$35,000+'
+99 no label, assumed to be non-response
+
+In 1995, values in the original data are:
+
+4 Lowest 25%
+7  Middle 50%
+9  Top 25%.
+
+In 1998-2001, values in the original data are:
+
+-8 missing
+1 Less than $12,000
+2 $12,001 to $20,000
+3 $20,001 to $30,000
+4 $30,001 to $50,000
+5 $50,001 to $75,000
+6 $75,001 to $100,000
+7 $100,001 or more
+
+
+In 2003 forward, values in the original data are:
+
+-8  missing
+1  Less than $5,000
+2  5,000 to 7,499
+3  7,500 to 9,999
+4  10,000 to 12,499
+5  12,500 to 14,999
+6  15,000 to 19,999
+7  20,000 to 24,999
+8  25,000 to 29,999
+9  30,000 to 34,999
+10  35,000 to 39,999
+11  40,000 to 49,999
+12  50,000 to 59,999
+13  60,000 to 74,999
+14  75,000 to 99,999
+15  100,000 to 149,999
+16  150,000 and over
+
+
+South Africa: 
+
+2000:
+
+1 'R0-R399' 
+2 'R400-R799' 
+3 'R800-R1 199' 
+4 'R1 200 - R1 799' 
+5 'R1 800- R2 499' 
+6 'R2 500 - R4 999' 
+7 'R5 000 - R9 999' 
+8 'R10 000 or more'  
+
+
+2010:
+
+0 None
+1 R1 - R200
+2 R201 - R500 
+3 R501 - R1 000 
+4 R1 001 - R1 500 
+5 R1 501 - R2 500 
+6 R2 501 - R3 500 
+7 R3 501 - R4 500 
+8 R4 501 - R6 000 
+9 R6 001 - R8 000 
+10 R8 001 - R11 000 
+11 R11 001 or more
+-3 Refuse
+-4 Do not know
+-7 Not applicable
+]]></codInstr>
+      <concept vocab="IPUMS">Income Variables -- PERSON</concept>
+      <varFormat schema="other" type="numeric"/>
+    </var>
+    <var ID="PROPWT" files="ExtractData" name="PROPWT" intrvl="contin" dcml="0">
+      <location StartPos="103" width="16" EndPos="118"/>
+      <labl>Proposed weight</labl>
+      <txt><![CDATA[PROPWT reports the proposed weight used when population and day combined weights need to be rescaled.
+
+The main MTUS weight, PROPWT, is calculated as follows:
+
+Begin from the original survey weight (deflated if the original weight was inflated). If there is no original weight, a population weight is constructed by dividing the percentage of the population expected to be in each age/sex (and in some cases employment status) group by the percentage of cases actually in that age/sex/employment status category in the sample data (expected/achieved).
+Create a good-diary inflation factor by dividing the total number of diaries collected in the survey by the number of good diaries (total diaries/good diaries).
+Create an interim weight that starts with the same value of the weight in step 1. Second, set the value of this interim weight to 0 for all low-quality diaries (NOWGHT=0). Third, multiply the interim weight by the good diary inflation factor created in step 2 for all cases (it will stay 0 for the bad diaries).
+Compute ASEWT - a sum of the weights for each age/sex/employment status group (across all days of the week).
+Compute two further sums: ASEDayWT -- a sum of weights for each age/sex/employment status) group separately for each day of the week, and also: ASEDayCASE - the sum of the number of cases in each age/sex/employment status) group for each day of the week. (This step differs from step 4 as the sums are calculated separately for each day of the week).
+An expected sum of weights is calculated (ESW) for each day of the week: ESW = ASEWT / 7 (divided by 7 as there are 7 days of the week).
+PROPWT = (ESW / ASEDayWT) / (ASEDayCASE / ASEDayWT)
+PROPWT should have a mean of 1, and should sum to the total number of diary cases. When the weight has been applied, the weighted frequency of the diaries by the days of the week should be evenly distributed (14.3% for each day). Similarly, each age/sex group should have an even distribution of diaries across each day of the week.
+
+
+Users who are interested in the original weight may refer to OCOMBWT.]]></txt>
+      <codInstr><![CDATA[
+PROPWT is a 16 digit numeric variable.]]></codInstr>
+      <concept vocab="IPUMS">Weights Variables -- PERSON</concept>
+      <varFormat schema="other" type="numeric"/>
+    </var>
+    <var ID="HOURSWORKED" files="ExtractData" name="HOURSWORKED" intrvl="contin" dcml="0">
+      <location StartPos="119" width="4" EndPos="122"/>
+      <labl>ACT: Paid Work</labl>
+      <txt><![CDATA[ACT: Paid Work
+modification of ACT_WORK
+from group "Activity coding structure"]]></txt>
+      <codInstr><![CDATA[This is a 4-digit numeric variable with 0 implied decimal places]]></codInstr>
+      <concept vocab="IPUMS">Time Use Variables -- PERSON</concept>
+      <varFormat schema="other" type="numeric"/>
+    </var>
+  </dataDscr>
+</codeBook>
