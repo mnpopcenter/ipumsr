@@ -174,7 +174,29 @@ set_ipums_var_attributes <- function(
     if (length(x) == 0 || nrow(x) == 0) NULL else purrr::set_names(x$val, x$lbl)
   })
 
-  set_ipums_var_attributes_(data, var_info)
+  purrr::walk(
+    seq_len(nrow(var_info)),
+    function(iii) {
+      data[[var_info$var_name[iii]]] <<- set_single_var_attributes(
+          data[[var_info$var_name[iii]]],
+          var_info$val_labels[[iii]],
+          var_info$var_label[[iii]],
+          var_info$var_desc[[iii]]
+      )
+    }
+  )
+
+  data
+}
+
+set_single_var_attributes <- function(x, val_labels, var_label, var_desc) {
+  if (is.na(var_label)) var_label <- NULL
+  if (is.na(var_desc)) var_desc <- NULL
+  if (!is.null(val_labels)) {
+    structure(haven::labelled(x, val_labels), label = var_label, var_desc = var_desc)
+  } else {
+    structure(x, label = var_label, var_desc = var_desc)
+  }
 }
 
 #' Collect data into R session with IPUMS attributes
