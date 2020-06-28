@@ -164,7 +164,7 @@ set_ipums_var_attributes <- function(
     for (vvv in duplicated_values) {
       dup_labels <- x$lbl[x$val == vvv]
       longest_label <- x$lbl[x$val == vvv][which.max(nchar(dup_labels))[1]]
-      x <- x[x$val != vvv | (x$val == vvv & x$lbl == longest_label), ]
+      x <- dplyr::distinct(x[x$val != vvv | (x$val == vvv & x$lbl == longest_label), ])
     }
     x
   })
