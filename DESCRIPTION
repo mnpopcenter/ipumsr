@@ -29,7 +29,6 @@ Imports:
     tibble,
     tidyselect,
     xml2,
-    Rcpp,
     zeallot
 RoxygenNote: 7.1.0
 Suggests:
@@ -51,4 +50,3 @@ Suggests:
     RSQLite,
     dbplyr
 VignetteBuilder: knitr
-LinkingTo: Rcpp

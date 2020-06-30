@@ -3,11 +3,6 @@
 # in this project's top-level directory, and also on-line at:
 #   https://github.com/mnpopcenter/ipumsr
 
-# Rcpp for reading hierarchical data
-#' @useDynLib ipumsr
-#' @importFrom Rcpp sourceCpp
-NULL
-
 # Import all of rlang
 #'@import rlang
 NULL
