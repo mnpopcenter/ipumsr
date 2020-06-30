@@ -218,22 +218,6 @@ ipums_collect <- function(data, ddi, var_attrs = c("val_labels", "var_label", "v
   set_ipums_var_attributes(dplyr::collect(data), ddi, var_attrs)
 }
 
-set_imp_decim <- function(data, var_info) {
-  if (is.null(var_info)) return(data)
-
-  var_info <- dplyr::filter(var_info, .data$var_name %in% names(data))
-
-  # Set imp_decim to 0 when missing or variable is character
-  if (is.null(var_info$imp_decim)) var_info$imp_decim <- 0
-  var_info$imp_decim[is.na(var_info$imp_decim)] <- 0
-
-  non_numeric_vars <- purrr::map_lgl(data, ~!is.numeric(.))
-  non_numeric_vars <- names(data)[non_numeric_vars]
-  var_info$imp_decim[var_info$var_name %in% non_numeric_vars] <- 0
-
-  set_imp_decim_(data, var_info)
-}
-
 load_sf_namespace <- function() {
   if (!requireNamespace("sf", quietly = TRUE)) {
     stop(custom_format_text(

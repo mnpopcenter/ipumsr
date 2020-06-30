@@ -1,6 +1,6 @@
 Package: ipumsr
 Title: Read 'IPUMS' Extract Files
-Version: 0.4.4
+Version: 0.4.4.9000
 Authors@R: c(
   person("Greg Freedman Ellis", role = "aut"), 
   person("Derek Burk", email = "ipums+cran@umn.edu", role = c("aut", "cre")),
