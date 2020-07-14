@@ -1,6 +1,6 @@
 Package: ipumsr
 Title: Read 'IPUMS' Extract Files
-Version: 0.4.4.9000
+Version: 0.4.5
 Authors@R: c(
   person("Greg Freedman Ellis", role = "aut"), 
   person("Derek Burk", email = "ipums+cran@umn.edu", role = c("aut", "cre")),
@@ -30,7 +30,7 @@ Imports:
     tidyselect,
     xml2,
     zeallot
-RoxygenNote: 7.1.0
+RoxygenNote: 7.1.1
 Suggests:
     DT,
     ggplot2,

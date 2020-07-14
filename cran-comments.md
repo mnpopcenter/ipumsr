@@ -1,9 +1,9 @@
 ## Purpose of release
-This release simply fixes one test that broke due to changes in the latest 
-release of dependency haven.
+This release fixes one bug and refactors the code used to create `labelled` 
+vectors.
 
 ## Test environments
-* local Windows, R 4.0.0
+* local Windows, R 4.0.2
 * win builder release and devel
 * Travis-CI Linux R 3.2, 3.6, release and devel
 * MacOS High Sierra via R-hub
