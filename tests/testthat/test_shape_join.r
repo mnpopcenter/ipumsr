@@ -51,6 +51,9 @@ test_that("complicated by works (sf)", {
   shape$join_split1 <- fostr_sub(shape$GISJOIN, 1, 1)
   shape$join_split_xxx <- fostr_sub(shape$GISJOIN, 2, -1)
   shape$GISJOIN <- NULL
+  # Next line added as a workaround for apparent bug in sf:::rename.sf,
+  # introduced in version 0.9.5
+  shape <- dplyr::select(shape, starts_with("join_"), everything(), geometry)
 
   joined <- ipums_shape_inner_join(
     data, shape, by = c("join_split1", "join_split2" = "join_split_xxx")
@@ -103,6 +106,9 @@ test_that("Character -> Integer conversion works (#16)", {
 
   shape <- read_ipums_sf(ipums_example("nhgis0008_shape_small.zip"), verbose = FALSE)
   shape$id_shape <- fostr_sub(shape$GISJOIN, 2, -1)
+  # Next line added as a workaround for apparent bug in sf:::rename.sf,
+  # introduced in version 0.9.5
+  shape <- dplyr::select(shape, id_shape, everything(), geometry)
 
   joined <- ipums_shape_inner_join(data, shape, by = c("id" = "id_shape"))
 
