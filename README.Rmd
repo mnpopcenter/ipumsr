@@ -18,7 +18,7 @@ knitr::opts_chunk$set(
 [![Project Status:Active](http://www.repostatus.org/badges/latest/active.svg)](http://www.repostatus.org/#active)
 [![CRAN_Status_Badge](https://www.r-pkg.org/badges/version/ipumsr)](https://CRAN.R-project.org/package=ipumsr)
 [![R build status](https://github.com/mnpopcenter/ipumsr/workflows/R-CMD-check/badge.svg)](https://github.com/mnpopcenter/ipumsr/actions)
-[![Coverage Status](https://codecov.io/gh/mnpopcenter/ipumsr/master.svg)](https://codecov.io/github/mnpopcenter/ipumsr?branch=master)
+[![Codecov test coverage](https://codecov.io/gh/mnpopcenter/ipumsr/branch/master/graph/badge.svg)](https://codecov.io/gh/mnpopcenter/ipumsr?branch=master)
 <!-- badges: end -->
 
 The ipumsr package helps import IPUMS extracts from the 
