@@ -3,15 +3,16 @@
 
 # ipumsr <img src="man/figures/logo.png" align="right" height="149" width="128.5"/>
 
+<!-- badges: start -->
+
 [![Project
 Status:Active](http://www.repostatus.org/badges/latest/active.svg)](http://www.repostatus.org/#active)
 [![CRAN\_Status\_Badge](https://www.r-pkg.org/badges/version/ipumsr)](https://CRAN.R-project.org/package=ipumsr)
-[![Travis-CI Build
-Status](https://travis-ci.org/mnpopcenter/ipumsr.svg?branch=master)](https://travis-ci.org/mnpopcenter/ipumsr)
-[![AppVeyor Build
-Status](https://ci.appveyor.com/api/projects/status/87yerkl5t1e4nape/branch/master?svg=true)](https://ci.appveyor.com/project/mpcit/ipumsr)
+[![R build
+status](https://github.com/mnpopcenter/ipumsr/workflows/R-CMD-check/badge.svg)](https://github.com/mnpopcenter/ipumsr/actions)
 [![Coverage
 Status](https://codecov.io/gh/mnpopcenter/ipumsr/master.svg)](https://codecov.io/github/mnpopcenter/ipumsr?branch=master)
+<!-- badges: end -->
 
 The ipumsr package helps import IPUMS extracts from the [IPUMS
 website](https://www.ipums.org) into R. IPUMS provides census and survey
