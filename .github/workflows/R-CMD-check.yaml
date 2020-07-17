@@ -1,10 +1,10 @@
 on:
   push:
     branches:
-      - github-actions
+      - master
   pull_request:
     branches:
-      - github-actions
+      - master
 
 name: R-CMD-check
 
@@ -88,6 +88,8 @@ jobs:
           remotes::install_deps(dependencies = TRUE)
           remotes::install_cran("rcmdcheck")
           remotes::install_github("mnpopcenter/ipumsr/ipumsexamples")
+          if (!require("rgdal")) remotes::install_cran("rgdal", repos = "https://cran.rstudio.com/")
+          if (!require("raster")) remotes::install_cran("raster", repos = "https://cran.rstudio.com/")
         shell: Rscript {0}
 
       - name: Session info
