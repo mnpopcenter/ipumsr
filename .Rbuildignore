@@ -19,3 +19,4 @@
 ^doc$
 ^Meta$
 ^src-i386
+^\.github$
