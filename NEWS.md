@@ -6,6 +6,9 @@
 * ipumsr now always uses the `haven::labelled()` function to create `labelled`
   vectors, in order to maintain compatibility with developments in the haven and 
   vctrs packages (thanks @gergness!).
+  
+* ipumsr now requires R 3.5 or greater, in line with the new requirements of 
+  package dependency raster.
 
 # ipumsr 0.4.4
 

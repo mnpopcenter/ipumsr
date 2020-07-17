@@ -17,6 +17,7 @@ Description: An easy way to import census, survey and geographic data provided b
 License: Mozilla Public License 2.0
 Encoding: UTF-8
 LazyData: true
+Depends: R (>= 3.5.0)
 Imports:
     dplyr (>= 0.7.0),
     haven (>= 2.2.0),
