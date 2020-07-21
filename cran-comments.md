@@ -5,8 +5,9 @@ vectors.
 ## Test environments
 * local Windows, R 4.0.2
 * win builder release and devel
-* Travis-CI Linux R 3.2, 3.6, release and devel
-* MacOS High Sierra via R-hub
+* Windows: R 3.6 and release via GitHub Actions
+* Linux: R 3.5, 3.6, and release via GitHub Actions
+* MacOS: R release and devel via GitHub Actions
 
 ## R CMD check results
 
