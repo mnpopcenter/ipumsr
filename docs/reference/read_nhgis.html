@@ -87,7 +87,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ipumsr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.5</span>
       </span>
     </div>
 
@@ -302,12 +302,12 @@ shapes.</p>
 #&gt; Reading data file...
 #&gt; Reading geography...
 #&gt; options:        ENCODING=latin1 
-#&gt; Reading layer `US_pmsa_1990' from data source `C:\Users\derek\AppData\Local\Temp\RtmpyaXybx\file414c6c1f4218\US_pmsa_1990.shp' using driver `ESRI Shapefile'
+#&gt; Reading layer `US_pmsa_1990' from data source `C:\Users\derek\AppData\Local\Temp\RtmpMXgF74\file43d4393f1dff\US_pmsa_1990.shp' using driver `ESRI Shapefile'
 #&gt; Simple feature collection with 71 features and 8 fields
 #&gt; geometry type:  MULTIPOLYGON
 #&gt; dimension:      XY
 #&gt; bbox:           xmin: -2336182 ymin: -1247086 xmax: 2075339 ymax: 1476544
-#&gt; proj4string:    +proj=aea +lat_1=29.5 +lat_2=45.5 +lat_0=37.5 +lon_0=-96 +x_0=0 +y_0=0 +datum=NAD83 +units=m +no_defs </div><div class='input'>
+#&gt; projected CRS:  Albers</div><div class='input'>
 <span class='co'># If sp package is available, can load as SpatialPolygonsDataFrame</span>
 <span class='kw'>if</span> (<span class='fu'><a href='https://rdrr.io/r/base/library.html'>require</a></span>(<span class='no'>rgdal</span>) <span class='kw'>&amp;&amp;</span> <span class='fu'><a href='https://rdrr.io/r/base/library.html'>require</a></span>(<span class='no'>sp</span>)) {
   <span class='no'>sp_data</span> <span class='kw'>&lt;-</span> <span class='fu'>read_nhgis_sp</span>(<span class='no'>csv_file</span>, <span class='no'>shape_file</span>)
@@ -318,7 +318,7 @@ shapes.</p>
 #&gt; Reading data file...
 #&gt; Reading geography...
 #&gt; OGR data source with driver: ESRI Shapefile 
-#&gt; Source: "C:\Users\derek\AppData\Local\Temp\RtmpyaXybx\file414c77a47715", layer: "US_pmsa_1990"
+#&gt; Source: "C:\Users\derek\AppData\Local\Temp\RtmpMXgF74\file43d41df76f25", layer: "US_pmsa_1990"
 #&gt; with 71 features
 #&gt; It has 8 fields</div><div class='input'>
 </div></pre>

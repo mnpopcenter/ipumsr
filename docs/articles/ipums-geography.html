@@ -40,7 +40,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ipumsr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.5</span>
       </span>
     </div>
 
@@ -131,14 +131,14 @@
 
       
 
-      </header><div class="row">
+      </header><script src="ipums-geography_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Geographic Data in <code>ipumsr</code>
 </h1>
                         <h4 class="author">Minnesota Population Center</h4>
             
-            <h4 class="date">2020-06-17</h4>
+            <h4 class="date">2020-07-28</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/mnpopcenter/ipumsr/blob/master/vignettes/ipums-geography.Rmd"><code>vignettes/ipums-geography.Rmd</code></a></small>
       <div class="hidden name"><code>ipums-geography.Rmd</code></div>
@@ -260,7 +260,8 @@
 <p>The next data transformation will be to summarize the microdata to the geographic unit. Microdata has one observation per person, but usually when we are making a map, we want a summary measure for a geographic unit. In this case, because we have data at three time points for Colombia, we summarize by geographic unit and year.</p>
 <div class="sourceCode" id="cb5"><html><body><pre class="r"><span class="no">ipumsi_summary</span> <span class="kw">&lt;-</span> <span class="no">ipumsi_data</span> <span class="kw">%&gt;%</span>
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span>(<span class="no">YEAR</span>, <span class="no">COUNTRY</span>, <span class="no">GEOLEV1</span>) <span class="kw">%&gt;%</span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarize</a></span>(<span class="kw">pct_solid</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(<span class="no">SOLIDFUEL</span> <span class="kw">==</span> <span class="st">"Solid Fuel"</span>, <span class="kw">na.rm</span> <span class="kw">=</span> <span class="fl">TRUE</span>))</pre></body></html></div>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarize</a></span>(<span class="kw">pct_solid</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(<span class="no">SOLIDFUEL</span> <span class="kw">==</span> <span class="st">"Solid Fuel"</span>, <span class="kw">na.rm</span> <span class="kw">=</span> <span class="fl">TRUE</span>))
+<span class="co">#&gt; `summarise()` regrouping output by 'YEAR', 'COUNTRY' (override with `.groups` argument)</span></pre></body></html></div>
 </div>
 <div id="merge-microdata-and-boundary-data" class="section level3">
 <h3 class="hasAnchor">
@@ -401,7 +402,8 @@
 <p>Then we can summarize to the geographic units and year as before:</p>
 <div class="sourceCode" id="cb12"><html><body><pre class="r"><span class="no">ipumsi_summary</span> <span class="kw">&lt;-</span> <span class="no">ipumsi_data</span> <span class="kw">%&gt;%</span>
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span>(<span class="no">YEAR</span>, <span class="no">COUNTRY</span>, <span class="no">GEOLEV1</span>) <span class="kw">%&gt;%</span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarize</a></span>(<span class="kw">pct_solid</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(<span class="no">SOLIDFUEL</span> <span class="kw">==</span> <span class="st">"Solid Fuel"</span>, <span class="kw">na.rm</span> <span class="kw">=</span> <span class="fl">TRUE</span>))</pre></body></html></div>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarize</a></span>(<span class="kw">pct_solid</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(<span class="no">SOLIDFUEL</span> <span class="kw">==</span> <span class="st">"Solid Fuel"</span>, <span class="kw">na.rm</span> <span class="kw">=</span> <span class="fl">TRUE</span>))
+<span class="co">#&gt; `summarise()` regrouping output by 'YEAR', 'COUNTRY' (override with `.groups` argument)</span></pre></body></html></div>
 <p>Another new step when combining multiple geographies is to bind the shape files together. The command <code><a href="https://rdrr.io/r/base/cbind.html">rbind()</a></code> has been implemented for sf (and sp) spatial objects, but before we do that, we want to give each country’s shape data the same structure. When combining non-harmonized geographies or across different geographic levels, the variable names will not be the same. There is some guidance on the IPUMS website about how the variables are named, but some of it will require looking at your shape files.</p>
 <div class="sourceCode" id="cb13"><html><body><pre class="r"><span class="co"># Currently each shape file has different variable names</span>
 <span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span>(<span class="no">colombia_shape</span>)
@@ -443,7 +445,7 @@
 <span class="co">#&gt; geometry type:  MULTIPOLYGON</span>
 <span class="co">#&gt; dimension:      XY</span>
 <span class="co">#&gt; bbox:           xmin: -70.03649 ymin: -16.3001 xmax: -69.09491 ymax: -15.23293</span>
-<span class="co">#&gt; CRS:            4326</span>
+<span class="co">#&gt; geographic CRS: WGS 84</span>
 <span class="co">#&gt; # A tibble: 1 x 4</span>
 <span class="co">#&gt;   COUNTRY ADMIN_NAME   GEOLEV1                                          geometry</span>
 <span class="co">#&gt;   &lt;chr&gt;   &lt;chr&gt;          &lt;int&gt;                                &lt;MULTIPOLYGON [°]&gt;</span>

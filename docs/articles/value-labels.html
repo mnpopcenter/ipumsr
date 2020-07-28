@@ -40,7 +40,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ipumsr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.5</span>
       </span>
     </div>
 
@@ -131,13 +131,13 @@
 
       
 
-      </header><div class="row">
+      </header><script src="value-labels_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Value Labels</h1>
                         <h4 class="author">Minnesota Population Center</h4>
             
-            <h4 class="date">2020-06-17</h4>
+            <h4 class="date">2020-07-28</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/mnpopcenter/ipumsr/blob/master/vignettes/value-labels.Rmd"><code>vignettes/value-labels.Rmd</code></a></small>
       <div class="hidden name"><code>value-labels.Rmd</code></div>
@@ -175,13 +175,29 @@
 <p>However, as you can see, there often isn’t enough space to see the labels when printing out a full data.frame. So, there are a few options to see the labels directly:</p>
 <div class="sourceCode" id="cb2"><html><body><pre class="r"><span class="co"># Printing the variable directly (or a subset)</span>
 <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(<span class="no">cps</span>$<span class="no">MONTH</span>)
+<span class="co">#&gt; &lt;labelled&lt;integer&gt;[6]&gt;: Month</span>
 <span class="co">#&gt; [1] 3 3 3 3 3 3</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Labels:</span>
+<span class="co">#&gt;  value     label</span>
+<span class="co">#&gt;      1   January</span>
+<span class="co">#&gt;      2  February</span>
+<span class="co">#&gt;      3     March</span>
+<span class="co">#&gt;      4     April</span>
+<span class="co">#&gt;      5       May</span>
+<span class="co">#&gt;      6      June</span>
+<span class="co">#&gt;      7      July</span>
+<span class="co">#&gt;      8    August</span>
+<span class="co">#&gt;      9 September</span>
+<span class="co">#&gt;     10   October</span>
+<span class="co">#&gt;     11  November</span>
+<span class="co">#&gt;     12  December</span>
 
 <span class="co"># Just get the labels</span>
 <span class="fu"><a href="../reference/ipums_var_info.html">ipums_val_labels</a></span>(<span class="no">cps</span>$<span class="no">MONTH</span>)
 <span class="co">#&gt; # A tibble: 12 x 2</span>
 <span class="co">#&gt;      val lbl      </span>
-<span class="co">#&gt;    &lt;dbl&gt; &lt;chr&gt;    </span>
+<span class="co">#&gt;    &lt;int&gt; &lt;chr&gt;    </span>
 <span class="co">#&gt;  1     1 January  </span>
 <span class="co">#&gt;  2     2 February </span>
 <span class="co">#&gt;  3     3 March    </span>
@@ -204,7 +220,14 @@
 <p>The usual way to connect numeric data to labels in R is in <code>factor</code> variables. Though this data type is more native to R, and more widely supported by R code, it was designed for efficient calculations in linear models, not as a general purpose value labeling system and so is missing important features that the value labels provided by IPUMS require.</p>
 <p>Factors only allow for integers to be mapped to a text label, and these integers have to be a count starting at 1. This doesn’t work for IPUMS data because often our variables have specific meanings for the codes. For example, the variable <code>AGE</code> uses the value to mean the actual age, but does have labels for age 0 and the top codes.</p>
 <div class="sourceCode" id="cb3"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(<span class="no">cps</span>$<span class="no">AGE</span>)
+<span class="co">#&gt; &lt;labelled&lt;integer&gt;[6]&gt;: Age</span>
 <span class="co">#&gt; [1] 54 54 52 38 15 38</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Labels:</span>
+<span class="co">#&gt;  value               label</span>
+<span class="co">#&gt;      0        Under 1 year</span>
+<span class="co">#&gt;     90 90 (90+, 1988-2002)</span>
+<span class="co">#&gt;     99                 99+</span>
 
 <span class="no">cps</span>$<span class="no">AGE_FACTOR</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://forcats.tidyverse.org/reference/as_factor.html">as_factor</a></span>(<span class="no">cps</span>$<span class="no">AGE</span>)
 <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(<span class="no">cps</span>$<span class="no">AGE_FACTOR</span>)
@@ -235,7 +258,7 @@
 <div class="sourceCode" id="cb5"><html><body><pre class="r"><span class="fu"><a href="../reference/ipums_var_info.html">ipums_val_labels</a></span>(<span class="no">cps</span>$<span class="no">HEALTH</span>)
 <span class="co">#&gt; # A tibble: 5 x 2</span>
 <span class="co">#&gt;     val lbl      </span>
-<span class="co">#&gt;   &lt;dbl&gt; &lt;chr&gt;    </span>
+<span class="co">#&gt;   &lt;int&gt; &lt;chr&gt;    </span>
 <span class="co">#&gt; 1     1 Excellent</span>
 <span class="co">#&gt; 2     2 Very good</span>
 <span class="co">#&gt; 3     3 Good     </span>
@@ -272,7 +295,7 @@
 <div class="sourceCode" id="cb6"><html><body><pre class="r"><span class="fu"><a href="../reference/ipums_var_info.html">ipums_val_labels</a></span>(<span class="no">cps</span>$<span class="no">HEALTH</span>)
 <span class="co">#&gt; # A tibble: 5 x 2</span>
 <span class="co">#&gt;     val lbl      </span>
-<span class="co">#&gt;   &lt;dbl&gt; &lt;chr&gt;    </span>
+<span class="co">#&gt;   &lt;int&gt; &lt;chr&gt;    </span>
 <span class="co">#&gt; 1     1 Excellent</span>
 <span class="co">#&gt; 2     2 Very good</span>
 <span class="co">#&gt; 3     3 Good     </span>
@@ -300,7 +323,7 @@
 <div class="sourceCode" id="cb9"><html><body><pre class="r"><span class="fu"><a href="../reference/ipums_var_info.html">ipums_val_labels</a></span>(<span class="no">cps</span>$<span class="no">STATEFIP</span>)
 <span class="co">#&gt; # A tibble: 75 x 2</span>
 <span class="co">#&gt;      val lbl                 </span>
-<span class="co">#&gt;    &lt;dbl&gt; &lt;chr&gt;               </span>
+<span class="co">#&gt;    &lt;int&gt; &lt;chr&gt;               </span>
 <span class="co">#&gt;  1     1 Alabama             </span>
 <span class="co">#&gt;  2     2 Alaska              </span>
 <span class="co">#&gt;  3     4 Arizona             </span>
@@ -317,7 +340,7 @@
 <span class="fu"><a href="../reference/ipums_var_info.html">ipums_val_labels</a></span>(<span class="no">cps</span>$<span class="no">STATEFIP</span>)
 <span class="co">#&gt; # A tibble: 5 x 2</span>
 <span class="co">#&gt;     val lbl         </span>
-<span class="co">#&gt;   &lt;dbl&gt; &lt;chr&gt;       </span>
+<span class="co">#&gt;   &lt;int&gt; &lt;chr&gt;       </span>
 <span class="co">#&gt; 1    19 Iowa        </span>
 <span class="co">#&gt; 2    27 Minnesota   </span>
 <span class="co">#&gt; 3    38 North Dakota</span>
@@ -363,7 +386,7 @@
 <div class="sourceCode" id="cb11"><html><body><pre class="r"><span class="fu"><a href="../reference/ipums_var_info.html">ipums_val_labels</a></span>(<span class="no">cps</span>$<span class="no">EDUC</span>)
 <span class="co">#&gt; # A tibble: 36 x 2</span>
 <span class="co">#&gt;      val lbl                 </span>
-<span class="co">#&gt;    &lt;dbl&gt; &lt;chr&gt;               </span>
+<span class="co">#&gt;    &lt;int&gt; &lt;chr&gt;               </span>
 <span class="co">#&gt;  1     0 NIU or no schooling </span>
 <span class="co">#&gt;  2     1 NIU or blank        </span>
 <span class="co">#&gt;  3     2 None or preschool   </span>
@@ -408,7 +431,7 @@
 <div class="sourceCode" id="cb12"><html><body><pre class="r"><span class="fu"><a href="../reference/ipums_var_info.html">ipums_val_labels</a></span>(<span class="no">cps</span>$<span class="no">MIGRATE1</span>)
 <span class="co">#&gt; # A tibble: 8 x 2</span>
 <span class="co">#&gt;     val lbl                                 </span>
-<span class="co">#&gt;   &lt;dbl&gt; &lt;chr&gt;                               </span>
+<span class="co">#&gt;   &lt;int&gt; &lt;chr&gt;                               </span>
 <span class="co">#&gt; 1     0 NIU                                 </span>
 <span class="co">#&gt; 2     1 Same house                          </span>
 <span class="co">#&gt; 3     2 Different house, place not reported </span>
@@ -501,7 +524,7 @@
 <div id="other-resources" class="section level1">
 <h1 class="hasAnchor">
 <a href="#other-resources" class="anchor"></a>Other resources</h1>
-<p>The haven package vignette ‘semantics’ has some more details about the motivation and implementation of the labelled class. You can view it by running the command: <code><a href="https://haven.tidyverse.org/articles/semantics.html">vignette("semantics", package = "haven")</a></code></p>
+<p>The haven package vignette ‘semantics’ has some more details about the motivation and implementation of the labelled class. You can view it by running the command: <code>vignette("semantics", package = "haven")</code></p>
 <p>The <a href="http://larmarange.github.io/labelled/articles/intro_labelled.html">labelled</a> package provides other methods for manipulating value labels. It is not installed by ipumsr, but is available on CRAN via the following command: <code><a href="https://rdrr.io/r/utils/install.packages.html">install.packages("labelled")</a></code></p>
 <p>The <a href="https://juba.github.io/questionr/">questionr</a> package includes great functions for exploring <code>labelled</code> variables. In particular, the functions <code>describe</code>, <code>freq</code> and <code>lookfor</code> all print out to console information about the variable using the value labels. It is also not installed by ipumsr, but can be installed from CRAN using: <code><a href="https://rdrr.io/r/utils/install.packages.html">install.packages("questionr")</a></code></p>
 <p>Finally, the <a href="https://cran.r-project.org/package=foreign">foreign</a> and <a href="https://cran.r-project.org/package=prettyR">prettyR</a> packages don’t use the <code>labelled</code> class data structure from haven (which ipumsr uses), but do have very similar concepts for attaching value labels. Code designed for these packages could be adapted for use with the haven labelled class without too much difficulty.</p>

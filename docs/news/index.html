@@ -85,7 +85,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ipumsr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.5</span>
       </span>
     </div>
 
@@ -183,6 +183,16 @@
       <small>Source: <a href='https://github.com/mnpopcenter/ipumsr/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
     </div>
 
+    <div id="ipumsr-045" class="section level1">
+<h1 class="page-header" data-toc-text="0.4.5">
+<a href="#ipumsr-045" class="anchor"></a>ipumsr 0.4.5<small> 2020-07-21 </small>
+</h1>
+<ul>
+<li><p>Fixed bug causing a read error for some labeled string variables (<a href='https://github.com/mnpopcenter/ipumsr/issues/61'>#61</a>, thanks <a href='https://github.com/chengchou'>@chengchou</a>).</p></li>
+<li><p>ipumsr now always uses the <code><a href="https://haven.tidyverse.org/reference/labelled.html">haven::labelled()</a></code> function to create <code>labelled</code> vectors, in order to maintain compatibility with developments in the haven and vctrs packages (thanks <a href='https://github.com/gergness'>@gergness</a>!).</p></li>
+<li><p>ipumsr now requires R 3.5 or greater, in line with the new requirements of package dependency raster.</p></li>
+</ul>
+</div>
     <div id="ipumsr-044" class="section level1">
 <h1 class="page-header" data-toc-text="0.4.4">
 <a href="#ipumsr-044" class="anchor"></a>ipumsr 0.4.4<small> 2020-06-03 </small>

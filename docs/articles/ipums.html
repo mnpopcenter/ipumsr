@@ -40,7 +40,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ipumsr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.5</span>
       </span>
     </div>
 
@@ -131,13 +131,13 @@
 
       
 
-      </header><div class="row">
+      </header><script src="ipums_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Introduction to <code>ipumsr</code> - IPUMS Data in R</h1>
                         <h4 class="author">Minnesota Population Center</h4>
             
-            <h4 class="date">2020-06-17</h4>
+            <h4 class="date">2020-07-28</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/mnpopcenter/ipumsr/blob/master/vignettes/ipums.Rmd"><code>vignettes/ipums.Rmd</code></a></small>
       <div class="hidden name"><code>ipums.Rmd</code></div>
@@ -257,7 +257,7 @@
 <span class="fu"><a href="../reference/ipums_var_info.html">ipums_val_labels</a></span>(<span class="no">cps_data</span>$<span class="no">STATEFIP</span>)
 <span class="co">#&gt; # A tibble: 75 x 2</span>
 <span class="co">#&gt;      val lbl                 </span>
-<span class="co">#&gt;    &lt;dbl&gt; &lt;chr&gt;               </span>
+<span class="co">#&gt;    &lt;int&gt; &lt;chr&gt;               </span>
 <span class="co">#&gt;  1     1 Alabama             </span>
 <span class="co">#&gt;  2     2 Alaska              </span>
 <span class="co">#&gt;  3     4 Arizona             </span>
@@ -362,19 +362,19 @@
 <span class="fu"><a href="../reference/ipums_list_files.html">ipums_list_files</a></span>(<span class="no">nf</span>)
 <span class="co">#&gt; # A tibble: 1 x 2</span>
 <span class="co">#&gt;   type  file                                       </span>
-<span class="co">#&gt; * &lt;chr&gt; &lt;chr&gt;                                      </span>
+<span class="co">#&gt;   &lt;chr&gt; &lt;chr&gt;                                      </span>
 <span class="co">#&gt; 1 data  nhgis0008_csv/nhgis0008_ds135_1990_pmsa.csv</span>
 
 <span class="fu"><a href="../reference/ipums_list_files.html">ipums_list_files</a></span>(<span class="no">nf</span>, <span class="kw">data_layer</span> <span class="kw">=</span> <span class="st">"nhgis0008_csv/nhgis0008_ds135_1990_pmsa.csv"</span>)
 <span class="co">#&gt; # A tibble: 1 x 2</span>
 <span class="co">#&gt;   type  file                                       </span>
-<span class="co">#&gt; * &lt;chr&gt; &lt;chr&gt;                                      </span>
+<span class="co">#&gt;   &lt;chr&gt; &lt;chr&gt;                                      </span>
 <span class="co">#&gt; 1 data  nhgis0008_csv/nhgis0008_ds135_1990_pmsa.csv</span>
 
 <span class="fu"><a href="../reference/ipums_list_files.html">ipums_list_files</a></span>(<span class="no">nf</span>, <span class="kw">data_layer</span> <span class="kw">=</span> <span class="fu"><a href="https://tidyselect.r-lib.org/reference/starts_with.html">contains</a></span>(<span class="st">"ds135"</span>))
 <span class="co">#&gt; # A tibble: 1 x 2</span>
 <span class="co">#&gt;   type  file                                       </span>
-<span class="co">#&gt; * &lt;chr&gt; &lt;chr&gt;                                      </span>
+<span class="co">#&gt;   &lt;chr&gt; &lt;chr&gt;                                      </span>
 <span class="co">#&gt; 1 data  nhgis0008_csv/nhgis0008_ds135_1990_pmsa.csv</span></pre></body></html></div>
 </div>
 <div id="hierarchical-data-structures" class="section level3">

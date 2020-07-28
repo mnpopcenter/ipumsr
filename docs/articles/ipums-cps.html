@@ -40,7 +40,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ipumsr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.5</span>
       </span>
     </div>
 
@@ -131,14 +131,14 @@
 
       
 
-      </header><div class="row">
+      </header><script src="ipums-cps_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>
 <code>ipumsr</code> Example - CPS</h1>
                         <h4 class="author">Minnesota Population Center</h4>
             
-            <h4 class="date">2020-06-17</h4>
+            <h4 class="date">2020-07-28</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/mnpopcenter/ipumsr/blob/master/vignettes/ipums-cps.Rmd"><code>vignettes/ipums-cps.Rmd</code></a></small>
       <div class="hidden name"><code>ipums-cps.Rmd</code></div>
@@ -284,9 +284,10 @@
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span>(<span class="no">FOODSTMP_factor</span>) <span class="kw">%&gt;%</span>
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarize</a></span>(<span class="kw">n_foodstmp</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span>(<span class="no">WTSUPP</span>)) <span class="kw">%&gt;%</span>
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span>(<span class="kw">pct_foodstmp</span> <span class="kw">=</span> <span class="no">n_foodstmp</span> / <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span>(<span class="no">n_foodstmp</span>))
+<span class="co">#&gt; `summarise()` ungrouping output (override with `.groups` argument)</span>
 <span class="co">#&gt; # A tibble: 2 x 3</span>
 <span class="co">#&gt;   FOODSTMP_factor n_foodstmp pct_foodstmp</span>
-<span class="co">#&gt; * &lt;fct&gt;                &lt;dbl&gt;        &lt;dbl&gt;</span>
+<span class="co">#&gt;   &lt;fct&gt;                &lt;dbl&gt;        &lt;dbl&gt;</span>
 <span class="co">#&gt; 1 No              267365863.        0.872</span>
 <span class="co">#&gt; 2 Yes              39187348.        0.128</span>
 
@@ -310,9 +311,10 @@
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span>(<span class="no">FOODSTMP_factor</span>) <span class="kw">%&gt;%</span>
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarize</a></span>(<span class="kw">n_foodstmp</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span>(<span class="no">HWTSUPP</span>)) <span class="kw">%&gt;%</span>
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span>(<span class="kw">pct_foodstmp</span> <span class="kw">=</span> <span class="no">n_foodstmp</span> / <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span>(<span class="no">n_foodstmp</span>))
+<span class="co">#&gt; `summarise()` ungrouping output (override with `.groups` argument)</span>
 <span class="co">#&gt; # A tibble: 2 x 3</span>
 <span class="co">#&gt;   FOODSTMP_factor n_foodstmp pct_foodstmp</span>
-<span class="co">#&gt; * &lt;fct&gt;                &lt;dbl&gt;        &lt;dbl&gt;</span>
+<span class="co">#&gt;   &lt;fct&gt;                &lt;dbl&gt;        &lt;dbl&gt;</span>
 <span class="co">#&gt; 1 No              107139102.        0.893</span>
 <span class="co">#&gt; 2 Yes              12855283.        0.107</span>
 
@@ -401,11 +403,12 @@
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span>(<span class="kw">HEALTH_factor</span> <span class="kw">=</span> <span class="fu"><a href="https://forcats.tidyverse.org/reference/as_factor.html">as_factor</a></span>(<span class="no">HEALTH</span>)) <span class="kw">%&gt;%</span>
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span>(<span class="no">HEALTH_factor</span>) <span class="kw">%&gt;%</span>
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarize</a></span>(<span class="kw">emp_pct</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/weighted.mean.html">weighted.mean</a></span>(<span class="no">EMPSTAT</span> <span class="kw">==</span> <span class="fl">10</span>, <span class="no">WTSUPP</span>))
+<span class="co">#&gt; `summarise()` ungrouping output (override with `.groups` argument)</span>
 
 <span class="no">pct_emp_by_health</span>
 <span class="co">#&gt; # A tibble: 5 x 2</span>
 <span class="co">#&gt;   HEALTH_factor emp_pct</span>
-<span class="co">#&gt; * &lt;fct&gt;           &lt;dbl&gt;</span>
+<span class="co">#&gt;   &lt;fct&gt;           &lt;dbl&gt;</span>
 <span class="co">#&gt; 1 Excellent       0.639</span>
 <span class="co">#&gt; 2 Very good       0.640</span>
 <span class="co">#&gt; 3 Good            0.521</span>
@@ -435,11 +438,12 @@
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span>(<span class="kw">HEALTH_factor</span> <span class="kw">=</span> <span class="fu"><a href="https://forcats.tidyverse.org/reference/as_factor.html">as_factor</a></span>(<span class="no">HEALTH</span>)) <span class="kw">%&gt;%</span>
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span>(<span class="no">HEALTH_factor</span>) <span class="kw">%&gt;%</span>
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarize</a></span>(<span class="kw">mean_hours_worked</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/weighted.mean.html">weighted.mean</a></span>(<span class="no">AHRSWORKT</span>, <span class="no">WTSUPP</span>))
+<span class="co">#&gt; `summarise()` ungrouping output (override with `.groups` argument)</span>
 
 <span class="no">avg_hrs_by_health</span>
 <span class="co">#&gt; # A tibble: 5 x 2</span>
 <span class="co">#&gt;   HEALTH_factor mean_hours_worked</span>
-<span class="co">#&gt; * &lt;fct&gt;                     &lt;dbl&gt;</span>
+<span class="co">#&gt;   &lt;fct&gt;                     &lt;dbl&gt;</span>
 <span class="co">#&gt; 1 Excellent                  38.4</span>
 <span class="co">#&gt; 2 Very good                  38.7</span>
 <span class="co">#&gt; 3 Good                       37.8</span>
@@ -493,6 +497,7 @@
   ) <span class="kw">%&gt;%</span>
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span>(<span class="no">HEALTH_factor</span>, <span class="no">AGE_factor</span>) <span class="kw">%&gt;%</span>
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarize</a></span>(<span class="kw">emp_pct</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/weighted.mean.html">weighted.mean</a></span>(<span class="no">EMPSTAT</span> <span class="kw">==</span> <span class="fl">10</span>, <span class="no">WTSUPP</span>))
+<span class="co">#&gt; `summarise()` regrouping output by 'HEALTH_factor' (override with `.groups` argument)</span>
 
 <span class="no">x_label</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/ipums_var_info.html">ipums_var_label</a></span>(<span class="no">cps_data</span>, <span class="no">HEALTH</span>)
 <span class="no">source_info</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/ipums_file_info.html">ipums_file_info</a></span>(<span class="no">cps_ddi</span>, <span class="st">"ipums_project"</span>)
