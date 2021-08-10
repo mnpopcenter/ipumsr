@@ -30,7 +30,9 @@ Imports:
     tibble,
     tidyselect,
     xml2,
-    zeallot
+    zeallot,
+    jsonlite,
+    httr
 RoxygenNote: 7.1.1
 Suggests:
     DT,
