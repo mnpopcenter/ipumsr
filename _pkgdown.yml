@@ -48,6 +48,17 @@ home:
   - text: Ask a question
     href: http://forum.ipums.org
 reference:
+  - title: "Interact with the IPUMS API"
+    contents:
+      - define_extract
+      - submit_extract
+      - get_extract_info
+      - get_recent_extracts_info
+      - wait_for_extract
+      - download_extract
+      - revise_extract
+      - extract_tbl_to_list
+      - extract_list_to_tbl
   - title: "Read IPUMS data"
     contents:
       - read_ipums_micro

@@ -2,11 +2,11 @@
 # Exported functions ------------------------------------------------------
 
 
-# > Build extract ----
+# > Define extract ----
 
-#' Create an extract request object
+#' Define an extract request object
 #'
-#' Create an extract request object via the IPUMS API
+#' Define an extract request object to be submitted via the IPUMS API
 #'
 #' @param collection The IPUMS data collection for the extract.
 #' @param description Description of the extract.
@@ -21,18 +21,19 @@
 #'   \code{data_structure} is rectangular, this argument is ignored and set to
 #'   missing automatically.
 #'
+#' @family ipums_api
 #' @return An object of class \code{ipums_extract} containing the extract
 #'   definition.
 #'
 #' @export
-ipums_api_build_extract <- function(collection,
-                                    description,
-                                    samples,
-                                    variables,
-                                    data_format = c("fixed_width", "csv",
-                                                    "stata", "spss"),
-                                    data_structure = c("rectangular", "hierarchical"),
-                                    rectangular_on = c("P", "H")) {
+define_extract <- function(collection,
+                           description,
+                           samples,
+                           variables,
+                           data_format = c("fixed_width", "csv",
+                                           "stata", "spss"),
+                           data_structure = c("rectangular", "hierarchical"),
+                           rectangular_on = c("P", "H")) {
 
   data_format <- match.arg(data_format)
   data_structure <- match.arg(data_structure)
@@ -69,15 +70,15 @@ ipums_api_build_extract <- function(collection,
 #'
 #' Submit an extract request via the IPUMS API
 #'
-#' @param extract An extract object created by \code{\link{ipums_api_build_extract}}.
+#' @param extract An extract object created by \code{\link{define_extract}}.
 #' @param api_key API key associated with your user account. Defaults to the
 #'   value of environment variable "IPUMS_API_KEY".
 #'
+#' @family ipums_api
 #' @return An object of class \code{ipums_extract} containing the extract
 #'   definition and newly-assigned extract number of the submitted extract.
 #' @export
-ipums_api_submit_extract <- function(extract,
-                                     api_key = Sys.getenv("IPUMS_API_KEY")) {
+submit_extract <- function(extract, api_key = Sys.getenv("IPUMS_API_KEY")) {
 
   extract <- validate_ipums_extract(extract)
 
@@ -108,66 +109,34 @@ ipums_api_submit_extract <- function(extract,
   extract
 }
 
+
 # > Get info on extract ----
 
-#' Get information about a submitted extract
+#' Get information about a submitted extract via the IPUMS API
 #'
-#' @param object Either an object of class \code{ipums_extract}, or the name of
-#'   an IPUMS data collection as a length one character vector.
-#' @inheritParams ipums_api_build_extract
-#' @inheritParams ipums_api_download_extract
+#' @param extract Either an object of class \code{ipums_extract}; the data
+#'   collection and extract number of an existing extract formatted as a single
+#'   string (\code{"collection: number"}) or a length two vector
+#'   (\code{c("collection", "number")}); or a \code{data.frame} in which each
+#'   row contains an extract definition..
+#' @inheritParams define_extract
+#' @inheritParams download_extract
 #'
-#' @return If the first argument is an \code{ipums_extract} object or a data
-#'   collection, the function returns an \code{ipums_extract} object. If the
-#'   first argument is a \code{data.frame} of extract definitions, the function
-#'   returns a \code{\link[tibble]{tbl_df}}.
+#' @family ipums_api
+#' @return An \code{ipums_extract} object.
 #' @export
-ipums_api_get_extract <- function(object, ...) {
-  UseMethod("ipums_api_get_extract")
-}
-
-
-#' @describeIn ipums_api_get_extract Get information about a submitted
-#'   extract, given an \code{ipums_extract} object.
-#' @inheritParams ipums_api_submit_extract
-#'
-#' @export
-ipums_api_get_extract.ipums_extract <- function(extract,
-                                                api_key = Sys.getenv("IPUMS_API_KEY")) {
+get_extract_info <- function(extract, api_key = Sys.getenv("IPUMS_API_KEY")) {
+  extract <- standardize_extract_identifier(extract)
+  stopifnot(length(extract$collection) == 1)
+  stopifnot(length(extract$number) == 1)
   if (is.na(extract$number)) {
-    stop(
-      "ipums_extract object has a missing value in the 'number' field. If ",
-      "an extract object is supplied, it must be a submitted extract with a ",
-      "non-missing extract number.", call. = FALSE
-    )
+    stop("extract number cannot be a missing value", call. = FALSE)
   }
-  ipums_api_get_extract.character(
-    extract$collection,
-    extract$number,
-    api_key = api_key
-  )
-}
-
-
-#' @describeIn ipums_api_get_extract Get information about a submitted
-#'   extract, given a data collection and extract number.
-#' @inheritParams ipums_api_build_extract
-#' @param extract_number The extract number.
-#' @inheritParams ipums_api_submit_extract
-#' @export
-ipums_api_get_extract.character <- function(collection,
-                                            extract_number,
-                                            api_key = Sys.getenv("IPUMS_API_KEY")) {
-  stopifnot(length(collection) == 1)
-  stopifnot(length(extract_number) == 1)
-  if (is.na(extract_number)) {
-    stop("extract_number cannot be a missing value", call. = FALSE)
-  }
-  collection <- tolower(collection)
+  collection <- tolower(extract$collection)
   response <- ipums_api_json_request(
     "GET",
     collection = collection,
-    path = paste0("extracts/", extract_number),
+    path = paste0("extracts/", extract$number),
     api_key = api_key
   )
   out <- response_list_to_extract_list(response, collection)
@@ -180,50 +149,17 @@ ipums_api_get_extract.character <- function(collection,
 }
 
 
-#' @describeIn ipums_api_get_extract Get information about submitted extracts,
-#'   given a data.frame in which each row defines one extract.
-#' @inheritParams ipums_api_build_extract
-#' @inheritParams ipums_api_download_extract
-#' @inheritParams ipums_api_submit_extract
-#' @export
-ipums_api_get_extract.data.frame <- function(extract_df,
-                                             api_key = Sys.getenv("IPUMS_API_KEY")) {
-
-
-  extract_list <- extract_tbl_to_list(extract_df, validate = TRUE)
-  extract_list <- purrr::map(
-    extract_list,
-    ipums_api_get_extract.ipums_extract
-  )
-  extract_list_to_tbl(extract_list)
-}
-
-
 # > Wait for extract ----
 
 #' Wait for extract to finish
 #'
-#' Wait for an extract to finish by periodically checking its status and
-#' returning when the extract is ready to download.
+#' Wait for an extract to finish by periodically checking its status via the
+#' IPUMS API and returning when the extract is ready to download.
 #'
-#' @inheritParams ipums_api_build_extract
-#' @inheritParams ipums_api_download_extract
-#'
-#' @return An object of class \code{ipums_extract} containing the extract
-#'   definition and the URLs from which to download extract files.
-#' @export
-ipums_api_wait_for_extract <- function(object, ...) {
-  UseMethod("ipums_api_wait_for_extract")
-}
-
-
-#' @describeIn ipums_api_wait_for_extract Wait until the extract defined in the
-#'   given \code{ipums_extract} object is complete and ready to download.
-#'
-#' @inheritParams ipums_api_submit_extract
-#' @param extract An \code{ipums_extract} object created with
-#'   \code{\link{ipums_api_build_extract}} and submitted with
-#'   \code{\link{ipums_api_submit_extract}}.
+#' @inheritParams define_extract
+#' @inheritParams download_extract
+#' @inheritParams get_extract_info
+#' @inheritParams submit_extract
 #' @param initial_delay_seconds How many seconds to wait before first status
 #'   check.
 #' @param max_delay_seconds Maximum seconds to wait between status checks. The
@@ -238,36 +174,18 @@ ipums_api_wait_for_extract <- function(object, ...) {
 #'   download. Setting this argument to \code{FALSE} will silence these
 #'   messages.
 #'
-#' @export
-ipums_api_wait_for_extract.ipums_extract <- function(extract,
-                                                     initial_delay_seconds = 10,
-                                                     max_delay_seconds = 300,
-                                                     timeout_seconds = 10800,
-                                                     verbose = TRUE,
-                                                     api_key = Sys.getenv("IPUMS_API_KEY")) {
-
-  ipums_api_wait_for_extract.character(extract$collection,
-                                       extract$number,
-                                       initial_delay_seconds = initial_delay_seconds,
-                                       max_delay_seconds = max_delay_seconds,
-                                       timeout_seconds = timeout_seconds,
-                                       verbose = verbose,
-                                       api_key = api_key)
-}
-
-
-#' @describeIn ipums_api_wait_for_extract Wait until the extract defined by the
-#'   supplied data collection and extract number is complete and ready to
-#'   download.
 #'
+#' @family ipums_api
+#' @return An object of class \code{ipums_extract} containing the extract
+#'   definition and the URLs from which to download extract files.
 #' @export
-ipums_api_wait_for_extract.character <- function(collection,
-                                                 number,
-                                                 initial_delay_seconds = 10,
-                                                 max_delay_seconds = 300,
-                                                 timeout_seconds = 10800,
-                                                 verbose = TRUE,
-                                                 api_key = Sys.getenv("IPUMS_API_KEY")) {
+wait_for_extract <- function(extract,
+                             initial_delay_seconds = 0,
+                             max_delay_seconds = 300,
+                             timeout_seconds = 10800,
+                             verbose = TRUE,
+                             api_key = Sys.getenv("IPUMS_API_KEY")) {
+
 
   stopifnot(is.numeric(initial_delay_seconds))
   stopifnot(is.numeric(max_delay_seconds))
@@ -293,9 +211,9 @@ ipums_api_wait_for_extract.character <- function(collection,
     if (verbose) {
       message("Checking extract status...")
     }
-    extract <- ipums_api_get_extract(collection, number, api_key)
+    extract <- get_extract_info(extract, api_key)
 
-    is_downloadable <- ipums_api_extract_downloadable(extract)
+    is_downloadable <- is_extract_ready(extract)
 
     is_failed <- !(is_downloadable ||
                      extract$status %in% c("queued", "started", "produced"))
@@ -316,7 +234,7 @@ ipums_api_wait_for_extract.character <- function(collection,
     }
 
     if (current_delay == 0) {
-      current_delay <- 2
+      current_delay <- 10
     } else {
       current_delay <- min(c(current_delay * 2, max_delay_seconds))
     }
@@ -334,33 +252,22 @@ ipums_api_wait_for_extract.character <- function(collection,
 
 #' Is the extract ready to download?
 #'
-#' This function checks whether the given extract is ready to download,
-#' returning TRUE for extracts that are ready and FALSE for those that are not.
+#' This function uses the IPUMS API to check whether the given extract is ready
+#' to download, returning TRUE for extracts that are ready and FALSE for those
+#' that are not.
 #'
-#' @param object Either an object of class \code{ipums_extract}, the name of an IPUMS
-#'   data collection as a length one character vector, or a data.frame with an
-#'   extract definition in each row.
-#' @inheritParams ipums_api_get_extract
-#' @param extract_df A data.frame in which each row contains the definition of
-#'   an IPUMS extract.
+#' @inheritParams get_extract_info
 #'
+#' @family ipums_api
 #' @return A logical vector. If the first argument is an object of class
 #'   \code{ipums_extract} or the name of a data collection, the function will
 #'   return a length-one logical vector. If the first
 #'   argument is a \code{data.frame}, the function will return a logical vector
 #'   with length equal to the number of rows of the \code{data.frame}.
 #' @export
-ipums_api_extract_downloadable <- function(object, ...) {
-  UseMethod("ipums_api_extract_downloadable")
-}
+is_extract_ready <- function(extract, api_key = Sys.getenv("IPUMS_API_KEY")) {
 
-
-#' @describeIn ipums_api_extract_downloadable Is the extract defined by the
-#'   given \code{ipums_extract} object ready to download?
-#'
-#' @export
-ipums_api_extract_downloadable.ipums_extract <- function(extract,
-                                                         api_key = Sys.getenv("IPUMS_API_KEY")) {
+  extract <- standardize_extract_identifier(extract)
 
   if (is.na(extract$number)) {
     stop(
@@ -370,102 +277,65 @@ ipums_api_extract_downloadable.ipums_extract <- function(extract,
     )
   }
 
-  # First check if ipums_extract object already contains download info...
-  is_downloadable <- ipums_extract_object_is_complete_and_has_links(extract)
-
-  if (is_downloadable) {
+  # First check if extract object already contains download info...
+  if (inherits(extract, "ipums_extract") &&
+      extract_is_completed_and_has_links(extract)) {
     return(TRUE)
-  } else {
-    # ... if it doesn't contain download info, make sure we have the latest
-    # status by fetching it via the API and checking again
-    return(
-      ipums_api_extract_downloadable.character(
-        extract$collection,
-        extract$number,
-        api_key
-      )
-    )
   }
+
+  # ... if it doesn't contain download info, make sure we have the latest
+  # status by fetching it via the API and checking again
+  extract <- get_extract_info(extract, api_key)
+
+  extract_is_completed_and_has_links(extract)
 }
 
-
-#' @describeIn ipums_api_extract_downloadable Is the extract defined by the
-#'   given data collection and extract number ready to download?
-#'
-#' @export
-ipums_api_extract_downloadable.character <- function(collection,
-                                                     extract_number,
-                                                     api_key = Sys.getenv("IPUMS_API_KEY")) {
-  stopifnot(length(collection) == 1)
-  extract <- ipums_api_get_extract(collection, extract_number, api_key)
-
-  ipums_extract_object_is_complete_and_has_links(extract)
-}
-
-
-#' @describeIn ipums_api_extract_downloadable Are the extracts defined in the
-#'   rows of the given data.frame ready to download?
-#' @inheritParams ipums_api_download_extract
-#'
-#' @export
-ipums_api_extract_downloadable.data.frame <- function(extract_df) {
-
-  extract_list <- extract_tbl_to_list(extract_df, validate = TRUE)
-  purrr::map_lgl(extract_list, ipums_api_extract_downloadable.ipums_extract)
-}
 
 # > Download extract ----
 
-#' Download an extract
+#' Download an IPUMS data extract
 #'
-#' @inheritParams ipums_api_get_extract
-#' @inheritParams ipums_api_build_extract
-#' @inheritParams ipums_api_submit_extract
+#' @inheritParams get_extract_info
+#' @inheritParams define_extract
+#' @inheritParams submit_extract
 #' @param download_dir In what folder should the downloaded files be saved?
-#'
-#' @return A character vector of paths to the downloaded .xml DDI files. If the
-#'   first argument is an \code{ipums_extract} or data collection, the character
-#'   vector will have length one. If the first argument is a \code{data.frame},
-#'   the character vector will have length equal to the number of rows of the
-#'   \code{data.frame}.
-#' @export
-ipums_api_download_extract <- function(object, ...) {
-  UseMethod("ipums_api_download_extract")
-}
-
-
-#' @describeIn ipums_api_download_extract Download files associated with an
-#'   \code{ipums_extract} object
-#' @inheritParams ipums_api_submit_extract
+#'   Defaults to current working directory.
 #' @param overwrite Logical indicating whether to overwrite files that already
 #'   exist. Defaults to \code{FALSE}.
+#'
+#' @family ipums_api
+#' @return Invisibly, the path to the downloaded .xml DDI file.
 #' @export
-ipums_api_download_extract.ipums_extract <- function(extract,
-                                                     download_dir,
-                                                     overwrite = FALSE,
-                                                     api_key = Sys.getenv("IPUMS_API_KEY")) {
+download_extract <- function(extract,
+                             download_dir = getwd(),
+                             overwrite = FALSE,
+                             api_key = Sys.getenv("IPUMS_API_KEY")) {
 
-  is_downloadable <- ipums_extract_object_is_complete_and_has_links(extract)
-  if (!is_downloadable) {
-    # Double-check that we have the latest status
-    extract <- ipums_api_get_extract(extract, api_key)
-    is_downloadable <- ipums_extract_object_is_complete_and_has_links(extract)
+  # Make sure we get latest extract status, but also make sure we don't check
+  # the status twice
+  is_ipums_extract_object <- inherits(extract, "ipums_extract")
+  if (is_ipums_extract_object && extract_is_completed_and_has_links(extract)) {
+    is_downloadable <- TRUE
+  } else {
+    extract <- get_extract_info(extract, api_key)
+    is_downloadable <- extract_is_completed_and_has_links(extract)
   }
 
   if (!is_downloadable) {
     stop(
       paste0(
         format_collection_for_printing(extract$collection), " extract number ",
-        extract$number, " is not downloadable"
-      )
+        extract$number, " is not ready to download"
+      ),
+      call. = FALSE
     )
   }
 
-  download_dir <- normalizePath(download_dir, mustWork=FALSE)
+  download_dir <- normalizePath(download_dir, mustWork = FALSE)
   download_dir_doesnt_exist <- !dir.exists(download_dir)
 
   if (download_dir_doesnt_exist) {
-    stop("The directory ", download_dir, " does not exist.")
+    stop("The directory ", download_dir, " does not exist.", call. = FALSE)
   }
 
   ddi_url <- extract$download_links$ddi_codebook$url
@@ -483,74 +353,19 @@ ipums_api_download_extract.ipums_extract <- function(extract,
   ipums_api_binary_request(data_url, data_file_path, overwrite, api_key)
 
   message(
-    paste0("DDI codebook file saved to ", ddi_file_path, "; data file saved ",
+    paste0("DDI codebook file saved to ", ddi_file_path, "\nData file saved ",
            "to ", data_file_path)
   )
 
-  ddi_file_path
-
+  invisible(ddi_file_path)
 }
 
 
-#' @describeIn ipums_api_download_extract Download files associated with IPUMS
-#'   extract definitions stored in rows of a data.frame.
-#' @inheritParams ipums_api_submit_extract
-#' @param extract_df A data.frame in which each row defines one extract.
-#' @param overwrite Logical indicating whether to overwrite files that already
-#'   exist. Defaults to \code{FALSE}.
+# > Revise extract definition ----
+
+#' Revise an extract definition
 #'
-#' @export
-ipums_api_download_extract.data.frame <- function(extract_df,
-                                                  download_dir,
-                                                  overwrite = FALSE,
-                                                  api_key = Sys.getenv("IPUMS_API_KEY")) {
-
-  extract_list <- extract_tbl_to_list(extract_df, validate = TRUE)
-  purrr::map_chr(
-    extract_list,
-    ipums_api_download_extract.ipums_extract,
-    download_dir = download_dir,
-    overwrite = overwrite,
-    api_key = api_key
-  )
-}
-
-
-#' @describeIn ipums_api_download_extract Download files associated with an
-#'   extract, given a data collection and extract number
-#' @inheritParams ipums_api_build_extract
-#' @inheritParams ipums_api_get_extract.character
-# #' @inheritParams ipums_api_download_extract.ipums_extract
-#' @inheritParams ipums_api_submit_extract
-#' @param overwrite Logical indicating whether to overwrite files that already
-#'   exist. Defaults to \code{FALSE}.
-#'
-#' @export
-ipums_api_download_extract.character <- function(collection,
-                                                 extract_number,
-                                                 download_dir,
-                                                 overwrite = FALSE,
-                                                 api_key = Sys.getenv("IPUMS_API_KEY")) {
-  extract <- ipums_api_get_extract.character(
-    collection = collection,
-    extract_number = extract_number,
-    api_key = api_key
-  )
-
-  ipums_api_download_extract.ipums_extract(
-    extract,
-    download_dir = download_dir,
-    overwrite = overwrite,
-    api_key = api_key
-  )
-
-}
-
-# > Modify extract definition ----
-
-#' Modify an extract object
-#'
-#' Modify an extract definition. If the supplied extract definition comes from
+#' Revise an extract definition. If the supplied extract definition comes from
 #' a previously submitted extract, this function will reset the definition to an
 #' unsubmitted state.
 #'
@@ -575,18 +390,19 @@ ipums_api_download_extract.character <- function(collection,
 #'   data structure, on what record type should it be rectangularized? If NULL,
 #'   (the default), leave the \code{rectangular_on} field unchanged.
 #'
+#' @family ipums_api
 #' @return An object of class \code{ipums_extract} containing the modified
 #'   extract definition.
 #' @export
-ipums_api_modify_extract <- function(extract,
-                                     description = NULL,
-                                     samples_to_add = NULL,
-                                     samples_to_remove = NULL,
-                                     vars_to_add = NULL,
-                                     vars_to_remove = NULL,
-                                     data_format = NULL,
-                                     data_structure = NULL,
-                                     rectangular_on = NULL) {
+revise_extract <- function(extract,
+                           description = NULL,
+                           samples_to_add = NULL,
+                           samples_to_remove = NULL,
+                           vars_to_add = NULL,
+                           vars_to_remove = NULL,
+                           data_format = NULL,
+                           data_structure = NULL,
+                           rectangular_on = NULL) {
 
   extract <- copy_ipums_extract(extract)
 
@@ -613,22 +429,23 @@ ipums_api_modify_extract <- function(extract,
 #' Get information on up to ten recent extracts for a given IPUMS collection
 #' via the IPUMS API, returned either as a list or tibble.
 #'
-#' @inheritParams ipums_api_build_extract
+#' @inheritParams define_extract
 #' @param how_many Number of recent extracts for which you'd like information.
-#' @inheritParams ipums_api_submit_extract
+#' @inheritParams submit_extract
 #'
-#' @return For \code{ipums_api_get_recent_extracts_list()}, a list of
-#'   \code{ipums_extract} objects. For \code{ipums_api_get_recent_extracts_tbl()},
-#'   a \code{\link[tibble]{tbl-df}} with information on one extract in each row.
+#' @family ipums_api
+#' @return For \code{get_recent_extracts_info_list()}, a list of
+#'   \code{ipums_extract} objects. For \code{get_recent_extracts_info_tbl()},
+#'   a \code{\link[tibble]{tbl_df}} with information on one extract in each row.
 #'
-#' @name ipums_api_get_recent_extracts
+#' @name get_recent_extracts_info
 NULL
 
-#' @rdname ipums_api_get_recent_extracts
+#' @rdname get_recent_extracts_info
 #' @export
-ipums_api_get_recent_extracts_list <- function(collection,
-                                               how_many = 10,
-                                               api_key = Sys.getenv("IPUMS_API_KEY")) {
+get_recent_extracts_info_list <- function(collection,
+                                          how_many = 10,
+                                          api_key = Sys.getenv("IPUMS_API_KEY")) {
 
   response <- ipums_api_json_request(
     "GET",
@@ -641,19 +458,87 @@ ipums_api_get_recent_extracts_list <- function(collection,
 }
 
 
-#' @rdname ipums_api_get_recent_extracts
+#' @rdname get_recent_extracts_info
 #' @export
-ipums_api_get_recent_extracts_tbl <- function(collection,
-                                              how_many = 10,
-                                              api_key = Sys.getenv("IPUMS_API_KEY")) {
+get_recent_extracts_info_tbl <- function(collection,
+                                         how_many = 10,
+                                         api_key = Sys.getenv("IPUMS_API_KEY")) {
 
-  extract_list <- ipums_api_get_recent_extracts_list(
+  extract_list <- get_recent_extracts_info_list(
     collection,
     how_many,
     api_key
   )
 
   extract_list_to_tbl(extract_list)
+}
+
+
+# > Convert extract tbl to list ----
+
+#' Convert a tibble of extract definitions to a list
+#'
+#' Convert a \code{\link[tibble]{tbl_df}} (or \code{data.frame}) of extract
+#' definitions, such as that returned by
+#' \code{\link{get_recent_extracts_info_tbl}}, to a list of \code{ipums_extract}
+#' objects.
+#'
+#' @param extract_tbl A \code{\link[tibble]{tbl_df}} (or \code{data.frame})
+#'   where each row contains the definition of one extract.
+#' @param validate Logical (\code{TRUE} or \code{FALSE}) value indicating
+#'   whether to check that each row of \code{extract_tbl} contains a valid and
+#'   complete extract definition. Defaults to \code{TRUE}
+#'
+#' @family ipums_api
+#' @return A list of length equal to the number of rows of \code{extract_tbl}.
+#' @export
+extract_tbl_to_list <- function(extract_tbl, validate = TRUE) {
+  expected_names <- names(new_ipums_extract())
+  unexpected_names <- setdiff(names(extract_tbl), expected_names)
+  if (length(unexpected_names) > 0) {
+    stop(
+      "Unexpected names in `extract_tbl`: ",
+      paste0('"', unexpected_names, '"', collapse = ", "),
+      call. = FALSE
+    )
+  }
+  extract_list <- purrr::pmap(extract_tbl, new_ipums_extract)
+  if (validate) {
+    extract_list <- purrr::walk(extract_list, validate_ipums_extract)
+  }
+  extract_list
+}
+
+
+# > Convert extract list to tbl ----
+
+#' Convert a list of extract definitions to a tibble
+#'
+#' Convert a list of \code{ipums_extract} objects to a
+#' \code{\link[tibble]{tbl_df}} in which each row contains the definition of one
+#' extract.
+#'
+#' @param extract_list A list of \code{ipums_extract} objects.
+#'
+#' @family ipums_api
+#' @return A \code{\link[tibble]{tbl_df}} with number of rows equal to the
+#'   length of \code{extract_list}, in which each rows contains the definition
+#'   of one extract.
+#' @export
+extract_list_to_tbl <- function(extract_list) {
+  unclassed_extract_list <- purrr::map(
+    extract_list,
+    function(x) {
+      if (is.character(x$samples)) x$samples <- list(x$samples)
+      if (is.character(x$variables)) x$variables <- list(x$variables)
+      x$download_links <- list(x$download_links)
+      unclass(x)
+    }
+  )
+  if (length(unclassed_extract_list) == 1) {
+    return(do.call(tibble::tibble, unclassed_extract_list[[1]]))
+  }
+  do.call(dplyr::bind_rows, unclassed_extract_list)
 }
 
 
@@ -666,7 +551,7 @@ new_ipums_extract <- function(collection = NA_character_,
                               samples = NA_character_,
                               variables = NA_character_,
                               submitted = FALSE,
-                              download_links = empty_named_list(),
+                              download_links = EMPTY_NAMED_LIST,
                               number = NA_integer_,
                               status = "unsubmitted") {
 
@@ -688,6 +573,33 @@ new_ipums_extract <- function(collection = NA_character_,
     out,
     class = c("ipums_extract", class(out))
   )
+}
+
+
+standardize_extract_identifier <- function(extract) {
+  if (inherits(extract, "ipums_extract")) return(extract)
+  if (length(extract) == 1) {
+    extract <- fostr_split(extract, ":")[[1]]
+  }
+
+  if (length(extract) != 2) {
+    stop(
+      paste0(
+        "Expected extract to be either an `ipums_extract` object, a ",
+        "length-two vector where the first element is an IPUMS collection ",
+        "and the second is an extract number, or a single string with a ':' ",
+        "separating the collection from the extract number."
+      ),
+      call. = FALSE
+    )
+  }
+  collection <- extract[[1]]
+  number <- suppressWarnings(as.numeric(extract[[2]]))
+  if (is.na(number)) {
+    stop("Expected extract number to be a number", call. = FALSE)
+  }
+
+  list(collection = collection, number = number)
 }
 
 
@@ -798,31 +710,31 @@ extract_to_request_json <- function(extract) {
 
 format_samples_for_json <- function(samples) {
   if (length(samples) == 1 && is.na(samples)) {
-    return(empty_named_list())
+    return(EMPTY_NAMED_LIST)
   }
-  sample_spec <- purrr::map(seq_along(samples), ~ empty_named_list())
+  sample_spec <- purrr::map(seq_along(samples), ~ EMPTY_NAMED_LIST)
   setNames(sample_spec, samples)
 }
 
 
 format_variables_for_json <- function(variables) {
   if (length(variables) == 1 && is.na(variables)) {
-    return(empty_named_list())
+    return(EMPTY_NAMED_LIST)
   }
-  var_spec <- purrr::map(seq_along(variables), ~ empty_named_list())
+  var_spec <- purrr::map(seq_along(variables), ~ EMPTY_NAMED_LIST)
   var_spec <- setNames(var_spec, variables)
 }
 
 
 format_data_structure_for_json <- function(data_structure, rectangular_on) {
   if (is.na(data_structure)) {
-    return(empty_named_list())
+    return(EMPTY_NAMED_LIST)
   } else if (data_structure == "rectangular") {
     return(list(rectangular = list(on = rectangular_on)))
   } else if (data_structure == "hierarchical") {
-    return(list(hierarchical = empty_named_list()))
+    return(list(hierarchical = EMPTY_NAMED_LIST))
   } else {
-    return(empty_named_list())
+    return(EMPTY_NAMED_LIST)
   }
 }
 
@@ -917,7 +829,7 @@ ipums_api_json_request <- function(verb,
     } else if (httr::status_code(res) == 404) {
       if (fostr_detect(path, "^extracts/\\d+$")) {
         extract_number <- as.numeric(fostr_split(path, "/")[[1]][[2]])
-        most_recent_extract <- ipums_api_get_recent_extracts_list(
+        most_recent_extract <- get_recent_extracts_info_list(
           collection,
           how_many = 1
         )
@@ -1017,36 +929,7 @@ response_list_to_extract_list <- function(response_list, collection) {
 }
 
 
-extract_list_to_tbl <- function(extract_list) {
-  unclassed_extract_list <- purrr::map(
-    extract_list,
-    function(x) {
-      if (is.character(x$samples)) x$samples <- list(x$samples)
-      if (is.character(x$variables)) x$variables <- list(x$variables)
-      if (length(x$download_links) != 1) {
-        x$download_links <- list(x$download_links)
-      }
-      unclass(x)
-    }
-  )
-  if (length(unclassed_extract_list) == 1) {
-    return(do.call(tibble::tibble, unclassed_extract_list[[1]]))
-  }
-  do.call(dplyr::bind_rows, unclassed_extract_list)
-}
-
-
-extract_tbl_to_list <- function(extract_tbl, validate = FALSE) {
-  extract_list <- purrr::pmap(extract_tbl, new_ipums_extract)
-  if (validate) {
-    extract_list <- purrr::walk(extract_list, validate_ipums_extract)
-  }
-  extract_list
-}
-
-
-
-ipums_extract_object_is_complete_and_has_links <- function(extract) {
+extract_is_completed_and_has_links <- function(extract) {
   status <- extract$status
   download_links <- extract$download_links
 
@@ -1066,9 +949,10 @@ add_user_auth_header <- function(api_key) {
 
 copy_ipums_extract <- function(extract) {
   extract$submitted <- FALSE
-  extract$download_links <- empty_named_list()
+  extract$download_links <- EMPTY_NAMED_LIST
   extract$number <- NA_integer_
   extract$status <- "unsubmitted"
+  extract$description <- paste0("Revision of (", extract$description, ")")
 
   extract
 }
@@ -1079,15 +963,16 @@ add_to_extract <- function(extract, samples_or_variables, names_to_add) {
     return(extract)
   }
   if (any(names_to_add %in% extract[[samples_or_variables]])) {
-    stop(
+    warning(
       "The following ", samples_or_variables, " are already included in the ",
-      "supplied extract definition: ",
+      "supplied extract definition, and thus will not be added: ",
       paste0(
         intersect(names_to_add, extract[[samples_or_variables]]),
         collapse = ", "
       ),
       call. = FALSE
     )
+    names_to_add <- setdiff(names_to_add, extract[[samples_or_variables]])
   }
   extract[[samples_or_variables]] <- c(
     extract[[samples_or_variables]],
@@ -1104,9 +989,9 @@ remove_from_extract <- function(extract,
     return(extract)
   }
   if (!all(names_to_remove %in% extract[[samples_or_variables]])) {
-    stop(
+    warning(
       "The following ", samples_or_variables, " are not included in the ",
-      "supplied extract definition: ",
+      "supplied extract definition, and thus will not be removed: ",
       paste0(
         setdiff(names_to_remove, extract[[samples_or_variables]]),
         collapse = ", "
@@ -1132,6 +1017,4 @@ microdata_api_version <- function() {
 }
 
 
-empty_named_list <- function() {
-  setNames(list(), character(0))
-}
+EMPTY_NAMED_LIST <- setNames(list(), character(0))

@@ -2,7 +2,7 @@ library(dplyr)
 library(purrr)
 
 # Setup ----
-usa_extract <- ipums_api_build_extract(
+usa_extract <- define_extract(
   collection = "usa",
   samples = "us2013a",
   variables = "YEAR",
@@ -10,9 +10,9 @@ usa_extract <- ipums_api_build_extract(
   data_format = "fixed_width"
 )
 
-submitted_usa_extract <- ipums_api_submit_extract(usa_extract)
+submitted_usa_extract <- submit_extract(usa_extract)
 
-cps_extract <- ipums_api_build_extract(
+cps_extract <- define_extract(
   collection = "cps",
   samples = c("cps1976_01s", "cps1976_02b"),
   variables = c("YEAR", "MISH", "CPSIDP", "AGE", "SEX", "RACE", "UH_SEX_B1"),
@@ -20,9 +20,9 @@ cps_extract <- ipums_api_build_extract(
   data_format = "fixed_width"
 )
 
-submitted_cps_extract <- ipums_api_submit_extract(cps_extract)
+submitted_cps_extract <- submit_extract(cps_extract)
 
-ipumsi_extract <- ipums_api_build_extract(
+ipumsi_extract <- define_extract(
   collection = "ipumsi",
   samples = "lc1980a",
   variables = c("AGE", "SEX"),
@@ -30,42 +30,34 @@ ipumsi_extract <- ipums_api_build_extract(
   data_format = "fixed_width"
 )
 
-submitted_ipumsi_extract <- ipums_api_submit_extract(ipumsi_extract)
+submitted_ipumsi_extract <- submit_extract(ipumsi_extract)
 
-recent_usa_extracts <- ipums_api_get_recent_extracts_tbl("usa")
-is_downloadable_usa <- ipums_api_extract_downloadable(recent_usa_extracts)
-skip_usa_download <- !any(is_downloadable_usa)
+recent_usa_extracts <- get_recent_extracts_info_list("usa")
+downloadable_usa_extract <- recent_usa_extracts %>%
+  keep(is_extract_ready) %>%
+  pluck(1)
+
+skip_usa_download <- is.null(downloadable_usa_extract)
+
 if (!skip_usa_download) {
   downloadable_usa_extract <- recent_usa_extracts %>%
-    filter(is_downloadable_usa) %>%
-    slice(1) %>%
-    ipumsr:::extract_tbl_to_list() %>%
-    .[[1]]
+    keep(is_extract_ready) %>%
+    pluck(1)
 }
 
 
-recent_cps_extracts <- ipums_api_get_recent_extracts_tbl("cps")
-is_downloadable_cps <- ipums_api_extract_downloadable(recent_cps_extracts)
-skip_cps_download <- !any(is_downloadable_cps)
-if (!skip_cps_download) {
-  downloadable_cps_extract <- recent_cps_extracts %>%
-    filter(is_downloadable_cps) %>%
-    slice(1) %>%
-    ipumsr:::extract_tbl_to_list() %>%
-    .[[1]]
-}
+recent_cps_extracts <- get_recent_extracts_info_list("cps")
+downloadable_cps_extract <- recent_cps_extracts %>%
+  keep(is_extract_ready) %>%
+  pluck(1)
+skip_cps_download <- is.null(downloadable_cps_extract)
 
 
-recent_ipumsi_extracts <- ipums_api_get_recent_extracts_tbl("ipumsi")
-is_downloadable_ipumsi <- ipums_api_extract_downloadable(recent_ipumsi_extracts)
-skip_ipumsi_download <- !any(is_downloadable_ipumsi)
-if (!skip_ipumsi_download) {
-  downloadable_ipumsi_extract <- recent_ipumsi_extracts %>%
-    filter(is_downloadable_ipumsi) %>%
-    slice(1) %>%
-    ipumsr:::extract_tbl_to_list() %>%
-    .[[1]]
-}
+recent_ipumsi_extracts <- get_recent_extracts_info_list("ipumsi")
+downloadable_ipumsi_extract <- recent_ipumsi_extracts %>%
+  keep(is_extract_ready) %>%
+  pluck(1)
+skip_ipumsi_download <- is.null(downloadable_ipumsi_extract)
 
 
 # Tests ----
@@ -74,7 +66,7 @@ test_that("Can define an extract", {
   expect_equal(usa_extract$variables[[1]], "YEAR")
   expect_equal(usa_extract$data_structure, "rectangular")
   expect_equal(usa_extract$rectangular_on, "P")
-  expect_identical(usa_extract$download_links, ipumsr:::empty_named_list())
+  expect_identical(usa_extract$download_links, ipumsr:::EMPTY_NAMED_LIST)
   expect_false(usa_extract$submitted)
   expect_equal(usa_extract$number, NA_integer_)
   expect_equal(usa_extract$status, "unsubmitted")
@@ -88,7 +80,7 @@ test_that("Can submit a USA extract", {
   expect_equal(submitted_usa_extract$status, "queued")
   expect_identical(
     submitted_usa_extract$download_links,
-    ipumsr:::empty_named_list()
+    ipumsr:::EMPTY_NAMED_LIST
   )
 })
 
@@ -98,7 +90,7 @@ test_that("Can submit a CPS extract", {
   expect_equal(submitted_cps_extract$collection, "cps")
   expect_true(submitted_cps_extract$submitted)
   expect_equal(submitted_cps_extract$status, "queued")
-  expect_identical(submitted_cps_extract$download_links, ipumsr:::empty_named_list())
+  expect_identical(submitted_cps_extract$download_links, ipumsr:::EMPTY_NAMED_LIST)
 })
 
 
@@ -108,43 +100,44 @@ test_that("ipums_extract print method works", {
 
 
 test_that("Can check the status of a USA extract by supplying extract object", {
-  extract <- ipums_api_get_extract(submitted_usa_extract)
+  extract <- get_extract_info(submitted_usa_extract)
   expect_s3_class(extract, "ipums_extract")
   expect_true(extract$status %in% c("queued", "started", "completed"))
 })
 
 
 test_that("Can check the status of a CPS extract by supplying extract object", {
-  extract <- ipums_api_get_extract(submitted_cps_extract)
+  extract <- get_extract_info(submitted_cps_extract)
   expect_s3_class(extract, "ipums_extract")
   expect_true(extract$status %in% c("queued", "started", "completed"))
 })
 
 
 test_that("Can check the status of a USA extract by supplying collection and number", {
-  extract <- ipums_api_get_extract("usa", 1)
+  extract <- get_extract_info(c("usa", "1"))
   expect_s3_class(extract, "ipums_extract")
   expect_true(extract$status %in% c("queued", "started", "completed"))
 })
 
 
 test_that("Can check the status of a CPS extract by supplying collection and number", {
-  extract <- ipums_api_get_extract("cps", 1)
+  extract <- get_extract_info("cps:1")
   expect_s3_class(extract, "ipums_extract")
   expect_true(extract$status %in% c("queued", "started", "completed"))
 })
 
 
 test_that("Tibble of recent USA extracts contains expected columns", {
+  recent_usa_extracts_tbl <- get_recent_extracts_info_tbl("usa")
   expected_columns <- c("collection", "description", "data_structure",
                         "rectangular_on", "data_format", "samples", "variables",
                         "submitted", "download_links", "number", "status")
-  expect_setequal(names(recent_usa_extracts), expected_columns)
+  expect_setequal(names(recent_usa_extracts_tbl), expected_columns)
 })
 
 
 test_that("Can limit number of recent extracts to get info on", {
-  two_recent_usa_extracts <- ipums_api_get_recent_extracts_tbl(
+  two_recent_usa_extracts <- get_recent_extracts_info_tbl(
     "usa",
     how_many = 2
   )
@@ -153,19 +146,20 @@ test_that("Can limit number of recent extracts to get info on", {
 
 
 test_that("Tibble of recent CPS extracts contains expected columns", {
+  recent_cps_extracts_tbl <- get_recent_extracts_info_tbl("cps")
   expected_columns <- c("collection", "description", "data_structure",
                         "rectangular_on", "data_format", "samples", "variables",
                         "submitted", "download_links", "number", "status")
-  expect_setequal(names(recent_cps_extracts), expected_columns)
+  expect_setequal(names(recent_cps_extracts_tbl), expected_columns)
 })
 
 download_dir <- file.path(tempdir(), "ipums-api-downloads")
 if (!dir.exists(download_dir)) dir.create(download_dir)
 
 test_that("Can download a USA extract by supplying extract object", {
-  skip_if_not(exists("downloadable_usa_extract"))
+  skip_if(skip_usa_download)
   expect_message(
-    ddi_file_path <- ipums_api_download_extract(
+    ddi_file_path <- download_extract(
       downloadable_usa_extract,
       download_dir = download_dir,
       overwrite = TRUE
@@ -178,11 +172,10 @@ test_that("Can download a USA extract by supplying extract object", {
 
 
 test_that("Can download a USA extract by supplying collection and number", {
-  skip_if_not(exists("downloadable_usa_extract"))
+  skip_if(skip_usa_download)
   expect_message(
-    ddi_file_path <- ipums_api_download_extract(
-      collection = downloadable_usa_extract$collection,
-      extract_number = downloadable_usa_extract$number,
+    ddi_file_path <- download_extract(
+      c(downloadable_usa_extract$collection, downloadable_usa_extract$number),
       download_dir = download_dir,
       overwrite = TRUE
     ),
@@ -194,9 +187,9 @@ test_that("Can download a USA extract by supplying collection and number", {
 
 
 test_that("Can download a CPS extract by supplying extract object", {
-  skip_if_not(exists("downloadable_cps_extract"))
+  skip_if(skip_cps_download)
   expect_message(
-    ddi_file_path <- ipums_api_download_extract(
+    ddi_file_path <- download_extract(
       downloadable_cps_extract,
       download_dir = download_dir,
       overwrite = TRUE
@@ -212,11 +205,13 @@ test_that("Can download a CPS extract by supplying extract object", {
 
 
 test_that("Can download a CPS extract by supplying collection and number", {
-  skip_if_not(exists("downloadable_cps_extract"))
+  skip_if(skip_cps_download)
   expect_message(
-    ddi_file_path <- ipums_api_download_extract(
-      collection = downloadable_cps_extract$collection,
-      extract_number = downloadable_cps_extract$number,
+    ddi_file_path <- download_extract(
+      paste0(
+        downloadable_cps_extract$collection, ":",
+        downloadable_cps_extract$number
+      ),
       download_dir = download_dir,
       overwrite = TRUE
     ),
@@ -229,7 +224,7 @@ test_that("Can download a CPS extract by supplying collection and number", {
 
 test_that("An extract request with missing collection returns correct error", {
   expect_error(
-    ipums_api_submit_extract(ipumsr:::new_ipums_extract()),
+    submit_extract(ipumsr:::new_ipums_extract()),
     regexp = paste0(
       "The following elements of an ipums_extract must not contain missing ",
       "values:"
@@ -239,7 +234,7 @@ test_that("An extract request with missing collection returns correct error", {
 
 test_that("An extract request with missing samples returns correct error", {
   expect_error(
-    ipums_api_submit_extract(ipumsr:::new_ipums_extract(collection = "usa")),
+    submit_extract(ipumsr:::new_ipums_extract(collection = "usa")),
     regexp = paste0(
       "The following elements of an ipums_extract must not contain missing ",
       "values:"
@@ -249,7 +244,7 @@ test_that("An extract request with missing samples returns correct error", {
 
 test_that("An extract request with missing samples returns correct error", {
   expect_error(
-    ipums_api_submit_extract(
+    submit_extract(
       ipumsr:::new_ipums_extract(collection = "usa", description = "Test")
     ),
     regexp = paste0(
@@ -259,3 +254,43 @@ test_that("An extract request with missing samples returns correct error", {
   )
 })
 
+test_that("Can revise an extract", {
+  revised_extract <- revise_extract(
+    submitted_usa_extract,
+    samples_to_add = "us2014a",
+    vars_to_add = "RELATE"
+  )
+  expect_true(revised_extract$status == "unsubmitted")
+  expect_equal(
+    revised_extract$description,
+    paste0("Revision of (", submitted_usa_extract$description, ")")
+  )
+  expect_equal(
+    revised_extract$samples,
+    c(submitted_usa_extract$samples, "us2014a")
+  )
+  expect_equal(
+    revised_extract$variables,
+    c(submitted_usa_extract$variables, "RELATE")
+  )
+})
+
+test_that("We warn user when their revisions don't make sense", {
+  expect_warning(
+    revise_extract(submitted_usa_extract, samples_to_add = "us2013a"),
+    regexp = "already included"
+  )
+  expect_warning(
+    revise_extract(submitted_usa_extract, vars_to_remove = "RELATE"),
+    regexp = "are not included"
+  )
+})
+
+test_that("tbl to list and list to tbl conversion works", {
+  recent_list <- get_recent_extracts_info_list("usa")
+  recent_tbl <- get_recent_extracts_info_tbl("usa")
+  converted_to_list <- extract_tbl_to_list(recent_tbl, validate = FALSE)
+  converted_to_tbl <- extract_list_to_tbl(recent_list)
+  expect_identical(recent_list, converted_to_list)
+  expect_identical(recent_tbl, converted_to_tbl)
+})
