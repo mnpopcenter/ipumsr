@@ -64,6 +64,73 @@ define_extract <- function(collection,
   extract
 }
 
+
+# > Define extract from json ----
+
+#' Create an extract object from a JSON-formatted definition
+#'
+#' Create an object of class "ipums_extract" based on an extract definition
+#' formatted as JSON.
+#'
+#' @param extract_json A JSON string, or the path to file containing JSON.
+#' @inheritParams define_extract
+#'
+#' @family ipums_api
+#' @return An object of class "ipums_extract".
+#' @export
+define_extract_from_json <- function(extract_json, collection) {
+  if (missing(collection)) {
+    stop("`collection` is a required argument", call. = FALSE)
+  }
+  if (!collection %in% ipums_data_collections()$code_for_api) {
+    stop(
+      paste0(
+        '"', collection, '"', " is not a valid code for an IPUMS data ",
+        "collection. To see all valid collection codes, use ",
+        "`ipums_data_collections()`"
+      ),
+      call. = FALSE
+    )
+  }
+  list_of_extracts <- extract_list_from_json(
+    extract_json,
+    collection,
+    validate = TRUE
+  )
+  if (length(list_of_extracts) != 1) {
+    stop(
+      paste0(
+        "`extract_json` should contain the definition of one and only one ",
+        "extract"
+      ),
+      call. = FALSE
+    )
+  }
+  list_of_extracts[[1]]
+}
+
+
+# > Save extract as json ----
+
+#' Save an extract definition to disk as JSON
+#'
+#' @inheritParams submit_extract
+#' @param file File path at which to write the JSON-formatted extract
+#'   definition.
+#'
+#' @details Note that this function only saves out the properties of an extract
+#'   that are required to submit a new extract request, namely, the description,
+#'   data structure, data format, samples, and variables.
+#' @family ipums_api
+#' @return The file path where the extract definition was written, invisibly.
+#' @export
+save_extract_as_json <- function(extract, file) {
+  extract_as_json <- extract_to_request_json(extract)
+  writeLines(jsonlite::prettify(extract_as_json), con = file)
+  invisible(file)
+}
+
+
 # > Submit extract ----
 
 #' Submit an extract request via the IPUMS API
@@ -89,12 +156,12 @@ submit_extract <- function(extract, api_key = Sys.getenv("IPUMS_API_KEY")) {
     body = extract_to_request_json(extract),
   )
 
-  extract <- response_list_to_extract_list(
+  extract <- extract_list_from_json(
     response,
     collection = extract$collection
   )
 
-  # response_list_to_extract_list() always returns a list of extracts, but in
+  # extract_list_from_json() always returns a list of extracts, but in
   # this case there is always only one, so pluck it out
   extract <- extract[[1]]
 
@@ -139,13 +206,7 @@ get_extract_info <- function(extract, api_key = Sys.getenv("IPUMS_API_KEY")) {
     path = paste0("extracts/", extract$number),
     api_key = api_key
   )
-  out <- response_list_to_extract_list(response, collection)
-
-  if (length(out) == 1) {
-    return(out[[1]])
-  }
-
-  out
+  extract_list_from_json(response, collection)[[1]]
 }
 
 
@@ -405,6 +466,7 @@ revise_extract <- function(extract,
                            rectangular_on = NULL) {
 
   extract <- copy_ipums_extract(extract)
+  extract$description <- paste0("Revision of (", extract$description, ")")
 
   extract <- add_to_extract(extract, "samples", samples_to_add)
   extract <- remove_from_extract(extract, "samples", samples_to_remove)
@@ -454,7 +516,7 @@ get_recent_extracts_info_list <- function(collection,
     queries = list(limit = how_many),
     api_key = api_key
   )
-  response_list_to_extract_list(response, collection)
+  extract_list_from_json(response, collection)
 }
 
 
@@ -541,6 +603,35 @@ extract_list_to_tbl <- function(extract_list) {
   do.call(dplyr::bind_rows, unclassed_extract_list)
 }
 
+
+# > List data collections ----
+
+#' List IPUMS data collections
+#'
+#' List IPUMS data collections with corresponding codes used by the IPUMS API.
+#' Note that some data collections may not yet have API support.
+#'
+#' @family ipums_api
+#' @return A \code{\link[tibble]{tbl_df}} with two columns containing the
+#'   full collection name and the corresponding code used by the IPUMS API.
+#' @export
+ipums_data_collections <- function() {
+  tibble::tribble(
+    ~collection_name, ~code_for_api,
+    "IPUMS USA", "usa",
+    "IPUMS CPS", "cps",
+    "IPUMS International", "ipumsi",
+    "IPUMS NHGIS", "nhgis",
+    "IPUMS AHTUS", "ahtus",
+    "IPUMS MTUS", "mtus",
+    "IPUMS ATUS", "atus",
+    "IPUMS DHS", "dhs",
+    "IPUMS Higher Ed", "highered",
+    "IPUMS MEPS", "meps",
+    "IPUMS NHIS", "nhis",
+    "IPUMS PMA", "pma"
+  )
+}
 
 # Non-exported functions --------------------------------------------------
 new_ipums_extract <- function(collection = NA_character_,
@@ -656,24 +747,20 @@ print.ipums_extract <- function(extract) {
 
 
 format_collection_for_printing <- function(collection) {
-  switch(
-    collection,
-    usa = "IPUMS USA",
-    cps = "IPUMS CPS",
-    napp = "IPUMS International",
-    ipumsi = "IPUMS International",
-    nhgis = "IPUMS NHGIS",
-    ahtus = "IPUMS AHTUS",
-    mtus = "IPUMS MTUS",
-    atus = "IPUMS ATUS",
-    dhs = "IPUMS DHS",
-    highered = "IPUMS Higher Ed",
-    meps = "IPUMS MEPS",
-    nhis = "IPUMS NHIS",
-    pma = "IPUMS PMA",
-    "Unknown data collection"
+  collection_info <- dplyr::filter(
+    ipums_data_collections(),
+    code_for_api == collection
   )
+
+  if (nrow(collection_info) == 0) {
+    return(UNKNOWN_DATA_COLLECTION_LABEL)
+  }
+
+  collection_info$collection_name
 }
+
+
+UNKNOWN_DATA_COLLECTION_LABEL <- "Unknown data collection"
 
 
 print_truncated_vector <- function(x, truncate_at = 5) {
@@ -781,8 +868,9 @@ ipums_api_binary_request <- function(url,
 #' @param queries A named list of key value pairs to be added to the standard
 #'   query in the call to httr::modify_url.
 #'
-#' @return An unnamed list in which each element is information about a single
-#'   extract.
+#' @return If the request returns a JSON response, this function returns a
+#'   length-one character vector containing the response from the API
+#'   formatted as JSON. Otherwise, the function throws an error.
 #'
 #' @noRd
 ipums_api_json_request <- function(verb,
@@ -869,23 +957,54 @@ ipums_api_json_request <- function(verb,
     stop("Extract API did not return json", call. = FALSE)
   }
 
-  response_as_list <- jsonlite::fromJSON(
-    httr::content(res, "text"),
+  httr::content(res, "text")
+
+}
+
+extract_list_from_json <- function(extracts_as_json,
+                                   collection,
+                                   validate = FALSE) {
+  list_of_extract_info <- jsonlite::fromJSON(
+    extracts_as_json,
     simplifyVector = FALSE
   )
 
-  # The response only has names when it contains info on only one extract. In
+  # The response only has names when it contains info on a single extract. In
   #   that case, we want to make sure this function returns an unnamed list of
   #   length one, to ensure consistency in the structure of the return value.
-  response_contains_info_on_single_extract <- !is.null(names(response_as_list))
+  list_contains_info_on_single_extract <- !is.null(names(list_of_extract_info))
 
-  if (response_contains_info_on_single_extract) {
-    response_as_list <- list(response_as_list)
+  if (list_contains_info_on_single_extract) {
+    list_of_extract_info <- list(list_of_extract_info)
   }
 
-  response_as_list
+  purrr::map(
+    list_of_extract_info,
+    function(x) {
+      out <- new_ipums_extract(
+        collection = collection,
+        description = x$description,
+        data_structure = names(x$data_structure),
+        rectangular_on = ifelse(
+          names(x$data_structure) == "rectangular",
+          x$data_structure$rectangular$on,
+          NA_character_
+        ),
+        data_format = x$data_format,
+        samples = names(x$samples),
+        variables = names(x$variables),
+        submitted = ifelse("number" %in% names(x), TRUE, FALSE),
+        download_links = if ("download_links" %in% names(x)) {
+          x$download_links
+        } else EMPTY_NAMED_LIST,
+        number = ifelse("number" %in% names(x), x$number, NA_integer_),
+        status = ifelse("status" %in% names(x), x$status, "unsubmitted")
+      )
+      if (validate) validate_ipums_extract(out)
+      out
+    }
+  )
 }
-
 
 
 parse_400_error <- function(res) {
@@ -902,30 +1021,8 @@ parse_400_error <- function(res) {
   return(error_message)
 }
 
-
-response_list_to_extract_list <- function(response_list, collection) {
-  purrr::map(
-    response_list,
-    function(x) {
-      new_ipums_extract(
-        collection = collection,
-        description = x$description,
-        data_structure = names(x$data_structure),
-        rectangular_on = ifelse(
-          names(x$data_structure) == "rectangular",
-          x$data_structure$rectangular$on,
-          NA_character_
-        ),
-        data_format = x$data_format,
-        samples = names(x$samples),
-        variables = names(x$variables),
-        submitted = TRUE,
-        download_links = x$download_links,
-        number = x$number,
-        status = x$status
-      )
-    }
-  )
+json_to_extract <- function(json, collection) {
+  json_as_data_frame <- jsonlite::fromJSON(json)
 }
 
 
@@ -952,7 +1049,6 @@ copy_ipums_extract <- function(extract) {
   extract$download_links <- EMPTY_NAMED_LIST
   extract$number <- NA_integer_
   extract$status <- "unsubmitted"
-  extract$description <- paste0("Revision of (", extract$description, ")")
 
   extract
 }

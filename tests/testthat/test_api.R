@@ -294,3 +294,14 @@ test_that("tbl to list and list to tbl conversion works", {
   expect_identical(recent_list, converted_to_list)
   expect_identical(recent_tbl, converted_to_tbl)
 })
+
+test_that("We can export to and import from JSON", {
+  json_tmpfile <- file.path(tempdir(), "usa_extract.json")
+  on.exit(unlink(json_tmpfile))
+  save_extract_as_json(usa_extract, json_tmpfile)
+  copy_of_usa_extract <- define_extract_from_json(json_tmpfile, "usa")
+  expect_identical(usa_extract, copy_of_usa_extract)
+  save_extract_as_json(submitted_usa_extract, json_tmpfile)
+  copy_of_submitted_usa_extract <- define_extract_from_json(json_tmpfile, "usa")
+  expect_identical(submitted_usa_extract, copy_of_submitted_usa_extract)
+})
