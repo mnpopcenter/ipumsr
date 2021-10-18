@@ -197,7 +197,12 @@ get_extract_info <- function(extract, api_key = Sys.getenv("IPUMS_API_KEY")) {
   stopifnot(length(extract$collection) == 1)
   stopifnot(length(extract$number) == 1)
   if (is.na(extract$number)) {
-    stop("extract number cannot be a missing value", call. = FALSE)
+    stop(
+      "Extract number cannot be a missing value; please supply an ",
+      "ipums_extract object returned by `submit_extract()`, or the data ",
+      "collection and number of a submitted extract.",
+      call. = FALSE
+    )
   }
   collection <- tolower(extract$collection)
   response <- ipums_api_json_request(
