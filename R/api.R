@@ -13,7 +13,7 @@
 #' @param samples Character vector of samples to include in the extract.
 #' @param variables Character vector of variables to include in the extract.
 #' @param data_format The desired format of the extract data file (one of
-#'   "fixed_width", "csv", "stata", or "spss").
+#'   "fixed_width", "csv", "stata", "spss", or "sas9").
 #' @param data_structure One of "rectangular" or "hierarchical" (defaults to
 #'   "rectangular")
 #' @param rectangular_on For rectangular \code{data_structure}, should the data
@@ -31,7 +31,7 @@ define_extract <- function(collection,
                            samples,
                            variables,
                            data_format = c("fixed_width", "csv",
-                                           "stata", "spss"),
+                                           "stata", "spss", "sas9"),
                            data_structure = c("rectangular", "hierarchical"),
                            rectangular_on = c("P", "H")) {
 
@@ -715,7 +715,7 @@ validate_ipums_extract <- function(x) {
     )
   }
 
-  stopifnot(x$data_format %in% c("fixed_width", "csv","stata", "spss", "sas"))
+  stopifnot(x$data_format %in% c("fixed_width", "csv","stata", "spss", "sas9"))
   stopifnot(x$data_structure %in% c("rectangular", "hierarchical"))
 
   if (x$data_structure == "rectangular" & !x$rectangular_on %in% c("H", "P")) {

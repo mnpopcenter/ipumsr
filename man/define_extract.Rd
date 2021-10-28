@@ -9,7 +9,7 @@ define_extract(
   description,
   samples,
   variables,
-  data_format = c("fixed_width", "csv", "stata", "spss"),
+  data_format = c("fixed_width", "csv", "stata", "spss", "sas9"),
   data_structure = c("rectangular", "hierarchical"),
   rectangular_on = c("P", "H")
 )
@@ -24,7 +24,7 @@ define_extract(
 \item{variables}{Character vector of variables to include in the extract.}
 
 \item{data_format}{The desired format of the extract data file (one of
-"fixed_width", "csv", "stata", or "spss").}
+"fixed_width", "csv", "stata", "spss", or "sas9").}
 
 \item{data_structure}{One of "rectangular" or "hierarchical" (defaults to
 "rectangular")}

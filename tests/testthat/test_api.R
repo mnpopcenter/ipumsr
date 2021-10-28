@@ -303,5 +303,8 @@ test_that("We can export to and import from JSON", {
   expect_identical(usa_extract, copy_of_usa_extract)
   save_extract_as_json(submitted_usa_extract, json_tmpfile)
   copy_of_submitted_usa_extract <- define_extract_from_json(json_tmpfile, "usa")
-  expect_identical(submitted_usa_extract, copy_of_submitted_usa_extract)
+  expect_identical(
+    ipumsr:::copy_ipums_extract(submitted_usa_extract),
+    copy_of_submitted_usa_extract
+  )
 })
