@@ -12,7 +12,13 @@ A \code{\link[tibble]{tbl_df}} with two columns containing the
 }
 \description{
 List IPUMS data collections with corresponding codes used by the IPUMS API.
-Note that some data collections may not yet have API support.
+Note that some data collections do not yet have API support. For an overview
+of ipumsr API functionality, see \code{vignette("ipums-api", package = "ipumsr")}.
+}
+\examples{
+# Print a tibble of all IPUMS data collections:
+ipums_data_collections()
+
 }
 \seealso{
 Other ipums_api: 
@@ -22,6 +28,7 @@ Other ipums_api:
 \code{\link{extract_list_to_tbl}()},
 \code{\link{extract_tbl_to_list}()},
 \code{\link{get_extract_info}()},
+\code{\link{get_last_extract_info}()},
 \code{\link{get_recent_extracts_info}},
 \code{\link{is_extract_ready}()},
 \code{\link{revise_extract}()},

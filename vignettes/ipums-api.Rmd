@@ -1,5 +1,5 @@
 ---
-title: "Interacting with the IPUMS microdata extract API"
+title: "Interacting with the IPUMS USA microdata extract API"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{ipums-api}
@@ -15,12 +15,29 @@ knitr::opts_chunk$set(
 )
 ```
 
-The IPUMS microdata extract API allows registered IPUMS users to define 
+# Warning: New features currently in development
+
+The IPUMS USA microdata extract API is still in testing and is not publicly
+available. A call for beta testers will go out to all IPUMS USA users in late
+2021 or early 2022. Moreover, the ipumsr functions for interacting with the API
+are only included in the development version of the package on GitHub, not in 
+the version on CRAN. If you are a beta tester, you can download the development 
+version of ipumsr, which includes API functions, using:
+
+```{r}
+if (!require(remotes)) install.packages("remotes")
+remotes::install_github("mnpopcenter/ipumsr", build_vignettes = TRUE)
+```
+
+
+# Overview
+
+The IPUMS USA microdata extract API allows registered IPUMS USA users to define 
 extracts, submit extract requests, and download extract files without visiting 
 the IPUMS website. ipumsr includes functions that make it easy for R users to 
 interact with the extract API from their R session.
 
-```{r setup}
+```{r setup, eval=TRUE, message=FALSE}
 library(ipumsr)
 library(dplyr) # not necessary to use API functions, but used in some examples
 library(purrr) # not necessary to use API functions, but used in some examples
@@ -28,7 +45,11 @@ library(purrr) # not necessary to use API functions, but used in some examples
 
 # Setting up your API key
 
-**Add notes about how to create an API key here.**
+If you don’t have an IPUMS USA account, 
+[register for access](https://uma.pop.umn.edu/usa/user/new?return_url=https%3A%2F%2Fusa.ipums.org%2Fusa-action%2Fmenuor).
+
+Once you're registered, you'll need to 
+[create an API key](https://account.ipums.org/api_keys).
 
 Once you've created an API key, you can choose to supply it as a function 
 argument whenever interacting with the API, or you can set the value of the 
@@ -62,6 +83,9 @@ extract_definition <- define_extract(
 )
 ```
 
+Note that samples are specified using special sample ID codes, which can be 
+browsed [here on the IPUMS USA website](https://usa.ipums.org/usa-action/samples/sample_ids).
+
 The `data_format`, `data_structure`, and `rectangular_on` arguments have default 
 values which match the values specified in the example above, and you can omit 
 the argument names as long as you maintain the proper order, so you could define 
@@ -79,9 +103,9 @@ extract_definition <- define_extract(
 
 # Submitting your extract
 
-Submitting your extract is as easy as:
+To submit your extract, use:
 
-```{r eval=FALSE}
+```{r}
 submit_extract(extract_definition)
 ```
 
@@ -96,7 +120,23 @@ submitted_extract <- submit_extract(extract_definition)
 ```
 
 That way, you can use the `submitted_extract` object as input to check the
-extract's status, as shown in the next section.
+extract's status, as shown in the next section. 
+
+You can also get the extract number with:
+
+```{r}
+submitted_extract$number
+```
+
+If you forget to capture the return value of `submit_extract()`, you can get 
+all information on your most recent extract (including the extract number) with:
+
+```{r}
+submitted_extract <- get_last_extract_info("usa")
+```
+
+`get_last_extract_info()` is just a convenience wrapper around 
+`get_recent_extracts_info_list()`, described [below](#recent).
 
 
 # Checking the status of your extract
@@ -109,7 +149,8 @@ to any extract files that are available for download. The "status" of an extract
 is one of "queued", "started", "produced", "canceled", "failed", or "completed". 
 
 If you assigned a name to the return value of `submit_extract()`, as shown
-above, you could get update the "ipums_extract" object with:
+above, you could get updated information on the extract, returned as an
+"ipums_extract" object, with:
 
 ```{r}
 submitted_extract <- get_extract_info(submitted_extract)
@@ -121,47 +162,61 @@ To print the latest status, you can use:
 submitted_extract$status
 ```
 
-If you don't have an "ipums_extract" object in your environment that describes 
-the extract you're interested in, you can also query the latest status of an 
-extract by supplying the name of the IPUMS data collection and extract number of 
-the extract, in one of two formats:
+If you forget to capture the return value of `submit_extract()`, you can get 
+all information on your most recent extract (including the extract number) with:
 
-```{r eval=FALSE}
+```{r}
+submitted_extract <- get_last_extract_info("usa")
+```
+
+`get_last_extract_info()` is just a convenience wrapper around 
+`get_recent_extracts_info_list()`, described [below](#recent).
+
+If you don't have an "ipums_extract" object in your environment that describes
+the extract you're interested in, and you don't want the most recent extract,
+you can also query the latest status of an extract by supplying the name of the
+IPUMS data collection and extract number of the extract, in one of two formats:
+
+```{r}
 submitted_extract <- get_extract_info("usa:33")
 ```
 
-Or:
+or
 
-```{r eval=FALSE}
+```{r}
 submitted_extract <- get_extract_info(c("usa", "33"))
 ```
+
+Note that in the first format, there are no spaces before or after the colon, 
+and that in both formats, there is no need to zero-pad the extract number -- in 
+other words, use "33", not "00033".
 
 If you want R to periodically check the status of your extract, and only return 
 an updated "ipums_extract" object once the extract is ready to download, you 
 can use `wait_for_extract()`, as shown below:
 
-```{r eval=FALSE}
+```{r}
 downloadable_extract <- wait_for_extract(submitted_extract)
 ```
 
 `wait_for_extract()` also accepts the same `"collection:number"` and 
 `c("collection", "number")` specifications shown above:
 
-```{r eval=FALSE}
+```{r}
 downloadable_extract <- wait_for_extract("usa:33")
 ```
 
-Or:
+or
 
-```{r eval=FALSE}
+```{r}
 downloadable_extract <- wait_for_extract(c("usa", "33"))
 ```
 
-For large extracts that take a long time to produce, you may not want to use 
-`wait_for_extract()`, as it will tie up your R session until the extract is 
-ready to download. Alternatively, you can use the `timeout_seconds` argument to 
-set the maximum number of seconds you want the function to wait. By default, 
-that argument is set to 10,800 seconds (3 hours).
+For large extracts that take a long time to produce, or when the IPUMS servers
+are busy, you may not want to use `wait_for_extract()`, as it will tie up your R
+session until the extract is ready to download. Alternatively, you can use the
+`timeout_seconds` argument to set the maximum number of seconds you want the
+function to wait. By default, that argument is set to 10,800 seconds (3 hours).
 
 One additional way to check whether your extract is ready to download is using 
 the `is_extract_ready()` function. This function accepts either an 
@@ -186,36 +241,57 @@ the function will download files into your current working directory, but
 alternative locations can be specified with the `download_dir` argument.
 
 ```{r}
-ddi_path <- download_extract(
-  submitted_extract,
-  download_dir = "~/ipumsr_api_downloads"
-)
+ddi_path <- download_extract(submitted_extract)
 
-# Assuming you chose either "fixed-width" or "csv" for your extract's 
-# "data_format"
-data <- read_ipums_micro(ddi_path)
+# Assuming you chose either "fixed-width" or "csv" for your extract's "data_format"
+ddi <- read_ipums_ddi(ddi_path)
+data <- read_ipums_micro(ddi)
 ```
 
 
 Or, using a `"collection:number"` or `c("collection", "number")` specification:
 
-```{r eval=FALSE}
-ddi_path <- download_extract(
-  "usa:33",
-  download_dir = "ipums_data_extracts"
-)
-ddi_path <- download_extract(
-  c("usa", "33"),
-  download_dir = "ipums_data_extracts"
-)
+```{r}
+ddi_path <- download_extract("usa:33")
+ddi_path <- download_extract(c("usa", "33"))
 ```
+
+
+# Sharing an extract definition
+
+One exciting feature enabled by the IPUMS USA data extract API is the ability to 
+share a standardized extract definition with other IPUMS users so that they can 
+create an identical extract for themselves. ipumsr facilitates this by offering 
+the functions `save_extract_as_json()` and `define_extract_from_json()` to 
+write extract definitions to and read extract definitions from a standardized 
+JSON-formatted file.
+
+To write the definition of your USA extract number 33 to a JSON-formatted file 
+that can be shared with other users, you could use:
+
+```{r}
+usa_extract_33 <- get_extract_info("usa:33")
+save_extract_as_json(usa_extract_33, file = "usa_extract_33.json")
+```
+
+Then, assuming that file is saved in your current working directory, you or
+another user could use that JSON file to create a duplicate "ipums_extract"
+object with the same definition, and submit it, using:
+
+```{r}
+clone_of_usa_extract_33 <- define_extract_from_json("usa_extract_33.json", "usa")
+submitted_extract <- submit_extract(clone_of_usa_extract_33)
+```
+
 
 # Revising a previous extract
 
 ipumsr also includes a convenience function for revising a previous extract 
-definition, facilitating a "revise and resubmit" workflow.
+definition, facilitating a "revise and resubmit" workflow. Here's how you would 
+pull down the definition of USA extract number 33 and add a sample and a 
+variable to it:
 
-```{r eval=FALSE}
+```{r}
 old_extract <- get_extract_info("usa:33")
 new_extract <- revise_extract(
   old_extract,
@@ -229,27 +305,27 @@ modified as requested and has been reset to an unsubmitted state, by stripping
 the extract number, status, and download links from the original extract. The 
 revised extract can then be submitted with:
 
-```{r eval=FALSE}
+```{r}
 newly_submitted_extract <- submit_extract(new_extract)
 ```
 
 
-# Getting info on multiple recent extracts
+# Getting info on multiple recent extracts {#recent}
 
 You can query the API for the details and status of up to ten recent extracts 
 using the functions `get_recent_extracts_info_list()` and 
-`get_recent_extracts_info_tbl`. The `_list` version of the function returns a 
+`get_recent_extracts_info_tbl()`. The `_list` version of the function returns a 
 list of "ipums_extract" objects, whereas the `_tbl` version returns a tibble 
 (enhanced "data.frame") in which each row contains information on one extract. 
 
 The list representation is useful if you want to be able to operate on elements
-as "ipums_extract" objects. For instance, to retrieve your most recent extract 
-and revise it for resubmission, you could use:
+as "ipums_extract" objects. For instance, to retrieve your most
+second-most-recent extract and revise it for resubmission, you could use:
 
 ```{r}
-most_recent_extract <- get_recent_extracts_info_list("usa", how_many = 1)[[1]]
+second_most_recent_extract <- get_recent_extracts_info_list("usa")[[2]]
 revised_extract <- revise_extract(
-  most_recent_extract, 
+  second_most_recent_extract, 
   samples_to_add = "us2010a"
 )
 ```
@@ -257,14 +333,10 @@ revised_extract <- revise_extract(
 Or to download all recent extracts that are ready to download, using 
 `purrr::keep()` and `purrr::map_chr()`:
 
-```{r eval=FALSE}
+```{r}
 ddi_paths <- get_recent_extracts_info_list("usa") %>% 
   keep(is_extract_ready) %>% 
-  map_chr(
-    download_extract, 
-    download_dir = "~/ipumsr_api_downloads",
-    overwrite = TRUE
-  )
+  map_chr(download_extract)
 ```
 
 The tibble representation is useful if you want to use functions for 
@@ -283,7 +355,7 @@ recent_usa_extracts %>%
 ```
 
 Filtering on properties such as "samples" or "variables" is a little more
-complex, because these are stored in list-columns, but it is possible. For
+complex, because these are stored in list columns, but it is possible. For
 example, to find extracts including the variable "AGE", you could use
 `purrr::map_lgl()` like this:
 
@@ -296,7 +368,7 @@ To convert between these two representations, ipumsr provides the functions
 `extract_list_to_tbl()` and `extract_tbl_to_list()`, such that the following is 
 `TRUE`:
 
-```{r eval=FALSE}
+```{r}
 identical(
   extract_list_to_tbl(get_recent_extracts_info_list("usa")),
   get_recent_extracts_info_tbl("usa")

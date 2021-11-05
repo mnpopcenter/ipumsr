@@ -19,7 +19,9 @@ define_extract(
 
 \item{description}{Description of the extract.}
 
-\item{samples}{Character vector of samples to include in the extract.}
+\item{samples}{Character vector of samples to include in the extract. Samples
+should be specified using the
+\href{https://usa.ipums.org/usa-action/samples/sample_ids}{Sample ID values}.}
 
 \item{variables}{Character vector of variables to include in the extract.}
 
@@ -30,8 +32,8 @@ define_extract(
 "rectangular")}
 
 \item{rectangular_on}{For rectangular \code{data_structure}, should the data
-be rectangular on persons ("P") or households ("H"). Defaults to "P". If
-\code{data_structure} is rectangular, this argument is ignored and set to
+be rectangular on persons ("P") or households ("H")? Defaults to "P". If
+\code{data_structure} is hierarchical, this argument is ignored and set to
 missing automatically.}
 }
 \value{
@@ -39,7 +41,22 @@ An object of class \code{ipums_extract} containing the extract
   definition.
 }
 \description{
-Define an extract request object to be submitted via the IPUMS API
+Define an extract request object to be submitted via the IPUMS API. For an
+overview of ipumsr API functionality, see
+\code{vignette("ipums-api", package = "ipumsr")}.
+}
+\examples{
+my_extract <- define_extract("usa", "Example", "us2013a", "YEAR")
+
+my_hierarchical_extract <- define_extract(
+  collection = "usa",
+  description = "A hierarchical example",
+  samples = c("us2013a", "us2014a"),
+  variables = c("YEAR", "AGE", "SEX", "RACE"),
+  data_format = "csv",
+  data_structure = "hierarchical"
+)
+
 }
 \seealso{
 Other ipums_api: 
@@ -48,6 +65,7 @@ Other ipums_api:
 \code{\link{extract_list_to_tbl}()},
 \code{\link{extract_tbl_to_list}()},
 \code{\link{get_extract_info}()},
+\code{\link{get_last_extract_info}()},
 \code{\link{get_recent_extracts_info}},
 \code{\link{ipums_data_collections}()},
 \code{\link{is_extract_ready}()},

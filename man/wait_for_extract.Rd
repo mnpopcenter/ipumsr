@@ -14,11 +14,17 @@ wait_for_extract(
 )
 }
 \arguments{
-\item{extract}{Either an object of class \code{ipums_extract}; the data
-collection and extract number of an existing extract formatted as a single
-string (\code{"collection: number"}) or a length two vector
-(\code{c("collection", "number")}); or a \code{data.frame} in which each
-row contains an extract definition..}
+\item{extract}{One of:
+  \itemize{
+    \item{An object of class \code{ipums_extract}}
+    \item{The data collection and extract number formatted as a single
+          string of the form \code{"collection:number"}}
+    \item{The data collection and extract number formatted as a vector of the
+          form \code{c("collection", "number")}}
+  }
+The extract number does not need to be zero-padded (e.g., use \code{"usa:1"}
+or \code{c("usa", "1")}, not \code{"usa:00001"} or \code{c("usa", "00001")}).
+See Examples section below for examples of each form.}
 
 \item{initial_delay_seconds}{How many seconds to wait before first status
 check.}
@@ -46,7 +52,28 @@ An object of class \code{ipums_extract} containing the extract
 }
 \description{
 Wait for an extract to finish by periodically checking its status via the
-IPUMS API and returning when the extract is ready to download.
+IPUMS API and returning when the extract is ready to download. For an
+overview of ipumsr API functionality, see
+\code{vignette("ipums-api", package = "ipumsr")}.
+}
+\examples{
+my_extract <- define_extract("usa", "Example", "us2013a", "YEAR")
+
+\dontrun{
+submitted_extract <- submit_extract(my_extract)
+
+# Wait for extract by supplying extract object:
+downloadable_extract <- wait_for_extract(submitted_extract)
+
+# By supplying the data collection and extract number, as a string:
+downloadable_extract <- wait_for_extract("usa:1")
+# Note that there is no space before or after the colon, and no zero-padding
+# of the extract number.
+
+# By supplying the data collection and extract number, as a vector:
+downloadable_extract <- wait_for_extract(c("usa", "1"))
+}
+
 }
 \seealso{
 Other ipums_api: 
@@ -56,6 +83,7 @@ Other ipums_api:
 \code{\link{extract_list_to_tbl}()},
 \code{\link{extract_tbl_to_list}()},
 \code{\link{get_extract_info}()},
+\code{\link{get_last_extract_info}()},
 \code{\link{get_recent_extracts_info}},
 \code{\link{ipums_data_collections}()},
 \code{\link{is_extract_ready}()},

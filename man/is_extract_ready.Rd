@@ -7,26 +7,48 @@
 is_extract_ready(extract, api_key = Sys.getenv("IPUMS_API_KEY"))
 }
 \arguments{
-\item{extract}{Either an object of class \code{ipums_extract}; the data
-collection and extract number of an existing extract formatted as a single
-string (\code{"collection: number"}) or a length two vector
-(\code{c("collection", "number")}); or a \code{data.frame} in which each
-row contains an extract definition..}
+\item{extract}{One of:
+  \itemize{
+    \item{An object of class \code{ipums_extract}}
+    \item{The data collection and extract number formatted as a single
+          string of the form \code{"collection:number"}}
+    \item{The data collection and extract number formatted as a vector of the
+          form \code{c("collection", "number")}}
+  }
+The extract number does not need to be zero-padded (e.g., use \code{"usa:1"}
+or \code{c("usa", "1")}, not \code{"usa:00001"} or \code{c("usa", "00001")}).
+See Examples section below for examples of each form.}
 
 \item{api_key}{API key associated with your user account. Defaults to the
 value of environment variable "IPUMS_API_KEY".}
 }
 \value{
-A logical vector. If the first argument is an object of class
-  \code{ipums_extract} or the name of a data collection, the function will
-  return a length-one logical vector. If the first
-  argument is a \code{data.frame}, the function will return a logical vector
-  with length equal to the number of rows of the \code{data.frame}.
+A logical vector of length one.
 }
 \description{
 This function uses the IPUMS API to check whether the given extract is ready
 to download, returning TRUE for extracts that are ready and FALSE for those
-that are not.
+that are not. For an overview of ipumsr API functionality, see
+\code{vignette("ipums-api", package = "ipumsr")}.
+}
+\examples{
+my_extract <- define_extract("usa", "Example", "us2013a", "YEAR")
+
+\dontrun{
+submitted_extract <- submit_extract(my_extract)
+
+# Check if extract is ready by supplying extract object:
+is_extract_ready(submitted_extract)
+
+# By supplying the data collection and extract number, as a string:
+is_extract_ready("usa:1")
+# Note that there is no space before or after the colon, and no zero-padding
+# of the extract number.
+
+# By supplying the data collection and extract number, as a vector:
+is_extract_ready(c("usa", "1"))
+}
+
 }
 \seealso{
 Other ipums_api: 
@@ -36,6 +58,7 @@ Other ipums_api:
 \code{\link{extract_list_to_tbl}()},
 \code{\link{extract_tbl_to_list}()},
 \code{\link{get_extract_info}()},
+\code{\link{get_last_extract_info}()},
 \code{\link{get_recent_extracts_info}},
 \code{\link{ipums_data_collections}()},
 \code{\link{revise_extract}()},

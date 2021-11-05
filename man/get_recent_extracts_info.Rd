@@ -33,7 +33,41 @@ For \code{get_recent_extracts_info_list()}, a list of
 }
 \description{
 Get information on up to ten recent extracts for a given IPUMS collection
-via the IPUMS API, returned either as a list or tibble.
+via the IPUMS API, returned either as a list or tibble. For an overview of
+ipumsr API functionality, see \code{vignette("ipums-api", package = "ipumsr")}.
+}
+\examples{
+\dontrun{
+# Get list of recent extracts
+list_of_last_10_extracts <- get_recent_extracts_info_list("usa")
+
+# Print the extract number for extracts that are downloadable:
+for (extract in list_of_last_10_extracts) {
+  if (is_extract_ready(extract)) print(extract$number)
+}
+
+# Get tibble of recent extracts
+tbl_of_last_10_extracts <- get_recent_extracts_info_tbl("usa")
+
+# Filter down to extracts with "income" in the description
+description_mentions_income <- grepl(
+  "[Ii]ncome",
+  tbl_of_last_10_extracts$description
+)
+income_extracts <- tbl_of_last_10_extracts[description_mentions_income, ]
+
+# Convert tibble of extracts to list of extracts
+income_extracts <- extract_tbl_to_list(income_extracts)
+
+# Now it's easier to operate on those elements as extract objects:
+revised_income_extract <- revise_extract(
+  income_extracts[[1]],
+  samples_to_add = "us2018a"
+)
+
+submitted_revised_income_extract <- submit_extract(revised_income_extract)
+}
+
 }
 \seealso{
 Other ipums_api: 
@@ -43,6 +77,7 @@ Other ipums_api:
 \code{\link{extract_list_to_tbl}()},
 \code{\link{extract_tbl_to_list}()},
 \code{\link{get_extract_info}()},
+\code{\link{get_last_extract_info}()},
 \code{\link{ipums_data_collections}()},
 \code{\link{is_extract_ready}()},
 \code{\link{revise_extract}()},

@@ -17,7 +17,23 @@ A \code{\link[tibble]{tbl_df}} with number of rows equal to the
 \description{
 Convert a list of \code{ipums_extract} objects to a
 \code{\link[tibble]{tbl_df}} in which each row contains the definition of one
-extract.
+extract. For an overview of ipumsr API functionality, see
+\code{vignette("ipums-api", package = "ipumsr")}.
+}
+\examples{
+\dontrun{
+# Get list of recent extracts
+list_of_last_10_extracts <- get_recent_extracts_info_list("usa")
+
+# Print the extract number for extracts that are downloadable:
+for (extract in list_of_last_10_extracts) {
+  if (is_extract_ready(extract)) print(extract$number)
+}
+
+# Convert list of extracts to tibble of extracts to view in a tabular format
+extract_list_to_tbl(list_of_last_10_extracts)
+}
+
 }
 \seealso{
 Other ipums_api: 
@@ -26,6 +42,7 @@ Other ipums_api:
 \code{\link{download_extract}()},
 \code{\link{extract_tbl_to_list}()},
 \code{\link{get_extract_info}()},
+\code{\link{get_last_extract_info}()},
 \code{\link{get_recent_extracts_info}},
 \code{\link{ipums_data_collections}()},
 \code{\link{is_extract_ready}()},

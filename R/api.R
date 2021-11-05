@@ -6,32 +6,48 @@
 
 #' Define an extract request object
 #'
-#' Define an extract request object to be submitted via the IPUMS API
+#' Define an extract request object to be submitted via the IPUMS API. For an
+#' overview of ipumsr API functionality, see
+#' \code{vignette("ipums-api", package = "ipumsr")}.
 #'
 #' @param collection The IPUMS data collection for the extract.
 #' @param description Description of the extract.
-#' @param samples Character vector of samples to include in the extract.
+#' @param samples Character vector of samples to include in the extract. Samples
+#'   should be specified using the
+#'   \href{https://usa.ipums.org/usa-action/samples/sample_ids}{Sample ID values}.
 #' @param variables Character vector of variables to include in the extract.
 #' @param data_format The desired format of the extract data file (one of
 #'   "fixed_width", "csv", "stata", "spss", or "sas9").
 #' @param data_structure One of "rectangular" or "hierarchical" (defaults to
 #'   "rectangular")
 #' @param rectangular_on For rectangular \code{data_structure}, should the data
-#'   be rectangular on persons ("P") or households ("H"). Defaults to "P". If
-#'   \code{data_structure} is rectangular, this argument is ignored and set to
+#'   be rectangular on persons ("P") or households ("H")? Defaults to "P". If
+#'   \code{data_structure} is hierarchical, this argument is ignored and set to
 #'   missing automatically.
 #'
 #' @family ipums_api
 #' @return An object of class \code{ipums_extract} containing the extract
 #'   definition.
 #'
+#' @examples
+#' my_extract <- define_extract("usa", "Example", "us2013a", "YEAR")
+#'
+#' my_hierarchical_extract <- define_extract(
+#'   collection = "usa",
+#'   description = "A hierarchical example",
+#'   samples = c("us2013a", "us2014a"),
+#'   variables = c("YEAR", "AGE", "SEX", "RACE"),
+#'   data_format = "csv",
+#'   data_structure = "hierarchical"
+#' )
+#'
 #' @export
 define_extract <- function(collection,
                            description,
                            samples,
                            variables,
-                           data_format = c("fixed_width", "csv",
-                                           "stata", "spss", "sas9"),
+                           data_format = c("fixed_width", "csv", "stata",
+                                           "spss", "sas9"),
                            data_structure = c("rectangular", "hierarchical"),
                            rectangular_on = c("P", "H")) {
 
@@ -70,13 +86,25 @@ define_extract <- function(collection,
 #' Create an extract object from a JSON-formatted definition
 #'
 #' Create an object of class "ipums_extract" based on an extract definition
-#' formatted as JSON.
+#' formatted as JSON. For an overview of ipumsr API functionality, see
+#' \code{vignette("ipums-api", package = "ipumsr")}.
 #'
 #' @param extract_json A JSON string, or the path to file containing JSON.
 #' @inheritParams define_extract
 #'
 #' @family ipums_api
 #' @return An object of class "ipums_extract".
+#'
+#' @examples
+#' my_extract <- define_extract("usa", "Example", "us2013a", "YEAR")
+#'
+#' extract_json_path <- file.path(tempdir(), "usa_extract.json")
+#' save_extract_as_json(my_extract, file = extract_json_path)
+#'
+#' copy_of_my_extract <- define_extract_from_json(extract_json_path, "usa")
+#'
+#' identical(my_extract, copy_of_my_extract)
+#'
 #' @export
 define_extract_from_json <- function(extract_json, collection) {
   if (missing(collection)) {
@@ -114,6 +142,9 @@ define_extract_from_json <- function(extract_json, collection) {
 
 #' Save an extract definition to disk as JSON
 #'
+#' Save an extract definition to a JSON-formatted file. For an overview of
+#' ipumsr API functionality, see \code{vignette("ipums-api", package = "ipumsr")}.
+#'
 #' @inheritParams submit_extract
 #' @param file File path at which to write the JSON-formatted extract
 #'   definition.
@@ -123,6 +154,17 @@ define_extract_from_json <- function(extract_json, collection) {
 #'   data structure, data format, samples, and variables.
 #' @family ipums_api
 #' @return The file path where the extract definition was written, invisibly.
+#'
+#' @examples
+#' my_extract <- define_extract("usa", "Example", "us2013a", "YEAR")
+#'
+#' extract_json_path <- file.path(tempdir(), "usa_extract.json")
+#' save_extract_as_json(my_extract, file = extract_json_path)
+#'
+#' copy_of_my_extract <- define_extract_from_json(extract_json_path, "usa")
+#'
+#' identical(my_extract, copy_of_my_extract)
+#'
 #' @export
 save_extract_as_json <- function(extract, file) {
   extract_as_json <- extract_to_request_json(extract)
@@ -135,15 +177,42 @@ save_extract_as_json <- function(extract, file) {
 
 #' Submit an extract request via the IPUMS API
 #'
-#' Submit an extract request via the IPUMS API
+#' Given an extract definition object, submit an extract request via the IPUMS
+#' API, and return a modified copy of the extract object with the newly-assigned
+#' extract number. For an overview of ipumsr API functionality, see
+#' \code{vignette("ipums-api", package = "ipumsr")}.
 #'
-#' @param extract An extract object created by \code{\link{define_extract}}.
+#' @param extract An extract object created with \code{\link{define_extract}} or
+#'   returned from another ipumsr API function.
 #' @param api_key API key associated with your user account. Defaults to the
 #'   value of environment variable "IPUMS_API_KEY".
 #'
 #' @family ipums_api
 #' @return An object of class \code{ipums_extract} containing the extract
 #'   definition and newly-assigned extract number of the submitted extract.
+#'
+#' @examples
+#' my_extract <- define_extract("usa", "Example", "us2013a", "YEAR")
+#'
+#' \dontrun{
+#' # `submit_extract()` returns an ipums_extract object updated to include the
+#' # extract number, so it is often useful to name the return object:
+#' submitted_extract <- submit_extract(my_extract)
+#'
+#' # If you didn't capture the return object of submit_extract for your most
+#' # recent extract, you can recover that information with:
+#' submitted_extract <- get_last_extract_info("usa")
+#'
+#' # View the extract number
+#' submitted_extract$number
+#'
+#' # Check if submitted extract is ready
+#' is_extract_ready(submitted_extract) # returns TRUE or FALSE
+#'
+#' # Or have R check periodically until the extract is ready
+#' downloadable_extract <- wait_for_extract(submitted_extract)
+#' }
+#'
 #' @export
 submit_extract <- function(extract, api_key = Sys.getenv("IPUMS_API_KEY")) {
 
@@ -179,18 +248,46 @@ submit_extract <- function(extract, api_key = Sys.getenv("IPUMS_API_KEY")) {
 
 # > Get info on extract ----
 
-#' Get information about a submitted extract via the IPUMS API
+#' Get information about a submitted extract
 #'
-#' @param extract Either an object of class \code{ipums_extract}; the data
-#'   collection and extract number of an existing extract formatted as a single
-#'   string (\code{"collection: number"}) or a length two vector
-#'   (\code{c("collection", "number")}); or a \code{data.frame} in which each
-#'   row contains an extract definition..
+#' Get information about a submitted extract via the IPUMS API. For an overview
+#' of ipumsr API functionality, see \code{vignette("ipums-api", package = "ipumsr")}.
+#'
+#' @param extract One of:
+#'   \itemize{
+#'     \item{An object of class \code{ipums_extract}}
+#'     \item{The data collection and extract number formatted as a single
+#'           string of the form \code{"collection:number"}}
+#'     \item{The data collection and extract number formatted as a vector of the
+#'           form \code{c("collection", "number")}}
+#'   }
+#' The extract number does not need to be zero-padded (e.g., use \code{"usa:1"}
+#' or \code{c("usa", "1")}, not \code{"usa:00001"} or \code{c("usa", "00001")}).
+#' See Examples section below for examples of each form.
 #' @inheritParams define_extract
 #' @inheritParams download_extract
 #'
 #' @family ipums_api
 #' @return An \code{ipums_extract} object.
+#'
+#' @examples
+#' my_extract <- define_extract("usa", "Example", "us2013a", "YEAR")
+#'
+#' \dontrun{
+#' submitted_extract <- submit_extract(my_extract)
+#'
+#' # Get info by supplying extract object:
+#' get_extract_info(submitted_extract)
+#'
+#' # Get info by supplying the data collection and extract number, as a string:
+#' get_extract_info("usa:1")
+#' # Note that there is no space before or after the colon, and no zero-padding
+#' # of the extract number.
+#'
+#' # Get info by supplying the data collection and extract number, as a vector:
+#' get_extract_info(c("usa", "1"))
+#' }
+#'
 #' @export
 get_extract_info <- function(extract, api_key = Sys.getenv("IPUMS_API_KEY")) {
   extract <- standardize_extract_identifier(extract)
@@ -220,7 +317,9 @@ get_extract_info <- function(extract, api_key = Sys.getenv("IPUMS_API_KEY")) {
 #' Wait for extract to finish
 #'
 #' Wait for an extract to finish by periodically checking its status via the
-#' IPUMS API and returning when the extract is ready to download.
+#' IPUMS API and returning when the extract is ready to download. For an
+#' overview of ipumsr API functionality, see
+#' \code{vignette("ipums-api", package = "ipumsr")}.
 #'
 #' @inheritParams define_extract
 #' @inheritParams download_extract
@@ -244,6 +343,25 @@ get_extract_info <- function(extract, api_key = Sys.getenv("IPUMS_API_KEY")) {
 #' @family ipums_api
 #' @return An object of class \code{ipums_extract} containing the extract
 #'   definition and the URLs from which to download extract files.
+#'
+#' @examples
+#' my_extract <- define_extract("usa", "Example", "us2013a", "YEAR")
+#'
+#' \dontrun{
+#' submitted_extract <- submit_extract(my_extract)
+#'
+#' # Wait for extract by supplying extract object:
+#' downloadable_extract <- wait_for_extract(submitted_extract)
+#'
+#' # By supplying the data collection and extract number, as a string:
+#' downloadable_extract <- wait_for_extract("usa:1")
+#' # Note that there is no space before or after the colon, and no zero-padding
+#' # of the extract number.
+#'
+#' # By supplying the data collection and extract number, as a vector:
+#' downloadable_extract <- wait_for_extract(c("usa", "1"))
+#' }
+#'
 #' @export
 wait_for_extract <- function(extract,
                              initial_delay_seconds = 0,
@@ -320,16 +438,32 @@ wait_for_extract <- function(extract,
 #'
 #' This function uses the IPUMS API to check whether the given extract is ready
 #' to download, returning TRUE for extracts that are ready and FALSE for those
-#' that are not.
+#' that are not. For an overview of ipumsr API functionality, see
+#' \code{vignette("ipums-api", package = "ipumsr")}.
 #'
 #' @inheritParams get_extract_info
 #'
 #' @family ipums_api
-#' @return A logical vector. If the first argument is an object of class
-#'   \code{ipums_extract} or the name of a data collection, the function will
-#'   return a length-one logical vector. If the first
-#'   argument is a \code{data.frame}, the function will return a logical vector
-#'   with length equal to the number of rows of the \code{data.frame}.
+#' @return A logical vector of length one.
+#'
+#' @examples
+#' my_extract <- define_extract("usa", "Example", "us2013a", "YEAR")
+#'
+#' \dontrun{
+#' submitted_extract <- submit_extract(my_extract)
+#'
+#' # Check if extract is ready by supplying extract object:
+#' is_extract_ready(submitted_extract)
+#'
+#' # By supplying the data collection and extract number, as a string:
+#' is_extract_ready("usa:1")
+#' # Note that there is no space before or after the colon, and no zero-padding
+#' # of the extract number.
+#'
+#' # By supplying the data collection and extract number, as a vector:
+#' is_extract_ready(c("usa", "1"))
+#' }
+#'
 #' @export
 is_extract_ready <- function(extract, api_key = Sys.getenv("IPUMS_API_KEY")) {
 
@@ -361,6 +495,9 @@ is_extract_ready <- function(extract, api_key = Sys.getenv("IPUMS_API_KEY")) {
 
 #' Download an IPUMS data extract
 #'
+#' Download an IPUMS data extract via the IPUMS API. For an overview of ipumsr
+#' API functionality, see \code{vignette("ipums-api", package = "ipumsr")}.
+#'
 #' @inheritParams get_extract_info
 #' @inheritParams define_extract
 #' @inheritParams submit_extract
@@ -371,6 +508,25 @@ is_extract_ready <- function(extract, api_key = Sys.getenv("IPUMS_API_KEY")) {
 #'
 #' @family ipums_api
 #' @return Invisibly, the path to the downloaded .xml DDI file.
+#'
+#' @examples
+#' my_extract <- define_extract("usa", "Example", "us2013a", "YEAR")
+#'
+#' \dontrun{
+#' submitted_extract <- submit_extract(my_extract)
+#'
+#' # Download extract by supplying extract object:
+#' path_to_ddi_file <- download_extract(submitted_extract)
+#'
+#' # By supplying the data collection and extract number, as a string:
+#' path_to_ddi_file <- download_extract("usa:1")
+#' # Note that there is no space before or after the colon, and no zero-padding
+#' # of the extract number.
+#'
+#' # By supplying the data collection and extract number, as a vector:
+#' path_to_ddi_file <- download_extract(c("usa", "1"))
+#' }
+#'
 #' @export
 download_extract <- function(extract,
                              download_dir = getwd(),
@@ -433,7 +589,8 @@ download_extract <- function(extract,
 #'
 #' Revise an extract definition. If the supplied extract definition comes from
 #' a previously submitted extract, this function will reset the definition to an
-#' unsubmitted state.
+#' unsubmitted state. For an overview of ipumsr API functionality, see
+#' \code{vignette("ipums-api", package = "ipumsr")}.
 #'
 #' @param extract An object of class \code{ipums_extract}.
 #' @param description The modified extract description. If NULL (the default),
@@ -459,6 +616,20 @@ download_extract <- function(extract,
 #' @family ipums_api
 #' @return An object of class \code{ipums_extract} containing the modified
 #'   extract definition.
+#'
+#' @examples
+#' \dontrun{
+#' old_extract <- get_extract_info("usa:33")
+#'
+#' revised_extract <- revise_extract(
+#'   old_extract,
+#'   samples_to_add = "us2018a",
+#'   vars_to_add = "INCTOT"
+#' )
+#'
+#' submitted_revised_extract <- submit_extract(revised_extract)
+#' }
+#'
 #' @export
 revise_extract <- function(extract,
                            description = NULL,
@@ -494,7 +665,8 @@ revise_extract <- function(extract,
 #' Get information on recent extracts
 #'
 #' Get information on up to ten recent extracts for a given IPUMS collection
-#' via the IPUMS API, returned either as a list or tibble.
+#' via the IPUMS API, returned either as a list or tibble. For an overview of
+#' ipumsr API functionality, see \code{vignette("ipums-api", package = "ipumsr")}.
 #'
 #' @inheritParams define_extract
 #' @param how_many Number of recent extracts for which you'd like information.
@@ -505,10 +677,43 @@ revise_extract <- function(extract,
 #'   \code{ipums_extract} objects. For \code{get_recent_extracts_info_tbl()},
 #'   a \code{\link[tibble]{tbl_df}} with information on one extract in each row.
 #'
+#' @examples
+#' \dontrun{
+#' # Get list of recent extracts
+#' list_of_last_10_extracts <- get_recent_extracts_info_list("usa")
+#'
+#' # Print the extract number for extracts that are downloadable:
+#' for (extract in list_of_last_10_extracts) {
+#'   if (is_extract_ready(extract)) print(extract$number)
+#' }
+#'
+#' # Get tibble of recent extracts
+#' tbl_of_last_10_extracts <- get_recent_extracts_info_tbl("usa")
+#'
+#' # Filter down to extracts with "income" in the description
+#' description_mentions_income <- grepl(
+#'   "[Ii]ncome",
+#'   tbl_of_last_10_extracts$description
+#' )
+#' income_extracts <- tbl_of_last_10_extracts[description_mentions_income, ]
+#'
+#' # Convert tibble of extracts to list of extracts
+#' income_extracts <- extract_tbl_to_list(income_extracts)
+#'
+#' # Now it's easier to operate on those elements as extract objects:
+#' revised_income_extract <- revise_extract(
+#'   income_extracts[[1]],
+#'   samples_to_add = "us2018a"
+#' )
+#'
+#' submitted_revised_income_extract <- submit_extract(revised_income_extract)
+#' }
+#'
 #' @name get_recent_extracts_info
 NULL
 
 #' @rdname get_recent_extracts_info
+#'
 #' @export
 get_recent_extracts_info_list <- function(collection,
                                           how_many = 10,
@@ -541,6 +746,46 @@ get_recent_extracts_info_tbl <- function(collection,
 }
 
 
+# > Get info on most recent extract ----
+
+#' Get information on last extract
+#'
+#' Get information on your most recent extract for a given IPUMS data
+#' collection, returned as an \code{ipums_extract} object. For an overview of
+#' ipumsr API functionality, see \code{vignette("ipums-api", package = "ipumsr")}.
+#'
+#' @inheritParams get_recent_extracts_info_list
+#'
+#' @family ipums_api
+#' @return An object of class \code{ipums_extract} containing information on
+#'   your most recent extract.
+#'
+#' @examples
+#' my_extract <- define_extract("usa", "Example", "us2013a", "YEAR")
+#'
+#' \dontrun{
+#' submit_extract(my_extract)
+#'
+#' # Oops, forgot to capture the return object from submit_extract. Grab it with:
+#' submitted_extract <- get_last_extract_info("usa")
+#'
+#' # View the extract number
+#' submitted_extract$number
+#'
+#' # Check if submitted extract is ready
+#' is_extract_ready(submitted_extract) # returns TRUE or FALSE
+#'
+#' # Or have R check periodically until the extract is ready
+#' downloadable_extract <- wait_for_extract(submitted_extract)
+#' }
+#'
+#' @export
+get_last_extract_info <- function(collection,
+                                  api_key = Sys.getenv("IPUMS_API_KEY")) {
+  get_recent_extracts_info_list(collection, 1, api_key)[[1]]
+}
+
+
 # > Convert extract tbl to list ----
 
 #' Convert a tibble of extract definitions to a list
@@ -548,7 +793,8 @@ get_recent_extracts_info_tbl <- function(collection,
 #' Convert a \code{\link[tibble]{tbl_df}} (or \code{data.frame}) of extract
 #' definitions, such as that returned by
 #' \code{\link{get_recent_extracts_info_tbl}}, to a list of \code{ipums_extract}
-#' objects.
+#' objects. For an overview of ipumsr API functionality, see
+#' \code{vignette("ipums-api", package = "ipumsr")}.
 #'
 #' @param extract_tbl A \code{\link[tibble]{tbl_df}} (or \code{data.frame})
 #'   where each row contains the definition of one extract.
@@ -558,6 +804,31 @@ get_recent_extracts_info_tbl <- function(collection,
 #'
 #' @family ipums_api
 #' @return A list of length equal to the number of rows of \code{extract_tbl}.
+#'
+#' @examples
+#' \dontrun{
+#' # Get tibble of recent extracts
+#' tbl_of_last_10_extracts <- get_recent_extracts_info_tbl("usa")
+#'
+#' # Filter down to extracts with "income" in the description
+#' description_mentions_income <- grepl(
+#'   "[Ii]ncome",
+#'   tbl_of_last_10_extracts$description
+#' )
+#' income_extracts <- tbl_of_last_10_extracts[description_mentions_income, ]
+#'
+#' # Convert tibble of extracts to list of extracts
+#' income_extracts <- extract_tbl_to_list(income_extracts)
+#'
+#' # Now it's easier to operate on those elements as extract objects:
+#' revised_income_extract <- revise_extract(
+#'   income_extracts[[1]],
+#'   samples_to_add = "us2018a"
+#' )
+#'
+#' submitted_revised_income_extract <- submit_extract(revised_income_extract)
+#' }
+#'
 #' @export
 extract_tbl_to_list <- function(extract_tbl, validate = TRUE) {
   expected_names <- names(new_ipums_extract())
@@ -583,7 +854,8 @@ extract_tbl_to_list <- function(extract_tbl, validate = TRUE) {
 #'
 #' Convert a list of \code{ipums_extract} objects to a
 #' \code{\link[tibble]{tbl_df}} in which each row contains the definition of one
-#' extract.
+#' extract. For an overview of ipumsr API functionality, see
+#' \code{vignette("ipums-api", package = "ipumsr")}.
 #'
 #' @param extract_list A list of \code{ipums_extract} objects.
 #'
@@ -591,6 +863,21 @@ extract_tbl_to_list <- function(extract_tbl, validate = TRUE) {
 #' @return A \code{\link[tibble]{tbl_df}} with number of rows equal to the
 #'   length of \code{extract_list}, in which each rows contains the definition
 #'   of one extract.
+#'
+#' @examples
+#' \dontrun{
+#' # Get list of recent extracts
+#' list_of_last_10_extracts <- get_recent_extracts_info_list("usa")
+#'
+#' # Print the extract number for extracts that are downloadable:
+#' for (extract in list_of_last_10_extracts) {
+#'   if (is_extract_ready(extract)) print(extract$number)
+#' }
+#'
+#' # Convert list of extracts to tibble of extracts to view in a tabular format
+#' extract_list_to_tbl(list_of_last_10_extracts)
+#' }
+#'
 #' @export
 extract_list_to_tbl <- function(extract_list) {
   unclassed_extract_list <- purrr::map(
@@ -614,11 +901,17 @@ extract_list_to_tbl <- function(extract_list) {
 #' List IPUMS data collections
 #'
 #' List IPUMS data collections with corresponding codes used by the IPUMS API.
-#' Note that some data collections may not yet have API support.
+#' Note that some data collections do not yet have API support. For an overview
+#' of ipumsr API functionality, see \code{vignette("ipums-api", package = "ipumsr")}.
 #'
 #' @family ipums_api
 #' @return A \code{\link[tibble]{tbl_df}} with two columns containing the
 #'   full collection name and the corresponding code used by the IPUMS API.
+#'
+#' @examples
+#' # Print a tibble of all IPUMS data collections:
+#' ipums_data_collections()
+#'
 #' @export
 ipums_data_collections <- function() {
   tibble::tribble(
@@ -637,6 +930,7 @@ ipums_data_collections <- function() {
     "IPUMS PMA", "pma"
   )
 }
+
 
 # Non-exported functions --------------------------------------------------
 new_ipums_extract <- function(collection = NA_character_,
@@ -737,12 +1031,10 @@ print.ipums_extract <- function(extract) {
   to_cat <- paste0(
     ifelse(extract$submitted, "Submitted ", "Unsubmitted "),
     format_collection_for_printing(extract$collection),
-    " extract ",
-    ifelse(extract$submitted, paste0("number ", extract$number), ""),
-    "\nSamples: ",
-    print_truncated_vector(extract$samples),
-    "\nVariables: ",
-    print_truncated_vector(extract$variables)
+    " extract ", ifelse(extract$submitted, paste0("number ", extract$number), ""),
+    "\n", print_truncated_vector(extract$description, "Description: ", FALSE),
+    "\n", print_truncated_vector(extract$samples, "Samples: "),
+    "\n", print_truncated_vector(extract$variables, "Variables: ")
   )
 
   cat(to_cat)
@@ -768,14 +1060,26 @@ format_collection_for_printing <- function(collection) {
 UNKNOWN_DATA_COLLECTION_LABEL <- "Unknown data collection"
 
 
-print_truncated_vector <- function(x, truncate_at = 5) {
-  will_be_truncated <- length(x) > truncate_at
-  x <- head(x, truncate_at)
-  out <- paste0(x, collapse = ", ")
-  if (will_be_truncated) {
-    return(paste0(out, "..."))
+print_truncated_vector <- function(x, label = NULL, include_length = TRUE) {
+  max_width <- min(getOption("width"), 80)
+  max_width <- max(max_width, 20) # don't allow width less than 20
+  full_list <- paste0(x, collapse = ", ")
+  untruncated <- ifelse(
+    include_length,
+    paste0(label, "(", length(x), " total) ", full_list),
+    paste0(label, full_list)
+  )
+  if (nchar(untruncated) > max_width) {
+    return(paste0(substr(untruncated, 1, max_width - 3), "..."))
   }
-  out
+  untruncated
+  # will_be_truncated <- length(x) > truncate_at
+  # x <- head(x, truncate_at)
+  # out <- paste0(x, collapse = ", ")
+  # if (will_be_truncated) {
+  #   return(paste0(out, "..."))
+  # }
+  # out
 }
 
 
@@ -1109,12 +1413,16 @@ remove_from_extract <- function(extract,
 
 
 microdata_api_base_url <- function() {
-  "https://api.ipums.org/extracts/"
+  api_url <- Sys.getenv("IPUMS_API_URL")
+  if (api_url == "") return("https://api.ipums.org/extracts/")
+  api_url
 }
 
 
 microdata_api_version <- function() {
-  "v1"
+  api_version <- Sys.getenv("IPUMS_API_VERSION")
+  if (api_version == "") return("v1")
+  api_version
 }
 
 

@@ -53,7 +53,22 @@ An object of class \code{ipums_extract} containing the modified
 \description{
 Revise an extract definition. If the supplied extract definition comes from
 a previously submitted extract, this function will reset the definition to an
-unsubmitted state.
+unsubmitted state. For an overview of ipumsr API functionality, see
+\code{vignette("ipums-api", package = "ipumsr")}.
+}
+\examples{
+\dontrun{
+old_extract <- get_extract_info("usa:33")
+
+revised_extract <- revise_extract(
+  old_extract,
+  samples_to_add = "us2018a",
+  vars_to_add = "INCTOT"
+)
+
+submitted_revised_extract <- submit_extract(revised_extract)
+}
+
 }
 \seealso{
 Other ipums_api: 
@@ -63,6 +78,7 @@ Other ipums_api:
 \code{\link{extract_list_to_tbl}()},
 \code{\link{extract_tbl_to_list}()},
 \code{\link{get_extract_info}()},
+\code{\link{get_last_extract_info}()},
 \code{\link{get_recent_extracts_info}},
 \code{\link{ipums_data_collections}()},
 \code{\link{is_extract_ready}()},
