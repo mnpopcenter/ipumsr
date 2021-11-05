@@ -31,6 +31,17 @@ to download, returning TRUE for extracts that are ready and FALSE for those
 that are not. For an overview of ipumsr API functionality, see
 \code{vignette("ipums-api", package = "ipumsr")}.
 }
+\details{
+This function checks the "download_links" element of the supplied extract to
+determine whether the extract files are available to download.
+The "status" of a submitted extract is one of "queued", "started", "produced",
+"canceled", "failed", or "completed". Only "completed" extracts can be ready
+to download, but not all "completed" extracts are ready to download, because
+extract files are subject to removal from the IPUMS servers 72 hours after
+they first become available. Completed extracts older than 72 hours will
+still have a "completed" status, but will return \code{FALSE} from
+\code{is_extract_ready()}, because the extract files are no longer available.
+}
 \examples{
 my_extract <- define_extract("usa", "Example", "us2013a", "YEAR")
 

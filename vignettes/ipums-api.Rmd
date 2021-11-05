@@ -142,11 +142,15 @@ submitted_extract <- get_last_extract_info("usa")
 # Checking the status of your extract
 
 To retrieve the latest status of an extract, you can use the
-`get_extract_info()` function. `get_extract_info()` returns an "ipums_extract" 
-object with the "status" element updated to reflect the latest 
-status of the extract, and the "download_links" element updated to include links 
-to any extract files that are available for download. The "status" of an extract 
-is one of "queued", "started", "produced", "canceled", "failed", or "completed". 
+`get_extract_info()` function. `get_extract_info()` returns an "ipums_extract"
+object with the "status" element updated to reflect the latest status of the
+extract, and the "download_links" element updated to include links to any
+extract files that are available for download. The "status" of a submitted
+extract is one of "queued", "started", "produced", "canceled", "failed", or
+"completed". Only "completed" extracts can be downloaded, but "completed"
+extracts older than 72 hours may not be available for download, since extract
+files are removed after that time (see discussion of `is_extract_ready()`
+function below).
 
 If you assigned a name to the return value of `submit_extract()`, as shown
 above, you could get updated information on the extract, returned as an
