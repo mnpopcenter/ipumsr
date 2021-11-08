@@ -91,16 +91,6 @@ reference:
       - lbl_add
       - lbl_add_vals
       - lbl
-  - title: "Other helpers"
-    desc: "Miscellaneous other helper functions for working with IPUMS data"
-    contents:
-      - ipums_bind_rows
-      - ipums_collect
-      - ipums_example
-      - starts_with("ipums_shape")
-      - join_failures
-      - set_ipums_var_attributes
-      - dplyr_select_style
   - title: "Interact with the IPUMS USA extract API (in development, not yet on CRAN)"
     contents:
       - define_extract
@@ -117,4 +107,14 @@ reference:
       - ipums_data_collections
       - extract_tbl_to_list
       - extract_list_to_tbl
+  - title: "Other helpers"
+    desc: "Miscellaneous other helper functions for working with IPUMS data"
+    contents:
+      - ipums_bind_rows
+      - ipums_collect
+      - ipums_example
+      - starts_with("ipums_shape")
+      - join_failures
+      - set_ipums_var_attributes
+      - dplyr_select_style
 

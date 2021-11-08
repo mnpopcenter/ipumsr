@@ -151,12 +151,6 @@
 
     
     
-<pre><code>## Could not find data and so could not run vignette.
-## 
-## The data is available on github - you can install it using the following commands: 
-##   if (!require(devtools)) install.packages('devtools')
-##   devtools::install_github('mnpopcenter/ipumsr/ipumsexamples')
-## After installation, the data should be available for this vignette.</code></pre>
 <p>A lesser-known part of the IPUMS data catalog is our geographic boundary files. For many projects, our geographers have created shape files to complement the micro- and tabular data we provide. These boundaries are stored in shape files, which can be downloaded from our website (in slightly different places depending on the project):</p>
 <ul>
 <li>Microdata projects like <a href="https://www.idhsdata.org/idhs/gis.shtml">IPUMS DHS</a>, <a href="https://international.ipums.org/international/geography_gis.shtml">IPUMS International</a> and <a href="https://usa.ipums.org/usa/volii/tgeotools.shtml">IPUMS USA</a> provide shape files on dedicated geography pages that are separate from the microdata extract system.</li>
@@ -200,10 +194,10 @@
 </ol>
 <p>In this vignette, I will first walk through these steps for an example that maps geographic variation in the use of solid fuel for cooking in households with children aged 0-5 in Colombia. Later on in the vignette, I show a more <a href="#complicated">complicated example</a> that combines the data for Colombia, Ecuador and Peru.</p>
 <p>The data for this example is included in the package <code>ipumsexamples</code>, which is available on github. If you want to run the code from this vignette you will need to install it by running the following commands:</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="kw"><a href="https://rdrr.io/r/base/library.html">require</a></span><span class="op">(</span><span class="va"><a href="https://devtools.r-lib.org/">devtools</a></span><span class="op">)</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="va">devtools</span><span class="op">)</span>
 <span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org//reference/remote-reexports.html">install_github</a></span><span class="op">(</span><span class="st">"mnpopcenter/ipumsr/ipumsexamples"</span><span class="op">)</span></code></pre></div>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># This function helps find the data from the ipumsexamples package for us</span>
 <span class="va">ex_file</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">{</span>
   <span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="va">x</span>, package <span class="op">=</span> <span class="st">"ipumsexamples"</span><span class="op">)</span>
@@ -221,7 +215,7 @@
 <h3 class="hasAnchor">
 <a href="#load-microdata-and-shape-files-into-r" class="anchor"></a>2) Load microdata and shape files into R</h3>
 <p>The <code><a href="../reference/read_ipums_micro.html">read_ipums_micro()</a></code> function loads the data and the <code><a href="../reference/read_ipums_sf.html">read_ipums_sf()</a></code> (or <code><a href="../reference/read_ipums_sf.html">read_ipums_sp()</a></code>) function loads the shape files.</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/message.html">suppressPackageStartupMessages</a></span><span class="op">(</span><span class="op">{</span>
   <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://www.ipums.org">ipumsr</a></span><span class="op">)</span>
   <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://r-spatial.github.io/sf/">sf</a></span><span class="op">)</span>
@@ -248,7 +242,7 @@
 <p>Our first data transformation is a step that most analyses will need regardless of whether they use geographic data or not. Though IPUMS microdata has been cleaned and formatted to be easy to use, generally there is at least some data processing we need to do (as discussed in the value-labels vignette).</p>
 <p>In this example, I want to make the solid fuel use variable binary and also use the value labels for COUNTRY, SAMPLE and AGE2, but zap them for the geography variables.</p>
 <p>When combining with shape files, the shape files also generally have the labels for the geographic units, so we do not need to keep the labels on the geographic variables in the microdata. Also, because the name of a geography may not be unique (eg there are 8 states in the US with a Fulton County), it’s better to merge on the unique numeric code.</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Convert labelled values to factors where useful (and zap elsewhere)</span>
 <span class="co"># See the value-labels vignette for more on this process.</span>
 <span class="va">fuel_labels</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/ipums_var_info.html">ipums_val_labels</a></span><span class="op">(</span><span class="va">ipumsi_data</span><span class="op">$</span><span class="va">FUELCOOK</span><span class="op">)</span>
@@ -272,19 +266,23 @@
     FUELCOOK <span class="op">=</span> <span class="fu"><a href="https://forcats.tidyverse.org/reference/as_factor.html">as_factor</a></span><span class="op">(</span><span class="va">FUELCOOK</span><span class="op">)</span>
   <span class="op">)</span></code></pre></div>
 <p>The next data transformation will be to summarize the microdata to the geographic unit. Microdata has one observation per person, but usually when we are making a map, we want a summary measure for a geographic unit. In this case, because we have data at three time points for Colombia, we summarize by geographic unit and year.</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">ipumsi_summary</span> <span class="op">&lt;-</span> <span class="va">ipumsi_data</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> 
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">YEAR</span>, <span class="va">COUNTRY</span>, <span class="va">GEOLEV1</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarize</a></span><span class="op">(</span>pct_solid <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">SOLIDFUEL</span> <span class="op">==</span> <span class="st">"Solid Fuel"</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarize</a></span><span class="op">(</span>pct_solid <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">SOLIDFUEL</span> <span class="op">==</span> <span class="st">"Solid Fuel"</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span>
+<span class="co">#&gt; `summarise()` has grouped output by 'YEAR', 'COUNTRY'. You can override using the `.groups` argument.</span></code></pre></div>
 </div>
 <div id="merge-microdata-and-boundary-data" class="section level3">
 <h3 class="hasAnchor">
 <a href="#merge-microdata-and-boundary-data" class="anchor"></a>4) Merge microdata and boundary data</h3>
 <p>The function <code><a href="../reference/ipums_shape_left_join.html">ipums_shape_inner_join()</a></code> allows us to combine the data and shape file while smoothing out some of the complications because the data and shape files are provided in slightly different formats (eg, the geography ID variable is numeric in the microdata, but stored as character in the shape file). It also gives a message when some of the data has been dropped by the join (though in this example there are no mismatches - see the <a href="#complicated">complicated example</a> below for an example where this does happen).</p>
 <p>Before we are able to join the data, we need to determine what the geographic ID is called in each file. Unfortunately, for microdata projects, the name of the variable is often different between the two. The project’s website often has information explaining how they are named, but they may not always describe the exact abbreviations. In this example, in the data it is called “GEOLEV1” and in the shape file it is “GEOLEVEL1”.</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">ipumsi_summary</span><span class="op">)</span>
+<span class="co">#&gt; [1] "YEAR"      "COUNTRY"   "GEOLEV1"   "pct_solid"</span>
 <span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">colombia_shape</span><span class="op">)</span>
+<span class="co">#&gt; [1] "CNTRY_NAME" "ADMIN_NAME" "CNTRY_CODE" "GEOLEVEL1"  "PARENT"    </span>
+<span class="co">#&gt; [6] "geometry"</span>
 
 <span class="va">ipumsi</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/ipums_shape_left_join.html">ipums_shape_inner_join</a></span><span class="op">(</span>
   <span class="va">ipumsi_summary</span>, 
@@ -296,7 +294,7 @@
 <h3 class="hasAnchor">
 <a href="#ready-to-analyze-data" class="anchor"></a>Ready to analyze data!</h3>
 <p>Now the data is ready for us to use. Here’s a quick example of how to make a map with ggplot2.</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">ipumsi</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="va">pct_solid</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html">geom_sf</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> 
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html">facet_wrap</a></span><span class="op">(</span><span class="op">~</span><span class="va">YEAR</span><span class="op">)</span> <span class="op">+</span> 
@@ -306,6 +304,7 @@
     subtitle <span class="op">=</span> <span class="st">"Colombia (1985, 1993, 2005) Census Data"</span>,
     caption <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"Source: "</span>, <span class="fu"><a href="../reference/ipums_file_info.html">ipums_file_info</a></span><span class="op">(</span><span class="va">ipumsi_ddi</span>, <span class="st">"ipums_project"</span><span class="op">)</span><span class="op">)</span>
   <span class="op">)</span></code></pre></div>
+<p><img src="ipums-geography_files/figure-html/unnamed-chunk-8-1.png" width="672"></p>
 </div>
 </div>
 <div id="basic-workflow-for-ipums-nhgis" class="section level2">
@@ -324,20 +323,25 @@
 <a href="#load-data-and-shape-files-into-r" class="anchor"></a>2) Load data and shape files into R</h3>
 <p>For most uses you will be able to load the data and shape files at the same time using the <code><a href="../reference/read_nhgis.html">read_nhgis_sf()</a></code> (or <code><a href="../reference/read_nhgis.html">read_nhgis_sp()</a></code>) function. Even when the geographic data is divided by the extract engine because of size reasons (like how each census block file is for a single state), these functions will combine the shape files for us. However, if your analysis combines across years or geographic levels, you will need to load the data separately and then combine.</p>
 <p>So in our example, we run the following to load the data:</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">nhgis_ddi</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/read_ipums_codebook.html">read_ipums_codebook</a></span><span class="op">(</span><span class="fu">ex_file</span><span class="op">(</span><span class="st">"nhgis0024_csv.zip"</span><span class="op">)</span><span class="op">)</span> 
 <span class="va">nhgis</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/read_nhgis.html">read_nhgis_sf</a></span><span class="op">(</span>
   data_file <span class="op">=</span> <span class="fu">ex_file</span><span class="op">(</span><span class="st">"nhgis0024_csv.zip"</span><span class="op">)</span>,
   shape_file <span class="op">=</span> <span class="fu">ex_file</span><span class="op">(</span><span class="st">"nhgis0024_shape_small.zip"</span><span class="op">)</span>,
   verbose <span class="op">=</span> <span class="cn">FALSE</span>
-<span class="op">)</span></code></pre></div>
+<span class="op">)</span>
+<span class="co">#&gt; Warning: `as.tibble()` was deprecated in tibble 2.0.0.</span>
+<span class="co">#&gt; Please use `as_tibble()` instead.</span>
+<span class="co">#&gt; The signature and semantics have changed, see `?as_tibble`.</span>
+<span class="co">#&gt; This warning is displayed once every 8 hours.</span>
+<span class="co">#&gt; Call `lifecycle::last_lifecycle_warnings()` to see where this warning was generated.</span></code></pre></div>
 <p>In other situations, such as combining data from different tables or geographic level, you may need to load the data and shape files separately. In this case, you can use the function <code><a href="../reference/read_nhgis.html">read_nhgis()</a></code> to load the data and <code><a href="../reference/read_ipums_sf.html">read_ipums_sf()</a></code> (or sp) to load the shape files. In these analyses, the process for combining the data is similar to the process described below for the more complicated <a href="#complicated">IPUMS International workflow</a> where multiple shape files are combined.</p>
 </div>
 <div id="ready-to-analyze-data-1" class="section level3">
 <h3 class="hasAnchor">
 <a href="#ready-to-analyze-data-1" class="anchor"></a>Ready to analyze data!</h3>
 <p>Now we’re ready to use the data. Here is a map of the median age for Hartford County, CT and Providence County, RI.</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># The median age is 0 for unpopulated counties, set them to NA</span>
 <span class="va">nhgis</span> <span class="op">&lt;-</span> <span class="va">nhgis</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>H77001 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html">ifelse</a></span><span class="op">(</span><span class="va">H77001</span> <span class="op">==</span> <span class="fl">0</span>, <span class="cn">NA</span>, <span class="va">H77001</span><span class="op">)</span><span class="op">)</span>
@@ -359,6 +363,7 @@
       <span class="st">"Simplified Census Block boundaries (1% of points retained)"</span>
     <span class="op">)</span>
   <span class="op">)</span></code></pre></div>
+<p><img src="ipums-geography_files/figure-html/unnamed-chunk-10-1.png" width="672"></p>
 </div>
 </div>
 <div id="complicated" class="section level2">
@@ -368,7 +373,7 @@
 <p>In this example, I have added the Ecuador 2010 and Peru 2007 censuses, to the IPUMS international example above. These samples also have data for the FUELCOOK variable. Rather than use the harmonized geography, for these countries I chose to use the non-harmonized data for these 2 countries. Because the FUELCOOK variable is only available in one census for these countries, the benefits of the harmonized version are less important (but once again, this decision depends on the analysis).</p>
 <p>I made sure to include the year-specific variables GEO1_EC2010 and GEO1_PE2007 for Ecuador and Peru in the microdata extract, and got the geographic boundary files from the “Year-specific first-level geography” page.</p>
 <p>Now I’m ready to load the data into R as before. The only changes are that I no longer filter out the non-Colombian data and load the extra shape files. Then I transform the value labels just as I did when working with Colombia.</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Load data</span>
 <span class="va">ipumsi_ddi_file</span> <span class="op">&lt;-</span> <span class="fu">ex_file</span><span class="op">(</span><span class="st">"ipumsi_00011.xml"</span><span class="op">)</span>
 <span class="va">ipumsi_ddi</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/read_ipums_ddi.html">read_ipums_ddi</a></span><span class="op">(</span><span class="va">ipumsi_ddi_file</span><span class="op">)</span>
@@ -402,7 +407,7 @@
     FUELCOOK <span class="op">=</span> <span class="fu"><a href="https://forcats.tidyverse.org/reference/as_factor.html">as_factor</a></span><span class="op">(</span><span class="va">FUELCOOK</span><span class="op">)</span>
   <span class="op">)</span></code></pre></div>
 <p>Now that we are combining geographies we need to combine the geographic ID variables in the data (GEOLEV1 for Colombia, GEO1_EC2010 for Ecuador and GEO_PE2007 for Peru) into a single variable.</p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">ipumsi_data</span> <span class="op">&lt;-</span> <span class="va">ipumsi_data</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>GEOLEV1 <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/case_when.html">case_when</a></span><span class="op">(</span>
     <span class="va">COUNTRY</span> <span class="op">==</span> <span class="st">"Colombia"</span> <span class="op">~</span> <span class="fu"><a href="https://rdrr.io/r/base/integer.html">as.integer</a></span><span class="op">(</span><span class="va">GEOLEV1</span><span class="op">)</span>,
@@ -410,16 +415,23 @@
     <span class="va">COUNTRY</span> <span class="op">==</span> <span class="st">"Peru"</span> <span class="op">~</span> <span class="va">GEO1_PE2007</span>
   <span class="op">)</span><span class="op">)</span></code></pre></div>
 <p>Then we can summarize to the geographic units and year as before:</p>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">ipumsi_summary</span> <span class="op">&lt;-</span> <span class="va">ipumsi_data</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> 
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">YEAR</span>, <span class="va">COUNTRY</span>, <span class="va">GEOLEV1</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarize</a></span><span class="op">(</span>pct_solid <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">SOLIDFUEL</span> <span class="op">==</span> <span class="st">"Solid Fuel"</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarize</a></span><span class="op">(</span>pct_solid <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">SOLIDFUEL</span> <span class="op">==</span> <span class="st">"Solid Fuel"</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span>
+<span class="co">#&gt; `summarise()` has grouped output by 'YEAR', 'COUNTRY'. You can override using the `.groups` argument.</span></code></pre></div>
 <p>Another new step when combining multiple geographies is to bind the shape files together. The command <code><a href="https://rdrr.io/r/base/cbind.html">rbind()</a></code> has been implemented for sf (and sp) spatial objects, but before we do that, we want to give each country’s shape data the same structure. When combining non-harmonized geographies or across different geographic levels, the variable names will not be the same. There is some guidance on the IPUMS website about how the variables are named, but some of it will require looking at your shape files.</p>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Currently each shape file has different variable names</span>
 <span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">colombia_shape</span><span class="op">)</span>
+<span class="co">#&gt; [1] "CNTRY_NAME" "ADMIN_NAME" "CNTRY_CODE" "GEOLEVEL1"  "PARENT"    </span>
+<span class="co">#&gt; [6] "geometry"</span>
 <span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">ecuador_shape</span><span class="op">)</span>
+<span class="co">#&gt; [1] "CNTRY_NAME" "ADMIN_NAME" "CNTRY_CODE" "IPUM2010"   "PROV2010"  </span>
+<span class="co">#&gt; [6] "PARENT"     "geometry"</span>
 <span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">peru_shape</span><span class="op">)</span>
+<span class="co">#&gt; [1] "CNTRY_NAME" "ADMIN_NAME" "CNTRY_CODE" "IPUM2007"   "DEPT2007"  </span>
+<span class="co">#&gt; [6] "PARENT"     "geometry"</span>
 
 <span class="co"># Keep CNTRY_NAME (because the year-specific geography codes are not unique across</span>
 <span class="co"># countries, so we need to merge using it), ADMIN_NAME (to get the name of </span>
@@ -435,21 +447,39 @@
 <span class="co"># Now we can rbind them together</span>
 <span class="va">all_shapes</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html">rbind</a></span><span class="op">(</span><span class="va">colombia_shape</span>, <span class="va">ecuador_shape</span>, <span class="va">peru_shape</span><span class="op">)</span></code></pre></div>
 <p>Then we can join the data in a similar process as before. Since we named the geography ID variables in the shape file GEOJOIN, we use that in the <code>by</code> parameter. Also, because the non-harmonized geography IDs are not unique across countries, we use the country’s name to join as well.</p>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">ipumsi</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/ipums_shape_left_join.html">ipums_shape_inner_join</a></span><span class="op">(</span>
   <span class="va">ipumsi_summary</span>, 
   <span class="va">all_shapes</span>,
   by <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"COUNTRY"</span> <span class="op">=</span> <span class="st">"CNTRY_NAME"</span>, <span class="st">"GEOLEV1"</span> <span class="op">=</span> <span class="st">"GEOJOIN"</span><span class="op">)</span>
-<span class="op">)</span></code></pre></div>
+<span class="op">)</span>
+<span class="co">#&gt; Some observations were lost in the join (1 observations in the shape file). See</span>
+<span class="co">#&gt; `join_failures(...)` for more details.</span></code></pre></div>
 <p>Notice that the join warned us about one observation dropping out of the shape file. Because we chose an inner join, all observations that were not in both the microdata and the shape data are dropped from the results. Join failures like this can happen for a variety of reasons.</p>
 <p>We can investigate this join failure using the <code>join_failures</code> command.</p>
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/join_failures.html">join_failures</a></span><span class="op">(</span><span class="va">ipumsi</span><span class="op">)</span></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../reference/join_failures.html">join_failures</a></span><span class="op">(</span><span class="va">ipumsi</span><span class="op">)</span>
+<span class="co">#&gt; $shape</span>
+<span class="co">#&gt; Simple feature collection with 1 feature and 3 fields</span>
+<span class="co">#&gt; Geometry type: MULTIPOLYGON</span>
+<span class="co">#&gt; Dimension:     XY</span>
+<span class="co">#&gt; Bounding box:  xmin: -70.03649 ymin: -16.3001 xmax: -69.09491 ymax: -15.23293</span>
+<span class="co">#&gt; Geodetic CRS:  WGS 84</span>
+<span class="co">#&gt; # A tibble: 1 x 4</span>
+<span class="co">#&gt;   COUNTRY ADMIN_NAME    GEOLEV1                                         geometry</span>
+<span class="co">#&gt;   &lt;chr&gt;   &lt;chr&gt;           &lt;int&gt;                               &lt;MULTIPOLYGON [°]&gt;</span>&gt;
+<span class="co">#&gt; 1 Peru    Lake Titicaca     888 (((-69.70387 -15.23504, -69.70337 -15.23512, -6~</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $data</span>
+<span class="co">#&gt; # A tibble: 0 x 4</span>
+<span class="co">#&gt; # Groups:   YEAR, COUNTRY [0]</span>
+<span class="co">#&gt; # ... with 4 variables: YEAR &lt;int&gt;, COUNTRY &lt;chr&gt;, GEOLEV1 &lt;int&gt;,</span>
+<span class="co">#&gt; #   pct_solid &lt;dbl&gt;</span></code></pre></div>
 <p>In this case, it appears that the shape file includes Lake Titicaca for mapping purposes, even though no one lives in the lake. We will just leave this boundary out of our dataset.</p>
 <p>In general, these kinds of join failures can sometimes indicate that something is wrong with your data. Perhaps: - The wrong shape file was used - The data was not completely loaded - The wrong ID variable was used in the <code>by</code> parameter</p>
 <p>But others may not be relevant to your analysis: - There is no population inside of a geography and so it exists in the shape file but not the data (as happened in this case) - A geography was listed in the census, but it’s boundaries are so small that they were not put in the shape file (can happen when shape files are simplified so that they don’t take as much computer resources) - A geography doesn’t actually refer to a place with real boundaries. This happens in some US censuses which have census blocks that refer to “Crews of Vessels” for crews of naval ships. Since ships don’t have a fixed location, they are not included in the boundary file.</p>
 <p>After confirming that join was successful, we can make the map with all 3 countries:</p>
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Convert the year to a round variable to display in facets</span>
 <span class="va">ipumsi</span> <span class="op">&lt;-</span> <span class="va">ipumsi</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>census_round <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/cut.html">cut</a></span><span class="op">(</span><span class="va">YEAR</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1984</span>, <span class="fl">1992</span>, <span class="fl">2004</span>, <span class="fl">2014</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"1985"</span>, <span class="st">"1993"</span>, <span class="st">"2005-2010"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
@@ -464,6 +494,7 @@
     subtitle <span class="op">=</span> <span class="st">"Colombia, Ecuador and Peru Census Data"</span>,
     caption <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"Source: "</span>, <span class="fu"><a href="../reference/ipums_file_info.html">ipums_file_info</a></span><span class="op">(</span><span class="va">ipumsi_ddi</span>, <span class="st">"ipums_project"</span><span class="op">)</span><span class="op">)</span>
   <span class="op">)</span></code></pre></div>
+<p><img src="ipums-geography_files/figure-html/unnamed-chunk-17-1.png" width="672"></p>
 </div>
 <div id="resources" class="section level2">
 <h2 class="hasAnchor">
