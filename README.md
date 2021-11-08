@@ -56,7 +56,7 @@ data:
     -   [**ipums-bigdata**](http://tech.popdata.org/ipumsr/articles/ipums-bigdata.html)
         -   How to handle large IPUMS data extracts and examples of
             using the chunked versions of microdata reading functions.
-    -   [**ipums-api**](http:://tech.popdata.org/ipumsr/dev/articles/ipums-api.html)
+    -   [**ipums-api**](http://tech.popdata.org/ipumsr/dev/articles/ipums-api.html)
         -   (In-development features not yet on CRAN) How to use the
             IPUMS USA microdata extract API to define and submit extract
             requests, check extract status, and download extract files
