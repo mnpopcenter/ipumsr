@@ -53,10 +53,15 @@ reference:
       - define_extract
       - submit_extract
       - get_extract_info
+      - get_last_extract_info
       - get_recent_extracts_info
       - wait_for_extract
+      - is_extract_ready
       - download_extract
       - revise_extract
+      - save_extract_as_json
+      - define_extract_from_json
+      - ipums_data_collections
       - extract_tbl_to_list
       - extract_list_to_tbl
   - title: "Read IPUMS data"
