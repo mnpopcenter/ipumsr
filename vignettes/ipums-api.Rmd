@@ -26,6 +26,7 @@ version of ipumsr, which includes API functions, using:
 
 ```{r}
 if (!require(remotes)) install.packages("remotes")
+remotes::install_github("mnpopcenter/ipumsr/ipumsexamples")
 remotes::install_github("mnpopcenter/ipumsr", build_vignettes = TRUE)
 ```
 
