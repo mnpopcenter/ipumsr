@@ -51,5 +51,6 @@ Suggests:
     biglm,
     DBI,
     RSQLite,
-    dbplyr
+    dbplyr,
+    vcr
 VignetteBuilder: knitr
