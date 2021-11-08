@@ -30,8 +30,10 @@ Imports:
     tibble,
     tidyselect,
     xml2,
-    zeallot
-RoxygenNote: 7.1.1
+    zeallot,
+    jsonlite,
+    httr
+RoxygenNote: 7.1.2
 Suggests:
     DT,
     ggplot2,
