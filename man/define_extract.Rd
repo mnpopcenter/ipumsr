@@ -2,7 +2,7 @@
 % Please edit documentation in R/api.R
 \name{define_extract}
 \alias{define_extract}
-\title{Define an extract request object}
+\title{Define an extract request}
 \usage{
 define_extract(
   collection,

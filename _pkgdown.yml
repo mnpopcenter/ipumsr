@@ -5,6 +5,8 @@ template:
     docsearch:
       api_key: 4ffa912ace97d2493f6ed39f20e94316
       index_name: ipumsr
+development:
+  mode: devel
 navbar:
   title: "ipumsr"
   type: inverse
@@ -25,6 +27,8 @@ navbar:
         href: "articles/ipums-geography.html"
       - text: "Big IPUMS data"
         href: "articles/ipums-bigdata.html"
+      - text: "IPUMS data extract API"
+        href: "articles/ipums-api.html"
       - text: "------------------"
       - text: "CPS exercise"
         href: "articles/ipums-cps.html"
@@ -48,22 +52,6 @@ home:
   - text: Ask a question
     href: http://forum.ipums.org
 reference:
-  - title: "Interact with the IPUMS API"
-    contents:
-      - define_extract
-      - submit_extract
-      - get_extract_info
-      - get_last_extract_info
-      - get_recent_extracts_info
-      - wait_for_extract
-      - is_extract_ready
-      - download_extract
-      - revise_extract
-      - save_extract_as_json
-      - define_extract_from_json
-      - ipums_data_collections
-      - extract_tbl_to_list
-      - extract_list_to_tbl
   - title: "Read IPUMS data"
     contents:
       - read_ipums_micro
@@ -113,3 +101,20 @@ reference:
       - join_failures
       - set_ipums_var_attributes
       - dplyr_select_style
+  - title: "Interact with the IPUMS USA extract API (in development, not yet on CRAN)"
+    contents:
+      - define_extract
+      - submit_extract
+      - get_extract_info
+      - get_last_extract_info
+      - get_recent_extracts_info
+      - wait_for_extract
+      - is_extract_ready
+      - download_extract
+      - revise_extract
+      - save_extract_as_json
+      - define_extract_from_json
+      - ipums_data_collections
+      - extract_tbl_to_list
+      - extract_list_to_tbl
+

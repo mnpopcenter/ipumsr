@@ -34,7 +34,7 @@ remotes::install_github("mnpopcenter/ipumsr", build_vignettes = TRUE)
 
 The IPUMS USA microdata extract API allows registered IPUMS USA users to define 
 extracts, submit extract requests, and download extract files without visiting 
-the IPUMS website. ipumsr includes functions that make it easy for R users to 
+the IPUMS website. ipumsr includes functions that help R users  
 interact with the extract API from their R session.
 
 ```{r setup, eval=TRUE, message=FALSE}
@@ -53,17 +53,25 @@ Once you're registered, you'll need to
 
 Once you've created an API key, you can choose to supply it as a function 
 argument whenever interacting with the API, or you can set the value of the 
-`IPUMS_API_KEY` environment variable to your key. One convenient way to set this 
-environment variable is to add code like the following to a file named 
+`IPUMS_API_KEY` environment variable to your key. 
+
+To set the value of the `IPUMS_API_KEY` environment variable, you can use:
+
+```{r}
+Sys.setenv(IPUMS_API_KEY = "paste-your-key-here")
+```
+
+Or, if you want R to automatically set the value of that environment variable at
+the beginning of each session, add code like the following to a file named 
 ".Renviron" in your project directory or user home directory:
 
 ```
 IPUMS_API_KEY = "paste-your-key-here"
 ```
 
-If you use this approach with a project that uses Git for version control, be 
-sure to add the ".Renviron" file to ".gitignore" so that your API key is not 
-shared when someone clones your repository.
+If you use the ".Renviron" approach with a project that uses Git for version
+control, be sure to add the ".Renviron" file to ".gitignore" so that your API
+key is not shared when someone clones your repository.
 
 
 # Defining your extract
@@ -112,7 +120,7 @@ submit_extract(extract_definition)
 
 However, like the `define_extract()` function, the `submit_extract()` function
 returns an "ipums_extract" object, and the returned object has been updated to
-include the extract number, so it can be convenient to save that return object
+include the extract number, so it can be useful to save that return object
 by assigning a name to it, like this:
 
 ```{r}
@@ -120,23 +128,12 @@ submitted_extract <- submit_extract(extract_definition)
 ```
 
 That way, you can use the `submitted_extract` object as input to check the
-extract's status, as shown in the next section. 
-
-You can also get the extract number with:
+extract's status, as shown in the next section, or to reference the extract 
+number:
 
 ```{r}
 submitted_extract$number
 ```
-
-If you forget to capture the return value of `submit_extract()`, you can get 
-all information on your most recent extract (including the extract number) with:
-
-```{r}
-submitted_extract <- get_last_extract_info("usa")
-```
-
-`get_last_extract_info()` is just a convenience wrapper around 
-`get_recent_extracts_info_list()`, described [below](#recent).
 
 
 # Checking the status of your extract
@@ -145,12 +142,13 @@ To retrieve the latest status of an extract, you can use the
 `get_extract_info()` function. `get_extract_info()` returns an "ipums_extract"
 object with the "status" element updated to reflect the latest status of the
 extract, and the "download_links" element updated to include links to any
-extract files that are available for download. The "status" of a submitted
-extract is one of "queued", "started", "produced", "canceled", "failed", or
-"completed". Only "completed" extracts can be downloaded, but "completed"
-extracts older than 72 hours may not be available for download, since extract
-files are removed after that time (see discussion of `is_extract_ready()`
-function below).
+extract files that are available for download. 
+
+The "status" of a submitted extract is one of "queued", "started", "produced",
+"canceled", "failed", or "completed". Only "completed" extracts can be
+downloaded, but "completed" extracts older than 72 hours may not be available
+for download, since extract files are removed after that time (see discussion of
+the `is_extract_ready()` function below).
 
 If you assigned a name to the return value of `submit_extract()`, as shown
 above, you could get updated information on the extract, returned as an
@@ -179,7 +177,8 @@ submitted_extract <- get_last_extract_info("usa")
 If you don't have an "ipums_extract" object in your environment that describes
 the extract you're interested in, and you don't want the most recent extract,
 you can also query the latest status of an extract by supplying the name of the
-IPUMS data collection and extract number of the extract, in one of two formats:
+IPUMS data collection and extract number of the extract, in one of two formats. 
+Here's how you'd get the latest information on IPUMS USA extract number 33:
 
 ```{r}
 submitted_extract <- get_extract_info("usa:33")
@@ -234,6 +233,10 @@ is_extract_ready("usa:33")
 is_extract_ready(c("usa", "33"))
 ```
 
+Note that the API has a limit of 60 requests with the same API key per minute, 
+so you wouldn't want to write a loop that repeatedly uses `is_extract_ready()` 
+to check your extract status.
+
 
 # Downloading your extract
 
@@ -278,7 +281,7 @@ usa_extract_33 <- get_extract_info("usa:33")
 save_extract_as_json(usa_extract_33, file = "usa_extract_33.json")
 ```
 
-Then, assuming that file is saved in your current working directory, you or
+Then, you or
 another user could use that JSON file to create a duplicate "ipums_extract"
 object with the same definition, and submit it, using:
 
@@ -286,6 +289,10 @@ object with the same definition, and submit it, using:
 clone_of_usa_extract_33 <- define_extract_from_json("usa_extract_33.json", "usa")
 submitted_extract <- submit_extract(clone_of_usa_extract_33)
 ```
+
+Note that the code in the previous chunk assumes that the file is saved in the
+current working directory. If it's saved somewhere else, replace 
+`"usa_extract_33.json"` with the full path to the file.
 
 
 # Revising a previous extract

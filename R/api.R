@@ -4,7 +4,7 @@
 
 # > Define extract ----
 
-#' Define an extract request object
+#' Define an extract request
 #'
 #' Define an extract request object to be submitted via the IPUMS API. For an
 #' overview of ipumsr API functionality, see
