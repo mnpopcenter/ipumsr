@@ -10,8 +10,6 @@ usa_extract <- define_extract(
   data_format = "fixed_width"
 )
 
-submitted_usa_extract <- submit_extract(usa_extract)
-
 cps_extract <- define_extract(
   collection = "cps",
   samples = c("cps1976_01s", "cps1976_02b"),
@@ -74,6 +72,9 @@ test_that("Can define an extract", {
 
 
 test_that("Can submit a USA extract", {
+  vcr::use_cassette("submitted-usa-extract", {
+    submitted_usa_extract <- submit_extract(usa_extract)
+  })
   expect_s3_class(submitted_usa_extract, "ipums_extract")
   expect_equal(submitted_usa_extract$collection, "usa")
   expect_true(submitted_usa_extract$submitted)
@@ -100,6 +101,9 @@ test_that("ipums_extract print method works", {
 
 
 test_that("Can check the status of a USA extract by supplying extract object", {
+  vcr::use_cassette("submitted-usa-extract", {
+    submitted_usa_extract <- submit_extract(usa_extract)
+  })
   extract <- get_extract_info(submitted_usa_extract)
   expect_s3_class(extract, "ipums_extract")
   expect_true(extract$status %in% c("queued", "started", "completed"))
@@ -255,6 +259,9 @@ test_that("An extract request with missing samples returns correct error", {
 })
 
 test_that("Can revise an extract", {
+  vcr::use_cassette("submitted-usa-extract", {
+    submitted_usa_extract <- submit_extract(usa_extract)
+  })
   revised_extract <- revise_extract(
     submitted_usa_extract,
     samples_to_add = "us2014a",
@@ -276,6 +283,9 @@ test_that("Can revise an extract", {
 })
 
 test_that("We warn user when their revisions don't make sense", {
+  vcr::use_cassette("submitted-usa-extract", {
+    submitted_usa_extract <- submit_extract(usa_extract)
+  })
   expect_warning(
     revise_extract(submitted_usa_extract, samples_to_add = "us2013a"),
     regexp = "already included"
@@ -296,6 +306,9 @@ test_that("tbl to list and list to tbl conversion works", {
 })
 
 test_that("We can export to and import from JSON", {
+  vcr::use_cassette("submitted-usa-extract", {
+    submitted_usa_extract <- submit_extract(usa_extract)
+  })
   json_tmpfile <- file.path(tempdir(), "usa_extract.json")
   on.exit(unlink(json_tmpfile))
   save_extract_as_json(usa_extract, json_tmpfile)
