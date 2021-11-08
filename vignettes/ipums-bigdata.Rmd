@@ -432,7 +432,7 @@ get_model_data <- function(reset) {
 Finally we feed this function and a model specification to the `bigglm()`
 function:
 
-```{r}
+```{r, eval=installed_biglm}
 library(biglm)
 results <- bigglm(
   WORK30PLUS ~ AGE + I(AGE^2) + HEALTH,
