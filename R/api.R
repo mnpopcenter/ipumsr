@@ -582,8 +582,8 @@ download_extract <- function(extract,
     mustWork = FALSE
   )
 
-  ipums_api_binary_request(ddi_url, ddi_file_path, overwrite, api_key)
-  ipums_api_binary_request(data_url, data_file_path, overwrite, api_key)
+  ipums_api_download_request(ddi_url, ddi_file_path, overwrite, api_key)
+  ipums_api_download_request(data_url, data_file_path, overwrite, api_key)
 
   message(
     paste0("DDI codebook file saved to ", ddi_file_path, "\nData file saved ",
@@ -1149,10 +1149,10 @@ format_data_structure_for_json <- function(data_structure, rectangular_on) {
 #' Writes the given url to file_path. Returns the file path of the
 #' downloaded data. Raises an error if the request is not successful.
 #' @noRd
-ipums_api_binary_request <- function(url,
-                                     file_path,
-                                     overwrite,
-                                     api_key = Sys.getenv("IPUMS_API_KEY")) {
+ipums_api_download_request <- function(url,
+                                       file_path,
+                                       overwrite,
+                                       api_key = Sys.getenv("IPUMS_API_KEY")) {
 
 
   file_already_exists <- file.exists(file_path)
@@ -1164,7 +1164,12 @@ ipums_api_binary_request <- function(url,
 
   response <- httr::GET(
     url,
-    httr::user_agent("https://github.com/mnpopcenter/ipumsr"),
+    httr::user_agent(
+      paste0(
+        "https://github.com/mnpopcenter/ipumsr ",
+        as.character(packageVersion("ipumsr"))
+      )
+    ),
     add_user_auth_header(api_key),
     httr::write_disk(file_path, overwrite = TRUE)
   )
@@ -1220,7 +1225,12 @@ ipums_api_json_request <- function(verb,
     verb = verb,
     url = api_url,
     body = body,
-    httr::user_agent("https://github.com/mnpopcenter/ipumsr"),
+    httr::user_agent(
+      paste0(
+        "https://github.com/mnpopcenter/ipumsr ",
+        as.character(packageVersion("ipumsr"))
+      )
+    ),
     httr::content_type_json(),
     add_user_auth_header(api_key)
   )
@@ -1230,7 +1240,10 @@ ipums_api_json_request <- function(verb,
       tryCatch(
         error_details <- parse_400_error(res),
         error = function(cond) {
-          stop("Received status code 400, but could not parse JSON.")
+          stop(
+            "Received error from server (status code 400), but could not ",
+            "parse response for more details."
+          )
         }
       )
       stop(error_details, call. = FALSE)
@@ -1435,6 +1448,9 @@ microdata_api_version <- function() {
   if (api_version == "") return("v1")
   api_version
 }
+
+
+
 
 
 EMPTY_NAMED_LIST <- setNames(list(), character(0))
