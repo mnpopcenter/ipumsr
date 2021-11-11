@@ -564,7 +564,7 @@ download_extract <- function(extract,
     )
   }
 
-  download_dir <- normalizePath(download_dir, mustWork = FALSE)
+  download_dir <- normalizePath(download_dir, winslash = "/", mustWork = FALSE)
   download_dir_doesnt_exist <- !dir.exists(download_dir)
 
   if (download_dir_doesnt_exist) {
@@ -575,10 +575,12 @@ download_extract <- function(extract,
   data_url <- extract$download_links$data$url
   ddi_file_path <- normalizePath(
     file.path(download_dir, basename(ddi_url)),
+    winslash = "/",
     mustWork = FALSE
   )
   data_file_path <- normalizePath(
     file.path(download_dir, basename(data_url)),
+    winslash = "/",
     mustWork = FALSE
   )
 
@@ -1450,7 +1452,78 @@ microdata_api_version <- function() {
 }
 
 
-
-
-
 EMPTY_NAMED_LIST <- setNames(list(), character(0))
+
+
+#' Convert an absolute path to be relative to the working directory
+#'
+#' This is only used in unit tests at the moment
+#' @noRd
+convert_to_relative_path <- function(path) {
+  path_components <- strsplit(path, "/|\\\\", perl = TRUE)[[1]]
+  wd_components <- strsplit(getwd(), "/|\\\\", perl = TRUE)[[1]]
+  if (identical(path_components, wd_components)) {
+    stop(
+      "Supplied path cannot be the path to the working directory",
+      call. = FALSE
+    )
+  }
+  path_length <- length(path_components)
+  wd_length <- length(wd_components)
+  min_length <- min(path_length, wd_length)
+  path_components_min_length <- path_components[1:min_length]
+  wd_components_min_length <- wd_components[1:min_length]
+  components_match <- path_components_min_length == wd_components_min_length
+  if (!any(components_match)) {
+    stop("Supplied path must be an absolute path", call. = FALSE)
+  }
+  on_same_branch <- all(components_match)
+  if (on_same_branch) {
+    if (path_length > wd_length) {
+      return(
+        do.call(file.path, as.list(tail(path_components, -min_length)))
+      )
+    } else {
+      return(
+        do.call(file.path, as.list(rep("..", times = wd_length - path_length)))
+      )
+    }
+  }
+  split_point <- min(which(!components_match))
+  path_relative_to_split <- path_components[split_point:length(path_components)]
+  wd_relative_to_split <- wd_components[split_point:length(wd_components)]
+  wd_levels_below_split <- length(wd_relative_to_split)
+  do.call(
+    file.path,
+    c(
+      as.list(rep("..", times = wd_levels_below_split)),
+      as.list(path_relative_to_split)
+    )
+  )
+}
+
+
+#' Convert all download file paths in a cassette file to be relative to the
+#' working directory
+#'
+#' @noRd
+convert_paths_in_cassette_file_to_relative <- function(cassette_path) {
+  lines <- readLines(cassette_path)
+  file_path_lines <- which(fostr_detect(lines, "file: yes")) + 1
+  orig_paths <- purrr::map_chr(
+    lines[file_path_lines],
+    ~strsplit(.x, "string: ")[[1]][[2]]
+  )
+  converted_paths <- purrr::map_chr(orig_paths, convert_to_relative_path)
+  for (i in seq_along(orig_paths)) {
+    lines <- gsub(orig_paths[[i]], converted_paths[[i]], lines, fixed = TRUE)
+  }
+  writeLines(lines, con = cassette_path)
+}
+
+
+skip_if_no_api_access <- function(have_api_access) {
+  if (!have_api_access) {
+    return(testthat::skip("no API access and no saved API responses"))
+  }
+}

@@ -1,0 +1,73 @@
+http_interactions:
+- request:
+    method: get
+    uri: https://api.ipums.org/downloads/usa/api/v1/extracts/1702087/usa_00082.xml
+    body:
+      encoding: ''
+      string: ''
+    headers:
+      Accept: application/json, text/xml, application/xml, */*
+      Authorization: <<<IPUMS_API_KEY>>>
+  response:
+    status:
+      status_code: 200
+      category: Success
+      reason: OK
+      message: 'Success: (200) OK'
+    headers:
+      accept-ranges: bytes
+      cache-control: private
+      content-disposition: attachment; filename="usa_00082.xml"; filename*=UTF-8''usa_00082.xml
+      content-length: '34868'
+      content-type: application/xml
+      date: Thu, 11 Nov 2021 17:57:49 GMT
+      etag: '"618d5997-8834"'
+      last-modified: Thu, 11 Nov 2021 17:57:43 GMT
+      server: nginx/1.14.2
+      set-cookie: _session_id=a345YCjp8IxuvVvCgCp1z3txAv96gLWuaYC%2FswlBU0ctHnCl8CVP2hW5xcOldxNHCnUPl08R%2BO1MyMBzBv3PfFXAxd%2FjPwIdnXw%2BBQqGTdV6LD9HA8ZzlY2BlG6c3aVJG9LIn4sb5bzbLSQdd%2BNHFCM3eIOFNnUHs3WUkxdeqEvy1m9mzcIHQzxv2F%2FpqS8YQmKhu0ROuytedyan0xZNHNsFKWrve%2FK9vxkuMVKWIkurIdImS7ZZH89E7jnnIrE%3D--qNmvF4HM5q%2FTULN8--JQVEcVcXRSWKylOr0jUYAA%3D%3D;
+        path=/; secure; HttpOnly; SameSite=None
+      x-ratelimit-limit: '-1'
+      x-ratelimit-remaining: '0'
+      x-ratelimit-reset: '0'
+    body:
+      encoding: UTF-8
+      file: yes
+      string: ../fixtures/usa_00082.xml
+  recorded_at: 2021-11-11 17:57:49 GMT
+  recorded_with: vcr/1.0.2, webmockr/0.8.0
+- request:
+    method: get
+    uri: https://api.ipums.org/downloads/usa/api/v1/extracts/1702087/usa_00082.dat.gz
+    body:
+      encoding: ''
+      string: ''
+    headers:
+      Accept: application/json, text/xml, application/xml, */*
+      Authorization: <<<IPUMS_API_KEY>>>
+  response:
+    status:
+      status_code: 200
+      category: Success
+      reason: OK
+      message: 'Success: (200) OK'
+    headers:
+      accept-ranges: bytes
+      cache-control: private
+      content-disposition: attachment; filename="usa_00082.dat.gz"; filename*=UTF-8''usa_00082.dat.gz
+      content-length: '167521'
+      content-type: application/gzip
+      date: Thu, 11 Nov 2021 17:57:49 GMT
+      etag: '"618d599a-28e61"'
+      last-modified: Thu, 11 Nov 2021 17:57:46 GMT
+      server: nginx/1.14.2
+      set-cookie: _session_id=h9DX9ojhAeyl3z%2FHBWzpUOg0h%2FR6bLtW7mDbFhL5Fm5TzdCGVDDVuRs3CGYUZSuOFztUvZeiNNaq2bQD9R0Cf6IkIOSJHoGEQFfGIu7lw%2BzlpzUz3hlOLdzgo%2BUPwVS%2BU3QOx0nEIRT%2FHbVZPnEyEV5azuAqB1WA7m0TelQDKqVkXT30kS66Ga2RO2D260gjnId5sY3x8KglylNco9ZC6re%2FIqF8PFxy1pFAE4mRXSqPDWWwxQXfnecKdjb%2FVgE%3D--pmjTAeS4ZXA8Fb5z--55SL0En3gboyriaiPVT9RQ%3D%3D;
+        path=/; secure; HttpOnly; SameSite=None
+      x-ratelimit-limit: '-1'
+      x-ratelimit-remaining: '0'
+      x-ratelimit-reset: '0'
+    body:
+      encoding: UTF-8
+      file: yes
+      string: ../fixtures/usa_00082.dat.gz
+  recorded_at: 2021-11-11 17:57:49 GMT
+  recorded_with: vcr/1.0.2, webmockr/0.8.0

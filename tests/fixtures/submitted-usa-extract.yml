@@ -1,0 +1,45 @@
+http_interactions:
+- request:
+    method: post
+    uri: https://api.ipums.org/extracts/?collection=usa&version=v1
+    body:
+      encoding: ''
+      string: '{"description":"Test extract","data_structure":{"rectangular":{"on":"P"}},"data_format":"fixed_width","samples":{"us2017b":{}},"variables":{"YEAR":{}}}'
+    headers:
+      Accept: application/json, text/xml, application/xml, */*
+      Content-Type: application/json
+      Authorization: <<<IPUMS_API_KEY>>>
+  response:
+    status:
+      status_code: 200
+      category: Success
+      reason: OK
+      message: 'Success: (200) OK'
+    headers:
+      cache-control: max-age=0, private, must-revalidate
+      content-length: '424'
+      content-type: application/json; charset=utf-8
+      date: Thu, 11 Nov 2021 17:57:35 GMT
+      etag: W/"6f66bdc86c0d96aebe8601a03c31b7a4"
+      referrer-policy: strict-origin-when-cross-origin
+      server: nginx/1.18.0 + Phusion Passenger(R) 6.0.11
+      status: 200 OK
+      vary: Origin
+      x-content-type-options: nosniff
+      x-download-options: noopen
+      x-frame-options: SAMEORIGIN
+      x-permitted-cross-domain-policies: none
+      x-powered-by: Phusion Passenger(R) 6.0.11
+      x-ratelimit-limit: '-1'
+      x-ratelimit-remaining: '0'
+      x-ratelimit-reset: '0'
+      x-request-id: ba65e947-8cdd-4400-869e-732581cc180b
+      x-runtime: '0.623842'
+      x-xss-protection: 1; mode=block
+    body:
+      encoding: UTF-8
+      file: no
+      string: '{"data_structure":{"rectangular":{"on":"P"}},"data_format":"fixed_width","description":"Test
+        extract","samples":{"us2017b":{}},"variables":{"YEAR":{"preselected":true},"SAMPLE":{"preselected":true},"SERIAL":{"preselected":true},"CBSERIAL":{"preselected":true},"HHWT":{"preselected":true},"GQ":{"preselected":true},"PERNUM":{"preselected":true},"PERWT":{"preselected":true}},"download_links":{},"number":82,"status":"queued"}'
+  recorded_at: 2021-11-11 17:57:34 GMT
+  recorded_with: vcr/1.0.2, webmockr/0.8.0
