@@ -364,7 +364,9 @@ read_terra_micro <- function(
     progress = show_readr_progress(verbose)
   )
 
-  data <- readr::type_convert(data, readr::cols())
+  if (any(purrr::map_lgl(data, is.character))) {
+    data <- readr::type_convert(data, readr::cols())
+  }
 
 
   # Add var labels and value labels from DDI, if available

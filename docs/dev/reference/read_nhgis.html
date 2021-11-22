@@ -309,7 +309,7 @@ shapes.</p>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> Reading geography...</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> options:        ENCODING=latin1 </span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> Reading layer `US_pmsa_1990' from data source </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   `C:\Users\derek\AppData\Local\Temp\RtmpQxVfZV\file4fe068e049ae\US_pmsa_1990.shp' </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   `C:\Users\derek\AppData\Local\Temp\RtmpEZrfHM\file1e4530e27d9\US_pmsa_1990.shp' </span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span>   using driver `ESRI Shapefile'</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> Simple feature collection with 71 features and 8 fields</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> Geometry type: MULTIPOLYGON</span>
@@ -321,8 +321,16 @@ shapes.</p>
 <span class='r-in'><span class='kw'>if</span> <span class='op'>(</span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>require</a></span><span class='op'>(</span><span class='va'><a href='http://rgdal.r-forge.r-project.org'>rgdal</a></span><span class='op'>)</span> <span class='op'>&amp;&amp;</span> <span class='kw'><a href='https://rdrr.io/r/base/library.html'>require</a></span><span class='op'>(</span><span class='va'><a href='https://github.com/edzer/sp/'>sp</a></span><span class='op'>)</span><span class='op'>)</span> <span class='op'>{</span></span>
 <span class='r-in'>  <span class='va'>sp_data</span> <span class='op'>&lt;-</span> <span class='fu'>read_nhgis_sp</span><span class='op'>(</span><span class='va'>csv_file</span>, <span class='va'>shape_file</span><span class='op'>)</span></span>
 <span class='r-in'><span class='op'>}</span></span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> Loading required package: rgdal</span>
-<span class='r-wrn co'><span class='r-pr'>#&gt;</span> <span class='warning'>Warning: </span>there is no package called 'rgdal'</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Use of data from NHGIS is subject to conditions including that users should</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> cite the data appropriately. Use command `ipums_conditions()` for more details.</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Reading data file...</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Reading geography...</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> OGR data source with driver: ESRI Shapefile </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Source: "C:\Users\derek\AppData\Local\Temp\RtmpEZrfHM\file1e43ddd5fd5", layer: "US_pmsa_1990"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> with 71 features</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> It has 8 fields</span>
 <span class='r-in'></span>
 </pre>
   </div>

@@ -10,8 +10,8 @@ define_extract(
   samples,
   variables,
   data_format = c("fixed_width", "csv", "stata", "spss", "sas9"),
-  data_structure = c("rectangular", "hierarchical"),
-  rectangular_on = c("P", "H")
+  data_structure = "rectangular",
+  rectangular_on = "P"
 )
 }
 \arguments{
@@ -28,13 +28,13 @@ should be specified using the
 \item{data_format}{The desired format of the extract data file (one of
 "fixed_width", "csv", "stata", "spss", or "sas9").}
 
-\item{data_structure}{One of "rectangular" or "hierarchical" (defaults to
-"rectangular")}
+\item{data_structure}{Currently, this must be "rectangular", which is also
+the default. In the future, the API will also support "hierarchical"
+extracts.}
 
-\item{rectangular_on}{For rectangular \code{data_structure}, should the data
-be rectangular on persons ("P") or households ("H")? Defaults to "P". If
-\code{data_structure} is hierarchical, this argument is ignored and set to
-missing automatically.}
+\item{rectangular_on}{Currently, this must be "P", indicating that the
+extract will be rectangularized on person records. In the future, the API
+will also support household-only extracts (\code{rectangular_on = "H"}).}
 }
 \value{
 An object of class \code{ipums_extract} containing the extract
@@ -47,16 +47,6 @@ overview of ipumsr API functionality, see
 }
 \examples{
 my_extract <- define_extract("usa", "Example", "us2013a", "YEAR")
-
-my_hierarchical_extract <- define_extract(
-  collection = "usa",
-  description = "A hierarchical example",
-  samples = c("us2013a", "us2014a"),
-  variables = c("YEAR", "AGE", "SEX", "RACE"),
-  data_format = "csv",
-  data_structure = "hierarchical"
-)
-
 }
 \seealso{
 Other ipums_api: 

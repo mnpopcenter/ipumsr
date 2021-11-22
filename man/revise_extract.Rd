@@ -38,13 +38,14 @@ be removed.}
 \item{data_format}{The desired data file format for the modified extract
 definition. If NULL (the default), leave the data format unchanged.}
 
-\item{data_structure}{The desired data structure ("rectangular" or
-"hierarchical") for the modified extract definition. If NULL (the default),
-leave the data structure unchanged.}
+\item{data_structure}{The desired data structure. Currently, this can only be
+"rectangular", but "hierarchical" extracts will be supported in the future.
+If NULL (the default), leave the data structure unchanged.}
 
-\item{rectangular_on}{If the modified extract will have a rectangular
-data structure, on what record type should it be rectangularized? If NULL,
-(the default), leave the \code{rectangular_on} field unchanged.}
+\item{rectangular_on}{Currently, this can only be "P", but in the future,
+household-only extracts (\code{rectangular_on = "H"}) will also be
+supported. If NULL, (the default), leave the \code{rectangular_on} field
+unchanged.}
 }
 \value{
 An object of class \code{ipums_extract} containing the modified

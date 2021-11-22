@@ -18,12 +18,12 @@
 #' @param variables Character vector of variables to include in the extract.
 #' @param data_format The desired format of the extract data file (one of
 #'   "fixed_width", "csv", "stata", "spss", or "sas9").
-#' @param data_structure One of "rectangular" or "hierarchical" (defaults to
-#'   "rectangular")
-#' @param rectangular_on For rectangular \code{data_structure}, should the data
-#'   be rectangular on persons ("P") or households ("H")? Defaults to "P". If
-#'   \code{data_structure} is hierarchical, this argument is ignored and set to
-#'   missing automatically.
+#' @param data_structure Currently, this must be "rectangular", which is also
+#'   the default. In the future, the API will also support "hierarchical"
+#'   extracts.
+#' @param rectangular_on Currently, this must be "P", indicating that the
+#'   extract will be rectangularized on person records. In the future, the API
+#'   will also support household-only extracts (\code{rectangular_on = "H"}).
 #'
 #' @family ipums_api
 #' @return An object of class \code{ipums_extract} containing the extract
@@ -31,16 +31,6 @@
 #'
 #' @examples
 #' my_extract <- define_extract("usa", "Example", "us2013a", "YEAR")
-#'
-#' my_hierarchical_extract <- define_extract(
-#'   collection = "usa",
-#'   description = "A hierarchical example",
-#'   samples = c("us2013a", "us2014a"),
-#'   variables = c("YEAR", "AGE", "SEX", "RACE"),
-#'   data_format = "csv",
-#'   data_structure = "hierarchical"
-#' )
-#'
 #' @export
 define_extract <- function(collection,
                            description,
@@ -48,11 +38,27 @@ define_extract <- function(collection,
                            variables,
                            data_format = c("fixed_width", "csv", "stata",
                                            "spss", "sas9"),
-                           data_structure = c("rectangular", "hierarchical"),
-                           rectangular_on = c("P", "H")) {
+                           data_structure = "rectangular",
+                           rectangular_on = "P") {
 
   data_format <- match.arg(data_format)
-  data_structure <- match.arg(data_structure)
+  if (data_structure != "rectangular") {
+    stop(
+      "Currently, the `data_structure` argument must be equal to ",
+      "\"rectangular\"; in the future, the API will also support ",
+      "\"hierarchical\" extracts.",
+      call. = FALSE
+    )
+  }
+  if (rectangular_on != "P") {
+    stop(
+      "Currently, the `rectangular_on` argument must be equal to \"P\"; in ",
+      "the future, the API will also support `rectangular_on = \"H\".",
+      call. = FALSE
+    )
+  }
+  # For now this next block is irrelevant, but leave it for whenever we add
+  # support for rectangular_on = "H"
   rectangular_on <- if(data_structure == "rectangular") {
     match.arg(rectangular_on)
   } else NA_character_
@@ -619,12 +625,13 @@ download_extract <- function(extract,
 #'   be removed.
 #' @param data_format The desired data file format for the modified extract
 #'   definition. If NULL (the default), leave the data format unchanged.
-#' @param data_structure The desired data structure ("rectangular" or
-#'   "hierarchical") for the modified extract definition. If NULL (the default),
-#'   leave the data structure unchanged.
-#' @param rectangular_on If the modified extract will have a rectangular
-#'   data structure, on what record type should it be rectangularized? If NULL,
-#'   (the default), leave the \code{rectangular_on} field unchanged.
+#' @param data_structure The desired data structure. Currently, this can only be
+#'   "rectangular", but "hierarchical" extracts will be supported in the future.
+#'   If NULL (the default), leave the data structure unchanged.
+#' @param rectangular_on Currently, this can only be "P", but in the future,
+#'   household-only extracts (\code{rectangular_on = "H"}) will also be
+#'   supported. If NULL, (the default), leave the \code{rectangular_on} field
+#'   unchanged.
 #'
 #' @family ipums_api
 #' @return An object of class \code{ipums_extract} containing the modified
@@ -665,8 +672,25 @@ revise_extract <- function(extract,
 
   if (!is.null(description)) extract$description <- description
   if (!is.null(data_format)) extract$data_format <- data_format
-  if (!is.null(data_structure)) extract$data_structure <- data_structure
-  if (!is.null(rectangular_on)) extract$rectangular_on <- rectangular_on
+  if (!is.null(data_structure)) {
+    if (data_structure != "rectangular") {
+      stop(
+        "Currently, the `data_structure` argument must be equal to ",
+        "\"rectangular\"; in the future, the API will also support ",
+        "\"hierarchical\" extracts.",
+        call. = FALSE
+      )
+    }
+  }
+  if (!is.null(rectangular_on)) {
+    if (rectangular_on != "P") {
+      stop(
+        "Currently, the `rectangular_on` argument must be equal to \"P\"; in ",
+        "the future, the API will also support `rectangular_on = \"H\".",
+        call. = FALSE
+      )
+    }
+  }
 
   extract <- validate_ipums_extract(extract)
 
@@ -1023,7 +1047,8 @@ validate_ipums_extract <- function(x) {
   }
 
   stopifnot(x$data_format %in% c("fixed_width", "csv","stata", "spss", "sas9"))
-  stopifnot(x$data_structure %in% c("rectangular", "hierarchical"))
+  stopifnot(x$data_structure == "rectangular")
+  stopifnot(x$rectangular_on == "P")
 
   if (x$data_structure == "rectangular" & !x$rectangular_on %in% c("H", "P")) {
     stop("If `data_structure` is 'rectangular', `rectangular_on` must be one ",
@@ -1447,7 +1472,7 @@ microdata_api_base_url <- function() {
 
 microdata_api_version <- function() {
   api_version <- Sys.getenv("IPUMS_API_VERSION")
-  if (api_version == "") return("v1")
+  if (api_version == "") return("beta")
   api_version
 }
 

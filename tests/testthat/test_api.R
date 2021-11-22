@@ -59,6 +59,24 @@ test_that("Can define an extract", {
 })
 
 
+test_that("Attempt to define a hierarchical extract throws an error", {
+  expect_error(
+    define_extract(
+      "usa", "Test", "us2017b", "YEAR", data_structure = "hierarchical"
+    )
+  )
+})
+
+
+test_that("Attempt to rectangularize on H records throws an error", {
+  expect_error(
+    define_extract(
+      "usa", "Test", "us2017b", "YEAR", rectangular_on = "H"
+    )
+  )
+})
+
+
 test_that("Can submit a USA extract", {
   skip_if_no_api_access(have_api_access)
   expect_s3_class(submitted_usa_extract, "ipums_extract")

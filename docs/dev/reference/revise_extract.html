@@ -250,15 +250,16 @@ definition. If NULL (the default), leave the data format unchanged.</p></td>
     </tr>
     <tr>
       <th>data_structure</th>
-      <td><p>The desired data structure ("rectangular" or
-"hierarchical") for the modified extract definition. If NULL (the default),
-leave the data structure unchanged.</p></td>
+      <td><p>The desired data structure. Currently, this can only be
+"rectangular", but "hierarchical" extracts will be supported in the future.
+If NULL (the default), leave the data structure unchanged.</p></td>
     </tr>
     <tr>
       <th>rectangular_on</th>
-      <td><p>If the modified extract will have a rectangular
-data structure, on what record type should it be rectangularized? If NULL,
-(the default), leave the <code>rectangular_on</code> field unchanged.</p></td>
+      <td><p>Currently, this can only be "P", but in the future,
+household-only extracts (<code>rectangular_on = "H"</code>) will also be
+supported. If NULL, (the default), leave the <code>rectangular_on</code> field
+unchanged.</p></td>
     </tr>
     </table>
 

@@ -1,7 +1,7 @@
 http_interactions:
 - request:
     method: get
-    uri: https://api.ipums.org/downloads/usa/api/v1/extracts/1702087/usa_00082.xml
+    uri: https://api.ipums.org/downloads/usa/api/v1/extracts/1708879/usa_00086.xml
     body:
       encoding: ''
       string: ''
@@ -17,14 +17,14 @@ http_interactions:
     headers:
       accept-ranges: bytes
       cache-control: private
-      content-disposition: attachment; filename="usa_00082.xml"; filename*=UTF-8''usa_00082.xml
+      content-disposition: attachment; filename="usa_00086.xml"; filename*=UTF-8''usa_00086.xml
       content-length: '34868'
       content-type: application/xml
-      date: Thu, 11 Nov 2021 17:57:49 GMT
-      etag: '"618d5997-8834"'
-      last-modified: Thu, 11 Nov 2021 17:57:43 GMT
+      date: Mon, 22 Nov 2021 16:53:27 GMT
+      etag: '"619bcafa-8834"'
+      last-modified: Mon, 22 Nov 2021 16:53:14 GMT
       server: nginx/1.14.2
-      set-cookie: _session_id=a345YCjp8IxuvVvCgCp1z3txAv96gLWuaYC%2FswlBU0ctHnCl8CVP2hW5xcOldxNHCnUPl08R%2BO1MyMBzBv3PfFXAxd%2FjPwIdnXw%2BBQqGTdV6LD9HA8ZzlY2BlG6c3aVJG9LIn4sb5bzbLSQdd%2BNHFCM3eIOFNnUHs3WUkxdeqEvy1m9mzcIHQzxv2F%2FpqS8YQmKhu0ROuytedyan0xZNHNsFKWrve%2FK9vxkuMVKWIkurIdImS7ZZH89E7jnnIrE%3D--qNmvF4HM5q%2FTULN8--JQVEcVcXRSWKylOr0jUYAA%3D%3D;
+      set-cookie: _session_id=NcxsD4ubckYZWoKgsZLGP%2Fvar9nRUUjgQ5q2%2BAyvlyZVFn8WgpHMDJuGiHxxwcT9yy1xhsFDusCwT1Ou20vu7JLY63yxxOLsH50mezU26DsvIkC%2BBAVpT3rQ33CJPLP%2Bzlv%2FC0C1dgyu8VpmEDl928V1c%2FA8Lji8Fai7%2FPGGi9Z7f9shCqyuTCML0TvjgZ1EpR4vy2LDhEfpfyRHAwnlHhu8aDrqKbM905rhpPBSTqFH79SdBzGwSQ3kYcM4AoQ%3D--3p6enIt4qPXHEbLt--NRa1D7TSqUZ9tcQJIkbFDA%3D%3D;
         path=/; secure; HttpOnly; SameSite=None
       x-ratelimit-limit: '-1'
       x-ratelimit-remaining: '0'
@@ -32,12 +32,12 @@ http_interactions:
     body:
       encoding: UTF-8
       file: yes
-      string: ../fixtures/usa_00082.xml
-  recorded_at: 2021-11-11 17:57:49 GMT
+      string: ../fixtures/usa_00086.xml
+  recorded_at: 2021-11-22 16:53:29 GMT
   recorded_with: vcr/1.0.2, webmockr/0.8.0
 - request:
     method: get
-    uri: https://api.ipums.org/downloads/usa/api/v1/extracts/1702087/usa_00082.dat.gz
+    uri: https://api.ipums.org/downloads/usa/api/v1/extracts/1708879/usa_00086.dat.gz
     body:
       encoding: ''
       string: ''
@@ -53,14 +53,14 @@ http_interactions:
     headers:
       accept-ranges: bytes
       cache-control: private
-      content-disposition: attachment; filename="usa_00082.dat.gz"; filename*=UTF-8''usa_00082.dat.gz
+      content-disposition: attachment; filename="usa_00086.dat.gz"; filename*=UTF-8''usa_00086.dat.gz
       content-length: '167521'
       content-type: application/gzip
-      date: Thu, 11 Nov 2021 17:57:49 GMT
-      etag: '"618d599a-28e61"'
-      last-modified: Thu, 11 Nov 2021 17:57:46 GMT
+      date: Mon, 22 Nov 2021 16:53:27 GMT
+      etag: '"619bcafd-28e61"'
+      last-modified: Mon, 22 Nov 2021 16:53:17 GMT
       server: nginx/1.14.2
-      set-cookie: _session_id=h9DX9ojhAeyl3z%2FHBWzpUOg0h%2FR6bLtW7mDbFhL5Fm5TzdCGVDDVuRs3CGYUZSuOFztUvZeiNNaq2bQD9R0Cf6IkIOSJHoGEQFfGIu7lw%2BzlpzUz3hlOLdzgo%2BUPwVS%2BU3QOx0nEIRT%2FHbVZPnEyEV5azuAqB1WA7m0TelQDKqVkXT30kS66Ga2RO2D260gjnId5sY3x8KglylNco9ZC6re%2FIqF8PFxy1pFAE4mRXSqPDWWwxQXfnecKdjb%2FVgE%3D--pmjTAeS4ZXA8Fb5z--55SL0En3gboyriaiPVT9RQ%3D%3D;
+      set-cookie: _session_id=4puaknabxu%2BQ%2FjPLU10AmL9zVPrz%2FxgQFSNxXbzCj7JeCtrZwfL%2F%2FXexoawu8RRoSy0xaXlLb%2BWIscfFa8ZaZqmf2LqSnAURU83A7QSqTsGBpTqdjk0oDGItPcgCRsRT78YyqMRI7EixBFmWRjVhFEnVVjzM9BP6HT9lnmA8PSGMvZfIanHkbU%2Fhv1lSPDYk64852NC%2FBggoqBoM5%2FZ7rTHanyxE6qDfftqxTr7sxems7eAjKu%2ByW%2F3kd%2Fq3Ob0%3D--aTHrshG0lKQaqiR4--sWKWWYJQolVb8MsvsEhRsg%3D%3D;
         path=/; secure; HttpOnly; SameSite=None
       x-ratelimit-limit: '-1'
       x-ratelimit-remaining: '0'
@@ -68,6 +68,6 @@ http_interactions:
     body:
       encoding: UTF-8
       file: yes
-      string: ../fixtures/usa_00082.dat.gz
-  recorded_at: 2021-11-11 17:57:49 GMT
+      string: ../fixtures/usa_00086.dat.gz
+  recorded_at: 2021-11-22 16:53:29 GMT
   recorded_with: vcr/1.0.2, webmockr/0.8.0

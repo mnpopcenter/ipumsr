@@ -141,7 +141,7 @@
       <h1 data-toc-skip>Big IPUMS data</h1>
                         <h4 class="author">Minnesota Population Center</h4>
             
-            <h4 class="date">2021-11-08</h4>
+            <h4 class="date">2021-11-22</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/mnpopcenter/ipumsr/blob/master/vignettes/ipums-bigdata.Rmd"><code>vignettes/ipums-bigdata.Rmd</code></a></small>
       <div class="hidden name"><code>ipums-bigdata.Rmd</code></div>
@@ -569,7 +569,17 @@
   callback <span class="op">=</span> <span class="va">biglm_cb</span>, chunk_size <span class="op">=</span> <span class="fl">1000</span>
 <span class="op">)</span>
 
-<span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">chunked_model</span><span class="op">)</span></code></pre></div>
+<span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">chunked_model</span><span class="op">)</span>
+<span class="co">#&gt; Large data regression model: biglm(AHRSWORKT ~ AGE + I(AGE^2) + HEALTH, data, ...)</span>
+<span class="co">#&gt; Sample size =  88801 </span>
+<span class="co">#&gt;                    Coef    (95%     CI)     SE      p</span>
+<span class="co">#&gt; (Intercept)      5.6270  4.8913  6.3627 0.3679 0.0000</span>
+<span class="co">#&gt; AGE              1.5683  1.5327  1.6039 0.0178 0.0000</span>
+<span class="co">#&gt; I(AGE^2)        -0.0168 -0.0172 -0.0164 0.0002 0.0000</span>
+<span class="co">#&gt; HEALTHVery good -0.2808 -0.4897 -0.0720 0.1044 0.0072</span>
+<span class="co">#&gt; HEALTHGood      -1.2754 -1.5071 -1.0436 0.1159 0.0000</span>
+<span class="co">#&gt; HEALTHFair      -3.6145 -4.0287 -3.2002 0.2071 0.0000</span>
+<span class="co">#&gt; HEALTHPoor      -5.7327 -6.6642 -4.8012 0.4658 0.0000</span></code></pre></div>
 </div>
 <div id="chunked-select-cases-example" class="section level3">
 <h3 class="hasAnchor">
@@ -1088,16 +1098,28 @@
     <span class="kw"><a href="https://rdrr.io/r/base/function.html">return</a></span><span class="op">(</span><span class="va">out</span><span class="op">)</span>
   <span class="op">}</span>
 <span class="op">}</span></code></pre></div>
-<p>Finally we feed this function and a model specification to the <code>bigglm()</code> function:</p>
+<p>Finally we feed this function and a model specification to the <code><a href="https://rdrr.io/pkg/biglm/man/bigglm.html">bigglm()</a></code> function:</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">biglm</span><span class="op">)</span>
-<span class="va">results</span> <span class="op">&lt;-</span> <span class="fu">bigglm</span><span class="op">(</span>
+<span class="co">#&gt; Loading required package: DBI</span>
+<span class="va">results</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/biglm/man/bigglm.html">bigglm</a></span><span class="op">(</span>
   <span class="va">WORK30PLUS</span> <span class="op">~</span> <span class="va">AGE</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/base/AsIs.html">I</a></span><span class="op">(</span><span class="va">AGE</span><span class="op">^</span><span class="fl">2</span><span class="op">)</span> <span class="op">+</span> <span class="va">HEALTH</span>,
   family <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/family.html">binomial</a></span><span class="op">(</span>link <span class="op">=</span> <span class="st">"logit"</span><span class="op">)</span>,
   data <span class="op">=</span> <span class="va">get_model_data</span>
 <span class="op">)</span>
 
-<span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">results</span><span class="op">)</span></code></pre></div>
+<span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">results</span><span class="op">)</span>
+<span class="co">#&gt; Large data regression model: bigglm(WORK30PLUS ~ AGE + I(AGE^2) + HEALTH, family = binomial(link = "logit"), </span>
+<span class="co">#&gt;     data = get_model_data)</span>
+<span class="co">#&gt; Sample size =  88801 </span>
+<span class="co">#&gt;                    Coef    (95%     CI)     SE      p</span>
+<span class="co">#&gt; (Intercept)     -3.9623 -4.0956 -3.8290 0.0667 0.0000</span>
+<span class="co">#&gt; AGE              0.2677  0.2609  0.2744 0.0034 0.0000</span>
+<span class="co">#&gt; I(AGE^2)        -0.0029 -0.0030 -0.0028 0.0000 0.0000</span>
+<span class="co">#&gt; HEALTHVery good  0.0491  0.0043  0.0939 0.0224 0.0282</span>
+<span class="co">#&gt; HEALTHGood      -0.1248 -0.1737 -0.0760 0.0244 0.0000</span>
+<span class="co">#&gt; HEALTHFair      -0.6458 -0.7250 -0.5666 0.0396 0.0000</span>
+<span class="co">#&gt; HEALTHPoor      -0.9561 -1.1209 -0.7913 0.0824 0.0000</span></code></pre></div>
 </div>
 </div>
 </div>
