@@ -183,9 +183,9 @@ interact with the extract API from their R session.</p>
 <div id="defining-your-extract" class="section level1">
 <h1 class="hasAnchor">
 <a href="#defining-your-extract" class="anchor"></a>Defining your extract</h1>
-<p>The <code><a href="../reference/define_extract.html">define_extract()</a></code> function returns an object of class “ipums_extract” which can then be submitted using the <code><a href="../reference/submit_extract.html">submit_extract()</a></code> function.</p>
+<p>The <code><a href="../reference/define_extract_micro.html">define_extract_micro()</a></code> function returns an object of class “ipums_extract” which can then be submitted using the <code><a href="../reference/submit_extract.html">submit_extract()</a></code> function.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">extract_definition</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/define_extract.html">define_extract</a></span><span class="op">(</span>
+<code class="sourceCode R"><span class="va">extract_definition</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/define_extract_micro.html">define_extract_micro</a></span><span class="op">(</span>
   collection <span class="op">=</span> <span class="st">"usa"</span>,
   description <span class="op">=</span> <span class="st">"Extract for API vignette"</span>,
   samples <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"us2018a"</span>,<span class="st">"us2019a"</span><span class="op">)</span>,
@@ -197,7 +197,7 @@ interact with the extract API from their R session.</p>
 <p>Note that samples are specified using special sample ID codes, which can be browsed <a href="https://usa.ipums.org/usa-action/samples/sample_ids">here on the IPUMS USA website</a>.</p>
 <p>The <code>data_format</code>, <code>data_structure</code>, and <code>rectangular_on</code> arguments have default values which match the values specified in the example above, and you can omit the argument names as long as you maintain the proper order, so you could define the same extract with:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">extract_definition</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/define_extract.html">define_extract</a></span><span class="op">(</span>
+<code class="sourceCode R"><span class="va">extract_definition</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/define_extract_micro.html">define_extract_micro</a></span><span class="op">(</span>
   <span class="st">"usa"</span>,
   <span class="st">"Extract for API vignette"</span>,
   <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"us2018a"</span>,<span class="st">"us2019a"</span><span class="op">)</span>,
@@ -210,7 +210,7 @@ interact with the extract API from their R session.</p>
 <p>To submit your extract, use:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/submit_extract.html">submit_extract</a></span><span class="op">(</span><span class="va">extract_definition</span><span class="op">)</span></code></pre></div>
-<p>However, like the <code><a href="../reference/define_extract.html">define_extract()</a></code> function, the <code><a href="../reference/submit_extract.html">submit_extract()</a></code> function returns an “ipums_extract” object, and the returned object has been updated to include the extract number, so it can be useful to save that return object by assigning a name to it, like this:</p>
+<p>However, like the <code><a href="../reference/define_extract_micro.html">define_extract_micro()</a></code> function, the <code><a href="../reference/submit_extract.html">submit_extract()</a></code> function returns an “ipums_extract” object, and the returned object has been updated to include the extract number, so it can be useful to save that return object by assigning a name to it, like this:</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">submitted_extract</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/submit_extract.html">submit_extract</a></span><span class="op">(</span><span class="va">extract_definition</span><span class="op">)</span></code></pre></div>
 <p>That way, you can use the <code>submitted_extract</code> object as input to check the extract’s status, as shown in the next section, or to reference the extract number:</p>
@@ -291,12 +291,12 @@ interact with the extract API from their R session.</p>
 <p>ipumsr also includes a convenience function for revising a previous extract definition, facilitating a “revise and resubmit” workflow. Here’s how you would pull down the definition of USA extract number 33 and add a sample and a variable to it:</p>
 <div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">old_extract</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_extract_info.html">get_extract_info</a></span><span class="op">(</span><span class="st">"usa:33"</span><span class="op">)</span>
-<span class="va">new_extract</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/revise_extract.html">revise_extract</a></span><span class="op">(</span>
+<span class="va">new_extract</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/revise_extract_micro.html">revise_extract_micro</a></span><span class="op">(</span>
   <span class="va">old_extract</span>,
   samples_to_add <span class="op">=</span> <span class="st">"us2018a"</span>,
   vars_to_add <span class="op">=</span> <span class="st">"RELATE"</span>
 <span class="op">)</span></code></pre></div>
-<p>The <code><a href="../reference/revise_extract.html">revise_extract()</a></code> function returns an “ipums_extract” object that has been modified as requested and has been reset to an unsubmitted state, by stripping the extract number, status, and download links from the original extract. The revised extract can then be submitted with:</p>
+<p>The <code><a href="../reference/revise_extract_micro.html">revise_extract_micro()</a></code> function returns an “ipums_extract” object that has been modified as requested and has been reset to an unsubmitted state, by stripping the extract number, status, and download links from the original extract. The revised extract can then be submitted with:</p>
 <div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">newly_submitted_extract</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/submit_extract.html">submit_extract</a></span><span class="op">(</span><span class="va">new_extract</span><span class="op">)</span></code></pre></div>
 </div>
@@ -307,7 +307,7 @@ interact with the extract API from their R session.</p>
 <p>The list representation is useful if you want to be able to operate on elements as “ipums_extract” objects. For instance, to retrieve your most second-most-recent extract and revise it for resubmission, you could use:</p>
 <div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">second_most_recent_extract</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_recent_extracts_info.html">get_recent_extracts_info_list</a></span><span class="op">(</span><span class="st">"usa"</span><span class="op">)</span><span class="op">[[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span>
-<span class="va">revised_extract</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/revise_extract.html">revise_extract</a></span><span class="op">(</span>
+<span class="va">revised_extract</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/revise_extract_micro.html">revise_extract_micro</a></span><span class="op">(</span>
   <span class="va">second_most_recent_extract</span>, 
   samples_to_add <span class="op">=</span> <span class="st">"us2010a"</span>
 <span class="op">)</span></code></pre></div>
@@ -340,7 +340,7 @@ interact with the extract API from their R session.</p>
 <p>The return values of the functions to interact with the API are configured in such a way that you can define, submit, wait for, download, and read in your extract all in one piped expression:</p>
 <div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">data</span> <span class="op">&lt;-</span> 
-  <span class="fu"><a href="../reference/define_extract.html">define_extract</a></span><span class="op">(</span>
+  <span class="fu"><a href="../reference/define_extract_micro.html">define_extract_micro</a></span><span class="op">(</span>
     <span class="st">"usa"</span>,
     <span class="st">"Extract for API vignette"</span>,
     <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"us2018a"</span>,<span class="st">"us2019a"</span><span class="op">)</span>,

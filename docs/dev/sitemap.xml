@@ -4,10 +4,10 @@
     <loc>http://tech.popdata.org/ipumsr//index.html</loc>
   </url>
   <url>
-    <loc>http://tech.popdata.org/ipumsr//reference/define_extract.html</loc>
+    <loc>http://tech.popdata.org/ipumsr//reference/define_extract_from_json.html</loc>
   </url>
   <url>
-    <loc>http://tech.popdata.org/ipumsr//reference/define_extract_from_json.html</loc>
+    <loc>http://tech.popdata.org/ipumsr//reference/define_extract_micro.html</loc>
   </url>
   <url>
     <loc>http://tech.popdata.org/ipumsr//reference/download_extract.html</loc>
@@ -133,7 +133,7 @@
     <loc>http://tech.popdata.org/ipumsr//reference/reexports.html</loc>
   </url>
   <url>
-    <loc>http://tech.popdata.org/ipumsr//reference/revise_extract.html</loc>
+    <loc>http://tech.popdata.org/ipumsr//reference/revise_extract_micro.html</loc>
   </url>
   <url>
     <loc>http://tech.popdata.org/ipumsr//reference/save_extract_as_json.html</loc>

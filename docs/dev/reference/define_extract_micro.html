@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Read boundary files from an IPUMS extract — read_ipums_sf • ipumsr</title>
+<title>Define a microdata extract request — define_extract_micro • ipumsr</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -52,9 +52,10 @@
 
 
 
-<meta property="og:title" content="Read boundary files from an IPUMS extract — read_ipums_sf" />
-<meta property="og:description" content="Reads the boundary files from an IPUMS extract into R as simple features (sf) objects or
-SpatialPolygonsDataFrame (sp) objects." />
+<meta property="og:title" content="Define a microdata extract request — define_extract_micro" />
+<meta property="og:description" content="Define an extract request object to be submitted via the IPUMS microdata
+extract API. For an overview of ipumsr microdata API functionality, see
+vignette(&quot;ipums-api&quot;, package = &quot;ipumsr&quot;)." />
 <meta property="og:image" content="http://tech.popdata.org/ipumsr/logo.png" />
 
 
@@ -184,123 +185,90 @@ SpatialPolygonsDataFrame (sp) objects." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Read boundary files from an IPUMS extract</h1>
-    <small class="dont-index">Source: <a href='https://github.com/mnpopcenter/ipumsr/blob/master/R/shape_read.r'><code>R/shape_read.r</code></a></small>
-    <div class="hidden name"><code>read_ipums_sf.Rd</code></div>
+    <h1>Define a microdata extract request</h1>
+    <small class="dont-index">Source: <a href='https://github.com/mnpopcenter/ipumsr/blob/master/R/api.R'><code>R/api.R</code></a></small>
+    <div class="hidden name"><code>define_extract_micro.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Reads the boundary files from an IPUMS extract into R as simple features (sf) objects or
-SpatialPolygonsDataFrame (sp) objects.</p>
+    <p>Define an extract request object to be submitted via the IPUMS microdata
+extract API. For an overview of ipumsr microdata API functionality, see
+<code><a href='../articles/ipums-api.html'>vignette("ipums-api", package = "ipumsr")</a></code>.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>read_ipums_sf</span><span class='op'>(</span>
-  <span class='va'>shape_file</span>,
-  shape_layer <span class='op'>=</span> <span class='cn'>NULL</span>,
-  vars <span class='op'>=</span> <span class='cn'>NULL</span>,
-  encoding <span class='op'>=</span> <span class='cn'>NULL</span>,
-  bind_multiple <span class='op'>=</span> <span class='cn'>TRUE</span>,
-  add_layer_var <span class='op'>=</span> <span class='cn'>NULL</span>,
-  verbose <span class='op'>=</span> <span class='cn'>TRUE</span>
-<span class='op'>)</span>
-
-<span class='fu'>read_ipums_sp</span><span class='op'>(</span>
-  <span class='va'>shape_file</span>,
-  shape_layer <span class='op'>=</span> <span class='cn'>NULL</span>,
-  vars <span class='op'>=</span> <span class='cn'>NULL</span>,
-  encoding <span class='op'>=</span> <span class='cn'>NULL</span>,
-  bind_multiple <span class='op'>=</span> <span class='cn'>TRUE</span>,
-  add_layer_var <span class='op'>=</span> <span class='cn'>NULL</span>,
-  verbose <span class='op'>=</span> <span class='cn'>TRUE</span>
+    <pre class="usage"><span class='fu'>define_extract_micro</span><span class='op'>(</span>
+  <span class='va'>collection</span>,
+  <span class='va'>description</span>,
+  <span class='va'>samples</span>,
+  <span class='va'>variables</span>,
+  data_format <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"fixed_width"</span>, <span class='st'>"csv"</span>, <span class='st'>"stata"</span>, <span class='st'>"spss"</span>, <span class='st'>"sas9"</span><span class='op'>)</span>,
+  data_structure <span class='op'>=</span> <span class='st'>"rectangular"</span>,
+  rectangular_on <span class='op'>=</span> <span class='st'>"P"</span>
 <span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>shape_file</th>
-      <td><p>Filepath to one or more .shp files, a .zip file from an IPUMS extract
-or a path to an unzipped folder.</p></td>
+      <th>collection</th>
+      <td><p>The IPUMS data collection for the extract.</p></td>
     </tr>
     <tr>
-      <th>shape_layer</th>
-      <td><p>For .zip extracts with multiple datasets, the name of the
- shape files to load. Accepts a character vector specifying the file name, or
-<code><a href='dplyr_select_style.html'>dplyr_select_style</a></code> conventions. Can load multiple shape files,
-  which will be combined.</p></td>
+      <th>description</th>
+      <td><p>Description of the extract.</p></td>
     </tr>
     <tr>
-      <th>vars</th>
-      <td><p>Which variables in the shape file's data to keep (NULL the default
-keeps all)</p></td>
+      <th>samples</th>
+      <td><p>Character vector of samples to include in the extract. Samples
+should be specified using the
+<a href='https://usa.ipums.org/usa-action/samples/sample_ids'>Sample ID values</a>.</p></td>
     </tr>
     <tr>
-      <th>encoding</th>
-      <td><p>The text encoding to use when reading the shape file. Typically
-the defaults should read the data correctly, but for some extracts you may
-need to set them manually, but if funny characters appear in your data, you
-may need to. For microdata projects, the default NULL will look for a .cpg
-file to determine the encoding and if none is available, it will default to
-latin1. The NHGIS and the IPUMS Terra functions specify the encoding for
-those projects (latin1 and UTF-8 respectively).</p></td>
+      <th>variables</th>
+      <td><p>Character vector of variables to include in the extract.</p></td>
     </tr>
     <tr>
-      <th>bind_multiple</th>
-      <td><p>If <code>TRUE</code>, will combine multiple shape files found into
-a single object.</p></td>
+      <th>data_format</th>
+      <td><p>The desired format of the extract data file (one of
+"fixed_width", "csv", "stata", "spss", or "sas9").</p></td>
     </tr>
     <tr>
-      <th>add_layer_var</th>
-      <td><p>Whether to add a variable named <code>layer</code> that indicates
-which shape_layer the data came from. NULL, the default, uses TRUE if more than
-1 layer is found, and FALSE otherwise.</p></td>
+      <th>data_structure</th>
+      <td><p>Currently, this must be "rectangular", which is also
+the default. In the future, the API will also support "hierarchical"
+extracts.</p></td>
     </tr>
     <tr>
-      <th>verbose</th>
-      <td><p>I <code>TRUE</code>, will report progress information</p></td>
+      <th>rectangular_on</th>
+      <td><p>Currently, this must be "P", indicating that the
+extract will be rectangularized on person records. In the future, the API
+will also support household-only extracts (<code>rectangular_on = "H"</code>).</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p><code>read_ipums_sf</code> returns a sf object and <code>read_ipums_sp</code> returns
-  a SpatialPolygonsDataFrame.</p>
+    <p>An object of class <code>ipums_extract</code> containing the extract
+  definition.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p>Other ipums_read: 
-<code><a href='read_ipums_micro_chunked.html'>read_ipums_micro_chunked</a>()</code>,
-<code><a href='read_ipums_micro_yield.html'>read_ipums_micro_yield</a>()</code>,
-<code><a href='read_ipums_micro.html'>read_ipums_micro</a>()</code>,
-<code><a href='read_nhgis.html'>read_nhgis</a>()</code>,
-<code><a href='read_terra_area.html'>read_terra_area</a>()</code>,
-<code><a href='read_terra_micro.html'>read_terra_micro</a>()</code>,
-<code><a href='read_terra_raster.html'>read_terra_raster</a>()</code></p></div>
+    <div class='dont-index'><p>Other ipums_api: 
+<code><a href='define_extract_from_json.html'>define_extract_from_json</a>()</code>,
+<code><a href='download_extract.html'>download_extract</a>()</code>,
+<code><a href='extract_list_to_tbl.html'>extract_list_to_tbl</a>()</code>,
+<code><a href='extract_tbl_to_list.html'>extract_tbl_to_list</a>()</code>,
+<code><a href='get_extract_info.html'>get_extract_info</a>()</code>,
+<code><a href='get_last_extract_info.html'>get_last_extract_info</a>()</code>,
+<code><a href='get_recent_extracts_info.html'>get_recent_extracts_info</a></code>,
+<code><a href='ipums_data_collections.html'>ipums_data_collections</a>()</code>,
+<code><a href='is_extract_ready.html'>is_extract_ready</a>()</code>,
+<code><a href='revise_extract_micro.html'>revise_extract_micro</a>()</code>,
+<code><a href='save_extract_as_json.html'>save_extract_as_json</a>()</code>,
+<code><a href='submit_extract.html'>submit_extract</a>()</code>,
+<code><a href='wait_for_extract.html'>wait_for_extract</a>()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><span class='r-in'><span class='va'>shape_file</span> <span class='op'>&lt;-</span> <span class='fu'><a href='ipums_example.html'>ipums_example</a></span><span class='op'>(</span><span class='st'>"nhgis0008_shape_small.zip"</span><span class='op'>)</span></span>
-<span class='r-in'><span class='co'># If sf package is availble, can load as sf object</span></span>
-<span class='r-in'><span class='kw'>if</span> <span class='op'>(</span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>require</a></span><span class='op'>(</span><span class='va'><a href='https://r-spatial.github.io/sf/'>sf</a></span><span class='op'>)</span><span class='op'>)</span> <span class='op'>{</span></span>
-<span class='r-in'>  <span class='va'>sf_data</span> <span class='op'>&lt;-</span> <span class='fu'>read_ipums_sf</span><span class='op'>(</span><span class='va'>shape_file</span><span class='op'>)</span></span>
-<span class='r-in'><span class='op'>}</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> options:        ENCODING=latin1 </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> Reading layer `US_pmsa_1990' from data source </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   `C:\Users\derek\AppData\Local\Temp\RtmpWeBl3a\file552c3eb55085\US_pmsa_1990.shp' </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   using driver `ESRI Shapefile'</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> Simple feature collection with 71 features and 8 fields</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> Geometry type: MULTIPOLYGON</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> Dimension:     XY</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> Bounding box:  xmin: -2336182 ymin: -1247086 xmax: 2075339 ymax: 1476544</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> Projected CRS: Albers</span>
-<span class='r-in'></span>
-<span class='r-in'><span class='co'># If sp package is available, can load as SpatialPolygonsDataFrame</span></span>
-<span class='r-in'><span class='kw'>if</span> <span class='op'>(</span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>require</a></span><span class='op'>(</span><span class='va'><a href='https://github.com/edzer/sp/'>sp</a></span><span class='op'>)</span> <span class='op'>&amp;&amp;</span> <span class='kw'><a href='https://rdrr.io/r/base/library.html'>require</a></span><span class='op'>(</span><span class='va'><a href='http://rgdal.r-forge.r-project.org'>rgdal</a></span><span class='op'>)</span><span class='op'>)</span> <span class='op'>{</span></span>
-<span class='r-in'>  <span class='va'>sp_data</span> <span class='op'>&lt;-</span> <span class='fu'>read_ipums_sp</span><span class='op'>(</span><span class='va'>shape_file</span><span class='op'>)</span></span>
-<span class='r-in'><span class='op'>}</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> OGR data source with driver: ESRI Shapefile </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> Source: "C:\Users\derek\AppData\Local\Temp\RtmpWeBl3a\file552c32a85f2c", layer: "US_pmsa_1990"</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> with 71 features</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> It has 8 fields</span>
-<span class='r-in'></span>
+    <pre class="examples"><span class='r-in'><span class='va'>my_extract</span> <span class='op'>&lt;-</span> <span class='fu'>define_extract_micro</span><span class='op'>(</span><span class='st'>"usa"</span>, <span class='st'>"Example"</span>, <span class='st'>"us2013a"</span>, <span class='st'>"YEAR"</span><span class='op'>)</span></span>
 </pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

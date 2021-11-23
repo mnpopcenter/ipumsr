@@ -53,7 +53,7 @@
 
 
 <meta property="og:title" content="Get information on recent extracts — get_recent_extracts_info" />
-<meta property="og:description" content="Get information on up to ten recent extracts for a given IPUMS collection
+<meta property="og:description" content="Get information on recent extracts for a given IPUMS collection
 via the IPUMS API, returned either as a list or tibble. For an overview of
 ipumsr API functionality, see vignette(&quot;ipums-api&quot;, package = &quot;ipumsr&quot;)." />
 <meta property="og:image" content="http://tech.popdata.org/ipumsr/logo.png" />
@@ -191,7 +191,7 @@ ipumsr API functionality, see vignette(&quot;ipums-api&quot;, package = &quot;ip
     </div>
 
     <div class="ref-description">
-    <p>Get information on up to ten recent extracts for a given IPUMS collection
+    <p>Get information on recent extracts for a given IPUMS collection
 via the IPUMS API, returned either as a list or tibble. For an overview of
 ipumsr API functionality, see <code><a href='../articles/ipums-api.html'>vignette("ipums-api", package = "ipumsr")</a></code>.</p>
     </div>
@@ -217,7 +217,8 @@ ipumsr API functionality, see <code><a href='../articles/ipums-api.html'>vignett
     </tr>
     <tr>
       <th>how_many</th>
-      <td><p>Number of recent extracts for which you'd like information.</p></td>
+      <td><p>Number of recent extracts for which you'd like information.
+Defaults to 10 extracts.</p></td>
     </tr>
     <tr>
       <th>api_key</th>
@@ -235,7 +236,7 @@ value of environment variable "IPUMS_API_KEY".</p></td>
 
     <div class='dont-index'><p>Other ipums_api: 
 <code><a href='define_extract_from_json.html'>define_extract_from_json</a>()</code>,
-<code><a href='define_extract.html'>define_extract</a>()</code>,
+<code><a href='define_extract_micro.html'>define_extract_micro</a>()</code>,
 <code><a href='download_extract.html'>download_extract</a>()</code>,
 <code><a href='extract_list_to_tbl.html'>extract_list_to_tbl</a>()</code>,
 <code><a href='extract_tbl_to_list.html'>extract_tbl_to_list</a>()</code>,
@@ -243,7 +244,7 @@ value of environment variable "IPUMS_API_KEY".</p></td>
 <code><a href='get_last_extract_info.html'>get_last_extract_info</a>()</code>,
 <code><a href='ipums_data_collections.html'>ipums_data_collections</a>()</code>,
 <code><a href='is_extract_ready.html'>is_extract_ready</a>()</code>,
-<code><a href='revise_extract.html'>revise_extract</a>()</code>,
+<code><a href='revise_extract_micro.html'>revise_extract_micro</a>()</code>,
 <code><a href='save_extract_as_json.html'>save_extract_as_json</a>()</code>,
 <code><a href='submit_extract.html'>submit_extract</a>()</code>,
 <code><a href='wait_for_extract.html'>wait_for_extract</a>()</code></p></div>
@@ -272,7 +273,7 @@ value of environment variable "IPUMS_API_KEY".</p></td>
 <span class='r-in'><span class='va'>income_extracts</span> <span class='op'>&lt;-</span> <span class='fu'><a href='extract_tbl_to_list.html'>extract_tbl_to_list</a></span><span class='op'>(</span><span class='va'>income_extracts</span><span class='op'>)</span></span>
 <span class='r-in'></span>
 <span class='r-in'><span class='co'># Now it's easier to operate on those elements as extract objects:</span></span>
-<span class='r-in'><span class='va'>revised_income_extract</span> <span class='op'>&lt;-</span> <span class='fu'><a href='revise_extract.html'>revise_extract</a></span><span class='op'>(</span></span>
+<span class='r-in'><span class='va'>revised_income_extract</span> <span class='op'>&lt;-</span> <span class='fu'><a href='revise_extract_micro.html'>revise_extract_micro</a></span><span class='op'>(</span></span>
 <span class='r-in'>  <span class='va'>income_extracts</span><span class='op'>[[</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>]</span>,</span>
 <span class='r-in'>  samples_to_add <span class='op'>=</span> <span class='st'>"us2018a"</span></span>
 <span class='r-in'><span class='op'>)</span></span>

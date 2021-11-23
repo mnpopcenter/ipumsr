@@ -225,7 +225,7 @@ complete extract definition. Defaults to <code>TRUE</code></p></td>
 
     <div class='dont-index'><p>Other ipums_api: 
 <code><a href='define_extract_from_json.html'>define_extract_from_json</a>()</code>,
-<code><a href='define_extract.html'>define_extract</a>()</code>,
+<code><a href='define_extract_micro.html'>define_extract_micro</a>()</code>,
 <code><a href='download_extract.html'>download_extract</a>()</code>,
 <code><a href='extract_list_to_tbl.html'>extract_list_to_tbl</a>()</code>,
 <code><a href='get_extract_info.html'>get_extract_info</a>()</code>,
@@ -233,7 +233,7 @@ complete extract definition. Defaults to <code>TRUE</code></p></td>
 <code><a href='get_recent_extracts_info.html'>get_recent_extracts_info</a></code>,
 <code><a href='ipums_data_collections.html'>ipums_data_collections</a>()</code>,
 <code><a href='is_extract_ready.html'>is_extract_ready</a>()</code>,
-<code><a href='revise_extract.html'>revise_extract</a>()</code>,
+<code><a href='revise_extract_micro.html'>revise_extract_micro</a>()</code>,
 <code><a href='save_extract_as_json.html'>save_extract_as_json</a>()</code>,
 <code><a href='submit_extract.html'>submit_extract</a>()</code>,
 <code><a href='wait_for_extract.html'>wait_for_extract</a>()</code></p></div>
@@ -254,7 +254,7 @@ complete extract definition. Defaults to <code>TRUE</code></p></td>
 <span class='r-in'><span class='va'>income_extracts</span> <span class='op'>&lt;-</span> <span class='fu'>extract_tbl_to_list</span><span class='op'>(</span><span class='va'>income_extracts</span><span class='op'>)</span></span>
 <span class='r-in'></span>
 <span class='r-in'><span class='co'># Now it's easier to operate on those elements as extract objects:</span></span>
-<span class='r-in'><span class='va'>revised_income_extract</span> <span class='op'>&lt;-</span> <span class='fu'><a href='revise_extract.html'>revise_extract</a></span><span class='op'>(</span></span>
+<span class='r-in'><span class='va'>revised_income_extract</span> <span class='op'>&lt;-</span> <span class='fu'><a href='revise_extract_micro.html'>revise_extract_micro</a></span><span class='op'>(</span></span>
 <span class='r-in'>  <span class='va'>income_extracts</span><span class='op'>[[</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>]</span>,</span>
 <span class='r-in'>  samples_to_add <span class='op'>=</span> <span class='st'>"us2018a"</span></span>
 <span class='r-in'><span class='op'>)</span></span>

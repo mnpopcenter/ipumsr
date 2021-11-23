@@ -217,7 +217,7 @@ formatted as JSON. For an overview of ipumsr API functionality, see
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>Other ipums_api: 
-<code><a href='define_extract.html'>define_extract</a>()</code>,
+<code><a href='define_extract_micro.html'>define_extract_micro</a>()</code>,
 <code><a href='download_extract.html'>download_extract</a>()</code>,
 <code><a href='extract_list_to_tbl.html'>extract_list_to_tbl</a>()</code>,
 <code><a href='extract_tbl_to_list.html'>extract_tbl_to_list</a>()</code>,
@@ -226,13 +226,13 @@ formatted as JSON. For an overview of ipumsr API functionality, see
 <code><a href='get_recent_extracts_info.html'>get_recent_extracts_info</a></code>,
 <code><a href='ipums_data_collections.html'>ipums_data_collections</a>()</code>,
 <code><a href='is_extract_ready.html'>is_extract_ready</a>()</code>,
-<code><a href='revise_extract.html'>revise_extract</a>()</code>,
+<code><a href='revise_extract_micro.html'>revise_extract_micro</a>()</code>,
 <code><a href='save_extract_as_json.html'>save_extract_as_json</a>()</code>,
 <code><a href='submit_extract.html'>submit_extract</a>()</code>,
 <code><a href='wait_for_extract.html'>wait_for_extract</a>()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><span class='r-in'><span class='va'>my_extract</span> <span class='op'>&lt;-</span> <span class='fu'><a href='define_extract.html'>define_extract</a></span><span class='op'>(</span><span class='st'>"usa"</span>, <span class='st'>"Example"</span>, <span class='st'>"us2013a"</span>, <span class='st'>"YEAR"</span><span class='op'>)</span></span>
+    <pre class="examples"><span class='r-in'><span class='va'>my_extract</span> <span class='op'>&lt;-</span> <span class='fu'><a href='define_extract_micro.html'>define_extract_micro</a></span><span class='op'>(</span><span class='st'>"usa"</span>, <span class='st'>"Example"</span>, <span class='st'>"us2013a"</span>, <span class='st'>"YEAR"</span><span class='op'>)</span></span>
 <span class='r-in'></span>
 <span class='r-in'><span class='va'>extract_json_path</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span>, <span class='st'>"usa_extract.json"</span><span class='op'>)</span></span>
 <span class='r-in'><span class='fu'><a href='save_extract_as_json.html'>save_extract_as_json</a></span><span class='op'>(</span><span class='va'>my_extract</span>, file <span class='op'>=</span> <span class='va'>extract_json_path</span><span class='op'>)</span></span>
