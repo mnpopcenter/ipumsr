@@ -43,7 +43,7 @@ still have a "completed" status, but will return \code{FALSE} from
 \code{is_extract_ready()}, because the extract files are no longer available.
 }
 \examples{
-my_extract <- define_extract("usa", "Example", "us2013a", "YEAR")
+my_extract <- define_extract_micro("usa", "Example", "us2013a", "YEAR")
 
 \dontrun{
 submitted_extract <- submit_extract(my_extract)
@@ -64,7 +64,7 @@ is_extract_ready(c("usa", "1"))
 \seealso{
 Other ipums_api: 
 \code{\link{define_extract_from_json}()},
-\code{\link{define_extract}()},
+\code{\link{define_extract_micro}()},
 \code{\link{download_extract}()},
 \code{\link{extract_list_to_tbl}()},
 \code{\link{extract_tbl_to_list}()},
@@ -72,7 +72,7 @@ Other ipums_api:
 \code{\link{get_last_extract_info}()},
 \code{\link{get_recent_extracts_info}},
 \code{\link{ipums_data_collections}()},
-\code{\link{revise_extract}()},
+\code{\link{revise_extract_micro}()},
 \code{\link{save_extract_as_json}()},
 \code{\link{submit_extract}()},
 \code{\link{wait_for_extract}()}

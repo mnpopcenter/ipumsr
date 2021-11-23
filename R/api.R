@@ -4,10 +4,10 @@
 
 # > Define extract ----
 
-#' Define an extract request
+#' Define a microdata extract request
 #'
-#' Define an extract request object to be submitted via the IPUMS API. For an
-#' overview of ipumsr API functionality, see
+#' Define an extract request object to be submitted via the IPUMS microdata
+#' extract API. For an overview of ipumsr microdata API functionality, see
 #' \code{vignette("ipums-api", package = "ipumsr")}.
 #'
 #' @param collection The IPUMS data collection for the extract.
@@ -30,16 +30,16 @@
 #'   definition.
 #'
 #' @examples
-#' my_extract <- define_extract("usa", "Example", "us2013a", "YEAR")
+#' my_extract <- define_extract_micro("usa", "Example", "us2013a", "YEAR")
 #' @export
-define_extract <- function(collection,
-                           description,
-                           samples,
-                           variables,
-                           data_format = c("fixed_width", "csv", "stata",
-                                           "spss", "sas9"),
-                           data_structure = "rectangular",
-                           rectangular_on = "P") {
+define_extract_micro <- function(collection,
+                                 description,
+                                 samples,
+                                 variables,
+                                 data_format = c("fixed_width", "csv", "stata",
+                                                 "spss", "sas9"),
+                                 data_structure = "rectangular",
+                                 rectangular_on = "P") {
 
   data_format <- match.arg(data_format)
   if (data_structure != "rectangular") {
@@ -96,13 +96,13 @@ define_extract <- function(collection,
 #' \code{vignette("ipums-api", package = "ipumsr")}.
 #'
 #' @param extract_json A JSON string, or the path to file containing JSON.
-#' @inheritParams define_extract
+#' @inheritParams define_extract_micro
 #'
 #' @family ipums_api
 #' @return An object of class "ipums_extract".
 #'
 #' @examples
-#' my_extract <- define_extract("usa", "Example", "us2013a", "YEAR")
+#' my_extract <- define_extract_micro("usa", "Example", "us2013a", "YEAR")
 #'
 #' extract_json_path <- file.path(tempdir(), "usa_extract.json")
 #' save_extract_as_json(my_extract, file = extract_json_path)
@@ -162,7 +162,7 @@ define_extract_from_json <- function(extract_json, collection) {
 #' @return The file path where the extract definition was written, invisibly.
 #'
 #' @examples
-#' my_extract <- define_extract("usa", "Example", "us2013a", "YEAR")
+#' my_extract <- define_extract_micro("usa", "Example", "us2013a", "YEAR")
 #'
 #' extract_json_path <- file.path(tempdir(), "usa_extract.json")
 #' save_extract_as_json(my_extract, file = extract_json_path)
@@ -188,7 +188,7 @@ save_extract_as_json <- function(extract, file) {
 #' extract number. For an overview of ipumsr API functionality, see
 #' \code{vignette("ipums-api", package = "ipumsr")}.
 #'
-#' @param extract An extract object created with \code{\link{define_extract}} or
+#' @param extract An extract object created with \code{\link{define_extract_micro}} or
 #'   returned from another ipumsr API function.
 #' @param api_key API key associated with your user account. Defaults to the
 #'   value of environment variable "IPUMS_API_KEY".
@@ -198,7 +198,7 @@ save_extract_as_json <- function(extract, file) {
 #'   definition and newly-assigned extract number of the submitted extract.
 #'
 #' @examples
-#' my_extract <- define_extract("usa", "Example", "us2013a", "YEAR")
+#' my_extract <- define_extract_micro("usa", "Example", "us2013a", "YEAR")
 #'
 #' \dontrun{
 #' # `submit_extract()` returns an ipums_extract object updated to include the
@@ -270,14 +270,14 @@ submit_extract <- function(extract, api_key = Sys.getenv("IPUMS_API_KEY")) {
 #' The extract number does not need to be zero-padded (e.g., use \code{"usa:1"}
 #' or \code{c("usa", "1")}, not \code{"usa:00001"} or \code{c("usa", "00001")}).
 #' See Examples section below for examples of each form.
-#' @inheritParams define_extract
+#' @inheritParams define_extract_micro
 #' @inheritParams download_extract
 #'
 #' @family ipums_api
 #' @return An \code{ipums_extract} object.
 #'
 #' @examples
-#' my_extract <- define_extract("usa", "Example", "us2013a", "YEAR")
+#' my_extract <- define_extract_micro("usa", "Example", "us2013a", "YEAR")
 #'
 #' \dontrun{
 #' submitted_extract <- submit_extract(my_extract)
@@ -327,7 +327,7 @@ get_extract_info <- function(extract, api_key = Sys.getenv("IPUMS_API_KEY")) {
 #' overview of ipumsr API functionality, see
 #' \code{vignette("ipums-api", package = "ipumsr")}.
 #'
-#' @inheritParams define_extract
+#' @inheritParams define_extract_micro
 #' @inheritParams download_extract
 #' @inheritParams get_extract_info
 #' @inheritParams submit_extract
@@ -351,7 +351,7 @@ get_extract_info <- function(extract, api_key = Sys.getenv("IPUMS_API_KEY")) {
 #'   definition and the URLs from which to download extract files.
 #'
 #' @examples
-#' my_extract <- define_extract("usa", "Example", "us2013a", "YEAR")
+#' my_extract <- define_extract_micro("usa", "Example", "us2013a", "YEAR")
 #'
 #' \dontrun{
 #' submitted_extract <- submit_extract(my_extract)
@@ -464,7 +464,7 @@ wait_for_extract <- function(extract,
 #' @return A logical vector of length one.
 #'
 #' @examples
-#' my_extract <- define_extract("usa", "Example", "us2013a", "YEAR")
+#' my_extract <- define_extract_micro("usa", "Example", "us2013a", "YEAR")
 #'
 #' \dontrun{
 #' submitted_extract <- submit_extract(my_extract)
@@ -516,7 +516,7 @@ is_extract_ready <- function(extract, api_key = Sys.getenv("IPUMS_API_KEY")) {
 #' API functionality, see \code{vignette("ipums-api", package = "ipumsr")}.
 #'
 #' @inheritParams get_extract_info
-#' @inheritParams define_extract
+#' @inheritParams define_extract_micro
 #' @inheritParams submit_extract
 #' @param download_dir In what folder should the downloaded files be saved?
 #'   Defaults to current working directory.
@@ -527,7 +527,7 @@ is_extract_ready <- function(extract, api_key = Sys.getenv("IPUMS_API_KEY")) {
 #' @return Invisibly, the path to the downloaded .xml DDI file.
 #'
 #' @examples
-#' my_extract <- define_extract("usa", "Example", "us2013a", "YEAR")
+#' my_extract <- define_extract_micro("usa", "Example", "us2013a", "YEAR")
 #'
 #' \dontrun{
 #' submitted_extract <- submit_extract(my_extract)
@@ -604,9 +604,9 @@ download_extract <- function(extract,
 
 # > Revise extract definition ----
 
-#' Revise an extract definition
+#' Revise a microdata extract definition
 #'
-#' Revise an extract definition. If the supplied extract definition comes from
+#' Revise a microdata extract definition. If the supplied extract definition comes from
 #' a previously submitted extract, this function will reset the definition to an
 #' unsubmitted state. For an overview of ipumsr API functionality, see
 #' \code{vignette("ipums-api", package = "ipumsr")}.
@@ -641,7 +641,7 @@ download_extract <- function(extract,
 #' \dontrun{
 #' old_extract <- get_extract_info("usa:33")
 #'
-#' revised_extract <- revise_extract(
+#' revised_extract <- revise_extract_micro(
 #'   old_extract,
 #'   samples_to_add = "us2018a",
 #'   vars_to_add = "INCTOT"
@@ -651,15 +651,15 @@ download_extract <- function(extract,
 #' }
 #'
 #' @export
-revise_extract <- function(extract,
-                           description = NULL,
-                           samples_to_add = NULL,
-                           samples_to_remove = NULL,
-                           vars_to_add = NULL,
-                           vars_to_remove = NULL,
-                           data_format = NULL,
-                           data_structure = NULL,
-                           rectangular_on = NULL) {
+revise_extract_micro <- function(extract,
+                                 description = NULL,
+                                 samples_to_add = NULL,
+                                 samples_to_remove = NULL,
+                                 vars_to_add = NULL,
+                                 vars_to_remove = NULL,
+                                 data_format = NULL,
+                                 data_structure = NULL,
+                                 rectangular_on = NULL) {
 
   extract <- copy_ipums_extract(extract)
   extract$description <- paste0("Revision of (", extract$description, ")")
@@ -701,12 +701,13 @@ revise_extract <- function(extract,
 
 #' Get information on recent extracts
 #'
-#' Get information on up to ten recent extracts for a given IPUMS collection
+#' Get information on recent extracts for a given IPUMS collection
 #' via the IPUMS API, returned either as a list or tibble. For an overview of
 #' ipumsr API functionality, see \code{vignette("ipums-api", package = "ipumsr")}.
 #'
-#' @inheritParams define_extract
+#' @inheritParams define_extract_micro
 #' @param how_many Number of recent extracts for which you'd like information.
+#'   Defaults to 10 extracts.
 #' @inheritParams submit_extract
 #'
 #' @family ipums_api
@@ -738,7 +739,7 @@ revise_extract <- function(extract,
 #' income_extracts <- extract_tbl_to_list(income_extracts)
 #'
 #' # Now it's easier to operate on those elements as extract objects:
-#' revised_income_extract <- revise_extract(
+#' revised_income_extract <- revise_extract_micro(
 #'   income_extracts[[1]],
 #'   samples_to_add = "us2018a"
 #' )
@@ -798,7 +799,7 @@ get_recent_extracts_info_tbl <- function(collection,
 #'   your most recent extract.
 #'
 #' @examples
-#' my_extract <- define_extract("usa", "Example", "us2013a", "YEAR")
+#' my_extract <- define_extract_micro("usa", "Example", "us2013a", "YEAR")
 #'
 #' \dontrun{
 #' submit_extract(my_extract)
@@ -858,7 +859,7 @@ get_last_extract_info <- function(collection,
 #' income_extracts <- extract_tbl_to_list(income_extracts)
 #'
 #' # Now it's easier to operate on those elements as extract objects:
-#' revised_income_extract <- revise_extract(
+#' revised_income_extract <- revise_extract_micro(
 #'   income_extracts[[1]],
 #'   samples_to_add = "us2018a"
 #' )

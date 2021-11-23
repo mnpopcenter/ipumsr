@@ -2,7 +2,7 @@ library(dplyr)
 library(purrr)
 
 # Setup ----
-usa_extract <- define_extract(
+usa_extract <- define_extract_micro(
   collection = "usa",
   samples = "us2017b",
   variables = "YEAR",
@@ -61,7 +61,7 @@ test_that("Can define an extract", {
 
 test_that("Attempt to define a hierarchical extract throws an error", {
   expect_error(
-    define_extract(
+    define_extract_micro(
       "usa", "Test", "us2017b", "YEAR", data_structure = "hierarchical"
     )
   )
@@ -70,7 +70,7 @@ test_that("Attempt to define a hierarchical extract throws an error", {
 
 test_that("Attempt to rectangularize on H records throws an error", {
   expect_error(
-    define_extract(
+    define_extract_micro(
       "usa", "Test", "us2017b", "YEAR", rectangular_on = "H"
     )
   )
@@ -305,7 +305,7 @@ test_that("An extract request with missing samples returns correct error", {
 })
 
 test_that("Can revise an extract", {
-  revised_extract <- revise_extract(
+  revised_extract <- revise_extract_micro(
     usa_extract,
     samples_to_add = "us2014a",
     vars_to_add = "RELATE"
@@ -327,7 +327,7 @@ test_that("Can revise an extract", {
 
 test_that("Can revise a submitted extract", {
   skip_if_no_api_access(have_api_access)
-  revised_extract <- revise_extract(
+  revised_extract <- revise_extract_micro(
     submitted_usa_extract,
     samples_to_add = "us2014a",
     vars_to_add = "RELATE"
@@ -349,11 +349,11 @@ test_that("Can revise a submitted extract", {
 
 test_that("We warn user when their revisions don't make sense", {
   expect_warning(
-    revise_extract(usa_extract, samples_to_add = "us2017b"),
+    revise_extract_micro(usa_extract, samples_to_add = "us2017b"),
     regexp = "already included"
   )
   expect_warning(
-    revise_extract(usa_extract, vars_to_remove = "RELATE"),
+    revise_extract_micro(usa_extract, vars_to_remove = "RELATE"),
     regexp = "are not included"
   )
 })

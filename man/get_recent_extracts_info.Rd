@@ -21,7 +21,8 @@ get_recent_extracts_info_tbl(
 \arguments{
 \item{collection}{The IPUMS data collection for the extract.}
 
-\item{how_many}{Number of recent extracts for which you'd like information.}
+\item{how_many}{Number of recent extracts for which you'd like information.
+Defaults to 10 extracts.}
 
 \item{api_key}{API key associated with your user account. Defaults to the
 value of environment variable "IPUMS_API_KEY".}
@@ -32,7 +33,7 @@ For \code{get_recent_extracts_info_list()}, a list of
   a \code{\link[tibble]{tbl_df}} with information on one extract in each row.
 }
 \description{
-Get information on up to ten recent extracts for a given IPUMS collection
+Get information on recent extracts for a given IPUMS collection
 via the IPUMS API, returned either as a list or tibble. For an overview of
 ipumsr API functionality, see \code{vignette("ipums-api", package = "ipumsr")}.
 }
@@ -60,7 +61,7 @@ income_extracts <- tbl_of_last_10_extracts[description_mentions_income, ]
 income_extracts <- extract_tbl_to_list(income_extracts)
 
 # Now it's easier to operate on those elements as extract objects:
-revised_income_extract <- revise_extract(
+revised_income_extract <- revise_extract_micro(
   income_extracts[[1]],
   samples_to_add = "us2018a"
 )
@@ -72,7 +73,7 @@ submitted_revised_income_extract <- submit_extract(revised_income_extract)
 \seealso{
 Other ipums_api: 
 \code{\link{define_extract_from_json}()},
-\code{\link{define_extract}()},
+\code{\link{define_extract_micro}()},
 \code{\link{download_extract}()},
 \code{\link{extract_list_to_tbl}()},
 \code{\link{extract_tbl_to_list}()},
@@ -80,7 +81,7 @@ Other ipums_api:
 \code{\link{get_last_extract_info}()},
 \code{\link{ipums_data_collections}()},
 \code{\link{is_extract_ready}()},
-\code{\link{revise_extract}()},
+\code{\link{revise_extract_micro}()},
 \code{\link{save_extract_as_json}()},
 \code{\link{submit_extract}()},
 \code{\link{wait_for_extract}()}

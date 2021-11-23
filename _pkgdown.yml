@@ -93,7 +93,7 @@ reference:
       - lbl
   - title: "Interact with the IPUMS USA extract API (in development, not yet on CRAN)"
     contents:
-      - define_extract
+      - define_extract_micro
       - submit_extract
       - get_extract_info
       - get_last_extract_info
@@ -101,7 +101,7 @@ reference:
       - wait_for_extract
       - is_extract_ready
       - download_extract
-      - revise_extract
+      - revise_extract_micro
       - save_extract_as_json
       - define_extract_from_json
       - ipums_data_collections

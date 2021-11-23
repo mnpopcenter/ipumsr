@@ -38,7 +38,7 @@ extract_list_to_tbl(list_of_last_10_extracts)
 \seealso{
 Other ipums_api: 
 \code{\link{define_extract_from_json}()},
-\code{\link{define_extract}()},
+\code{\link{define_extract_micro}()},
 \code{\link{download_extract}()},
 \code{\link{extract_tbl_to_list}()},
 \code{\link{get_extract_info}()},
@@ -46,7 +46,7 @@ Other ipums_api:
 \code{\link{get_recent_extracts_info}},
 \code{\link{ipums_data_collections}()},
 \code{\link{is_extract_ready}()},
-\code{\link{revise_extract}()},
+\code{\link{revise_extract_micro}()},
 \code{\link{save_extract_as_json}()},
 \code{\link{submit_extract}()},
 \code{\link{wait_for_extract}()}

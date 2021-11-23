@@ -40,7 +40,7 @@ income_extracts <- tbl_of_last_10_extracts[description_mentions_income, ]
 income_extracts <- extract_tbl_to_list(income_extracts)
 
 # Now it's easier to operate on those elements as extract objects:
-revised_income_extract <- revise_extract(
+revised_income_extract <- revise_extract_micro(
   income_extracts[[1]],
   samples_to_add = "us2018a"
 )
@@ -52,7 +52,7 @@ submitted_revised_income_extract <- submit_extract(revised_income_extract)
 \seealso{
 Other ipums_api: 
 \code{\link{define_extract_from_json}()},
-\code{\link{define_extract}()},
+\code{\link{define_extract_micro}()},
 \code{\link{download_extract}()},
 \code{\link{extract_list_to_tbl}()},
 \code{\link{get_extract_info}()},
@@ -60,7 +60,7 @@ Other ipums_api:
 \code{\link{get_recent_extracts_info}},
 \code{\link{ipums_data_collections}()},
 \code{\link{is_extract_ready}()},
-\code{\link{revise_extract}()},
+\code{\link{revise_extract_micro}()},
 \code{\link{save_extract_as_json}()},
 \code{\link{submit_extract}()},
 \code{\link{wait_for_extract}()}

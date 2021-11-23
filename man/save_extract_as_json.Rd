@@ -7,7 +7,7 @@
 save_extract_as_json(extract, file)
 }
 \arguments{
-\item{extract}{An extract object created with \code{\link{define_extract}} or
+\item{extract}{An extract object created with \code{\link{define_extract_micro}} or
 returned from another ipumsr API function.}
 
 \item{file}{File path at which to write the JSON-formatted extract
@@ -26,7 +26,7 @@ Note that this function only saves out the properties of an extract
   data structure, data format, samples, and variables.
 }
 \examples{
-my_extract <- define_extract("usa", "Example", "us2013a", "YEAR")
+my_extract <- define_extract_micro("usa", "Example", "us2013a", "YEAR")
 
 extract_json_path <- file.path(tempdir(), "usa_extract.json")
 save_extract_as_json(my_extract, file = extract_json_path)
@@ -39,7 +39,7 @@ identical(my_extract, copy_of_my_extract)
 \seealso{
 Other ipums_api: 
 \code{\link{define_extract_from_json}()},
-\code{\link{define_extract}()},
+\code{\link{define_extract_micro}()},
 \code{\link{download_extract}()},
 \code{\link{extract_list_to_tbl}()},
 \code{\link{extract_tbl_to_list}()},
@@ -48,7 +48,7 @@ Other ipums_api:
 \code{\link{get_recent_extracts_info}},
 \code{\link{ipums_data_collections}()},
 \code{\link{is_extract_ready}()},
-\code{\link{revise_extract}()},
+\code{\link{revise_extract_micro}()},
 \code{\link{submit_extract}()},
 \code{\link{wait_for_extract}()}
 }

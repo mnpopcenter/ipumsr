@@ -77,11 +77,11 @@ key is not shared when someone clones your repository.
 
 # Defining your extract
 
-The `define_extract()` function returns an object of class "ipums_extract" which
+The `define_extract_micro()` function returns an object of class "ipums_extract" which
 can then be submitted using the `submit_extract()` function.
 
 ```{r eval=TRUE}
-extract_definition <- define_extract(
+extract_definition <- define_extract_micro(
   collection = "usa",
   description = "Extract for API vignette",
   samples = c("us2018a","us2019a"),
@@ -101,7 +101,7 @@ the argument names as long as you maintain the proper order, so you could define
 the same extract with:
 
 ```{r}
-extract_definition <- define_extract(
+extract_definition <- define_extract_micro(
   "usa",
   "Extract for API vignette",
   c("us2018a","us2019a"),
@@ -119,7 +119,7 @@ submit_extract(extract_definition)
 ```
 
 
-However, like the `define_extract()` function, the `submit_extract()` function
+However, like the `define_extract_micro()` function, the `submit_extract()` function
 returns an "ipums_extract" object, and the returned object has been updated to
 include the extract number, so it can be useful to save that return object
 by assigning a name to it, like this:
@@ -305,14 +305,14 @@ variable to it:
 
 ```{r}
 old_extract <- get_extract_info("usa:33")
-new_extract <- revise_extract(
+new_extract <- revise_extract_micro(
   old_extract,
   samples_to_add = "us2018a",
   vars_to_add = "RELATE"
 )
 ```
 
-The `revise_extract()` function returns an "ipums_extract" object that has been 
+The `revise_extract_micro()` function returns an "ipums_extract" object that has been 
 modified as requested and has been reset to an unsubmitted state, by stripping 
 the extract number, status, and download links from the original extract. The 
 revised extract can then be submitted with:
@@ -336,7 +336,7 @@ second-most-recent extract and revise it for resubmission, you could use:
 
 ```{r}
 second_most_recent_extract <- get_recent_extracts_info_list("usa")[[2]]
-revised_extract <- revise_extract(
+revised_extract <- revise_extract_micro(
   second_most_recent_extract, 
   samples_to_add = "us2010a"
 )
@@ -396,7 +396,7 @@ extract all in one piped expression:
 
 ```{r}
 data <- 
-  define_extract(
+  define_extract_micro(
     "usa",
     "Extract for API vignette",
     c("us2018a","us2019a"),
