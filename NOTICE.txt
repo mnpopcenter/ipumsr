@@ -1,12 +1,12 @@
 ipumsr
-https://github.com/mnpopcenter/ipumsr
+https://github.com/ipums/ipumsr
 
 Copyright 2017 Regents of the University of Minnesota
 
 Contributors:
-  Greg Freedman Ellis, Minnesota Population Center, University of Minnesota
-  Joe Grover, Minnesota Population Center, University of Minnesota
-  Derek Burk, Minnesota Population Center, University of Minnesota
+  Greg Freedman Ellis, Crunch.io
+  Joe Grover, IPUMS, University of Minnesota
+  Derek Burk, IPUMS, University of Minnesota
   Jacob Kaplan, University of Pennsylvania
 
 This project is licensed under the Mozilla Public License, version 2.0 (the

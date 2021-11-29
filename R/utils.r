@@ -1,7 +1,7 @@
-# This file is part of the Minnesota Population Center's ipumsr.
+# This file is part of the ipumsr R package created by IPUMS.
 # For copyright and licensing information, see the NOTICE and LICENSE files
 # in this project's top-level directory, and also on-line at:
-#   https://github.com/mnpopcenter/ipumsr
+#   https://github.com/ipums/ipumsr
 
 # readr does not offer users the ability to override defaults, so we
 # only need to worry about encoding, which unfortunately, we are not
@@ -358,7 +358,7 @@ release_questions <- function() {
       out,
       "It looks like you don't have ipumsexamples installed. Do ",
       "you want to install it with `",
-      "devtools::install_github('mnpopcenter/ipumsr/ipumsexample')",
+      "devtools::install_github('ipums/ipumsr/ipumsexample')",
       "` before you continue?"
     )
   }

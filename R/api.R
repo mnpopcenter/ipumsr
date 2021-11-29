@@ -1,3 +1,8 @@
+# This file is part of the ipumsr R package created by IPUMS.
+# For copyright and licensing information, see the NOTICE and LICENSE files
+# in this project's top-level directory, and also on-line at:
+#   https://github.com/ipums/ipumsr
+
 
 # Exported functions ------------------------------------------------------
 
@@ -1194,7 +1199,7 @@ ipums_api_download_request <- function(url,
     url,
     httr::user_agent(
       paste0(
-        "https://github.com/mnpopcenter/ipumsr ",
+        "https://github.com/ipums/ipumsr ",
         as.character(packageVersion("ipumsr"))
       )
     ),
@@ -1255,7 +1260,7 @@ ipums_api_json_request <- function(verb,
     body = body,
     httr::user_agent(
       paste0(
-        "https://github.com/mnpopcenter/ipumsr ",
+        "https://github.com/ipums/ipumsr ",
         as.character(packageVersion("ipumsr"))
       )
     ),

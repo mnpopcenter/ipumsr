@@ -9,9 +9,9 @@
 Status:Active](http://www.repostatus.org/badges/latest/active.svg)](http://www.repostatus.org/#active)
 [![CRAN_Status_Badge](https://www.r-pkg.org/badges/version/ipumsr)](https://CRAN.R-project.org/package=ipumsr)
 [![R build
-status](https://github.com/mnpopcenter/ipumsr/workflows/R-CMD-check/badge.svg)](https://github.com/mnpopcenter/ipumsr/actions)
+status](https://github.com/ipums/ipumsr/workflows/R-CMD-check/badge.svg)](https://github.com/ipums/ipumsr/actions)
 [![Codecov test
-coverage](https://codecov.io/gh/mnpopcenter/ipumsr/branch/master/graph/badge.svg)](https://codecov.io/gh/mnpopcenter/ipumsr?branch=master)
+coverage](https://codecov.io/gh/ipums/ipumsr/branch/master/graph/badge.svg)](https://codecov.io/gh/ipums/ipumsr?branch=master)
 <!-- badges: end -->
 
 The ipumsr package helps import IPUMS extracts from the [IPUMS
@@ -34,7 +34,7 @@ commands:
 ``` r
 if (!require(devtools)) install.packages("devtools")
 
-devtools::install_github("mnpopcenter/ipumsr")
+devtools::install_github("ipums/ipumsr")
 ```
 
 ## Learning More
@@ -80,8 +80,8 @@ If you are installing from github and want the vignettes, you’ll need to
 run the following commands first:
 
 ``` r
-devtools::install_github("mnpopcenter/ipumsr/ipumsexamples")
-devtools::install_github("mnpopcenter/ipumsr", build_vignettes = TRUE)
+devtools::install_github("ipums/ipumsr/ipumsexamples")
+devtools::install_github("ipums/ipumsr", build_vignettes = TRUE)
 ```
 
 ## Development
@@ -91,6 +91,6 @@ can be submitted via github, on our [user
 forum](https://forum.ipums.org) or by email to <ipums@umn.edu>
 
 Before contributing, please be sure to read the [Contributing
-Guidelines](https://github.com/mnpopcenter/ipumsr/blob/master/CONTRIBUTING.md)
+Guidelines](https://github.com/ipums/ipumsr/blob/master/CONTRIBUTING.md)
 and the [Code of
-Conduct](https://github.com/mnpopcenter/ipumsr/blob/master/CONDUCT.md).
+Conduct](https://github.com/ipums/ipumsr/blob/master/CONDUCT.md).

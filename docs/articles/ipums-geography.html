@@ -98,7 +98,7 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/mnpopcenter/ipumsr">
+  <a href="https://github.com/ipums/ipumsr">
     <span class="fa fa-github"></span>
      
   </a>
@@ -140,7 +140,7 @@
             
             <h4 class="date">2020-07-28</h4>
       
-      <small class="dont-index">Source: <a href="https://github.com/mnpopcenter/ipumsr/blob/master/vignettes/ipums-geography.Rmd"><code>vignettes/ipums-geography.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/ipums/ipumsr/blob/master/vignettes/ipums-geography.Rmd"><code>vignettes/ipums-geography.Rmd</code></a></small>
       <div class="hidden name"><code>ipums-geography.Rmd</code></div>
 
     </div>
@@ -191,7 +191,7 @@
 <p>In this vignette, I will first walk through these steps for an example that maps geographic variation in the use of solid fuel for cooking in households with children aged 0-5 in Colombia. Later on in the vignette, I show a more <a href="#complicated">complicated example</a> that combines the data for Colombia, Ecuador and Peru.</p>
 <p>The data for this example is included in the package <code>ipumsexamples</code>, which is available on github. If you want to run the code from this vignette you will need to install it by running the following commands:</p>
 <div class="sourceCode" id="cb1"><html><body><pre class="r"><span class="kw">if</span> (!<span class="fu"><a href="https://rdrr.io/r/base/library.html">require</a></span>(<span class="no">devtools</span>)) <span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span>(<span class="no">devtools</span>)
-<span class="kw pkg">devtools</span><span class="kw ns">::</span><span class="fu"><a href="https://devtools.r-lib.org//reference/remote-reexports.html">install_github</a></span>(<span class="st">"mnpopcenter/ipumsr/ipumsexamples"</span>)</pre></body></html></div>
+<span class="kw pkg">devtools</span><span class="kw ns">::</span><span class="fu"><a href="https://devtools.r-lib.org//reference/remote-reexports.html">install_github</a></span>(<span class="st">"ipums/ipumsr/ipumsexamples"</span>)</pre></body></html></div>
 <div class="sourceCode" id="cb2"><html><body><pre class="r"><span class="co"># This function helps find the data from the ipumsexamples package for us</span>
 <span class="no">ex_file</span> <span class="kw">&lt;-</span> <span class="kw">function</span>(<span class="no">x</span>) {
   <span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span>(<span class="st">"extdata"</span>, <span class="no">x</span>, <span class="kw">package</span> <span class="kw">=</span> <span class="st">"ipumsexamples"</span>)

@@ -71,7 +71,7 @@ if (!file.exists(cps_ddi_file) | !file.exists(cps_data_file)) {
     "The data is also available on github. You can install it using the following ",
     "commands: \n",
     "  if (!require(devtools)) install.packages('devtools')\n",
-    "  devtools::install_github('mnpopcenter/ipumsr/ipumsexamples')\n",
+    "  devtools::install_github('ipums/ipumsr/ipumsexamples')\n",
     "After installation, the data should be available for this vignette.\n\n"
   ))
   

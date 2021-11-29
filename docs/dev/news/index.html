@@ -146,7 +146,7 @@
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="https://github.com/mnpopcenter/ipumsr">
+  <a href="https://github.com/ipums/ipumsr">
     <span class="fa fa-github"></span>
      
   </a>
@@ -183,7 +183,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
       <h1 data-toc-skip>Changelog <small></small></h1>
-      <small>Source: <a href='https://github.com/mnpopcenter/ipumsr/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
+      <small>Source: <a href='https://github.com/ipums/ipumsr/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
     </div>
 
     <div id="ipumsr-development-version" class="section level1">
@@ -196,7 +196,7 @@
 <a href="#ipumsr-045" class="anchor"></a>ipumsr 0.4.5<small> 2020-07-21 </small>
 </h1>
 <ul>
-<li><p>Fixed bug causing a read error for some labeled string variables (<a href='https://github.com/mnpopcenter/ipumsr/issues/61'>#61</a>, thanks <a href='https://github.com/chengchou'>@chengchou</a>).</p></li>
+<li><p>Fixed bug causing a read error for some labeled string variables (<a href='https://github.com/ipums/ipumsr/issues/61'>#61</a>, thanks <a href='https://github.com/chengchou'>@chengchou</a>).</p></li>
 <li><p>ipumsr now always uses the <code><a href="https://haven.tidyverse.org/reference/labelled.html">haven::labelled()</a></code> function to create <code>labelled</code> vectors, in order to maintain compatibility with developments in the haven and vctrs packages (thanks <a href='https://github.com/gergness'>@gergness</a>!).</p></li>
 <li><p>ipumsr now requires R 3.5 or greater, in line with the new requirements of package dependency raster.</p></li>
 </ul>
@@ -215,9 +215,9 @@
 </h1>
 <ul>
 <li><p>Add <code><a href="../reference/lbl_define.html">lbl_define()</a></code> function to enable the use of <code><a href="../reference/lbl_relabel.html">lbl_relabel()</a></code> syntax when<br>
-creating a new labelled vector from an unlabelled one (<a href='https://github.com/mnpopcenter/ipumsr/issues/51'>#51</a>, thanks <a href='https://github.com/chengchou'>@chengchou</a>).</p></li>
-<li><p>Remove pillar printing from ipumsr, getting rid of pesky warning (<a href='https://github.com/mnpopcenter/ipumsr/issues/47'>#47</a>).</p></li>
-<li><p>Improved documentation for <code>lower_vars</code> argument (<a href='https://github.com/mnpopcenter/ipumsr/issues/56'>#56</a>, thanks <a href='https://github.com/hrecht'>@hrecht</a>).</p></li>
+creating a new labelled vector from an unlabelled one (<a href='https://github.com/ipums/ipumsr/issues/51'>#51</a>, thanks <a href='https://github.com/chengchou'>@chengchou</a>).</p></li>
+<li><p>Remove pillar printing from ipumsr, getting rid of pesky warning (<a href='https://github.com/ipums/ipumsr/issues/47'>#47</a>).</p></li>
+<li><p>Improved documentation for <code>lower_vars</code> argument (<a href='https://github.com/ipums/ipumsr/issues/56'>#56</a>, thanks <a href='https://github.com/hrecht'>@hrecht</a>).</p></li>
 </ul>
 </div>
     <div id="ipumsr-042" class="section level1">
@@ -233,8 +233,8 @@ creating a new labelled vector from an unlabelled one (<a href='https://github.c
 <a href="#ipumsr-041" class="anchor"></a>ipumsr 0.4.1<small> 2019-05-15 </small>
 </h1>
 <ul>
-<li><p>Remove stringr &amp; tidyr dependencies so installation is a little easier (<a href='https://github.com/mnpopcenter/ipumsr/issues/41'>#41</a>).</p></li>
-<li><p>Fix bug in pillar printing of haven’s <code>labelled</code> objects (<a href='https://github.com/mnpopcenter/ipumsr/issues/43'>#43</a>)</p></li>
+<li><p>Remove stringr &amp; tidyr dependencies so installation is a little easier (<a href='https://github.com/ipums/ipumsr/issues/41'>#41</a>).</p></li>
+<li><p>Fix bug in pillar printing of haven’s <code>labelled</code> objects (<a href='https://github.com/ipums/ipumsr/issues/43'>#43</a>)</p></li>
 </ul>
 </div>
     <div id="ipumsr-040" class="section level1">
@@ -243,11 +243,11 @@ creating a new labelled vector from an unlabelled one (<a href='https://github.c
 </h1>
 <ul>
 <li><p>Add <code><a href="../reference/read_ipums_micro_yield.html">read_ipums_micro_yield()</a></code> and <code><a href="../reference/read_ipums_micro_yield.html">read_ipums_micro_list_yield()</a></code> that read data in ‘yields’, a concept similar to ‘chunks’, but with a little more flexibility. See the big data vignette (<code><a href="../articles/ipums-bigdata.html">vignette("ipums-bigdata", package = "ipumsr")</a></code>) for more details.</p></li>
-<li><p>Fixed a bug when trying to set variable attributes but not value labels (<a href='https://github.com/mnpopcenter/ipumsr/issues/34'>#34</a>).</p></li>
+<li><p>Fixed a bug when trying to set variable attributes but not value labels (<a href='https://github.com/ipums/ipumsr/issues/34'>#34</a>).</p></li>
 <li><p>Fixed a bug where implicit decimals would be double counted for csv files.</p></li>
 <li><p>Argument <code>rectype_convert</code> has been removed because it no longer did anything.</p></li>
-<li><p>Fixed a typo in vignette “ipums-geography” (<a href='https://github.com/mnpopcenter/ipumsr/issues/37'>#37</a>, <a href='https://github.com/jacobkap'>@jacobkap</a>).</p></li>
-<li><p>Creates a pkgdown site (<a href='https://github.com/mnpopcenter/ipumsr/issues/38'>#38</a>, <a href='https://github.com/jacobkap'>@jacobkap</a>).</p></li>
+<li><p>Fixed a typo in vignette “ipums-geography” (<a href='https://github.com/ipums/ipumsr/issues/37'>#37</a>, <a href='https://github.com/jacobkap'>@jacobkap</a>).</p></li>
+<li><p>Creates a pkgdown site (<a href='https://github.com/ipums/ipumsr/issues/38'>#38</a>, <a href='https://github.com/jacobkap'>@jacobkap</a>).</p></li>
 </ul>
 </div>
     <div id="ipumsr-030" class="section level1">
@@ -268,7 +268,7 @@ creating a new labelled vector from an unlabelled one (<a href='https://github.c
 <li><p>Arguments to <code><a href="../reference/read_ipums_sf.html">read_ipums_sp()</a></code> are now in the same order as <code><a href="../reference/read_ipums_sf.html">read_ipums_sf()</a></code></p></li>
 <li><p><code><a href="../reference/read_ipums_sf.html">read_ipums_sf()</a></code> and <code><a href="../reference/read_ipums_sf.html">read_ipums_sp()</a></code> gain 2 new arguments <code>vars</code> which allows you to pick a subset of variables, and <code>add_layer_var</code> which lets you add a variable indicating which layer it came from.</p></li>
 <li><p>You can now use your inside voice for variable names with the new argument <code>lower_vars</code> for <code><a href="../reference/read_ipums_ddi.html">read_ipums_ddi()</a></code> and <code><a href="../reference/read_ipums_micro.html">read_ipums_micro()</a></code> family of functions so that the variable names are lower case.</p></li>
-<li><p>ipumsr is compatible with versions of haven newer than 2.0 (while maintaining compatibility with earlier versions). (<a href='https://github.com/mnpopcenter/ipumsr/issues/31'>#31</a>)</p></li>
+<li><p>ipumsr is compatible with versions of haven newer than 2.0 (while maintaining compatibility with earlier versions). (<a href='https://github.com/ipums/ipumsr/issues/31'>#31</a>)</p></li>
 </ul>
 </div>
     <div id="ipumsr-020" class="section level1">
@@ -277,9 +277,9 @@ creating a new labelled vector from an unlabelled one (<a href='https://github.c
 </h1>
 <ul>
 <li><p>IPUMS Terra is now officially supported! Read raster, area or microdata extracts using functions <code><a href="../reference/read_terra_raster.html">read_terra_raster()</a></code>, <code><a href="../reference/read_terra_raster.html">read_terra_raster_list()</a></code>, <code><a href="../reference/read_terra_area.html">read_terra_area()</a></code>, <code><a href="../reference/read_terra_area.html">read_terra_area_sf()</a></code>, and <code><a href="../reference/read_terra_micro.html">read_terra_micro()</a></code></p></li>
-<li><p>Add support for keyvar in DDI, which will (eventually) help link data across record types in hierarchical extracts. To be effective, this requires more support on the ipums.org website, which is hopefully coming soon (<a href='https://github.com/mnpopcenter/ipumsr/issues/25'>#25</a> - thanks <a href='https://github.com/mpadge'>@mpadge</a>!)</p></li>
-<li><p>Improved main vignette instructions for Safari users (<a href='https://github.com/mnpopcenter/ipumsr/issues/27'>#27</a>)</p></li>
-<li><p>Fix for selecting columns from csv extracts (<a href='https://github.com/mnpopcenter/ipumsr/issues/26'>#26</a> - thanks forum user JCambon_OIS!)</p></li>
+<li><p>Add support for keyvar in DDI, which will (eventually) help link data across record types in hierarchical extracts. To be effective, this requires more support on the ipums.org website, which is hopefully coming soon (<a href='https://github.com/ipums/ipumsr/issues/25'>#25</a> - thanks <a href='https://github.com/mpadge'>@mpadge</a>!)</p></li>
+<li><p>Improved main vignette instructions for Safari users (<a href='https://github.com/ipums/ipumsr/issues/27'>#27</a>)</p></li>
+<li><p>Fix for selecting columns from csv extracts (<a href='https://github.com/ipums/ipumsr/issues/26'>#26</a> - thanks forum user JCambon_OIS!)</p></li>
 <li><p>Fixes for the <code>ipums_list_*()</code> family of functions.</p></li>
 </ul>
 </div>
@@ -288,9 +288,9 @@ creating a new labelled vector from an unlabelled one (<a href='https://github.c
 <a href="#ipumsr-011" class="anchor"></a>ipumsr 0.1.1<small> 2017-12-15 </small>
 </h1>
 <ul>
-<li><p>Fixed a bug in ipums_shape_*_join functions when using integer ID columns. (<a href='https://github.com/mnpopcenter/ipumsr/issues/16'>#16</a>)</p></li>
-<li><p>Allow for unzipped folders because Safari on macOS unzips folders by default (<a href='https://github.com/mnpopcenter/ipumsr/issues/17'>#17</a>)</p></li>
-<li><p>lbl_relabel behavior is improved so that labels aren’t assigned sequentially (<a href='https://github.com/mnpopcenter/ipumsr/issues/21'>#21</a>)</p></li>
+<li><p>Fixed a bug in ipums_shape_*_join functions when using integer ID columns. (<a href='https://github.com/ipums/ipumsr/issues/16'>#16</a>)</p></li>
+<li><p>Allow for unzipped folders because Safari on macOS unzips folders by default (<a href='https://github.com/ipums/ipumsr/issues/17'>#17</a>)</p></li>
+<li><p>lbl_relabel behavior is improved so that labels aren’t assigned sequentially (<a href='https://github.com/ipums/ipumsr/issues/21'>#21</a>)</p></li>
 </ul>
 </div>
   </div>

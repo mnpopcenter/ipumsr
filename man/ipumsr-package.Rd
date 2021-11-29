@@ -14,8 +14,8 @@ An easy way to import census, survey and geographic data provided by 'IPUMS' int
 Useful links:
 \itemize{
   \item \url{https://www.ipums.org}
-  \item \url{https://github.com/mnpopcenter/ipumsr}
-  \item Report bugs at \url{https://github.com/mnpopcenter/ipumsr/issues}
+  \item \url{https://github.com/ipums/ipumsr}
+  \item Report bugs at \url{https://github.com/ipums/ipumsr/issues}
 }
 
 }

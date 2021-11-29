@@ -42,7 +42,7 @@ navbar:
       href: "news/index.html"
   right:
     - icon: fa-github
-      href: https://github.com/mnpopcenter/ipumsr
+      href: https://github.com/ipums/ipumsr
     - icon: fa-users
       href: https://forum.ipums.org
     - icon: fa-globe
