@@ -362,12 +362,12 @@ release_questions <- function() {
       "` before you continue?"
     )
   }
-  if (!"ipumsexamples" %in% installed_packages) {
+  if (!"terraexample" %in% installed_packages) {
     out <- c(
       out,
       "It looks like you don't have terraexample installed. Do ",
       "you want to install it with `",
-      "devtools::install_local('Z:/programming/r_ipums/internal_packages/terraexample')",
+      "devtools::install_local('I:/programming/r_ipums/internal_packages/terraexample')",
       "` before you continue?"
     )
   }
