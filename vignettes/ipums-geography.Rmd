@@ -234,7 +234,10 @@ summarize by geographic unit and year.
 ```{r}
 ipumsi_summary <- ipumsi_data %>% 
   group_by(YEAR, COUNTRY, GEOLEV1) %>%
-  summarize(pct_solid = mean(SOLIDFUEL == "Solid Fuel", na.rm = TRUE))
+  summarize(
+    pct_solid = mean(SOLIDFUEL == "Solid Fuel", na.rm = TRUE),
+    .groups = "drop"
+  )
 ```
 
 ### 4) Merge microdata and boundary data
@@ -430,7 +433,10 @@ Then we can summarize to the geographic units and year as before:
 ```{r}
 ipumsi_summary <- ipumsi_data %>% 
   group_by(YEAR, COUNTRY, GEOLEV1) %>%
-  summarize(pct_solid = mean(SOLIDFUEL == "Solid Fuel", na.rm = TRUE))
+  summarize(
+    pct_solid = mean(SOLIDFUEL == "Solid Fuel", na.rm = TRUE),
+    .groups = "drop"
+  )
 ```
 
 Another new step when combining multiple geographies is to bind the shape files

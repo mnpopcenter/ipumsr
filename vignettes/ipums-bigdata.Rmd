@@ -149,7 +149,7 @@ read_ipums_micro(
       as_factor()
   ) %>%
   group_by(HEALTH, AT_WORK) %>%
-  summarize(n = n())
+  summarize(n = n(), .groups = "drop")
 ```
 
 But let's pretend like we can only store 1,000 rows at a time.
@@ -174,7 +174,7 @@ cb_function <- function(x, pos) {
       as_factor()
   ) %>%
     group_by(HEALTH, AT_WORK) %>%
-    summarize(n = n())
+    summarize(n = n(), .groups = "drop")
 }
 ```
 
@@ -221,7 +221,7 @@ more time.
 ```{r}
 chunked_tabulations %>%
   group_by(HEALTH, AT_WORK) %>% 
-  summarize(n = sum(n))
+  summarize(n = sum(n), .groups = "drop")
 ```
 
 ### Chunked regression example
@@ -374,7 +374,7 @@ while (!data$is_done()) {
   
   yield_results <- bind_rows(yield_results, new) %>%
     group_by(HEALTH, AT_WORK) %>%
-    summarize(n = sum(n))
+    summarize(n = sum(n), .groups = "drop")
 }
 
 yield_results

@@ -332,7 +332,7 @@ pct_emp_by_health_age <- cps_data %>%
     HEALTH_factor = as_factor(HEALTH)
   ) %>% 
   group_by(HEALTH_factor, AGE_factor) %>%
-  summarize(emp_pct = weighted.mean(EMPSTAT == 10, WTSUPP))
+  summarize(emp_pct = weighted.mean(EMPSTAT == 10, WTSUPP), .groups = "drop")
 
 x_label <- ipums_var_label(cps_data, HEALTH)
 source_info <- ipums_file_info(cps_ddi, "ipums_project")

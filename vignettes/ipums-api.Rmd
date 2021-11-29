@@ -21,7 +21,7 @@ The IPUMS USA microdata extract API is still in testing and is not publicly
 available. A call for beta testers will go out to all IPUMS USA users in late
 2021 or early 2022. Moreover, the ipumsr functions for interacting with the API
 are only included in the development version of the package on GitHub, not in 
-the version on CRAN. If you are a beta tester, you can download the development 
+the version on CRAN. If you are a beta tester, you can install the development 
 version of ipumsr, which includes API functions, using:
 
 ```{r}
