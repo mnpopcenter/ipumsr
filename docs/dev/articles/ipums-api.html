@@ -151,7 +151,7 @@
 <div id="warning-new-features-currently-in-development" class="section level1">
 <h1 class="hasAnchor">
 <a href="#warning-new-features-currently-in-development" class="anchor"></a>Warning: New features currently in development</h1>
-<p>The IPUMS USA microdata extract API is still in testing and is not publicly available. A call for beta testers will go out to all IPUMS USA users in late 2021 or early 2022. Moreover, the ipumsr functions for interacting with the API are only included in the development version of the package on GitHub, not in the version on CRAN. If you are a beta tester, you can download the development version of ipumsr, which includes API functions, using:</p>
+<p>The IPUMS USA microdata extract API is still in testing and is not publicly available. A call for beta testers will go out to all IPUMS USA users in late 2021 or early 2022. Moreover, the ipumsr functions for interacting with the API are only included in the development version of the package on GitHub, not in the version on CRAN. If you are a beta tester, you can install the development version of ipumsr, which includes API functions, using:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="kw"><a href="https://rdrr.io/r/base/library.html">require</a></span><span class="op">(</span><span class="va"><a href="https://remotes.r-lib.org">remotes</a></span><span class="op">)</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"remotes"</span><span class="op">)</span>
 <span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html">install_github</a></span><span class="op">(</span><span class="st">"ipums/ipumsr/ipumsexamples"</span><span class="op">)</span>
@@ -160,8 +160,7 @@
 <div id="overview" class="section level1">
 <h1 class="hasAnchor">
 <a href="#overview" class="anchor"></a>Overview</h1>
-<p>The IPUMS USA microdata extract API allows registered IPUMS USA users to define extracts, submit extract requests, and download extract files without visiting the IPUMS website. ipumsr includes functions that help R users<br>
-interact with the extract API from their R session.</p>
+<p>The IPUMS USA microdata extract API allows registered IPUMS USA users to define extracts, submit extract requests, and download extract files without visiting the IPUMS website. ipumsr includes functions that help R users interact with the extract API from their R session.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://www.ipums.org">ipumsr</a></span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org">dplyr</a></span><span class="op">)</span> <span class="co"># not necessary to use API functions, but used in some examples</span>
@@ -172,7 +171,7 @@ interact with the extract API from their R session.</p>
 <a href="#setting-up-your-api-key" class="anchor"></a>Setting up your API key</h1>
 <p>If you don’t have an IPUMS USA account, <a href="https://uma.pop.umn.edu/usa/user/new?return_url=https%3A%2F%2Fusa.ipums.org%2Fusa-action%2Fmenuor">register for access</a>.</p>
 <p>Once you’re registered, you’ll need to <a href="https://account.ipums.org/api_keys">create an API key</a>.</p>
-<p>Once you’ve created an API key, you can choose to supply it as a function argument whenever interacting with the API, or you can set the value of the <code>IPUMS_API_KEY</code> environment variable to your key.</p>
+<p>Once you’ve created an API key, you can choose to supply it as a function argument whenever interacting with the API, or you can set the value of the <code>IPUMS_API_KEY</code> environment variable to your key. The example code in this vignette assumes you have assigned your key to this environment variable.</p>
 <p>To set the value of the <code>IPUMS_API_KEY</code> environment variable, you can use:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/Sys.setenv.html">Sys.setenv</a></span><span class="op">(</span>IPUMS_API_KEY <span class="op">=</span> <span class="st">"paste-your-key-here"</span><span class="op">)</span></code></pre></div>
@@ -254,6 +253,7 @@ interact with the extract API from their R session.</p>
 <code class="sourceCode R"><span class="fu"><a href="../reference/is_extract_ready.html">is_extract_ready</a></span><span class="op">(</span><span class="va">submitted_extract</span><span class="op">)</span>
 <span class="fu"><a href="../reference/is_extract_ready.html">is_extract_ready</a></span><span class="op">(</span><span class="st">"usa:33"</span><span class="op">)</span>
 <span class="fu"><a href="../reference/is_extract_ready.html">is_extract_ready</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"usa"</span>, <span class="st">"33"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<p>As noted above, only extracts with status “completed” can be ready to download, but not all “completed” extracts are ready to download, because extract files are removed from IPUMS servers after 72 hours. The <code><a href="../reference/is_extract_ready.html">is_extract_ready()</a></code> function checks whether an extract can currently be downloaded by looking at the “download_links” element of the extract object returned by the API.</p>
 <p>Note that the API has a limit of 60 requests with the same API key per minute, so you wouldn’t want to write a loop that repeatedly uses <code><a href="../reference/is_extract_ready.html">is_extract_ready()</a></code> to check your extract status.</p>
 </div>
 <div id="downloading-your-extract" class="section level1">
@@ -303,7 +303,7 @@ interact with the extract API from their R session.</p>
 <div id="recent" class="section level1">
 <h1 class="hasAnchor">
 <a href="#recent" class="anchor"></a>Getting info on multiple recent extracts</h1>
-<p>You can query the API for the details and status of up to ten recent extracts using the functions <code><a href="../reference/get_recent_extracts_info.html">get_recent_extracts_info_list()</a></code> and <code><a href="../reference/get_recent_extracts_info.html">get_recent_extracts_info_tbl()</a></code>. The <code>_list</code> version of the function returns a list of “ipums_extract” objects, whereas the <code>_tbl</code> version returns a tibble (enhanced “data.frame”) in which each row contains information on one extract.</p>
+<p>You can query the API for the details and status of recent extracts (the ten most recent, by default) using the functions <code><a href="../reference/get_recent_extracts_info.html">get_recent_extracts_info_list()</a></code> and <code><a href="../reference/get_recent_extracts_info.html">get_recent_extracts_info_tbl()</a></code>. The <code>_list</code> version of the function returns a list of “ipums_extract” objects, whereas the <code>_tbl</code> version returns a tibble (enhanced “data.frame”) in which each row contains information on one extract.</p>
 <p>The list representation is useful if you want to be able to operate on elements as “ipums_extract” objects. For instance, to retrieve your most second-most-recent extract and revise it for resubmission, you could use:</p>
 <div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">second_most_recent_extract</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_recent_extracts_info.html">get_recent_extracts_info_list</a></span><span class="op">(</span><span class="st">"usa"</span><span class="op">)</span><span class="op">[[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span>

@@ -33,10 +33,10 @@ remotes::install_github("ipums/ipumsr", build_vignettes = TRUE)
 
 # Overview
 
-The IPUMS USA microdata extract API allows registered IPUMS USA users to define 
-extracts, submit extract requests, and download extract files without visiting 
-the IPUMS website. ipumsr includes functions that help R users  
-interact with the extract API from their R session.
+The IPUMS USA microdata extract API allows registered IPUMS USA users to define
+extracts, submit extract requests, and download extract files without visiting
+the IPUMS website. ipumsr includes functions that help R users interact with the
+extract API from their R session.
 
 ```{r setup, eval=TRUE, message=FALSE}
 library(ipumsr)
@@ -54,7 +54,8 @@ Once you're registered, you'll need to
 
 Once you've created an API key, you can choose to supply it as a function 
 argument whenever interacting with the API, or you can set the value of the 
-`IPUMS_API_KEY` environment variable to your key. 
+`IPUMS_API_KEY` environment variable to your key. The example code in this 
+vignette assumes you have assigned your key to this environment variable.
 
 To set the value of the `IPUMS_API_KEY` environment variable, you can use:
 
@@ -234,6 +235,12 @@ is_extract_ready("usa:33")
 is_extract_ready(c("usa", "33"))
 ```
 
+As noted above, only extracts with status "completed" can be ready to download, 
+but not all "completed" extracts are ready to download, because extract files 
+are removed from IPUMS servers after 72 hours. The `is_extract_ready()` 
+function checks whether an extract can currently be downloaded by looking at the 
+"download_links" element of the extract object returned by the API.
+
 Note that the API has a limit of 60 requests with the same API key per minute, 
 so you wouldn't want to write a loop that repeatedly uses `is_extract_ready()` 
 to check your extract status.
@@ -324,8 +331,8 @@ newly_submitted_extract <- submit_extract(new_extract)
 
 # Getting info on multiple recent extracts {#recent}
 
-You can query the API for the details and status of up to ten recent extracts 
-using the functions `get_recent_extracts_info_list()` and 
+You can query the API for the details and status of recent extracts (the ten most 
+recent, by default) using the functions `get_recent_extracts_info_list()` and 
 `get_recent_extracts_info_tbl()`. The `_list` version of the function returns a 
 list of "ipums_extract" objects, whereas the `_tbl` version returns a tibble 
 (enhanced "data.frame") in which each row contains information on one extract. 

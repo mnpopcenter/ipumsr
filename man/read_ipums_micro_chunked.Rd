@@ -95,7 +95,7 @@ inc_by_state <- read_ipums_micro_chunked(
         ) \%>\%
       filter(!is.na(INCTOT)) \%>\%
       group_by(STATEFIP = as_factor(STATEFIP)) \%>\%
-      summarize(INCTOT_SUM = sum(INCTOT), n = n())
+      summarize(INCTOT_SUM = sum(INCTOT), n = n(), .groups = "drop")
   }),
   chunk_size = 1000 # Generally you want this larger, but this example is a small file
 ) \%>\%

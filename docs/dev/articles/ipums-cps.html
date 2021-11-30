@@ -142,7 +142,7 @@
 <code>ipumsr</code> Example - CPS</h1>
                         <h4 class="author">Minnesota Population Center</h4>
             
-            <h4 class="date">2021-11-23</h4>
+            <h4 class="date">2021-11-29</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/ipums/ipumsr/blob/master/vignettes/ipums-cps.Rmd"><code>vignettes/ipums-cps.Rmd</code></a></small>
       <div class="hidden name"><code>ipums-cps.Rmd</code></div>
@@ -515,8 +515,7 @@
     HEALTH_factor <span class="op">=</span> <span class="fu"><a href="https://forcats.tidyverse.org/reference/as_factor.html">as_factor</a></span><span class="op">(</span><span class="va">HEALTH</span><span class="op">)</span>
   <span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> 
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">HEALTH_factor</span>, <span class="va">AGE_factor</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarize</a></span><span class="op">(</span>emp_pct <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/weighted.mean.html">weighted.mean</a></span><span class="op">(</span><span class="va">EMPSTAT</span> <span class="op">==</span> <span class="fl">10</span>, <span class="va">WTSUPP</span><span class="op">)</span><span class="op">)</span>
-<span class="co">#&gt; `summarise()` has grouped output by 'HEALTH_factor'. You can override using the `.groups` argument.</span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarize</a></span><span class="op">(</span>emp_pct <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/weighted.mean.html">weighted.mean</a></span><span class="op">(</span><span class="va">EMPSTAT</span> <span class="op">==</span> <span class="fl">10</span>, <span class="va">WTSUPP</span><span class="op">)</span>, .groups <span class="op">=</span> <span class="st">"drop"</span><span class="op">)</span>
 
 <span class="va">x_label</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/ipums_var_info.html">ipums_var_label</a></span><span class="op">(</span><span class="va">cps_data</span>, <span class="va">HEALTH</span><span class="op">)</span>
 <span class="va">source_info</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/ipums_file_info.html">ipums_file_info</a></span><span class="op">(</span><span class="va">cps_ddi</span>, <span class="st">"ipums_project"</span><span class="op">)</span>

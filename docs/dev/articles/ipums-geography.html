@@ -142,7 +142,7 @@
 </h1>
                         <h4 class="author">Minnesota Population Center</h4>
             
-            <h4 class="date">2021-11-23</h4>
+            <h4 class="date">2021-11-29</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/ipums/ipumsr/blob/master/vignettes/ipums-geography.Rmd"><code>vignettes/ipums-geography.Rmd</code></a></small>
       <div class="hidden name"><code>ipums-geography.Rmd</code></div>
@@ -269,8 +269,10 @@
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">ipumsi_summary</span> <span class="op">&lt;-</span> <span class="va">ipumsi_data</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> 
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">YEAR</span>, <span class="va">COUNTRY</span>, <span class="va">GEOLEV1</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarize</a></span><span class="op">(</span>pct_solid <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">SOLIDFUEL</span> <span class="op">==</span> <span class="st">"Solid Fuel"</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span>
-<span class="co">#&gt; `summarise()` has grouped output by 'YEAR', 'COUNTRY'. You can override using the `.groups` argument.</span></code></pre></div>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarize</a></span><span class="op">(</span>
+    pct_solid <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">SOLIDFUEL</span> <span class="op">==</span> <span class="st">"Solid Fuel"</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>,
+    .groups <span class="op">=</span> <span class="st">"drop"</span>
+  <span class="op">)</span></code></pre></div>
 </div>
 <div id="merge-microdata-and-boundary-data" class="section level3">
 <h3 class="hasAnchor">
@@ -418,8 +420,10 @@
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">ipumsi_summary</span> <span class="op">&lt;-</span> <span class="va">ipumsi_data</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> 
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">YEAR</span>, <span class="va">COUNTRY</span>, <span class="va">GEOLEV1</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarize</a></span><span class="op">(</span>pct_solid <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">SOLIDFUEL</span> <span class="op">==</span> <span class="st">"Solid Fuel"</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span>
-<span class="co">#&gt; `summarise()` has grouped output by 'YEAR', 'COUNTRY'. You can override using the `.groups` argument.</span></code></pre></div>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarize</a></span><span class="op">(</span>
+    pct_solid <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">SOLIDFUEL</span> <span class="op">==</span> <span class="st">"Solid Fuel"</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>,
+    .groups <span class="op">=</span> <span class="st">"drop"</span>
+  <span class="op">)</span></code></pre></div>
 <p>Another new step when combining multiple geographies is to bind the shape files together. The command <code><a href="https://rdrr.io/r/base/cbind.html">rbind()</a></code> has been implemented for sf (and sp) spatial objects, but before we do that, we want to give each country’s shape data the same structure. When combining non-harmonized geographies or across different geographic levels, the variable names will not be the same. There is some guidance on the IPUMS website about how the variables are named, but some of it will require looking at your shape files.</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Currently each shape file has different variable names</span>
@@ -472,7 +476,6 @@
 <span class="co">#&gt; </span>
 <span class="co">#&gt; $data</span>
 <span class="co">#&gt; # A tibble: 0 x 4</span>
-<span class="co">#&gt; # Groups:   YEAR, COUNTRY [0]</span>
 <span class="co">#&gt; # ... with 4 variables: YEAR &lt;int&gt;, COUNTRY &lt;chr&gt;, GEOLEV1 &lt;int&gt;,</span>
 <span class="co">#&gt; #   pct_solid &lt;dbl&gt;</span></code></pre></div>
 <p>In this case, it appears that the shape file includes Lake Titicaca for mapping purposes, even though no one lives in the lake. We will just leave this boundary out of our dataset.</p>
