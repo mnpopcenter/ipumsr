@@ -316,7 +316,7 @@ get_extract_info <- function(extract, api_key = Sys.getenv("IPUMS_API_KEY")) {
   response <- ipums_api_json_request(
     "GET",
     collection = collection,
-    path = paste0("extracts/", extract$number),
+    path = paste0(microdata_api_extracts_path(), "/", extract$number),
     api_key = api_key
   )
   extract_list_from_json(response, collection)[[1]]
@@ -1473,6 +1473,11 @@ microdata_api_base_url <- function() {
   api_url <- Sys.getenv("IPUMS_API_URL")
   if (api_url == "") return("https://api.ipums.org/extracts/")
   api_url
+}
+
+
+microdata_api_extracts_path <- function() {
+  basename(microdata_api_base_url())
 }
 
 
