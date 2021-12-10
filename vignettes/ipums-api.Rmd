@@ -27,9 +27,18 @@ version of ipumsr, which includes API functions, using:
 ```{r}
 if (!require(remotes)) install.packages("remotes")
 remotes::install_github("ipums/ipumsr/ipumsexamples")
-remotes::install_github("ipums/ipumsr", build_vignettes = TRUE)
+remotes::install_github(
+  "ipums/ipumsr", 
+  build_vignettes = TRUE, 
+  dependencies = TRUE
+)
 ```
 
+Since we're installing from GitHub and building the package locally, we're also
+installing ipumsexamples, and we've set `build_vignettes` and `dependencies` to
+`TRUE`, to make sure that you have all the necessary example data and packages
+to build the vignettes. Once the ipumsr API functionality is on CRAN, you will
+get pre-built vignettes with `install.packages("ipumsr")`.
 
 # Overview
 
