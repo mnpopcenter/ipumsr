@@ -117,23 +117,9 @@ define_extract_micro <- function(collection,
 #' identical(my_extract, copy_of_my_extract)
 #'
 #' @export
-define_extract_from_json <- function(extract_json, collection) {
-  if (missing(collection)) {
-    stop("`collection` is a required argument", call. = FALSE)
-  }
-  if (!collection %in% ipums_data_collections()$code_for_api) {
-    stop(
-      paste0(
-        '"', collection, '"', " is not a valid code for an IPUMS data ",
-        "collection. To see all valid collection codes, use ",
-        "`ipums_data_collections()`"
-      ),
-      call. = FALSE
-    )
-  }
+define_extract_from_json <- function(extract_json) {
   list_of_extracts <- extract_list_from_json(
     extract_json,
-    collection,
     validate = TRUE
   )
   if (length(list_of_extracts) != 1) {
@@ -1350,7 +1336,7 @@ extract_list_from_json <- function(extracts_as_json,
     list_of_extract_info,
     function(x) {
       out <- new_ipums_extract(
-        collection = collection,
+        collection = x$collection,
         description = x$description,
         data_structure = names(x$data_structure),
         rectangular_on = ifelse(
