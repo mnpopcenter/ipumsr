@@ -131,6 +131,15 @@ define_extract_from_json <- function(extract_json) {
       call. = FALSE
     )
   }
+  json_api_version <- api_version_from_json(extract_json)
+  if (microdata_api_version() != json_api_version){
+    warning(
+      "The extract defined in ", extract_json, " was made using API version ",
+      json_api_version, ". ipumsr is currently configured to submit extract ", 
+      "requests using API version ", microdata_api_version(), ".",
+      call. = FALSE
+    )
+  }
   list_of_extracts[[1]]
 }
 
@@ -1475,6 +1484,13 @@ microdata_api_version <- function() {
   api_version
 }
 
+api_version_from_json <- function(extract_json) {
+  extract <- jsonlite::fromJSON(
+    extract_json,
+    simplifyVector = FALSE
+  )
+  extract$api_version
+}
 
 EMPTY_NAMED_LIST <- setNames(list(), character(0))
 
