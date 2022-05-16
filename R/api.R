@@ -1142,7 +1142,9 @@ extract_to_request_json <- function(extract) {
     ),
     data_format = extract$data_format,
     samples = format_samples_for_json(extract$samples),
-    variables = format_variables_for_json(extract$variables)
+    variables = format_variables_for_json(extract$variables),
+    collection = extract$collection,
+    api_version = microdata_api_version()
   )
   jsonlite::toJSON(request_list, auto_unbox = TRUE)
 }
