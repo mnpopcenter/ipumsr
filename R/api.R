@@ -167,7 +167,7 @@ define_extract_from_json <- function(extract_json) {
 #' extract_json_path <- file.path(tempdir(), "usa_extract.json")
 #' save_extract_as_json(my_extract, file = extract_json_path)
 #'
-#' copy_of_my_extract <- define_extract_from_json(extract_json_path, "usa")
+#' copy_of_my_extract <- define_extract_from_json(extract_json_path)
 #'
 #' identical(my_extract, copy_of_my_extract)
 #'
