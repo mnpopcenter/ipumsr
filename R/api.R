@@ -1347,6 +1347,8 @@ extract_list_from_json <- function(extracts_as_json,
   purrr::map(
     list_of_extract_info,
     function(x) {
+      # if the collection kwarg is missing, check for it in the json
+      if (is.na(collection)) collection = x$collection
       out <- new_ipums_extract(
         collection = collection,
         description = x$description,
