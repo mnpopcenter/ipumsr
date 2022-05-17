@@ -173,7 +173,7 @@ define_extract_from_json <- function(extract_json) {
 #'
 #' @export
 save_extract_as_json <- function(extract, file) {
-  extract_as_json <- extract_to_request_json(extract)
+  extract_as_json <- extract_to_request_json(extract, include_endpoint_info=TRUE)
   writeLines(jsonlite::prettify(extract_as_json), con = file)
   invisible(file)
 }
@@ -314,7 +314,7 @@ get_extract_info <- function(extract, api_key = Sys.getenv("IPUMS_API_KEY")) {
     path = paste0(microdata_api_extracts_path(), "/", extract$number),
     api_key = api_key
   )
-  extract_list_from_json(response, collection)[[1]]
+  extract_list_from_json(response, collection=collection)[[1]]
 }
 
 
@@ -764,7 +764,7 @@ get_recent_extracts_info_list <- function(collection,
     queries = list(limit = how_many),
     api_key = api_key
   )
-  extract_list_from_json(response, collection)
+  extract_list_from_json(response, collection=collection)
 }
 
 
@@ -1122,7 +1122,7 @@ print_truncated_vector <- function(x, label = NULL, include_length = TRUE) {
 }
 
 
-extract_to_request_json <- function(extract) {
+extract_to_request_json <- function(extract, include_endpoint_info=FALSE) {
   if (is.na(extract$description)) {
     extract$description <- ""
   }
@@ -1137,10 +1137,13 @@ extract_to_request_json <- function(extract) {
     ),
     data_format = extract$data_format,
     samples = format_samples_for_json(extract$samples),
-    variables = format_variables_for_json(extract$variables),
-    collection = extract$collection,
-    api_version = microdata_api_version()
+    variables = format_variables_for_json(extract$variables)
   )
+  if (include_endpoint_info){
+    endpoint_info <- list(collection = extract$collection,
+                          api_version = microdata_api_version())
+    request_list <- append(request_list, endpoint_info)
+  }
   jsonlite::toJSON(request_list, auto_unbox = TRUE)
 }
 
@@ -1325,7 +1328,7 @@ ipums_api_json_request <- function(verb,
 }
 
 extract_list_from_json <- function(extracts_as_json,
-                                   collection,
+                                   collection = NA,
                                    validate = FALSE) {
   list_of_extract_info <- jsonlite::fromJSON(
     extracts_as_json,
@@ -1345,7 +1348,7 @@ extract_list_from_json <- function(extracts_as_json,
     list_of_extract_info,
     function(x) {
       out <- new_ipums_extract(
-        collection = x$collection,
+        collection = collection,
         description = x$description,
         data_structure = names(x$data_structure),
         rectangular_on = ifelse(
