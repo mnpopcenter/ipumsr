@@ -340,7 +340,7 @@ get_extract_info <- function(extract, api_key = Sys.getenv("IPUMS_API_KEY")) {
 #'   check.
 #' @param max_delay_seconds Maximum seconds to wait between status checks. The
 #'   function doubles the wait time after each check, but will cap the wait
-#'   wait time at this maximum value (300 seconds, or 5 minutes, by default).
+#'   time at this maximum value (300 seconds, or 5 minutes, by default).
 #' @param timeout_seconds Maximum total number of seconds to continue waiting
 #'   for the extract before throwing an error. Defaults to 10,800 seconds (three
 #'   hours).
