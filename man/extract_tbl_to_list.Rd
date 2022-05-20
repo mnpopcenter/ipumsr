@@ -51,6 +51,7 @@ submitted_revised_income_extract <- submit_extract(revised_income_extract)
 }
 \seealso{
 Other ipums_api: 
+\code{\link{add_to_extract}()},
 \code{\link{define_extract_from_json}()},
 \code{\link{define_extract_micro}()},
 \code{\link{download_extract}()},
@@ -60,7 +61,7 @@ Other ipums_api:
 \code{\link{get_recent_extracts_info}},
 \code{\link{ipums_data_collections}()},
 \code{\link{is_extract_ready}()},
-\code{\link{revise_extract_micro}()},
+\code{\link{remove_from_extract}()},
 \code{\link{save_extract_as_json}()},
 \code{\link{submit_extract}()},
 \code{\link{wait_for_extract}()}

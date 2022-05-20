@@ -304,57 +304,102 @@ test_that("An extract request with missing samples returns correct error", {
   )
 })
 
-test_that("Can revise an extract", {
-  revised_extract <- revise_extract_micro(
+test_that("Can add to an extract", {
+  revised_extract <- add_to_extract(
     usa_extract,
-    samples_to_add = "us2014a",
-    vars_to_add = "RELATE"
+    samples = "us2014a",
+    variables = "RELATE"
   )
   expect_true(revised_extract$status == "unsubmitted")
-  expect_equal(
-    revised_extract$description,
-    paste0("Revision of (", usa_extract$description, ")")
-  )
+
   expect_equal(
     revised_extract$samples,
-    c(usa_extract$samples, "us2014a")
+    union(usa_extract$samples, "us2014a")
   )
   expect_equal(
     revised_extract$variables,
-    c(usa_extract$variables, "RELATE")
+    union(usa_extract$variables, "RELATE")
   )
 })
 
-test_that("Can revise a submitted extract", {
+test_that("Can add to a submitted extract", {
   skip_if_no_api_access(have_api_access)
-  revised_extract <- revise_extract_micro(
+  revised_extract <- add_to_extract(
     submitted_usa_extract,
-    samples_to_add = "us2014a",
-    vars_to_add = "RELATE"
+    samples = c("us2014a", "us2015a"),
+    variables = list("RELATE", "AGE", "SEX", "SEX")
   )
   expect_true(revised_extract$status == "unsubmitted")
-  expect_equal(
-    revised_extract$description,
-    paste0("Revision of (", submitted_usa_extract$description, ")")
-  )
+
   expect_equal(
     revised_extract$samples,
-    c(submitted_usa_extract$samples, "us2014a")
+    union(submitted_usa_extract$samples, c("us2014a", "us2015a"))
   )
   expect_equal(
     revised_extract$variables,
-    c(submitted_usa_extract$variables, "RELATE")
+    union(submitted_usa_extract$variables, c("RELATE", "AGE", "SEX"))
   )
 })
 
-test_that("We warn user when their revisions don't make sense", {
+test_that("Can remove from an extract", {
+
+  revised_extract <- add_to_extract(
+    usa_extract,
+    samples = "us2014a",
+    variables = c("RELATE", "AGE", "SEX")
+  )
+
+  revised_extract <- remove_from_extract(
+    revised_extract,
+    samples = "us2017b",
+    variables = c("AGE", "SEX")
+  )
+
+  expect_true(revised_extract$status == "unsubmitted")
+
+  expect_equal(revised_extract$samples, "us2014a")
+  expect_equal(
+    revised_extract$variables,
+    c("YEAR", "RELATE")
+  )
+})
+
+test_that("Improper extract revisions throw warnings or errors", {
   expect_warning(
-    revise_extract_micro(usa_extract, samples_to_add = "us2017b"),
+    add_to_extract(usa_extract, samples = "us2017b"),
     regexp = "already included"
   )
   expect_warning(
-    revise_extract_micro(usa_extract, vars_to_remove = "RELATE"),
+    remove_from_extract(usa_extract, variables = "RELATE"),
     regexp = "are not included"
+  )
+  expect_warning(
+    remove_from_extract(usa_extract, description = "description"),
+    paste0(
+      "The following fields cannot be removed from an object of class ",
+      "`usa_extract`: `description`.\nTo replace these values"
+    )
+  )
+  expect_warning(
+    remove_from_extract(usa_extract, bad_field = "bad field"),
+    paste0(
+      "The following were not recognized as valid fields for an object of class",
+      " `usa_extract`: `bad_field`."
+    )
+  )
+  expect_error(
+    remove_from_extract(usa_extract, samples = usa_extract$samples),
+    paste0(
+      "The following elements of an ipums_extract must not contain missing",
+      " values: samples"
+    )
+  )
+  expect_error(
+    remove_from_extract(usa_extract, variables = usa_extract$variables),
+    paste0(
+      "The following elements of an ipums_extract must not contain missing",
+      " values: variables"
+    )
   )
 })
 

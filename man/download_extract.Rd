@@ -61,6 +61,7 @@ path_to_ddi_file <- download_extract(c("usa", "1"))
 }
 \seealso{
 Other ipums_api: 
+\code{\link{add_to_extract}()},
 \code{\link{define_extract_from_json}()},
 \code{\link{define_extract_micro}()},
 \code{\link{extract_list_to_tbl}()},
@@ -70,7 +71,7 @@ Other ipums_api:
 \code{\link{get_recent_extracts_info}},
 \code{\link{ipums_data_collections}()},
 \code{\link{is_extract_ready}()},
-\code{\link{revise_extract_micro}()},
+\code{\link{remove_from_extract}()},
 \code{\link{save_extract_as_json}()},
 \code{\link{submit_extract}()},
 \code{\link{wait_for_extract}()}
