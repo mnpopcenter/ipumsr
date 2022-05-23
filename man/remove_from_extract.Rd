@@ -13,6 +13,9 @@ remove_from_extract(
 )
 }
 \arguments{
+\item{extract}{An extract object created with \code{\link{define_extract_micro}} or
+returned from another ipumsr API function.}
+
 \item{samples}{Character vector of samples to remove from the extract,
 if any.}
 
@@ -21,6 +24,8 @@ if any.}
 
 \item{validate}{Logical value indicating whether to check the modified
 extract structure for validity. Defaults to \code{TRUE}.}
+
+\item{...}{Ignored}
 }
 \value{
 A modified \code{ipums_extract} object
@@ -35,7 +40,7 @@ To add new values to an extract, see
 my_extract <- define_extract_micro(
   collection = "usa",
   description = "Example",
-  samples = c("us2013a" "us2014a"),
+  samples = c("us2013a", "us2014a"),
   variables = "YEAR"
 )
 

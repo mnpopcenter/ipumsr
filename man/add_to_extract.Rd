@@ -16,6 +16,9 @@ add_to_extract(
 )
 }
 \arguments{
+\item{extract}{An extract object created with \code{\link{define_extract_micro}} or
+returned from another ipumsr API function.}
+
 \item{description}{Description of the extract.}
 
 \item{samples}{Character vector of samples to add to the extract, if any.}

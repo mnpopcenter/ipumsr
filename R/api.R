@@ -617,6 +617,7 @@ download_extract <- function(extract,
 #' \code{\link{remove_from_extract}}.
 #'
 #' @inheritParams define_extract_micro
+#' @inheritParams submit_extract
 #' @param samples Character vector of samples to add to the extract, if any.
 #' @param variables Character vector of variables to add to the extract, if any.
 #' @param validate Logical value indicating whether to check the modified
@@ -716,12 +717,14 @@ add_to_extract <- function(extract,
 #' \code{\link{add_to_extract}}.
 #'
 #' @inheritParams define_extract_micro
+#' @inheritParams submit_extract
 #' @param samples Character vector of samples to remove from the extract,
 #'   if any.
 #' @param variables Character vector of variables to remove from the extract,
 #'   if any.
 #' @param validate Logical value indicating whether to check the modified
 #'   extract structure for validity. Defaults to \code{TRUE}.
+#' @param ... Ignored
 #'
 #' @family ipums_api
 #' @return A modified \code{ipums_extract} object
@@ -731,7 +734,7 @@ add_to_extract <- function(extract,
 #' my_extract <- define_extract_micro(
 #'   collection = "usa",
 #'   description = "Example",
-#'   samples = c("us2013a" "us2014a"),
+#'   samples = c("us2013a", "us2014a"),
 #'   variables = "YEAR"
 #' )
 #'
