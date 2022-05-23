@@ -364,6 +364,29 @@ test_that("Can remove from an extract", {
   )
 })
 
+test_that("Unused revisions do not alter extract", {
+  expect_identical(usa_extract, add_to_extract(usa_extract))
+  expect_identical(usa_extract, remove_from_extract(usa_extract))
+  expect_identical(
+    usa_extract,
+    suppressWarnings(
+      add_to_extract(
+        usa_extract,
+        samples = usa_extract$samples
+      )
+    )
+  )
+  expect_identical(
+    usa_extract,
+    suppressWarnings(
+      remove_from_extract(
+        usa_extract,
+        variables = "not in extract"
+      )
+    )
+  )
+})
+
 test_that("Improper extract revisions throw warnings or errors", {
   expect_warning(
     add_to_extract(usa_extract, samples = "us2017b"),
@@ -392,6 +415,13 @@ test_that("Improper extract revisions throw warnings or errors", {
     paste0(
       "The following elements of an ipums_extract must not contain missing",
       " values: samples"
+    )
+  )
+  expect_silent(
+    remove_from_extract(
+      usa_extract,
+      samples = usa_extract$samples,
+      validate = FALSE
     )
   )
   expect_error(
