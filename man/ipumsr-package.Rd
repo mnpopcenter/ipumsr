@@ -30,6 +30,7 @@ Authors:
 Other contributors:
 \itemize{
   \item Joe Grover [contributor]
+  \item Finn Roberts [contributor]
   \item Minnesota Population Center \email{ipums@umn.edu} [copyright holder]
 }
 
