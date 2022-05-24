@@ -36,6 +36,13 @@ Remove existing values from extract fields of an \code{ipums_extract} object.
 To add new values to an extract, see
 \code{\link{add_to_extract}}.
 }
+\section{Note}{
+
+If the supplied extract definition comes from
+a previously submitted extract, this function will reset the definition to an
+unsubmitted state.
+}
+
 \examples{
 my_extract <- define_extract_micro(
   collection = "usa",

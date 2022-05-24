@@ -48,6 +48,13 @@ Add new values to any extract fields of an \code{ipums_extract} object.
 To remove existing values from an extract, see
 \code{\link{remove_from_extract}}.
 }
+\section{Note}{
+
+If the supplied extract definition comes from
+a previously submitted extract, this function will reset the definition to an
+unsubmitted state.
+}
+
 \examples{
 my_extract <- define_extract_micro("usa", "Example", "us2013a", "YEAR")
 

@@ -627,6 +627,11 @@ download_extract <- function(extract,
 #' @return A modified \code{ipums_extract} object
 #' @export
 #'
+#' @section Note:
+#' If the supplied extract definition comes from
+#' a previously submitted extract, this function will reset the definition to an
+#' unsubmitted state.
+#'
 #' @examples
 #' my_extract <- define_extract_micro("usa", "Example", "us2013a", "YEAR")
 #'
@@ -729,6 +734,11 @@ add_to_extract <- function(extract,
 #' @family ipums_api
 #' @return A modified \code{ipums_extract} object
 #' @export
+#'
+#' @section Note:
+#' If the supplied extract definition comes from
+#' a previously submitted extract, this function will reset the definition to an
+#' unsubmitted state.
 #'
 #' @examples
 #' my_extract <- define_extract_micro(
