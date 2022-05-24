@@ -1,5 +1,8 @@
 # ipumsr (development version)
 
+* Split `revise_extract_micro()` into `add_to_extract()` and 
+  `remove_from_extract()`
+
 # ipumsr 0.4.5
 
 * Fixed bug causing a read error for some labeled string variables (#61, thanks 
