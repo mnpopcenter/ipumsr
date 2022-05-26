@@ -1,7 +1,7 @@
 http_interactions:
 - request:
     method: get
-    uri: https://api.ipums.org/downloads/usa/api/v1/extracts/1708879/usa_00086.xml
+    uri: https://api.ipums.org/downloads/usa/api/v1/extracts/1821205/usa_00107.xml
     body:
       encoding: ''
       string: ''
@@ -17,14 +17,14 @@ http_interactions:
     headers:
       accept-ranges: bytes
       cache-control: private
-      content-disposition: attachment; filename="usa_00086.xml"; filename*=UTF-8''usa_00086.xml
-      content-length: '34868'
+      content-disposition: attachment; filename="usa_00107.xml"; filename*=UTF-8''usa_00107.xml
+      content-length: '35232'
       content-type: application/xml
-      date: Mon, 22 Nov 2021 16:53:27 GMT
-      etag: '"619bcafa-8834"'
-      last-modified: Mon, 22 Nov 2021 16:53:14 GMT
+      date: Thu, 26 May 2022 15:56:24 GMT
+      etag: '"628fa320-89a0"'
+      last-modified: Thu, 26 May 2022 15:56:16 GMT
       server: nginx/1.14.2
-      set-cookie: _session_id=NcxsD4ubckYZWoKgsZLGP%2Fvar9nRUUjgQ5q2%2BAyvlyZVFn8WgpHMDJuGiHxxwcT9yy1xhsFDusCwT1Ou20vu7JLY63yxxOLsH50mezU26DsvIkC%2BBAVpT3rQ33CJPLP%2Bzlv%2FC0C1dgyu8VpmEDl928V1c%2FA8Lji8Fai7%2FPGGi9Z7f9shCqyuTCML0TvjgZ1EpR4vy2LDhEfpfyRHAwnlHhu8aDrqKbM905rhpPBSTqFH79SdBzGwSQ3kYcM4AoQ%3D--3p6enIt4qPXHEbLt--NRa1D7TSqUZ9tcQJIkbFDA%3D%3D;
+      set-cookie: _session_id=QyVjr7Y%2FT21sq95ulDu2UAdRh87kaZOrunWw7zL3%2BIYTD2hTyFWPP13w1AI9zwST0DIVXnuHPqrWTRxIanNKVYKqwp7gAgfCqjxBg0J3%2BcRUjeknIfmgLaZiUrbwhcLIrryg7fwMWBW%2BH%2FCh3g5gwgU7Xe8C4zHBne%2BX8S0YLt20iUr5OC9MS8To90lzrZGhEsgfK94DwMUdXC0hW%2FoAAjLlnzN5h7tjTOQT2ZyjfrURPxm41PjwOGJLwPTztls%3D--puk8hGJKlnRx8is2--ZB2uxy1lRQI%2FzxtJt%2FxOjA%3D%3D;
         path=/; secure; HttpOnly; SameSite=None
       x-ratelimit-limit: '-1'
       x-ratelimit-remaining: '0'
@@ -32,12 +32,12 @@ http_interactions:
     body:
       encoding: UTF-8
       file: yes
-      string: ../fixtures/usa_00086.xml
-  recorded_at: 2021-11-22 16:53:29 GMT
+      string: ../fixtures/usa_00107.xml
+  recorded_at: 2022-05-26 15:56:25 GMT
   recorded_with: vcr/1.0.2, webmockr/0.8.0
 - request:
     method: get
-    uri: https://api.ipums.org/downloads/usa/api/v1/extracts/1708879/usa_00086.dat.gz
+    uri: https://api.ipums.org/downloads/usa/api/v1/extracts/1821205/usa_00107.dat.gz
     body:
       encoding: ''
       string: ''
@@ -53,14 +53,14 @@ http_interactions:
     headers:
       accept-ranges: bytes
       cache-control: private
-      content-disposition: attachment; filename="usa_00086.dat.gz"; filename*=UTF-8''usa_00086.dat.gz
+      content-disposition: attachment; filename="usa_00107.dat.gz"; filename*=UTF-8''usa_00107.dat.gz
       content-length: '167521'
       content-type: application/gzip
-      date: Mon, 22 Nov 2021 16:53:27 GMT
-      etag: '"619bcafd-28e61"'
-      last-modified: Mon, 22 Nov 2021 16:53:17 GMT
+      date: Thu, 26 May 2022 15:56:24 GMT
+      etag: '"628fa323-28e61"'
+      last-modified: Thu, 26 May 2022 15:56:19 GMT
       server: nginx/1.14.2
-      set-cookie: _session_id=4puaknabxu%2BQ%2FjPLU10AmL9zVPrz%2FxgQFSNxXbzCj7JeCtrZwfL%2F%2FXexoawu8RRoSy0xaXlLb%2BWIscfFa8ZaZqmf2LqSnAURU83A7QSqTsGBpTqdjk0oDGItPcgCRsRT78YyqMRI7EixBFmWRjVhFEnVVjzM9BP6HT9lnmA8PSGMvZfIanHkbU%2Fhv1lSPDYk64852NC%2FBggoqBoM5%2FZ7rTHanyxE6qDfftqxTr7sxems7eAjKu%2ByW%2F3kd%2Fq3Ob0%3D--aTHrshG0lKQaqiR4--sWKWWYJQolVb8MsvsEhRsg%3D%3D;
+      set-cookie: _session_id=bBD5wROxEna5Ic4bGR%2FCS9ie17to2%2FR6dOkhdCEmbQALZeR3v6eFhE%2FDy%2BzWoMZJ6ubLvZOA9T%2BVnv4gJ2LGxVtKBYXvXuR%2FOt15WRPwjZXYWfoxR8aTU%2FMsVdqyucOwFoVzvKXFhUdeEogGQR8oFhAEbjq5FA7MGzP2QOMZRVnj3dt5XMvrkjy%2BaN0PyUuBQ0dLIa4kCUdwviPexOeoB9nDNx1ix%2BkkukdqFFnnWt3cBkhYmA1d0q8yIrwrYkk%3D--jC4WlwCcTiQIuizz--JrPFf7Vh9ZZ8pY%2FVm4p6vQ%3D%3D;
         path=/; secure; HttpOnly; SameSite=None
       x-ratelimit-limit: '-1'
       x-ratelimit-remaining: '0'
@@ -68,6 +68,6 @@ http_interactions:
     body:
       encoding: UTF-8
       file: yes
-      string: ../fixtures/usa_00086.dat.gz
-  recorded_at: 2021-11-22 16:53:29 GMT
+      string: ../fixtures/usa_00107.dat.gz
+  recorded_at: 2022-05-26 15:56:25 GMT
   recorded_with: vcr/1.0.2, webmockr/0.8.0

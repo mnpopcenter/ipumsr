@@ -112,28 +112,14 @@ define_extract_micro <- function(collection,
 #' extract_json_path <- file.path(tempdir(), "usa_extract.json")
 #' save_extract_as_json(my_extract, file = extract_json_path)
 #'
-#' copy_of_my_extract <- define_extract_from_json(extract_json_path, "usa")
+#' copy_of_my_extract <- define_extract_from_json(extract_json_path)
 #'
 #' identical(my_extract, copy_of_my_extract)
 #'
 #' @export
-define_extract_from_json <- function(extract_json, collection) {
-  if (missing(collection)) {
-    stop("`collection` is a required argument", call. = FALSE)
-  }
-  if (!collection %in% ipums_data_collections()$code_for_api) {
-    stop(
-      paste0(
-        '"', collection, '"', " is not a valid code for an IPUMS data ",
-        "collection. To see all valid collection codes, use ",
-        "`ipums_data_collections()`"
-      ),
-      call. = FALSE
-    )
-  }
+define_extract_from_json <- function(extract_json) {
   list_of_extracts <- extract_list_from_json(
     extract_json,
-    collection,
     validate = TRUE
   )
   if (length(list_of_extracts) != 1) {
@@ -142,6 +128,15 @@ define_extract_from_json <- function(extract_json, collection) {
         "`extract_json` should contain the definition of one and only one ",
         "extract"
       ),
+      call. = FALSE
+    )
+  }
+  json_api_version <- api_version_from_json(extract_json)
+  if (microdata_api_version() != json_api_version){
+    warning(
+      "The extract defined in ", extract_json, " was made using API version ",
+      json_api_version, ". ipumsr is currently configured to submit extract ",
+      "requests using API version ", microdata_api_version(), ".",
       call. = FALSE
     )
   }
@@ -172,13 +167,13 @@ define_extract_from_json <- function(extract_json, collection) {
 #' extract_json_path <- file.path(tempdir(), "usa_extract.json")
 #' save_extract_as_json(my_extract, file = extract_json_path)
 #'
-#' copy_of_my_extract <- define_extract_from_json(extract_json_path, "usa")
+#' copy_of_my_extract <- define_extract_from_json(extract_json_path)
 #'
 #' identical(my_extract, copy_of_my_extract)
 #'
 #' @export
 save_extract_as_json <- function(extract, file) {
-  extract_as_json <- extract_to_request_json(extract)
+  extract_as_json <- extract_to_request_json(extract, include_endpoint_info=TRUE)
   writeLines(jsonlite::prettify(extract_as_json), con = file)
   invisible(file)
 }
@@ -319,7 +314,7 @@ get_extract_info <- function(extract, api_key = Sys.getenv("IPUMS_API_KEY")) {
     path = paste0(microdata_api_extracts_path(), "/", extract$number),
     api_key = api_key
   )
-  extract_list_from_json(response, collection)[[1]]
+  extract_list_from_json(response, collection=collection)[[1]]
 }
 
 
@@ -769,7 +764,7 @@ get_recent_extracts_info_list <- function(collection,
     queries = list(limit = how_many),
     api_key = api_key
   )
-  extract_list_from_json(response, collection)
+  extract_list_from_json(response, collection=collection)
 }
 
 
@@ -1127,7 +1122,7 @@ print_truncated_vector <- function(x, label = NULL, include_length = TRUE) {
 }
 
 
-extract_to_request_json <- function(extract) {
+extract_to_request_json <- function(extract, include_endpoint_info = FALSE) {
   if (is.na(extract$description)) {
     extract$description <- ""
   }
@@ -1144,6 +1139,13 @@ extract_to_request_json <- function(extract) {
     samples = format_samples_for_json(extract$samples),
     variables = format_variables_for_json(extract$variables)
   )
+  if (include_endpoint_info){
+    endpoint_info <- list(
+      collection = extract$collection,
+      api_version = microdata_api_version()
+    )
+    request_list <- append(request_list, endpoint_info)
+  }
   jsonlite::toJSON(request_list, auto_unbox = TRUE)
 }
 
@@ -1328,7 +1330,7 @@ ipums_api_json_request <- function(verb,
 }
 
 extract_list_from_json <- function(extracts_as_json,
-                                   collection,
+                                   collection = NULL,
                                    validate = FALSE) {
   list_of_extract_info <- jsonlite::fromJSON(
     extracts_as_json,
@@ -1347,6 +1349,8 @@ extract_list_from_json <- function(extracts_as_json,
   purrr::map(
     list_of_extract_info,
     function(x) {
+      # if the collection argument is NULL, check for it in the json
+      if (is.null(collection)) collection <- x$collection
       out <- new_ipums_extract(
         collection = collection,
         description = x$description,
@@ -1385,10 +1389,6 @@ parse_400_error <- function(res) {
     paste0(response_detail, collapse = "\n\n")
   )
   return(error_message)
-}
-
-json_to_extract <- function(json, collection) {
-  json_as_data_frame <- jsonlite::fromJSON(json)
 }
 
 
@@ -1485,6 +1485,15 @@ microdata_api_version <- function() {
   api_version <- Sys.getenv("IPUMS_API_VERSION")
   if (api_version == "") return("beta")
   api_version
+}
+
+
+api_version_from_json <- function(extract_json) {
+  extract <- jsonlite::fromJSON(
+    extract_json,
+    simplifyVector = FALSE
+  )
+  extract$api_version
 }
 
 

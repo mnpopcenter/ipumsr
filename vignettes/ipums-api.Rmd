@@ -298,12 +298,11 @@ usa_extract_33 <- get_extract_info("usa:33")
 save_extract_as_json(usa_extract_33, file = "usa_extract_33.json")
 ```
 
-Then, you or
-another user could use that JSON file to create a duplicate "ipums_extract"
-object with the same definition, and submit it, using:
+Then, you or another user could use that JSON file to create a duplicate
+"ipums_extract" object with the same definition, and submit it, using:
 
 ```{r}
-clone_of_usa_extract_33 <- define_extract_from_json("usa_extract_33.json", "usa")
+clone_of_usa_extract_33 <- define_extract_from_json("usa_extract_33.json")
 submitted_extract <- submit_extract(clone_of_usa_extract_33)
 ```
 

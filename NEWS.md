@@ -1,5 +1,9 @@
 # ipumsr (development version)
 
+* Include endpoint information (IPUMS collection and API version) when saving an extract as json.
+
+* Read endpoint information (IPUMS collection and API version) from json when they are included.
+
 # ipumsr 0.4.5
 
 * Fixed bug causing a read error for some labeled string variables (#61, thanks 
