@@ -17,29 +17,29 @@ http_interactions:
       message: 'Success: (200) OK'
     headers:
       cache-control: max-age=0, private, must-revalidate
-      content-length: '424'
+      content-length: '425'
       content-type: application/json; charset=utf-8
-      date: Mon, 22 Nov 2021 16:53:12 GMT
-      etag: W/"0daca83b7e7a4bc8019422db49bfcdc5"
+      date: Thu, 26 May 2022 15:56:09 GMT
+      etag: W/"1f12939e9f502bd55176d38416580141"
       referrer-policy: strict-origin-when-cross-origin
-      server: nginx/1.18.0 + Phusion Passenger(R) 6.0.11
+      server: nginx/1.18.0 + Phusion Passenger(R) 6.0.13
       status: 200 OK
       vary: Origin
       x-content-type-options: nosniff
       x-download-options: noopen
       x-frame-options: SAMEORIGIN
       x-permitted-cross-domain-policies: none
-      x-powered-by: Phusion Passenger(R) 6.0.11
+      x-powered-by: Phusion Passenger(R) 6.0.13
       x-ratelimit-limit: '-1'
       x-ratelimit-remaining: '0'
       x-ratelimit-reset: '0'
-      x-request-id: e3a6e9f7-fe02-4f0a-9818-3d1d24f2a086
-      x-runtime: '0.606164'
+      x-request-id: 39187dd0-3aed-4798-9623-91e1473aaf5c
+      x-runtime: '0.583510'
       x-xss-protection: 1; mode=block
     body:
       encoding: UTF-8
       file: no
       string: '{"data_structure":{"rectangular":{"on":"P"}},"data_format":"fixed_width","description":"Test
-        extract","samples":{"us2017b":{}},"variables":{"YEAR":{"preselected":true},"SAMPLE":{"preselected":true},"SERIAL":{"preselected":true},"CBSERIAL":{"preselected":true},"HHWT":{"preselected":true},"GQ":{"preselected":true},"PERNUM":{"preselected":true},"PERWT":{"preselected":true}},"download_links":{},"number":86,"status":"queued"}'
-  recorded_at: 2021-11-22 16:53:14 GMT
+        extract","samples":{"us2017b":{}},"variables":{"YEAR":{"preselected":true},"SAMPLE":{"preselected":true},"SERIAL":{"preselected":true},"CBSERIAL":{"preselected":true},"HHWT":{"preselected":true},"GQ":{"preselected":true},"PERNUM":{"preselected":true},"PERWT":{"preselected":true}},"download_links":{},"number":107,"status":"queued"}'
+  recorded_at: 2022-05-26 15:56:10 GMT
   recorded_with: vcr/1.0.2, webmockr/0.8.0

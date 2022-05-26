@@ -53,24 +53,24 @@ or add value/variable labels to the data.
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
-\item \href{#method-set_ipums_fields}{\code{IpumsChunkCallback$set_ipums_fields()}}
-\item \href{#method-clone}{\code{IpumsChunkCallback$clone()}}
+\item \href{#method-IpumsChunkCallback-set_ipums_fields}{\code{IpumsChunkCallback$set_ipums_fields()}}
+\item \href{#method-IpumsChunkCallback-clone}{\code{IpumsChunkCallback$clone()}}
 }
 }
-\if{html}{
-\out{<details open ><summary>Inherited methods</summary>}
-\itemize{
-\item \out{<span class="pkg-link" data-pkg="hipread" data-topic="ChunkCallback" data-id="continue">}\href{../../hipread/html/ChunkCallback.html#method-continue}{\code{hipread::ChunkCallback$continue()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="hipread" data-topic="ChunkCallback" data-id="finally">}\href{../../hipread/html/ChunkCallback.html#method-finally}{\code{hipread::ChunkCallback$finally()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="hipread" data-topic="ChunkCallback" data-id="initialize">}\href{../../hipread/html/ChunkCallback.html#method-initialize}{\code{hipread::ChunkCallback$initialize()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="hipread" data-topic="ChunkCallback" data-id="receive">}\href{../../hipread/html/ChunkCallback.html#method-receive}{\code{hipread::ChunkCallback$receive()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="hipread" data-topic="ChunkCallback" data-id="result">}\href{../../hipread/html/ChunkCallback.html#method-result}{\code{hipread::ChunkCallback$result()}}\out{</span>}
-}
-\out{</details>}
-}
+\if{html}{\out{
+<details open><summary>Inherited methods</summary>
+<ul>
+<li><span class="pkg-link" data-pkg="hipread" data-topic="ChunkCallback" data-id="continue"><a href='../../hipread/html/ChunkCallback.html#method-ChunkCallback-continue'><code>hipread::ChunkCallback$continue()</code></a></li>
+<li><span class="pkg-link" data-pkg="hipread" data-topic="ChunkCallback" data-id="finally"><a href='../../hipread/html/ChunkCallback.html#method-ChunkCallback-finally'><code>hipread::ChunkCallback$finally()</code></a></li>
+<li><span class="pkg-link" data-pkg="hipread" data-topic="ChunkCallback" data-id="initialize"><a href='../../hipread/html/ChunkCallback.html#method-ChunkCallback-initialize'><code>hipread::ChunkCallback$initialize()</code></a></li>
+<li><span class="pkg-link" data-pkg="hipread" data-topic="ChunkCallback" data-id="receive"><a href='../../hipread/html/ChunkCallback.html#method-ChunkCallback-receive'><code>hipread::ChunkCallback$receive()</code></a></li>
+<li><span class="pkg-link" data-pkg="hipread" data-topic="ChunkCallback" data-id="result"><a href='../../hipread/html/ChunkCallback.html#method-ChunkCallback-result'><code>hipread::ChunkCallback$result()</code></a></li>
+</ul>
+</details>
+}}
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-set_ipums_fields"></a>}}
-\if{latex}{\out{\hypertarget{method-set_ipums_fields}{}}}
+\if{html}{\out{<a id="method-IpumsChunkCallback-set_ipums_fields"></a>}}
+\if{latex}{\out{\hypertarget{method-IpumsChunkCallback-set_ipums_fields}{}}}
 \subsection{Method \code{set_ipums_fields()}}{
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{IpumsChunkCallback$set_ipums_fields(
@@ -83,8 +83,8 @@ or add value/variable labels to the data.
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-clone"></a>}}
-\if{latex}{\out{\hypertarget{method-clone}{}}}
+\if{html}{\out{<a id="method-IpumsChunkCallback-clone"></a>}}
+\if{latex}{\out{\hypertarget{method-IpumsChunkCallback-clone}{}}}
 \subsection{Method \code{clone()}}{
 The objects of this class are cloneable with this method.
 \subsection{Usage}{
@@ -106,24 +106,24 @@ The objects of this class are cloneable with this method.
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
-\item \href{#method-new}{\code{IpumsSideEffectCallback$new()}}
-\item \href{#method-receive}{\code{IpumsSideEffectCallback$receive()}}
-\item \href{#method-continue}{\code{IpumsSideEffectCallback$continue()}}
-\item \href{#method-clone}{\code{IpumsSideEffectCallback$clone()}}
+\item \href{#method-IpumsSideEffectCallback-new}{\code{IpumsSideEffectCallback$new()}}
+\item \href{#method-IpumsSideEffectCallback-receive}{\code{IpumsSideEffectCallback$receive()}}
+\item \href{#method-IpumsSideEffectCallback-continue}{\code{IpumsSideEffectCallback$continue()}}
+\item \href{#method-IpumsSideEffectCallback-clone}{\code{IpumsSideEffectCallback$clone()}}
 }
 }
-\if{html}{
-\out{<details open ><summary>Inherited methods</summary>}
-\itemize{
-\item \out{<span class="pkg-link" data-pkg="hipread" data-topic="ChunkCallback" data-id="finally">}\href{../../hipread/html/ChunkCallback.html#method-finally}{\code{hipread::ChunkCallback$finally()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="hipread" data-topic="ChunkCallback" data-id="result">}\href{../../hipread/html/ChunkCallback.html#method-result}{\code{hipread::ChunkCallback$result()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="ipumsr" data-topic="IpumsChunkCallback" data-id="set_ipums_fields">}\href{../../ipumsr/html/IpumsChunkCallback.html#method-set_ipums_fields}{\code{ipumsr::IpumsChunkCallback$set_ipums_fields()}}\out{</span>}
-}
-\out{</details>}
-}
+\if{html}{\out{
+<details open><summary>Inherited methods</summary>
+<ul>
+<li><span class="pkg-link" data-pkg="hipread" data-topic="ChunkCallback" data-id="finally"><a href='../../hipread/html/ChunkCallback.html#method-ChunkCallback-finally'><code>hipread::ChunkCallback$finally()</code></a></li>
+<li><span class="pkg-link" data-pkg="hipread" data-topic="ChunkCallback" data-id="result"><a href='../../hipread/html/ChunkCallback.html#method-ChunkCallback-result'><code>hipread::ChunkCallback$result()</code></a></li>
+<li><span class="pkg-link" data-pkg="ipumsr" data-topic="IpumsChunkCallback" data-id="set_ipums_fields"><a href='../../ipumsr/html/IpumsChunkCallback.html#method-IpumsChunkCallback-set_ipums_fields'><code>ipumsr::IpumsChunkCallback$set_ipums_fields()</code></a></li>
+</ul>
+</details>
+}}
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-new"></a>}}
-\if{latex}{\out{\hypertarget{method-new}{}}}
+\if{html}{\out{<a id="method-IpumsSideEffectCallback-new"></a>}}
+\if{latex}{\out{\hypertarget{method-IpumsSideEffectCallback-new}{}}}
 \subsection{Method \code{new()}}{
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{IpumsSideEffectCallback$new(callback)}\if{html}{\out{</div>}}
@@ -131,8 +131,8 @@ The objects of this class are cloneable with this method.
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-receive"></a>}}
-\if{latex}{\out{\hypertarget{method-receive}{}}}
+\if{html}{\out{<a id="method-IpumsSideEffectCallback-receive"></a>}}
+\if{latex}{\out{\hypertarget{method-IpumsSideEffectCallback-receive}{}}}
 \subsection{Method \code{receive()}}{
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{IpumsSideEffectCallback$receive(data, index)}\if{html}{\out{</div>}}
@@ -140,8 +140,8 @@ The objects of this class are cloneable with this method.
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-continue"></a>}}
-\if{latex}{\out{\hypertarget{method-continue}{}}}
+\if{html}{\out{<a id="method-IpumsSideEffectCallback-continue"></a>}}
+\if{latex}{\out{\hypertarget{method-IpumsSideEffectCallback-continue}{}}}
 \subsection{Method \code{continue()}}{
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{IpumsSideEffectCallback$continue()}\if{html}{\out{</div>}}
@@ -149,8 +149,8 @@ The objects of this class are cloneable with this method.
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-clone"></a>}}
-\if{latex}{\out{\hypertarget{method-clone}{}}}
+\if{html}{\out{<a id="method-IpumsSideEffectCallback-clone"></a>}}
+\if{latex}{\out{\hypertarget{method-IpumsSideEffectCallback-clone}{}}}
 \subsection{Method \code{clone()}}{
 The objects of this class are cloneable with this method.
 \subsection{Usage}{
@@ -172,24 +172,24 @@ The objects of this class are cloneable with this method.
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
-\item \href{#method-new}{\code{IpumsDataFrameCallback$new()}}
-\item \href{#method-receive}{\code{IpumsDataFrameCallback$receive()}}
-\item \href{#method-result}{\code{IpumsDataFrameCallback$result()}}
-\item \href{#method-finally}{\code{IpumsDataFrameCallback$finally()}}
-\item \href{#method-clone}{\code{IpumsDataFrameCallback$clone()}}
+\item \href{#method-IpumsDataFrameCallback-new}{\code{IpumsDataFrameCallback$new()}}
+\item \href{#method-IpumsDataFrameCallback-receive}{\code{IpumsDataFrameCallback$receive()}}
+\item \href{#method-IpumsDataFrameCallback-result}{\code{IpumsDataFrameCallback$result()}}
+\item \href{#method-IpumsDataFrameCallback-finally}{\code{IpumsDataFrameCallback$finally()}}
+\item \href{#method-IpumsDataFrameCallback-clone}{\code{IpumsDataFrameCallback$clone()}}
 }
 }
-\if{html}{
-\out{<details open ><summary>Inherited methods</summary>}
-\itemize{
-\item \out{<span class="pkg-link" data-pkg="hipread" data-topic="ChunkCallback" data-id="continue">}\href{../../hipread/html/ChunkCallback.html#method-continue}{\code{hipread::ChunkCallback$continue()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="ipumsr" data-topic="IpumsChunkCallback" data-id="set_ipums_fields">}\href{../../ipumsr/html/IpumsChunkCallback.html#method-set_ipums_fields}{\code{ipumsr::IpumsChunkCallback$set_ipums_fields()}}\out{</span>}
-}
-\out{</details>}
-}
+\if{html}{\out{
+<details open><summary>Inherited methods</summary>
+<ul>
+<li><span class="pkg-link" data-pkg="hipread" data-topic="ChunkCallback" data-id="continue"><a href='../../hipread/html/ChunkCallback.html#method-ChunkCallback-continue'><code>hipread::ChunkCallback$continue()</code></a></li>
+<li><span class="pkg-link" data-pkg="ipumsr" data-topic="IpumsChunkCallback" data-id="set_ipums_fields"><a href='../../ipumsr/html/IpumsChunkCallback.html#method-IpumsChunkCallback-set_ipums_fields'><code>ipumsr::IpumsChunkCallback$set_ipums_fields()</code></a></li>
+</ul>
+</details>
+}}
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-new"></a>}}
-\if{latex}{\out{\hypertarget{method-new}{}}}
+\if{html}{\out{<a id="method-IpumsDataFrameCallback-new"></a>}}
+\if{latex}{\out{\hypertarget{method-IpumsDataFrameCallback-new}{}}}
 \subsection{Method \code{new()}}{
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{IpumsDataFrameCallback$new(callback)}\if{html}{\out{</div>}}
@@ -197,8 +197,8 @@ The objects of this class are cloneable with this method.
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-receive"></a>}}
-\if{latex}{\out{\hypertarget{method-receive}{}}}
+\if{html}{\out{<a id="method-IpumsDataFrameCallback-receive"></a>}}
+\if{latex}{\out{\hypertarget{method-IpumsDataFrameCallback-receive}{}}}
 \subsection{Method \code{receive()}}{
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{IpumsDataFrameCallback$receive(data, index)}\if{html}{\out{</div>}}
@@ -206,8 +206,8 @@ The objects of this class are cloneable with this method.
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-result"></a>}}
-\if{latex}{\out{\hypertarget{method-result}{}}}
+\if{html}{\out{<a id="method-IpumsDataFrameCallback-result"></a>}}
+\if{latex}{\out{\hypertarget{method-IpumsDataFrameCallback-result}{}}}
 \subsection{Method \code{result()}}{
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{IpumsDataFrameCallback$result()}\if{html}{\out{</div>}}
@@ -215,8 +215,8 @@ The objects of this class are cloneable with this method.
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-finally"></a>}}
-\if{latex}{\out{\hypertarget{method-finally}{}}}
+\if{html}{\out{<a id="method-IpumsDataFrameCallback-finally"></a>}}
+\if{latex}{\out{\hypertarget{method-IpumsDataFrameCallback-finally}{}}}
 \subsection{Method \code{finally()}}{
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{IpumsDataFrameCallback$finally()}\if{html}{\out{</div>}}
@@ -224,8 +224,8 @@ The objects of this class are cloneable with this method.
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-clone"></a>}}
-\if{latex}{\out{\hypertarget{method-clone}{}}}
+\if{html}{\out{<a id="method-IpumsDataFrameCallback-clone"></a>}}
+\if{latex}{\out{\hypertarget{method-IpumsDataFrameCallback-clone}{}}}
 \subsection{Method \code{clone()}}{
 The objects of this class are cloneable with this method.
 \subsection{Usage}{
@@ -247,24 +247,24 @@ The objects of this class are cloneable with this method.
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
-\item \href{#method-new}{\code{IpumsListCallback$new()}}
-\item \href{#method-receive}{\code{IpumsListCallback$receive()}}
-\item \href{#method-result}{\code{IpumsListCallback$result()}}
-\item \href{#method-finally}{\code{IpumsListCallback$finally()}}
-\item \href{#method-clone}{\code{IpumsListCallback$clone()}}
+\item \href{#method-IpumsListCallback-new}{\code{IpumsListCallback$new()}}
+\item \href{#method-IpumsListCallback-receive}{\code{IpumsListCallback$receive()}}
+\item \href{#method-IpumsListCallback-result}{\code{IpumsListCallback$result()}}
+\item \href{#method-IpumsListCallback-finally}{\code{IpumsListCallback$finally()}}
+\item \href{#method-IpumsListCallback-clone}{\code{IpumsListCallback$clone()}}
 }
 }
-\if{html}{
-\out{<details open ><summary>Inherited methods</summary>}
-\itemize{
-\item \out{<span class="pkg-link" data-pkg="hipread" data-topic="ChunkCallback" data-id="continue">}\href{../../hipread/html/ChunkCallback.html#method-continue}{\code{hipread::ChunkCallback$continue()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="ipumsr" data-topic="IpumsChunkCallback" data-id="set_ipums_fields">}\href{../../ipumsr/html/IpumsChunkCallback.html#method-set_ipums_fields}{\code{ipumsr::IpumsChunkCallback$set_ipums_fields()}}\out{</span>}
-}
-\out{</details>}
-}
+\if{html}{\out{
+<details open><summary>Inherited methods</summary>
+<ul>
+<li><span class="pkg-link" data-pkg="hipread" data-topic="ChunkCallback" data-id="continue"><a href='../../hipread/html/ChunkCallback.html#method-ChunkCallback-continue'><code>hipread::ChunkCallback$continue()</code></a></li>
+<li><span class="pkg-link" data-pkg="ipumsr" data-topic="IpumsChunkCallback" data-id="set_ipums_fields"><a href='../../ipumsr/html/IpumsChunkCallback.html#method-IpumsChunkCallback-set_ipums_fields'><code>ipumsr::IpumsChunkCallback$set_ipums_fields()</code></a></li>
+</ul>
+</details>
+}}
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-new"></a>}}
-\if{latex}{\out{\hypertarget{method-new}{}}}
+\if{html}{\out{<a id="method-IpumsListCallback-new"></a>}}
+\if{latex}{\out{\hypertarget{method-IpumsListCallback-new}{}}}
 \subsection{Method \code{new()}}{
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{IpumsListCallback$new(callback)}\if{html}{\out{</div>}}
@@ -272,8 +272,8 @@ The objects of this class are cloneable with this method.
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-receive"></a>}}
-\if{latex}{\out{\hypertarget{method-receive}{}}}
+\if{html}{\out{<a id="method-IpumsListCallback-receive"></a>}}
+\if{latex}{\out{\hypertarget{method-IpumsListCallback-receive}{}}}
 \subsection{Method \code{receive()}}{
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{IpumsListCallback$receive(data, index)}\if{html}{\out{</div>}}
@@ -281,8 +281,8 @@ The objects of this class are cloneable with this method.
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-result"></a>}}
-\if{latex}{\out{\hypertarget{method-result}{}}}
+\if{html}{\out{<a id="method-IpumsListCallback-result"></a>}}
+\if{latex}{\out{\hypertarget{method-IpumsListCallback-result}{}}}
 \subsection{Method \code{result()}}{
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{IpumsListCallback$result()}\if{html}{\out{</div>}}
@@ -290,8 +290,8 @@ The objects of this class are cloneable with this method.
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-finally"></a>}}
-\if{latex}{\out{\hypertarget{method-finally}{}}}
+\if{html}{\out{<a id="method-IpumsListCallback-finally"></a>}}
+\if{latex}{\out{\hypertarget{method-IpumsListCallback-finally}{}}}
 \subsection{Method \code{finally()}}{
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{IpumsListCallback$finally()}\if{html}{\out{</div>}}
@@ -299,8 +299,8 @@ The objects of this class are cloneable with this method.
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-clone"></a>}}
-\if{latex}{\out{\hypertarget{method-clone}{}}}
+\if{html}{\out{<a id="method-IpumsListCallback-clone"></a>}}
+\if{latex}{\out{\hypertarget{method-IpumsListCallback-clone}{}}}
 \subsection{Method \code{clone()}}{
 The objects of this class are cloneable with this method.
 \subsection{Usage}{
@@ -322,24 +322,24 @@ The objects of this class are cloneable with this method.
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
-\item \href{#method-new}{\code{IpumsBiglmCallback$new()}}
-\item \href{#method-receive}{\code{IpumsBiglmCallback$receive()}}
-\item \href{#method-result}{\code{IpumsBiglmCallback$result()}}
-\item \href{#method-clone}{\code{IpumsBiglmCallback$clone()}}
+\item \href{#method-IpumsBiglmCallback-new}{\code{IpumsBiglmCallback$new()}}
+\item \href{#method-IpumsBiglmCallback-receive}{\code{IpumsBiglmCallback$receive()}}
+\item \href{#method-IpumsBiglmCallback-result}{\code{IpumsBiglmCallback$result()}}
+\item \href{#method-IpumsBiglmCallback-clone}{\code{IpumsBiglmCallback$clone()}}
 }
 }
-\if{html}{
-\out{<details open ><summary>Inherited methods</summary>}
-\itemize{
-\item \out{<span class="pkg-link" data-pkg="hipread" data-topic="ChunkCallback" data-id="continue">}\href{../../hipread/html/ChunkCallback.html#method-continue}{\code{hipread::ChunkCallback$continue()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="hipread" data-topic="ChunkCallback" data-id="finally">}\href{../../hipread/html/ChunkCallback.html#method-finally}{\code{hipread::ChunkCallback$finally()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="ipumsr" data-topic="IpumsChunkCallback" data-id="set_ipums_fields">}\href{../../ipumsr/html/IpumsChunkCallback.html#method-set_ipums_fields}{\code{ipumsr::IpumsChunkCallback$set_ipums_fields()}}\out{</span>}
-}
-\out{</details>}
-}
+\if{html}{\out{
+<details open><summary>Inherited methods</summary>
+<ul>
+<li><span class="pkg-link" data-pkg="hipread" data-topic="ChunkCallback" data-id="continue"><a href='../../hipread/html/ChunkCallback.html#method-ChunkCallback-continue'><code>hipread::ChunkCallback$continue()</code></a></li>
+<li><span class="pkg-link" data-pkg="hipread" data-topic="ChunkCallback" data-id="finally"><a href='../../hipread/html/ChunkCallback.html#method-ChunkCallback-finally'><code>hipread::ChunkCallback$finally()</code></a></li>
+<li><span class="pkg-link" data-pkg="ipumsr" data-topic="IpumsChunkCallback" data-id="set_ipums_fields"><a href='../../ipumsr/html/IpumsChunkCallback.html#method-IpumsChunkCallback-set_ipums_fields'><code>ipumsr::IpumsChunkCallback$set_ipums_fields()</code></a></li>
+</ul>
+</details>
+}}
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-new"></a>}}
-\if{latex}{\out{\hypertarget{method-new}{}}}
+\if{html}{\out{<a id="method-IpumsBiglmCallback-new"></a>}}
+\if{latex}{\out{\hypertarget{method-IpumsBiglmCallback-new}{}}}
 \subsection{Method \code{new()}}{
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{IpumsBiglmCallback$new(model, prep = function(x, pos) x, ...)}\if{html}{\out{</div>}}
@@ -347,8 +347,8 @@ The objects of this class are cloneable with this method.
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-receive"></a>}}
-\if{latex}{\out{\hypertarget{method-receive}{}}}
+\if{html}{\out{<a id="method-IpumsBiglmCallback-receive"></a>}}
+\if{latex}{\out{\hypertarget{method-IpumsBiglmCallback-receive}{}}}
 \subsection{Method \code{receive()}}{
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{IpumsBiglmCallback$receive(data, index)}\if{html}{\out{</div>}}
@@ -356,8 +356,8 @@ The objects of this class are cloneable with this method.
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-result"></a>}}
-\if{latex}{\out{\hypertarget{method-result}{}}}
+\if{html}{\out{<a id="method-IpumsBiglmCallback-result"></a>}}
+\if{latex}{\out{\hypertarget{method-IpumsBiglmCallback-result}{}}}
 \subsection{Method \code{result()}}{
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{IpumsBiglmCallback$result()}\if{html}{\out{</div>}}
@@ -365,8 +365,8 @@ The objects of this class are cloneable with this method.
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-clone"></a>}}
-\if{latex}{\out{\hypertarget{method-clone}{}}}
+\if{html}{\out{<a id="method-IpumsBiglmCallback-clone"></a>}}
+\if{latex}{\out{\hypertarget{method-IpumsBiglmCallback-clone}{}}}
 \subsection{Method \code{clone()}}{
 The objects of this class are cloneable with this method.
 \subsection{Usage}{

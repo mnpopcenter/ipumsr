@@ -448,7 +448,7 @@ test_that("We can export to and import from JSON", {
   json_tmpfile <- file.path(tempdir(), "usa_extract.json")
   on.exit(unlink(json_tmpfile))
   save_extract_as_json(usa_extract, json_tmpfile)
-  copy_of_usa_extract <- define_extract_from_json(json_tmpfile, "usa")
+  copy_of_usa_extract <- define_extract_from_json(json_tmpfile)
   expect_identical(usa_extract, copy_of_usa_extract)
 })
 
@@ -457,7 +457,7 @@ test_that("We can export to and import from JSON, submitted extract", {
   json_tmpfile <- file.path(tempdir(), "usa_extract.json")
   on.exit(unlink(json_tmpfile))
   save_extract_as_json(submitted_usa_extract, json_tmpfile)
-  copy_of_submitted_usa_extract <- define_extract_from_json(json_tmpfile, "usa")
+  copy_of_submitted_usa_extract <- define_extract_from_json(json_tmpfile)
   expect_identical(
     ipumsr:::copy_ipums_extract(submitted_usa_extract),
     copy_of_submitted_usa_extract

@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xml-stylesheet type="text/xsl" href="ipums-ddi-xslt.xsl"?>
-<codeBook ID="ddi2-27c79f70-8e14-11e5-8c97-b82a72e0b782-usa_00086.dat-usa.ipums.org" version="2.5" xmlns="ddi:codebook:2_5" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ddi:codebook:2_5 http://www.ddialliance.org/Specification/DDI-Codebook/2.5/XMLSchema/codebook.xsd">
+<codeBook ID="ddi2-27c79f70-8e14-11e5-8c97-b82a72e0b782-usa_00107.dat-usa.ipums.org" version="2.5" xmlns="ddi:codebook:2_5" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ddi:codebook:2_5 http://www.ddialliance.org/Specification/DDI-Codebook/2.5/XMLSchema/codebook.xsd">
   <docDscr>
     <citation>
       <titlStmt>
         <titl>Codebook for an IPUMS-USA Data Extract</titl>
-        <subTitl>DDI 2.5 metadata describing the extract file  'usa_00086.dat'</subTitl>
-        <IDNo>ddi2-27c79f70-8e14-11e5-8c97-b82a72e0b782-usa_00086.dat-usa.ipums.org</IDNo>
+        <subTitl>DDI 2.5 metadata describing the extract file  'usa_00107.dat'</subTitl>
+        <IDNo>ddi2-27c79f70-8e14-11e5-8c97-b82a72e0b782-usa_00107.dat-usa.ipums.org</IDNo>
       </titlStmt>
       <rspStmt>
         <AuthEnty affiliation="University of Minnesota">IPUMS</AuthEnty>
       </rspStmt>
       <prodStmt>
         <producer abbr="IPUMS" affiliation="University of Minnesota" role="Documentation">IPUMS</producer>
-        <prodDate date="2021-11-22">November 22, 2021</prodDate>
+        <prodDate date="2022-05-26">May 26, 2022</prodDate>
         <prodPlac>IPUMS, 50 Willey Hall, 225 - 19th Avenue South, Minneapolis, MN 55455</prodPlac>
       </prodStmt>
       <distStmt>
@@ -24,14 +24,14 @@
   <stdyDscr>
     <citation>
       <titlStmt>
-        <titl>User Extract usa_00086.dat</titl>
+        <titl>User Extract usa_00107.dat</titl>
       </titlStmt>
       <rspStmt>
         <AuthEnty affiliation="University of Minnesota">IPUMS</AuthEnty>
       </rspStmt>
       <prodStmt>
         <producer abbr="IPUMS" affiliation="University of Minnesota" role="Documentation">IPUMS</producer>
-        <prodDate date="2021-11-22">November 22, 2021</prodDate>
+        <prodDate date="2022-05-26">May 26, 2022</prodDate>
         <prodPlac>IPUMS, 50 Willey Hall, 225 - 19th Avenue South, Minneapolis, MN 55455</prodPlac>
       </prodStmt>
       <distStmt>
@@ -39,10 +39,10 @@
       </distStmt>
       <serStmt>
         <serName abbr="usa">IPUMS USA</serName>
-        <serInfo>DOI:10.18128/D010.V11.0</serInfo>
+        <serInfo>DOI:10.18128/D010.V12.0</serInfo>
       </serStmt>
       <verStmt>
-        <version date="2021-11-22"/>
+        <version date="2022-05-26"/>
       </verStmt>
     </citation>
     <stdyInfo>
@@ -64,7 +64,7 @@
         <contact URI="http://usa.ipums.org" affiliation="IPUMS">IPUMS-USA</contact>
         <citReq><![CDATA[Publications and research reports based on the IPUMS-USA database must cite it appropriately. The citation should include the following:
 
-Steven Ruggles, Sarah Flood, Sophia Foster, Ronald Goeken, Jose Pacas, Megan Schouweiler and Matthew Sobek. IPUMS USA: Version 11.0 [dataset]. Minneapolis, MN: IPUMS, 2021. https://doi.org/10.18128/D010.V11.0
+Steven Ruggles, Sarah Flood, Ronald Goeken, Megan Schouweiler and Matthew Sobek. IPUMS USA: Version 12.0 [dataset]. Minneapolis, MN: IPUMS, 2022. https://doi.org/10.18128/D010.V12.0
 
 The licensing agreement for use of IPUMS-USA data requires that users supply us with the title and full citation for any publications, research reports, or educational materials making use of the data or documentation. Please add your citation to the IPUMS bibliography at http://bibliography.ipums.org/.]]></citReq>
         <conditions><![CDATA[Users of IPUMS-USA data must agree to abide by the conditions of use. A user's license is valid for one year and may be renewed.  Users must agree to the following conditions:
@@ -89,7 +89,7 @@ The licensing agreement for use of IPUMS-USA data requires that users supply us 
   </stdyDscr>
   <fileDscr ID="ExtractData">
     <fileTxt>
-      <fileName>usa_00086.dat</fileName>
+      <fileName>usa_00107.dat</fileName>
       <fileCont>Microdata records</fileCont>
       <fileStrc type="rectangular"/>
       <fileType charset="ISO-8859-1">ISO-8859-1 data file</fileType>
@@ -240,6 +240,10 @@ For the multi-year ACS/PRCS samples, YEAR indicates the last year of data includ
         <catValu>2019</catValu>
         <labl>2019</labl>
       </catgry>
+      <catgry>
+        <catValu>2020</catValu>
+        <labl>2020</labl>
+      </catgry>
       <concept vocab="IPUMS">Technical Variables -- HOUSEHOLD</concept>
       <varFormat schema="other" type="numeric"/>
     </var>
@@ -256,6 +260,18 @@ For most censuses, IPUMS has multiple datasets which were constructed using diff
 The availability table for each variable indicates whether that variable is available in only certain samples for a given year. For further discussion of sample differences, see "Sample Designs.".
 
 Note: SAMPLE replaces DATANUM. Though the last two digits in SAMPLE do not correlate exactly with the now-deprecated DATANUM, the variable serves the same purpose of assigning a unique id to all cases that belong to the same dataset.]]></txt>
+      <catgry>
+        <catValu>202004</catValu>
+        <labl>2016-2020, PRCS 5-year</labl>
+      </catgry>
+      <catgry>
+        <catValu>202003</catValu>
+        <labl>2016-2020, ACS 5-year</labl>
+      </catgry>
+      <catgry>
+        <catValu>202001</catValu>
+        <labl>2020 ACS</labl>
+      </catgry>
       <catgry>
         <catValu>201904</catValu>
         <labl>2015-2019, PRCS 5-year</labl>
