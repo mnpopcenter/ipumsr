@@ -2,9 +2,10 @@
 % Please edit documentation in R/api.R
 \name{remove_from_extract}
 \alias{remove_from_extract}
+\alias{remove_from_extract.usa_extract}
 \title{Remove values from an existing IPUMS extract}
 \usage{
-remove_from_extract(
+\method{remove_from_extract}{usa_extract}(
   extract,
   samples = NULL,
   variables = NULL,
@@ -28,10 +29,11 @@ extract structure for validity. Defaults to \code{TRUE}.}
 \item{...}{Ignored}
 }
 \value{
-A modified \code{ipums_extract} object
+A modified extract object from the same collection as the input
+  extract
 }
 \description{
-Remove existing values from extract fields of an \code{ipums_extract} object.
+Remove existing values from extract fields of an IPUMS extract object.
 
 To add new values to an extract, see
 \code{\link{add_to_extract}}.

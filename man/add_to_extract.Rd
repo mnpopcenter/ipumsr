@@ -2,9 +2,10 @@
 % Please edit documentation in R/api.R
 \name{add_to_extract}
 \alias{add_to_extract}
+\alias{add_to_extract.usa_extract}
 \title{Add values to an existing IPUMS extract}
 \usage{
-add_to_extract(
+\method{add_to_extract}{usa_extract}(
   extract,
   description = NULL,
   samples = NULL,
@@ -12,7 +13,8 @@ add_to_extract(
   data_format = NULL,
   data_structure = NULL,
   rectangular_on = NULL,
-  validate = TRUE
+  validate = TRUE,
+  ...
 )
 }
 \arguments{
@@ -38,12 +40,15 @@ will also support household-only extracts (\code{rectangular_on = "H"}).}
 
 \item{validate}{Logical value indicating whether to check the modified
 extract structure for validity. Defaults to \code{TRUE}.}
+
+\item{...}{Ignored}
 }
 \value{
-A modified \code{ipums_extract} object
+A modified extract object from the same collection as the input
+  extract
 }
 \description{
-Add new values to any extract fields of an \code{ipums_extract} object.
+Add new values to any extract fields of an IPUMS extract object.
 
 To remove existing values from an extract, see
 \code{\link{remove_from_extract}}.

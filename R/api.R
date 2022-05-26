@@ -608,10 +608,15 @@ download_extract <- function(extract,
 
 # > Revise extract definition --------
 
+#' @export
+add_to_extract <- function(extract, ...) {
+  UseMethod("add_to_extract")
+}
+
 #' Add values to an existing IPUMS extract
 #'
 #' @description
-#' Add new values to any extract fields of an \code{ipums_extract} object.
+#' Add new values to any extract fields of an IPUMS extract object.
 #'
 #' To remove existing values from an extract, see
 #' \code{\link{remove_from_extract}}.
@@ -622,15 +627,19 @@ download_extract <- function(extract,
 #' @param variables Character vector of variables to add to the extract, if any.
 #' @param validate Logical value indicating whether to check the modified
 #'   extract structure for validity. Defaults to \code{TRUE}.
+#' @param ... Ignored
 #'
 #' @family ipums_api
-#' @return A modified \code{ipums_extract} object
-#' @export
+#' @return A modified extract object from the same collection as the input
+#'   extract
 #'
 #' @section Note:
 #' If the supplied extract definition comes from
 #' a previously submitted extract, this function will reset the definition to an
 #' unsubmitted state.
+#'
+#' @name add_to_extract
+#' @export
 #'
 #' @examples
 #' my_extract <- define_extract_micro("usa", "Example", "us2013a", "YEAR")
@@ -640,14 +649,15 @@ download_extract <- function(extract,
 #'   description = "Revised extract",
 #'   samples = "us2014a"
 #' )
-add_to_extract <- function(extract,
-                           description = NULL,
-                           samples = NULL,
-                           variables = NULL,
-                           data_format = NULL,
-                           data_structure = NULL,
-                           rectangular_on = NULL,
-                           validate = TRUE) {
+add_to_extract.usa_extract <- function(extract,
+                                       description = NULL,
+                                       samples = NULL,
+                                       variables = NULL,
+                                       data_format = NULL,
+                                       data_structure = NULL,
+                                       rectangular_on = NULL,
+                                       validate = TRUE,
+                                       ...) {
 
   extract <- copy_ipums_extract(extract)
 
@@ -713,10 +723,15 @@ add_to_extract <- function(extract,
 
 }
 
+#' @export
+remove_from_extract <- function(extract, ...) {
+  UseMethod("remove_from_extract")
+}
+
 #' Remove values from an existing IPUMS extract
 #'
 #' @description
-#' Remove existing values from extract fields of an \code{ipums_extract} object.
+#' Remove existing values from extract fields of an IPUMS extract object.
 #'
 #' To add new values to an extract, see
 #' \code{\link{add_to_extract}}.
@@ -732,13 +747,16 @@ add_to_extract <- function(extract,
 #' @param ... Ignored
 #'
 #' @family ipums_api
-#' @return A modified \code{ipums_extract} object
-#' @export
+#' @return A modified extract object from the same collection as the input
+#'   extract
 #'
 #' @section Note:
 #' If the supplied extract definition comes from
 #' a previously submitted extract, this function will reset the definition to an
 #' unsubmitted state.
+#'
+#' @name remove_from_extract
+#' @export
 #'
 #' @examples
 #' my_extract <- define_extract_micro(
@@ -752,11 +770,11 @@ add_to_extract <- function(extract,
 #'   my_extract,
 #'   samples = "us2014a"
 #' )
-remove_from_extract <- function(extract,
-                                samples = NULL,
-                                variables = NULL,
-                                validate = TRUE,
-                                ...) {
+remove_from_extract.usa_extract <- function(extract,
+                                            samples = NULL,
+                                            variables = NULL,
+                                            validate = TRUE,
+                                            ...) {
 
   extract <- copy_ipums_extract(extract)
 
@@ -1105,7 +1123,7 @@ new_ipums_extract <- function(collection = NA_character_,
 
   structure(
     out,
-    class = c("ipums_extract", class(out))
+    class = c(paste0(collection, "_extract"), "ipums_extract", class(out))
   )
 }
 
@@ -1175,20 +1193,20 @@ validate_ipums_extract <- function(x) {
 
 
 #' @export
-print.ipums_extract <- function(extract) {
+print.usa_extract <- function(x, ...) {
   to_cat <- paste0(
-    ifelse(extract$submitted, "Submitted ", "Unsubmitted "),
-    format_collection_for_printing(extract$collection),
-    " extract ", ifelse(extract$submitted, paste0("number ", extract$number), ""),
-    "\n", print_truncated_vector(extract$description, "Description: ", FALSE),
-    "\n", print_truncated_vector(extract$samples, "Samples: "),
-    "\n", print_truncated_vector(extract$variables, "Variables: "),
+    ifelse(x$submitted, "Submitted ", "Unsubmitted "),
+    format_collection_for_printing(x$collection),
+    " extract ", ifelse(x$submitted, paste0("number ", x$number), ""),
+    "\n", print_truncated_vector(x$description, "Description: ", FALSE),
+    "\n", print_truncated_vector(x$samples, "Samples: "),
+    "\n", print_truncated_vector(x$variables, "Variables: "),
     "\n"
   )
 
   cat(to_cat)
 
-  invisible(extract)
+  invisible(x)
 }
 
 
@@ -1519,7 +1537,7 @@ add_user_auth_header <- function(api_key) {
 #' Add new values, remove existing values, or replace existing values in
 #' a selection of extract fields.
 #'
-#' @param extract ipums_extract object to revise
+#' @param extract An extract object to revise
 #' @param ... Arbitrary number of named arguments, where names correspond to
 #'   extract fields to be modified and values correspond to the values that
 #'   should be modified in those fields.
@@ -1530,7 +1548,8 @@ add_user_auth_header <- function(api_key) {
 #'   "replace", values in \code{...} will replace the values that currently
 #'   exist in the extract.
 #'
-#' @return A modified ipums_extract object
+#' @return A modified extract object from the same collection as the input
+#'   extract
 #'
 #' @noRd
 modify_flat_fields <- function(extract,
