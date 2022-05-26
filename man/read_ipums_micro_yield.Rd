@@ -121,21 +121,21 @@ Other ipums_read:
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
-\item \href{#method-new}{\code{IpumsLongYield$new()}}
-\item \href{#method-yield}{\code{IpumsLongYield$yield()}}
+\item \href{#method-IpumsLongYield-new}{\code{IpumsLongYield$new()}}
+\item \href{#method-IpumsLongYield-yield}{\code{IpumsLongYield$yield()}}
 }
 }
-\if{html}{
-\out{<details open ><summary>Inherited methods</summary>}
-\itemize{
-\item \out{<span class="pkg-link" data-pkg="hipread" data-topic="HipYield" data-id="is_done">}\href{../../hipread/html/HipYield.html#method-is_done}{\code{hipread::HipYield$is_done()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="hipread" data-topic="HipYield" data-id="reset">}\href{../../hipread/html/HipYield.html#method-reset}{\code{hipread::HipYield$reset()}}\out{</span>}
-}
-\out{</details>}
-}
+\if{html}{\out{
+<details open><summary>Inherited methods</summary>
+<ul>
+<li><span class="pkg-link" data-pkg="hipread" data-topic="HipYield" data-id="is_done"><a href='../../hipread/html/HipYield.html#method-HipYield-is_done'><code>hipread::HipYield$is_done()</code></a></li>
+<li><span class="pkg-link" data-pkg="hipread" data-topic="HipYield" data-id="reset"><a href='../../hipread/html/HipYield.html#method-HipYield-reset'><code>hipread::HipYield$reset()</code></a></li>
+</ul>
+</details>
+}}
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-new"></a>}}
-\if{latex}{\out{\hypertarget{method-new}{}}}
+\if{html}{\out{<a id="method-IpumsLongYield-new"></a>}}
+\if{latex}{\out{\hypertarget{method-IpumsLongYield-new}{}}}
 \subsection{Method \code{new()}}{
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{IpumsLongYield$new(
@@ -150,8 +150,8 @@ Other ipums_read:
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-yield"></a>}}
-\if{latex}{\out{\hypertarget{method-yield}{}}}
+\if{html}{\out{<a id="method-IpumsLongYield-yield"></a>}}
+\if{latex}{\out{\hypertarget{method-IpumsLongYield-yield}{}}}
 \subsection{Method \code{yield()}}{
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{IpumsLongYield$yield(n = 10000)}\if{html}{\out{</div>}}
@@ -165,21 +165,21 @@ Other ipums_read:
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
-\item \href{#method-new}{\code{IpumsListYield$new()}}
-\item \href{#method-yield}{\code{IpumsListYield$yield()}}
+\item \href{#method-IpumsListYield-new}{\code{IpumsListYield$new()}}
+\item \href{#method-IpumsListYield-yield}{\code{IpumsListYield$yield()}}
 }
 }
-\if{html}{
-\out{<details open ><summary>Inherited methods</summary>}
-\itemize{
-\item \out{<span class="pkg-link" data-pkg="hipread" data-topic="HipYield" data-id="is_done">}\href{../../hipread/html/HipYield.html#method-is_done}{\code{hipread::HipYield$is_done()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="hipread" data-topic="HipYield" data-id="reset">}\href{../../hipread/html/HipYield.html#method-reset}{\code{hipread::HipYield$reset()}}\out{</span>}
-}
-\out{</details>}
-}
+\if{html}{\out{
+<details open><summary>Inherited methods</summary>
+<ul>
+<li><span class="pkg-link" data-pkg="hipread" data-topic="HipYield" data-id="is_done"><a href='../../hipread/html/HipYield.html#method-HipYield-is_done'><code>hipread::HipYield$is_done()</code></a></li>
+<li><span class="pkg-link" data-pkg="hipread" data-topic="HipYield" data-id="reset"><a href='../../hipread/html/HipYield.html#method-HipYield-reset'><code>hipread::HipYield$reset()</code></a></li>
+</ul>
+</details>
+}}
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-new"></a>}}
-\if{latex}{\out{\hypertarget{method-new}{}}}
+\if{html}{\out{<a id="method-IpumsListYield-new"></a>}}
+\if{latex}{\out{\hypertarget{method-IpumsListYield-new}{}}}
 \subsection{Method \code{new()}}{
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{IpumsListYield$new(
@@ -194,8 +194,8 @@ Other ipums_read:
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-yield"></a>}}
-\if{latex}{\out{\hypertarget{method-yield}{}}}
+\if{html}{\out{<a id="method-IpumsListYield-yield"></a>}}
+\if{latex}{\out{\hypertarget{method-IpumsListYield-yield}{}}}
 \subsection{Method \code{yield()}}{
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{IpumsListYield$yield(n = 10000)}\if{html}{\out{</div>}}

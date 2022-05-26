@@ -4,12 +4,10 @@
 \alias{define_extract_from_json}
 \title{Create an extract object from a JSON-formatted definition}
 \usage{
-define_extract_from_json(extract_json, collection)
+define_extract_from_json(extract_json)
 }
 \arguments{
 \item{extract_json}{A JSON string, or the path to file containing JSON.}
-
-\item{collection}{The IPUMS data collection for the extract.}
 }
 \value{
 An object of class "ipums_extract".
@@ -25,7 +23,7 @@ my_extract <- define_extract_micro("usa", "Example", "us2013a", "YEAR")
 extract_json_path <- file.path(tempdir(), "usa_extract.json")
 save_extract_as_json(my_extract, file = extract_json_path)
 
-copy_of_my_extract <- define_extract_from_json(extract_json_path, "usa")
+copy_of_my_extract <- define_extract_from_json(extract_json_path)
 
 identical(my_extract, copy_of_my_extract)
 
