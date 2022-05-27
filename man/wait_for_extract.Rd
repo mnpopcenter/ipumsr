@@ -31,7 +31,7 @@ check.}
 
 \item{max_delay_seconds}{Maximum seconds to wait between status checks. The
 function doubles the wait time after each check, but will cap the wait
-wait time at this maximum value (300 seconds, or 5 minutes, by default).}
+time at this maximum value (300 seconds, or 5 minutes, by default).}
 
 \item{timeout_seconds}{Maximum total number of seconds to continue waiting
 for the extract before throwing an error. Defaults to 10,800 seconds (three
@@ -77,6 +77,7 @@ downloadable_extract <- wait_for_extract(c("usa", "1"))
 }
 \seealso{
 Other ipums_api: 
+\code{\link{add_to_extract}()},
 \code{\link{define_extract_from_json}()},
 \code{\link{define_extract_micro}()},
 \code{\link{download_extract}()},
@@ -87,7 +88,7 @@ Other ipums_api:
 \code{\link{get_recent_extracts_info}},
 \code{\link{ipums_data_collections}()},
 \code{\link{is_extract_ready}()},
-\code{\link{revise_extract_micro}()},
+\code{\link{remove_from_extract}()},
 \code{\link{save_extract_as_json}()},
 \code{\link{submit_extract}()}
 }

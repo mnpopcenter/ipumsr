@@ -8,6 +8,7 @@ Contributors:
   Joe Grover, IPUMS, University of Minnesota
   Derek Burk, IPUMS, University of Minnesota
   Jacob Kaplan, University of Pennsylvania
+  Finn Roberts, IPUMS, University of Minnesota
   Renae Rodgers, IPUMS, University of Minnesota
 
 This project is licensed under the Mozilla Public License, version 2.0 (the

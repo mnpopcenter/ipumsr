@@ -601,100 +601,219 @@ download_extract <- function(extract,
   invisible(ddi_file_path)
 }
 
+# > Revise extract definition --------
 
-# > Revise extract definition ----
+#' @export
+add_to_extract <- function(extract, ...) {
+  UseMethod("add_to_extract")
+}
 
-#' Revise a microdata extract definition
+#' Add values to an existing IPUMS extract
 #'
-#' Revise a microdata extract definition. If the supplied extract definition comes from
-#' a previously submitted extract, this function will reset the definition to an
-#' unsubmitted state. For an overview of ipumsr API functionality, see
-#' \code{vignette("ipums-api", package = "ipumsr")}.
+#' @description
+#' Add new values to any extract fields of an IPUMS extract object.
 #'
-#' @param extract An object of class \code{ipums_extract}.
-#' @param description The modified extract description. If NULL (the default),
-#'   leave the description unchanged.
-#' @param samples_to_add Samples to add to the extract definition, as a
-#'   character vector. If NULL (the default), no samples will be added.
-#' @param samples_to_remove Samples to remove from the extract definition, as a
-#'   character vector. If NULL (the default), no samples will be removed.
-#' @param vars_to_add Names of variables to add to the extract definition, as
-#'   a character vector. If NULL (the default), no variables will be added.
-#' @param vars_to_remove Names of variables to remove from the extract
-#'   definition, as a character vector. If NULL (the default), no variables will
-#'   be removed.
-#' @param data_format The desired data file format for the modified extract
-#'   definition. If NULL (the default), leave the data format unchanged.
-#' @param data_structure The desired data structure. Currently, this can only be
-#'   "rectangular", but "hierarchical" extracts will be supported in the future.
-#'   If NULL (the default), leave the data structure unchanged.
-#' @param rectangular_on Currently, this can only be "P", but in the future,
-#'   household-only extracts (\code{rectangular_on = "H"}) will also be
-#'   supported. If NULL, (the default), leave the \code{rectangular_on} field
-#'   unchanged.
+#' To remove existing values from an extract, see
+#' \code{\link{remove_from_extract}}.
+#'
+#' @inheritParams define_extract_micro
+#' @inheritParams submit_extract
+#' @param samples Character vector of samples to add to the extract, if any.
+#' @param variables Character vector of variables to add to the extract, if any.
+#' @param validate Logical value indicating whether to check the modified
+#'   extract structure for validity. Defaults to \code{TRUE}.
+#' @param ... Ignored
 #'
 #' @family ipums_api
-#' @return An object of class \code{ipums_extract} containing the modified
-#'   extract definition.
+#' @return A modified extract object from the same collection as the input
+#'   extract
+#'
+#' @section Note:
+#' If the supplied extract definition comes from
+#' a previously submitted extract, this function will reset the definition to an
+#' unsubmitted state.
+#'
+#' @name add_to_extract
+#' @export
 #'
 #' @examples
-#' \dontrun{
-#' old_extract <- get_extract_info("usa:33")
+#' my_extract <- define_extract_micro("usa", "Example", "us2013a", "YEAR")
 #'
-#' revised_extract <- revise_extract_micro(
-#'   old_extract,
-#'   samples_to_add = "us2018a",
-#'   vars_to_add = "INCTOT"
+#' add_to_extract(
+#'   my_extract,
+#'   description = "Revised extract",
+#'   samples = "us2014a"
 #' )
-#'
-#' submitted_revised_extract <- submit_extract(revised_extract)
-#' }
-#'
-#' @export
-revise_extract_micro <- function(extract,
-                                 description = NULL,
-                                 samples_to_add = NULL,
-                                 samples_to_remove = NULL,
-                                 vars_to_add = NULL,
-                                 vars_to_remove = NULL,
-                                 data_format = NULL,
-                                 data_structure = NULL,
-                                 rectangular_on = NULL) {
+add_to_extract.usa_extract <- function(extract,
+                                       description = NULL,
+                                       samples = NULL,
+                                       variables = NULL,
+                                       data_format = NULL,
+                                       data_structure = NULL,
+                                       rectangular_on = NULL,
+                                       validate = TRUE,
+                                       ...) {
 
   extract <- copy_ipums_extract(extract)
-  extract$description <- paste0("Revision of (", extract$description, ")")
 
-  extract <- add_to_extract(extract, "samples", samples_to_add)
-  extract <- remove_from_extract(extract, "samples", samples_to_remove)
+  if (!is.null(data_structure) && data_structure != "rectangular") {
+    stop(
+      "Currently, the `data_structure` argument must be equal to ",
+      "\"rectangular\"; in the future, the API will also support ",
+      "\"hierarchical\" extracts.",
+      call. = FALSE
+    )
+  }
 
-  extract <- add_to_extract(extract, "variables", vars_to_add)
-  extract <- remove_from_extract(extract, "variables", vars_to_remove)
+  if (!is.null(rectangular_on) && rectangular_on != "P") {
+    stop(
+      "Currently, the `rectangular_on` argument must be equal to \"P\"; in ",
+      "the future, the API will also support `rectangular_on = \"H\".",
+      call. = FALSE
+    )
+  }
 
-  if (!is.null(description)) extract$description <- description
-  if (!is.null(data_format)) extract$data_format <- data_format
-  if (!is.null(data_structure)) {
-    if (data_structure != "rectangular") {
-      stop(
-        "Currently, the `data_structure` argument must be equal to ",
-        "\"rectangular\"; in the future, the API will also support ",
-        "\"hierarchical\" extracts.",
+  add_vars <- list(
+    samples = samples,
+    variables = variables
+  )
+
+  purrr::map(
+    names(add_vars),
+    ~if (any(add_vars[[.x]] %in% extract[[.x]])) {
+      warning(
+        "The following ", .x, " are already included in the ",
+        "supplied extract definition, and thus will not be added: \"",
+        paste0(
+          intersect(add_vars[[.x]], extract[[.x]]),
+          collapse = "\", \""
+        ),
+        "\"",
         call. = FALSE
       )
     }
-  }
-  if (!is.null(rectangular_on)) {
-    if (rectangular_on != "P") {
-      stop(
-        "Currently, the `rectangular_on` argument must be equal to \"P\"; in ",
-        "the future, the API will also support `rectangular_on = \"H\".",
-        call. = FALSE
-      )
-    }
-  }
+  )
 
-  extract <- validate_ipums_extract(extract)
+  extract <- modify_flat_fields(
+    extract,
+    samples = samples,
+    variables = variables,
+    modification = "add"
+  )
+
+  extract <- modify_flat_fields(
+    extract,
+    description = description,
+    data_format = data_format,
+    data_structure = data_structure,
+    rectangular_on = rectangular_on,
+    modification = "replace"
+  )
+
+  if (validate) {
+    extract <- validate_ipums_extract(extract)
+  }
 
   extract
+
+}
+
+#' @export
+remove_from_extract <- function(extract, ...) {
+  UseMethod("remove_from_extract")
+}
+
+#' Remove values from an existing IPUMS extract
+#'
+#' @description
+#' Remove existing values from extract fields of an IPUMS extract object.
+#'
+#' To add new values to an extract, see
+#' \code{\link{add_to_extract}}.
+#'
+#' @inheritParams define_extract_micro
+#' @inheritParams submit_extract
+#' @param samples Character vector of samples to remove from the extract,
+#'   if any.
+#' @param variables Character vector of variables to remove from the extract,
+#'   if any.
+#' @param validate Logical value indicating whether to check the modified
+#'   extract structure for validity. Defaults to \code{TRUE}.
+#' @param ... Ignored
+#'
+#' @family ipums_api
+#' @return A modified extract object from the same collection as the input
+#'   extract
+#'
+#' @section Note:
+#' If the supplied extract definition comes from
+#' a previously submitted extract, this function will reset the definition to an
+#' unsubmitted state.
+#'
+#' @name remove_from_extract
+#' @export
+#'
+#' @examples
+#' my_extract <- define_extract_micro(
+#'   collection = "usa",
+#'   description = "Example",
+#'   samples = c("us2013a", "us2014a"),
+#'   variables = "YEAR"
+#' )
+#'
+#' remove_from_extract(
+#'   my_extract,
+#'   samples = "us2014a"
+#' )
+remove_from_extract.usa_extract <- function(extract,
+                                            samples = NULL,
+                                            variables = NULL,
+                                            validate = TRUE,
+                                            ...) {
+
+  extract <- copy_ipums_extract(extract)
+
+  extract <- validate_remove_fields(
+    extract,
+    bad_remove_fields = c("description", "data_format",
+                          "data_structure", "rectangular_on"),
+    ...
+  )
+
+  to_remove <- list(
+    samples = samples,
+    variables = variables
+  )
+
+  purrr::walk(
+    names(to_remove),
+    ~if (any(!to_remove[[.x]] %in% extract[[.x]])) {
+      warning(
+        "The following ", .x, " are not included in the ",
+        "supplied extract definition, and thus will not be removed: \"",
+        paste0(
+          setdiff(to_remove[[.x]], extract[[.x]]),
+          collapse = "\", \""
+        ),
+        "\"",
+        call. = FALSE
+      )
+    }
+  )
+
+  extract <- modify_flat_fields(
+    extract,
+    samples = samples,
+    variables = variables,
+    modification = "remove"
+  )
+
+  if (validate) {
+    extract <- validate_ipums_extract(extract)
+  }
+
+  extract
+
 }
 
 # > Get info on recent extracts ----
@@ -999,7 +1118,7 @@ new_ipums_extract <- function(collection = NA_character_,
 
   structure(
     out,
-    class = c("ipums_extract", class(out))
+    class = c(paste0(collection, "_extract"), "ipums_extract", class(out))
   )
 }
 
@@ -1036,7 +1155,10 @@ validate_ipums_extract <- function(x) {
   must_be_non_missing <- c("collection", "description", "data_structure",
                            "data_format", "samples", "variables")
 
-  is_missing <- purrr::map_lgl(must_be_non_missing, ~any(is.na(x[[.]])))
+  is_missing <- purrr::map_lgl(
+    must_be_non_missing,
+    ~any(is.null(x[[.]])) || any(is.na(x[[.]])) || any(is_empty(x[[.]]))
+  )
 
   if (any(is_missing)) {
     stop(
@@ -1066,19 +1188,20 @@ validate_ipums_extract <- function(x) {
 
 
 #' @export
-print.ipums_extract <- function(extract) {
+print.usa_extract <- function(x, ...) {
   to_cat <- paste0(
-    ifelse(extract$submitted, "Submitted ", "Unsubmitted "),
-    format_collection_for_printing(extract$collection),
-    " extract ", ifelse(extract$submitted, paste0("number ", extract$number), ""),
-    "\n", print_truncated_vector(extract$description, "Description: ", FALSE),
-    "\n", print_truncated_vector(extract$samples, "Samples: "),
-    "\n", print_truncated_vector(extract$variables, "Variables: ")
+    ifelse(x$submitted, "Submitted ", "Unsubmitted "),
+    format_collection_for_printing(x$collection),
+    " extract ", ifelse(x$submitted, paste0("number ", x$number), ""),
+    "\n", print_truncated_vector(x$description, "Description: ", FALSE),
+    "\n", print_truncated_vector(x$samples, "Samples: "),
+    "\n", print_truncated_vector(x$variables, "Variables: "),
+    "\n"
   )
 
   cat(to_cat)
 
-  invisible(extract)
+  invisible(x)
 }
 
 
@@ -1409,6 +1532,140 @@ add_user_auth_header <- function(api_key) {
   httr::add_headers("Authorization" = api_key)
 }
 
+#' Modify an extract's non-nested fields
+#'
+#' Add new values, remove existing values, or replace existing values in
+#' a selection of extract fields.
+#'
+#' @param extract An extract object to revise
+#' @param ... Arbitrary number of named arguments, where names correspond to
+#'   extract fields to be modified and values correspond to the values that
+#'   should be modified in those fields.
+#' @param modification One of "add", "remove", or "replace" indicating how the
+#'   values in \code{...} should be modified in the extract. If "add", values in
+#'   \code{...} that do not yet exist in the extract will be added. If "remove",
+#'   values in \code{...} that already exist in the extract will be removed. If
+#'   "replace", values in \code{...} will replace the values that currently
+#'   exist in the extract.
+#'
+#' @return A modified extract object from the same collection as the input
+#'   extract
+#'
+#' @noRd
+modify_flat_fields <- function(extract,
+                               ...,
+                               modification = c("add", "remove", "replace")) {
+
+  modification <- match.arg(modification)
+
+  dots <- rlang::list2(...)
+
+  stopifnot(is_named(dots))
+
+  if (modification == "add") {
+
+    purrr::walk(
+      names(dots),
+      ~{
+        if (is.null(dots[[.x]]) && is.null(extract[[.x]])) {
+          extract[.x] <<- list(NULL)
+        } else {
+          extract[[.x]] <<- unlist(union(extract[[.x]], dots[[.x]]))
+        }
+      }
+    )
+
+  } else if (modification == "remove") {
+
+    purrr::walk(
+      names(dots),
+      function(x) {
+        values <- setdiff(extract[[x]], unlist(dots[[x]]))
+        if (length(values) > 0) {
+          extract[[x]] <<- values
+        } else {
+          extract[x] <<- list(NULL)
+        }
+      }
+    )
+
+  } else if (modification == "replace") {
+
+    purrr::walk(
+      names(dots),
+      ~{
+        if (!is.null(dots[[.x]])) {
+          if (length(dots[[.x]]) > 1) {
+            warning(
+              "Multiple values passed to `", .x, "`, which must be length 1. ",
+              "Only the first value will be used.",
+              call. = FALSE
+            )
+          }
+          extract[[.x]] <<- dots[[.x]][1]
+        }
+      }
+    )
+
+  }
+
+  extract
+
+}
+
+#' Produce warnings for invalid extract revision requests
+#'
+#' Convenience function to throw more informative warnings on invalid extract
+#' revision specifications. Currently used to direct users to
+#' \code{add_to_extract()} when attempting to remove non-optional fields in
+#' \code{remove_from_extract()}. (Otherwise, users would face a potentially
+#' unexpected unused argument error)
+#'
+#' @param extract An object inheriting from class \code{ipums_extract}
+#' @param bad_remove_fields Character vector of names of fields that should
+#'   trigger warnings if user attempts to remove them from an extract
+#' @param ... Arbitrary selection of named arguments. Used to warn against use
+#'   of extract fields that do not exist in the extract.
+#'
+#' @noRd
+validate_remove_fields <- function(extract, bad_remove_fields, ...) {
+
+  dots <- rlang::list2(...)
+
+  if ("collection" %in% names(dots)) {
+    stop(
+      "Cannot modify collection of an existing extract. To create an extract",
+      " from a new collection, use define_extract_micro().",
+      call. = FALSE
+    )
+  }
+
+  tried_to_remove <- bad_remove_fields[bad_remove_fields %in% names(dots)]
+  invalid_fields <- names(dots)[!names(dots) %in% bad_remove_fields]
+
+  if (length(tried_to_remove) > 0) {
+    warning(
+      "The following fields cannot be removed from an object of class `",
+      paste0(extract$collection, "_extract"), "`: `",
+      paste0(tried_to_remove, collapse = "`, `"), "`.\nTo ",
+      "replace these values, use add_to_extract().",
+      call. = FALSE
+    )
+  }
+
+  if (length(invalid_fields) > 0) {
+    warning(
+      "The following were not recognized as valid fields for an object of ",
+      "class `", paste0(extract$collection, "_extract"), "`: `",
+      paste0(invalid_fields, collapse = "`, `"),
+      "`. These values will be ignored.",
+      call. = FALSE
+    )
+  }
+
+  extract
+
+}
 
 copy_ipums_extract <- function(extract) {
   extract$submitted <- FALSE
@@ -1418,56 +1675,6 @@ copy_ipums_extract <- function(extract) {
 
   extract
 }
-
-
-add_to_extract <- function(extract, samples_or_variables, names_to_add) {
-  if (is.null(names_to_add)) {
-    return(extract)
-  }
-  if (any(names_to_add %in% extract[[samples_or_variables]])) {
-    warning(
-      "The following ", samples_or_variables, " are already included in the ",
-      "supplied extract definition, and thus will not be added: ",
-      paste0(
-        intersect(names_to_add, extract[[samples_or_variables]]),
-        collapse = ", "
-      ),
-      call. = FALSE
-    )
-    names_to_add <- setdiff(names_to_add, extract[[samples_or_variables]])
-  }
-  extract[[samples_or_variables]] <- c(
-    extract[[samples_or_variables]],
-    names_to_add
-  )
-  extract
-}
-
-
-remove_from_extract <- function(extract,
-                                samples_or_variables,
-                                names_to_remove) {
-  if (is.null(names_to_remove)) {
-    return(extract)
-  }
-  if (!all(names_to_remove %in% extract[[samples_or_variables]])) {
-    warning(
-      "The following ", samples_or_variables, " are not included in the ",
-      "supplied extract definition, and thus will not be removed: ",
-      paste0(
-        setdiff(names_to_remove, extract[[samples_or_variables]]),
-        collapse = ", "
-      ),
-      call. = FALSE
-    )
-  }
-  extract[[samples_or_variables]] <- setdiff(
-    extract[[samples_or_variables]],
-    names_to_remove
-  )
-  extract
-}
-
 
 microdata_api_base_url <- function() {
   api_url <- Sys.getenv("IPUMS_API_URL")
