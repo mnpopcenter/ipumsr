@@ -2,23 +2,25 @@
 % Please edit documentation in R/api.R
 \name{define_extract_from_json}
 \alias{define_extract_from_json}
-\title{Create an extract object from a JSON-formatted definition}
+\title{Create an \code{\link[=ipums_extract-class]{ipums_extract}} object from a JSON-formatted
+definition}
 \usage{
 define_extract_from_json(extract_json)
 }
 \arguments{
-\item{extract_json}{A JSON string, or the path to file containing JSON.}
+\item{extract_json}{The path to a file containing the JSON definition, or a
+JSON string.}
 }
 \value{
-An object of class "ipums_extract".
+An \code{\link[=ipums_extract-class]{ipums_extract}} object.
 }
 \description{
-Create an object of class "ipums_extract" based on an extract definition
-formatted as JSON. For an overview of ipumsr API functionality, see
-\code{vignette("ipums-api", package = "ipumsr")}.
+Create an \code{\link[=ipums_extract-class]{ipums_extract}} object based on an extract
+definition formatted as JSON. For an overview of ipumsr microdata API functionality,
+see \code{vignette("ipums-api", package = "ipumsr")}.
 }
 \examples{
-my_extract <- define_extract_micro("usa", "Example", "us2013a", "YEAR")
+my_extract <- define_extract_usa("Example", "us2013a", "YEAR")
 
 extract_json_path <- file.path(tempdir(), "usa_extract.json")
 save_extract_as_json(my_extract, file = extract_json_path)
@@ -31,7 +33,8 @@ identical(my_extract, copy_of_my_extract)
 \seealso{
 Other ipums_api: 
 \code{\link{add_to_extract}()},
-\code{\link{define_extract_micro}()},
+\code{\link{define_extract_cps}()},
+\code{\link{define_extract_usa}()},
 \code{\link{download_extract}()},
 \code{\link{extract_list_to_tbl}()},
 \code{\link{extract_tbl_to_list}()},
@@ -42,6 +45,7 @@ Other ipums_api:
 \code{\link{is_extract_ready}()},
 \code{\link{remove_from_extract}()},
 \code{\link{save_extract_as_json}()},
+\code{\link{set_ipums_api_key}()},
 \code{\link{submit_extract}()},
 \code{\link{wait_for_extract}()}
 }

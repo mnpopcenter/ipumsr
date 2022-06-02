@@ -3,55 +3,63 @@
 \name{add_to_extract}
 \alias{add_to_extract}
 \alias{add_to_extract.usa_extract}
-\title{Add values to an existing IPUMS extract}
+\alias{add_to_extract.cps_extract}
+\title{Add values to an IPUMS USA or CPS extract}
 \usage{
+add_to_extract(extract, ...)
+
 \method{add_to_extract}{usa_extract}(
   extract,
   description = NULL,
   samples = NULL,
   variables = NULL,
   data_format = NULL,
-  data_structure = NULL,
-  rectangular_on = NULL,
+  validate = TRUE,
+  ...
+)
+
+\method{add_to_extract}{cps_extract}(
+  extract,
+  description = NULL,
+  samples = NULL,
+  variables = NULL,
+  data_format = NULL,
   validate = TRUE,
   ...
 )
 }
 \arguments{
-\item{extract}{An extract object created with \code{\link{define_extract_micro}} or
-returned from another ipumsr API function.}
+\item{extract}{An \code{\link[=ipums_extract-class]{ipums_extract}} object.}
+
+\item{...}{Further arguments passed to methods.}
 
 \item{description}{Description of the extract.}
 
-\item{samples}{Character vector of samples to add to the extract, if any.}
+\item{samples}{Character vector of samples to add to the extract, if any.
+Use the \href{https://usa.ipums.org/usa-action/samples/sample_ids}{USA sample ID values}
+or the \href{https://cps.ipums.org/cps-action/samples/sample_ids}{CPS sample ID values}.}
 
 \item{variables}{Character vector of variables to add to the extract, if any.}
 
 \item{data_format}{The desired format of the extract data file (one of
 "fixed_width", "csv", "stata", "spss", or "sas9").}
 
-\item{data_structure}{Currently, this must be "rectangular", which is also
-the default. In the future, the API will also support "hierarchical"
-extracts.}
-
-\item{rectangular_on}{Currently, this must be "P", indicating that the
-extract will be rectangularized on person records. In the future, the API
-will also support household-only extracts (\code{rectangular_on = "H"}).}
-
 \item{validate}{Logical value indicating whether to check the modified
 extract structure for validity. Defaults to \code{TRUE}.}
-
-\item{...}{Ignored}
 }
 \value{
-A modified extract object from the same collection as the input
-  extract
+A modified IPUMS USA or CPS extract object
 }
 \description{
-Add new values to any extract fields of an IPUMS extract object.
+Add new values to any fields of an IPUMS USA or CPS extract object. All
+fields are optional, and if omitted, will be unchanged. Supplying a value
+for fields that take a single value, such as \code{description} and \code{data_format},
+will replace the existing value with the supplied value.
 
-To remove existing values from an extract, see
-\code{\link{remove_from_extract}}.
+To remove existing values from an extract, see \code{\link[=remove_from_extract]{remove_from_extract()}}.
+
+For an overview of ipumsr microdata API functionality, see
+\code{vignette("ipums-api", package = "ipumsr")}.
 }
 \section{Note}{
 
@@ -61,18 +69,41 @@ unsubmitted state.
 }
 
 \examples{
-my_extract <- define_extract_micro("usa", "Example", "us2013a", "YEAR")
+usa_extract <- define_extract_usa(
+  description = "USA example",
+  samples = "us2013a",
+  variables = "YEAR"
+)
 
-add_to_extract(
-  my_extract,
-  description = "Revised extract",
+revised_usa_extract <- add_to_extract(
+  usa_extract,
+  description = "Revised USA extract",
   samples = "us2014a"
 )
+
+revised_usa_extract
+
+
+cps_extract <- define_extract_cps(
+  description = "CPS example",
+  samples = "cps2019_03s",
+  variables = "YEAR"
+)
+
+revised_cps_extract <- add_to_extract(
+  cps_extract,
+  description = "Revised CPS extract",
+  samples = "cps2020_03s"
+)
+
+revised_cps_extract
+
 }
 \seealso{
 Other ipums_api: 
+\code{\link{define_extract_cps}()},
 \code{\link{define_extract_from_json}()},
-\code{\link{define_extract_micro}()},
+\code{\link{define_extract_usa}()},
 \code{\link{download_extract}()},
 \code{\link{extract_list_to_tbl}()},
 \code{\link{extract_tbl_to_list}()},
@@ -83,6 +114,7 @@ Other ipums_api:
 \code{\link{is_extract_ready}()},
 \code{\link{remove_from_extract}()},
 \code{\link{save_extract_as_json}()},
+\code{\link{set_ipums_api_key}()},
 \code{\link{submit_extract}()},
 \code{\link{wait_for_extract}()}
 }

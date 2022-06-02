@@ -1,0 +1,45 @@
+http_interactions:
+- request:
+    method: get
+    uri: https://api.ipums.org/extracts/60?collection=cps&version=beta
+    body:
+      encoding: ''
+      string: ''
+    headers:
+      Accept: application/json, text/xml, application/xml, */*
+      Content-Type: application/json
+      Authorization: <<<IPUMS_API_KEY>>>
+  response:
+    status:
+      status_code: 200
+      category: Success
+      reason: OK
+      message: 'Success: (200) OK'
+    headers:
+      cache-control: max-age=0, private, must-revalidate
+      content-length: '1827'
+      content-type: application/json; charset=utf-8
+      date: Fri, 27 May 2022 22:06:33 GMT
+      etag: W/"80033b84766feda1fb174844846610fe"
+      referrer-policy: strict-origin-when-cross-origin
+      server: nginx/1.18.0 + Phusion Passenger(R) 6.0.13
+      status: 200 OK
+      vary: Origin
+      x-content-type-options: nosniff
+      x-download-options: noopen
+      x-frame-options: SAMEORIGIN
+      x-permitted-cross-domain-policies: none
+      x-powered-by: Phusion Passenger(R) 6.0.13
+      x-ratelimit-limit: '-1'
+      x-ratelimit-remaining: '0'
+      x-ratelimit-reset: '0'
+      x-request-id: 5a46ab21-a3b9-44d5-ab13-ef2632d858d4
+      x-runtime: '0.288158'
+      x-xss-protection: 1; mode=block
+    body:
+      encoding: UTF-8
+      file: no
+      string: '{"data_structure":{"rectangular":{"on":"P"}},"data_format":"fixed_width","description":"Compare
+        age-sex-race breakdowns 1976","samples":{"cps1976_01s":{},"cps1976_02b":{}},"variables":{"YEAR":{"preselected":true},"SERIAL":{"preselected":true},"MONTH":{"preselected":true},"CPSID":{"preselected":true},"MISH":{},"PERNUM":{"preselected":true},"WTFINL":{"preselected":true},"CPSIDP":{"preselected":true},"UH_SEX_B1":{},"AGE":{},"SEX":{},"RACE":{}},"download_links":{"spss_command_file":{"url":"https://api.ipums.org/downloads/cps/api/v1/extracts/1822057/cps_00060.sps","bytes":3894,"sha256":"0e153eb182741636f5e07674920efc96bb631e007603b295daf77260da3e62fe"},"sas_command_file":{"url":"https://api.ipums.org/downloads/cps/api/v1/extracts/1822057/cps_00060.sas","bytes":4045,"sha256":"b2de25e7826bfa3a97a98a26e6ca1eb9b51ef6f6a0013b8233ff307bbae92086"},"basic_codebook":{"url":"https://api.ipums.org/downloads/cps/api/v1/extracts/1822057/cps_00060.cbk","bytes":5771,"sha256":"e0437cc4c51ee61e9257256ee7fc1d1d5391b84510f27e7064585c7436d1629a"},"data":{"url":"https://api.ipums.org/downloads/cps/api/v1/extracts/1822057/cps_00060.dat.gz","bytes":2440152,"sha256":"a23b17944b5dc635071a3983afb1bae270807b97674bc8e7c422c34c7fe4bd93"},"R_command_file":{"url":"https://api.ipums.org/downloads/cps/api/v1/extracts/1822057/cps_00060.R","bytes":406,"sha256":"650f61b7139f8519ec68b9b58081ce8a0c596602981af91f3572b973288aa3cc"},"ddi_codebook":{"url":"https://api.ipums.org/downloads/cps/api/v1/extracts/1822057/cps_00060.xml","bytes":31648,"sha256":"036b1989ac57926393227f93549128ee9eb211b6b593a44254408b4ac312a5d9"},"stata_command_file":{"url":"https://api.ipums.org/downloads/cps/api/v1/extracts/1822057/cps_00060.do","bytes":7764,"sha256":"fcc1933e90dd0200e21f2c789f5d81a0747634f91889f57f9fc4a4c8df7d33d3"}},"number":60,"status":"completed"}'
+  recorded_at: 2022-05-27 22:06:32 GMT
+  recorded_with: vcr/1.0.2, webmockr/0.8.0

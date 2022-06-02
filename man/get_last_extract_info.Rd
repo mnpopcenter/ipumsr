@@ -7,22 +7,24 @@
 get_last_extract_info(collection, api_key = Sys.getenv("IPUMS_API_KEY"))
 }
 \arguments{
-\item{collection}{The IPUMS data collection for the extract.}
+\item{collection}{The code for an IPUMS data collection. For a list of the
+codes used to refer to the data collections, see \code{\link[=ipums_data_collections]{ipums_data_collections()}}.}
 
 \item{api_key}{API key associated with your user account. Defaults to the
 value of environment variable "IPUMS_API_KEY".}
 }
 \value{
-An object of class \code{ipums_extract} containing information on
-  your most recent extract.
+An \code{\link[=ipums_extract-class]{ipums_extract}} object containing
+information on your most recent extract.
 }
 \description{
 Get information on your most recent extract for a given IPUMS data
-collection, returned as an \code{ipums_extract} object. For an overview of
-ipumsr API functionality, see \code{vignette("ipums-api", package = "ipumsr")}.
+collection, returned as an \code{\link[=ipums_extract-class]{ipums_extract}} object. For
+an overview of ipumsr microdata API functionality, see
+\code{vignette("ipums-api", package = "ipumsr")}.
 }
 \examples{
-my_extract <- define_extract_micro("usa", "Example", "us2013a", "YEAR")
+my_extract <- define_extract_usa("Example", "us2013a", "YEAR")
 
 \dontrun{
 submit_extract(my_extract)
@@ -44,8 +46,9 @@ downloadable_extract <- wait_for_extract(submitted_extract)
 \seealso{
 Other ipums_api: 
 \code{\link{add_to_extract}()},
+\code{\link{define_extract_cps}()},
 \code{\link{define_extract_from_json}()},
-\code{\link{define_extract_micro}()},
+\code{\link{define_extract_usa}()},
 \code{\link{download_extract}()},
 \code{\link{extract_list_to_tbl}()},
 \code{\link{extract_tbl_to_list}()},
@@ -55,6 +58,7 @@ Other ipums_api:
 \code{\link{is_extract_ready}()},
 \code{\link{remove_from_extract}()},
 \code{\link{save_extract_as_json}()},
+\code{\link{set_ipums_api_key}()},
 \code{\link{submit_extract}()},
 \code{\link{wait_for_extract}()}
 }

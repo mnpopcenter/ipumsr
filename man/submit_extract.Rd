@@ -7,24 +7,24 @@
 submit_extract(extract, api_key = Sys.getenv("IPUMS_API_KEY"))
 }
 \arguments{
-\item{extract}{An extract object created with \code{\link{define_extract_micro}} or
-returned from another ipumsr API function.}
+\item{extract}{An \code{\link[=ipums_extract-class]{ipums_extract}} object.}
 
 \item{api_key}{API key associated with your user account. Defaults to the
 value of environment variable "IPUMS_API_KEY".}
 }
 \value{
-An object of class \code{ipums_extract} containing the extract
-  definition and newly-assigned extract number of the submitted extract.
+An \code{\link[=ipums_extract-class]{ipums_extract}} object containing the
+extract definition and newly-assigned extract number of the submitted
+extract.
 }
 \description{
-Given an extract definition object, submit an extract request via the IPUMS
-API, and return a modified copy of the extract object with the newly-assigned
-extract number. For an overview of ipumsr API functionality, see
-\code{vignette("ipums-api", package = "ipumsr")}.
+Given an \code{\link[=ipums_extract-class]{ipums_extract}} object, submit an extract
+request via the IPUMS API, and return a modified copy of the extract object
+with the newly-assigned extract number. For an overview of ipumsr microdata API
+functionality, see \code{vignette("ipums-api", package = "ipumsr")}.
 }
 \examples{
-my_extract <- define_extract_micro("usa", "Example", "us2013a", "YEAR")
+my_extract <- define_extract_usa("Example", "us2013a", "YEAR")
 
 \dontrun{
 # `submit_extract()` returns an ipums_extract object updated to include the
@@ -49,8 +49,9 @@ downloadable_extract <- wait_for_extract(submitted_extract)
 \seealso{
 Other ipums_api: 
 \code{\link{add_to_extract}()},
+\code{\link{define_extract_cps}()},
 \code{\link{define_extract_from_json}()},
-\code{\link{define_extract_micro}()},
+\code{\link{define_extract_usa}()},
 \code{\link{download_extract}()},
 \code{\link{extract_list_to_tbl}()},
 \code{\link{extract_tbl_to_list}()},
@@ -61,6 +62,7 @@ Other ipums_api:
 \code{\link{is_extract_ready}()},
 \code{\link{remove_from_extract}()},
 \code{\link{save_extract_as_json}()},
+\code{\link{set_ipums_api_key}()},
 \code{\link{wait_for_extract}()}
 }
 \concept{ipums_api}

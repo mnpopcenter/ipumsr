@@ -2,13 +2,12 @@
 % Please edit documentation in R/api.R
 \name{save_extract_as_json}
 \alias{save_extract_as_json}
-\title{Save an extract definition to disk as JSON}
+\title{Save an \code{\link[=ipums_extract-class]{ipums_extract}} to disk as JSON}
 \usage{
 save_extract_as_json(extract, file)
 }
 \arguments{
-\item{extract}{An extract object created with \code{\link{define_extract_micro}} or
-returned from another ipumsr API function.}
+\item{extract}{An \code{\link[=ipums_extract-class]{ipums_extract}} object.}
 
 \item{file}{File path at which to write the JSON-formatted extract
 definition.}
@@ -17,16 +16,17 @@ definition.}
 The file path where the extract definition was written, invisibly.
 }
 \description{
-Save an extract definition to a JSON-formatted file. For an overview of
-ipumsr API functionality, see \code{vignette("ipums-api", package = "ipumsr")}.
+Save an \code{\link[=ipums_extract-class]{ipums_extract}} to a JSON-formatted file.
+For an overview of ipumsr microdata API functionality, see
+\code{vignette("ipums-api", package = "ipumsr")}.
 }
 \details{
 Note that this function only saves out the properties of an extract
-  that are required to submit a new extract request, namely, the description,
-  data structure, data format, samples, and variables.
+that are required to submit a new extract request, namely, the description,
+data structure, data format, samples, variables, and collection.
 }
 \examples{
-my_extract <- define_extract_micro("usa", "Example", "us2013a", "YEAR")
+my_extract <- define_extract_usa("Example", "us2013a", "YEAR")
 
 extract_json_path <- file.path(tempdir(), "usa_extract.json")
 save_extract_as_json(my_extract, file = extract_json_path)
@@ -39,8 +39,9 @@ identical(my_extract, copy_of_my_extract)
 \seealso{
 Other ipums_api: 
 \code{\link{add_to_extract}()},
+\code{\link{define_extract_cps}()},
 \code{\link{define_extract_from_json}()},
-\code{\link{define_extract_micro}()},
+\code{\link{define_extract_usa}()},
 \code{\link{download_extract}()},
 \code{\link{extract_list_to_tbl}()},
 \code{\link{extract_tbl_to_list}()},
@@ -50,6 +51,7 @@ Other ipums_api:
 \code{\link{ipums_data_collections}()},
 \code{\link{is_extract_ready}()},
 \code{\link{remove_from_extract}()},
+\code{\link{set_ipums_api_key}()},
 \code{\link{submit_extract}()},
 \code{\link{wait_for_extract}()}
 }

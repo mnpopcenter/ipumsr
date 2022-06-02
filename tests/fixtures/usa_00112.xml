@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xml-stylesheet type="text/xsl" href="ipums-ddi-xslt.xsl"?>
-<codeBook ID="ddi2-27c79f70-8e14-11e5-8c97-b82a72e0b782-usa_00107.dat-usa.ipums.org" version="2.5" xmlns="ddi:codebook:2_5" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ddi:codebook:2_5 http://www.ddialliance.org/Specification/DDI-Codebook/2.5/XMLSchema/codebook.xsd">
+<codeBook ID="ddi2-27c79f70-8e14-11e5-8c97-b82a72e0b782-usa_00112.dat-usa.ipums.org" version="2.5" xmlns="ddi:codebook:2_5" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ddi:codebook:2_5 http://www.ddialliance.org/Specification/DDI-Codebook/2.5/XMLSchema/codebook.xsd">
   <docDscr>
     <citation>
       <titlStmt>
         <titl>Codebook for an IPUMS-USA Data Extract</titl>
-        <subTitl>DDI 2.5 metadata describing the extract file  'usa_00107.dat'</subTitl>
-        <IDNo>ddi2-27c79f70-8e14-11e5-8c97-b82a72e0b782-usa_00107.dat-usa.ipums.org</IDNo>
+        <subTitl>DDI 2.5 metadata describing the extract file  'usa_00112.dat'</subTitl>
+        <IDNo>ddi2-27c79f70-8e14-11e5-8c97-b82a72e0b782-usa_00112.dat-usa.ipums.org</IDNo>
       </titlStmt>
       <rspStmt>
         <AuthEnty affiliation="University of Minnesota">IPUMS</AuthEnty>
       </rspStmt>
       <prodStmt>
         <producer abbr="IPUMS" affiliation="University of Minnesota" role="Documentation">IPUMS</producer>
-        <prodDate date="2022-05-26">May 26, 2022</prodDate>
+        <prodDate date="2022-05-27">May 27, 2022</prodDate>
         <prodPlac>IPUMS, 50 Willey Hall, 225 - 19th Avenue South, Minneapolis, MN 55455</prodPlac>
       </prodStmt>
       <distStmt>
@@ -24,14 +24,14 @@
   <stdyDscr>
     <citation>
       <titlStmt>
-        <titl>User Extract usa_00107.dat</titl>
+        <titl>User Extract usa_00112.dat</titl>
       </titlStmt>
       <rspStmt>
         <AuthEnty affiliation="University of Minnesota">IPUMS</AuthEnty>
       </rspStmt>
       <prodStmt>
         <producer abbr="IPUMS" affiliation="University of Minnesota" role="Documentation">IPUMS</producer>
-        <prodDate date="2022-05-26">May 26, 2022</prodDate>
+        <prodDate date="2022-05-27">May 27, 2022</prodDate>
         <prodPlac>IPUMS, 50 Willey Hall, 225 - 19th Avenue South, Minneapolis, MN 55455</prodPlac>
       </prodStmt>
       <distStmt>
@@ -42,7 +42,7 @@
         <serInfo>DOI:10.18128/D010.V12.0</serInfo>
       </serStmt>
       <verStmt>
-        <version date="2022-05-26"/>
+        <version date="2022-05-27"/>
       </verStmt>
     </citation>
     <stdyInfo>
@@ -89,7 +89,7 @@ The licensing agreement for use of IPUMS-USA data requires that users supply us 
   </stdyDscr>
   <fileDscr ID="ExtractData">
     <fileTxt>
-      <fileName>usa_00107.dat</fileName>
+      <fileName>usa_00112.dat</fileName>
       <fileCont>Microdata records</fileCont>
       <fileStrc type="rectangular"/>
       <fileType charset="ISO-8859-1">ISO-8859-1 data file</fileType>
