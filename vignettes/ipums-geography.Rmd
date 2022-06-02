@@ -11,7 +11,8 @@ vignette: >
 ```{r, echo = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
-  comment = "#>"
+  comment = "#>",
+  eval = Sys.getenv("$RUNNER_OS") != "macOS"
 )
 
 # Don't give instructions about downloading data for yourself for geography data
