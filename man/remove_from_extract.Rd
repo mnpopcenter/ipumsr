@@ -3,9 +3,20 @@
 \name{remove_from_extract}
 \alias{remove_from_extract}
 \alias{remove_from_extract.usa_extract}
-\title{Remove values from an existing IPUMS extract}
+\alias{remove_from_extract.cps_extract}
+\title{Remove values from an IPUMS USA or CPS extract}
 \usage{
+remove_from_extract(extract, ...)
+
 \method{remove_from_extract}{usa_extract}(
+  extract,
+  samples = NULL,
+  variables = NULL,
+  validate = TRUE,
+  ...
+)
+
+\method{remove_from_extract}{cps_extract}(
   extract,
   samples = NULL,
   variables = NULL,
@@ -14,8 +25,9 @@
 )
 }
 \arguments{
-\item{extract}{An extract object created with \code{\link{define_extract_micro}} or
-returned from another ipumsr API function.}
+\item{extract}{An \code{\link[=ipums_extract-class]{ipums_extract}} object.}
+
+\item{...}{Further arguments passed to methods.}
 
 \item{samples}{Character vector of samples to remove from the extract,
 if any.}
@@ -25,18 +37,18 @@ if any.}
 
 \item{validate}{Logical value indicating whether to check the modified
 extract structure for validity. Defaults to \code{TRUE}.}
-
-\item{...}{Ignored}
 }
 \value{
-A modified extract object from the same collection as the input
-  extract
+A modified IPUMS USA or CPS extract object
 }
 \description{
-Remove existing values from extract fields of an IPUMS extract object.
+Remove existing values from fields of an IPUMS USA or CPS extract object. All
+fields are optional, and if omitted, will remain unchanged.
 
-To add new values to an extract, see
-\code{\link{add_to_extract}}.
+To add new values to an extract, see \code{\link[=add_to_extract]{add_to_extract()}}.
+
+For an overview of ipumsr microdata API functionality, see
+\code{vignette("ipums-api", package = "ipumsr")}.
 }
 \section{Note}{
 
@@ -46,23 +58,39 @@ unsubmitted state.
 }
 
 \examples{
-my_extract <- define_extract_micro(
-  collection = "usa",
-  description = "Example",
+usa_extract <- define_extract_usa(
+  description = "USA example",
   samples = c("us2013a", "us2014a"),
   variables = "YEAR"
 )
 
-remove_from_extract(
-  my_extract,
+revised_usa_extract <- remove_from_extract(
+  usa_extract,
   samples = "us2014a"
 )
+
+revised_usa_extract
+
+
+cps_extract <- define_extract_cps(
+  description = "CPS example",
+  samples = c("cps2019_03s", "cps2020_03s"),
+  variables = "YEAR"
+)
+
+revised_cps_extract <- remove_from_extract(
+  cps_extract,
+  samples = "cps2020_03s"
+)
+
+revised_cps_extract
 }
 \seealso{
 Other ipums_api: 
 \code{\link{add_to_extract}()},
+\code{\link{define_extract_cps}()},
 \code{\link{define_extract_from_json}()},
-\code{\link{define_extract_micro}()},
+\code{\link{define_extract_usa}()},
 \code{\link{download_extract}()},
 \code{\link{extract_list_to_tbl}()},
 \code{\link{extract_tbl_to_list}()},
@@ -72,6 +100,7 @@ Other ipums_api:
 \code{\link{ipums_data_collections}()},
 \code{\link{is_extract_ready}()},
 \code{\link{save_extract_as_json}()},
+\code{\link{set_ipums_api_key}()},
 \code{\link{submit_extract}()},
 \code{\link{wait_for_extract}()}
 }

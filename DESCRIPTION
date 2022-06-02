@@ -53,5 +53,6 @@ Suggests:
     DBI,
     RSQLite,
     dbplyr,
-    vcr (>= 0.6.0)
+    vcr (>= 0.6.0),
+    withr
 VignetteBuilder: knitr

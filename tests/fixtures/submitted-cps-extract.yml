@@ -1,0 +1,45 @@
+http_interactions:
+- request:
+    method: post
+    uri: https://api.ipums.org/extracts/?collection=cps&version=beta
+    body:
+      encoding: ''
+      string: '{"description":"Compare age-sex-race breakdowns 1976","data_structure":{"rectangular":{"on":"P"}},"data_format":"fixed_width","samples":{"cps1976_01s":{},"cps1976_02b":{}},"variables":{"YEAR":{},"MISH":{},"CPSIDP":{},"AGE":{},"SEX":{},"RACE":{},"UH_SEX_B1":{}}}'
+    headers:
+      Accept: application/json, text/xml, application/xml, */*
+      Content-Type: application/json
+      Authorization: <<<IPUMS_API_KEY>>>
+  response:
+    status:
+      status_code: 200
+      category: Success
+      reason: OK
+      message: 'Success: (200) OK'
+    headers:
+      cache-control: max-age=0, private, must-revalidate
+      content-length: '495'
+      content-type: application/json; charset=utf-8
+      date: Fri, 27 May 2022 22:06:10 GMT
+      etag: W/"b1d3386385e3f03f8802e2b9536a215b"
+      referrer-policy: strict-origin-when-cross-origin
+      server: nginx/1.18.0 + Phusion Passenger(R) 6.0.13
+      status: 200 OK
+      vary: Origin
+      x-content-type-options: nosniff
+      x-download-options: noopen
+      x-frame-options: SAMEORIGIN
+      x-permitted-cross-domain-policies: none
+      x-powered-by: Phusion Passenger(R) 6.0.13
+      x-ratelimit-limit: '-1'
+      x-ratelimit-remaining: '0'
+      x-ratelimit-reset: '0'
+      x-request-id: c4f515f9-79e2-4b71-8186-199b09020e00
+      x-runtime: '2.359345'
+      x-xss-protection: 1; mode=block
+    body:
+      encoding: UTF-8
+      file: no
+      string: '{"data_structure":{"rectangular":{"on":"P"}},"data_format":"fixed_width","description":"Compare
+        age-sex-race breakdowns 1976","samples":{"cps1976_01s":{},"cps1976_02b":{}},"variables":{"YEAR":{"preselected":true},"SERIAL":{"preselected":true},"MONTH":{"preselected":true},"CPSID":{"preselected":true},"MISH":{},"PERNUM":{"preselected":true},"WTFINL":{"preselected":true},"CPSIDP":{"preselected":true},"UH_SEX_B1":{},"AGE":{},"SEX":{},"RACE":{}},"download_links":{},"number":60,"status":"queued"}'
+  recorded_at: 2022-05-27 22:06:10 GMT
+  recorded_with: vcr/1.0.2, webmockr/0.8.0
