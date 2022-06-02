@@ -1,10 +1,8 @@
 on:
   push:
-    branches:
-      - [main, update-github-actions]
+    branches: [main, update-github-actions]
   pull_request:
-    branches:
-      - [main, update-github-actions]
+    branches: [main, update-github-actions]
 
 name: R-CMD-check
 
