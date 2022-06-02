@@ -1207,27 +1207,20 @@ extract_list_to_tbl <- function(extract_list) {
 #' @export
 ipums_data_collections <- function() {
   tibble::tribble(
-    ~collection_name, ~code_for_api,
-    "IPUMS USA", "usa",
-    "IPUMS CPS", "cps",
-    "IPUMS International", "ipumsi",
-    "IPUMS NHGIS", "nhgis",
-    "IPUMS AHTUS", "ahtus",
-    "IPUMS MTUS", "mtus",
-    "IPUMS ATUS", "atus",
-    "IPUMS DHS", "dhs",
-    "IPUMS Higher Ed", "highered",
-    "IPUMS MEPS", "meps",
-    "IPUMS NHIS", "nhis",
-    "IPUMS PMA", "pma"
-  ) %>%
-    dplyr::mutate(
-      api_support = dplyr::if_else(
-        code_for_api %in% c("usa", "cps"),
-        "beta",
-        "none"
-      )
-    )
+    ~collection_name, ~code_for_api, ~api_support,
+    "IPUMS USA", "usa", "beta",
+    "IPUMS CPS", "cps", "beta",
+    "IPUMS International", "ipumsi", "none",
+    "IPUMS NHGIS", "nhgis", "none",
+    "IPUMS AHTUS", "ahtus", "none",
+    "IPUMS MTUS", "mtus", "none",
+    "IPUMS ATUS", "atus", "none",
+    "IPUMS DHS", "dhs", "none",
+    "IPUMS Higher Ed", "highered", "none",
+    "IPUMS MEPS", "meps", "none",
+    "IPUMS NHIS", "nhis", "none",
+    "IPUMS PMA", "pma", "none"
+  )
 }
 
 # > Set IPUMS API key ----
@@ -1435,10 +1428,12 @@ print.ipums_extract <- function(x, ...) {
 }
 
 
+#' @importFrom rlang .data
+#' @noRd
 format_collection_for_printing <- function(collection) {
   collection_info <- dplyr::filter(
     ipums_data_collections(),
-    code_for_api == collection
+    .data$code_for_api == collection
   )
 
   if (nrow(collection_info) == 0) {
@@ -1508,7 +1503,7 @@ format_samples_for_json <- function(samples) {
     return(EMPTY_NAMED_LIST)
   }
   sample_spec <- purrr::map(seq_along(samples), ~ EMPTY_NAMED_LIST)
-  setNames(sample_spec, samples)
+  purrr::set_names(sample_spec, samples)
 }
 
 
@@ -1517,7 +1512,7 @@ format_variables_for_json <- function(variables) {
     return(EMPTY_NAMED_LIST)
   }
   var_spec <- purrr::map(seq_along(variables), ~ EMPTY_NAMED_LIST)
-  var_spec <- setNames(var_spec, variables)
+  purrr::set_names(var_spec, variables)
 }
 
 
@@ -1536,6 +1531,7 @@ format_data_structure_for_json <- function(data_structure, rectangular_on) {
 
 #' Writes the given url to file_path. Returns the file path of the
 #' downloaded data. Raises an error if the request is not successful.
+#' @importFrom utils packageVersion
 #' @noRd
 ipums_api_download_request <- function(url,
                                        file_path,
@@ -1585,6 +1581,7 @@ ipums_api_download_request <- function(url,
 #'   length-one character vector containing the response from the API
 #'   formatted as JSON. Otherwise, the function throws an error.
 #'
+#' @importFrom utils packageVersion
 #' @noRd
 ipums_api_json_request <- function(verb,
                                    collection,
@@ -2076,6 +2073,7 @@ EMPTY_NAMED_LIST <- setNames(list(), character(0))
 #' Convert an absolute path to be relative to the working directory
 #'
 #' This is only used in unit tests at the moment
+#' @importFrom utils tail
 #' @noRd
 convert_to_relative_path <- function(path) {
   path_components <- strsplit(path, "/|\\\\", perl = TRUE)[[1]]

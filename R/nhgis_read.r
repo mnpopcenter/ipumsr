@@ -73,7 +73,7 @@ read_nhgis <- function(
     cb_ddi_info <- try(read_ipums_codebook(cb_name), silent = TRUE)
   }
 
-  if (class(cb_ddi_info) == "try-error") cb_ddi_info <- nhgis_empty_ddi
+  if (inherits(cb_ddi_info, "try-error")) cb_ddi_info <- nhgis_empty_ddi
 
   # Specify encoding (assuming all nhgis extracts are ISO-8859-1 eg latin1
   # because an extract with county names has n with tildes and so is can
