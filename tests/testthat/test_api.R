@@ -295,7 +295,6 @@ tryCatch(
         vcr::vcr_test_path("fixtures"),
         basename(ddi_file_path)
       )
-      ddi_file_path <- convert_to_relative_path(ddi_file_path)
       expect_match(ddi_file_path, "\\.xml$")
       expect_true(file.exists(ddi_file_path))
       data <- read_ipums_micro(ddi_file_path, verbose = FALSE)
@@ -338,7 +337,6 @@ tryCatch(
         vcr::vcr_test_path("fixtures"),
         basename(ddi_file_path)
       )
-      ddi_file_path <- convert_to_relative_path(ddi_file_path)
       expect_match(ddi_file_path, "\\.xml$")
       expect_true(file.exists(ddi_file_path))
       data <- read_ipums_micro(ddi_file_path, verbose = FALSE)
@@ -374,7 +372,6 @@ tryCatch(
         vcr::vcr_test_path("fixtures"),
         basename(ddi_file_path)
       )
-      ddi_file_path <- convert_to_relative_path(ddi_file_path)
       expect_match(ddi_file_path, "\\.xml$")
       expect_true(file.exists(ddi_file_path))
       data <- read_ipums_micro(ddi_file_path, verbose = FALSE)
