@@ -452,7 +452,7 @@ lbl <- function(...) {
 }
 
 fill_in_lbl <- function(lblval, orig_labels) {
-  if (class(lblval) != "lbl_placeholder") lblval <- lbl(.val = lblval)
+  if (!inherits(lblval, "lbl_placeholder")) lblval <- lbl(.val = lblval)
   if (is.null(lblval$.lbl) & is.null(lblval$.val)) {
     stop("Could not fill in label because neither label nor value is specified")
   }
