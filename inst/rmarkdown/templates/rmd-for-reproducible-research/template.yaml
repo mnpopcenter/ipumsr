@@ -1,0 +1,4 @@
+name: Rmd for Reproducible Research
+description: >
+   Streamlined steps for reproducible research using IPUMS microdata API
+create_dir: FALSE
