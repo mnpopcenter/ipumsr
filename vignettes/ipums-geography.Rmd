@@ -271,7 +271,7 @@ ipumsi <- ipums_shape_inner_join(
 ### Ready to analyze data!
 Now the data is ready for us to use. Here's a quick example of how to
 make a map with ggplot2.
-```{r, fig.height = 4, fig.width = 7}
+```{r, fig.height = 4, fig.width = 7, eval=FALSE}
 ggplot(data = ipumsi, aes(fill = pct_solid)) +
   geom_sf() + 
   facet_wrap(~YEAR) + 
@@ -336,7 +336,7 @@ are combined.
 ### Ready to analyze data!
 Now we're ready to use the data. Here is a map of the median age for
 Hartford County, CT and Providence County, RI.
-```{r, fig.height = 4, fig.width = 7}
+```{r, fig.height = 4, fig.width = 7, eval=FALSE}
 # The median age is 0 for unpopulated counties, set them to NA
 nhgis <- nhgis %>%
   mutate(H77001 = ifelse(H77001 == 0, NA, H77001))
@@ -515,7 +515,7 @@ are not included in the boundary file.
 
 
 After confirming that join was successful, we can make the map with all 3 countries:
-```{r, fig.height = 4, fig.width = 7}
+```{r, fig.height = 4, fig.width = 7, eval=FALSE}
 # Convert the year to a round variable to display in facets
 ipumsi <- ipumsi %>%
   mutate(census_round = cut(YEAR, c(1984, 1992, 2004, 2014), c("1985", "1993", "2005-2010")))

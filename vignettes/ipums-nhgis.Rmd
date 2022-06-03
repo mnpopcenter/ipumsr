@@ -309,7 +309,7 @@ One of the reasons we are excited about bringing IPUMS data to R is the
 GIS capabilities available for free in R. 
 
 Q16) Make a map of the percent of the population that are slaves.
-```{r, fig.height = 4, fig.width = 6}
+```{r, fig.height = 4, fig.width = 6, eval = FALSE}
 library(ggplot2)
 ggplot(data = nhgis, aes(fill = pct_slave)) +
   geom_sf() + 
