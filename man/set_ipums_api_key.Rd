@@ -25,7 +25,7 @@ adding it to the file ".Renviron" in your home directory. In either case,
 this function works by assigning your API key as the value of the environment
 variable \code{IPUMS_API_KEY}. If you choose to save your key to ".Renviron", this
 function will create a backup copy of the file before modifying. This
-function is modeled after \code{\link[tidycensus:census_api_key]{census_api_key()}}
+function is modeled after the \code{census_api_key()} function
 from the R package \href{https://walker-data.com/tidycensus/}{tidycensus}.
 }
 \seealso{

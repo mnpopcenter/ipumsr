@@ -69,7 +69,7 @@ This vignette focuses on the mechanics of getting spatial data from IPUMS Terra 
 R, but it glosses over the details about what you can do after you've loaded it. To learn
 more about these, here are some resources:
 
-- **[http://rspatial.org/](http://rspatial.org/)** has a great set of tutorials and
+- **[https://rspatial.org/](https://rspatial.org/)** has a great set of tutorials and
   other documentation about spatial tools.
 - The **[sf package github page](https://github.com/r-spatial/sf)** has links to 
   documentation about the sf package, which is great for working with the area
@@ -90,9 +90,7 @@ Terra to show off the way it helps moving between data types.
 IPUMS Terra includes raster data on the average temperature 1950-2000 by month
 from the WorldClim dataset. It also converts area-level summaries of some
 variables from the US census microdata to raster grid, so we can get the total
-population and population by age on a grid. You can learn more about making
-extracts here: 
-[IPUMS Terra Raster Extract Guide](https://www.terrapop.org/sites/www.terrapop.org/files/raster_tutorial_jan2017_final.pdf).
+population and population by age on a grid.
 
 For the example in this vignette, I use the sample 2010 US Census and variables: 
 
@@ -177,9 +175,7 @@ this vignette.
 
 ## Area level data
 IPUMS Terra includes data from both the raster datasets and microdata that have
-been aggregated up to a geographic boundary. To learn more about making these
-kind of extracts, see the guide here:
-[IPUMS Terra Area Extract Guide](https://www.terrapop.org/sites/www.terrapop.org/files/arealevel_tutorial_jan2017_final.pdf). 
+been aggregated up to a geographic boundary. 
 
 For the example in this vignette, I use the sample 2010 US Census and variables: 
 
@@ -250,8 +246,6 @@ it doesn't seem to be an incredibly strong relationship.
 
 ## Microdata
 Finally, IPUMS Terra includes microdata with the area-level and raster data attached to it. 
-To learn more about making these kind of extracts, see the guide here:
-[IPUMS Terra Microdata Extract Guide](https://www.terrapop.org/sites/www.terrapop.org/files/microdata_tutorial_oct2017.pdf). 
 
 For the example in this vignette, I use the sample 2010 US Census and variables: 
 - Microdata:

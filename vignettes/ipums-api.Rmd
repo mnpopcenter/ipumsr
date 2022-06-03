@@ -28,6 +28,21 @@ To install the latest version of ipumsr from CRAN, use:
 install.packages("ipumsr")
 ```
 
+Since we are still actively developing the functions for interacting with the 
+API, there may be changes in our GitHub repo that are not yet on CRAN. To 
+install the development version of ipumsr from GitHub, use:
+
+```{r}
+if (!require(remotes)) install.packages("remotes")
+remotes::install_github("ipums/ipumsr/ipumsexamples")
+remotes::install_github(
+  "ipums/ipumsr", 
+  build_vignettes = TRUE, 
+  dependencies = TRUE
+)
+```
+
+
 # Overview
 
 The IPUMS microdata extract API allows registered IPUMS USA and CPS users to

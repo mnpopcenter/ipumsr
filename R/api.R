@@ -1232,7 +1232,7 @@ ipums_data_collections <- function() {
 #' this function works by assigning your API key as the value of the environment
 #' variable `IPUMS_API_KEY`. If you choose to save your key to ".Renviron", this
 #' function will create a backup copy of the file before modifying. This
-#' function is modeled after [`census_api_key()`][tidycensus::census_api_key()]
+#' function is modeled after the `census_api_key()` function
 #' from the R package [tidycensus](https://walker-data.com/tidycensus/).
 #'
 #' @md

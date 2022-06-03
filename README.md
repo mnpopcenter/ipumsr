@@ -6,12 +6,12 @@
 <!-- badges: start -->
 
 [![Project
-Status:Active](http://www.repostatus.org/badges/latest/active.svg)](http://www.repostatus.org/#active)
+Status:Active](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
 [![CRAN_Status_Badge](https://www.r-pkg.org/badges/version/ipumsr)](https://CRAN.R-project.org/package=ipumsr)
 [![R build
 status](https://github.com/ipums/ipumsr/workflows/R-CMD-check/badge.svg)](https://github.com/ipums/ipumsr/actions)
 [![Codecov test
-coverage](https://codecov.io/gh/ipums/ipumsr/branch/master/graph/badge.svg)](https://codecov.io/gh/ipums/ipumsr?branch=master)
+coverage](https://codecov.io/gh/ipums/ipumsr/branch/master/graph/badge.svg)](https://app.codecov.io/gh/ipums/ipumsr?branch=master)
 <!-- badges: end -->
 
 The ipumsr package helps import IPUMS extracts from the [IPUMS
@@ -43,34 +43,34 @@ The vignettes are a great place to learn more about ipumsr and IPUMS
 data:
 
 -   [See the **ipums** vignette for a general
-    introduction](http://tech.popdata.org/ipumsr/articles/ipums.html)
+    introduction](https://tech.popdata.org/ipumsr/articles/ipums.html)
 
 -   For a more detailed look at some of the features, see these
     vignettes:
 
-    -   [**value-labels**](http://tech.popdata.org/ipumsr/articles/value-labels.html)
+    -   [**value-labels**](https://tech.popdata.org/ipumsr/articles/value-labels.html)
         -   Provides guidance for using the value labels provided by
             IPUMS
-    -   [**ipums-geography**](http://tech.popdata.org/ipumsr/articles/ipums-geography.html)
+    -   [**ipums-geography**](https://tech.popdata.org/ipumsr/articles/ipums-geography.html)
         -   Provides guidance for using R as GIS tool with IPUMS data
-    -   [**ipums-bigdata**](http://tech.popdata.org/ipumsr/articles/ipums-bigdata.html)
+    -   [**ipums-bigdata**](https://tech.popdata.org/ipumsr/articles/ipums-bigdata.html)
         -   How to handle large IPUMS data extracts and examples of
             using the chunked versions of microdata reading functions.
-    -   [**ipums-api**](http://tech.popdata.org/ipumsr/dev/articles/ipums-api.html)
-        -   (In-development features not yet on CRAN) How to use the
-            IPUMS USA microdata extract API to define and submit extract
-            requests, check extract status, and download extract files
+    -   [**ipums-api**](https://tech.popdata.org/ipumsr/articles/ipums-api.html)
+        -   How to use the IPUMS microdata extract API to define and
+            submit extract requests, check extract status, and download
+            extract files
 
 -   Or to see examples of how to work through data from particular
     projects, see these vignettes:
 
-    -   [**ipums-cps**](http://tech.popdata.org/ipumsr/articles/ipums-cps.html)
+    -   [**ipums-cps**](https://tech.popdata.org/ipumsr/articles/ipums-cps.html)
         -   An example of using CPS data with the ipumsr package
-    -   [**ipums-nhgis**](http://tech.popdata.org/ipumsr/articles/ipums-nhgis.html)
+    -   [**ipums-nhgis**](https://tech.popdata.org/ipumsr/articles/ipums-nhgis.html)
         -   An example of using NHGIS data with the ipumsr package
-    -   [**ipums-terra**](http://tech.popdata.org/ipumsr/articles/ipums-terra.html)
+    -   [**ipums-terra**](https://tech.popdata.org/ipumsr/articles/ipums-terra.html)
         -   An example of using IPUMS Terra data with the ipumsr package
-    -   [The IPUMS website](https://ipums.org/support/exercises)
+    -   [The IPUMS website](https://www.ipums.org/support/exercises)
         -   For more project specific exercises
 
 You can access them from R with the `vignette()` command (eg
