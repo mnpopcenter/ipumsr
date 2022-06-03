@@ -14,7 +14,7 @@ BugReports: https://github.com/ipums/ipumsr/issues
 Description: An easy way to import census, survey and geographic data provided by 'IPUMS'
     into R plus tools to help use the associated metadata to make analysis easier. 'IPUMS'
     data describing 1.4 billion individuals drawn from over 750 censuses and surveys is
-    available free of charge from our website <https://ipums.org>.
+    available free of charge from our website <https://www.ipums.org>.
 License: Mozilla Public License 2.0
 Encoding: UTF-8
 LazyData: true

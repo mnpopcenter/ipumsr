@@ -89,7 +89,7 @@ one, or paying a cloud service like Amazon or Microsoft Azure (or one of the
 many other similar services). Here are guides for using R on
 [Amazon](https://aws.amazon.com/blogs/big-data/statistical-analysis-with-open-source-r-and-rstudio-on-amazon-emr/)
 and 
-[Microsoft Azure](https://blog.jumpingrivers.com/posts/2017/rstudio_azure_cloud_1/).
+[Microsoft Azure](https://www.jumpingrivers.com/blog/hosting-rstudio-server-on-azure/).
 
 # Option 2: Do you really need all of that?
 The IPUMS website has many features that will let you reduce the size of your
@@ -539,7 +539,7 @@ useful while writing this document:
 - *Statistical Analysis with Open-Source R and RStudio on Amazon EMR* - Markus Schmidberger on
   the AWS Big Data Blog [link](https://aws.amazon.com/blogs/big-data/statistical-analysis-with-open-source-r-and-rstudio-on-amazon-emr/)
 - *Hosting RStudio Server on Azure* - Colin Gillespie's blog post on using Rstudio on Azure
-[link](https://blog.jumpingrivers.com/posts/2017/rstudio_azure_cloud_1/)
+[link](https://www.jumpingrivers.com/blog/hosting-rstudio-server-on-azure/)
 - *Improving DBI: A Retrospect* - Kirill Müller's report on the R Consortium 
   grant to improve database support in R 
   [link](https://www.r-consortium.org/blog/2017/05/15/improving-dbi-a-retrospect)
