@@ -158,7 +158,7 @@ if(!identical(input_json, json_filename)){
 ```
 
 
-The following handles the various sources of extract definitions, depending on input decisions, creating `extract_info`, which will be used to actually do the checking/downloading.
+If a .json file is not present, grab the specified extract information from IPUMS servers, either using most recent or an explicit extract number. For either source, it adds a flag file, `chk_descriptive_name.csv`
 
 ```{r, eval = !json_present}
 
@@ -227,11 +227,7 @@ if(submitted) {
 
 IPUMS only ensures data will be available for 72 hours, after that point users will need to re-submit an extract request. If your data is out of date, this will re-submit for you. If the data are not ready, it will let you know to check back in a few, or if it is ready it will download BOTH the data and data dictionary to `data_dir` based on the `descriptive_name` 
 
-```{r, eval = stale }
-
-#### Depending on status of extract...
-
-if ((!already_ready) & extract_info$status == "completed") {
+```{r, eval = stale}
   ## stale request, need to re-submit
   
   extract_info <- extract_info %>% submit_extract()
@@ -239,12 +235,19 @@ if ((!already_ready) & extract_info$status == "completed") {
   write.csv(extract_info$number,
             file.path(data_dir, chk_name),
             row.names = F)
-  stop("Specified extract expired, resubmitting, check back in a few mins", call. = F)
   
-} else if (already_ready & extract_info$status == "incomplete") {
+  message("Specified extract expired, resubmitting, check back in a few mins", call. = F)
+  
+  
+```
+  
+```{r, eval = waiting}  
   ## data not ready print warning
-  stop("Extract not ready. Please wait a few mins and re-run file.", call. = F)
-} else if (already_ready & extract_info$status == "completed") {
+  message("Extract not ready. Please wait a few mins and re-run file.", call. = F)
+```
+
+```{r, eval = ready}
+
   ## get data
   
   ddi_filename <- extract_info %>%
