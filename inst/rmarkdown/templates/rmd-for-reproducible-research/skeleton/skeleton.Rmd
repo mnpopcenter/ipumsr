@@ -65,13 +65,13 @@ Read on for more info on parameters and the back-end code, or once your data is 
 
 #### Key Parameters #####
 
-collection <- ""
+collection <- "usa"
 
 extract_num <- ""
 
 data_dir <- file.path("Data")
 
-descriptive_name <- ""
+descriptive_name <- "template"
 
 ```
 
@@ -122,9 +122,14 @@ data_rename <- paste0(descriptive_name,".dat.gz")
 ddi_rename <- paste0(descriptive_name,".xml")
 chk_name <- paste0("chk_",descriptive_name,".csv")
 
-json_present <- file.exists(file.path(data_dir, json_filename))
-data_present <- file.exists(file.path(data_dir, data_rename)) &
-                   file.exists(file.path(data_dir, ddi_rename))
+json_present <- file.exists(
+  file.path(data_dir, json_filename))
+
+
+data_present <- file.exists(
+  file.path(data_dir, data_rename)) &
+  file.exists(file.path(data_dir, ddi_rename)
+              )
 
 
 submitted <- file.exists(file.path(data_dir, chk_name))
@@ -149,7 +154,6 @@ if(!identical(input_json, json_filename)){
 }
 
 }
-
 
 ```
 
@@ -272,6 +276,9 @@ data <- read_ipums_micro(ddi, data_file = file.path(data_dir, data_rename))
 
 ## Feel free to delete
 print(extract_info$collection)
-print(extract_info$number)
 print(extract_info$description)
+
+n_hh <- data %>% filter(perNum==0) %>% nrow()
+n_per <- data %>% filter(perNum != 0) %>% nrow()
+print(paste("This extract contains", n_hh, "household records and", n_per, "person records"))
 ```
