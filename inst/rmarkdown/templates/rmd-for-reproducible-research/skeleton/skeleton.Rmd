@@ -109,11 +109,11 @@ if(!dir.exists(data_dir)){
 }
 
 if(collection==""){
-  stop("Please specify a collection, one of c('usa', 'cps')")
+  stop("Please specify a collection, one of c('usa', 'cps')", call. = F)
 }
 
 if(descriptive_name==""){
-  stop("Please specify a descriptive name for files")
+  stop("Please specify a descriptive name for files",call. = F)
 }
 
 
@@ -139,11 +139,11 @@ if(json_present){
 
 
 if(length(input_json) > 1){
-  stop("Multiple .json definitions present, please use a separate data_dir for each .json")
+  stop("Multiple .json definitions present, please use a separate data_dir for each .json",call. = F)
 }
 
 if(!identical(input_json, json_filename)){
-  warning(paste("Updating .json from", input_json, "to", json_filename))
+  warning(paste("Updating .json from", input_json, "to", json_filename),call. = F)
   file.rename(file.path(data_dir, input_json),
               file.path(data_dir, json_filename))
 }
@@ -168,7 +168,7 @@ if(is.numeric(extract_num)){
                        )
   
   write.csv(extract_info$number, file.path(data_dir, chk_name), row.names = F)
-  stop(".json created, please re-run to check on data")
+  stop(".json created, please re-run to check on data", call. = F)
   
 } else if ( extract_num==""){
 
@@ -181,71 +181,74 @@ extract_info <- get_last_extract_info(collection)
   
    write.csv(extract_info$number, file.path(data_dir, chk_name), row.names = F)
   
-  stop(".json created, please re-run to check on data")
+  stop(".json created, please re-run to check on data",call. = F)
 
 }
 
 
 ```
 
-If the json was already present, we skip the above and just read the extract using `ipumsr` functions. 
+Once the `.json` is present, we begin the process of checking and submitting. `sumitted` is `TRUE` as long as the `chk_.csv` flag file is in the `data_dir`. If this is not present, but a .json is, the script will submit the extract for the first time, in the `else` section below. 
 ```{r, eval = json_present}
 extract_info <- define_extract_from_json(file.path(data_dir, json_filename))
+
+
+if(submitted) {
+  ## read extract number
+  extract_info$number <- submitted_num
+  ## check on extract
+  extract_info <- get_extract_info(extract_info)
+  already_ready <- is_extract_ready(extract_info)
+  
+} else {
+  ## submit for the first time
+  extract_info <- extract_info %>% submit_extract()
+  save_extract_as_json(extract_info, file.path(data_dir, json_filename))
+  write.csv(extract_info$number,
+            file.path(data_dir, chk_name),
+            row.names = F)
+  stop("Extract submitted to IPUMS. Please re-run in a few minutes to check on/download data.",call. = F)
+  
+}
 
 ```
 
 #### Submit, Check on, Download Extract
 
-Now that the JSON is in place, we can check on the data. IPUMS only ensures data will be available for 72 hours, after that point users will need to re-submit an extract request. If your data is out of date, this will re-submit for you.
-
-Once we confirm that the extract is indeed ready we download BOTH the data and data dictionary to `data_dir` based on the `descriptive_name` 
+IPUMS only ensures data will be available for 72 hours, after that point users will need to re-submit an extract request. If your data is out of date, this will re-submit for you. If the data are not ready, it will let you know to check back in a few, or if it is ready it will download BOTH the data and data dictionary to `data_dir` based on the `descriptive_name` 
 
 ```{r, eval = (!data_present) }
 
-if(submitted){
-  extract_info$number <- submitted_num
+#### Depending on status of extract...
 
-}
-## FIRST check on the extract
-
-if(is.na(extract_info$number)){
-  ## fresh read from json, need to submit
+if ((!already_ready) & extract_info$status == "completed") {
+  ## stale request, need to re-submit
   
   extract_info <- extract_info %>% submit_extract()
   save_extract_as_json(extract_info, file.path(data_dir, json_filename))
-  write.csv(extract_info$number, file.path(data_dir, chk_name), row.names = F)
+  write.csv(extract_info$number,
+            file.path(data_dir, chk_name),
+            row.names = F)
+  stop("Specified extract expired, resubmitting, check back in a few mins", call. = F)
   
-} else {
-  ## check on extract
-extract_info <- get_extract_info(extract_info)
-  already_ready <- is_extract_ready(extract_info)
-if ((!already_ready) & extract_info$status=="completed"){
-  
-  ## stale request, need to re-submit
-   extract_info <- extract_info %>% submit_extract()
-  save_extract_as_json(extract_info, file.path(data_dir, json_filename))
-  write.csv(extract_info$number, file.path(data_dir, chk_name), row.names = F)
-  stop("Specified extract expired, resubmitting, check back in a few mins")
-  
-} else if (already_ready & extract_info$status=="incomplete"){
+} else if (already_ready & extract_info$status == "incomplete") {
   ## data not ready print warning
-   stop("Extract not ready. Please wait a few mins and re-run file.",call. = F)
-} else if (already_ready & extract_info$status=="completed"){
+  stop("Extract not ready. Please wait a few mins and re-run file.", call. = F)
+} else if (already_ready & extract_info$status == "completed") {
   ## get data
   
-ddi_filename <- extract_info %>%
-  download_extract(download_dir = data_dir) %>% 
+  ddi_filename <- extract_info %>%
+    download_extract(download_dir = data_dir) %>%
     basename()
   # Infer data file name from DDI file name
   data_filename <- str_replace(ddi_filename, "\\.xml$", ".dat.gz")
-  # Standardize DDI and data file names 
+  # Standardize DDI and data file names
   file.rename(file.path(data_dir, ddi_filename),
               file.path(data_dir, ddi_rename))
   file.rename(file.path(data_dir, data_filename),
               file.path(data_dir, data_rename))
 }
 
-}
 
 ```
 
@@ -264,3 +267,11 @@ data <- read_ipums_micro(ddi, data_file = file.path(data_dir, data_rename))
 
 
 ## Analysis Awaits {.active}
+
+```{r}
+
+## Feel free to delete
+print(extract_info$collection)
+print(extract_info$number)
+print(extract_info$description)
+```
