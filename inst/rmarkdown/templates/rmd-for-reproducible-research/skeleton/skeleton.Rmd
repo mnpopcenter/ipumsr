@@ -204,6 +204,12 @@ if(submitted) {
   extract_info <- get_extract_info(extract_info)
   already_ready <- is_extract_ready(extract_info)
   
+  ## stale request, need to re-submit
+  stale <- (!already_ready) & extract_info$status == "completed"
+  waiting <- already_ready & extract_info$status == "incomplete"
+  
+  ready <- already_ready & extract_info$status == "completed"
+  
 } else {
   ## submit for the first time
   extract_info <- extract_info %>% submit_extract()
@@ -221,7 +227,7 @@ if(submitted) {
 
 IPUMS only ensures data will be available for 72 hours, after that point users will need to re-submit an extract request. If your data is out of date, this will re-submit for you. If the data are not ready, it will let you know to check back in a few, or if it is ready it will download BOTH the data and data dictionary to `data_dir` based on the `descriptive_name` 
 
-```{r, eval = (!data_present) }
+```{r, eval = stale }
 
 #### Depending on status of extract...
 
@@ -260,7 +266,7 @@ if ((!already_ready) & extract_info$status == "completed") {
 
 Now we're ready to begin analysis, and your project will be shareable/reproducible for other IPUMS users.
 
-```{r}
+```{r eval = data_present}
 
 
 ddi <- read_ipums_ddi(file.path(data_dir, ddi_rename))
@@ -272,7 +278,7 @@ data <- read_ipums_micro(ddi, data_file = file.path(data_dir, data_rename))
 
 ## Analysis Awaits {.active}
 
-```{r}
+```{r, eval = data_present}
 
 ## Feel free to delete
 print(extract_info$collection)
